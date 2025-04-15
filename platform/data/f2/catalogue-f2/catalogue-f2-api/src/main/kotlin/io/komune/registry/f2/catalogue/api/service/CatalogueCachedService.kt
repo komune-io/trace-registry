@@ -66,7 +66,14 @@ open class CatalogueCachedService {
             getDataUnit = cache.dataUnits::get,
             getInformationConcept = cache.informationConcepts::get,
             getReferencingCatalogues = { datasetId ->
-                val referencingCatalogueIds = cache.cataloguesReferencingDatasets.get(datasetId).toMutableSet()
+                val originalDatasetId = draft?.datasetIdMap?.entries
+                    ?.firstOrNull { it.value == datasetId }
+                    ?.key
+                    ?: datasetId
+
+                val referencingCatalogueIds = cache.cataloguesReferencingDatasets
+                    .get(originalDatasetId)
+                    .toMutableSet()
 
                 draft?.removedExternalReferencesToDatasets?.forEach { (catalogueId, referencedDatasetIds) ->
                     if (datasetId in referencedDatasetIds) {
