@@ -165,6 +165,8 @@
     "gain": "Gain",
     "datasets": "Jeux de données",
     "options": "Options",
+    "deleteCatalogue": "Supprimer la fiche",
+    "deleteDraft": "Supprimer le brouillon",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -338,6 +340,8 @@
         "startWritingContent": "Commencez à rédiger le contenu de votre fiche",
         "draftDeleteTitle": "Suppression du brouillon de la fiche {{name}} en {{lang}}",
         "draftDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce brouillon ?",
+        "catalogueDeleteTitle": "Suppression de la fiche {{name}}",
+        "catalogueDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer cette fiche ?",
         "validateTheDraft": "Valider le brouillon",
         "saveTheDraft": "Enregistrer le brouillon",
         "activeContribution": "Vous avez une contribution en cours sur cette fiche",

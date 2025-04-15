@@ -92,7 +92,7 @@ export const CatalogueHomeSection = (props: CatalogueContentProps) => {
           title={catalogue?.title ?? ""}
           description={catalogue?.description ?? ""}
           illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
-          actions={<CreateDraftButton catalogue={catalogue} canCreate={policies.audit.canUpdate(catalogue)} />}
+          actions={<CreateDraftButton catalogue={catalogue} canCreate={policies.catalogue.canUpdate(catalogue)} />}
         />
         <Stack gap={5}>
             {dataDisplay}

@@ -27,7 +27,7 @@ const staticServices: KeycloackService<StaticServices, Roles> = {
 }
 
 const policies = {
-    audit: io.komune.registry.f2.catalogue.domain.CataloguePolicies,
+    catalogue: io.komune.registry.f2.catalogue.domain.CataloguePolicies,
     draft: io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies,
 }
 

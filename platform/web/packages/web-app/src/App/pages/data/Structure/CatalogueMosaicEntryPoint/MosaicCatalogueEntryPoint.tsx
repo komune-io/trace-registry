@@ -32,7 +32,7 @@ export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps)
               description={catalogue?.description ?? ""}
               illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
               color={theme.local?.colors.solution}
-              actions={<CreateDraftButton catalogue={catalogue} canCreate={policies.audit.canUpdate(catalogue)} />}
+              actions={<CreateDraftButton catalogue={catalogue} canCreate={policies.catalogue.canUpdate(catalogue)} />}
             />
             <Box
               alignSelf="center"

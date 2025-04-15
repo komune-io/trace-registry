@@ -64,7 +64,7 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
                 description={catalogue?.description ?? ""}
                 illustration={catalogue?.img ? g2Config().platform.url + catalogue?.img : undefined}
                 actions={
-                    <CreateDraftButton catalogue={catalogue} canCreate={policies.audit.canUpdate(catalogue)} />
+                    <CreateDraftButton catalogue={catalogue} canCreate={policies.catalogue.canUpdate(catalogue)} />
                 }
             />
             <Stack
