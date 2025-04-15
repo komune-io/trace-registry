@@ -108,7 +108,7 @@ const toComponents = (
       onInputChange: (_: any, value: string) => onInputChange(value),
       getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
       getOptionKey: (catalogue: CatalogueRef) => catalogue.id,
-      isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) =>   option.id=== catalogue.id,
+      isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) => option.id === catalogue.id,
       className: "autoCompleteField",
       onFocus: onFocus,
       options: options,

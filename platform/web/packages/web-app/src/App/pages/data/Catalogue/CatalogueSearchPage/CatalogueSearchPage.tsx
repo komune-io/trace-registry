@@ -51,7 +51,10 @@ export const CatalogueSearchPage = () => {
       language: i18n.language,
     },
     options: {
-      placeholderData: keepPreviousData
+      placeholderData: keepPreviousData,
+      //prevent double fetching when goBackUrl is set
+      //@ts-ignore
+      enabled: !state.goBackUrl,
     }
   })
 
