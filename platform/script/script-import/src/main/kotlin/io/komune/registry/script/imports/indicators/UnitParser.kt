@@ -7,23 +7,23 @@ import io.komune.registry.script.imports.ImportContext
 class UnitParser(
     private val importContext: ImportContext
 ) {
-    companion object {
-        private val unitsAlternativeParseData = listOf(
-            CompositeUnitData(
-                leftIdentifier = "year",
-                possibleValues = listOf("year(s)", "an(s)", "año(s)", "years", "ans", "años")
-            ),
-            CompositeUnitData(
-                leftIdentifier = "tonco2e",
-                rightIdentifier = "year",
-                possibleValues = listOf("tCO2e/year", "tCO2e/an", "tCO2e/año")
-            ),
-            CompositeUnitData(
-                leftIdentifier = "eur",
-                possibleValues = listOf("€")
-            ),
-        )
-    }
+//    companion object {
+//        private val unitsAlternativeParseData = listOf(
+//            CompositeUnitData(
+//                leftIdentifier = "year",
+//                possibleValues = listOf("year(s)", "an(s)", "año(s)", "years", "ans", "años")
+//            ),
+//            CompositeUnitData(
+//                leftIdentifier = "tonco2e",
+//                rightIdentifier = "year",
+//                possibleValues = listOf("tCO2e/year", "tCO2e/an", "tCO2e/año")
+//            ),
+//            CompositeUnitData(
+//                leftIdentifier = "eur",
+//                possibleValues = listOf("€")
+//            ),
+//        )
+//    }
 
     fun parse(unit: String/*, description: String*/): CompositeDataUnitDTOBase? {
         return findUnit(unit.normalizeUnit())
