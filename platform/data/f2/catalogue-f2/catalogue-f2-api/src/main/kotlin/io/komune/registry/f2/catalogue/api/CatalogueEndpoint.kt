@@ -301,7 +301,7 @@ class CatalogueEndpoint(
     override fun catalogueDelete(): CatalogueDeleteFunction = f2Function { command ->
         logger.info("catalogueDelete: $command")
         cataloguePoliciesEnforcer.checkDelete(command.id)
-        catalogueAggregateService.delete(command).toDTO()
+        catalogueF2AggregateService.delete(command).toDTO()
     }
 
     @Bean

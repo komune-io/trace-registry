@@ -2,6 +2,7 @@ package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.collectionMatchOf
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
@@ -31,6 +32,8 @@ import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
@@ -44,7 +47,9 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.api.entity.checkLanguage
+import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
@@ -300,6 +305,23 @@ class CatalogueF2AggregateService(
                     datasetIds = datasets.map { it.id }
                 ).let { catalogueAggregateService.linkDatasets(it) }
             }
+    }
+
+    suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent {
+        val event = catalogueAggregateService.delete(command)
+
+        val pendingDrafts = catalogueDraftFinderService.page(
+            originalCatalogueId = ExactMatch(command.id),
+            status = collectionMatchOf(CatalogueDraftState.DRAFT, CatalogueDraftState.SUBMITTED)
+        ).items
+        pendingDrafts.mapAsync { draft ->
+            CatalogueDraftRejectCommand(
+                id = draft.id,
+                reason = "The original has been deleted."
+            ).let { catalogueDraftAggregateService.reject(it) }
+        }
+
+        return event
     }
 
     @Suppress("CyclomaticComplexMethod", "LongMethod")
