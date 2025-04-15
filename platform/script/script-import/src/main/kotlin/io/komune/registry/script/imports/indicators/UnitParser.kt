@@ -95,9 +95,9 @@ class UnitParser(
     private fun String.normalizeUnit() = trim().trimAroundSlashes().lowercase()
     private fun String.trimAroundSlashes() = replace(Regex("""( */ *)"""), "/")
 
-    private data class CompositeUnitData(
-        val leftIdentifier: String,
-        val rightIdentifier: String? = null,
-        val possibleValues: List<String>
-    )
+//    private data class CompositeUnitData(
+//        val leftIdentifier: String,
+//        val rightIdentifier: String? = null,
+//        val possibleValues: List<String>
+//    )
 }
