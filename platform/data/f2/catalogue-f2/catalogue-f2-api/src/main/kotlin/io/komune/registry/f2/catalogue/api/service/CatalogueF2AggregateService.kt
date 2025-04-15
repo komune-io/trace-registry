@@ -60,6 +60,7 @@ import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
+import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -309,6 +310,15 @@ class CatalogueF2AggregateService(
 
     suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent {
         val event = catalogueAggregateService.delete(command)
+
+        val catalogue = catalogueFinderService.get(command.id)
+        catalogue.childrenDatasetIds.mapAsync {
+            datasetAggregateService.delete(DatasetDeleteCommand(it))
+        }
+
+        catalogue.translationIds.values.mapAsync {
+            delete(CatalogueDeleteCommand(it))
+        }
 
         val pendingDrafts = catalogueDraftFinderService.page(
             originalCatalogueId = ExactMatch(command.id),

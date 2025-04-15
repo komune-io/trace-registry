@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.dataset.api
 
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
@@ -165,9 +166,22 @@ class DatasetAggregateService(
 		)
 	}
 
-	suspend fun delete(command: DatasetDeleteCommand): DatasetDeletedEvent = automate.transition(command) {
+	suspend fun delete(command: DatasetDeleteCommand): DatasetDeletedEvent = automate.transition(command) { dataset ->
+		dataset.distributions?.forEach { distribution ->
+			distribution.aggregators.values.flatten().mapAsync {
+				deprecateValue(it)
+			}
+		}
+		dataset.aggregatorValueIds.values.mapAsync { value ->
+			value?.let { deprecateValue(it.computedValue) }
+		}
+
+		dataset.datasetIds.mapAsync { childId ->
+			delete(DatasetDeleteCommand(childId))
+		}
+
 		DatasetDeletedEvent(
-			id = it.id,
+			id = dataset.id,
 			date = System.currentTimeMillis(),
 		)
 	}
