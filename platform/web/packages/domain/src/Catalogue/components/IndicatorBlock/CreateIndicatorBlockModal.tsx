@@ -4,7 +4,7 @@ import {TmsPopUp, maybeAddItems} from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { useCatalogueReferenceDatasetsCommand, useCatalogueRefGetQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand, useEntityRefGetQuery } from '../../api'
+import { useCatalogueReferenceDatasetsCommand, useCatalogueRefGetQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import { Dataset } from '../../../Dataset'
 import { useAutoCompleteCatalogue } from "./useAutoCompleteCatalogue";
