@@ -17,9 +17,7 @@ function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: L
   const catalogue = isAlias(item) ? item.relatedCatalogues?.["menu"]?.[0] : item
   if (!catalogue) return []
 
-  const catalogueLink = isBranch(catalogue)
-    ? cataloguesAll(catalogue.identifier)
-    : cataloguesAll(item.identifier, catalogue.identifier)
+  const catalogueLink = cataloguesAll(catalogue.identifier)
   // const catalogueLink = cataloguesAll(catalogue?.identifier!)
   const baseUrl = platform.url.endsWith('/')
     ? platform.url.slice(0, -1) // remove trailing slash
