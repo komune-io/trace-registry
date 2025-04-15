@@ -3803,6 +3803,7 @@ export declare namespace io.komune.registry.f2.user.domain.model {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain {
     const CataloguePolicies: {
+        canSeeMyOrganization(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canCreateWithoutDraft(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
