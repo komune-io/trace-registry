@@ -203,10 +203,9 @@ class IndicatorInitializer(
                 isRange = isRange,
                 value = when {
                     isRange -> colValue.removeSurrounding("[", "]")
-                    isString -> "$colValue $colDescription".trim()
                     else -> colValue
                 },
-                description = colDescription.takeUnless { isString },
+                description = colDescription,
                 isString = isString
             )
         }
