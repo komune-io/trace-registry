@@ -185,7 +185,7 @@ class IndicatorInitializer(
                 ?: return@mapNotNull null
 
             val unit = informationConcept.unit
-                ?: unitParser.parse(colUnit, colDescription)
+                ?: unitParser.parse(colUnit)
                 ?: importContext.dataUnits["xsdstring"]?.let { CompositeDataUnitDTOBase(it, null, null) }
                 ?: return@mapNotNull null
 
