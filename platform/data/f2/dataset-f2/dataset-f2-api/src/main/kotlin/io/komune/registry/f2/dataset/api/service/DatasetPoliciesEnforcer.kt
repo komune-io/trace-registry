@@ -43,9 +43,9 @@ class DatasetPoliciesEnforcer(
         authedUser.canWriteOnCatalogue(dataset.catalogueId)
     }
 
-    suspend fun enforceDataset(dataset: DatasetDTOBase, catalogue: CatalogueModel): DatasetDTOBase? = enforceAuthed { authedUser ->
+    suspend fun enforceDataset(dataset: DatasetDTOBase, catalogue: CatalogueModel): DatasetDTOBase? = enforce { authedUser ->
         val typeConfiguration = datasetConfig.typeConfigurations[dataset.type]
-            ?: return@enforceAuthed dataset
+            ?: return@enforce dataset
 
         val defaultTypeConfiguration = typeConfiguration.default
         val catalogueTypeConfiguration = typeConfiguration.configurations
@@ -53,12 +53,12 @@ class DatasetPoliciesEnforcer(
 
         val policy = catalogueTypeConfiguration?.policies?.policyFor(authedUser)
             ?: defaultTypeConfiguration?.policies?.policyFor(authedUser)
-            ?: return@enforceAuthed dataset
+            ?: return@enforce dataset
 
         when (policy.read) {
             DatasetTypeAccess.NONE -> null
-            DatasetTypeAccess.CREATOR_USER -> dataset.takeIf { catalogue.creatorId == authedUser.id }
-            DatasetTypeAccess.CREATOR_ORGANIZATION -> dataset.takeIf { catalogue.creatorOrganizationId.orEmpty() == authedUser.memberOf }
+            DatasetTypeAccess.CREATOR_USER -> dataset.takeIf { catalogue.creatorId.orEmpty() == authedUser?.id }
+            DatasetTypeAccess.CREATOR_ORGANIZATION -> dataset.takeIf { catalogue.creatorOrganizationId.orEmpty() == authedUser?.memberOf }
             DatasetTypeAccess.ALL -> dataset
         }?.copy(
             datasets = dataset.datasets?.mapAsync { enforceDataset(it, catalogue) }?.filterNotNull(),
