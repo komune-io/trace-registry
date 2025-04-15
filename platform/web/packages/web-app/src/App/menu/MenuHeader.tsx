@@ -1,12 +1,12 @@
-import { AddCircleOutlineRounded} from '@mui/icons-material'
-import { Stack } from '@mui/material'
-import { CustomButton, iconPack, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
-import { TFunction } from 'i18next'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
-import { getMenu, MenuItem } from '.'
-import { CatalogueTypes, useCatalogueDraftPageQuery, useCatalogueListAllowedTypesQuery } from 'domain-components'
+import {AddCircleOutlineRounded} from '@mui/icons-material'
+import {Stack} from '@mui/material'
+import {CustomButton, iconPack, Menu, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition} from 'components'
+import {TFunction} from 'i18next'
+import {useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {useLocation} from 'react-router-dom'
+import {getMenu, MenuItem} from '.'
+import {CatalogueTypes, useCatalogueDraftPageQuery, useCatalogueListAllowedTypesQuery} from 'domain-components'
 
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
@@ -28,6 +28,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 to: cataloguesMyOrganization(),
                 label: t("mySheets"),
                 icon: iconPack.folder,
+                isVisible: policies.catalogue.canSeeMyOrganization(),
                 isSelected: location.pathname.includes(cataloguesMyOrganization())
             },
             {
