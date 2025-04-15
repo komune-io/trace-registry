@@ -23,9 +23,9 @@ data class DatasetTypePolicyConfiguration(
     val default: DatasetTypeSpecificPolicyConfiguration?,
     val configurations: List<DatasetTypeSpecificRolePolicyConfiguration>?
 ) {
-    fun policyFor(authedUser: AuthedUserDTO): DatasetTypeSpecificPolicyConfiguration? {
+    fun policyFor(authedUser: AuthedUserDTO?): DatasetTypeSpecificPolicyConfiguration? {
         return configurations
-            ?.firstOrNull { authedUser.hasOneOfRoles(*it.roles.toTypedArray()) }
+            ?.firstOrNull { authedUser?.hasOneOfRoles(*it.roles.toTypedArray()) ?: false }
             ?: default
     }
 }
