@@ -27,9 +27,9 @@ import { createPortal } from 'react-dom';
 import { IconButton, Paper } from '@mui/material';
 import { TextField } from '@komune-io/g2';
 import { iconPack } from '../../../Icons';
-import { useDebouncedState, useDidUpdate } from '@mantine/hooks';
 import { getSelectedNode, sanitizeUrl, setFloatingElemPosition } from '../../utils';
 import { OpenInNewRounded } from '@mui/icons-material';
+import { MentionPlugin } from './MentionPlugin';
 
 function FloatingLinkEditor({
   editor,
@@ -43,10 +43,8 @@ function FloatingLinkEditor({
   anchorElem: HTMLElement;
 }): JSX.Element {
   const editorRef = useRef<HTMLDivElement | null>(null);
-  const [linkUrl, setLinkUrl] = useState('');
-  const [editedLinkUrl, setEditedLinkUrl] = useState('https://');
-  const [debouncedUrl, setDebouncedUrl] = useDebouncedState(editedLinkUrl, 500);
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [editedLinkUrl, setEditedLinkUrl] = useState('');
+  const [isSaved, setIsSaved] = useState(true)
 
   const $updateLinkEditor = useCallback(() => {
     if (!isLink) return
@@ -61,7 +59,6 @@ function FloatingLinkEditor({
       } else if ($isLinkNode(node)) {
         url = node.getURL();
       }
-      setLinkUrl(url);
       setEditedLinkUrl(url);
     } else if ($isNodeSelection(selection)) {
       const nodes = selection.getNodes();
@@ -73,7 +70,6 @@ function FloatingLinkEditor({
         } else if ($isLinkNode(node)) {
           url = node.getURL()
         }
-        setLinkUrl(url);
         setEditedLinkUrl(url);
       }
     }
@@ -114,15 +110,15 @@ function FloatingLinkEditor({
       if (rootElement !== null) {
         setFloatingElemPosition(null, editorElem, anchorElem, true);
       }
-      setLinkUrl('');
     }
 
     return true;
   }, [anchorElem, editor, isLink]);
 
   const onEscape = useCallback(
-    () => {
+    (isSaved?: boolean) => {
       if (isLink) {
+        isSaved && setIsSaved(isSaved)
         setIsLink(false);
         return true;
       }
@@ -186,12 +182,6 @@ function FloatingLinkEditor({
     });
   }, [editor, $updateLinkEditor]);
 
-  useEffect(() => {
-    if (isLink) {
-      inputRef.current?.focus();
-    }
-  }, [isLink, linkUrl])
-
 
 
   const monitorInputInteraction = useCallback(
@@ -208,13 +198,12 @@ function FloatingLinkEditor({
     [onEscape],
   )
 
-
-  useDidUpdate(() => {
-    if (debouncedUrl) {
+  const onValidate = useCallback(
+    () => {
       editor.update(() => {
         editor.dispatchCommand(
           TOGGLE_LINK_COMMAND,
-          sanitizeUrl(debouncedUrl),
+          sanitizeUrl(editedLinkUrl),
         );
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
@@ -229,8 +218,11 @@ function FloatingLinkEditor({
           }
         }
       });
-    }
-  }, [debouncedUrl])
+      setIsSaved(true)
+    },
+    [editedLinkUrl],
+  )
+
 
   return (
     <Paper
@@ -253,17 +245,21 @@ function FloatingLinkEditor({
       elevation={2}
     >
       <TextField
-        inputRef={inputRef}
         sx={{
           width: "350px !important",
         }}
         value={editedLinkUrl}
         onChange={(value) => {
-          setEditedLinkUrl(value)
-          setDebouncedUrl(value)
+          setEditedLinkUrl(value);
+          setIsSaved(false)
         }}
         onKeyDown={monitorInputInteraction}
       />
+      {!isSaved && <IconButton
+        onClick={onValidate}
+      >
+        {iconPack.validate}
+      </IconButton>}
       <IconButton
         component="a"
         href={editedLinkUrl}
@@ -281,6 +277,11 @@ function FloatingLinkEditor({
       >
         {iconPack.trash}
       </IconButton>
+      <MentionPlugin
+        editor={editor}
+        linkUrl={editedLinkUrl}
+        onEscape={onEscape}
+      />
     </Paper>
   );
 }

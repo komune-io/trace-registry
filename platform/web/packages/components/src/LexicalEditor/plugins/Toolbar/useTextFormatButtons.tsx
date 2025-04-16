@@ -4,7 +4,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, SELECTION_CHANGE_COMMAND, TextFormatType } from 'lexical';
 import { FormatBoldRounded, FormatItalicRounded, FormatUnderlinedRounded, Link } from '@mui/icons-material';
 import { TglButton } from './TglButton';
-import { getSelectedNode, sanitizeUrl } from '../../utils';
+import { getSelectedNode } from '../../utils';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 
 const LowPriority = 1;
@@ -50,7 +50,7 @@ export const useTextFormatButtons = () => {
         if (!isLink) {
           editor.dispatchCommand(
             TOGGLE_LINK_COMMAND,
-            sanitizeUrl('https://'),
+            "",
           );
         } else {
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
