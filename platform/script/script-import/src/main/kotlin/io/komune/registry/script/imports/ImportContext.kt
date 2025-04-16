@@ -22,7 +22,7 @@ class ImportContext(
     val rootDirectory: File,
     val settings: CatalogueImportSettings
 ) {
-    val concepts = ConcurrentHashMap<ConceptIdentifier, ConceptId>()
+    val concepts = ConcurrentHashMap<ConceptIdentifier, ConceptId?>()
     val licenses = ConcurrentHashMap<LicenseIdentifier, LicenseId>()
     val catalogues = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
     val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueIdentifier>()
