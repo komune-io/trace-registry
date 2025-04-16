@@ -123,8 +123,8 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
         if (a.length > b.length) return 1
         if (a.length < b.length) -1
         
-        if (a[0].identifier === "gain" || a[0].identifier === "ruleofthumb") return -1
-        if (b[0].identifier === "gain" || b[0].identifier === "ruleofthumb") return 1
+        if (a[0].identifier === "gain" || a[0].identifier === "rule-of-thumb") return -1
+        if (b[0].identifier === "gain" || b[0].identifier === "rule-of-thumb") return 1
         return 0
     })
 
