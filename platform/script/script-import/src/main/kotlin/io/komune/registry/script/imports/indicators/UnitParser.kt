@@ -55,7 +55,7 @@ class UnitParser(
         val (leftUnitAbbv, leftUnit) = importContext.dataUnits.values
             .mapNotNull { unit ->
                 unit.abbreviation.values
-                    .firstOrNull { unitStr.startsWith(it) }
+                    .firstOrNull { unitStr.lowercase().startsWith(it.lowercase()) }
                     ?.let { it to unit }
             }.maxByOrNull { (abbv) -> abbv.length }
             ?: return null
