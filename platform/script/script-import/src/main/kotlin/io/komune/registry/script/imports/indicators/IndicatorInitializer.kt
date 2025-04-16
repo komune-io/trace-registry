@@ -66,7 +66,7 @@ class IndicatorInitializer(
             IndicatorAlternativeParseData(
                 identifier = "difficulties",
                 theme = "indicator-cost",
-                possibleValues = listOf("")
+                possibleValues = listOf("", "Difficulté")
             ),
             IndicatorAlternativeParseData(
                 identifier = "positive-effects",
@@ -77,6 +77,11 @@ class IndicatorInitializer(
                 identifier = "co2-avoided",
                 theme = "indicator-gain",
                 possibleValues = listOf("Emissions GES évitées", "Avoided GHG emissions", "Emisiones de Gas de Efecto Invernadero")
+            ),
+            IndicatorAlternativeParseData(
+                identifier = "rule-of-thumb",
+                theme = "indicator-cost",
+                possibleValues = listOf("Quick evaluation")
             )
         )
     }
@@ -174,7 +179,7 @@ class IndicatorInitializer(
             val colUnit = line[COL_UNIT].orEmpty().trim()
             val colDescription = line[COL_DESCRIPTION].orEmpty().trim()
 
-            if ("$colValue$colDescription".isBlank()) {
+            if ("$colValue$colDescription".isBlank() || colValue.toDoubleOrNull() == 0.0) {
                 return@mapNotNull null
             }
 
@@ -203,9 +208,10 @@ class IndicatorInitializer(
                 isRange = isRange,
                 value = when {
                     isRange -> colValue.removeSurrounding("[", "]")
+                    isString -> "$colValue\n$colDescription".trim().removePrefix("*").trimStart()
                     else -> colValue
                 },
-                description = colDescription,
+                description = colDescription.takeUnless { isString },
                 isString = isString
             )
         }

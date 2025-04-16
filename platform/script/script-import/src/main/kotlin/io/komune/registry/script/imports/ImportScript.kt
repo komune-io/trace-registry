@@ -252,12 +252,15 @@ class ImportScript(
             logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
             return listOf(existing)
         }
-        return catalogueData.languages.map { (_, translation) ->
+
+        return catalogueData.languages.filter { (_, data) ->
+            data.title == null || data.title.trim() != "null | null"
+        }.map { (_, translation) ->
             val imageFile = buildImageFile(catalogueData, importContext)
             logger.info("Catalogue creation [${catalogueData.identifier}, ${translation.language}]")
             val createCommand = CatalogueCreateCommandDTOBase(
                 identifier = catalogueData.identifier,
-                title = translation.title.orEmpty(),
+                title = translation.title.orEmpty().removeSuffix(" | null"),
                 description = translation.description,
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
