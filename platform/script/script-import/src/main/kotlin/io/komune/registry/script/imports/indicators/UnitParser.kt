@@ -7,27 +7,26 @@ import io.komune.registry.script.imports.ImportContext
 class UnitParser(
     private val importContext: ImportContext
 ) {
-    companion object {
-        private val unitsAlternativeParseData = listOf(
-            CompositeUnitData(
-                leftIdentifier = "year",
-                possibleValues = listOf("year(s)", "an(s)", "año(s)", "years", "ans", "años")
-            ),
-            CompositeUnitData(
-                leftIdentifier = "tonco2e",
-                rightIdentifier = "year",
-                possibleValues = listOf("tCO2e/year", "tCO2e/an", "tCO2e/año")
-            ),
-            CompositeUnitData(
-                leftIdentifier = "eur",
-                possibleValues = listOf("€")
-            ),
-        )
-    }
+//    companion object {
+//        private val unitsAlternativeParseData = listOf(
+//            CompositeUnitData(
+//                leftIdentifier = "year",
+//                possibleValues = listOf("year(s)", "an(s)", "año(s)", "years", "ans", "años")
+//            ),
+//            CompositeUnitData(
+//                leftIdentifier = "tonco2e",
+//                rightIdentifier = "year",
+//                possibleValues = listOf("tCO2e/year", "tCO2e/an", "tCO2e/año")
+//            ),
+//            CompositeUnitData(
+//                leftIdentifier = "eur",
+//                possibleValues = listOf("€")
+//            ),
+//        )
+//    }
 
     fun parse(unit: String/*, description: String*/): CompositeDataUnitDTOBase? {
-        val unitStr = unit.normalizeUnit()
-        return findUnit(unitStr)
+        return findUnit(unit.normalizeUnit())
 //        val leftUnit = findUnit(unit)
 //        return if (leftUnit != null) {
 //            val rightUnit = findUnit(description)
@@ -53,20 +52,12 @@ class UnitParser(
     }
 
     private fun findUnit(unitStr: String): CompositeDataUnitDTOBase? {
-        println("/////////${unitStr}")
         val (leftUnitAbbv, leftUnit) = importContext.dataUnits.values
             .mapNotNull { unit ->
                 unit.abbreviation.values
-                    .firstOrNull {
-                        println("unitStr: $unitStr, it: $it, ${unitStr.startsWith(it)}")
-                        unitStr.lowercase().startsWith(it.lowercase())
-                    }
-                    ?.let {
-                        it to unit
-                    }
-            }.maxByOrNull { (abbv) ->
-                abbv.length
-            }
+                    .firstOrNull { unitStr.lowercase().startsWith(it.lowercase()) }
+                    ?.let { it to unit }
+            }.maxByOrNull { (abbv) -> abbv.length }
             ?: return null
 
         if (leftUnitAbbv.length == unitStr.length) {
@@ -104,9 +95,9 @@ class UnitParser(
     private fun String.normalizeUnit() = trim().trimAroundSlashes().lowercase()
     private fun String.trimAroundSlashes() = replace(Regex("""( */ *)"""), "/")
 
-    private data class CompositeUnitData(
-        val leftIdentifier: String,
-        val rightIdentifier: String? = null,
-        val possibleValues: List<String>
-    )
+//    private data class CompositeUnitData(
+//        val leftIdentifier: String,
+//        val rightIdentifier: String? = null,
+//        val possibleValues: List<String>
+//    )
 }
