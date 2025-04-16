@@ -63,11 +63,6 @@ export function setFloatingElemPosition(
   const floatingElemRect = floatingElem.getBoundingClientRect();
   const anchorElementRect = anchorElem.getBoundingClientRect();
   const editorScrollerRect = scrollerElem.getBoundingClientRect();
-  console.log("///////")
-  console.log("targetRect.top", targetRect.top)
-  console.log("floatingElemRect.height", floatingElemRect.height)
-  console.log("verticalGap", verticalGap)
-  console.log("///////")
   let top = targetRect.top - floatingElemRect.height - verticalGap;
   let left = targetRect.left - horizontalOffset;
  

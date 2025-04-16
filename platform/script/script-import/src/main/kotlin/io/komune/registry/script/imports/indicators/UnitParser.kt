@@ -26,7 +26,8 @@ class UnitParser(
     }
 
     fun parse(unit: String/*, description: String*/): CompositeDataUnitDTOBase? {
-        return findUnit(unit.normalizeUnit())
+        val unitStr = unit.normalizeUnit()
+        return findUnit(unitStr)
 //        val leftUnit = findUnit(unit)
 //        return if (leftUnit != null) {
 //            val rightUnit = findUnit(description)
@@ -52,12 +53,20 @@ class UnitParser(
     }
 
     private fun findUnit(unitStr: String): CompositeDataUnitDTOBase? {
+        println("/////////${unitStr}")
         val (leftUnitAbbv, leftUnit) = importContext.dataUnits.values
             .mapNotNull { unit ->
                 unit.abbreviation.values
-                    .firstOrNull { unitStr.startsWith(it) }
-                    ?.let { it to unit }
-            }.maxByOrNull { (abbv) -> abbv.length }
+                    .firstOrNull {
+                        println("unitStr: $unitStr, it: $it, ${unitStr.startsWith(it)}")
+                        unitStr.lowercase().startsWith(it.lowercase())
+                    }
+                    ?.let {
+                        it to unit
+                    }
+            }.maxByOrNull { (abbv) ->
+                abbv.length
+            }
             ?: return null
 
         if (leftUnitAbbv.length == unitStr.length) {
