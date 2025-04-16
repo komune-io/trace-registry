@@ -1,13 +1,19 @@
-import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
-import { TmsPopUp, SearchIcon } from 'components'
-import { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Dataset } from '../../../Dataset'
-import { DatasetAddDistributionValueCommand, useDatasetAddDistributionValueCommand, useDatasetReplaceDistributionValueCommand, useDataUnitListQuery, useInformationConceptListQuery } from '../../api'
-import { buildRangeValue, InformationConcept, InformationConceptTranslated, parseRangeValue } from '../../model'
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
-import { Stack, Typography } from '@mui/material'
+import {FormComposable, FormComposableField, useFormComposable} from '@komune-io/g2'
+import {SearchIcon, TmsPopUp} from 'components'
+import {useCallback, useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Dataset} from '../../../Dataset'
+import {
+    DatasetAddDistributionValueCommand,
+    useDatasetAddDistributionValueCommand,
+    useDatasetReplaceDistributionValueCommand,
+    useDataUnitListQuery,
+    useInformationConceptListQuery
+} from '../../api'
+import {buildRangeValue, InformationConcept, InformationConceptTranslated, parseRangeValue} from '../../model'
+import {useQueryClient} from '@tanstack/react-query'
+import {useParams} from 'react-router-dom'
+import {Stack, Typography} from '@mui/material'
 
 interface AddIndicatorModalProps {
     open: boolean
@@ -93,7 +99,7 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         } else if (unitType === "NUMBER") {
             values.numberValue = Number(editIndicator.value)
         } else if (unitType === "STRING") {
-            values.stringValue = Number(editIndicator.value)
+            values.stringValue = editIndicator.value
         }
         values.type = editIndicator
         values.context = editIndicator.valueDescription
@@ -288,4 +294,3 @@ export const AddIndicatorModal = (props: AddIndicatorModalProps) => {
         </TmsPopUp>
     )
 }
-
