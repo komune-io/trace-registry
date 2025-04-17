@@ -18,7 +18,7 @@ export interface MentionPluginProps {
 export const MentionPlugin = (props: MentionPluginProps) => {
     const { linkUrl, editor, onEscape } = props
     const [debouncedSearch] = useDebouncedValue(linkUrl, 500);
-    const { i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
     const { cataloguesAll } = useRoutesDefinition()
 
     const isMentionSearch = !debouncedSearch.startsWith("http") && !debouncedSearch.startsWith("/")
@@ -93,7 +93,7 @@ export const MentionPlugin = (props: MentionPluginProps) => {
                     p: 2
                 }}
             >
-                Entrez une url ou recherchez un catalogue pour le mentionner
+                {t("catalogues.searchMention")}
             </Typography>}
         </Paper>
     )

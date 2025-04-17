@@ -1,11 +1,11 @@
 import { mergeRegister } from '@lexical/utils';
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, SELECTION_CHANGE_COMMAND, TextFormatType } from 'lexical';
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND, SELECTION_CHANGE_COMMAND, TextFormatType, TextNode } from 'lexical';
 import { FormatBoldRounded, FormatItalicRounded, FormatUnderlinedRounded, Link } from '@mui/icons-material';
 import { TglButton } from './TglButton';
 import { getSelectedNode } from '../../utils';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { $isLinkNode, TOGGLE_LINK_COMMAND, LinkNode } from '@lexical/link';
 
 const LowPriority = 1;
 
@@ -48,10 +48,22 @@ export const useTextFormatButtons = () => {
 
     const insertLink = useCallback(() => {
         if (!isLink) {
-          editor.dispatchCommand(
-            TOGGLE_LINK_COMMAND,
-            "",
-          );
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+                if (selection.focus.key === selection.anchor.key && selection.focus.offset === selection.anchor.offset) {
+                    const link = new LinkNode('')
+                    const text = new TextNode('  ')
+                     selection?.insertNodes([link]);
+                     link.append(text);
+                     text.select(1, 1)
+                } else {
+                    editor.dispatchCommand(TOGGLE_LINK_COMMAND, "");
+                }
+            }
+           
+            
+          })
         } else {
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
         }
