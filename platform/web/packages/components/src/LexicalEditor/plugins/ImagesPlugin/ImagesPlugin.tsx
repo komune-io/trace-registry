@@ -12,7 +12,6 @@ import {
   $createRangeSelection,
   $getSelection,
   $insertNodes,
-  $isElementNode,
   $isNodeSelection,
   $isRootOrShadowRoot,
   $setSelection,
@@ -116,13 +115,13 @@ export const ImagesPlugin = ({
             return false;
           }
           const sibling = node.getParent()?.getNextSibling() ?? node.getNextSibling()
-          if (sibling && $isElementNode(sibling)) {
-            sibling.append(node)
+          if (sibling) {
+            sibling.selectStart()
           } else {
             const paragraph = new ParagraphNode()
              const current = node.getParent() ?? node
              current.insertAfter(paragraph)
-             paragraph.append(node)
+             paragraph.selectStart()
           }
           return true;
         },
