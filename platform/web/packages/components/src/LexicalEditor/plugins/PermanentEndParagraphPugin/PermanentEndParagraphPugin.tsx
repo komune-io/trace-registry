@@ -3,6 +3,7 @@ import { $isHeadingNode } from '@lexical/rich-text';
 import { InputBase } from '@mui/material';
 import { $createParagraphNode, $getRoot, $isParagraphNode } from 'lexical';
 import { useCallback, useEffect, useState } from 'react'
+import { $isImageNode } from '../ImagesPlugin';
 
 export interface PermanentEndParagraphPuginProps {
     readOnly: boolean
@@ -18,7 +19,11 @@ export const PermanentEndParagraphPugin = (props: PermanentEndParagraphPuginProp
         const root = $getRoot();
         const getLastChild = root.getLastChild()
         if ($isParagraphNode(getLastChild) || $isHeadingNode(getLastChild)) {
-            setIsLastNodeAParagraph(true)
+            if ($isImageNode(getLastChild.getLastChild())) {
+                setIsLastNodeAParagraph(false)
+            } else {
+                setIsLastNodeAParagraph(true)
+            }
         } else {
             setIsLastNodeAParagraph(false)
         }
@@ -44,6 +49,6 @@ export const PermanentEndParagraphPugin = (props: PermanentEndParagraphPuginProp
 
     if (readOnly || isLastNodeAParagraph) return <></>
     return (
-        <InputBase sx={{ width: "100%", mt: 0.7, mb: 1.5, fontSize: "1.1rem" }} onClick={createLastParagraphNode} />
+        <InputBase sx={{ width: "100%", mt: 1.5, mb: 0, fontSize: "1.1rem" }} onClick={createLastParagraphNode} />
     )
 }

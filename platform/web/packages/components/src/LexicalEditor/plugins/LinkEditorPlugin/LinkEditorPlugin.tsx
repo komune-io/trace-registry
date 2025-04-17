@@ -27,9 +27,10 @@ import { createPortal } from 'react-dom';
 import { IconButton, Paper } from '@mui/material';
 import { TextField } from '@komune-io/g2';
 import { iconPack } from '../../../Icons';
-import { getSelectedNode, sanitizeUrl, setFloatingElemPosition } from '../../utils';
+import { getSelectedNode, sanitizeUrl } from '../../utils';
 import { OpenInNewRounded } from '@mui/icons-material';
 import { MentionPlugin } from './MentionPlugin';
+import { setFloatingElemPositionForLinkEditor } from './setFloatingElemPositionForLinkEditor';
 
 function FloatingLinkEditor({
   editor,
@@ -104,11 +105,11 @@ function FloatingLinkEditor({
       }
 
       if (domRect) {
-        setFloatingElemPosition(domRect, editorElem, anchorElem, true);
+        setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElem);
       }
     } else if (!activeElement || activeElement.className !== 'link-input') {
       if (rootElement !== null) {
-        setFloatingElemPosition(null, editorElem, anchorElem, true);
+        setFloatingElemPositionForLinkEditor(null, editorElem, anchorElem);
       }
     }
 
