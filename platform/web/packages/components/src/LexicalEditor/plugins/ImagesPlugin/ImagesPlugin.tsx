@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$wrapNodeInElement, mergeRegister} from '@lexical/utils';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $wrapNodeInElement, mergeRegister } from '@lexical/utils';
 import {
   $createParagraphNode,
   $createRangeSelection,
   $getSelection,
   $insertNodes,
+  $isElementNode,
   $isNodeSelection,
   $isRootOrShadowRoot,
   $setSelection,
@@ -22,10 +23,15 @@ import {
   DRAGOVER_COMMAND,
   DRAGSTART_COMMAND,
   DROP_COMMAND,
+  getDOMSelectionFromTarget,
+  isHTMLElement,
+  KEY_ENTER_COMMAND,
+  KEY_ESCAPE_COMMAND,
   LexicalCommand,
   LexicalEditor,
+  ParagraphNode,
 } from 'lexical';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import {
   $createImageNode,
   $isImageNode,
@@ -38,12 +44,12 @@ export type InsertImagePayload = Readonly<ImagePayload>;
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
   createCommand('INSERT_IMAGE_COMMAND');
 
-  export const insertImageNode = (imageNode: ImageNode) => {
-    $insertNodes([imageNode]);
-    if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
-      $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd();
-    }
+export const insertImageNode = (imageNode: ImageNode) => {
+  $insertNodes([imageNode]);
+  if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
+    $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd();
   }
+}
 
 
 export const ImagesPlugin = ({
@@ -89,6 +95,38 @@ export const ImagesPlugin = ({
           return $onDrop(event, editor);
         },
         COMMAND_PRIORITY_HIGH,
+      ),
+      editor.registerCommand<DragEvent>(
+        KEY_ESCAPE_COMMAND,
+        () => {
+          const node = $getImageNodeInSelection();
+          if (!node) {
+            return false;
+          }
+          node.selectNext()
+          return true;
+        },
+        COMMAND_PRIORITY_LOW,
+      ),
+      editor.registerCommand<DragEvent>(
+        KEY_ENTER_COMMAND,
+        () => {
+          const node = $getImageNodeInSelection();
+          if (!node) {
+            return false;
+          }
+          const sibling = node.getParent()?.getNextSibling() ?? node.getNextSibling()
+          if (sibling && $isElementNode(sibling)) {
+            sibling.append(node)
+          } else {
+            const paragraph = new ParagraphNode()
+             const current = node.getParent() ?? node
+             current.insertAfter(paragraph)
+             paragraph.append(node)
+          }
+          return true;
+        },
+        COMMAND_PRIORITY_LOW,
       ),
     );
   }, [captionsEnabled, editor]);
@@ -180,7 +218,7 @@ function getDragImageData(event: DragEvent): null | InsertImagePayload {
   if (!dragData) {
     return null;
   }
-  const {type, data} = JSON.parse(dragData);
+  const { type, data } = JSON.parse(dragData);
   if (type !== 'image') {
     return null;
   }
@@ -198,24 +236,16 @@ declare global {
 function canDropImage(event: DragEvent): boolean {
   const target = event.target;
   return !!(
-    target &&
-    target instanceof HTMLElement &&
+    isHTMLElement(target) &&
     !target.closest('code, span.editor-image') &&
-    target.parentElement &&
-    target.parentElement.closest('div.editor-input')
+    isHTMLElement(target.parentElement) &&
+    target.parentElement.closest('div.ContentEditable__root')
   );
 }
 
 function getDragSelection(event: DragEvent): Range | null | undefined {
   let range;
-  const target = event.target as null | Element | Document;
-  const targetWindow =
-    target == null
-      ? null
-      : target.nodeType === 9
-      ? (target as Document).defaultView
-      : (target as Element).ownerDocument.defaultView;
-  const domSelection = (targetWindow || window).getSelection() ;
+  const domSelection = getDOMSelectionFromTarget(event.target);
   if (document.caretRangeFromPoint) {
     range = document.caretRangeFromPoint(event.clientX, event.clientY);
   } else if (event.rangeParent && domSelection !== null) {
