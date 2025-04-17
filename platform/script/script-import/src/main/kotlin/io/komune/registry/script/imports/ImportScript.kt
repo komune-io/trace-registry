@@ -17,6 +17,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetQuery
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListQuery
 import io.komune.registry.f2.cccev.domain.unit.command.DataUnitCreateCommandDTOBase
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListQuery
+import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -252,12 +253,15 @@ class ImportScript(
             logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
             return listOf(existing)
         }
-        return catalogueData.languages.map { (_, translation) ->
+
+        return catalogueData.languages.filter { (_, data) ->
+            data.title == null || data.title.trim() != "null | null"
+        }.map { (_, translation) ->
             val imageFile = buildImageFile(catalogueData, importContext)
             logger.info("Catalogue creation [${catalogueData.identifier}, ${translation.language}]")
             val createCommand = CatalogueCreateCommandDTOBase(
                 identifier = catalogueData.identifier,
-                title = translation.title.orEmpty(),
+                title = translation.title.orEmpty().removeSuffix(" | null"),
                 description = translation.description,
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
@@ -488,12 +492,21 @@ class ImportScript(
     }
 
 
-    private fun mapConcept(concept: String, importContext: ImportContext): ConceptId? {
+    private suspend fun mapConcept(concept: String, importContext: ImportContext): ConceptId? {
         return importContext.settings
             .mapping
             ?.concepts
             ?.get(concept)
-            .let { importContext.concepts[it ?: concept] }
+            .let {
+                val identifier = it ?: concept
+                importContext.concepts[identifier]
+                    ?: ConceptGetByIdentifierQuery(identifier)
+                        .takeUnless { importContext.concepts.containsKey(identifier) } // skip if already tried once and is still null
+                        ?.invokeWith(dataClient.concept.conceptGetByIdentifier())
+                        ?.item
+                        ?.id
+                        .also { id -> importContext.concepts[identifier] = id }
+            }
             ?: run {
                 logger.warn("Concept [$concept] not found. Ignoring.")
                 null

@@ -1,12 +1,12 @@
-import { RichtTextEditor, useRoutesDefinition } from 'components'
-import { useMemo } from 'react'
-import { Divider, Stack, Typography } from '@mui/material'
-import { InformationConcept, parseRangeValue } from '../../model'
-import { formatNumber, Link } from '@komune-io/g2'
-import { TFunction } from 'i18next'
-import { useTranslation } from 'react-i18next'
-import { Link as RouterLink, LinkProps } from 'react-router-dom'
-import { extractCatalogueIdentifierNumber, useCatalogueRefGetQuery } from '../../api'
+import {RichtTextEditor, useRoutesDefinition} from 'components'
+import {useMemo} from 'react'
+import {Divider, Stack, Typography} from '@mui/material'
+import {InformationConcept, parseRangeValue} from '../../model'
+import {formatNumber, Link} from '@komune-io/g2'
+import {TFunction} from 'i18next'
+import {useTranslation} from 'react-i18next'
+import {Link as RouterLink, LinkProps} from 'react-router-dom'
+import {extractCatalogueIdentifierNumber, useCatalogueRefGetQuery} from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
@@ -54,12 +54,12 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
                     >
                         {title}
                     </Typography>}
-                    {referenceId && relatedTitle ?
+                    {ref && relatedTitle ?
                         <Link<LinkProps>
                             variant="subtitle1"
                             component={RouterLink}
                             componentProps={{
-                                to: cataloguesAll(referenceId)
+                                to: cataloguesAll(ref.id)
                             }}
                         >
                             {relatedTitle}
@@ -123,8 +123,8 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
         if (a.length > b.length) return 1
         if (a.length < b.length) -1
         
-        if (a[0].identifier === "gain" || a[0].identifier === "ruleofthumb") return -1
-        if (b[0].identifier === "gain" || b[0].identifier === "ruleofthumb") return 1
+        if (a[0].identifier === "gain" || a[0].identifier === "rule-of-thumb") return -1
+        if (b[0].identifier === "gain" || b[0].identifier === "rule-of-thumb") return 1
         return 0
     })
 
