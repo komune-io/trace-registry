@@ -374,7 +374,7 @@
         "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
         "noDataset": "Aucun jeu de données n'a été trouvé",
         "integrateInCounter": "Intégrer ce projet au compteur CO₂",
-        "searchMention": "Entrez une url ou recherchez un catalogue pour le mentionner"
+        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner"
     },
     "editor": {
         "imageUrl": "URL de l'image",
