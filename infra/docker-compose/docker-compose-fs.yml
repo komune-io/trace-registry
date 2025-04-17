@@ -11,7 +11,6 @@ services:
       - fs_s3_external-url=http://localhost:9000
       - fs_s3_bucket=registry-local
       - fs_init_buckets=registry-local
-#      - fs_kb_url=${KB_HOST_NAME}
     labels:
       traefik.enable: "true"
       traefik.http.services.fs-gateway.loadbalancer.server.port: 8090
