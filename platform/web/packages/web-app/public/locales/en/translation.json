@@ -373,7 +373,7 @@
     "defineValueRange": "Define a range of values",
     "minOrMaxValueRequired": "Minimum or maximum value is required",
     "integrateInCounter": "Integrate this project into the CO₂ counter",
-    "searchMention": "Enter a URL or search for a catalog to mention it"
+    "searchMention": "Enter a URL or search for a sheet to mention it"
   },
   "editor": {
     "imageUrl": "Image URL",
