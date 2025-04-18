@@ -14,9 +14,11 @@ class CatalogueConfig {
     private lateinit var typeConfigDir: String
 
     final val typeConfigurations: Map<String, CatalogueTypeConfiguration> by lazy {
+        logger.info("Loading catalogue type configurations from $typeConfigDir")
         PathMatchingResourcePatternResolver()
             .getResources("$typeConfigDir/*.json")
             .associate { file ->
+                logger.info("Loading catalogue type configuration ${file.url}")
                 val typeConfiguration = try {
                     jsonMapper.readValue(file.inputStream, CatalogueTypeConfiguration::class.java)
                 } catch (e: Exception) {

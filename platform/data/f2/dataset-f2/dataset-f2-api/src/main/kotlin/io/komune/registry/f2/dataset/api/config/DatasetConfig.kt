@@ -14,9 +14,11 @@ class DatasetConfig {
     private lateinit var typeConfigDir: String
 
     final val typeConfigurations: Map<String, DatasetTypeConfiguration> by lazy {
+        logger.info("Loading dataset type configurations from $typeConfigDir")
         PathMatchingResourcePatternResolver()
             .getResources("$typeConfigDir/*.json")
             .associate { file ->
+                logger.info("Loading dataset type configuration from ${file.url}")
                 val typeConfiguration = try {
                     jsonMapper.readValue(file.inputStream, DatasetTypeConfiguration::class.java)
                 } catch (e: Exception) {
