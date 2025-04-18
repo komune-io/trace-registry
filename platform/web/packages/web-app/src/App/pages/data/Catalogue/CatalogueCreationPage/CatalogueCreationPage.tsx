@@ -1,6 +1,7 @@
+import { CatalogueMetadataForm } from '100m-components'
 import { useQueryClient } from '@tanstack/react-query'
 import { TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueCreateCommand, CatalogueMetadataForm, CatalogueTypes, useCatalogueCreateCommand } from 'domain-components'
+import { CatalogueCreateCommand, CatalogueTypes, useCatalogueCreateCommand } from 'domain-components'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'

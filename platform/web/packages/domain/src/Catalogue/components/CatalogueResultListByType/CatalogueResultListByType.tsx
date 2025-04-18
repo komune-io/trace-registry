@@ -1,4 +1,4 @@
-import {Catalogue, catalogueTypes} from "../../model";
+import {Catalogue} from "../../model";
 import {useTranslation} from "react-i18next";
 import {useMemo} from "react";
 import {CatalogueResultList} from "../CatalogueResultList";
@@ -23,7 +23,7 @@ export const CatalogueResultListByType = (props: CatalogueResultListByTypeProps)
       }
     });
     return grouped
-  }, [catalogueTypes, items])
+  }, [ items])
   return Object.keys(resultListComponents).map((catalogueType) => {
     const byType =  resultListComponents[catalogueType] ?? []
     return (

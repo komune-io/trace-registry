@@ -1,5 +1,4 @@
 import {
-    useDraftsFilters,
     DraftTable,
     ContributionModal,
     useCatalogueDraftPageQuery
@@ -9,6 +8,7 @@ import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react"
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useExtendedAuth, useRoutesDefinition, useToggleState } from 'components'
+import { useDraftsFilters } from '100m-components'
 
 
 export const ContributionListPage = () => {

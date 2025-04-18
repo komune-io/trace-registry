@@ -2,8 +2,9 @@ import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, CatalogueTypes, Dataset, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueSections, CatalogueTypes, Dataset, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
 import { EditorState } from 'lexical'
+import { CatalogueMetadataForm } from '100m-components'
 
 export interface useDraftTabsParams {
   catalogue?: Catalogue
