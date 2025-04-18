@@ -150,7 +150,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		title = event.title
 		language = event.language
 		description = event.description
-		themeIds += event.themeIds
+		themeIds = event.themeIds.toMutableSet()
 		homepage = event.homepage
 		ownerOrganizationId = event.ownerOrganizationId
 		stakeholder = event.stakeholder
