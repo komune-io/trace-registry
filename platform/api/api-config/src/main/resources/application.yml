@@ -74,6 +74,10 @@ platform:
     secret: secret
   search:
     indexed-catalogue: 100m-solution,100m-sector,100m-system,100m-project,100m-planetary-boundary
+  catalogue:
+    type-files: "classpath:catalogues"
+  dataset:
+    type-files: "classpath:datasets"
 
 ---
 spring:
