@@ -15,7 +15,7 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
   logoUrl: config()?.theme?.logo?.url ?? "/logo.svg",
   shadows: [
     "none",
-    "0px 4px 8px 0px #E4DEE7",
+    config().theme?.shadow ?? "0px 4px 8px 0px #E4DEE7",
     '0px 5px 12px rgba(0, 0, 0, 0.21)',
     '0px 6px 16px rgba(0, 0, 0, 0.22)',
     '0px 7px 20px rgba(0, 0, 0, 0.23)',
@@ -30,13 +30,15 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
   ],
   bgColorOnMenu: true,
   local: {
-    colors: {
+    colors: config().theme?.colors?.local ?? {
       solution: "#F9DC44",
       project: "#EEBBFD",
       system: "#D0E9A7",
       sector: "#A3BDFD"
     },
-    rotation: config().theme?.rotation ?? "rotate(-2deg)"
+    rotation: config().theme?.rotation,
+    numberFont: config().theme?.numberFont,
+    borderRadius: config().theme?.borderRadius
   }
 };
 
@@ -44,7 +46,7 @@ const breakpoints = createBreakpoints({});
 
 export const muiTheme: Partial<ThemeOptions> = {
   typography: {
-    fontFamily: '"Degular", roboto, sans-serif',
+    fontFamily: config().theme?.font ?? '"Degular", roboto, sans-serif',
     allVariants: {
       fontWeight: 400,
       color: "#000000"
