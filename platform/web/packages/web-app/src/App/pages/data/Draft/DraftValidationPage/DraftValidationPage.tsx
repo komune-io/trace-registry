@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
+import { useDraftMutations } from '100m-components';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 import { useDraftValidations } from '../DraftEditionPage/useDraftValidations';

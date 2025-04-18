@@ -4,7 +4,7 @@ import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDraftMutations } from './useDraftMutations';
+import { useDraftMutations } from '100m-components';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMetadataFormState } from './useMetadataFormState';
 import { Typography } from '@mui/material';

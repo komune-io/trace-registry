@@ -2,9 +2,10 @@ import { CatalogueDraft } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { CustomButton, InfoTicket, TitleDivider, useToggleState } from 'components'
 import { AddCircleOutlineRounded } from '@mui/icons-material'
-import { CreateIndicatorBlockModal, IndicatorBlock } from '../IndicatorBlock'
+import { IndicatorBlock } from '../IndicatorBlock'
 import { useMemo } from 'react'
 import { Dataset } from '../../../Dataset'
+import { CreateIndicatorBlockModal } from '100m-components'
 
 export interface DraftIndicatorManagerProps {
     draft?: CatalogueDraft

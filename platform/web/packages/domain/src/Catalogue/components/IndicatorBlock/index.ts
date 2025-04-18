@@ -1,2 +1,2 @@
 export * from "./IndicatorBlock"
-export * from "./CreateIndicatorBlockModal"
+export * from "./useAutoCompleteCatalogue"

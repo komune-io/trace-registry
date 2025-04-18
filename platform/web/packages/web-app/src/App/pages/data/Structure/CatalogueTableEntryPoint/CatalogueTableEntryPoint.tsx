@@ -4,11 +4,12 @@ import {
     Catalogue,
     useCatalogueDistributionLexicalEditor,
     CatalogueTable,
-    useCataloguesFilters, useCataloguePageQuery,
+     useCataloguePageQuery,
 } from 'domain-components'
 import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useCataloguesFilters } from '100m-components';
 
 
 interface CatalogueTableEntryPointProps {

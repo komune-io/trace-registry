@@ -3,12 +3,8 @@ import { Paper } from '@mui/material'
 import {maybeAddItem, SearchIcon, useExtendedAuth, CustomButton, maybeAddItems} from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
+import { extractCatalogueIdentifierNumber, CatalogueDraft, CatalogueTypes, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery, convertRelatedCataloguesToIds, useAutoCompleteCatalogue, CatalogueCreateCommand } from 'domain-components'
 import { keepPreviousData } from '@tanstack/react-query'
-import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { CatalogueCreateCommand } from '../../api'
-import {useAutoCompleteCatalogue} from "../IndicatorBlock/useAutoCompleteCatalogue";
-import {convertRelatedCataloguesToIds} from "../../model/RelatedCatalogue";
 
 type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "relatedCatalogues.planetaryLimits" | "illustration" | "location.country" | "location.region">
 
