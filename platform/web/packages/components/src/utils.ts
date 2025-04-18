@@ -19,11 +19,8 @@ export const addLineClampStyles = (lineClamp: number): SxProps<Theme> => {
 };
 
 export type LocalTheme = {
-  colors: {
-    solution: string
-    project: string
-    system: string
-    sector: string
-  }
-  rotation: string
+  colors: Record<string, string>
+  rotation?: string
+  numberFont?: string
+  borderRadius?: string
 }

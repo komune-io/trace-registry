@@ -66,7 +66,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
                     >
                         <Typography
                             sx={{
-                                fontFamily: "Milanesa Serif",
+                                fontFamily: theme.local?.numberFont,
                                 fontSize: "2rem",
                                 fontWeight: 700
                             }}

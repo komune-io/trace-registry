@@ -74,7 +74,7 @@ const CatalogueResult = (props: Catalogue) => {
             >
                 <Typography
                     sx={{
-                        fontFamily: "Milanesa Serif",
+                        fontFamily: theme.local?.numberFont,
                         fontSize: "2rem",
                         fontWeight: 700
                     }}
