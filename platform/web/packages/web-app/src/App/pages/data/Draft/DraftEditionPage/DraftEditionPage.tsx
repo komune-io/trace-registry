@@ -133,7 +133,7 @@ export const DraftEditionPage = () => {
   return (
     <AppPage
       title={title}
-      basicHeader={false}
+      bgcolor='background.default'
       maxWidth={1020}
     >
       <CatalogueEditionHeader

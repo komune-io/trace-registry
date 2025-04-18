@@ -49,7 +49,7 @@ export const DraftViewPage = () => {
   return (
     <AppPage
       title={title}
-      basicHeader={false}
+      bgcolor='background.default'
       maxWidth={1020}
     >
       <TitleDivider title={title} />

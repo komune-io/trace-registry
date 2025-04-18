@@ -10,14 +10,14 @@ export interface AppPageProps extends StackProps {
     title?: string
     children?: ReactNode
     header?: ReactNode
+    bgcolor?: string
     headerProps?: StackProps
     customHeader?: ReactNode
     maxWidth?: number
-    basicHeader?: boolean
 }
 
 export const AppPage = (props: AppPageProps) => {
-    const { title, children, header, headerProps, sx, maxWidth = 1280, customHeader, basicHeader = true, ...other } = props
+    const { title, children, header, bgcolor, headerProps, sx, maxWidth = 1280, customHeader, ...other } = props
 
     const { i18n } = useTranslation()
     const { openDrawer, theme: g2Theme } = useThemeContext()
@@ -70,7 +70,7 @@ export const AppPage = (props: AppPageProps) => {
         <Stack
             sx={{
                 alignItems: 'center',
-                bgcolor: 'background.default',
+                bgcolor: bgcolor ?? 'white',
                 minHeight: '100%',
                 gap: {
                     md: 4,
@@ -113,10 +113,10 @@ export const AppPage = (props: AppPageProps) => {
                             }
                         }}
                     >
-                        {basicHeader && <CatalogueSearchBar />}
+                        {!bgcolor && <CatalogueSearchBar />}
                         {header}
                     </Stack>
-                    {basicHeader && counter?.value &&
+                    {!bgcolor && counter?.value &&
                         <Co2Counter
                             count={Number(counter.value)}
                             sx={{

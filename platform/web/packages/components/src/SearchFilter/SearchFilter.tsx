@@ -1,8 +1,6 @@
 import { IconButton, InputBase, InputBaseProps, Paper, PaperProps } from '@mui/material'
 import { iconPackSrc, Icon } from '../Icons'
 import { ChangeEvent, useCallback, useState } from 'react'
-import { useTheme } from '@komune-io/g2'
-import { LocalTheme } from '../utils'
 
 export interface SearchFilterProps extends InputBaseProps {
     onSearch?: (value: string) => void
@@ -13,7 +11,6 @@ export interface SearchFilterProps extends InputBaseProps {
 export const SearchFilter = (props: SearchFilterProps) => {
     const { sx, placeholder, onSearch, rootProps, initialValue, ...other } = props
     const [value, setValue] = useState(initialValue ?? '')
-    const theme = useTheme<LocalTheme>()
 
     const onChange = useCallback(
         (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -51,7 +48,7 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 alignItems: 'center',
                 width: "100%",
                 border: "1px solid rgba(0, 0, 0, 0.10)",
-                borderRadius: theme.local?.borderRadius ?? 0,
+                borderRadius: 0,
                 ...rootProps?.sx
             }}
         >

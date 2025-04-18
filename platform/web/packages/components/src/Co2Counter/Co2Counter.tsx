@@ -1,9 +1,8 @@
 import { Stack, StackProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Icon, iconPackSrc } from '../Icons'
-import { formatNumber, useTheme } from '@komune-io/g2'
+import { formatNumber } from '@komune-io/g2'
 import { keyframes } from "@emotion/react"
-import { LocalTheme } from '../utils'
 
 const spin = keyframes`
   from {
@@ -21,7 +20,6 @@ export interface Co2CounterProps extends StackProps {
 export const Co2Counter = (props: Co2CounterProps) => {
     const { count, sx, ...other } = props
     const { t, i18n } = useTranslation()
-    const theme = useTheme<LocalTheme>()
     return (
         <Stack
             gap={1}
@@ -41,7 +39,7 @@ export const Co2Counter = (props: Co2CounterProps) => {
             >
                 <Typography
                     sx={{
-                        fontFamily: theme.local?.numberFont,
+                        fontFamily: "Milanesa Serif",
                         fontSize: "1.75rem",
                         fontWeight: 700,
                         mb: -0.5

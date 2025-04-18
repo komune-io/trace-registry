@@ -81,7 +81,7 @@ export const DraftValidationPage = () => {
   return (
     <AppPage
       title={title}
-      basicHeader={false}
+      bgcolor='background.default'
       maxWidth={1020}
       customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} isUpdating={isUpdating} />}
     >
