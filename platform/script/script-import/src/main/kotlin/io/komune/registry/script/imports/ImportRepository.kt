@@ -222,7 +222,7 @@ class ImportRepository(
         language: Language
     ): DatasetDTOBase? {
         val fetched = importContext.preExistingDatasets[identifierLocalized]
-        if(fetched != null) {
+        if (fetched != null) {
             return fetched
         }
         val exists = DatasetExistsQuery(
