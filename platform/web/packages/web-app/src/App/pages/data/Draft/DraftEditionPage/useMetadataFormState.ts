@@ -13,7 +13,7 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
     const {catalogue, isLoading, readOnly, onSubmit} = params
    const formInitialValues = useMemo(() => catalogue ? ({
       ...catalogue,
-      themes: catalogue.themes[0]?.id,
+      themes: catalogue.themes[0]?.id ?? catalogue.themes,
       license: catalogue.license?.id,
       ownerOrganizationId: catalogue.ownerOrganization?.id,
       parentId: catalogue.parent?.id,

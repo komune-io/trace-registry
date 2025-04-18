@@ -181,7 +181,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             const relatedCataloguesToIds = convertRelatedCataloguesToIds(relatedCatalogues)
             const toSave = {
                 ...others,
-                themes: [values.themes],
+                themes: values.themes ? [values.themes] : undefined,
                 relatedCatalogueIds: relatedCataloguesToIds,
             }
             if (onSubmit) {

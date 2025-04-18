@@ -49,7 +49,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         // form fields
         title: values.title,
         description: values.description,
-        themes: [values.themes],
+        themes: values.themes ? [values.themes] : values.themes,
         license: values.license,
         accessRights: values.accessRights,
         parentId: values.parentId,
