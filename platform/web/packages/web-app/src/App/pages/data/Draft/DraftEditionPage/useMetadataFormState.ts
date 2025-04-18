@@ -13,10 +13,11 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
     const {catalogue, isLoading, readOnly, onSubmit} = params
    const formInitialValues = useMemo(() => catalogue ? ({
       ...catalogue,
+      themes: catalogue.themes[0]?.id ?? catalogue.themes,
       license: catalogue.license?.id,
       ownerOrganizationId: catalogue.ownerOrganization?.id,
       parentId: catalogue.parent?.id,
-      illustrationUploaded: catalogue?.img ? () => g2Config().platform.url + catalogue.img : undefined
+      illustrationUploaded: catalogue?.img ? () => g2Config().platform.url + catalogue.img : undefined,
     }) : undefined, [catalogue])
     return useFormComposable({
       onSubmit,

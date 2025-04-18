@@ -1,6 +1,8 @@
 import { Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
 import { useCatalogueIdentifierNumber } from "../../api";
+import { useTheme } from '@komune-io/g2';
+import { LocalTheme } from 'components';
 
 export interface CataloguePresentationProps {
     catalogue?: Catalogue
@@ -10,6 +12,7 @@ export interface CataloguePresentationProps {
 export const CataloguePresentation = (props: CataloguePresentationProps) => {
     const { catalogue } = props
     const identifierNumber = useCatalogueIdentifierNumber(catalogue)
+     const theme = useTheme<LocalTheme>()
     return (
         <Stack
             direction="row"
@@ -46,7 +49,7 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                     <Typography
                         color="primary"
                         sx={{
-                            fontFamily: "Milanesa Serif",
+                            fontFamily: theme.local?.numberFont,
                             fontSize: "1.5rem",
                             fontWeight: 700
                         }}

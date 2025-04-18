@@ -234,7 +234,7 @@ class ImportScript(
             logger.info("(${i + 1}/${catalogues.size}) Importing datasets of catalogues from ${catalogueFile.absolutePath}...")
             catalogueGroup.forEach { catalogue ->
                 importContext.settings.datasets?.map { dataset ->
-                    importDataset(catalogue, dataset, catalogueFile.parentFile)
+                    importDataset(catalogue, dataset, catalogueFile.parentFile, catalogue.language)
                 }
             }
             logger.info("Imported datasets of catalogues from ${catalogueFile.absolutePath}.")
@@ -274,7 +274,7 @@ class ImportScript(
             ) to imageFile
             val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 
-            val catalogue = CatalogueGetQuery(catalogueId, null)
+            val catalogue = CatalogueGetQuery(catalogueId, translation.language)
                 .invokeWith(dataClient.catalogue.catalogueGet())
                 .item!!
 
@@ -296,7 +296,7 @@ class ImportScript(
             }
 
             catalogueData.datasets?.forEach { datasetSettings ->
-                importDataset(catalogue, datasetSettings, importContext.rootDirectory)
+                importDataset(catalogue, datasetSettings, importContext.rootDirectory, translation.language)
             }
             catalogue
         }
@@ -316,27 +316,26 @@ class ImportScript(
         catalogue: CatalogueDTOBase,
         datasetSettings: CatalogueDatasetSettings,
         directory: File,
-        datasetParents: Map<String, DatasetDTOBase>? = null,
+        language: Language,
+        datasetParent: DatasetDTOBase? = null,
     ) {
         datasetSettings.media.forEach { media ->
-            val datasetByLangue: Map<String, DatasetDTOBase> = media.translations.mapValues { (language, path) ->
+            val dataset = media.translations[language]?.let { path ->
                 val file = directory.resolve(path).takeIf { it.exists() && it.isFile }
                     ?: return@forEach
-
-                val datasetParent = datasetParents?.get(language)
 
                 val dataset = importRepository.initDataset(language, datasetSettings, catalogue, datasetParent)
                 importDistribution(media, path, datasetParent, file, dataset, datasetSettings, catalogue, language)
                 dataset
             }
             datasetSettings.datasets?.forEach {
-                importDataset(catalogue, it, directory, datasetByLangue)
+                importDataset(catalogue, it, directory, language, dataset)
             }
         }
 
-        datasetSettings.indicators?.forEach { (language, path) ->
+        datasetSettings.indicators?.get(language)?.let { path ->
             val indicatorsDirectory = directory.resolve(path).takeIf { it.exists() && it.isDirectory }
-                ?: return@forEach
+                ?: return@let
             indicatorInitializer.initialize(catalogue, language, indicatorsDirectory)
         }
     }
