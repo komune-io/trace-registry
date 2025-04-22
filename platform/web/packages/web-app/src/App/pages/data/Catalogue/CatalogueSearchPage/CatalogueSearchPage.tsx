@@ -1,6 +1,6 @@
 import { useTheme } from '@komune-io/g2'
 import { CircularProgress, Dialog, Stack, Typography } from '@mui/material'
-import { iconPack, SelectableChipGroup, useUrlSavedState, LocalTheme } from 'components'
+import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
   CatalogueResultListByType,
   CatalogueSearchFilters,
@@ -65,11 +65,12 @@ export const CatalogueSearchPage = () => {
       const distribution = distributions["type"]?.find((distribution) => distribution.id === type)
       const typeSimple = type.split("-").pop() ?? ""
       const typeLabel = t("catalogues.types." + type)
+      const Icon = IconPack[typeSimple]
       return {
         key: type,
         label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
         color: theme.local?.colors[typeSimple],
-        icon: iconPack[typeSimple]
+        icon: <Icon />
       }
     })
   }, [theme, distributions])
