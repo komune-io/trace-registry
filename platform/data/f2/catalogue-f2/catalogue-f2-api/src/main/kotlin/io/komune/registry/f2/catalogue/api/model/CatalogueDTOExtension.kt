@@ -81,7 +81,7 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     location = location,
     hidden = hidden,
     versionNotes = versionNotes.takeIf { withTranslatable },
-    integrateCounter = integrateCounter,
+    integrateCounter = integrateCounter.takeIf { withTranslatable },
 )
 
 fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(

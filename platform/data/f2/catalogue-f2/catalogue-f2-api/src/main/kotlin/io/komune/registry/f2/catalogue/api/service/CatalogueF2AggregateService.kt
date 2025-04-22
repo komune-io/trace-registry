@@ -163,7 +163,6 @@ class CatalogueF2AggregateService(
             location = command.location ?: originalCatalogue.location,
             ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
             stakeholder = command.stakeholder ?: originalCatalogue.stakeholder,
-            integrateCounter = command.integrateCounter ?: originalCatalogue.integrateCounter,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
 
         originalCatalogue.imageFsPath?.let { path ->
@@ -439,6 +438,7 @@ class CatalogueF2AggregateService(
     ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
         updateDatasetAggregator(catalogue, command, isDraft)
+
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
                 id = command.id,

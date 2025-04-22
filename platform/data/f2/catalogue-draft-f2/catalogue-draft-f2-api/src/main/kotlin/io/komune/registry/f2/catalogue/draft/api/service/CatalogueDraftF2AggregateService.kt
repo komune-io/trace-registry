@@ -82,7 +82,8 @@ class CatalogueDraftF2AggregateService(
             language = command.language,
             catalogues = emptyList(),
             relatedCatalogueIds = baseCatalogue.relatedCatalogueIds?.mapValues { it.value.toList() },
-            hidden = true
+            hidden = true,
+            integrateCounter = baseCatalogue.integrateCounter,
         ).let { catalogueF2AggregateService.createOrphanTranslation(
             command = it,
             originalCatalogueId = baseCatalogue.id,
