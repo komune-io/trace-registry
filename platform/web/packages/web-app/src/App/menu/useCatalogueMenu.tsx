@@ -1,5 +1,5 @@
-import {CatalogueRefTree, config, sortCatalogues, useCatalogueRefGetTreeQuery} from "domain-components";
-import {CatalogueAll, Icon, useRoutesDefinition} from "components";
+import {CatalogueRefTree, sortCatalogues, useCatalogueRefGetTreeQuery} from "domain-components";
+import {CatalogueAll, Icon, useRoutesDefinition, config} from "components";
 import {Location} from "history";
 import {useLocation} from "react-router";
 import {useTranslation} from "react-i18next";

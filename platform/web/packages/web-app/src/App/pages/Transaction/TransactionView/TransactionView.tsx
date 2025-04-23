@@ -1,14 +1,13 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {
-    config,
     TransactionCertificateSummary,
     TransactionPdfCertificate,
     useAssetTransactionGetQuery,
 } from "domain-components";
 import {AppPage} from "template";
 import {Button, Section} from "@komune-io/g2";
-import {useRoutesDefinition} from "components";
+import {useRoutesDefinition, config} from "components";
 import {ArrowBackIosNewRounded} from "@mui/icons-material";
 import {Stack} from "@mui/material";
 import {useCallback} from "react";

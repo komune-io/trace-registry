@@ -1,6 +1,6 @@
 import {Stack} from '@mui/material'
-import {CustomButton, PdfDisplayer} from "components";
-import {Catalogue, config} from "domain-components";
+import {CustomButton, PdfDisplayer, config} from "components";
+import {Catalogue} from "domain-components";
 import {useElementSize} from "@mantine/hooks"
 import {useCallback} from "react";
 import {useTranslation} from "react-i18next";

@@ -18,6 +18,7 @@ export interface ThemeConfig {
     rotation?: string
     numberFont?: string
     borderRadius?: string
+    iconPack?: "100m" | "geco"
     logo?: {
         url?: string
     }
