@@ -226,6 +226,7 @@ class CatalogueI18nService(
             childrenCatalogueIds = catalogue.childrenCatalogueIds + translation.childrenCatalogueIds,
             version = translation.version,
             versionNotes = translation.versionNotes,
+            integrateCounter = translation.integrateCounter,
         )
     }
 
