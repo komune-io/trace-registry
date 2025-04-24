@@ -19,7 +19,7 @@ class DockerSecretEnvPostProcessor : EnvironmentPostProcessor, Ordered {
         private const val PROP_ENABLED_DEFAULT = true
 
         private const val PROP_PREFIX = "docker.secret.prefix"
-        private const val PROD_PREFIX_DEFAULT = "docker_secret_"
+        private const val PROP_PREFIX_DEFAULT = "docker_secret_"
 
         private const val PROP_PATH = "docker.secret.path"
         private const val PROP_PATH_DEFAULT = "/run/secrets"
