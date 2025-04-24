@@ -44,7 +44,7 @@ class DockerSecretEnvPostProcessor : EnvironmentPostProcessor, Ordered {
             return
         }
 
-        val prefix = env.getProperty(PROP_PREFIX, PROD_PREFIX_DEFAULT)
+        val prefix = env.getProperty(PROP_PREFIX, PROP_PREFIX_DEFAULT)
         val printErrors = env.getProperty(PROP_PRINT_ERRORS, Boolean::class.java, PROP_PRINT_ERRORS_DEFAULT)
         val path = env.getProperty(PROP_PATH, PROP_PATH_DEFAULT)
         val trim = env.getProperty(PROP_TRIM, Boolean::class.java, PROP_TRIM_DEFAULT)
