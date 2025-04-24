@@ -32,7 +32,7 @@ export const CatalogueSearchPage = () => {
   useEffect(() => {
     if (searchParams.get("goBackUrl")) {
       searchParams.delete("goBackUrl")
-      setSearchParams(searchParams)
+      setSearchParams(searchParams, {replace: true})
     }
   }, [])
 
