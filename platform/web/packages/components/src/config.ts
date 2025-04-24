@@ -9,6 +9,7 @@ export interface Config {
     platform: PlatformConfig
     admin: AdminConfig
     theme?: ThemeConfig
+    requiredAuthentication?: boolean
 }
 
 export interface ThemeConfig {
