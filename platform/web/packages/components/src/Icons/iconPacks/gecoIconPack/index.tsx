@@ -1,4 +1,4 @@
-import {SearchRounded, DoneRounded, FolderOpen, Settings, LogoutRounded, DeleteRounded} from "@mui/icons-material"
+import {SearchRounded, DoneRounded, FolderOpen, Settings, LogoutRounded, DeleteRounded, ContentPaste} from "@mui/icons-material"
 import { SvgIconProps } from '@mui/material';
 import { IconComponent } from "..";
 
@@ -6,6 +6,7 @@ export const iconPackSrcGeco = {
     search: SearchRounded,
     validate: DoneRounded,
     settings: Settings,
+    contribution: ContentPaste,
     outArrow: LogoutRounded,
     trash: DeleteRounded,
     folder: FolderOpen,

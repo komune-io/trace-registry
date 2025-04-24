@@ -167,6 +167,9 @@
     "options": "Options",
     "deleteCatalogue": "Supprimer la fiche",
     "deleteDraft": "Supprimer le brouillon",
+    "accessRights": "$t(access)",
+    "licenseId": "$t(licence)",
+    "themeIds": "$t(category)",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
