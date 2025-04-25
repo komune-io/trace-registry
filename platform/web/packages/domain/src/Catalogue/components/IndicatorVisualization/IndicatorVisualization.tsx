@@ -128,6 +128,12 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
         return 0
     })
 
+    if (indicators[0].themes.length === 0) {
+        return indicatorsSorted.map((indicators) => {
+            return infoConceptsToMarkdownListItem(indicators, t, language)
+        }).join("\n")
+    }
+
     let markdown = "===COL===\n\n"
     markdown += `---50---\n\n`
     markdown += `### ${t("cost")}\n\n`
