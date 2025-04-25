@@ -9,6 +9,7 @@ export interface Config {
     platform: PlatformConfig
     admin: AdminConfig
     theme?: ThemeConfig
+    requiredAuthentication?: boolean
 }
 
 export interface ThemeConfig {
@@ -18,6 +19,7 @@ export interface ThemeConfig {
     rotation?: string
     numberFont?: string
     borderRadius?: string
+    iconPack?: "100m" | "geco"
     logo?: {
         url?: string
     }

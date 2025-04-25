@@ -1,5 +1,5 @@
 import {Stack} from '@mui/material'
-import { iconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
+import { IconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
 import {TFunction} from 'i18next'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -27,7 +27,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 key: "mySheets",
                 to: cataloguesMyOrganization(),
                 label: t("mySheets"),
-                icon: iconPack.folder,
+                icon: <IconPack.folder />,
                 isVisible: policies.catalogue.canSeeMyOrganization(),
                 isSelected: location.pathname.includes(cataloguesMyOrganization())
             },
@@ -35,7 +35,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 key: "contributions",
                 to: cataloguesContributions(),
                 label: t("myContributions"),
-                icon: iconPack.contribution,
+                icon: <IconPack.contribution />,
                 isVisible: policies.draft.canCreate(),
                 isSelected: location.pathname.includes(cataloguesContributions())
             },
@@ -43,7 +43,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 key: "sheetsToValidate",
                 to: cataloguesToVerify(),
                 label: t("sheetsToValidate"),
-                icon: iconPack.validate,
+                icon: <IconPack.validate />,
                 number: totalToVerify,
                 isVisible: policies.draft.canAudit(),
                 isSelected: location.pathname.includes(cataloguesToVerify())

@@ -26,7 +26,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { IconButton, Paper } from '@mui/material';
 import { TextField } from '@komune-io/g2';
-import { iconPack } from '../../../Icons';
+import { IconPack } from '../../../Icons';
 import { getSelectedNode, sanitizeUrl } from '../../utils';
 import { OpenInNewRounded } from '@mui/icons-material';
 import { MentionPlugin } from './MentionPlugin';
@@ -259,7 +259,7 @@ function FloatingLinkEditor({
       {!isSaved && <IconButton
         onClick={onValidate}
       >
-        {iconPack.validate}
+        <IconPack.validate />
       </IconButton>}
       <IconButton
         component="a"
@@ -276,7 +276,7 @@ function FloatingLinkEditor({
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
         }}
       >
-        {iconPack.trash}
+        <IconPack.trash />
       </IconButton>
       <MentionPlugin
         editor={editor}

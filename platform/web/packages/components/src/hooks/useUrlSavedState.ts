@@ -9,6 +9,7 @@ const retrieveNumber = (value: any) => {
 }
 
 const unformatFieldValue = (value: any) => {
+ if (value === "") return value
   if (Array.isArray(value)) return value
   return retrieveNumber(value)
 }

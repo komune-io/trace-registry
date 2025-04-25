@@ -1,17 +1,20 @@
 import {
   CatalogueBreadcrumbs,
-  CatalogueGrid, useCataloguePageQuery,
   Catalogue, DatasetRouterSection,
   CreateDraftButton,
+  useCatalogueSearchQuery,
+  CatalogueSearchQuery,
+  CatalogueSearchModule,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage } from 'template'
 import { InfoTicket, maybeAddItem, useRoutesDefinition, SectionTab, Tab, useExtendedAuth, CustomLinkButton } from 'components'
-import { SyntheticEvent, useCallback, useMemo } from 'react'
+import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { Stack } from '@mui/material'
 import {useLocation} from "react-router";
+import { keepPreviousData } from '@tanstack/react-query'
 
 interface CatalogueViewEntryPointProps {
   catalogue: Catalogue
@@ -54,28 +57,45 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
     [location]
   )
 
-    const { data } = useCataloguePageQuery({
-        query: {
-            parentIdentifier: catalogue?.identifier,
-            language: i18n.language
-        },
-        options: {
-            enabled: catalogue?.identifier !== undefined
+  const [state, setState] = useState<Partial<CatalogueSearchQuery>>({})
+  
+  const changeValueCallback = useCallback(
+    (valueKey: keyof CatalogueSearchQuery) => (value: any) => {
+      
+      setState(old => {
+        if ((typeof value === 'number' || !!value) && value.length !== 0) {
+          return {...old, [valueKey]: value}
         }
+        return {...old, [valueKey]: undefined}
+      })
+    },
+    []
+  )
+  
+    const { data, isFetching } = useCatalogueSearchQuery({
+      query: {
+        ...state,
+        parentIdentifier: [catalogue?.identifier],
+        language: i18n.language
+      },
+      options: {
+        placeholderData: keepPreviousData,
+        enabled: catalogue?.identifier !== undefined
+      }
     })
 
     const items = data?.items ?? []
     const tabs: Tab[] = useMemo(() => {
         const tabs: Tab[] = [
           ...datasetTab
-          , ...maybeAddItem(items.length > 0, {
+          , ...maybeAddItem(items.length > 0 || Object.keys(state).length > 0, {
             key: 'subCatalogues',
             label: t('subCatalogues'),
-            component: (<CatalogueGrid items={data?.items} isLoading={false} />)
+            component: (<CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage />)
         }),
         ]
         return tabs
-    }, [t, data, catalogue])
+    }, [t, data, catalogue, isFetching, state, changeValueCallback])
 
     const currentLanguageDraft = useMemo(() => catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language), [catalogue, i18n.language])
 

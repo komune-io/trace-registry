@@ -1,25 +1,28 @@
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { LocalTheme, useRoutesDefinition } from 'components'
+import { config, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber } from '../../api'
+import { useTranslation } from 'react-i18next'
+import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
     groupLabel?: string
+    withImage?: boolean
 }
 
 export const CatalogueResultList = (props: CatalogueResultListProps) => {
-    const { catalogues, groupLabel } = props
+    const { catalogues, groupLabel, withImage } = props
 
     const display = useMemo(() => catalogues?.map((catalogue, index) => (
         <Fragment key={catalogue.id}>
-            <CatalogueResult {...catalogue} />
+            <CatalogueResult {...catalogue} withImage={withImage} />
             {index < catalogues.length - 1 && <Divider />}
         </Fragment>
-    )), [catalogues])
+    )), [catalogues, withImage])
 
     return (
         <Stack
@@ -40,9 +43,12 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
     )
 }
 
-const CatalogueResult = (props: Catalogue) => {
-    const { title, themes, id, type, parent } = props
+const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
+    const { title, themes, id, type, parent, img, withImage } = props
+    const [imageError, setImageError] = useState(false)
+    const { t } = useTranslation()
     const theme = useTheme<LocalTheme>()
+    const { ids } = useCataloguesRouteParams()
     const catType = type.split("-").pop() ?? ""
 
     const { cataloguesAll } = useRoutesDefinition()
@@ -55,33 +61,43 @@ const CatalogueResult = (props: Catalogue) => {
             alignItems="center"
             gap={3}
             component={Link}
-            to={cataloguesAll(id)}
+            to={cataloguesAll(...ids, id)}
             sx={{
-                textDecoration: "none"
-            }}
-        >
-            <Box
-                sx={{
-                    bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "140px",
-                    height: "80px",
+                textDecoration: "none",
+                "& .illustration": {
+                    width: "100px",
+                    height: "auto",
                     borderRadius: 1,
                     flexShrink: 0
-                }}
-            >
-                <Typography
+                }
+            }}
+        >
+            {withImage && img && !imageError ? (
+                <UnCachedImage src={config().platform.url + img} alt={t("sheetIllustration")} className='illustration' onError={() => setImageError(true)} />
+            ) : (
+                <Box
                     sx={{
-                        fontFamily: theme.local?.numberFont,
-                        fontSize: "2rem",
-                        fontWeight: 700
+                        bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "140px",
+                        height: "80px",
+                        borderRadius: 1,
+                        flexShrink: 0
                     }}
                 >
-                    {identifierNumber}
-                </Typography>
-            </Box>
+                    <Typography
+                        sx={{
+                            fontFamily: theme.local?.numberFont,
+                            fontSize: "2rem",
+                            fontWeight: 700
+                        }}
+                    >
+                        {identifierNumber}
+                    </Typography>
+                </Box>
+            )}
             <Stack
                 gap={1}
             >

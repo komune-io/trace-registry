@@ -1,8 +1,7 @@
 import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
-import { LocalTheme, PermanentHeader } from "components";
-import { config } from "domain-components";
+import { LocalTheme, PermanentHeader, config } from "components";
 import { createBreakpoints } from "@mui/system";
 
 export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use

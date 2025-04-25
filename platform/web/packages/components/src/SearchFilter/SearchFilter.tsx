@@ -1,5 +1,5 @@
 import { IconButton, InputBase, InputBaseProps, Paper, PaperProps } from '@mui/material'
-import { iconPackSrc, Icon } from '../Icons'
+import { IconPack } from '../Icons'
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useTheme } from '@komune-io/g2'
 import { LocalTheme } from '../utils'
@@ -73,7 +73,7 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 inputProps={{ 'aria-label': placeholder }}
             />
             <IconButton sx={{color: "black"}} onClick={onSearchMemo} type="button" aria-label="search">
-                <Icon src={iconPackSrc.search} size="big" />
+                <IconPack.search size="big" />
             </IconButton>
         </Paper>
     )
