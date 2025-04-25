@@ -48,7 +48,6 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchResult
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesResult
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
-import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
@@ -122,12 +121,6 @@ class DatasetEndpoint(
         logger.info("datasetExists: $query")
         datasetFinderService.exists(query.identifier, query.language)
             .let(::DatasetExistsResult)
-    }
-
-    @Bean
-    override fun datasetRefList(): DatasetRefListFunction = f2Function { query ->
-        logger.info("datasetRefList: $query")
-        datasetF2FinderService.getAllRefs()
     }
 
     @PermitAll
