@@ -10,6 +10,7 @@ export interface Config {
     admin: AdminConfig
     theme?: ThemeConfig
     requiredAuthentication?: boolean
+    title?: string
 }
 
 export interface ThemeConfig {
