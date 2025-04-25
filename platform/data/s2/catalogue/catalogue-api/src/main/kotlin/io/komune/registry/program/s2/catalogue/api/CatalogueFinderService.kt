@@ -11,6 +11,7 @@ import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapMeiliSear
 import io.komune.registry.program.s2.catalogue.api.entity.toModel
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.commons.exception.NotFoundException
@@ -18,8 +19,11 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.FieldCriterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.andCriterionOfNotNull
+import io.komune.registry.s2.commons.model.orCriterionOf
 import org.springframework.stereotype.Service
 
 @Service
@@ -111,6 +115,19 @@ class CatalogueFinderService(
 		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
+		val childrenIds = parentIdentifier?.let {
+			page(identifier = parentIdentifier).items
+				.flatMap(CatalogueModel::childrenCatalogueIds)
+				.toSet()
+				.ifEmpty { setOf("none") }
+		}
+		val idFilter = childrenIds?.let {
+			orCriterionOf(
+				FieldCriterion(CatalogueCriterionField.Id, CollectionMatch(it)),
+				FieldCriterion(CatalogueCriterionField.IsTranslationOf, CollectionMatch(it))
+			)
+		}
+
 		return meiliSearch.search(
 			language = language,
 			query = query,
@@ -121,7 +138,10 @@ class CatalogueFinderService(
 			licenseId = licenseId,
 			creatorOrganizationId = creatorOrganizationId,
 			availableLanguages = availableLanguages,
-			freeCriterion = freeCriterion,
+			freeCriterion = andCriterionOfNotNull(
+				freeCriterion,
+				idFilter
+			),
 			page = page
 		)
 	}

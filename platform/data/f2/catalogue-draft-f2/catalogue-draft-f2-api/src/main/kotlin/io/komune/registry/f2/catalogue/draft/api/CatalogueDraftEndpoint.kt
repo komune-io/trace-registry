@@ -26,6 +26,7 @@ import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageFunc
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResult
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -43,6 +44,7 @@ class CatalogueDraftEndpoint(
 
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun catalogueDraftGet(): CatalogueDraftGetFunction = f2Function { query ->
         logger.info("catalogueDraftGet: $query")
@@ -51,6 +53,7 @@ class CatalogueDraftEndpoint(
             .let(::CatalogueDraftGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueDraftPage(): CatalogueDraftPageFunction = f2Function { query ->
         logger.info("catalogueDraftPage: $query")

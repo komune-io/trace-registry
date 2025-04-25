@@ -57,7 +57,6 @@ import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import jakarta.annotation.security.PermitAll
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.toList
-import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.MediaType
@@ -69,6 +68,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import s2.spring.utils.logger.Logger
 
 @RestController
 @RequestMapping
@@ -83,8 +83,9 @@ class DatasetEndpoint(
     private val fsService: FsService
 ): DatasetApi {
 
-    private val logger = LoggerFactory.getLogger(DatasetEndpoint::class.java)
+    private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun datasetPage(): DatasetPageFunction = f2Function { query ->
         logger.info("datasetPage: $query")
@@ -99,6 +100,7 @@ class DatasetEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun datasetGet(): DatasetGetFunction = f2Function { query ->
         logger.info("datasetGet: $query")
@@ -106,6 +108,7 @@ class DatasetEndpoint(
             .let(::DatasetGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = f2Function { query ->
         logger.info("datasetGetByIdentifier: $query")
@@ -113,6 +116,7 @@ class DatasetEndpoint(
             .let(::DatasetGetByIdentifierResult)
     }
 
+    @PermitAll
     @Bean
     override fun datasetExists(): DatasetExistsFunction = f2Function { query ->
         logger.info("datasetExists: $query")
@@ -137,6 +141,7 @@ class DatasetEndpoint(
             ?.let { FilePath.from(it) }
     }
 
+    @PermitAll
     @Bean
     override fun datasetData(): DatasetDataFunction = f2Function { query ->
         logger.info("datasetData: $query")
@@ -144,6 +149,7 @@ class DatasetEndpoint(
         DatasetDataResult(items = items)
     }
 
+    @PermitAll
     @Bean
     override fun datasetListLanguages(): DatasetListLanguagesFunction = f2Function { query ->
         logger.info("datasetListLanguages: $query")
@@ -153,6 +159,7 @@ class DatasetEndpoint(
             .let(::DatasetListLanguagesResult)
     }
 
+    @PermitAll
     @Bean
     override fun datasetGraphSearch(): DatasetGraphSearchFunction = f2Function { query ->
         logger.info("datasetGraphSearch: $query")

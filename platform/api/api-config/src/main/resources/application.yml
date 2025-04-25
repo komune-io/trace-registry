@@ -65,6 +65,7 @@ platform:
     catalogue:
       default-translation-type: translation
   identity:
+    force-auth: false
     onboarding:
       default-roles:
         organization: rg_role_org_reader

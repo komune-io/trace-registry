@@ -9,7 +9,7 @@ import org.springframework.web.reactive.result.method.RequestMappingInfo
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerMapping
 
 @Configuration
-class VerWebSecurityConfig: WebSecurityConfig(){
+class RgWebSecurityConfig: WebSecurityConfig(){
     override fun addPermitAllRules(http: ServerHttpSecurity) {
         val requestMappingHandlerMapping: RequestMappingHandlerMapping = applicationContext
             .getBean(
