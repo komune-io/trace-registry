@@ -74,7 +74,7 @@ platform:
     url: http://localhost:7700
     secret: secret
   search:
-    indexed-catalogue: 100m-solution,100m-sector,100m-system,100m-project,100m-planetary-boundary
+    indexed-catalogue: organization, ecosystem
   catalogue:
     type-files: "classpath:catalogues"
   dataset:
