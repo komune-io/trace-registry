@@ -8,6 +8,7 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.mapAsyncIndexed
 import io.komune.registry.f2.catalogue.client.catalogueCreate
 import io.komune.registry.f2.catalogue.client.catalogueUpdate
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTOBase
@@ -32,6 +33,7 @@ import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
 import io.komune.registry.script.imports.model.ImportSettings
 import io.komune.registry.script.imports.model.loadJsonCatalogue
+import io.komune.registry.script.imports.preparse.PreparseScript
 import io.komune.registry.script.init.RegistryScriptInitProperties
 import io.komune.registry.script.init.asAuthRealm
 import kotlinx.coroutines.runBlocking
@@ -60,6 +62,8 @@ class ImportScript(
     }
 
     suspend fun run() {
+        PreparseScript(properties).run()
+
         val rootDirectories = getRootDirs()
         rootDirectories.map { rootDirectory ->
             if (importFolder(rootDirectory)) return
@@ -203,7 +207,7 @@ class ImportScript(
                 it
             }
         }.also {
-            connectCataloguesParents(importContext)
+            connectCatalogues(importContext)
         }
     }
 
@@ -228,7 +232,7 @@ class ImportScript(
                 logger.info("Imported catalogue[id:${catalogue.id}, identifier: ${catalogue.identifier}] ${catalogue.title}.")
             }
         }
-        connectCataloguesParents(importContext)
+        connectCatalogues(importContext)
 
         catalogues.mapAsyncIndexed { i, (catalogueFile, catalogueGroup) ->
             logger.info("(${i + 1}/${catalogues.size}) Importing datasets of catalogues from ${catalogueFile.absolutePath}...")
@@ -269,6 +273,7 @@ class ImportScript(
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = catalogueData.accessRights ?: importContext.settings.defaults?.accessRights,
                 license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
+                homepage = catalogueData.homepage,
                 catalogues = catalogueData.children,
                 relatedCatalogueIds = catalogueData.related
             ) to imageFile
@@ -283,9 +288,13 @@ class ImportScript(
                 importContext.preExistingDatasets[it.identifier] = it
             }
 
-            catalogueData.parentIdentifier(importContext)?.forEach {
-                importContext.catalogueParents[catalogue.id] = it
-            }
+            catalogueData.parentIdentifier(importContext)
+                ?.nullIfEmpty()
+                ?.forEach { importContext.catalogueParents[catalogue.id] = it }
+                ?: importContext.settings.defaults?.parent?.get(catalogue.type)
+                    ?.let { importContext.catalogueParents[catalogue.id] = it.identifier }
+
+            catalogueData.related?.nullIfEmpty()?.let { importContext.catalogueCatalogueReferences[catalogueId] = it }
 
             catalogueData.languages.filterKeys { it !in catalogue.availableLanguages }.forEach { (_, translation) ->
                 (catalogue.toUpdateCommand().copy(
@@ -336,7 +345,7 @@ class ImportScript(
         datasetSettings.indicators?.get(language)?.let { path ->
             val indicatorsDirectory = directory.resolve(path).takeIf { it.exists() && it.isDirectory }
                 ?: return@let
-            indicatorInitializer.initialize(catalogue, language, indicatorsDirectory)
+            indicatorInitializer.initialize(catalogue, language, indicatorsDirectory, datasetSettings.indicatorFormat)
         }
     }
 
@@ -423,8 +432,13 @@ class ImportScript(
             )
         } ?: dataset
 
+    private suspend fun connectCatalogues(importContext: ImportContext) {
+        connectCataloguesParents(importContext)
+        connectCatalogueCataloguesReferences(importContext)
+    }
+
     private suspend fun connectCataloguesParents(importContext: ImportContext) {
-        logger.info("Linking catalogues...")
+        logger.info("Linking catalogues parents...")
         val size = importContext.catalogueParents.entries.size
         importContext.catalogueParents.entries.mapIndexed { index, (catalogueId, parentIdentifier) ->
             logger.info("($index/$size) Linking [${catalogueId} -> $parentIdentifier]")
@@ -448,6 +462,19 @@ class ImportScript(
             ).invokeWith(dataClient.catalogue.catalogueLinkCatalogues())
         }
         importContext.catalogueParents.clear()
+    }
+
+    private suspend fun connectCatalogueCataloguesReferences(importContext: ImportContext) {
+        logger.info("Linking catalogues references...")
+        val size = importContext.catalogueCatalogueReferences.size
+        importContext.catalogueCatalogueReferences.entries.mapIndexed { index, (catalogueId, references) ->
+            logger.info("($index/$size) Linking [${catalogueId} -> $references]")
+            CatalogueAddRelatedCataloguesCommandDTOBase(
+                id = catalogueId,
+                relatedCatalogueIds = references,
+            ).invokeWith(dataClient.catalogue.catalogueAddRelatedCatalogues())
+        }
+        importContext.catalogueCatalogueReferences.clear()
     }
 
     private suspend fun connectCataloguesDatasetsReferences(importContext: ImportContext) {

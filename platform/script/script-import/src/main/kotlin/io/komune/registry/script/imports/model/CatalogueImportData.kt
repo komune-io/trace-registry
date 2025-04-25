@@ -23,8 +23,9 @@ data class CatalogueImportData(
     val themes: List<ConceptIdentifier>?,
     val parents: List<CatalogueParent>?,
     val languages: Map<Language, CatalogueTranslationData>,
+    val homepage: String?,
     val children: List<CatalogueId>?,
-    val related: Map<String, List<CatalogueId>>?,
+    val related: Map<String, List<CatalogueIdentifier>>?,
     val datasets: List<CatalogueDatasetSettings>?,
 )
 

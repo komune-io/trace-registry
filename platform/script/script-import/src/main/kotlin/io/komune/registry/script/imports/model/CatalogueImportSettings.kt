@@ -7,8 +7,10 @@ import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
+import io.komune.registry.script.imports.indicators.IndicatorFormat
 
 data class CatalogueImportSettings(
+    val preparse: List<CataloguePreparseSettings>?,
     val jsonPathPattern: String,
     val useDefaultIfUnknownParent: Boolean = false,
     val datasets: List<CatalogueDatasetSettings>?,
@@ -24,6 +26,7 @@ data class CatalogueDatasetSettings(
     val resourcesDataset: String?,
     val resourcesPathPrefix: PathReplacement?,
     val datasets: List<CatalogueDatasetSettings>?,
+    val indicatorFormat: IndicatorFormat = IndicatorFormat.CLASSIC,
     val indicators: Map<Language, String>?,
 )
 

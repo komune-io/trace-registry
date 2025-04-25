@@ -26,6 +26,7 @@ class ImportContext(
     val licenses = ConcurrentHashMap<LicenseIdentifier, LicenseId>()
     val catalogues = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
     val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueIdentifier>()
+    val catalogueCatalogueReferences = ConcurrentHashMap<CatalogueIdentifier, Map<String, List<CatalogueIdentifier>>>()
     val catalogueDatasetReferences = ConcurrentHashMap<CatalogueIdentifier, List<DatasetId>>()
 
     val dataUnits = ConcurrentHashMap<DataUnitIdentifier, DataUnitDTOBase>()

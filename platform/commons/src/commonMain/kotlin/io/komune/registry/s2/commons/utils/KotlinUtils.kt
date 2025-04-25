@@ -5,3 +5,4 @@ fun <T: Any> T?.isNotNullAnd(block: (T) -> Boolean): Boolean {
 }
 
 fun <C: Collection<T>, T> C.nullIfEmpty(): C? = takeIf { it.isNotEmpty() }
+fun <M: Map<K, V>, K, V> M.nullIfEmpty(): M? = takeIf { it.isNotEmpty() }

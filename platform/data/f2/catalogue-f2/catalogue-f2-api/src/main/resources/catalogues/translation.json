@@ -3,5 +3,9 @@
   "hidden": true,
   "i18n": {
     "enable": false
-  }
+  },
+  "datasets": [{
+    "type": "resources",
+    "identifierSuffix": "-resources"
+  }]
 }

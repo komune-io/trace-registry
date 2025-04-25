@@ -1,0 +1,60 @@
+{
+  "type": "ecosystem",
+  "identifierSequence": {
+    "name": "seq_ecosystem",
+    "startValue": 10
+  },
+  "parentTypes": [
+    "ecosystems"
+  ],
+  "writerRoles": [
+    "rg_role_user_orchestrator"
+  ],
+  "structure": "item",
+  "i18n": {
+    "enable": true,
+    "translationType": "translation",
+    "datasets": [
+      {
+        "type": "lexical",
+        "identifierSuffix": "-lexical",
+        "title": {
+          "fr": "Informations"
+        },
+        "structure": {
+          "definitions": {
+            "order": "10",
+            "display": "read,write",
+            "withCatalogueMetadata": "true"
+          }
+        }
+      },
+      {
+        "type": "indicators",
+        "identifierSuffix": "-indicators",
+        "title": {
+          "fr": "Indicateurs"
+        },
+        "structure": {
+          "definitions": {
+            "order": "20",
+            "display": "read,write"
+          }
+        }
+      },
+      {
+        "type": "graphs",
+        "identifierSuffix": "-graphs",
+        "title": {
+          "fr": "Graphiques"
+        },
+        "structure": {
+          "definitions": {
+            "order": "30",
+            "display": "write"
+          }
+        }
+      }
+    ]
+  }
+}
