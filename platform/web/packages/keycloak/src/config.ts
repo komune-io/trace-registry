@@ -9,6 +9,7 @@ export interface Config {
     platform: PlatformConfig
     admin: AdminConfig
     theme?: ThemeConfig
+    languages?: Record<string, string>
 }
 
 export interface ThemeConfig {

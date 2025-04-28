@@ -11,6 +11,7 @@ export interface Config {
     theme?: ThemeConfig
     requiredAuthentication?: boolean
     title?: string
+    languages?: Record<string, string>
 }
 
 export interface ThemeConfig {
