@@ -11,6 +11,7 @@ export const DistributionLexicalEditor = (props: DistributionLexicalEditorProps)
     contentType, dataset?.id, distribution?.id
   )
   const isMarkdown = distribution?.mediaType === "text/markdown"
+  if (!distribution || !dataset) return <></>
   return (<RichtTextEditor
     {...other}
     readOnly={readOnly}
