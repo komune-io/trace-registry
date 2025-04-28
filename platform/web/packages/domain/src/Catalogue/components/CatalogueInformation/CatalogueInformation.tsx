@@ -19,8 +19,11 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         dataset
     } = props
 
-    const {editor} = useCatalogueDistributionLexicalEditor(catalogue, dataset)
+    const {editor, distribution} = useCatalogueDistributionLexicalEditor(catalogue, dataset)
 
+    const withCatalogueMetadata = dataset.structure?.definitions?.withCatalogueMetadata === "true"
+
+    if ((!dataset || !distribution) && !withCatalogueMetadata) return
     return (
         <>
             <CataloguePresentation
@@ -43,7 +46,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                 >
                     {editor}
                 </Stack>
-                {dataset.structure?.definitions?.withCatalogueMetadata === "true" && <CatalogueDetails
+                {withCatalogueMetadata && <CatalogueDetails
                     catalogue={catalogue}
                     isLoading={isLoading}
                 />}

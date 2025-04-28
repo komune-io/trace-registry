@@ -1,12 +1,12 @@
-import {Dataset} from "../model";
-import {useDatasetDataQuery} from "../api";
-import {DocumentsPage, FilePath} from "../../Documents";
-import {ActivitiesSection} from "../../Project/components/ActivitiesSection";
-import {Activity} from "../../Activity";
-import {Catalogue, CatalogueInformation} from "../../Catalogue";
-import {CatalogueGraphManager} from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
-import {CataloguePdfCertificate} from "../../Catalogue/components/CataloguePdfCertificate";
-import {DatasetIndicator} from "./DatasetIndicator";
+import { Dataset } from "../model";
+import { useDatasetDataQuery } from "../api";
+import { DocumentsPage, FilePath } from "../../Documents";
+import { ActivitiesSection } from "../../Project/components/ActivitiesSection";
+import { Activity } from "../../Activity";
+import { Catalogue, CatalogueInformation } from "../../Catalogue";
+import { CatalogueGraphManager } from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
+import { CataloguePdfCertificate } from "../../Catalogue/components/CataloguePdfCertificate";
+import { DatasetIndicator } from "./DatasetIndicator";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue
@@ -26,17 +26,14 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
             <ActivitiesSection isLoading={isLoading || fileListQuery.isLoading} items={fileListQuery.data?.items ?? [] as Activity[]} />
         )
     } else if (item.type === "table") {
-        return (
-            // TODO HERE DO Composable table
-            <div>Coming Soon</div>
-        )
+        return
     } else if (item.type === "lexical") {
-        return (
-            <CatalogueInformation
-                dataset={item}
-                catalogue={catalogue}
-            />
-        )
+        const component = CatalogueInformation({dataset: item, catalogue})
+        if (!component) return undefined
+        return <CatalogueInformation
+            dataset={item}
+            catalogue={catalogue}
+        />
     } else if (item.type === "indicators") {
         return (
             <DatasetIndicator
@@ -53,9 +50,7 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
             <CataloguePdfCertificate catalogue={catalogue} />
         )
     } else {
-        return (
-            <div>Coming Soon</div>
-        )
+        return
     }
 
 }
