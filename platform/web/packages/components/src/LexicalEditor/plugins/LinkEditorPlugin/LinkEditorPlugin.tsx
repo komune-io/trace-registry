@@ -394,6 +394,7 @@ export const LinkEditorPlugin = ({
   anchorElem?: HTMLElement;
 }): JSX.Element | null => {
   const [editor] = useLexicalComposerContext();
+  if (!editor.isEditable()) return null
   return useFloatingLinkEditorToolbar(
     editor,
     anchorElem,
