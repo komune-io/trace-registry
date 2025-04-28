@@ -6,8 +6,11 @@ import { Catalogue, ConceptTranslated } from '../../model'
 import { Co2Counter, TitleDivider } from 'components'
 import { useCatalogueCo2Counter } from '../../api'
 
+const colors = ["#A23E30", "#AC8B23", "#1F693D"]
+
 type simplifiedReadonlyFields = Record<string, {
-    value: any,
+    value?: any,
+    values?: any[],
     label?: string,
     params?: any
 }>
@@ -32,21 +35,27 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             }
             themesByScheme[scheme].push(theme)
         })
-        return Object.entries(themesByScheme).map(([scheme, themes]) => (<DetailsForm
-            key={scheme}
-            title={t(scheme)}
-            values={{
-                [scheme]: {
-                    value: themes.map((theme): Option => ({
-                        key: theme.id,
-                        label: theme.prefLabel,
-                    })),
-                    params: {
-                        readOnlyType: "chip"
+        return Object.entries(themesByScheme).map(([scheme, themes], index) => {
+            const options = themes.map((theme): Option => ({
+                key: theme.id,
+                label: theme.prefLabel,
+                color: colors[index] ?? colors[0],
+            }))
+            return (<DetailsForm
+                key={scheme}
+                title={t(scheme)}
+                values={{
+                    [scheme]: {
+                        values: options.map((option) => option.key),
+                        params: {
+                            multiple: true,
+                            options,
+                            readOnlyType: "chip"
+                        }
                     }
-                }
-            }}
-        />))
+                }}
+            />)
+        })
     }, [catalogue])
 
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
@@ -146,7 +155,7 @@ const DetailsForm = (props: DetailsFormProps) => {
     const initialValues = useMemo(() => {
         const res: Record<string, string> = {}
         Object.keys(values).forEach((key) => {
-            res[key] = values[key].value
+            res[key] = values[key].value ?? values[key].values
         })
         return res
     }, [])
@@ -160,13 +169,13 @@ const DetailsForm = (props: DetailsFormProps) => {
     })
 
     const fields = useMemo(() => Object.entries(values).map((value): FormComposableField => {
-        const [key, { label, ["value"]: fieldValue , params }] = value
+        const [key, { label, values, params }] = value
         return {
             name: key,
-            type: Array.isArray(fieldValue) ? 'select' : "textField",
+            type: !!values ? 'select' : "textField",
             label,
             params: {
-                orientation: "horizontal",
+                orientation: label ? "horizontal" : "vertical",
                 ...params
             }
         }
