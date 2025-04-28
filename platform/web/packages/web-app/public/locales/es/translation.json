@@ -313,7 +313,8 @@
       "100m-sectors": "Sectores",
       "100m-systems": "Sistemas",
       "100m-home-sectors": "Inicio sectores",
-      "100m-home-systems": "Inicio sistemas"
+      "100m-home-systems": "Inicio sistemas",
+      "organization": "Organización"
     },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",

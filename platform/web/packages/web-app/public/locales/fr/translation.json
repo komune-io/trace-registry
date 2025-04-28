@@ -322,7 +322,8 @@
             "100m-sectors": "Secteurs",
             "100m-systems": "Systèmes",
             "100m-home-sectors": "Accueil secteurs",
-            "100m-home-systems": "Accueil systèmes"
+            "100m-home-systems": "Accueil systèmes",
+            "organization": "Organisation"
         },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",

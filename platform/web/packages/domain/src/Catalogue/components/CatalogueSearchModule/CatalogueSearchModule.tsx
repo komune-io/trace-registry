@@ -19,6 +19,7 @@ export const CatalogueSearchModule = <T extends {}>(props: CatalogueSearchModule
     return (
         <Stack
             direction="row"
+            width={"100%"}
             gap={3}
         >
             <CatalogueSearchFilters

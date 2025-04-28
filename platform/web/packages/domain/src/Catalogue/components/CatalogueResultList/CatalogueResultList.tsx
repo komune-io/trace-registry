@@ -109,6 +109,7 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
                 <Stack
                     direction="row"
                     alignItems="center"
+                    flexWrap={"wrap"}
                     gap={1}
                 >
                     {parent && <Chip color="#1F1F1F" label={parent.title} />}
