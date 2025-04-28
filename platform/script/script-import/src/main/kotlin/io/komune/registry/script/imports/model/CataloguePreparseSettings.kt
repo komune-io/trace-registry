@@ -66,7 +66,7 @@ data class CataloguePreparseDatasetMediaMapping(
     val mediaType: String,
     val output: String,
     val source: DatasetMediaSource,
-    val fileInput: String?,
+    val fileInput: CataloguePreparseFieldMapping?,
     val fields: List<CataloguePreparseDatasetMediaFieldMapping>?
 )
 

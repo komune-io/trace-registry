@@ -236,12 +236,12 @@ class PreparseScript(
                 CatalogueDatasetMediaSettings(
                     mediaType = media.mediaType,
                     translations = languages.associateWith { language ->
-                        requireNotNull(media.fileInput) {
-                            "File input is required for media with source [${media.source}] (${context.iCatalogue})"
-                        }
-
                         withLanguage(language) {
-                            val filePath = media.fileInput.injectContextVariables()
+                            val filePath = parseField(media.fileInput)
+                                ?: return@withLanguage null.also {
+                                    logger.warn("No file path found for media [${media.fileInput}] (${context.iCatalogue})")
+                                }
+
                             val outputPath = media.output.injectContextVariables()
                             downloadFile(filePath, outputPath)?.path
                         }

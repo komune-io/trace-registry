@@ -255,6 +255,7 @@ class ImportScript(
         val existing = importRepository.getCatalogue(catalogueData)
         if (existing != null) {
             logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
+            importContext.catalogues[catalogueData.identifier] = existing.id
             return listOf(existing)
         }
 
@@ -513,7 +514,11 @@ class ImportScript(
     }
 
     private fun getImage(image: String, importContext: ImportContext): ByteArray? {
-        val file = File(importContext.rootDirectory, image)
+        val file = if (image.startsWith('/')) {
+            File(image)
+        } else {
+            File(importContext.rootDirectory, image)
+        }
         return file.takeIf { it.exists() && it.isFile }?.readBytes()
     }
 
