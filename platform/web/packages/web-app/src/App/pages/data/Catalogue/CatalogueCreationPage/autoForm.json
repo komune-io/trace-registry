@@ -61,11 +61,6 @@
           "required": true
         },
         {
-          "name": "themes",
-          "type": "select-themes",
-          "label": "Catégorie"
-        },
-        {
           "name": "location.country",
           "type": "textField",
           "label": "Pays",

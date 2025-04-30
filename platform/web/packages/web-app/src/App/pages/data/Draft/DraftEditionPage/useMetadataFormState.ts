@@ -12,22 +12,26 @@ interface UseMetadataFormStateParams {
 
 export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
   const { catalogue, isLoading, readOnly, onSubmit, formData } = params
-  const formInitialValues = useMemo(() => catalogue ? ({
-    ...catalogue,
-    themes: catalogue.themes[0] ? [catalogue.themes[0]?.id] : undefined,
-    license: catalogue.license?.id,
-    ownerOrganizationId: catalogue.ownerOrganization?.id,
-    parentId: catalogue.parent?.id,
-    context: "edition"
-  }) : undefined, [catalogue])
+  const formInitialValues = useMemo(() => {
+    return catalogue ? ({
+      ...catalogue,
+      themes: catalogue.themes[0] ? [catalogue.themes[0]?.id] : undefined,
+      license: catalogue.license?.id,
+      ownerOrganizationId: catalogue.ownerOrganization?.id,
+      parentId: catalogue.parent?.id,
+      context: "edition"
+    }) : undefined
+  }, [catalogue])
+
+  const downloadDocument = useMemo(() => {
+    return async (_, fieldValue: any) => g2Config().platform.url + fieldValue
+  }, [])
 
   return useAutoFormState({
     formData,
     onSubmit,
-    downloadDocument: async (_, fieldValue: any) => g2Config().platform.url + fieldValue,
-    formikConfig: {
-      initialValues: formInitialValues,
-    },
+    downloadDocument,
+    initialValues: formInitialValues,
     isLoading,
     readOnly,
     submitOnChange: true,

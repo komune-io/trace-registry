@@ -65,13 +65,15 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         const type = field.type as FileType
 
         if (type === "autoComplete-parents") {
-            setContextualFilters((prev) => ({
-                ...prev,
-                "autoComplete-parents": {
-                    //@ts-ignore
-                    ...field.params?.filters,
-                }
-            }))
+            if (!contextualFilters["autoComplete-parents"]) {
+                setContextualFilters((prev) => ({
+                    ...prev,
+                    "autoComplete-parents": {
+                        //@ts-ignore
+                        ...field.params?.filters,
+                    }
+                }))
+            }
 
             return {
                 ...field,
@@ -92,6 +94,15 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }
         }
         if (type === "select-themes") {
+            if (!contextualFilters["select-themes"]) {
+                setContextualFilters((prev) => ({
+                    ...prev,
+                    "select-themes": {
+                        //@ts-ignore
+                        ...field.params?.filters,
+                    }
+                }))
+            }
             return {
                 ...field,
                 type: "select",
@@ -130,7 +141,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }
         }
         return field
-    }), [formData, filteredParents, catalogueThemesQuery.data?.items, catalogueAutoComplete.queryResult.data?.items, licenseListQuery.data?.items, catalogueAutoComplete.getComposableField])
+    }), [formData, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, catalogueAutoComplete.getComposableField])
 
     const onSubmitMemo = useCallback(
         async (command: CommandWithFile<any>, values: any) => {

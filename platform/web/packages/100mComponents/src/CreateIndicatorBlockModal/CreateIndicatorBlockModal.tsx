@@ -113,7 +113,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             type: ["100m-solution"],
         })
     )
-    ], [t, draft, catalogueAutoComplete.getComposableField, ref])
+    ], [t, draft, ref])
 
     const initialValues = useMemo(() => {
         if (editDataset) {
