@@ -1,11 +1,14 @@
-import { CatalogueMetadataForm } from '100m-components'
+import { autoFormFormatter, BackAutoFormData, CommandWithFile } from '@komune-io/g2'
 import { useQueryClient } from '@tanstack/react-query'
 import { TitleDivider, useRoutesDefinition } from 'components'
-import { CatalogueCreateCommand, CatalogueTypes, useCatalogueCreateCommand } from 'domain-components'
+import { CatalogueTypes, useCatalogueCreateCommand, CatalogueMetadataForm } from 'domain-components'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage } from 'template'
+import autoForm from "./autoForm.json"
+
+const formData = autoFormFormatter(autoForm as BackAutoFormData)
 
 interface CatalogueCreationPageProps {
     type: CatalogueTypes
@@ -13,7 +16,7 @@ interface CatalogueCreationPageProps {
 
 export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
     const { type } = props
-    const { t, i18n } = useTranslation()
+    const { i18n } = useTranslation()
     
     const navigate = useNavigate()
     const {cataloguesCatalogueIdDraftIdEditTab} = useRoutesDefinition()
@@ -22,22 +25,18 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
 
     const createCommand = useCatalogueCreateCommand({})
 
-    const title = type === "100m-solution" ? t("newSolution") : type === "100m-system" ? t("newSystem") :  type === "100m-project" ? t("newProject") : t("newSector")
+    const title = formData.sections[0].label ?? ""
 
     const onCreate = useCallback(
-      async (values: CatalogueCreateCommand & {illustration?: File}) => {
-        const command = {...values}
-        delete command.illustration
+      async (command: CommandWithFile<any>) => {
         const res = await createCommand.mutateAsync({
+          ...command,
           command: {
-            ...command,
+            ...command.command,
             withDraft: true,
             language: i18n.language,
             type
-          },
-          files: values.illustration ? [{
-            file: values.illustration
-          }] : []
+          }
         })
 
         if (res) {
@@ -56,7 +55,7 @@ export const CatalogueCreationPage = (props: CatalogueCreationPageProps) => {
             maxWidth={1020}
         >
             <TitleDivider title={title} />
-            <CatalogueMetadataForm withTitle type={type} onSubmit={onCreate} />
+            <CatalogueMetadataForm formData={formData} onSubmit={onCreate} />
         </AppPage>
     )
 }

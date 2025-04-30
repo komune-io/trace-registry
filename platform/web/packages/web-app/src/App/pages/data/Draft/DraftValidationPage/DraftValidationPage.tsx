@@ -5,10 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDraftMutations } from '100m-components';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 import { useDraftValidations } from '../DraftEditionPage/useDraftValidations';
+import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
+import autoForm from "../DraftEditionPage/autoForm.json"
+import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2';
+
+const formData = autoFormFormatter(autoForm as BackAutoFormData)
 
 export const DraftValidationPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -41,6 +45,7 @@ export const DraftValidationPage = () => {
   })
 
   const metadataFormState = useMetadataFormState({
+    formData,
     onSubmit: onSaveMetadata,
     catalogue,
     isLoading: catalogueDraftQuery.isInitialLoading
@@ -56,6 +61,7 @@ export const DraftValidationPage = () => {
   const title = catalogue?.title ?? t("sheetValidation")
 
   const tabs: Tab[] = useDraftTabs({
+    formData,
     metadataFormState,
     catalogue,
     draft,

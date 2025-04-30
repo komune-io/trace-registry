@@ -1,0 +1,126 @@
+{
+  "sections": [
+    {
+      "id": "create project",
+      "label": "Création d'un projet",
+      "fields": [
+        {
+          "name": "title",
+          "type": "textField",
+          "label": "Titre",
+          "required": true,
+          "conditions": [
+            {
+              "type": "display",
+              "expression": "#context == 'creation'"
+            }
+          ]
+        },
+        {
+          "name": "parentId",
+          "type": "autoComplete-parents",
+          "label": "Fiche parente",
+          "properties": {
+            "filters": {
+              "type": "100m-project"
+            }
+          },
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "textField",
+          "label": "Description",
+          "required": true,
+          "properties": {
+            "multiline": true,
+            "rows": 7
+          }
+        },
+        {
+          "name": "img",
+          "type": "documentHandler",
+          "label": "Illustration (optionnel)",
+          "properties": {
+            "fileTypesAllowed": [
+              "png",
+              "jpeg",
+              "svg"
+            ]
+          }
+        },
+        {
+          "name": "themes",
+          "type": "select-themes",
+          "label": "Catégorie",
+          "properties": {
+            "filters": {
+              "type": "100m-project"
+            }
+          },
+          "required": true
+        },
+        {
+          "name": "themes",
+          "type": "select-themes",
+          "label": "Catégorie"
+        },
+        {
+          "name": "location.country",
+          "type": "textField",
+          "label": "Pays",
+          "required": true
+        },
+        {
+          "name": "location.region",
+          "type": "textField",
+          "label": "Region (optionnel)"
+        },
+        {
+          "name": "stakeholder",
+          "type": "textField",
+          "label": "Porteur du projet",
+          "required": true
+        },
+        {
+          "name": "relatedCatalogues.planetaryLimits",
+          "type": "autoComplete-catalogues",
+          "label": "Limites planétaires",
+          "required": true,
+          "properties": {
+            "multiple": true,
+            "filters": {
+              "type": [
+                "100m-planetary-boundary"
+              ]
+            }
+          }
+        },
+        {
+          "name": "accessRights",
+          "type": "select",
+          "label": "Accès",
+          "properties": {
+            "options": [
+              {
+                "key": "PUBLIC",
+                "label": "Public"
+              },
+              {
+                "key": "PRIVATE",
+                "label": "Privé"
+              }
+            ]
+          },
+          "required": true
+        },
+        {
+          "name": "license",
+          "type": "select-license",
+          "label": "Licence",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

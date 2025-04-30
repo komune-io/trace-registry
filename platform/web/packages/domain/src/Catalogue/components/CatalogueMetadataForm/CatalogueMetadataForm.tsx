@@ -1,54 +1,52 @@
-import { FormComposable, FormComposableField, FormComposableState, useFormComposable, validators } from '@komune-io/g2'
+import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, FormComposableState, useAutoFormState } from '@komune-io/g2'
 import { Paper } from '@mui/material'
-import {maybeAddItem, SearchIcon, useExtendedAuth, CustomButton, maybeAddItems} from 'components'
-import { useCallback, useMemo } from 'react'
+import { SearchIcon, CustomButton } from 'components'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
 import { keepPreviousData } from '@tanstack/react-query'
-import { CatalogueDraft, CatalogueTypes } from '../../model'
-import { CatalogueCreateCommand } from '../../api'
-import {useAutoCompleteCatalogue} from "../IndicatorBlock/useAutoCompleteCatalogue";
-import {convertRelatedCataloguesToIds} from "../../model/RelatedCatalogue";
-
-type MetadataField = FormComposableField<keyof CatalogueCreateCommand | "relatedCatalogues.planetaryLimits" | "illustration" | "location.country" | "location.region">
+import { CatalogueDraft } from '../../model'
+import { useAutoCompleteCatalogue } from "../IndicatorBlock/useAutoCompleteCatalogue";
+import { convertRelatedCataloguesToIds } from "../../model/RelatedCatalogue";
 
 interface CatalogueMetadataFormProps {
     draft?: CatalogueDraft
-    type?: CatalogueTypes
-    onSubmit?: (values: CatalogueCreateCommand & { illustration: File }) => void
+    formData?: AutoFormData
+    onSubmit?: (command: CommandWithFile<any>, values: any) => void
     formState?: FormComposableState
-    withTitle?: boolean
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { type, onSubmit, formState, withTitle = false, draft } = props
+    const { onSubmit, formData, formState, draft } = props
 
     const { t, i18n } = useTranslation()
-    const {policies} = useExtendedAuth()
+
+    const [contextualFilters, setContextualFilters] = useState<Record<string, any>>({})
+
     const parentListQuery = useCatalogueListAvailableParentsQuery({
         query: {
             language: draft?.language ?? i18n.language,
-            type: type!
+            ...contextualFilters["autoComplete-parents"]
         },
         options: {
-            enabled: !!type,
-            placeholderData: keepPreviousData
+            placeholderData: keepPreviousData,
+            enabled: !!contextualFilters["autoComplete-parents"]
         }
     })
 
     const filteredParents = useMemo(
-      () =>
-        parentListQuery.data?.items.filter((parent) => !!parent.title)
-      , [parentListQuery.data?.items]
+        () =>
+            parentListQuery.data?.items.filter((parent) => !!parent.title)
+        , [parentListQuery.data?.items]
     )
 
     const catalogueThemesQuery = useCatalogueListAvailableThemesQuery({
         query: {
             language: draft?.language ?? i18n.language,
-            type: type!
+            ...contextualFilters["select-themes"]
         },
         options: {
-            enabled: type === "100m-solution" || type === "100m-project"
+            enabled: !!contextualFilters["select-themes"]
         }
     })
 
@@ -58,142 +56,108 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     })
 
     const catalogueAutoComplete = useAutoCompleteCatalogue({
-        draft: draft,
-        relations: [{
-            key: "relatedCatalogues.planetaryLimits",
-            title: t("catalogues.planetaryLimits") + " " + t("optional"),
-            type: "100m-planetary-boundary",
-            multiple: true,
-        }],
         fetchOnInitFocus: true
     })
 
+    const fields = useMemo(() => formData?.sections[0].fields.map((field): FormComposableField => {
+        type FileType = typeof field.type | "autoComplete-parents" | "select-themes" | "autoComplete-catalogues" | "select-license"
 
-    const projectFields = useMemo((): MetadataField[] => [
-        {
-            name: "location.country",
-            type: "textField",
-            label: t("country"),
-            validator: validators.requiredField(t)
-        }, {
-            name: "location.region",
-            type: "textField",
-            label: t("region") + " " + t("optional"),
-        }, {
-            name: "stakeholder",
-            type: "textField",
-            label: t("catalogues.projectOwner"),
-            required: true
-        },
-        ...(catalogueAutoComplete.formComposableField as MetadataField[]),
-    ], [t, catalogueAutoComplete.formComposableField])
+        const type = field.type as FileType
 
-    const fields = useMemo((): MetadataField[] => [...(withTitle ? [{
-        name: "title",
-        type: "textField",
-        label: t("title"),
-        required: true
-    }] as MetadataField[] : []), {
-        name: "parentId",
-        type: "autoComplete",
-        label: t("parentSheet"),
-        params: {
-            popupIcon: <SearchIcon style={{ transform: "none" }} />,
-            className: "autoCompleteField",
-            options: filteredParents?.map((cat) => {
-                const identifier = extractCatalogueIdentifierNumber(cat.id)
-                return {
-                    key: cat.id,
-                    label: `${identifier ? identifier + " -" : ""} ${cat.title}`
+        if (type === "autoComplete-parents") {
+            setContextualFilters((prev) => ({
+                ...prev,
+                "autoComplete-parents": {
+                    //@ts-ignore
+                    ...field.params?.filters,
                 }
-            }),
-            noOptionsText: t("catalogues.noData"),
-            optionsResultLimit: 50
-        },
-        required: true
-    }, {
-        name: "description",
-        type: "textField",
-        label: t("description"),
-        params: {
-            multiline: true,
-            rows: 7
-        },
-        required: true
-    }, {
-        name: "illustration",
-        type: "documentHandler",
-        label: t("illustration"),
-        params: {
-            fileTypesAllowed: ["png", "jpeg", "svg"],
-            outterLabel: t("illustration") + " " + t("optional")
+            }))
+
+            return {
+                ...field,
+                type: "autoComplete",
+                params: {
+                    popupIcon: <SearchIcon style={{ transform: "none" }} />,
+                    className: "autoCompleteField",
+                    options: filteredParents?.map((cat) => {
+                        const identifier = extractCatalogueIdentifierNumber(cat.id)
+                        return {
+                            key: cat.id,
+                            label: `${identifier ? identifier + " -" : ""} ${cat.title}`
+                        }
+                    }),
+                    noOptionsText: t("catalogues.noData"),
+                    optionsResultLimit: 50
+                }
+            }
         }
-    },
-    ...maybeAddItem<MetadataField>(type === "100m-solution", {
-        name: "themes",
-        type: "select",
-        label: t("category"),
-        params: {
-            options: catalogueThemesQuery.data?.items.map((theme) => ({
-                key: theme.id,
-                label: theme.prefLabel,
-            }))
-        },
-        required: true
-    }),
-    ...maybeAddItems<MetadataField>(type === "100m-project", projectFields),
-    ...maybeAddItem<MetadataField>(draft ? policies.catalogue.canUpdateAccessRights(draft.catalogue) : true, {
-        name: "accessRights",
-        type: "select",
-        label: t("access"),
-        params: {
-            options: [{
-                key: "PUBLIC",
-                label: t("public")
-            }, {
-                key: "PRIVATE",
-                label: t("private")
-            }]
-        },
-        required: true
-    }), {
-        name: "license",
-        type: "select",
-        label: t("licence"),
-        params: {
-            options: licenseListQuery.data?.items.map((license) => ({
-                key: license.id,
-                label: license.name
-            }))
-        },
-        required: true
-    },
-    ...maybeAddItem<MetadataField>(type === "100m-project", {
-        name: "integrateCounter",
-        type: "checkBox",
-        label: t("catalogues.integrateInCounter")
-    } )
-], [t, type, withTitle, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, projectFields, policies, draft])
+        if (type === "select-themes") {
+            return {
+                ...field,
+                type: "select",
+                params: {
+                    options: catalogueThemesQuery.data?.items.map((theme) => ({
+                        key: theme.id,
+                        label: theme.prefLabel,
+                    })),
+                    singleInArray: true
+                }
+            }
+        }
+        if (type === "autoComplete-catalogues") {
+            return {
+                ...field,
+                ...catalogueAutoComplete.getComposableField({
+                    name: field.name,
+                    label: field.label,
+                    //@ts-ignore
+                    params: field.params,
+                },
+                    //@ts-ignore
+                    field.params?.filters)
+            } as FormComposableField
+        }
+        if (type === "select-license") {
+            return {
+                ...field,
+                type: "select",
+                params: {
+                    options: licenseListQuery.data?.items.map((license) => ({
+                        key: license.id,
+                        label: license.name
+                    }))
+                }
+            }
+        }
+        return field
+    }), [formData, filteredParents, catalogueThemesQuery.data?.items, catalogueAutoComplete.queryResult.data?.items, licenseListQuery.data?.items, catalogueAutoComplete.getComposableField])
 
     const onSubmitMemo = useCallback(
-        async (values: any) => {
-            const {relatedCatalogues, ...others} = values
-            const relatedCataloguesToIds = convertRelatedCataloguesToIds(relatedCatalogues)
-            const toSave = {
-                ...others,
-                themes: values.themes && !Array.isArray(values.themes) ? [values.themes] : undefined,
-                relatedCatalogueIds: relatedCataloguesToIds,
-            }
+        async (command: CommandWithFile<any>, values: any) => {
+            const { relatedCatalogues } = values
+
             if (onSubmit) {
-                onSubmit(toSave)
+                const relatedCataloguesToIds = convertRelatedCataloguesToIds(relatedCatalogues)
+                onSubmit({
+                    ...command,
+                    command: {
+                        ...command.command,
+                        relatedCatalogueIds: relatedCataloguesToIds,
+                    }
+                }, values)
             }
         },
         [onSubmit],
     )
 
-
-    const localFormState = useFormComposable({
-        onSubmit: onSubmitMemo
+    const localFormState = useAutoFormState({
+        formData,
+        onSubmit: onSubmitMemo,
+        formikConfig: {
+            initialValues: {
+                context: "creation"
+            }
+        }
     })
 
     return (
@@ -206,7 +170,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }}
         >
             <FormComposable
-                fields={fields}
+                fields={fields ?? []}
                 formState={formState ?? localFormState}
                 fieldsStackProps={{
                     sx: {
