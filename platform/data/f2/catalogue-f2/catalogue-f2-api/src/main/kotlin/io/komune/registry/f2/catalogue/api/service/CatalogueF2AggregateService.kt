@@ -66,7 +66,6 @@ import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 import s2.spring.utils.logger.Logger
@@ -164,7 +163,6 @@ class CatalogueF2AggregateService(
         val event = command.copy(
             identifier = identifier,
             type = translationType,
-            structure = command.structure ?: originalCatalogue.structure,
             homepage = command.homepage ?: originalCatalogue.homepage,
             themes = command.themes ?: originalCatalogue.themeIds.toList(),
             accessRights = command.accessRights ?: originalCatalogue.accessRights,
@@ -402,7 +400,6 @@ class CatalogueF2AggregateService(
             description = catalogueCreatedEvent.description,
             themeIds = catalogueCreatedEvent.themeIds.toSet(),
             homepage = catalogueCreatedEvent.homepage,
-            structure = catalogueCreatedEvent.structure,
             isTranslationOf = catalogueCreatedEvent.isTranslationOf,
             catalogueIds = catalogueCreatedEvent.childrenCatalogueIds.toSet(),
             datasetIds = catalogueCreatedEvent.childrenDatasetIds.toSet(),
@@ -436,7 +433,7 @@ class CatalogueF2AggregateService(
             withTranslatable = !i18nEnabled,
             isTranslationOf = isTranslationOf,
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false
-        ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
+        )
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
         return catalogueFinderService.get(catalogueCreatedEvent.id)
     }

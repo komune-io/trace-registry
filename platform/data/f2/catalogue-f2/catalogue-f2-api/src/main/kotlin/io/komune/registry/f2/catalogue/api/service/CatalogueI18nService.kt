@@ -7,6 +7,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
+import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.CatalogueCacheContext
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CatalogueI18nService(
+    private val catalogueConfig: CatalogueConfig,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
@@ -47,7 +49,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = translated.structure,
+                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
             )
         }
     }
@@ -126,7 +128,7 @@ class CatalogueI18nService(
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,
             availableLanguages = translated.translationIds.keys.sorted(),
-            structure = translated.structure,
+            structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
             homepage = translated.homepage,
             img = translated.img,
             creator = translated.creatorId?.let { cache.users.get(it) },
@@ -164,7 +166,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = translated.structure,
+                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
                 catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     getCatalogueTree(catalogueIds, cache, language, otherLanguageIfAbsent)
                 },

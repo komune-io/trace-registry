@@ -10,8 +10,6 @@ import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -46,7 +44,6 @@ interface CatalogueUpdateCommandDTO {
      */
     val description: String?
     val language: String
-    val structure: StructureDTO?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
@@ -76,7 +73,6 @@ data class CatalogueUpdateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val language: String,
-    override val structure: Structure? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val stakeholder: String? = null,

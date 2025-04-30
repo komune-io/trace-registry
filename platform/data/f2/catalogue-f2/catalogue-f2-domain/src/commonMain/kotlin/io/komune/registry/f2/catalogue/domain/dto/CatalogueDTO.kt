@@ -1,5 +1,7 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO
@@ -17,8 +19,6 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.LocationDTO
-import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -99,7 +99,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      * Represents the structure of a given catalogue within the catalog metadata.
      * This structure outlines the schema and configuration details necessary for the catalog entry.
      */
-    val structure: StructureDTO?
+    val structure: CatalogueStructureDTO?
 
     /**
      * A list of themes categorized as SKOS concepts.
@@ -209,7 +209,7 @@ data class CatalogueDTOBase(
     override val type: String,
     override val language: String,
     override val availableLanguages: List<Language>,
-    override val structure: Structure? = null,
+    override val structure: CatalogueStructure? = null,
     override val themes: List<ConceptTranslatedDTOBase>,
     override val catalogues: List<CatalogueRefDTOBase>,
     override val relatedCatalogues: Map<String, List<CatalogueRefDTOBase>>? = null,

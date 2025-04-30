@@ -26,7 +26,6 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptId
-import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.imports.indicators.IndicatorInitializer
 import io.komune.registry.script.imports.model.CatalogueDatasetMediaSettings
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
@@ -270,7 +269,7 @@ class ImportScript(
                 description = translation.description,
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
-                structure = catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure),
+//                structure = catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure),
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = catalogueData.accessRights ?: importContext.settings.defaults?.accessRights,
                 license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },

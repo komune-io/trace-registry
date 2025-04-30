@@ -12,7 +12,6 @@ import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -51,7 +50,6 @@ interface CatalogueCreateCommandDTO {
 
     val type: String
     val language: Language?
-    val structure: Structure?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
@@ -85,7 +83,6 @@ data class CatalogueCreateCommandDTOBase(
     override val description: String? = null,
     override val type: String,
     override val language: Language?,
-    override val structure: Structure? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val stakeholder: String? = null,

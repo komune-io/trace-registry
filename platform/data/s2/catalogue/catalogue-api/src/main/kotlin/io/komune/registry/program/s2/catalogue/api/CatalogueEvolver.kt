@@ -154,7 +154,6 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		homepage = event.homepage
 		ownerOrganizationId = event.ownerOrganizationId
 		stakeholder = event.stakeholder
-		structure = event.structure
 		accessRights = event.accessRights
 		licenseId = event.licenseId
 		location = event.location
