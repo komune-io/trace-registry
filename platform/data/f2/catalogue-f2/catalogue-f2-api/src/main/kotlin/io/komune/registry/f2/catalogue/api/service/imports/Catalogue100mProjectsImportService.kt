@@ -15,6 +15,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator
@@ -82,7 +83,8 @@ class Catalogue100mProjectsImportService(
             parentId = csvRecord.getColumn(Cat100mProjectsCsvColumn.SECTOR.value)
                 ?.let { context.getCatalogueIdByIdentifier(SECTOR_TYPE, it) },
             title = csvRecord.getColumn(Cat100mProjectsCsvColumn.TITLE.value).orEmpty(),
-            description = csvRecord.getColumn(Cat100mProjectsCsvColumn.DESCRIPTION.value),
+            description = csvRecord.getColumn(Cat100mProjectsCsvColumn.DESCRIPTION.value)
+                ?: "Projet importé le ${SimpleDateFormat("dd/MM/yyyy").format(Date(System.currentTimeMillis()))}",
             type = CATALOGUE_TYPE,
             language = LANGUAGE,
             stakeholder = csvRecord.getColumn(Cat100mProjectsCsvColumn.STAKEHOLDER.value),
@@ -185,6 +187,9 @@ class Catalogue100mProjectsImportService(
             id = draft.id,
             versionNotes = "Import - ${SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date(now))}",
         ).let { catalogueDraftAggregateService.submit(it) }
+        CatalogueDraftValidateCommand(
+            id = draft.id
+        ).let { catalogueDraftAggregateService.validate(it) }
 
         if (catalogueImportData.indicators.isEmpty()) {
             return draft.originalCatalogueId
