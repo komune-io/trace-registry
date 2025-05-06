@@ -1,10 +1,11 @@
 import { MenuItem, Select, SelectChangeEvent, SxProps, Theme } from '@mui/material'
 import {KeyboardArrowDownRounded} from "@mui/icons-material"
 import { ReactElement, useCallback, useEffect } from 'react'
-import { useExtendedI18n, Languages, languages as defaultLanguages } from '../..'
+import { languages as defaultLanguages } from '../..'
 import { EnglandFlagIcon, FranceFlagIcon, SpainFlagIcon } from '../Icons/flags'
+import { useI18n } from '@komune-io/g2'
 
-export const languageToEmojiFlag: Record<keyof Languages, ReactElement> = {
+export const languageToEmojiFlag: Record<string, ReactElement> = {
     fr: <FranceFlagIcon />,
     en: <EnglandFlagIcon />,
     es: <SpainFlagIcon />
@@ -19,7 +20,7 @@ export interface LanguageSelectorProps {
 }
 
 export const LanguageSelector = (props: LanguageSelectorProps) => {
-    const { i18n } = useExtendedI18n()
+    const { i18n } = useI18n<any>()
     const {languages, currentLanguage, onChange, sx, disabled = false} = props
 
     const onLanguageChange = useCallback(
@@ -27,7 +28,7 @@ export const LanguageSelector = (props: LanguageSelectorProps) => {
             if (onChange) {
                 onChange(event.target.value as string)
             } else {
-                i18n.changeLanguage(event.target.value as keyof Languages)
+                i18n.changeLanguage(event.target.value)
             }
         },
         [i18n.changeLanguage, onChange],
@@ -37,7 +38,7 @@ export const LanguageSelector = (props: LanguageSelectorProps) => {
         //if current language is not a short tag like fr-FR we change it to the short tag like fr
         if (i18n.language.includes("-") && !onChange) {
             const splited = i18n.language.split("-")
-            i18n.changeLanguage(splited[0] as keyof Languages)
+            i18n.changeLanguage(splited[0])
         }
     }, [i18n.language])
     
@@ -71,7 +72,7 @@ export const LanguageSelector = (props: LanguageSelectorProps) => {
                         justifyContent: "center"
                     }}
                     >
-                       {languageToEmojiFlag[lng as keyof Languages] ?? lng}
+                       {languageToEmojiFlag[lng] ?? lng}
                     </MenuItem>
                 ))
             }

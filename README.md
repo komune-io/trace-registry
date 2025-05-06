@@ -1,5 +1,5 @@
 # Registry
-Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environnemental assets registries of the market.
+Registry is a structure designed to be interoperable with the main environnemental assets registries of the market.
 ## As common registries, it supports : 
 
  * **Project**: Include all information of the project 

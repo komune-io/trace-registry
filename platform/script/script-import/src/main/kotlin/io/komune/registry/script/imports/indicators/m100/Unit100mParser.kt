@@ -1,11 +1,11 @@
-package io.komune.registry.script.imports.indicators
+package io.komune.registry.script.imports.indicators.m100
 
 import io.komune.registry.f2.cccev.domain.unit.model.CompositeDataUnitDTOBase
 import io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTOBase
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator
 import io.komune.registry.script.imports.ImportContext
 
-class UnitParser(
+class Unit100mParser(
     private val importContext: ImportContext
 ) {
     companion object {

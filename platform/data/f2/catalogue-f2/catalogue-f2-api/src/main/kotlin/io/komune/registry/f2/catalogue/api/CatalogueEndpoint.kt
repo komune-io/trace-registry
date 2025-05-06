@@ -55,6 +55,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
@@ -94,6 +95,7 @@ class CatalogueEndpoint(
 
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
         logger.info("cataloguePage: $query")
@@ -115,6 +117,7 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
@@ -123,6 +126,7 @@ class CatalogueEndpoint(
             .let(::CatalogueGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
         logger.info("catalogueGetByIdentifier: $query")
@@ -131,14 +135,14 @@ class CatalogueEndpoint(
             .let(::CatalogueGetByIdentifierResult)
     }
 
-
-
+    @PermitAll
     @Bean
     override fun catalogueRefGet(): CatalogueRefGetFunction = f2Function { query ->
         catalogueF2FinderService.getRef(query.id, query.language)
+            .let(::CatalogueRefGetResult)
     }
 
-
+    @PermitAll
     @Bean
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = f2Function { query ->
         logger.info("catalogueRefGetTree: $query")
@@ -148,6 +152,7 @@ class CatalogueEndpoint(
             .let(::CatalogueRefGetTreeResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueRefSearch(): CatalogueRefSearchFunction = f2Function { query ->
         logger.info("catalogueRefSearch: $query")
@@ -171,6 +176,7 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
         logger.info("catalogueSearch: $query")
@@ -194,6 +200,7 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction = f2Function { query ->
         logger.info("catalogueListAvailableParents: $query")
@@ -217,6 +224,7 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableOwnersResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction = f2Function { query ->
         logger.info("catalogueListAllowedTypes: $query")

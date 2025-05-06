@@ -1,6 +1,6 @@
 import {Stack} from '@mui/material'
-import {PdfDisplayer} from "components";
-import {config, Transaction} from "domain-components";
+import {PdfDisplayer, config} from "components";
+import { Transaction} from "domain-components";
 import {useElementSize} from "@mantine/hooks"
 
 export interface TransactionPdfCertificateProps {

@@ -29,7 +29,6 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetListLanguagesFunction
 import io.komune.registry.f2.dataset.domain.query.DatasetPageFunction
-import io.komune.registry.f2.dataset.domain.query.DatasetRefListFunction
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -85,7 +84,6 @@ open class DatasetClient(val client: F2Client) : DatasetApi {
     override fun datasetGet(): DatasetGetFunction = client.function("data/${this::datasetGet.name}")
     override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = client.function("data/${this::datasetGetByIdentifier.name}")
     override fun datasetExists(): DatasetExistsFunction = client.function("data/${this::datasetExists.name}")
-    override fun datasetRefList(): DatasetRefListFunction = client.function("data/${this::datasetRefList.name}")
     override fun datasetData(): DatasetDataFunction = client.function("data/${this::datasetData.name}")
     override fun datasetListLanguages(): DatasetListLanguagesFunction = client.function("data/${this::datasetListLanguages.name}")
 }

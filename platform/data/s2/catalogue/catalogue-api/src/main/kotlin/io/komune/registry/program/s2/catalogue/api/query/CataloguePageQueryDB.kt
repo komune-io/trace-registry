@@ -64,6 +64,7 @@ class CataloguePageQueryDB(
     private fun <T> CatalogueCriterionField<T>.toRedisField(): MetamodelField<CatalogueEntity, T> = when (this) {
         CatalogueCriterionField.Id -> `CatalogueEntity$`.ID
         CatalogueCriterionField.AccessRights -> `CatalogueEntity$`.ACCESS_RIGHTS
+        CatalogueCriterionField.IsTranslationOf -> `CatalogueEntity$`.IS_TRANSLATION_OF
         CatalogueCriterionField.CreatorId -> `CatalogueEntity$`.CREATOR_ID
         CatalogueCriterionField.CreatorOrganizationId -> `CatalogueEntity$`.CREATOR_ORGANIZATION_ID
         CatalogueCriterionField.OwnerOrganizationId -> `CatalogueEntity$`.OWNER_ORGANIZATION_ID
