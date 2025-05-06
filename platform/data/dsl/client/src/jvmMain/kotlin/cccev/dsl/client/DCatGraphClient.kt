@@ -264,8 +264,17 @@ fun CatalogueDTOBase.toUpdateCommand() = CatalogueUpdateCommandDTOBase(
     language = language,
     structure = structure,
     homepage = homepage,
-    themes = themes?.map { it.id },
+    themes = themes.map { it.id },
     accessRights = accessRights,
     license = license?.id,
-    hidden = hidden
+    location = location,
+    stakeholder = stakeholder,
+    integrateCounter = integrateCounter,
+    parentId = parent?.id,
+    versionNotes = versionNotes,
+    ownerOrganizationId = ownerOrganization?.id,
+    relatedCatalogueIds = relatedCatalogues
+        ?.map { it.key to it.value.map { catalogue -> catalogue.id } }
+        ?.toMap(),
+    hidden = hidden,
 )

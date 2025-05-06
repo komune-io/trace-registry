@@ -6,6 +6,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
 import io.komune.registry.script.imports.ImportContext
@@ -38,8 +39,10 @@ data class CatalogueTranslationData(
     val title: String?,
     val description: String?,
     val language: Language,
+    val stakeholder: String? = null,
+    val location: Location? = null,
 
-)
+    )
 
 fun File.loadJsonCatalogue(
     context: ImportContext
