@@ -13,6 +13,9 @@ class CatalogueConfig {
     @Value("\${platform.catalogue.type-files}")
     private lateinit var typeConfigDir: String
 
+    @Value("\${platform.catalogue.templates}")
+    private lateinit var templatesDir: String
+
     final val typeConfigurations: Map<String, CatalogueTypeConfiguration> by lazy {
         logger.info("Loading catalogue type configurations from $typeConfigDir")
         PathMatchingResourcePatternResolver()
@@ -28,5 +31,22 @@ class CatalogueConfig {
 
                 typeConfiguration.type to typeConfiguration
             }.also { println(it) }
+    }
+
+    final val templates: Map<String, ByteArray> by lazy {
+        logger.info("Loading catalogue templates from $templatesDir")
+        PathMatchingResourcePatternResolver()
+            .getResources("$templatesDir/**/*")
+            .associate { templateResource ->
+                logger.info("Loading template ${templateResource.url}")
+                val template = try {
+                    templateResource.file.readBytes()
+                } catch (e: Exception) {
+                    logger.error("Error while parsing file ${templateResource.url}", e)
+                    throw e
+                }
+
+                templateResource.file.path.substringAfter(templatesDir.substringAfter(":")).removePrefix("/") to template
+            }.also { println(it.keys) }
     }
 }

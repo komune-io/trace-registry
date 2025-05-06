@@ -10,8 +10,10 @@ import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByI
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
 import io.komune.registry.f2.concept.domain.query.ConceptGetByIdentifierQuery
 import io.komune.registry.f2.dataset.client.datasetAddMediaDistribution
+import io.komune.registry.f2.dataset.client.datasetUpdateMediaDistribution
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetExistsQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
@@ -253,8 +255,17 @@ class ImportRepository(
         val existingDistribution = dataset.distributions?.find {
             it.mediaType == mediaType
         }
-        if(existingDistribution != null) {
-            return existingDistribution.id
+        if (existingDistribution != null) {
+            // update instead of just returning to replace automatic templates
+            return (DatasetUpdateMediaDistributionCommandDTOBase(
+                id = dataset.id,
+                distributionId = existingDistribution.id,
+                name = file.name,
+                mediaType = mediaType,
+            ) to SimpleFile(
+                name = file.name,
+                content = file.content
+            )).invokeWith(dataClient.dataset.datasetUpdateMediaDistribution()).distributionId
         }
         return (DatasetAddMediaDistributionCommandDTOBase(
             id = dataset.id,

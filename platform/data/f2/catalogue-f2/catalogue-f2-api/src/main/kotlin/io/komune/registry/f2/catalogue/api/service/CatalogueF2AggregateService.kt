@@ -3,6 +3,7 @@ package io.komune.registry.f2.catalogue.api.service
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
+import io.komune.registry.api.commons.model.SimpleFilePart
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
@@ -23,6 +24,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferencedDatas
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.f2.cccev.api.concept.service.InformationConceptF2FinderService
+import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
+import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -66,6 +69,9 @@ import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
+import s2.spring.utils.logger.Logger
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @Service
 class CatalogueF2AggregateService(
@@ -75,6 +81,7 @@ class CatalogueF2AggregateService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetAggregateService: DatasetAggregateService,
+    private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
     private val informationConceptF2FinderService: InformationConceptF2FinderService,
     private val fsService: FsService,
@@ -85,6 +92,8 @@ class CatalogueF2AggregateService(
     companion object {
         const val DEFAULT_SEQUENCE = "catalogue_seq"
     }
+
+    private val logger by Logger()
 
     suspend fun create(command: CatalogueCreateCommandDTOBase): CatalogueCreatedEventDTOBase {
         if (!command.withDraft) {
@@ -586,7 +595,7 @@ class CatalogueF2AggregateService(
             val all = datasetFinderService.listByIdentifier(identifier)
             val existing = all.find { it.language == language }
 
-            existing?.id ?: DatasetCreateCommand(
+            val datasetId = existing?.id ?: DatasetCreateCommand(
                 identifier = identifier,
                 catalogueId = catalogueId,
                 title = title,
@@ -595,6 +604,29 @@ class CatalogueF2AggregateService(
                 format = null,
                 structure = dataset.structure,
             ).let { datasetAggregateService.create(it).id }
+
+            dataset.template?.get(language)?.let { template ->
+                val mediaType = Files.probeContentType(Paths.get(template))
+                val templateContent = catalogueConfig.templates[template]
+                    ?: return@let null.also {
+                        logger.warn("Template $template not found in configuration")
+                    }
+
+                DatasetAddMediaDistributionCommandDTOBase(
+                    id = datasetId,
+                    name = null,
+                    mediaType = mediaType ?: "application/octet-stream",
+                    aggregator = null
+                ).let {
+                    val filePart = SimpleFilePart(
+                        name = template.substringAfterLast("/"),
+                        content = templateContent
+                    )
+                    datasetF2AggregateService.addMediaDistribution(it, filePart)
+                }
+            }
+
+            datasetId
         }.let { datasetIds ->
             linkDatasets(
                 parentId = catalogueId,
