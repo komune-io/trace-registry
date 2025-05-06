@@ -27,6 +27,7 @@ data class CatalogueTypeSubDataset(
     val identifierSuffix: String,
     val title: Map<Language, String>?,
     val structure: Structure?,
+    val template: Map<Language, String>?
 )
 
 data class SequenceConfiguration(

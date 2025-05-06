@@ -37,6 +37,11 @@
             "display": "read,write",
             "withCatalogueMetadata": "true"
           }
+        },
+        "template": {
+          "fr": "project-main-fr.md",
+          "en": "project-main-en.md",
+          "es": "project-main-es.md"
         }
       },
       {
@@ -67,6 +72,11 @@
             "order": "30",
             "display": "read,write"
           }
+        },
+        "template": {
+          "fr": "project-methodology-fr.md",
+          "en": "project-methodology-en.md",
+          "es": "project-methodology-es.md"
         }
       },
       {
