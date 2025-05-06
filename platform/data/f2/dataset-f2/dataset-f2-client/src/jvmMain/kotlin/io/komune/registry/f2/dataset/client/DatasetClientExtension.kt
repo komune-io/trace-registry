@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import f2.client.ktor.http.HttpF2Client
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionFunction
+import io.komune.registry.f2.dataset.domain.command.DatasetUpdateMediaDistributionFunction
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.request.forms.formData
@@ -17,6 +18,19 @@ fun DatasetClient.datasetAddMediaDistribution(): DatasetAddMediaDistributionFunc
         val httpF2Client = (client as HttpF2Client)
         httpF2Client.httpClient.submitFormWithBinaryData(
             url = "${httpF2Client.urlBase}/data/datasetAddMediaDistribution",
+            formData = FormDataBodyBuilder().apply {
+                param("command", cmd)
+                file("file", file.content, file.name)
+            }.toFormData()
+        ).body()
+    }
+}
+
+fun DatasetClient.datasetUpdateMediaDistribution(): DatasetUpdateMediaDistributionFunction = F2Function  { msgs ->
+    msgs.map { (cmd, file) ->
+        val httpF2Client = (client as HttpF2Client)
+        httpF2Client.httpClient.submitFormWithBinaryData(
+            url = "${httpF2Client.urlBase}/data/datasetUpdateMediaDistribution",
             formData = FormDataBodyBuilder().apply {
                 param("command", cmd)
                 file("file", file.content, file.name)

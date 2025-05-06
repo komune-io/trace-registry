@@ -42,12 +42,14 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
         return display.includes("read")
       })
       ?.map((dataset) => {
+        const component = DatasetRouterSection({catalogue, item: dataset, isLoading: false})
+        if (!component) return undefined
         return {
             key: dataset.id,
             label: dataset.title!,
-            component: (<DatasetRouterSection catalogue={catalogue} item={dataset} isLoading={false} />)
+            component
         }
-    }) ?? []
+    }).filter(Boolean) as Tab[]  ?? []
 
 
   const currentTab = useMemo(() => {
