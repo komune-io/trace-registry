@@ -6,6 +6,10 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
+import autoForm from "../DraftEditionPage/autoForm.json"
+import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2';
+
+const formData = autoFormFormatter(autoForm as BackAutoFormData)
 
 export const DraftViewPage = () => {
   const { catalogueId, draftId, tab } = useParams()
@@ -31,6 +35,7 @@ export const DraftViewPage = () => {
   const draft = catalogueDraftQuery.data?.item
 
   const metadataFormState = useMetadataFormState({
+    formData,
     catalogue,
     isLoading: catalogueDraftQuery.isInitialLoading,
     readOnly: true
@@ -39,6 +44,7 @@ export const DraftViewPage = () => {
   const title = catalogue?.title ?? t("sheetEdition")
 
   const tabs: Tab[] = useDraftTabs({
+    formData,
     metadataFormState,
     catalogue,
     draft,

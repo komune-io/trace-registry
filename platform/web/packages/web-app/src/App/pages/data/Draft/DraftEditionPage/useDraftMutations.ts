@@ -1,10 +1,11 @@
-import { Catalogue, CatalogueCreateCommand, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, convertRelatedCataloguesToIds } from 'domain-components'
+import { Catalogue, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, convertRelatedCataloguesToIds } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query';
 import { useRefetchOnDismount, useRoutesDefinition } from 'components'
 import { useDebouncedCallback } from '@mantine/hooks'
+import { CommandWithFile } from '@komune-io/g2';
 
 interface useDraftMutationsParams {
   catalogue?: Catalogue
@@ -40,22 +41,12 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
 
   const updateJsonDistribution = useDatasetUpdateJsonDistributionCommand({})
 
-  const onSaveMetadata = useCallback(async (values: any) => {
-    const command = { ...values } as CatalogueCreateCommand & { illustration?: File }
-    delete command.illustration
+  const onSaveMetadata = useCallback(async (command: CommandWithFile<any>, values: any) => {
     const res = await catalogueUpdate.mutateAsync({
+      ...command,
       command: {
-        // form fields
-        title: values.title,
-        description: values.description,
-        themes: values.themes && !Array.isArray(values.themes) ? [values.themes] : values.themes,
-        license: values.license,
-        accessRights: values.accessRights,
-        parentId: values.parentId,
-        location: values.location,
-        stakeholder: values.stakeholder,
+        ...command.command,
         relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
-        integrateCounter: values.integrateCounter,
         // keeping the same values
         structure: values.structure,
         hidden: values.hidden,
@@ -64,10 +55,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         language: values.language,
         ownerOrganizationId: values.ownerOrganizationId,
         id: draft?.catalogue.id!,
-      },
-      files: values.illustration ? [{
-        file: values.illustration
-      }] : []
+      }
     })
 
     if (res) {

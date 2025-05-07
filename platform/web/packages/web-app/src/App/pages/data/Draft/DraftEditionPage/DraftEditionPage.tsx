@@ -4,13 +4,17 @@ import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDraftMutations } from '100m-components';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMetadataFormState } from './useMetadataFormState';
 import { Typography } from '@mui/material';
 import { useDraftTabs } from './useDraftTabs';
 import { useDraftValidations } from './useDraftValidations';
 import { useDebouncedCallback } from '@mantine/hooks';
+import { useDraftMutations } from './useDraftMutations';
+import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2';
+import autoForm from "./autoForm.json"
+
+const formData = autoFormFormatter(autoForm as BackAutoFormData)
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -47,6 +51,7 @@ export const DraftEditionPage = () => {
   })
 
   const metadataFormState = useMetadataFormState({
+    formData,
     onSubmit: onSaveMetadata,
     catalogue,
     isLoading: isDefLoading
@@ -61,6 +66,7 @@ export const DraftEditionPage = () => {
   const title = catalogue?.title ?? t("sheetEdition")
 
   const tabs: Tab[] = useDraftTabs({
+    formData,
     metadataFormState,
     catalogue,
     draft,
