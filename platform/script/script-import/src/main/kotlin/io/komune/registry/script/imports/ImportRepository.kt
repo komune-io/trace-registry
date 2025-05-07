@@ -21,6 +21,7 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
+import io.komune.registry.f2.license.domain.query.LicenseListQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
@@ -76,6 +77,16 @@ class ImportRepository(
             }
             offset += limit
         } while (result.total > offset)
+    }
+
+    suspend fun fetchPreExistingLicence() {
+        val licenses = LicenseListQuery()
+            .invokeWith(dataClient.license.licenseList())
+            .items
+
+        licenses.forEach {
+            importContext.licenses[it.identifier] = it.id
+        }
     }
 
     suspend fun getOrCreateConcept(concept: ConceptInitData) = ConceptGetByIdentifierQuery(concept.identifier)

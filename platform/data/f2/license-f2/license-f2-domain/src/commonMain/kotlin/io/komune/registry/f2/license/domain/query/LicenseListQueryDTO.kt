@@ -42,6 +42,7 @@ interface LicenseListResultDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class LicenseListResult(
     override val items: List<LicenseDTOBase>
 ) : LicenseListResultDTO
