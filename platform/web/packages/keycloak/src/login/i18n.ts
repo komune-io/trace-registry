@@ -35,6 +35,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             and: "and",
             privacyPolicy: "privacy policy",
             charter: "the charter of 100 millions",
+            legalNotice: "Legal notice",
             loginTotpStep2: "Open the application and scan the following qr code",
             loginTotpStep3: "Enter the one-time code provided by the application and click Submit to finish the setup.",
             loginTotpManualStep2: "Open the application and enter the following key:",
@@ -42,7 +43,9 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpStep3DeviceName: "Provide a Device Name to help you manage your OTP devices.",
             loginTotpScanBarcode: "Scan a qr code instead",
             loginOtpInfo: "Please enter the code provided by your authentication app.",
-            verifyIdentity: "Verify your identity"
+            verifyIdentity: "Verify your identity",
+            sponsorProject: 'The project',
+            sponsorSupportedBy: 'is supported by {3}.',
         },
         fr: {
             emailForgotTitle: "Réinitialisation de votre mot de passe ?",
@@ -73,6 +76,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             and: "et",
             privacyPolicy: "la politique de confidentialité",
             charter: "la charte des 100 millions",
+            legalNotice: "Mentions légales",
             loginTotpStep2: "Ouvrez l'application et scannez le qr code ci-dessous:",
             loginTotpStep3: "Entrez le code à usage unique fourni par l'application et cliquez sur Soumettre pour terminer.",
             loginTotpManualStep2: "Ouvrez l'application et saisissez la clé ci-dessous:",
@@ -80,7 +84,9 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpStep3DeviceName: "Renseignez le nom de l'appareil pour vous aider à gérer vos appareils OTP.",
             loginTotpScanBarcode: "Scanner un qr code à la place",
             loginOtpInfo: "Veuillez saisir le code fourni par votre application d’authentification.",
-            verifyIdentity: "Vérifiez votre identité"
+            verifyIdentity: "Vérifiez votre identité",
+            sponsorProject: 'Le projet',
+            sponsorSupportedBy: 'est soutenu par {3}.',
         },
         es: {
             emailForgotTitle: "¿Restablecer la contraseña?",
@@ -111,6 +117,7 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             and: "y",
             privacyPolicy: "política de privacidad",
             charter: "la carta de 100 millones",
+            legalNotice: "Aviso legal",
             loginTotpStep2: "Abra la aplicación y escanee el siguiente código QR",
             loginTotpStep3: "Ingrese el código de un solo uso proporcionado por la aplicación y haga clic en Enviar para finalizar la configuración.",
             loginTotpManualStep2: "Abra la aplicación e ingrese la siguiente clave:",
@@ -118,7 +125,9 @@ const { useI18n, ofTypeI18n } = i18nBuilder
             loginTotpStep3DeviceName: "Proporcione un nombre de dispositivo para ayudarle a gestionar sus dispositivos OTP.",
             loginTotpScanBarcode: "Escanear un código QR en su lugar",
             loginOtpInfo: "Por favor, introduzca el código proporcionado por su aplicación de autenticación.",
-            verifyIdentity: "Verifique su identidad"
+            verifyIdentity: "Verifique su identidad",
+            sponsorProject: 'El proyecto',
+            sponsorSupportedBy: 'cuenta con el apoyo de {3}.',
         }
     })
     .build();

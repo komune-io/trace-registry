@@ -4,9 +4,20 @@ export interface PlatformConfig {
 
 export interface Config {
     platform: PlatformConfig
+    legalNotice?: LegalNotice,
+    sponsor?: Sponsor,
     theme?: ThemeConfig
 }
 
+export interface LegalNotice {
+    url: string
+}
+export interface Sponsor {
+    logo: string
+    by: string
+    url: string
+    name: string
+}
 export interface ThemeConfig {
     colors?: ThemeColorsConfig,
     rotation?: string
