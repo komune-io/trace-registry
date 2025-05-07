@@ -114,12 +114,17 @@ class ImportRepository(
     suspend fun createInformationConcept(
         informationConcept: InformationConceptInitData
     ): InformationConceptDTOBase {
-        val unit = informationConcept.unit?.let {
-                DataUnitGetByIdentifierQuery(it)
-                    .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
-                    .item
-                    ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
-            }
+        val unit = informationConcept.unit?.let { unit ->
+            CompositeDataUnitModel(
+                leftUnitId = getDataUnit(unit.left)?.id
+                    ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}"),
+                rightUnitId = unit.right?.let {
+                    getDataUnit(it)?.id
+                        ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
+                },
+                operator = unit.operator.takeIf { unit.right != null },
+            )
+        }
 
         val themes = informationConcept.themes?.map { identifier ->
             ConceptGetByIdentifierQuery(identifier)
@@ -131,7 +136,7 @@ class ImportRepository(
         return InformationConceptCreateCommand(
             identifier = informationConcept.identifier,
             name = informationConcept.name,
-            unit = unit?.let { CompositeDataUnitModel(it.id, null, null) },
+            unit = unit,
             aggregator = informationConcept.aggregator?.let {
                 AggregatorConfig(
                     type = it.type,

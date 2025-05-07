@@ -2,6 +2,7 @@ package io.komune.registry.script.imports.model
 
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
+import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator
 import io.komune.registry.s2.cccev.domain.model.DataUnitType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
@@ -68,9 +69,15 @@ data class DataUnitInitData(
 data class InformationConceptInitData(
     val identifier: InformationConceptIdentifier,
     val name: Map<Language, String>,
-    val unit: DataUnitIdentifier?,
+    val unit: CompositeUnitData?,
     val aggregator: AggregatorSettings?,
     val themes: List<ConceptIdentifier>?,
+)
+
+data class CompositeUnitData(
+    val left: DataUnitIdentifier,
+    val right: DataUnitIdentifier?,
+    val operator: CompositeDataUnitOperator = CompositeDataUnitOperator.DIVISION,
 )
 
 data class AggregatorSettings(
