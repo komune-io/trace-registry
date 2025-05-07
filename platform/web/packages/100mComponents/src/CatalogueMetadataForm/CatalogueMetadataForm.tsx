@@ -115,7 +115,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             multiline: true,
             rows: 7
         },
-        required: true
+        required: false
     }, {
         name: "illustration",
         type: "documentHandler",
