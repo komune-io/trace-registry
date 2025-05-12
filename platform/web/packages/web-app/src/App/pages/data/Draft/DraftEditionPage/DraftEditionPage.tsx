@@ -1,4 +1,4 @@
-import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth } from 'components'
+import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth, WarningTicket } from 'components'
 import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand, useCatalogueDeleteCommand } from 'domain-components'
 import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
@@ -155,6 +155,16 @@ export const DraftEditionPage = () => {
       </Typography>
       }
       <TitleDivider title={title} onChange={policies.draft.canUpdate(draft) ? onChangeTitle : undefined} />
+      <WarningTicket
+        severity='error'
+        title={t("catalogues.validatorComment")}
+      >
+        <Typography
+          variant='caption'
+        >
+          {draft?.rejectReason ?? ""}
+        </Typography>
+      </WarningTicket>
       <LanguageSelector
         //@ts-ignore
         languages={languages}
