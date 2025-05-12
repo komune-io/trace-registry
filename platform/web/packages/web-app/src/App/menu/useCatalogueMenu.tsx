@@ -1,5 +1,5 @@
 import {CatalogueRefTree, sortCatalogues, useCatalogueRefGetTreeQuery} from "domain-components";
-import {CatalogueAll, Icon, useRoutesDefinition, config} from "components";
+import {CatalogueAll, config, Icon, useRoutesDefinition} from "components";
 import {Location} from "history";
 import {useLocation} from "react-router";
 import {useTranslation} from "react-i18next";
@@ -82,17 +82,12 @@ const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (...objectIds: s
 }
 
 
-const isMenu = (catalogue: CatalogueRefTree) =>
-  catalogue.structure?.type == "menu"
+const isMenu = (catalogue: CatalogueRefTree) => catalogue.structure?.type == "MENU"
 
-const isBranch = (catalogue: CatalogueRefTree) =>
-  catalogue.structure?.type == "menu-branch"
+const isBranch = (catalogue: CatalogueRefTree) => catalogue.structure?.type == "MENU_BRANCH"
 
-const isLeaf = (catalogue: CatalogueRefTree) =>
-  catalogue.structure?.type == "menu-leaf"
+const isLeaf = (catalogue: CatalogueRefTree) => catalogue.structure?.type == "MENU_LEAF"
 
-const isAlias = (catalogue: CatalogueRefTree) =>
-  catalogue.structure?.definitions["alias"] == "true"
+const isAlias = (catalogue: CatalogueRefTree) => catalogue.structure?.alias ?? false
 
-// const isTransient = (catalogue: CatalogueRefTree) =>
-//   catalogue.structure?.definitions["transient"] == "true"
+// const isTransient = (catalogue: CatalogueRefTree) => catalogue.structure?.transient ?? false

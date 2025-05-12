@@ -181,7 +181,6 @@ class DCatGraphClient(
                 .orEmpty(),
             type = catalogue.type,
             language = catalogue.language,
-            structure = catalogue.structure,
             homepage = catalogue.homepage,
             themes = catalogue.themes?.mapNotNull {
                 ConceptGetByIdentifierQuery(it.id).invokeWith(conceptClient.conceptGetByIdentifier()).item?.id
@@ -262,9 +261,8 @@ fun CatalogueDTOBase.toUpdateCommand() = CatalogueUpdateCommandDTOBase(
     title = title,
     description = description,
     language = language,
-    structure = structure,
     homepage = homepage,
-    themes = themes?.map { it.id },
+    themes = themes.map { it.id },
     accessRights = accessRights,
     license = license?.id,
     hidden = hidden

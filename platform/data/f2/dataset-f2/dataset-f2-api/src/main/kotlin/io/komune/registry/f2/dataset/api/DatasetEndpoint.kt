@@ -304,14 +304,14 @@ class DatasetEndpoint(
     override fun datasetReplaceDistributionValue(): DatasetReplaceDistributionValueFunction = f2Function { command ->
         logger.info("datasetReplaceDistributionValue: $command")
         datasetPoliciesEnforcer.checkUpdate(command.id)
-        datasetF2AggregateService.replaceDistributionValue(command)
+        datasetF2AggregateService.replaceDistributionValues(listOf(command)).first()
     }
 
     @Bean
     override fun datasetRemoveDistributionValue(): DatasetRemoveDistributionValueFunction = f2Function { command ->
         logger.info("datasetRemoveDistributionValue: $command")
         datasetPoliciesEnforcer.checkUpdate(command.id)
-        datasetF2AggregateService.removeDistributionValue(command)
+        datasetF2AggregateService.removeDistributionValues(listOf(command)).first()
     }
 
     @Bean

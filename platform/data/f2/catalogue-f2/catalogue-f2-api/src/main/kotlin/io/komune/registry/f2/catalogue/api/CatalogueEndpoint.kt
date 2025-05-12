@@ -45,6 +45,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunc
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
@@ -133,6 +135,14 @@ class CatalogueEndpoint(
         catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language)
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetByIdentifierResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueGetStructure(): CatalogueGetStructureFunction = f2Function { query ->
+        logger.info("catalogueGetStructure: $query")
+        catalogueF2FinderService.getStructure(query.type, query.language)
+            .let(::CatalogueGetStructureResult)
     }
 
     @PermitAll

@@ -13,9 +13,11 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkMetadataDatasetCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedMetadataDatasetEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
@@ -61,7 +63,6 @@ class CatalogueAggregateService(
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId ?: authedUser?.memberOf,
 			stakeholder = command.stakeholder,
-			structure = command.structure,
 			isTranslationOf = command.isTranslationOf,
 			catalogueIds = command.catalogueIds,
 			datasetIds = command.datasetIds,
@@ -70,6 +71,7 @@ class CatalogueAggregateService(
 			accessRights = command.accessRights ?: CatalogueAccessRight.PRIVATE,
 			licenseId = command.licenseId,
 			location = command.location,
+			order = command.order,
 			hidden = command.hidden,
 			integrateCounter = command.integrateCounter,
 		)
@@ -86,10 +88,10 @@ class CatalogueAggregateService(
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId,
 			stakeholder = command.stakeholder,
-			structure = command.structure,
 			accessRights = command.accessRights ?: it.accessRights,
 			licenseId = command.licenseId,
 			location = command.location,
+			order = command.order,
 			hidden = command.hidden,
 			versionNotes = command.versionNotes,
 			integrateCounter = command.integrateCounter,
@@ -181,6 +183,16 @@ class CatalogueAggregateService(
 			id = command.id,
 			date = System.currentTimeMillis(),
 			datasets = command.datasetIds
+		)
+	}
+
+	suspend fun linkMetadataDataset(
+		command: CatalogueLinkMetadataDatasetCommand
+	): CatalogueLinkedMetadataDatasetEvent = automate.transition(command) {
+		CatalogueLinkedMetadataDatasetEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			datasetId = command.datasetId
 		)
 	}
 

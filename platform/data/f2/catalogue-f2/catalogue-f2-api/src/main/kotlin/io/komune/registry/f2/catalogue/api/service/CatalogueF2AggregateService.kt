@@ -3,6 +3,7 @@ package io.komune.registry.f2.catalogue.api.service
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
+import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.model.SimpleFilePart
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
@@ -25,7 +26,11 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOB
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
 import io.komune.registry.f2.cccev.api.concept.service.InformationConceptF2FinderService
 import io.komune.registry.f2.dataset.api.service.DatasetF2AggregateService
+import io.komune.registry.f2.dataset.domain.DatasetTypes
+import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
+import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTOBase
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
@@ -34,11 +39,11 @@ import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkMetadataDatasetCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
@@ -57,22 +62,26 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftedRef
+import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetCreateCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetDeleteCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetRemoveAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
-import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 import s2.spring.utils.logger.Logger
 import java.nio.file.Files
 import java.nio.file.Paths
 
+@Suppress("LargeClass")
 @Service
 class CatalogueF2AggregateService(
     private val catalogueAggregateService: CatalogueAggregateService,
@@ -80,6 +89,7 @@ class CatalogueF2AggregateService(
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
+    private val cccevFinderService: CccevFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
@@ -101,6 +111,7 @@ class CatalogueF2AggregateService(
                 CatalogueCreatedEventDTOBase(
                     id = it.id,
                     identifier = it.identifier,
+                    type = command.type,
                     draftId = null
                 )
             }
@@ -135,11 +146,7 @@ class CatalogueF2AggregateService(
             datasetIdMap = emptyMap()
         ).let { catalogueDraftAggregateService.create(it).id }
 
-        return CatalogueCreatedEventDTOBase(
-            id = originalCatalogueEvent.id,
-            identifier = originalCatalogueEvent.identifier,
-            draftId = draftId
-        )
+        return originalCatalogueEvent.copy(draftId = draftId)
     }
 
     @Suppress("CyclomaticComplexMethod")
@@ -149,7 +156,7 @@ class CatalogueF2AggregateService(
         inferIdentifier: Boolean,
         inferTranslationType: Boolean,
         initDatasets: Boolean
-    ): CatalogueCreatedEvent {
+    ): CatalogueCreatedEventDTOBase {
         requireNotNull(command.language) { "Language is required for catalogue translation." }
 
         val originalCatalogue = catalogueFinderService.get(originalCatalogueId)
@@ -164,7 +171,6 @@ class CatalogueF2AggregateService(
         val event = command.copy(
             identifier = identifier,
             type = translationType,
-            structure = command.structure ?: originalCatalogue.structure,
             homepage = command.homepage ?: originalCatalogue.homepage,
             themes = command.themes ?: originalCatalogue.themeIds.toList(),
             accessRights = command.accessRights ?: originalCatalogue.accessRights,
@@ -348,7 +354,7 @@ class CatalogueF2AggregateService(
         isTranslation: Boolean = false,
         isTranslationOf: CatalogueId? = null,
         initDatasets: Boolean = true,
-    ): CatalogueCreatedEvent {
+    ): CatalogueCreatedEventDTOBase {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
         val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
 
@@ -380,6 +386,7 @@ class CatalogueF2AggregateService(
                 description = command.description,
                 versionNotes = command.versionNotes,
                 initDatasets = initDatasets,
+                indicators = command.indicators,
                 additionalDatasets = typeConfiguration?.i18n?.datasets?.takeIf { initDatasets }
             )
         }
@@ -389,34 +396,20 @@ class CatalogueF2AggregateService(
                 datasets = typeConfiguration?.datasets,
                 catalogueId = catalogueCreatedEvent.id,
                 catalogueIdentifier = catalogueIdentifier,
-                language = command.language!!
+                language = command.language!!,
+                withMetadataDataset = true
             )
         }
 
-        return CatalogueCreatedEvent(
+        if (initDatasets && !i18nEnabled && command.indicators != null) {
+            saveMetadataIndicators(catalogueCreatedEvent.id, command.indicators!!)
+        }
+
+        return CatalogueCreatedEventDTOBase(
             id = catalogueCreatedEvent.id,
             identifier = catalogueCreatedEvent.identifier,
-            title = catalogueCreatedEvent.title,
-            type =catalogueCreatedEvent.type,
-            language = catalogueCreatedEvent.language,
-            description = catalogueCreatedEvent.description,
-            themeIds = catalogueCreatedEvent.themeIds.toSet(),
-            homepage = catalogueCreatedEvent.homepage,
-            structure = catalogueCreatedEvent.structure,
-            isTranslationOf = catalogueCreatedEvent.isTranslationOf,
-            catalogueIds = catalogueCreatedEvent.childrenCatalogueIds.toSet(),
-            datasetIds = catalogueCreatedEvent.childrenDatasetIds.toSet(),
-            creatorId = catalogueCreatedEvent.creatorId,
-            creatorOrganizationId = catalogueCreatedEvent.creatorOrganizationId,
-            ownerOrganizationId = catalogueCreatedEvent.ownerOrganizationId,
-            stakeholder = catalogueCreatedEvent.stakeholder,
-            accessRights = catalogueCreatedEvent.accessRights,
-            licenseId = catalogueCreatedEvent.licenseId,
-            location = catalogueCreatedEvent.location,
-            versionNotes = catalogueCreatedEvent.versionNotes,
-            hidden = catalogueCreatedEvent.hidden,
-            date = catalogueCreatedEvent.modified,
-            integrateCounter = catalogueCreatedEvent.integrateCounter,
+            type = catalogueCreatedEvent.type,
+            draftId = null
         )
     }
 
@@ -436,7 +429,7 @@ class CatalogueF2AggregateService(
             withTranslatable = !i18nEnabled,
             isTranslationOf = isTranslationOf,
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false
-        ).copy(structure = command.structure ?: typeConfiguration?.structure?.let(::Structure))
+        )
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
         return catalogueFinderService.get(catalogueCreatedEvent.id)
     }
@@ -456,10 +449,14 @@ class CatalogueF2AggregateService(
         }
 
         if (catalogue.language == command.language) {
-            return command.toCommand(
+            val event = command.toCommand(
                 withTranslatable = true,
                 hidden = command.hidden ?: catalogue.hidden
             ).let { catalogueAggregateService.update(it) }
+
+            command.indicators?.let { saveMetadataIndicators(catalogue.id, it) }
+
+            return event
         }
 
         val event = command.toCommand(
@@ -475,7 +472,8 @@ class CatalogueF2AggregateService(
                 description = command.description,
                 integrateCounter = command.integrateCounter,
                 language = command.language,
-                versionNotes = command.versionNotes
+                versionNotes = command.versionNotes,
+                indicators = command.indicators,
             ).let { doUpdate(it, isDraft) }
         } else {
             val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
@@ -487,7 +485,8 @@ class CatalogueF2AggregateService(
                 title = command.title,
                 description = command.description,
                 versionNotes = command.versionNotes,
-                initDatasets = false
+                initDatasets = false,
+                indicators = command.indicators,
             )
         }
 
@@ -583,56 +582,117 @@ class CatalogueF2AggregateService(
         datasets: List<CatalogueTypeSubDataset>?,
         catalogueId: CatalogueId,
         catalogueIdentifier: CatalogueIdentifier,
-        language: Language
+        language: Language,
+        withMetadataDataset: Boolean = false
     ) {
         if (datasets.isNullOrEmpty()) {
             return
         }
 
         datasets.map { dataset ->
-            val identifier = "$catalogueIdentifier${dataset.identifierSuffix}"
-            val title = dataset.title?.get(language) ?: ""
-            val all = datasetFinderService.listByIdentifier(identifier)
-            val existing = all.find { it.language == language }
-
-            val datasetId = existing?.id ?: DatasetCreateCommand(
-                identifier = identifier,
+            createDataset(
+                dataset = dataset,
                 catalogueId = catalogueId,
-                title = title,
-                type = dataset.type,
-                language = language,
-                format = null,
-                structure = dataset.structure,
-            ).let { datasetAggregateService.create(it).id }
-
-            dataset.template?.get(language)?.let { template ->
-                val mediaType = Files.probeContentType(Paths.get(template))
-                val templateContent = catalogueConfig.templates[template]
-                    ?: return@let null.also {
-                        logger.warn("Template $template not found in configuration")
-                    }
-
-                DatasetAddMediaDistributionCommandDTOBase(
-                    id = datasetId,
-                    name = null,
-                    mediaType = mediaType ?: "application/octet-stream",
-                    aggregator = null
-                ).let {
-                    val filePart = SimpleFilePart(
-                        name = template.substringAfterLast("/"),
-                        content = templateContent
-                    )
-                    datasetF2AggregateService.addMediaDistribution(it, filePart)
-                }
-            }
-
-            datasetId
+                catalogueIdentifier = catalogueIdentifier,
+                language = language
+            )
         }.let { datasetIds ->
             linkDatasets(
                 parentId = catalogueId,
                 datasetIds = datasetIds
             )
         }
+
+        if (withMetadataDataset) {
+            createAndLinkMetadataDataset(
+                catalogueId = catalogueId,
+                catalogueIdentifier = catalogueIdentifier,
+                language = language
+            )
+        }
+    }
+
+    private suspend fun createAndLinkMetadataDataset(
+        catalogueId: CatalogueId,
+        catalogueIdentifier: CatalogueIdentifier,
+        language: Language
+    ): DatasetId {
+        val datasetId = createDataset(
+            dataset = CatalogueTypeSubDataset(
+                type = DatasetTypes.METADATA,
+                identifierSuffix = "-${DatasetTypes.METADATA}",
+                title = null,
+                structure = null,
+                template = null,
+                withEmptyDistribution = true
+            ),
+            catalogueId = catalogueId,
+            catalogueIdentifier = catalogueIdentifier,
+            language = language
+        )
+
+        CatalogueLinkMetadataDatasetCommand(
+            id = catalogueId,
+            datasetId = datasetId
+        ).let { catalogueAggregateService.linkMetadataDataset(it) }
+
+        return datasetId
+    }
+
+    private suspend fun createDataset(
+        dataset: CatalogueTypeSubDataset,
+        catalogueId: CatalogueId,
+        catalogueIdentifier: CatalogueIdentifier,
+        language: Language
+    ): DatasetId {
+        val identifier = "$catalogueIdentifier${dataset.identifierSuffix}"
+        val title = dataset.title?.get(language) ?: ""
+        val all = datasetFinderService.listByIdentifier(identifier)
+        val existing = all.find { it.language == language }
+
+        if (existing != null) {
+            return existing.id
+        }
+
+        val datasetId = DatasetCreateCommand(
+            identifier = identifier,
+            catalogueId = catalogueId,
+            title = title,
+            type = dataset.type,
+            language = language,
+            format = null,
+            structure = dataset.structure,
+        ).let { datasetAggregateService.create(it).id }
+
+        if (dataset.withEmptyDistribution) {
+            DatasetAddEmptyDistributionCommandDTOBase(
+                id = datasetId,
+                name = null
+            ).let { datasetF2AggregateService.addEmptyDistribution(it) }
+        }
+
+        dataset.template?.get(language)?.let { template ->
+            val mediaType = Files.probeContentType(Paths.get(template))
+            val templateContent = catalogueConfig.templates[template]
+                ?: return@let null.also {
+                    logger.warn("Template $template not found in configuration")
+                }
+
+            DatasetAddMediaDistributionCommandDTOBase(
+                id = datasetId,
+                name = null,
+                mediaType = mediaType ?: "application/octet-stream",
+                aggregator = null
+            ).let {
+                val filePart = SimpleFilePart(
+                    name = template.substringAfterLast("/"),
+                    content = templateContent
+                )
+                datasetF2AggregateService.addMediaDistribution(it, filePart)
+            }
+        }
+
+        return datasetId
     }
 
     private suspend fun createAndLinkTranslation(
@@ -644,7 +704,8 @@ class CatalogueF2AggregateService(
         description: String?,
         versionNotes: String?,
         initDatasets: Boolean,
-        additionalDatasets: List<CatalogueTypeSubDataset>? = null
+        indicators: Map<InformationConceptId, List<String>>?,
+        additionalDatasets: List<CatalogueTypeSubDataset>? = null,
     ) {
         val event = CatalogueCreateCommandDTOBase(
             identifier = "$originalIdentifier-${language}",
@@ -653,6 +714,7 @@ class CatalogueF2AggregateService(
             description = description,
             language = language,
             versionNotes = versionNotes,
+            indicators = indicators,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = originalId, initDatasets = initDatasets) }
 
         createAndLinkDatasets(
@@ -689,5 +751,50 @@ class CatalogueF2AggregateService(
             .values
             .flatten()
             .let { handleOriginalDatasets(it) }
+    }
+
+    suspend fun saveMetadataIndicators(catalogueId: CatalogueId, indicators: Map<InformationConceptIdentifier, List<String>>) {
+        val catalogue = catalogueFinderService.get(catalogueId)
+        val metadataDataset = datasetFinderService.page(
+            catalogueId = ExactMatch(catalogue.id),
+            type = ExactMatch(DatasetTypes.METADATA),
+            offset = OffsetPagination(0, 1)
+        ).items.firstOrNull()
+            ?: run {
+                val datasetId = createAndLinkMetadataDataset(
+                    catalogueId = catalogue.id,
+                    catalogueIdentifier = catalogue.identifier,
+                    language = catalogue.language!!
+                )
+                datasetFinderService.get(datasetId)
+            }
+
+        val distribution = metadataDataset.distributions.first()
+        distribution.aggregators.flatMap { (conceptId, valueIds) ->
+            valueIds.map { valueId ->
+                DatasetRemoveDistributionValueCommandDTOBase(
+                    id = metadataDataset.id,
+                    distributionId = distribution.id,
+                    informationConceptId = conceptId,
+                    valueId = valueId,
+                )
+            }
+        }.nullIfEmpty()?.let { datasetF2AggregateService.removeDistributionValues(it) }
+
+        indicators.flatMap { (conceptIdentifier, values) ->
+            val concept = cccevFinderService.getConceptByIdentifier(conceptIdentifier)
+            values.map { value ->
+                DatasetAddDistributionValueCommandDTOBase(
+                    id = metadataDataset.id,
+                    distributionId = distribution.id,
+                    informationConceptId = conceptIdentifier,
+                    unit = concept.unit
+                        ?: throw IllegalStateException("Unit not found for concept $conceptIdentifier"),
+                    isRange = false,
+                    value = value,
+                    description = null
+                )
+            }
+        }.nullIfEmpty()?.let { datasetF2AggregateService.addDistributionValues(it) }
     }
 }

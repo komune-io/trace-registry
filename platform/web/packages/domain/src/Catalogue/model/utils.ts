@@ -3,8 +3,8 @@ import {Catalogue, CatalogueRefTree} from "./index";
 
 export const sortCatalogues = (a: CatalogueRefTree | Catalogue, b: CatalogueRefTree | Catalogue): number => {
   // First compare by order if available
-  const orderA = a.structure?.definitions?.order;
-  const orderB = b.structure?.definitions?.order;
+  const orderA = a.order;
+  const orderB = b.order;
 
   if (orderA !== undefined && orderB !== undefined) {
     const numA = Number(orderA);
