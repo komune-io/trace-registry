@@ -28,6 +28,7 @@ data class CatalogueCreateCommand(
     val licenseId: LicenseId?,
     val location: Location?,
     val versionNotes: String?,
+    val order: Int?,
     val hidden: Boolean,
     val integrateCounter: Boolean?
 ): CatalogueInitCommand
@@ -44,6 +45,7 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val licenseId: LicenseId?
     val location: Location?
     val versionNotes: String?
+    val order: Int?
     val hidden: Boolean
     val integrateCounter: Boolean?
 }
@@ -69,6 +71,7 @@ data class CatalogueCreatedEvent(
     override val licenseId: LicenseId? = null,
     override val location: Location? = null,
     override val versionNotes: String? = null,
+    override val order: Int?,
     override val hidden: Boolean = false,
     override val date: Long,
     override val integrateCounter: Boolean?

@@ -22,6 +22,7 @@ class DatasetPageQueryDB(
     fun execute(
         id: Match<DatasetId>? = null,
         identifier: Match<DatasetIdentifier>? = null,
+        type: Match<String>? = null,
         title: Match<String>? = null,
         catalogueId: Match<String>? = null,
         datasetIds: Match<DatasetId>? = null,
@@ -30,6 +31,7 @@ class DatasetPageQueryDB(
     ): PageDTO<DatasetEntity> = doQuery(offset) {
         match(`DatasetEntity$`.ID, id)
         match(`DatasetEntity$`.IDENTIFIER, identifier)
+        match(`DatasetEntity$`.TYPE, type)
         match(`DatasetEntity$`.TITLE, title)
         match(`DatasetEntity$`.CATALOGUE_ID, catalogueId)
         match(`DatasetEntity$`.DATASET_IDS, datasetIds)

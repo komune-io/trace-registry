@@ -4,6 +4,7 @@ import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.LocationDTO
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -52,6 +53,7 @@ interface CatalogueUpdateCommandDTO {
     val accessRights: CatalogueAccessRight?
     val license: LicenseId?
     val location: LocationDTO?
+    val order: Int?
 
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
@@ -61,6 +63,8 @@ interface CatalogueUpdateCommandDTO {
     val versionNotes: String?
 
     val integrateCounter: Boolean?
+
+    val indicators: Map<InformationConceptIdentifier, List<String>>?
 }
 
 /**
@@ -81,9 +85,11 @@ data class CatalogueUpdateCommandDTOBase(
     override val accessRights: CatalogueAccessRight? = null,
     override val license: LicenseId? = null,
     override val location: Location? = null,
+    override val order: Int? = null,
     override val hidden: Boolean? = null,
     override val versionNotes: String? = null,
     override val integrateCounter: Boolean? = null,
+    override val indicators: Map<InformationConceptIdentifier, List<String>>? = null,
 ): CatalogueUpdateCommandDTO
 
 /**

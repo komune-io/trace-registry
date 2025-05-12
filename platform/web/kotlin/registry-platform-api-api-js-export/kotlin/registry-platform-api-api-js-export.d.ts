@@ -3835,14 +3835,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly license?: string;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO/* Nullable<io.komune.registry.s2.commons.model.Location> */;
         readonly versionNotes?: string;
+        readonly order?: number;
         readonly hidden?: boolean;
         readonly withDraft: boolean;
         readonly integrateCounter?: boolean;
+        readonly indicators?: Record<string, string[]>;
 
     }
     interface CatalogueCreatedEventDTO extends f2.dsl.cqrs.Event {
         readonly id: string;
         readonly identifier: string;
+        readonly type: string;
         readonly draftId?: string;
 
     }
@@ -3971,9 +3974,11 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly accessRights?: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: string;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
+        readonly order?: number;
         readonly hidden?: boolean;
         readonly versionNotes?: string;
         readonly integrateCounter?: boolean;
+        readonly indicators?: Record<string, string[]>;
 
     }
     interface CatalogueUpdatedEventDTO extends f2.dsl.cqrs.Event {
@@ -4021,12 +4026,14 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
         readonly issued: number;
         readonly modified: number;
+        readonly order?: number;
         readonly hidden: boolean;
         readonly pendingDrafts?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO[];
         readonly aggregators: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO[];
         readonly version: number;
         readonly versionNotes?: string;
         readonly integrateCounter?: boolean;
+        readonly indicators: Record<string, string[]>;
 
     }
 }
@@ -4055,6 +4062,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly type: string;
         readonly description?: string;
         readonly img?: string;
+        readonly order?: number;
 
     }
 }
@@ -4069,6 +4077,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly description?: string;
         readonly img?: string;
         readonly structure?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO;
+        readonly order?: number;
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
         readonly relatedCatalogues?: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[]>;
 

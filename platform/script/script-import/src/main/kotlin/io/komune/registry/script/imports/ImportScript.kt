@@ -269,7 +269,7 @@ class ImportScript(
                 description = translation.description,
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
-//                structure = catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure),
+                order = catalogueData.order,
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = catalogueData.accessRights ?: importContext.settings.defaults?.accessRights,
                 license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },

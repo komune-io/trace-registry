@@ -91,7 +91,6 @@ data class CatalogueMappingSettings(
 data class CatalogueDefaultsSettings(
     val license: String?,
     val accessRights: CatalogueAccessRight?,
-    val structure: String?,
     val parent: Map<String, CatalogueParentKey>?
 )
 

@@ -65,6 +65,9 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var referencedDatasetIds: MutableSet<DatasetId> = mutableSetOf()
 
+    @TagIndexed
+    var metadataDatasetId: DatasetId? = null
+
     var translationIds: MutableMap<Language, CatalogueId> = mutableMapOf()
 
     var isTranslationOf: CatalogueId? = null
@@ -90,6 +93,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var integrateCounter: Boolean? = null
 
     var location: Location? = null
+
+    var order: Int? = null
 
     @Indexed
     var hidden: Boolean = false

@@ -20,6 +20,7 @@ data class CatalogueUpdateCommand(
     val licenseId: String?,
     val integrateCounter: Boolean?,
     val location: Location?,
+    val order: Int?,
     val hidden: Boolean,
     val versionNotes: String?,
 ): CatalogueCommand
@@ -38,6 +39,7 @@ data class CatalogueUpdatedEvent(
     override val licenseId: String?,
     override val integrateCounter: Boolean?,
     override val location: Location?,
+    override val order: Int?,
     override val hidden: Boolean = false,
     override val versionNotes: String?,
     override val date: Long,

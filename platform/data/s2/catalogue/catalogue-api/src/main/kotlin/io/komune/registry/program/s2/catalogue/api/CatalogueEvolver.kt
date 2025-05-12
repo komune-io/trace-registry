@@ -10,6 +10,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedMetadataDatasetEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEvent
@@ -42,6 +43,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueReplacedRelatedCataloguesEvent -> model?.replaceRelatedCatalogues(event)
 		is CatalogueRemovedRelatedCataloguesEvent -> model?.removeRelatedCatalogues(event)
 		is CatalogueLinkedDatasetsEvent -> model?.addDatasets(event)
+		is CatalogueLinkedMetadataDatasetEvent -> model?.linkMetadataDataset(event)
 		is CatalogueUnlinkedDatasetsEvent -> model?.removeDatasets(event)
 		is CatalogueReferencedDatasetsEvent -> model?.referenceDatasets(event)
 		is CatalogueUnreferencedDatasetsEvent -> model?.unreferenceDatasets(event)
@@ -104,6 +106,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		childrenDatasetIds += event.datasets
 	}
 
+	private suspend fun CatalogueEntity.linkMetadataDataset(event: CatalogueLinkedMetadataDatasetEvent) = apply {
+		metadataDatasetId = event.datasetId
+	}
+
 	private suspend fun CatalogueEntity.removeDatasets(event: CatalogueUnlinkedDatasetsEvent) = apply {
 		childrenDatasetIds -= event.datasets.toSet()
 	}
@@ -158,6 +164,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		licenseId = event.licenseId
 		location = event.location
 		versionNotes = event.versionNotes
+		order = event.order
 		hidden = event.hidden
 		modified = event.date
 		integrateCounter = event.integrateCounter

@@ -14,7 +14,7 @@ data class CataloguePreparseMapping(
     val parent: CataloguePreparseFieldMapping?,
     val related: Map<String, CataloguePreparseFieldMapping>?,
     val type: CataloguePreparseFieldMapping,
-    val structure: CataloguePreparseFieldMapping?,
+    val order: CataloguePreparseFieldMapping?,
     val title: CataloguePreparseFieldMapping,
     val description: CataloguePreparseFieldMapping?,
     val image: CataloguePreparseFileFieldMapping?,

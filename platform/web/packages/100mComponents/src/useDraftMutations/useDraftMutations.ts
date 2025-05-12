@@ -1,10 +1,21 @@
-import { Catalogue, CatalogueCreateCommand, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, convertRelatedCataloguesToIds } from 'domain-components'
-import { EditorState } from 'lexical'
-import { useCallback, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useQueryClient } from '@tanstack/react-query';
-import { useRefetchOnDismount, useRoutesDefinition } from 'components'
-import { useDebouncedCallback } from '@mantine/hooks'
+import {
+  Catalogue,
+  CatalogueCreateCommand,
+  CatalogueDraft,
+  convertRelatedCataloguesToIds,
+  Dataset,
+  findLexicalDataset,
+  useCatalogueDraftDeleteCommand,
+  useCatalogueUpdateCommand,
+  useDatasetAddJsonDistributionCommand,
+  useDatasetUpdateJsonDistributionCommand
+} from 'domain-components'
+import {EditorState} from 'lexical'
+import {useCallback, useState} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useQueryClient} from '@tanstack/react-query';
+import {useRefetchOnDismount, useRoutesDefinition} from 'components'
+import {useDebouncedCallback} from '@mantine/hooks'
 
 interface useDraftMutationsParams {
   catalogue?: Catalogue
@@ -57,7 +68,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
         integrateCounter: values.integrateCounter,
         // keeping the same values
-        structure: values.structure,
         hidden: values.hidden,
         homepage: values.homepage,
         versionNotes: values.versionNotes,

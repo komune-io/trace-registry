@@ -105,7 +105,7 @@ class PreparseScript(
                         img = fileContent.parseFileField(settings.mapping.image)
                             ?.let { downloadFile(it, settings.mapping.image!!.output.injectContextVariables()) }
                             ?.path,
-                        structure = fileContent.parseField(settings.mapping.structure)?.parseJsonTo(),
+                        order = fileContent.parseField(settings.mapping.order)?.parseJsonTo(),
                         accessRights = null,
                         themes = settings.mapping.themes?.flatMap { themeMapping ->
                             fileContent.parseConcepts(themeMapping, settings.languages)

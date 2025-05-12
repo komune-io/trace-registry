@@ -306,30 +306,30 @@ class DatasetF2AggregateService(
             }
     }
 
-    suspend fun replaceDistributionValue(
-        command: DatasetReplaceDistributionValueCommandDTOBase
-    ): DatasetReplacedDistributionValueEventDTOBase {
-        return createAndUpdateDistributionValues(listOf(command)).first()
+    suspend fun replaceDistributionValues(
+        commands: List<DatasetReplaceDistributionValueCommandDTOBase>
+    ): List<DatasetReplacedDistributionValueEventDTOBase> {
+        return createAndUpdateDistributionValues(commands)
     }
 
-    suspend fun removeDistributionValue(
-        command: DatasetRemoveDistributionValueCommandDTOBase
-    ): DatasetRemovedDistributionValueEventDTOBase {
-        val dataset = datasetFinderService.get(command.id)
+    suspend fun removeDistributionValues(
+        commands: List<DatasetRemoveDistributionValueCommandDTOBase>
+    ): List<DatasetRemovedDistributionValueEventDTOBase> {
+        val events = mutableListOf<DatasetRemovedDistributionValueEventDTOBase>()
 
-        updateDistributionValues(
-            dataset = dataset,
-            distributionId = command.distributionId,
-            removeValueIds = mapOf(command.informationConceptId to setOf(command.valueId)),
-            addValueIds = null
-        )
+        commands.groupBy { it.id }.forEach { (datasetId, datasetCommands) ->
+            val dataset = datasetFinderService.get(datasetId)
 
-        return DatasetRemovedDistributionValueEventDTOBase(
-            id = command.id,
-            distributionId = command.distributionId,
-            informationConceptId = command.informationConceptId,
-            valueId = command.valueId
-        )
+            datasetCommands.groupBy { it.distributionId }.forEach { (distributionId, distributionCommands) ->
+                removeDistributionValues(
+                    dataset = dataset,
+                    distributionId = distributionId,
+                    commands = distributionCommands
+                ).let { events.addAll(it) }
+            }
+        }
+
+        return events
     }
 
     suspend fun removeDistribution(command: DatasetRemoveDistributionCommandDTOBase): DatasetRemovedDistributionEventDTOBase {
@@ -527,6 +527,36 @@ class DatasetF2AggregateService(
             addSupportedValueIds = addValueIds,
             validateAndDeprecateValues = !dataset.isInDraft()
         ).let { datasetAggregateService.updateDistributionAggregatorValues(it) }
+    }
+
+    private suspend fun removeDistributionValues(
+        dataset: DatasetModel,
+        distributionId: DistributionId,
+        commands: List<DatasetRemoveDistributionValueCommandDTOBase>
+    ): List<DatasetRemovedDistributionValueEventDTOBase> {
+        val events = mutableListOf<DatasetRemovedDistributionValueEventDTOBase>()
+
+        val removeValueIds = commands.groupBy({ it.informationConceptId }, { it.valueId })
+            .mapValues { (_, values) -> values.toSet() }
+
+        updateDistributionValues(
+            dataset = dataset,
+            distributionId = distributionId,
+            removeValueIds = removeValueIds,
+            addValueIds = null
+        )
+        removeValueIds.forEach { (conceptId, valueIds) ->
+            valueIds.forEach { valueId ->
+                DatasetRemovedDistributionValueEventDTOBase(
+                    id = dataset.id,
+                    distributionId = distributionId,
+                    informationConceptId = conceptId,
+                    valueId = valueId
+                ).let(events::add)
+            }
+        }
+
+        return events
     }
 
     private suspend fun DatasetModel.isInDraft(): Boolean {

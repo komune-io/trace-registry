@@ -1,6 +1,5 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
-import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
@@ -16,6 +15,7 @@ import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.LocationDTO
@@ -179,6 +179,8 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      */
     val modified: Long
 
+    val order: Int?
+
     /**
      * Whether the catalogue should be filtered out of search results (except from explicitly targeted fetches)
      * @example false
@@ -195,6 +197,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
     val version: Int
     val versionNotes: String?
     val integrateCounter: Boolean?
+    val indicators: Map<InformationConceptIdentifier, List<String>>
 }
 
 @Serializable
@@ -209,7 +212,7 @@ data class CatalogueDTOBase(
     override val type: String,
     override val language: String,
     override val availableLanguages: List<Language>,
-    override val structure: CatalogueStructure? = null,
+    override val structure: CatalogueStructureDTO? = null,
     override val themes: List<ConceptTranslatedDTOBase>,
     override val catalogues: List<CatalogueRefDTOBase>,
     override val relatedCatalogues: Map<String, List<CatalogueRefDTOBase>>? = null,
@@ -227,10 +230,12 @@ data class CatalogueDTOBase(
     override val location: Location? = null,
     override val issued: Long,
     override val modified: Long,
+    override val order: Int? = null,
     override val hidden: Boolean = false,
     override val pendingDrafts: List<CatalogueDraftRefDTOBase>? = null,
     override val aggregators: List<InformationConceptComputedDTOBase>,
     override val version: Int,
     override val versionNotes: String? = null,
     override val integrateCounter: Boolean? = null,
+    override val indicators: Map<InformationConceptIdentifier, List<String>>
 ): CatalogueDTO

@@ -1,6 +1,5 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
-import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
@@ -25,6 +24,7 @@ interface CatalogueRefTreeDTO : CatalogueRefDTO {
     override val description: String?
     override val img: String?
     override val structure: CatalogueStructureDTO?
+    override val order: Int?
     val catalogues: List<CatalogueRefTreeDTO>?
     val relatedCatalogues: Map<String, List<CatalogueRefTreeDTO>>?
 }
@@ -43,6 +43,7 @@ data class CatalogueRefTreeDTOBase(
     override val description: String? = null,
     override val img: String? = null,
     override val catalogues: List<CatalogueRefTreeDTOBase>? = null,
-    override val structure: CatalogueStructure?,
+    override val structure: CatalogueStructureDTO?,
+    override val order: Int?,
     override val relatedCatalogues: Map<String, List<CatalogueRefTreeDTOBase>>?
 ) : CatalogueRefTreeDTO
