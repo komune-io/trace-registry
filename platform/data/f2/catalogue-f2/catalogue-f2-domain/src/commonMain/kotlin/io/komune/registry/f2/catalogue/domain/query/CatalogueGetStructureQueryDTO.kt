@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.domain.query
 
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
@@ -54,6 +55,7 @@ interface CatalogueGetStructureResultDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class CatalogueGetStructureResult(
-    override val item: CatalogueStructureDTO?,
+    override val item: CatalogueStructure?,
 ): CatalogueGetStructureResultDTO

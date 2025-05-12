@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTOBase
@@ -212,7 +213,7 @@ data class CatalogueDTOBase(
     override val type: String,
     override val language: String,
     override val availableLanguages: List<Language>,
-    override val structure: CatalogueStructureDTO? = null,
+    override val structure: CatalogueStructure? = null,
     override val themes: List<ConceptTranslatedDTOBase>,
     override val catalogues: List<CatalogueRefDTOBase>,
     override val relatedCatalogues: Map<String, List<CatalogueRefDTOBase>>? = null,
