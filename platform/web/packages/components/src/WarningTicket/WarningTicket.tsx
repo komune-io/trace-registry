@@ -31,7 +31,7 @@ export const WarningTicket = (props: WarningTicketProps) => {
       }}
     >
       {severity == "error" ? (
-        <Info color='error' />
+        <Info color='inherit' />
       ):(
         <WarningRounded color='inherit' />
        )}

@@ -160,7 +160,7 @@ export const DraftEditionPage = () => {
         title={t("catalogues.validatorComment")}
       >
         <Typography
-          variant='caption'
+          color='error'
         >
           {draft?.rejectReason ?? ""}
         </Typography>

@@ -73,6 +73,7 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 		status = CatalogueDraftState.UPDATE_REQUESTED
 		modified = event.date
 	}
+
 	private suspend fun CatalogueDraftEntity.updateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
 		modified = event.date
 		title = event.title
