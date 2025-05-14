@@ -274,7 +274,6 @@ class ImportScript(
                 order = catalogueData.order,
                 location = translation.location,
                 stakeholder = translation.stakeholder,
-                structure = catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure),
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = catalogueData.accessRights ?: importContext.settings.defaults?.accessRights,
                 license = licence,
