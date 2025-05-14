@@ -93,6 +93,7 @@ class ImportScript(
         markdownMediaImport = MarkdownMediaImport(properties, importRepository)
         indicatorInitializer = IndicatorInitializer(dataClient, importContext, importRepository)
 
+        importRepository.fetchPreExistingLicence()
         importRepository.fetchPreExistingDatasets()
         importRepository.fetchPreExistingGraphDataset()
 
@@ -263,6 +264,7 @@ class ImportScript(
         }.map { (_, translation) ->
             val imageFile = buildImageFile(catalogueData, importContext)
             logger.info("Catalogue creation [${catalogueData.identifier}, ${translation.language}]")
+            val licence = importContext.settings.defaults?.license?.let { importContext.licenses[it] }
             val createCommand = CatalogueCreateCommandDTOBase(
                 identifier = catalogueData.identifier,
                 title = translation.title.orEmpty().removeSuffix(" | null"),
@@ -270,9 +272,12 @@ class ImportScript(
                 type = importContext.mapCatalogueType(catalogueData.type),
                 language = translation.language,
                 order = catalogueData.order,
+                location = translation.location,
+                stakeholder = translation.stakeholder,
+                structure = catalogueData.structure ?: importContext.settings.defaults?.structure?.let(::Structure),
                 themes = catalogueData.themes?.mapNotNull { mapConcept(it, importContext) },
                 accessRights = catalogueData.accessRights ?: importContext.settings.defaults?.accessRights,
-                license = importContext.settings.defaults?.license?.let { importContext.licenses[it] },
+                license = licence,
                 homepage = catalogueData.homepage,
                 catalogues = catalogueData.children,
                 relatedCatalogueIds = catalogueData.related

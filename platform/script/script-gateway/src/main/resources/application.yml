@@ -11,7 +11,7 @@ registry:
       max: 1
       delayMillis: 10000
     init:
-      source: ./import/fiches
+#      source: ./import/fiches
 #      sources:
 #        - ./import/fiches
       auth:

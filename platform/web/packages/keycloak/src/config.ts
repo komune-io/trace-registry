@@ -8,10 +8,21 @@ export interface AdminConfig {
 export interface Config {
     platform: PlatformConfig
     admin: AdminConfig
+    legalNotice?: LegalNotice
+    sponsor?: Sponsor
     theme?: ThemeConfig
     languages?: Record<string, string>
 }
 
+export interface LegalNotice {
+    url: string
+}
+export interface Sponsor {
+    logo: string
+    by: string
+    url: string
+    name: string
+}
 export interface ThemeConfig {
     colors?: ThemeColorsConfig,
     shadow?: string
