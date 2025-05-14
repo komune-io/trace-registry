@@ -12,6 +12,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
@@ -22,6 +23,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -117,9 +119,14 @@ class CatalogueF2FinderService(
         )
     }
 
+    suspend fun getStructure(type: CatalogueType, language: Language?): CatalogueStructure? {
+        // TODO i18n
+        return catalogueConfig.typeConfigurations[type]?.structure
+    }
+
     suspend fun listAvailableParentsFor(
         id: CatalogueId?,
-        type: String,
+        type: CatalogueType,
         language: Language?,
         onlyAccessibleByAuthedUser: Boolean
     ): List<CatalogueRefDTOBase> {
@@ -137,14 +144,14 @@ class CatalogueF2FinderService(
             .sortedBy { "${it.title}   ${it.identifier}" }
     }
 
-    suspend fun listAvailableThemesFor(type: String, language: Language): List<ConceptTranslatedDTOBase> {
+    suspend fun listAvailableThemesFor(type: CatalogueType, language: Language): List<ConceptTranslatedDTOBase> {
         return catalogueConfig.typeConfigurations[type]
             ?.conceptSchemes
             ?.flatMap { conceptScheme -> conceptF2FinderService.listByScheme(conceptScheme, language) }
             .orEmpty()
     }
 
-    suspend fun listAvailableOwnersFor(type: String, search: String?, limit: Int?): List<OrganizationRef> {
+    suspend fun listAvailableOwnersFor(type: CatalogueType, search: String?, limit: Int?): List<OrganizationRef> {
         val roles = catalogueConfig.typeConfigurations[type]?.ownerRoles
 
         return organizationF2FinderService.page(

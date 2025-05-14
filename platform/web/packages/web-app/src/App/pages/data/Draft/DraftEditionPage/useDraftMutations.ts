@@ -48,7 +48,6 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         ...command.command,
         relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
         // keeping the same values
-        structure: values.structure,
         hidden: values.hidden,
         homepage: values.homepage,
         versionNotes: values.versionNotes,

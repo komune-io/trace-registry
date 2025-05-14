@@ -3,6 +3,7 @@ package io.komune.registry.f2.dataset.domain.command
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DistributionId
+import io.komune.registry.s2.commons.model.SimpleFile
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -13,7 +14,7 @@ import kotlin.js.JsExport
  * @order 111
  */
 typealias DatasetUpdateMediaDistributionFunction
-        = F2Function<DatasetUpdateMediaDistributionCommandDTOBase, DatasetUpdatedMediaDistributionEventDTOBase>
+        = F2Function<Pair<DatasetUpdateMediaDistributionCommandDTOBase, SimpleFile>, DatasetUpdatedMediaDistributionEventDTOBase>
 
 /**
  * @d2 command

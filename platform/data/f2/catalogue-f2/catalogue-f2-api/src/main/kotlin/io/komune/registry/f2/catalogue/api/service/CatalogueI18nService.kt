@@ -7,13 +7,16 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
+import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.CatalogueCacheContext
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
+import io.komune.registry.f2.dataset.api.model.extractAggregators
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
+import io.komune.registry.f2.dataset.domain.DatasetTypes
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -28,6 +31,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CatalogueI18nService(
+    private val catalogueConfig: CatalogueConfig,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
@@ -47,7 +51,8 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = translated.structure,
+                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+                order = translated.order,
             )
         }
     }
@@ -93,7 +98,7 @@ class CatalogueI18nService(
         val datasets = translated.childrenDatasetIds
             .map { cache.datasets.get(it).toDTOCached(draft) }
             .filter { it.language == translated.language && it.status != DatasetState.DELETED }
-            .filter { it.type != "attestations" || aggregators.any { it.value != "0" } }
+            .filter { it.type != DatasetTypes.ATTESTATIONS || aggregators.any { it.value != "0" } }
             .mapNotNull { dataset -> datasetPoliciesEnforcer.enforceDataset(dataset, translated) }
             .sortedBy { it.structure?.definitions?.get("order") ?: it.title }
 
@@ -126,7 +131,7 @@ class CatalogueI18nService(
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,
             availableLanguages = translated.translationIds.keys.sorted(),
-            structure = translated.structure,
+            structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
             homepage = translated.homepage,
             img = translated.img,
             creator = translated.creatorId?.let { cache.users.get(it) },
@@ -138,6 +143,7 @@ class CatalogueI18nService(
             accessRights = translated.accessRights,
             license = translated.licenseId?.let { cache.licenses.get(it) },
             location = translated.location,
+            order = translated.order,
             hidden = translated.hidden,
             issued = translated.issued,
             modified = translated.modified,
@@ -146,6 +152,9 @@ class CatalogueI18nService(
             version = translated.version,
             versionNotes = translated.versionNotes,
             integrateCounter = translated.integrateCounter,
+            indicators = translated.metadataDatasetId?.let { cache.datasets.get(it).toDTOCached(draft) }
+                ?.extractAggregators()
+                .orEmpty()
         )
     }
 
@@ -164,7 +173,8 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = translated.structure,
+                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+                order = translated.order,
                 catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     getCatalogueTree(catalogueIds, cache, language, otherLanguageIfAbsent)
                 },
@@ -223,6 +233,7 @@ class CatalogueI18nService(
             title = translation.title,
             description = translation.description,
             childrenDatasetIds = catalogue.childrenDatasetIds + translation.childrenDatasetIds,
+            metadataDatasetId = translation.metadataDatasetId,
             childrenCatalogueIds = catalogue.childrenCatalogueIds + translation.childrenCatalogueIds,
             version = translation.version,
             versionNotes = translation.versionNotes,
