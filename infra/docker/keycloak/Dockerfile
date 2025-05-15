@@ -4,8 +4,9 @@ ARG VERSION_CONNECT
 FROM node:${VERSION_NODE} as build
 
 WORKDIR /app
-
-RUN apk add --no-cache git=2.43.6-r0
+# Needed for keycloakify
+RUN apk add --no-cache git=2.43.6-r0 && \
+    git init
 
 COPY platform/web ./
 
