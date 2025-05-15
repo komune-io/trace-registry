@@ -49,7 +49,7 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
       setSearchValue(value);
       setIsFocused(true);
     },
-    [setSearchValue]
+    []
   );
 
   const handleFocus = useCallback((filters?: Partial<CatalogueRefSearchQuery>) => {
@@ -91,13 +91,14 @@ const toComponents = (
   searchValue?: string,
 ): FormComposableField => {
   const { name, label, params, customDisplay } = props;
+  console.log(options)
   return {
     name,
     type: "autoComplete",
     label,
     params: {
       popupIcon: <SearchIcon style={{ transform: "none" }} />,
-      onInputChange: (_: any, value: string) => onInputChange(value),
+      // onInputChange: (_: any, value: string) => onInputChange(value),
       getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
       getOptionKey: (catalogue: CatalogueRef) => catalogue.id,
       isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) => option.id === catalogue.id,

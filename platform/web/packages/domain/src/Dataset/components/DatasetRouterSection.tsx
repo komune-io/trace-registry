@@ -16,7 +16,7 @@ interface DatasetDataSectionProps {
 
 export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
     const { catalogue, item, isLoading } = props
-    const fileListQuery = useDatasetDataQuery({ query: { id: item.id! } })
+    const fileListQuery = useDatasetDataQuery({ query: { id: item.id } })
     if (item.type === "document") {
         return (
             <DocumentsPage isLoading={isLoading || fileListQuery.isLoading} files={fileListQuery.data?.items ?? [] as FilePath[]} />
