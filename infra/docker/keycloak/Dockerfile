@@ -5,7 +5,7 @@ FROM node:${VERSION_NODE} as build
 
 WORKDIR /app
 
-RUN apk add --no-cache git=2.49.0-r0
+RUN apk add --no-cache git=git-2.43.6-r0
 
 COPY platform/web ./
 
