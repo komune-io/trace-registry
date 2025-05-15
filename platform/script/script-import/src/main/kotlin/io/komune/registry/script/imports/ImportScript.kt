@@ -279,7 +279,9 @@ class ImportScript(
                 license = licence,
                 homepage = catalogueData.homepage,
                 catalogues = catalogueData.children,
-                relatedCatalogueIds = catalogueData.related
+                relatedCatalogueIds = catalogueData.related?.mapValues { (_, identifiers) ->
+                    identifiers.map { importContext.catalogues[it] ?: it }
+                }
             ) to imageFile
             val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 
