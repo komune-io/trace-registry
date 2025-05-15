@@ -5,6 +5,8 @@ FROM node:${VERSION_NODE} as build
 
 WORKDIR /app
 
+RUN apk add --no-cache git
+
 COPY platform/web ./
 
 ARG NPM_AUTH_TOKEN
