@@ -77,7 +77,7 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
         fieldOptions,
         (value: string) => handleInputChange(relation, value),
         () => handleFocus(relation),
-        searchValue // Pass searchValue here
+        searchValue
       );
     });
   }, [relations, activeRelation, options, t, handleInputChange, handleFocus, searchValue]); // Add searchValue to dependencies
@@ -105,7 +105,7 @@ const toComponents = (
     label: relation.title,
     params: {
       popupIcon: <SearchIcon style={{ transform: "none" }} />,
-      onInputChange: (_: any, value: string) => onInputChange(value),
+      onSearch: (value: string) => onInputChange(value),
       getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
       getOptionKey: (catalogue: CatalogueRef) => catalogue.id,
       isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) => option.id === catalogue.id,
@@ -119,4 +119,3 @@ const toComponents = (
     customDisplay: relation.customDisplay,
   };
 };
-
