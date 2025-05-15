@@ -4,7 +4,8 @@ ARG VERSION_CONNECT
 FROM node:${VERSION_NODE} as build
 
 WORKDIR /app
-# Needed for keycloakify
+
+# Needed for keycloakify "postinstall": "keycloakify sync-extensions"
 RUN apk add --no-cache git=2.43.6-r0 && \
     git init
 

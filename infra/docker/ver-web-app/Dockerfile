@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY platform/web ./
 
+# Needed for keycloakify "postinstall": "keycloakify sync-extensions"
+RUN apk add --no-cache git=2.43.6-r0 && \
+    git init
+
 ARG NPM_AUTH_TOKEN
 RUN printf "\
 @komune-io:registry=https://npm.pkg.github.com\n\
