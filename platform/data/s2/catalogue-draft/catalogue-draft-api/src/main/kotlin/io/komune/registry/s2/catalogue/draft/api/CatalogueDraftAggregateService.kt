@@ -76,6 +76,7 @@ class CatalogueDraftAggregateService(
         CatalogueDraftRejectedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
+            reason = command.reason
         )
     }
 

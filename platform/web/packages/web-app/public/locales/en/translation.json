@@ -350,6 +350,7 @@
     "newContributionReplace": "Creating a new contribution will replace your existing contribution",
     "createNewContribution": "Create a new contribution",
     "titleRequired": "You must provide the title of the sheet",
+    "validatorComment": "Validator comment",
     "planetaryLimits": "Label(s) planetary boundaries",
     "projectOwner": "Project leader",
     "noOrganization": "No organization were found",

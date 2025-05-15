@@ -350,6 +350,7 @@
     "newContributionReplace": "Crear una nueva contribución reemplazará su contribución existente",
     "createNewContribution": "Crear una nueva contribución",
     "titleRequired": "Debe proporcionar el título de la ficha",
+    "validatorComment": "Comentario del validador",
     "planetaryLimits": "Libellé(s) límites planetarios",
     "projectOwner": "Promotor del proyecto",
     "noOrganization": "No se encontraron organizaciones",
