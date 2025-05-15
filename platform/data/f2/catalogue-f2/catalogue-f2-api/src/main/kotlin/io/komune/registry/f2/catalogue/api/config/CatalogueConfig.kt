@@ -32,7 +32,7 @@ class CatalogueConfig(
                 }
 
                 typeConfiguration.type to typeConfiguration
-            }.also { println(it) }
+            }
     }
 
     final val templates: Map<String, ByteArray> by lazy {
@@ -49,6 +49,6 @@ class CatalogueConfig(
                 }
 
                 templateResource.file.path.substringAfter(templatesDir.substringAfter(":")).removePrefix("/") to template
-            }.also { println(it.keys) }
+            }
     }
 }
