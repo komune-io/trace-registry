@@ -6,6 +6,7 @@ import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppPage } from 'template'
+import json from "./autoForm.json"
 
 export const CatalogueCreationPage = () => {
   const { type } = useParams()
@@ -57,7 +58,7 @@ export const CatalogueCreationPage = () => {
       maxWidth={1020}
     >
       <TitleDivider title={title} />
-      <CatalogueMetadataForm formData={formData} onSubmit={onCreate} />
+      <CatalogueMetadataForm formData={formData} onSubmit={onCreate} type={type}  />
     </AppPage>
   )
 }

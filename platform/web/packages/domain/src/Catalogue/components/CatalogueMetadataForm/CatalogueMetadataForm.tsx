@@ -14,10 +14,11 @@ interface CatalogueMetadataFormProps {
     formData?: AutoFormData
     onSubmit?: (command: CommandWithFile<any>, values: any) => void
     formState?: FormComposableState
+    type?: string
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { onSubmit, formData, formState, draft } = props
+    const { onSubmit, formData, formState, draft, type } = props
 
     const { t, i18n } = useTranslation()
 
@@ -26,6 +27,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const parentListQuery = useCatalogueListAvailableParentsQuery({
         query: {
             language: draft?.language ?? i18n.language,
+            type: draft?.catalogue.type ?? type,
             ...contextualFilters["autoComplete-parents"]
         },
         options: {
