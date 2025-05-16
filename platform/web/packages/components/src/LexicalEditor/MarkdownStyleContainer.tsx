@@ -133,6 +133,23 @@ export const MarkdownStyleContainer = styled(Box, {
     display: "inline-block",
     pointerEvents: "none",
   },
+  "& .editor-hr": {
+    padding: "2px 2px",
+    border: "none",
+    margin: "1em 0",
+    cursor: "pointer",
+  },
+  "& .editor-hr:after": {
+    content: "''",
+    display: "block",
+    height: "2px",
+    backgroundColor: "#ccc",
+    lineHeight: "2px",
+  },
+  '& .editor-hr.editor-hrSelected': {
+    outline: "2px solid rgb(60, 132, 244)",
+    userSelect: "none",
+  },
   ...TableStyles,
   ...ImageStyles(readOnly),
 }))
