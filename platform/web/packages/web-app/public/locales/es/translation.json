@@ -387,6 +387,7 @@
     "columnsNumber": "Número de columnas",
     "gallery": "Galería",
     "charts": "Gráficos",
+    "addDivider": "Agregar un separador",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",
