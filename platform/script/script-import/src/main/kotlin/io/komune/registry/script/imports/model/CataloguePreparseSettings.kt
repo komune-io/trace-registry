@@ -31,6 +31,7 @@ data class CataloguePreparseFieldMapping(
     val field: String?,
     val valuesMap: Map<String, Any>?,
     val unmappedValues: CataloguePreparseFieldUnmappedBehaviour = CataloguePreparseFieldUnmappedBehaviour.AS_IS,
+    val builder: Any?
 )
 
 enum class CataloguePreparseFieldUnmappedBehaviour {

@@ -10,6 +10,7 @@ internal data class PreparseContext(
     val rootDirectory: File,
     val destinationDirectory: File,
     val cache: PreparseCache,
+    val iFile: Int? = null,
     val iCatalogue: Int? = null,
     val language: Language? = null
 ) : CoroutineContext.Element {
@@ -36,20 +37,31 @@ internal suspend fun <R> withPreparseContext(
     return withContext(context) { block(context) }
 }
 
+internal suspend fun <R> withFileIndex(
+    index: Int,
+    block: suspend (PreparseContext) -> R
+): R = withUpdatedContext(block) {
+    copy(iFile = index)
+}
+
 internal suspend fun <R> withCatalogueIndex(
     index: Int,
     block: suspend (PreparseContext) -> R
-): R {
-    val context = getPreparseContext()
-    val newContext = context.copy(iCatalogue = index)
-    return withContext(newContext) { block(newContext) }
+): R = withUpdatedContext(block) {
+    copy(iCatalogue = index)
 }
-
 internal suspend fun <R> withLanguage(
     language: Language,
     block: suspend (PreparseContext) -> R
+): R = withUpdatedContext(block) {
+    copy(language = language)
+}
+
+private suspend fun <R> withUpdatedContext(
+    block: suspend (PreparseContext) -> R,
+    update: PreparseContext.() -> PreparseContext,
 ): R {
     val context = getPreparseContext()
-    val newContext = context.copy(language = language)
+    val newContext = context.update()
     return withContext(newContext) { block(newContext) }
 }

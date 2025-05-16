@@ -5,6 +5,7 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.commons.model.OrganizationId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -41,6 +42,7 @@ interface CataloguePageQueryDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class CataloguePageQuery(
     override val catalogueId: String? = null,
     override val parentIdentifier: String? = null,
@@ -49,9 +51,9 @@ data class CataloguePageQuery(
     override val language: String,
     override val otherLanguageIfAbsent: Boolean = false,
     override val type: List<String>?,
-    override val creatorOrganizationId: OrganizationId?,
-    override val offset: Int?,
-    override val limit: Int?,
+    override val creatorOrganizationId: OrganizationId? = null,
+    override val offset: Int? = null,
+    override val limit: Int? = null,
 ): CataloguePageQueryDTO
 
 /**
@@ -65,6 +67,7 @@ interface CataloguePageResultDTO: PageDTO<CatalogueDTO>
 /**
  * @d2 inherit
  */
+@Serializable
 data class CataloguePageResult(
     override val items: List<CatalogueDTOBase>,
     override val total: Int

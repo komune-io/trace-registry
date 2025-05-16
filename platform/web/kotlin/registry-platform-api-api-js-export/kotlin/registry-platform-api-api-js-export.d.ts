@@ -4144,8 +4144,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueStructureDTO {
         readonly type: io.komune.registry.f2.catalogue.domain.dto.structure.StructureType;
-        readonly transient: boolean;
         readonly alias: boolean;
+        readonly color?: string;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
 
