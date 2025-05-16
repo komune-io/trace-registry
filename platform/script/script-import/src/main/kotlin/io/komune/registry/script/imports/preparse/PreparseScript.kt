@@ -343,30 +343,26 @@ class PreparseScript(
             ?.let { if (it is String) it else it.toJson() }
             ?: fieldMapping.default?.injectContextVariables()
 
-        val mappedValue = fieldMapping.valuesMap?.get(value)
+        val mappedValue = fieldMapping.mapRetrievedValue(value)
+             ?: return null
+
+        return fieldMapping.builder
+            ?.toJson()
+            ?.injectJsonVariables("value" to mappedValue)
+            ?: mappedValue
+    }
+
+    private suspend fun CataloguePreparseFieldMapping.mapRetrievedValue(value: String?): String? {
+        return valuesMap?.get(value)
             ?.let { if (it is String) it else it.toJson() }
-            ?: when (fieldMapping.unmappedValues) {
+            ?: when (unmappedValues) {
                 CataloguePreparseFieldUnmappedBehaviour.IGNORE -> null
                 CataloguePreparseFieldUnmappedBehaviour.AS_IS -> value
-                CataloguePreparseFieldUnmappedBehaviour.DEFAULT -> fieldMapping.default
+                CataloguePreparseFieldUnmappedBehaviour.DEFAULT -> default
                 CataloguePreparseFieldUnmappedBehaviour.ERROR -> throw IllegalArgumentException(
-                    "No value found for field [${fieldMapping.field}] (${getPreparseContext().iCatalogue})"
+                    "No value found for field [${field}] (${getPreparseContext().iCatalogue})"
                 )
-            } ?: return null
-
-        if (fieldMapping.builder == null) {
-            return mappedValue
-        }
-
-        return fieldMapping.builder.toJson()
-            .let { builderStr ->
-                // check if mapped value is surrounded by [], {}, or ""
-                if (Regex("""^\[.*]$|^\{.*}$|^".*"$""").matches(mappedValue)) {
-                    builderStr.replace("\"{value}\"", "{value}")
-                } else {
-                    builderStr
-                }
-            }.injectVariables("value" to mappedValue)
+            }
     }
 
     private suspend fun DocumentContext.parseFileField(fieldMapping: CataloguePreparseFileFieldMapping?): String? {
@@ -390,6 +386,17 @@ class PreparseScript(
             "i" to context.iCatalogue.toString(),
             "language" to context.language.toString()
         )
+    }
+
+    private fun String.injectJsonVariables(vararg variables: Pair<String, String>): String {
+        return variables.fold(this) { acc, (key, value) ->
+            // check if mapped value is surrounded by [], {}, or ""
+            if (Regex("""^\[.*]$|^\{.*}$|^".*"$""").matches(value)) {
+                acc.replace("\"{$key}\"", "{$key}")
+            } else {
+                acc
+            }
+        }.injectVariables(*variables)
     }
 
     private fun String.injectVariables(vararg variables: Pair<String, String>): String {
