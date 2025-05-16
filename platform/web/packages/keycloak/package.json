@@ -4,6 +4,7 @@
     "description": "Regisry Keycloakify Theme",
     "type": "module",
     "scripts": {
+        "postinstall": "keycloakify sync-extensions",
         "start": "vite",
         "build": "vite build",
         "build-keycloak-theme": "yarn build && keycloakify build",
@@ -15,7 +16,8 @@
     "dependencies": {
         "keycloakify": "^11.5.2",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "@keycloakify/email-native": "~260007.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.15.0",

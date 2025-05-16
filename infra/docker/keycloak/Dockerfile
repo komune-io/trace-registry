@@ -5,6 +5,10 @@ FROM node:${VERSION_NODE} as build
 
 WORKDIR /app
 
+# Needed for keycloakify "postinstall": "keycloakify sync-extensions"
+RUN apk add --no-cache git=2.43.6-r0 && \
+    git init
+
 COPY platform/web ./
 
 ARG NPM_AUTH_TOKEN
