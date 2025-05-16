@@ -16,6 +16,7 @@ export interface InformationConcept extends io.komune.registry.f2.cccev.domain.c
     
 }
 
+export interface ConceptTranslated extends io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTO {}
 export interface InformationConceptTranslated extends io.komune.registry.f2.cccev.domain.concept.model.InformationConceptTranslatedDTO {}
 
 export type CatalogueTypes = "100m-sector" | "100m-solution" | "100m-system" | "100m-project" | "100m-chart"

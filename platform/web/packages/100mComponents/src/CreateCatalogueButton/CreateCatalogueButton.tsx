@@ -1,5 +1,5 @@
 import { AddCircleOutlineRounded } from '@mui/icons-material'
-import { CustomButton, iconPack, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
+import { CustomButton, IconPack, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import { CatalogueTypes, useCatalogueListAllowedTypesQuery } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,28 +22,28 @@ export const CreateCatalogueButton = () => {
             return {
                 key: "newSystem",
                 label: t("newSystem"),
-                icon: iconPack.system,
+                icon: <IconPack.system />,
                 to: cataloguesCreateSystem()
             }
         } else if (catalogueType === "100m-solution") {
             return {
                 key: "newSolution",
                 label: t("newSolution"),
-                icon: iconPack.solution,
+                icon: <IconPack.solution />,
                 to: cataloguesCreateSolution()
             }
         } else if (catalogueType === "100m-sector") {
             return {
                 key: "newSector",
                 label: t("newSector"),
-                icon: iconPack.sector,
+                icon: <IconPack.sector />,
                 to: cataloguesCreateSector()
             }
         } else if (catalogueType === "100m-project") {
             return {
                 key: "newProject",
                 label: t("newProject"),
-                icon: iconPack.project,
+                icon: <IconPack.project />,
                 to: cataloguesCreateProject()
             }
         }

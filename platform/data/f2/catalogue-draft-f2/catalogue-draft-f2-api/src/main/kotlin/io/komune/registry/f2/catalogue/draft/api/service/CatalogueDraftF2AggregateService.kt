@@ -17,6 +17,7 @@ import io.komune.registry.program.s2.dataset.api.entity.toCreateCommand
 import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkMetadataDatasetCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
@@ -82,6 +83,7 @@ class CatalogueDraftF2AggregateService(
             language = command.language,
             catalogues = emptyList(),
             relatedCatalogueIds = baseCatalogue.relatedCatalogueIds?.mapValues { it.value.toList() },
+            order = baseCatalogue.order,
             hidden = true,
             integrateCounter = baseCatalogue.integrateCounter,
         ).let { catalogueF2AggregateService.createOrphanTranslation(
@@ -93,15 +95,9 @@ class CatalogueDraftF2AggregateService(
             initDatasets = translatedOriginalCatalogue == null
         ).id }
 
-        val datasetIdMap = copyDatasets(baseCatalogue.childrenDatasetIds, draftedCatalogueId)
+        val datasetIdMap = copyAndLinkDatasets(baseCatalogue, draftedCatalogueId)
 
-        CatalogueLinkDatasetsCommand(
-            id = draftedCatalogueId,
-            // idMap also contains children's descendants, but link should only be for children
-            datasetIds = datasetIdMap.filterKeys { it in baseCatalogue.childrenDatasetIds }.values.toList()
-        ).let { catalogueAggregateService.linkDatasets(it) }
-
-        val event = CatalogueDraftCreateCommand(
+        return CatalogueDraftCreateCommand(
             catalogueId = draftedCatalogueId,
             original = CatalogueDraftedRef(
                 id = command.catalogueId,
@@ -112,8 +108,6 @@ class CatalogueDraftF2AggregateService(
             baseVersion = translatedOriginalCatalogue?.version ?: 0,
             datasetIdMap = datasetIdMap
         ).let { catalogueDraftAggregateService.create(it) }
-
-        return event
     }
 
     suspend fun submit(command: CatalogueDraftSubmitCommand): CatalogueDraftSubmittedEvent {
@@ -165,6 +159,31 @@ class CatalogueDraftF2AggregateService(
                     reason = "Another draft has been validated for this version."
                 ).let { catalogueDraftAggregateService.reject(it) }
             }
+    }
+
+    private suspend fun copyAndLinkDatasets(
+        sourceCatalogue: CatalogueModel,
+        destinationCatalogueId: CatalogueDraftedId
+    ): Map<DatasetId, DatasetDraftedId> {
+        val datasetIdMap = copyDatasets(
+            datasetIds = sourceCatalogue.childrenDatasetIds + listOfNotNull(sourceCatalogue.metadataDatasetId),
+            catalogueId = destinationCatalogueId
+        )
+
+        CatalogueLinkDatasetsCommand(
+            id = destinationCatalogueId,
+            // idMap also contains children's descendants, but link should only be for children
+            datasetIds = datasetIdMap.filterKeys { it in sourceCatalogue.childrenDatasetIds }.values.toList()
+        ).let { catalogueAggregateService.linkDatasets(it) }
+
+        datasetIdMap[sourceCatalogue.metadataDatasetId]?.let { datasetId ->
+            CatalogueLinkMetadataDatasetCommand(
+                id = destinationCatalogueId,
+                datasetId = datasetId
+            ).let { catalogueAggregateService.linkMetadataDataset(it) }
+        }
+
+        return datasetIdMap
     }
 
     private suspend fun copyDatasets(datasetIds: Collection<DatasetId>, catalogueId: CatalogueId): Map<DatasetId, DatasetDraftedId> {

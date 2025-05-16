@@ -19,6 +19,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
@@ -85,6 +86,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueGet(): CatalogueGetFunction = client.function("data/${this::catalogueGet.name}")
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
         = client.function("data/${this::catalogueGetByIdentifier.name}")
+    override fun catalogueGetStructure(): CatalogueGetStructureFunction = client.function("data/${this::catalogueGetStructure.name}")
 
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
         = client.function("data/${this::catalogueListAvailableParents.name}")

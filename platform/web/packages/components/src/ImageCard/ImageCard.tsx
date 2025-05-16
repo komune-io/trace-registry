@@ -5,7 +5,7 @@ import { maybeAddItem } from '../utils'
 import { useTranslation } from 'react-i18next'
 import { EditRounded, MoreVert } from '@mui/icons-material'
 import { UnCachedImage } from '../UnCachedImage'
-import { iconPack } from '../Icons'
+import { IconPack } from '../Icons'
 
 export interface ImageCardProps {
     imageUrl: string
@@ -32,7 +32,7 @@ export const ImageCard = (props: ImageCardProps) => {
             key: "delete",
             label: t("delete"),
             color: "#B01717",
-            icon: iconPack.trash,
+            icon: <IconPack.trash />,
             onClick: onDelete
         }),
     ], [onDelete, editUrl])

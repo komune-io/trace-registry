@@ -6,13 +6,14 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -51,7 +52,6 @@ interface CatalogueCreateCommandDTO {
 
     val type: String
     val language: Language?
-    val structure: Structure?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
@@ -64,6 +64,8 @@ interface CatalogueCreateCommandDTO {
 
     val versionNotes: String?
 
+    val order: Int?
+
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
      */
@@ -72,6 +74,8 @@ interface CatalogueCreateCommandDTO {
     val withDraft: Boolean
 
     val integrateCounter: Boolean?
+
+    val indicators: Map<InformationConceptIdentifier, List<String>>?
 }
 
 /**
@@ -85,7 +89,6 @@ data class CatalogueCreateCommandDTOBase(
     override val description: String? = null,
     override val type: String,
     override val language: Language?,
-    override val structure: Structure? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val stakeholder: String? = null,
@@ -96,9 +99,11 @@ data class CatalogueCreateCommandDTOBase(
     override val license: LicenseId? = null,
     override val location: Location? = null,
     override val versionNotes: String? = null,
+    override val order: Int? = null,
     override val hidden: Boolean? = null,
     override val withDraft: Boolean = false,
     override val integrateCounter: Boolean? = null,
+    override val indicators: Map<InformationConceptIdentifier, List<String>>? = null,
 ): CatalogueCreateCommandDTO
 
 /**
@@ -118,6 +123,8 @@ interface CatalogueCreatedEventDTO: Event {
      */
     val identifier: CatalogueIdentifier
 
+    val type: CatalogueType
+
     /**
      * Id of the initialized draft, if any.
      */
@@ -131,5 +138,6 @@ interface CatalogueCreatedEventDTO: Event {
 data class CatalogueCreatedEventDTOBase(
     override val id: CatalogueId,
     override val identifier: CatalogueIdentifier,
+    override val type: CatalogueType,
     override val draftId: CatalogueDraftId?,
 ): CatalogueCreatedEventDTO

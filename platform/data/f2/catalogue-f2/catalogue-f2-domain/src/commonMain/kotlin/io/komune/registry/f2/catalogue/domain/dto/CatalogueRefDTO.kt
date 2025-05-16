@@ -1,10 +1,11 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
-import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDTO
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Minimal information about a [Catalogue][CatalogueDTO]
@@ -28,12 +29,12 @@ interface CatalogueRefDTO {
     /**
      * @ref [CatalogueDTO.structure]
      */
-    val structure: StructureDTO?
+    val structure: CatalogueStructureDTO?
 
     /**
      * @ref [CatalogueDTO.title]
      */
-    val title: String
+    val title: CatalogueType
 
     /**
      * @ref [CatalogueDTO.language]
@@ -59,6 +60,8 @@ interface CatalogueRefDTO {
      * @ref [CatalogueDTO.img]
      */
     val img: String?
+
+    val order: Int?
 }
 
 /**
@@ -71,8 +74,9 @@ data class CatalogueRefDTOBase(
     override val title: String,
     override val language: String,
     override val availableLanguages: List<Language>,
-    override val type: String,
-    override val structure: Structure?,
+    override val type: CatalogueType,
+    override val structure: CatalogueStructure?,
     override val description: String? = null,
     override val img: String? = null,
+    override val order: Int? = null,
 ) : CatalogueRefDTO

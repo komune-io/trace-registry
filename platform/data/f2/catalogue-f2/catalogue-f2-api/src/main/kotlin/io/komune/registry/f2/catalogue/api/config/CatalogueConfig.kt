@@ -1,13 +1,15 @@
 package io.komune.registry.f2.catalogue.api.config
 
-import io.komune.registry.api.commons.utils.jsonMapper
+import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import s2.spring.utils.logger.Logger
 
 @Configuration
-class CatalogueConfig {
+class CatalogueConfig(
+    private val jsonConfig: Json,
+) {
     private val logger by Logger()
 
     @Value("\${platform.catalogue.type-files}")
@@ -23,14 +25,14 @@ class CatalogueConfig {
             .associate { file ->
                 logger.info("Loading catalogue type configuration ${file.url}")
                 val typeConfiguration = try {
-                    jsonMapper.readValue(file.inputStream, CatalogueTypeConfiguration::class.java)
+                    jsonConfig.decodeFromString<CatalogueTypeConfiguration>(file.file.readText())
                 } catch (e: Exception) {
                     logger.error("Error while parsing file ${file.url}", e)
                     throw e
                 }
 
                 typeConfiguration.type to typeConfiguration
-            }.also { println(it) }
+            }
     }
 
     final val templates: Map<String, ByteArray> by lazy {
@@ -47,6 +49,6 @@ class CatalogueConfig {
                 }
 
                 templateResource.file.path.substringAfter(templatesDir.substringAfter(":")).removePrefix("/") to template
-            }.also { println(it.keys) }
+            }
     }
 }
