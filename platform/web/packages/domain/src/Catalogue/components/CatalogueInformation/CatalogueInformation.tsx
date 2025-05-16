@@ -5,17 +5,20 @@ import { CatalogueDetails } from '../CatalogueDetails'
 import { CataloguePresentation } from '../CataloguePresentation';
 import { useCatalogueDistributionLexicalEditor } from "../DistributionLexicalEditor";
 import { Dataset } from '../../../Dataset';
+import { useMemo } from 'react';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
     dataset: Dataset
     isLoading?: boolean
+    isEmpty?: (isEmpty: boolean) => void
 }
 
 export const CatalogueInformation = (props: CatalogueInformationProps) => {
     const {
         catalogue,
         isLoading,
+        isEmpty,
         dataset
     } = props
 
@@ -23,7 +26,17 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
 
     const withCatalogueMetadata = dataset.structure?.definitions?.withCatalogueMetadata === "true"
 
-    if ((!dataset || !distribution) && !withCatalogueMetadata) return
+    const isDatasetEmpty = useMemo(() => {
+        const bool = (!dataset || !distribution) && !withCatalogueMetadata
+        if (isEmpty) {
+            isEmpty(bool)
+        }
+        return bool
+    }, [dataset, distribution, withCatalogueMetadata, isEmpty])
+
+    if (isDatasetEmpty) {
+        return 
+    }
     return (
         <>
             <CataloguePresentation

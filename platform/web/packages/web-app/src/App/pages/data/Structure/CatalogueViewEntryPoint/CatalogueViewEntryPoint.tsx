@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { AppPage } from 'template'
 import { InfoTicket, maybeAddItem, useRoutesDefinition, SectionTab, Tab, useExtendedAuth, CustomLinkButton } from 'components'
-import { SyntheticEvent, useCallback, useMemo } from 'react'
+import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { Stack } from '@mui/material'
 import {useLocation} from "react-router";
@@ -27,26 +27,36 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
     const {policies} = useExtendedAuth()
     const navigate = useNavigate()
     const location = useLocation();
+    const [emptyTabs, setEmptyTabs] = useState<Record<string, boolean>>({})
 
     const { cataloguesTab } = useRoutesDefinition()
     const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
         navigate(cataloguesTab(value, ...ids))
     }, [ids])
 
-    const datasetTab: Tab[] = catalogue?.datasets
+    const datasetTab: Tab[] = useMemo(() => catalogue?.datasets
       ?.filter((it) => {
         const display = it.structure?.definitions?.display ?? ""
         return display.includes("read")
       })
       ?.map((dataset) => {
-        const component = DatasetRouterSection({catalogue, item: dataset, isLoading: false})
-        if (!component) return undefined
+        if (emptyTabs[dataset.id]) return null
         return {
             key: dataset.id,
             label: dataset.title!,
-            component
+            component: <DatasetRouterSection
+                catalogue={catalogue}
+                item={dataset}
+                isLoading={false}
+                isEmpty={(isEmpty) => {
+                    setEmptyTabs((prev) => ({
+                        ...prev,
+                        [dataset.id]: isEmpty
+                    }))
+                }}
+            />
         }
-    }).filter(Boolean) as Tab[]  ?? []
+    }).filter(Boolean) as Tab[] ?? [], [catalogue, emptyTabs])
 
 
   const currentTab = useMemo(() => {
