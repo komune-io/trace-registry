@@ -5,8 +5,9 @@ WORKDIR /app
 COPY platform/web ./
 
 # Needed for keycloakify "postinstall": "keycloakify sync-extensions"
-RUN apk add --no-cache git=2.43.6-r0 && \
+RUN apk add --no-cache git=2.47.2-r0 && \
     git init
+
 
 ARG NPM_AUTH_TOKEN
 RUN printf "\
