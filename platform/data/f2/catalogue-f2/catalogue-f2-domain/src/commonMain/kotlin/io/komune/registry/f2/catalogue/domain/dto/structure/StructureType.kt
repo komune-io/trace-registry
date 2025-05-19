@@ -13,5 +13,6 @@ enum class StructureType {
     MENU_BRANCH,
     MENU_LEAF,
     MOSAIC,
-    TABLE
+    TABLE,
+    TRANSIENT
 }

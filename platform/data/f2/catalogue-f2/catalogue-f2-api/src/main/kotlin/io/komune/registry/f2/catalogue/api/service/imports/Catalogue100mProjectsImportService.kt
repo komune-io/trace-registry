@@ -12,10 +12,6 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
-import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
-import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
-import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftSubmitCommand
-import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator
@@ -37,13 +33,9 @@ import kotlinx.coroutines.runBlocking
 import org.apache.commons.csv.CSVRecord
 import org.springframework.stereotype.Service
 import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @Service
 class Catalogue100mProjectsImportService(
-    private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
-    private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
@@ -83,8 +75,7 @@ class Catalogue100mProjectsImportService(
             parentId = csvRecord.getColumn(Cat100mProjectsCsvColumn.SECTOR.value)
                 ?.let { context.getCatalogueIdByIdentifier(SECTOR_TYPE, it) },
             title = csvRecord.getColumn(Cat100mProjectsCsvColumn.TITLE.value).orEmpty(),
-            description = csvRecord.getColumn(Cat100mProjectsCsvColumn.DESCRIPTION.value)
-                ?: "Projet importé le ${SimpleDateFormat("dd/MM/yyyy").format(Date(System.currentTimeMillis()))}",
+            description = csvRecord.getColumn(Cat100mProjectsCsvColumn.DESCRIPTION.value),
             type = CATALOGUE_TYPE,
             language = LANGUAGE,
             stakeholder = csvRecord.getColumn(Cat100mProjectsCsvColumn.STAKEHOLDER.value),
@@ -104,7 +95,7 @@ class Catalogue100mProjectsImportService(
                 region = csvRecord.getColumn(Cat100mProjectsCsvColumn.REGION.value)
             ),
             integrateCounter = true,
-            withDraft = true
+            withDraft = false
         )
     }
 
@@ -178,21 +169,11 @@ class Catalogue100mProjectsImportService(
     }
 
     private suspend fun importCatalogue(catalogueImportData: CatalogueImportData): CatalogueId {
-        val draftId = catalogueF2AggregateService.create(catalogueImportData.createCommand).draftId!!
-        val draft = catalogueDraftFinderService.get(draftId)
-        val catalogue = catalogueF2FinderService.get(draft.catalogueId, LANGUAGE)
-
-        val now = System.currentTimeMillis()
-        CatalogueDraftSubmitCommand(
-            id = draft.id,
-            versionNotes = "Import - ${SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date(now))}",
-        ).let { catalogueDraftAggregateService.submit(it) }
-        CatalogueDraftValidateCommand(
-            id = draft.id
-        ).let { catalogueDraftAggregateService.validate(it) }
+        val catalogueId = catalogueF2AggregateService.create(catalogueImportData.createCommand).id
+        val catalogue = catalogueF2FinderService.get(catalogueId, LANGUAGE)
 
         if (catalogueImportData.indicators.isEmpty()) {
-            return draft.originalCatalogueId
+            return catalogueId
         }
 
         val parentDataset = catalogue.datasets.first { it.type == DATASET_INDICATORS_TYPE }
@@ -211,7 +192,7 @@ class Catalogue100mProjectsImportService(
         }
         datasetF2AggregateService.addDistributionValues(commands)
 
-        return draft.originalCatalogueId
+        return catalogueId
     }
 
     private suspend fun createIndicatorDataset(parentId: DatasetId): Pair<DatasetId, DistributionId> {

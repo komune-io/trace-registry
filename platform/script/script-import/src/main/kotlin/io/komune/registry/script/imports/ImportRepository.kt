@@ -5,6 +5,7 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.catalogue.domain.query.CataloguePageQuery
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
@@ -21,9 +22,12 @@ import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
+import io.komune.registry.f2.license.domain.query.LicenseListQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -78,6 +82,16 @@ class ImportRepository(
         } while (result.total > offset)
     }
 
+    suspend fun fetchPreExistingLicence() {
+        val licenses = LicenseListQuery()
+            .invokeWith(dataClient.license.licenseList())
+            .items
+
+        licenses.forEach {
+            importContext.licenses[it.identifier] = it.id
+        }
+    }
+
     suspend fun getOrCreateConcept(concept: ConceptInitData) = ConceptGetByIdentifierQuery(concept.identifier)
         .invokeWith(dataClient.concept.conceptGetByIdentifier())
         .item
@@ -114,12 +128,17 @@ class ImportRepository(
     suspend fun createInformationConcept(
         informationConcept: InformationConceptInitData
     ): InformationConceptDTOBase {
-        val unit = informationConcept.unit?.let {
-                DataUnitGetByIdentifierQuery(it)
-                    .invokeWith(dataClient.cccev.dataUnitGetByIdentifier())
-                    .item
-                    ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
-            }
+        val unit = informationConcept.unit?.let { unit ->
+            CompositeDataUnitModel(
+                leftUnitId = getDataUnit(unit.left)?.id
+                    ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}"),
+                rightUnitId = unit.right?.let {
+                    getDataUnit(it)?.id
+                        ?: throw IllegalArgumentException("Data unit not found: ${informationConcept.unit}")
+                },
+                operator = unit.operator.takeIf { unit.right != null },
+            )
+        }
 
         val themes = informationConcept.themes?.map { identifier ->
             ConceptGetByIdentifierQuery(identifier)
@@ -131,7 +150,7 @@ class ImportRepository(
         return InformationConceptCreateCommand(
             identifier = informationConcept.identifier,
             name = informationConcept.name,
-            unit = unit?.let { CompositeDataUnitModel(it.id, null, null) },
+            unit = unit,
             aggregator = informationConcept.aggregator?.let {
                 AggregatorConfig(
                     type = it.type,
@@ -287,6 +306,29 @@ class ImportRepository(
             logger.error(e.error.message, e)
             return null
         }
+    }
+
+    suspend fun findCatalogueIdentifierByTitle(title: String, type: CatalogueType): CatalogueIdentifier? {
+        if (importContext.catalogueIdentifiersByTitle.containsKey(title)) {
+            return importContext.catalogueIdentifiersByTitle[title]?.ifEmpty { null }
+        }
+
+        val catalogue = CataloguePageQuery(
+            type = listOf(type),
+            title = title,
+            language = "",
+            otherLanguageIfAbsent = true
+        ).invokeWith(dataClient.catalogue.cataloguePage())
+            .items
+            .firstOrNull { it.title == title }
+
+        if (catalogue == null) {
+            importContext.catalogueIdentifiersByTitle[title] = ""
+            return null
+        }
+
+        importContext.registerCatalogue(catalogue)
+        return catalogue.identifier
     }
 
     suspend fun getDataset(datasetId: DatasetId): DatasetDTOBase? {

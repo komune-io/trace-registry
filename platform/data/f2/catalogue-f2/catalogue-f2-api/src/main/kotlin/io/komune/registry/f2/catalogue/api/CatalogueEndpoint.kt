@@ -10,6 +10,7 @@ import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.buildResponseForFile
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.serveFile
+import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.api.service.CatalogueCertificateService
@@ -67,6 +68,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueType
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -84,6 +86,7 @@ import s2.spring.utils.logger.Logger
 @RequestMapping
 class CatalogueEndpoint(
     private val catalogueAggregateService: CatalogueAggregateService,
+    private val catalogueConfig: CatalogueConfig,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
@@ -260,6 +263,19 @@ class CatalogueEndpoint(
         logger.info("catalogueCertificateDownload: $catalogueId")
         val file = certificate.generateFiles(catalogueId)
         return buildResponseForFile("certificate-$catalogueId.pdf", file)
+    }
+
+    @PermitAll
+    @GetMapping("/data/catalogueTypes/{type}/img")
+    suspend fun catalogueTypeImgDownload(
+        @PathVariable type: CatalogueType,
+    ): ResponseEntity<InputStreamResource> {
+        logger.info("catalogueTypeImgDownload: $type")
+        val filename = catalogueConfig.typeConfigurations[type]?.icon
+        return buildResponseForFile(
+            filename = filename.orEmpty(),
+            fileStream = filename?.let { catalogueConfig.resources[it]?.inputStream() }
+        )
     }
 
     @PostMapping("/data/catalogueCreate")

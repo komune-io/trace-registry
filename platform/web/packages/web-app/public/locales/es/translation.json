@@ -150,7 +150,7 @@
   "administration": "Administración",
   "seeAll": "Ver todos",
   "mySheets": "Mis fichas",
-  "co2TonsAvoided": "Toneladas de CO₂ ahorradas",
+  "co2TonsAvoided": "Toneladas CO2/año",
   "minValue": "Valor mínimo",
   "maxValue": "Valor máximo",
   "value": "Valor",
@@ -387,6 +387,7 @@
     "columnsNumber": "Número de columnas",
     "gallery": "Galería",
     "charts": "Gráficos",
+    "addDivider": "Agregar un separador",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",

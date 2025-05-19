@@ -8,11 +8,12 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.toAccessData
+import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructure
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
@@ -119,9 +120,10 @@ class CatalogueF2FinderService(
         )
     }
 
-    suspend fun getStructure(type: CatalogueType, language: Language?): CatalogueStructure? {
-        // TODO i18n
-        return catalogueConfig.typeConfigurations[type]?.structure
+    suspend fun getStructure(type: CatalogueType, language: Language?): CatalogueStructureDTOBase? {
+        return catalogueConfig.typeConfigurations[type]
+            ?.structure
+            ?.toDTO(language!!, catalogueConfig.typeConfigurations::get)
     }
 
     suspend fun listAvailableParentsFor(

@@ -1468,6 +1468,67 @@ export declare namespace io.komune.registry.s2.commons.model {
         projects(): string;
     };
 }
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormDTO {
+        readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
+        readonly properties?: Record<string, any>;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormConditionDTO {
+        readonly type: io.komune.registry.s2.commons.model.form.FormConditionType;
+        readonly expression: string;
+        readonly error?: string;
+        readonly message?: string;
+
+    }
+    type FormConditionType = "display" | "validator" | "info" | "error" | "warning";
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormFieldDTO {
+        readonly name: string;
+        readonly label?: string;
+        readonly type: string;
+        readonly description?: string;
+        readonly helperText?: string;
+        readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
+        readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
+        readonly properties?: io.komune.registry.s2.commons.model.form.FormFieldPropertiesDTO;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormFieldPropertiesDTO {
+        readonly multiline?: boolean;
+        readonly rows?: number;
+        readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
+        readonly fileTypesAllowed?: string[];
+        readonly filters?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormOptionDTO {
+        readonly key: string;
+        readonly label?: string;
+        readonly color?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormSectionDTO {
+        readonly id: string;
+        readonly label?: string;
+        readonly fields: io.komune.registry.s2.commons.model.form.FormFieldDTO[];
+        readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
+        readonly properties?: Record<string, any>;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    type TextFieldType = "number" | "text" | "email" | "password" | "search";
+}
 export declare namespace io.komune.fs.s2.file.domain.features.query {
     interface FileAskQuestionQueryDTO {
         readonly question: string;
@@ -4038,6 +4099,14 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueTypeDTO {
+        readonly identifier: string;
+        readonly name: string;
+        readonly icon?: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueDraftRefDTO {
         readonly id: string;
         readonly originalCatalogueId: string;
@@ -4084,17 +4153,25 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
-    interface CatalogueStructureDTO {
-        readonly type: io.komune.registry.f2.catalogue.domain.dto.structure.StructureType;
-        readonly transient: boolean;
-        readonly alias: boolean;
-        readonly creationForm?: any;
-        readonly metadataForm?: any;
+    interface CatalogueCreateButtonDTO {
+        readonly label: string;
+        readonly types: io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTO[];
 
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
-    type StructureType = "GRID" | "HOME" | "ITEM" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE";
+    interface CatalogueStructureDTO {
+        readonly type: io.komune.registry.f2.catalogue.domain.dto.structure.StructureType;
+        readonly alias: boolean;
+        readonly color?: string;
+        readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
+        readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
+        readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
+    type StructureType = "GRID" | "HOME" | "ITEM" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueGetByIdentifierQueryDTO {

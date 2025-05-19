@@ -16,7 +16,10 @@ class CatalogueConfig(
     private lateinit var typeConfigDir: String
 
     @Value("\${platform.catalogue.templates}")
-    private lateinit var templatesDir: String
+    private var templatesDir: String? = null
+
+    @Value("\${platform.catalogue.resources}")
+    private var resourcesDir: String? = null
 
     final val typeConfigurations: Map<String, CatalogueTypeConfiguration> by lazy {
         logger.info("Loading catalogue type configurations from $typeConfigDir")
@@ -32,23 +35,34 @@ class CatalogueConfig(
                 }
 
                 typeConfiguration.type to typeConfiguration
-            }.also { println(it) }
+            }
     }
 
     final val templates: Map<String, ByteArray> by lazy {
         logger.info("Loading catalogue templates from $templatesDir")
-        PathMatchingResourcePatternResolver()
-            .getResources("$templatesDir/**/*")
-            .associate { templateResource ->
-                logger.info("Loading template ${templateResource.url}")
-                val template = try {
-                    templateResource.file.readBytes()
+        loadFiles(templatesDir)
+    }
+
+    final val resources: Map<String, ByteArray> by lazy {
+        logger.info("Loading catalogue resources from $resourcesDir")
+        loadFiles(resourcesDir)
+    }
+
+    private fun loadFiles(path: String?): Map<String, ByteArray> {
+        path ?: return emptyMap()
+
+        return PathMatchingResourcePatternResolver()
+            .getResources("$path/**/*")
+            .associate { resource ->
+                logger.info("Loading file ${resource.url}")
+                val file = try {
+                    resource.file.readBytes()
                 } catch (e: Exception) {
-                    logger.error("Error while parsing file ${templateResource.url}", e)
+                    logger.error("Error while parsing file ${resource.url}", e)
                     throw e
                 }
 
-                templateResource.file.path.substringAfter(templatesDir.substringAfter(":")).removePrefix("/") to template
-            }.also { println(it.keys) }
+                resource.file.path.substringAfter(path.substringAfter(":")).removePrefix("/") to file
+            }
     }
 }

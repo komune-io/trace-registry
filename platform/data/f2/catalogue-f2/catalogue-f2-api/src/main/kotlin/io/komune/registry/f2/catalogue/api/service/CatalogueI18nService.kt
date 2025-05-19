@@ -8,10 +8,11 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
-import io.komune.registry.f2.catalogue.api.model.CatalogueCacheContext
+import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.extractAggregators
 import io.komune.registry.f2.dataset.api.model.toRef
@@ -51,7 +52,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+                structure = translated.getStructure(),
                 order = translated.order,
             )
         }
@@ -131,7 +132,7 @@ class CatalogueI18nService(
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,
             availableLanguages = translated.translationIds.keys.sorted(),
-            structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+            structure = translated.getStructure(),
             homepage = translated.homepage,
             img = translated.img,
             creator = translated.creatorId?.let { cache.users.get(it) },
@@ -162,7 +163,7 @@ class CatalogueI18nService(
         catalogue: CatalogueModel,
         language: Language?,
         otherLanguageIfAbsent: Boolean,
-    ): CatalogueRefTreeDTOBase? = withCache { cache ->
+    ): CatalogueRefTreeDTOBase? = withCache {
         translate(catalogue, language, otherLanguageIfAbsent)?.let { translated ->
             CatalogueRefTreeDTOBase(
                 id = translated.id,
@@ -173,13 +174,13 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+                structure = translated.getStructure(),
                 order = translated.order,
                 catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
-                    getCatalogueTree(catalogueIds, cache, language, otherLanguageIfAbsent)
+                    getCatalogueTree(catalogueIds, language, otherLanguageIfAbsent)
                 },
                 relatedCatalogues = translated.relatedCatalogueIds?.mapValues { (_, catalogueIds) ->
-                    getCatalogueTree(catalogueIds, cache, language, otherLanguageIfAbsent)
+                    getCatalogueTree(catalogueIds, language, otherLanguageIfAbsent)
                 },
             )
         }
@@ -187,19 +188,23 @@ class CatalogueI18nService(
 
     private suspend fun getCatalogueTree(
         catalogueIds: Set<CatalogueId>,
-        cache: CatalogueCacheContext,
         language: Language?,
         otherLanguageIfAbsent: Boolean
-    ) = catalogueFinderService.page(
-        id = CollectionMatch(catalogueIds),
-        hidden = ExactMatch(false),
-        freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter()
-    ).items
-        .onEach { cache.untranslatedCatalogues.register(it.id, it) }
-        .filter { it.status != CatalogueState.DELETED }
-        .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
-        .filterNotNull()
-        .sortedBy { "${it.title}   ${it.identifier}" }
+    ): List<CatalogueRefTreeDTOBase> = withCache { cache ->
+        val unCachedCatalogueIds = catalogueIds.filterNot { it in cache.untranslatedCatalogues }
+
+        if (unCachedCatalogueIds.isNotEmpty()) {
+            catalogueFinderService.page(id = CollectionMatch(unCachedCatalogueIds))
+                .items
+                .forEach { cache.untranslatedCatalogues.register(it.id, it) }
+        }
+
+        catalogueIds.map { cache.untranslatedCatalogues.get(it) }
+            .filter { it.status != CatalogueState.DELETED && !it.hidden && cataloguePoliciesFilterEnforcer.enforceCatalogue(it) != null }
+            .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
+            .filterNotNull()
+            .sortedBy { "${it.title}   ${it.identifier}" }
+    }
 
     /**
      * 1. If the desired language is null, skip steps 2 and 4.
@@ -253,4 +258,9 @@ class CatalogueI18nService(
         ).items
     }
 
+    private suspend fun CatalogueModel.getStructure(): CatalogueStructureDTOBase? {
+        return catalogueConfig.typeConfigurations[type]
+            ?.structure
+            ?.toDTO(language!!, catalogueConfig.typeConfigurations::get)
+    }
 }

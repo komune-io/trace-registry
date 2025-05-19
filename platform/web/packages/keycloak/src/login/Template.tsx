@@ -4,8 +4,9 @@ import { type TemplateProps } from "keycloakify/login/TemplateProps";
 import type { KcContext } from "./KcContext";
 import type { I18n } from "./i18n";
 import { CssBaseline, Paper, Stack, Typography, styled } from '@mui/material'
-import { Alert } from "@komune-io/g2"
+import {Alert, Link} from "@komune-io/g2"
 import { KeycloakLanguageSelector } from "./KeycloakLanguageSelector";
+import {config} from "../config.ts";
 
 const Main = styled('main')({
     flexGrow: 1,
@@ -22,9 +23,10 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
         headerNode,
         i18n,
     } = props;
-
+    const { msgStr } = i18n;
     const { currentLanguage, enabledLanguages } = i18n;
     const { message, isAppInitiatedAction, } = kcContext;
+    const { legalNotice, sponsor } = config()
 
     return (
         <Main
@@ -119,6 +121,55 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                         {headerNode && <Typography sx={{ color: "primary.main", alignSelf: "center" }} align="center" variant="h4">{headerNode}</Typography>}
                         {children}
                     </Paper>
+                    {sponsor && (
+                        <>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textAlign: 'center',
+                                    whiteSpace: 'nowrap',
+                                    gap: 0.5,
+                                }}
+                            >
+                                <img
+                                    alt="Sponsor Logo"
+                                    src={sponsor.logo}
+                                    style={{
+                                        height: "50px",
+                                        marginRight: "24px",
+                                    }}
+                                />
+                                {msgStr("sponsorProject")}
+                                <Link
+                                    variant="body2"
+                                    href={sponsor.url}
+                                    sx={{fontSize: "unset"}}
+                                >
+                                    {sponsor.name}
+                                </Link>
+                                {msgStr("sponsorSupportedBy", sponsor.by )}
+                            </Typography>
+
+                        </>
+
+                    )}
+                    {legalNotice && (
+                    <Link
+                        variant="body2"
+                        href={legalNotice.url}
+                        sx={{
+                            color: "#828282",
+                            textDecoration: "unset !important",
+                            mt: -1,
+                            alignSelf: "center"
+                        }}
+                    >
+                        {`${msgStr("legalNotice" )} `}
+                    </Link>
+                    )}
                 </Stack>
             </Stack>
         </Main >
