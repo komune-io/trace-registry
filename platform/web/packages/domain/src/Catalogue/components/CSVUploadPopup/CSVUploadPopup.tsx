@@ -63,9 +63,9 @@ export const CSVUploadPopup = (props: CSVUploadPopupProps) => {
     const fields = useMemo((): FormComposableField[] => [{
         name: "file",
         type: "documentHandler",
-        label: currentCsv?.name,
+        label:  t("file"),
         params: {
-            outterLabel: t("file"),
+            fileLabel: currentCsv?.name,
             onDelete: () => setCurrentCsv(undefined)
         }
     }, {
