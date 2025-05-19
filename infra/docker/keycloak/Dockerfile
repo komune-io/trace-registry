@@ -11,11 +11,11 @@ RUN apk add --no-cache git=2.43.6-r0 && \
 
 COPY platform/web ./
 
-ARG NPM_AUTH_TOKEN
-RUN printf "\
-@komune-io:registry=https://npm.pkg.github.com\n\
-//npm.pkg.github.com/:_authToken=%s\n\
-" "${NPM_AUTH_TOKEN}" > .npmrc
+#ARG NPM_AUTH_TOKEN
+#RUN printf "\
+#@komune-io:registry=https://npm.pkg.github.com\n\
+#//npm.pkg.github.com/:_authToken=%s\n\
+#" "${NPM_AUTH_TOKEN}" > .npmrc
 
 ARG VERSION
 ENV REACT_APP_VERSION=$VERSION
