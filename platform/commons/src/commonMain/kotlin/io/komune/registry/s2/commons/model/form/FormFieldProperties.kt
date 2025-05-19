@@ -7,7 +7,7 @@ import kotlin.js.JsExport
 interface FormFieldPropertiesDTO {
     val multiline: Boolean?
     val rows: Int?
-    val number: Boolean?
+    val textFieldType: TextFieldType?
     val fileTypesAllowed: List<String>?
     val filters: String?
 }
@@ -16,7 +16,7 @@ interface FormFieldPropertiesDTO {
 data class FormFieldProperties(
     override val multiline: Boolean?,
     override val rows: Int?,
-    override val number: Boolean?,
+    override val textFieldType: TextFieldType?,
     override val fileTypesAllowed: List<String>?,
     override val filters: String?
 ) : FormFieldPropertiesDTO
