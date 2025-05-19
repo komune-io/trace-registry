@@ -9,11 +9,11 @@ RUN apk add --no-cache git=2.47.2-r0 && \
     git init
 
 
-ARG NPM_AUTH_TOKEN
-RUN printf "\
-@komune-io:registry=https://npm.pkg.github.com\n\
-//npm.pkg.github.com/:_authToken=%s\n\
-" "${NPM_AUTH_TOKEN}" > .npmrc
+#ARG NPM_AUTH_TOKEN
+#RUN printf "\
+#@komune-io:registry=https://npm.pkg.github.com\n\
+#//npm.pkg.github.com/:_authToken=%s\n\
+#" "${NPM_AUTH_TOKEN}" > .npmrc
 
 ARG VERSION
 ENV VITE_APP_VERSION=$VERSION
