@@ -4,16 +4,6 @@ import {  useCatalogueRefGetTreeQuery } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface CatalogueCreateButtonDTO {
-    label: string
-    types: CatalogueTypeDTO[]
-}
-interface CatalogueTypeDTO {
-    identifier: string
-    name: string
-    icon?: string
-}
-
 interface CreateCatalogueButtonProps {
     identifier: string
 }
@@ -30,7 +20,7 @@ export const CreateCatalogueButton = (props: CreateCatalogueButtonProps) => {
           identifier: identifier,
           language: i18n.language
         }
-      }).data?.item?.structure?.createButton as CatalogueCreateButtonDTO
+      }).data?.item?.structure?.createButton
 
     const items = useMemo(() => createButtonStruture?.types?.map((type): TMSMenuItem | undefined => {
         return {
@@ -44,9 +34,11 @@ export const CreateCatalogueButton = (props: CreateCatalogueButtonProps) => {
     const { buttonProps, menu } = useButtonMenu({
         items
     })
+
+    if (!createButtonStruture || !policies.catalogue.canCreate()) return null
     return (
         <>
-            {policies.catalogue.canCreate() && <CustomButton
+            <CustomButton
                 sx={{
                     width: "100%"
                 }}
@@ -54,7 +46,7 @@ export const CreateCatalogueButton = (props: CreateCatalogueButtonProps) => {
                 {...buttonProps}
             >
                 {createButtonStruture.label}
-            </CustomButton>}
+            </CustomButton>
             {menu}
         </>
     )
