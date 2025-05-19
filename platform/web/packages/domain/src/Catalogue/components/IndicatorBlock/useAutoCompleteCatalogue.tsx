@@ -52,7 +52,7 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
     },
   });
 
-  const options= queryResult.data?.items ?? [];
+  const options= queryResult.data?.items ?? undefined;
 
   const handleInputChange = useCallback(
     (relation: CatalogueRelations, value: string) => {
@@ -66,11 +66,11 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
   const handleFocus = useCallback((relation: CatalogueRelations) => {
     setActiveRelation(relation);
     setIsFocused(true);
-  }, []);
+  }, [setActiveRelation, setIsFocused]);
 
   const formComposableField = useMemo(() => {
     return relations.map((relation) => {
-      const fieldOptions = activeRelation?.key === relation.key ? options : [];
+      const fieldOptions = activeRelation?.key === relation.key ? options : undefined;
       return toComponents(
         t,
         relation,
@@ -94,7 +94,7 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
 const toComponents = (
   t: TFunction,
   relation: CatalogueRelations,
-  options: CatalogueRef[],
+  options: CatalogueRef[] | undefined,
   onInputChange: (value: string) => void,
   onFocus: () => void,
   searchValue?: string,
@@ -105,7 +105,7 @@ const toComponents = (
     label: relation.title,
     params: {
       popupIcon: <SearchIcon style={{ transform: "none" }} />,
-      onSearch: (value: string) => onInputChange(value),
+      onInputChange: (_: any, value: string) => onInputChange(value),
       getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
       getOptionKey: (catalogue: CatalogueRef) => catalogue.id,
       isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) => option.id === catalogue.id,
@@ -114,7 +114,7 @@ const toComponents = (
       options: options,
       multiple: relation.multiple,
       returnFullObject: true,
-      noOptionsText: !searchValue && options.length === 0 ? t("typeToSearch") : options.length === 0 && searchValue ? t("catalogues.noResult") : '',
+      noOptionsText: !searchValue && options?.length === 0 ? t("typeToSearch") : options?.length === 0 && searchValue ? t("catalogues.noResult") : '',
     },
     customDisplay: relation.customDisplay,
   };
