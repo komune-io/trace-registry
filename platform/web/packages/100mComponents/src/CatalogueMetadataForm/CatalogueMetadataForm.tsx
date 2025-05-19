@@ -119,10 +119,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     }, {
         name: "illustration",
         type: "documentHandler",
-        label: t("illustration"),
+        label: t("illustration") + " " + t("optional"),
         params: {
             fileTypesAllowed: ["png", "jpeg", "svg"],
-            outterLabel: t("illustration") + " " + t("optional")
+            fileLabel: t("illustration"),
         }
     },
     ...maybeAddItem<MetadataField>(type === "100m-solution", {
