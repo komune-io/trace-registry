@@ -12,13 +12,25 @@ interface CatalogueStructureDTO {
     val color: String?
     val creationForm: FormDTO?
     val metadataForm: FormDTO?
+    val createButton: CatalogueCreateButtonDTO?
 }
 
 @Serializable
-data class CatalogueStructure(
+data class CatalogueStructureDTOBase(
     override val type: StructureType,
     override val alias: Boolean = false,
     override val color: String?,
     override val creationForm: Form?,
-    override val metadataForm: Form?
+    override val metadataForm: Form?,
+    override val createButton: CatalogueCreateButtonDTOBase?
 ) : CatalogueStructureDTO
+
+@Serializable
+data class CatalogueStructureModel(
+    val type: StructureType,
+    val alias: Boolean = false,
+    val color: String?,
+    val creationForm: Form?,
+    val metadataForm: Form?,
+    val createButton: CatalogueCreateButtonModel?
+)

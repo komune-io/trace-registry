@@ -1502,7 +1502,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormFieldPropertiesDTO {
         readonly multiline?: boolean;
         readonly rows?: number;
-        readonly number?: boolean;
+        readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
         readonly fileTypesAllowed?: string[];
         readonly filters?: string;
 
@@ -1525,6 +1525,9 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly properties?: Record<string, any>;
 
     }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    type TextFieldType = "number" | "text" | "email" | "password" | "search";
 }
 export declare namespace io.komune.fs.s2.file.domain.features.query {
     interface FileAskQuestionQueryDTO {
@@ -4096,6 +4099,14 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueTypeDTO {
+        readonly identifier: string;
+        readonly name: string;
+        readonly icon?: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueDraftRefDTO {
         readonly id: string;
         readonly originalCatalogueId: string;
@@ -4142,12 +4153,20 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
+    interface CatalogueCreateButtonDTO {
+        readonly label: string;
+        readonly types: io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueStructureDTO {
         readonly type: io.komune.registry.f2.catalogue.domain.dto.structure.StructureType;
         readonly alias: boolean;
         readonly color?: string;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
+        readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
 
     }
 }

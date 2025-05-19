@@ -8,9 +8,11 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.dataset.api.model.extractAggregators
 import io.komune.registry.f2.dataset.api.model.toRef
@@ -50,7 +52,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+                structure = translated.getStructure(),
                 order = translated.order,
             )
         }
@@ -130,7 +132,7 @@ class CatalogueI18nService(
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,
             availableLanguages = translated.translationIds.keys.sorted(),
-            structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+            structure = translated.getStructure(),
             homepage = translated.homepage,
             img = translated.img,
             creator = translated.creatorId?.let { cache.users.get(it) },
@@ -172,7 +174,7 @@ class CatalogueI18nService(
                 type = translated.type,
                 description = translated.description,
                 img = translated.img,
-                structure = catalogueConfig.typeConfigurations[translated.type]?.structure,
+                structure = translated.getStructure(),
                 order = translated.order,
                 catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     getCatalogueTree(catalogueIds, language, otherLanguageIfAbsent)
@@ -256,4 +258,9 @@ class CatalogueI18nService(
         ).items
     }
 
+    private suspend fun CatalogueModel.getStructure(): CatalogueStructureDTOBase? {
+        return catalogueConfig.typeConfigurations[type]
+            ?.structure
+            ?.toDTO(language!!, catalogueConfig.typeConfigurations::get)
+    }
 }
