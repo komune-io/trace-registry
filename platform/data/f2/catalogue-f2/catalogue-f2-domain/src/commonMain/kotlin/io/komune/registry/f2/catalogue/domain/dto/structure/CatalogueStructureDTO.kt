@@ -8,8 +8,8 @@ import kotlin.js.JsExport
 @JsExport
 interface CatalogueStructureDTO {
     val type: StructureType
-    val transient: Boolean
     val alias: Boolean
+    val color: String?
     val creationForm: FormDTO?
     val metadataForm: FormDTO?
 }
@@ -17,8 +17,8 @@ interface CatalogueStructureDTO {
 @Serializable
 data class CatalogueStructure(
     override val type: StructureType,
-    override val transient: Boolean = false,
     override val alias: Boolean = false,
+    override val color: String?,
     override val creationForm: Form?,
     override val metadataForm: Form?
 ) : CatalogueStructureDTO

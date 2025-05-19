@@ -5,6 +5,7 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.catalogue.domain.query.CataloguePageQuery
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
@@ -25,6 +26,8 @@ import io.komune.registry.f2.license.domain.query.LicenseListQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -303,6 +306,29 @@ class ImportRepository(
             logger.error(e.error.message, e)
             return null
         }
+    }
+
+    suspend fun findCatalogueIdentifierByTitle(title: String, type: CatalogueType): CatalogueIdentifier? {
+        if (importContext.catalogueIdentifiersByTitle.containsKey(title)) {
+            return importContext.catalogueIdentifiersByTitle[title]?.ifEmpty { null }
+        }
+
+        val catalogue = CataloguePageQuery(
+            type = listOf(type),
+            title = title,
+            language = "",
+            otherLanguageIfAbsent = true
+        ).invokeWith(dataClient.catalogue.cataloguePage())
+            .items
+            .firstOrNull { it.title == title }
+
+        if (catalogue == null) {
+            importContext.catalogueIdentifiersByTitle[title] = ""
+            return null
+        }
+
+        importContext.registerCatalogue(catalogue)
+        return catalogue.identifier
     }
 
     suspend fun getDataset(datasetId: DatasetId): DatasetDTOBase? {
