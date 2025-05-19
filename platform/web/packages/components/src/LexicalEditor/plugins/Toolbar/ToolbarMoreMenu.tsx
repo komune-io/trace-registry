@@ -1,12 +1,17 @@
 import { useButtonMenu, useToggleState } from '../../../hooks'
 import { useTranslation } from 'react-i18next'
-import { AddCircleRounded, AddPhotoAlternateRounded, TableChart, ViewWeekOutlined } from '@mui/icons-material'
+import { AddCircleRounded, AddPhotoAlternateRounded, HorizontalRule, TableChart, ViewWeekOutlined } from '@mui/icons-material'
 import { TglButton } from './TglButton'
 import { LayoutModal } from '../LayoutPlugin'
 import { TableModal } from '../TablePlugin/TableModal'
 import { UploadImageModal } from '../ImagesPlugin'
+import {INSERT_HORIZONTAL_RULE_COMMAND} from '@lexical/react/LexicalHorizontalRuleNode';
+import { useMemo } from 'react'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
 export const ToolbarMoreMenu = () => {
+
+    const [editor] = useLexicalComposerContext();
 
     const [openLayoutModal, _, toggleLayoutModal] = useToggleState()
     const [openTableModal, _1, toggleTableModal] = useToggleState()
@@ -14,8 +19,7 @@ export const ToolbarMoreMenu = () => {
 
     const { t } = useTranslation()
 
-    const { buttonProps, menu } = useButtonMenu({
-        items: [{
+    const items = useMemo(() => [{
             key: "columnLayout",
             onClick: toggleLayoutModal,
             label: t("editor.addColumnLayout"),
@@ -31,7 +35,20 @@ export const ToolbarMoreMenu = () => {
             onClick: toggleImageModal,
             label: t("editor.addImage"),
             icon: <AddPhotoAlternateRounded />
-        }], 
+        }, {
+            key: "addDivider",
+            onClick: () => {
+                    editor.dispatchCommand(
+                      INSERT_HORIZONTAL_RULE_COMMAND,
+                      undefined,
+                    );
+                  },
+            label: t("editor.addDivider"),
+            icon: <HorizontalRule />
+        }], [t, editor])
+
+    const { buttonProps, menu } = useButtonMenu({
+        items, 
         closeOnMenuClick: true
     })
 
