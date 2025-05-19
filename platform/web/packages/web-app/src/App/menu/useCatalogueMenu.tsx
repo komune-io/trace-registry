@@ -52,9 +52,6 @@ export const useCatalogueMenu = (identifier: string) => {
     query: {
       identifier: identifier,
       language: i18n.language
-    },
-    options: {
-      enabled: true
     }
   })
   const { cataloguesAll } = useRoutesDefinition()

@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next'
 import {useLocation} from 'react-router-dom'
 import {getMenu, MenuItem} from '.'
 import { useCatalogueDraftPageQuery} from 'domain-components'
-import { CreateCatalogueButton } from '100m-components'
+import { CreateCatalogueButton } from './CreateCatalogueButton'
 
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
@@ -68,7 +68,7 @@ export const MenuHeader = () => {
                 pt:1,
             }}
         >
-            <CreateCatalogueButton />
+            <CreateCatalogueButton identifier='menu' />
             <Menu
                 sx={{
                     width: "100%"
