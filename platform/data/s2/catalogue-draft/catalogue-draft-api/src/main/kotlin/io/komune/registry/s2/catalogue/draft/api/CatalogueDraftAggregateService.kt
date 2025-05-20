@@ -18,6 +18,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdatedTitleEvent
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidateCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftValidatedEvent
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -31,7 +32,7 @@ class CatalogueDraftAggregateService(
             date = System.currentTimeMillis(),
             catalogueId = command.catalogueId,
             original = command.original,
-            language = command.language,
+            language = command.language.truncateLanguage(),
             baseVersion = command.baseVersion,
             datasetIdMap = command.datasetIdMap,
             creatorId = AuthenticationProvider.getAuthedUser()!!.id

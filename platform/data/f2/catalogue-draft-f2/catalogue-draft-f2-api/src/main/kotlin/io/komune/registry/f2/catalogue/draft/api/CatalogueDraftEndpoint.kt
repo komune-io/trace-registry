@@ -26,6 +26,7 @@ import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageFunc
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResult
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -58,7 +59,7 @@ class CatalogueDraftEndpoint(
         catalogueDraftF2FinderService.search(
             query = enforcedQuery.search,
             originalCatalogueId = enforcedQuery.originalCatalogueId?.let(::ExactMatch),
-            language = enforcedQuery.language?.let(::ExactMatch),
+            language = enforcedQuery.language?.truncateLanguage()?.let(::ExactMatch),
             status = enforcedQuery.status?.let(::CollectionMatch),
             type = enforcedQuery.type?.let(::ExactMatch),
             creatorId = enforcedQuery.creatorId?.let(::ExactMatch),

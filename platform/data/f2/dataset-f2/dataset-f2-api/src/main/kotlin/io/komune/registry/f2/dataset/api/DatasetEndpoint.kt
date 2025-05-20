@@ -53,6 +53,7 @@ import io.komune.registry.infra.fs.FsService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import io.komune.registry.s2.dataset.domain.command.DatasetSetImageCommand
 import jakarta.annotation.security.PermitAll
 import kotlinx.coroutines.flow.asFlow
@@ -109,14 +110,14 @@ class DatasetEndpoint(
     @Bean
     override fun datasetGetByIdentifier(): DatasetGetByIdentifierFunction = f2Function { query ->
         logger.info("datasetGetByIdentifier: $query")
-        datasetF2FinderService.getByIdentifier(query.identifier, query.language)
+        datasetF2FinderService.getByIdentifier(query.identifier, query.language.truncateLanguage())
             .let(::DatasetGetByIdentifierResult)
     }
 
     @Bean
     override fun datasetExists(): DatasetExistsFunction = f2Function { query ->
         logger.info("datasetExists: $query")
-        datasetFinderService.exists(query.identifier, query.language)
+        datasetFinderService.exists(query.identifier, query.language.truncateLanguage())
             .let(::DatasetExistsResult)
     }
 
@@ -148,7 +149,7 @@ class DatasetEndpoint(
     override fun datasetListLanguages(): DatasetListLanguagesFunction = f2Function { query ->
         logger.info("datasetListLanguages: $query")
         datasetFinderService.listByIdentifier(query.identifier)
-            .map { it.language }
+            .map { it.language.truncateLanguage() }
             .distinct()
             .let(::DatasetListLanguagesResult)
     }
@@ -158,7 +159,7 @@ class DatasetEndpoint(
         logger.info("datasetGraphSearch: $query")
         datasetF2FinderService.graphSearch(
             query.rootCatalogueIdentifier,
-            query.language,
+            query.language.truncateLanguage(),
             query.datasetType
         ).let(::DatasetGraphSearchResult)
     }
