@@ -54,15 +54,15 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                     },
                     width: "100%",
                 }}
-
+                gap={3}
             >
-                {/* <img
-                    alt="Logo Raia"
-                    src="/raia-logo.svg"
+                <img
+                    alt="Logo"
+                    src={config().theme?.logo?.url}
                     style={{
-                        width: "110px"
+                        width: "150px"
                     }}
-                /> */}
+                />
                 <Stack
                     sx={{
                         maxWidth: "450px",
@@ -130,7 +130,6 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     textAlign: 'center',
-                                    whiteSpace: 'nowrap',
                                     gap: 0.5,
                                 }}
                             >
