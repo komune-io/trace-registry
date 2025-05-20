@@ -20,6 +20,7 @@ import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdateValu
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdatedValueEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidatedEvent
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -34,7 +35,7 @@ class CccevAggregateService(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
             identifier = command.identifier,
-            name = command.name,
+            name = command.name.mapKeys { (key) -> key.truncateLanguage() },
             unit = command.unit,
             aggregator = command.aggregator,
             themeIds = command.themeIds.toSet()
@@ -45,7 +46,7 @@ class CccevAggregateService(
         InformationConceptUpdatedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
-            name = command.name,
+            name = command.name.mapKeys { (key) -> key.truncateLanguage() },
             unit = command.unit,
             aggregator = command.aggregator,
             themeIds = command.themeIds.toSet()
@@ -58,7 +59,7 @@ class CccevAggregateService(
             date = System.currentTimeMillis(),
             identifier = command.identifier,
             type = command.type,
-            name = command.name,
+            name = command.name.mapKeys { (key) -> key.truncateLanguage() },
             abbreviation = command.abbreviation,
         )
     }

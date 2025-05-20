@@ -64,6 +64,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -102,7 +103,7 @@ class CatalogueEndpoint(
             title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status,
             parentIdentifier = query.parentIdentifier,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             type = query.type?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
@@ -118,7 +119,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        catalogueF2FinderService.getOrNull(query.id, query.language)
+        catalogueF2FinderService.getOrNull(query.id, query.language?.truncateLanguage())
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetResult)
     }
@@ -126,7 +127,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
         logger.info("catalogueGetByIdentifier: $query")
-        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language)
+        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language?.truncateLanguage())
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetByIdentifierResult)
     }
@@ -135,7 +136,7 @@ class CatalogueEndpoint(
 
     @Bean
     override fun catalogueRefGet(): CatalogueRefGetFunction = f2Function { query ->
-        catalogueF2FinderService.getRef(query.id, query.language)
+        catalogueF2FinderService.getRef(query.id, query.language.truncateLanguage())
     }
 
 
@@ -144,7 +145,7 @@ class CatalogueEndpoint(
         logger.info("catalogueRefGetTree: $query")
         catalogueFinderService.getByIdentifierOrNull(query.identifier)
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
-            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language) }
+            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language.truncateLanguage()) }
             .let(::CatalogueRefGetTreeResult)
     }
 
@@ -153,7 +154,7 @@ class CatalogueEndpoint(
         logger.info("catalogueRefSearch: $query")
         catalogueSearchFinderService.searchRef(
             query = query.query,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
@@ -176,7 +177,7 @@ class CatalogueEndpoint(
         logger.info("catalogueSearch: $query")
         catalogueSearchFinderService.searchCatalogue(
             query = query.query,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
@@ -197,14 +198,14 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction = f2Function { query ->
         logger.info("catalogueListAvailableParents: $query")
-        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language, true)
+        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language.truncateLanguage(), true)
             .let(::CatalogueListAvailableParentsResult)
     }
 
     @Bean
     override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction = f2Function { query ->
         logger.info("catalogueListAvailableThemes: $query")
-        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language)
+        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language.truncateLanguage())
             .sortedBy { it.prefLabel }
             .let(::CatalogueListAvailableThemesResult)
     }
