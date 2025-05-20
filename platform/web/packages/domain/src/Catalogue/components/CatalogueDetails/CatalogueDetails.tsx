@@ -1,8 +1,8 @@
 import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, Option, useFormComposable } from '@komune-io/g2'
+import { autoFormFormatter, BackAutoFormData, FormComposable, FormComposableField, getIn, Option, useFormComposable } from '@komune-io/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Catalogue, ConceptTranslated } from '../../model'
+import { Catalogue, CatalogueRef, ConceptTranslated } from '../../model'
 import { Co2Counter, TitleDivider } from 'components'
 import { useCatalogueCo2Counter } from '../../api'
 
@@ -25,38 +25,44 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const { t } = useTranslation()
 
-    const themesFields = useMemo(() => {
-        const themes = catalogue?.themes ?? []
-        const themesByScheme: Record<string, ConceptTranslated[]> = {}
-        themes.forEach((theme) => {
-            const scheme = theme.schemes[0]
-            if (!themesByScheme[scheme]) {
-                themesByScheme[scheme] = []
-            }
-            themesByScheme[scheme].push(theme)
+    const formData = useMemo(() => catalogue?.structure?.metadataForm ? autoFormFormatter(catalogue?.structure?.metadataForm as BackAutoFormData) : undefined, [catalogue])
+
+    const metadataFields = useMemo(() => {
+        formData?.sections.map((section) => {
+            const fields = section.fields.map((field) => {
+                type FileType = typeof field.type | "autoComplete-parents" | "select-themes" | "autoComplete-catalogues" | "select-license"
+               
+                       const type = field.type as FileType
+                       if (type === "autoComplete-catalogues") {
+                           return {
+                               ...field,
+                               type: "select",
+                               params: {
+                                ...field.params,
+                                options: getIn(catalogue, field.name).map((ref: CatalogueRef) => ({
+                                    label: ref.title,
+                                    key: ref.id,
+                                    color: ref.structure?.color,
+                                })),
+                               }
+                           } as FormComposableField
+                       }
+                       return field
+            })
+            return (
+                <Stack
+                    key={section.id}
+                    gap={1.5}
+                >
+                    <TitleDivider size='subtitle1' title={section.label ?? ""} />
+                    <FormComposable
+                        fields={fields}
+                        formState={formState}
+                    />
+                </Stack>
+            )
         })
-        return Object.entries(themesByScheme).map(([scheme, themes], index) => {
-            const options = themes.map((theme): Option => ({
-                key: theme.id,
-                label: theme.prefLabel,
-                color: colors[index] ?? colors[0],
-            }))
-            return (<DetailsForm
-                key={scheme}
-                title={t(scheme)}
-                values={{
-                    [scheme]: {
-                        values: options.map((option) => option.key),
-                        params: {
-                            multiple: true,
-                            options,
-                            readOnlyType: "chip"
-                        }
-                    }
-                }}
-            />)
-        })
-    }, [catalogue])
+    }, [formData, catalogue])
 
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
         publisher: {

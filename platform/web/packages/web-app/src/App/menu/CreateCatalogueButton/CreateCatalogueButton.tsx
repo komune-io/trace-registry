@@ -1,8 +1,9 @@
 import { AddCircleOutlineRounded } from '@mui/icons-material'
-import { CustomButton, IconPack, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
+import { CustomButton, TMSMenuItem, useButtonMenu, useExtendedAuth, useRoutesDefinition } from 'components'
 import {  useCatalogueRefGetTreeQuery } from 'domain-components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { BackEndIcon } from '../useCatalogueMenu'
 
 interface CreateCatalogueButtonProps {
     identifier: string
@@ -26,7 +27,7 @@ export const CreateCatalogueButton = (props: CreateCatalogueButtonProps) => {
         return {
                 key: type.identifier,
                 label: type.name,
-                icon: <IconPack.system />,
+                icon: <BackEndIcon url={type.icon}/>,
                 to: cataloguesCreateType(type.identifier)
             }
     }).filter(Boolean) as TMSMenuItem[], [t, createButtonStruture])

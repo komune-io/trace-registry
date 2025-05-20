@@ -72,7 +72,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     ...prev,
                     "autoComplete-parents": {
                         //@ts-ignore
-                        ...field.params?.filters,
+                        ...JSON.parse(field.params?.filters),
                     }
                 }))
             }
@@ -101,7 +101,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     ...prev,
                     "select-themes": {
                         //@ts-ignore
-                        ...field.params?.filters,
+                        ...JSON.parse(field.params?.filters),
                     }
                 }))
             }
@@ -127,7 +127,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     params: field.params,
                 },
                     //@ts-ignore
-                    field.params?.filters)
+                    JSON.parse(field.params?.filters))
             } as FormComposableField
         }
         if (type === "select-license") {

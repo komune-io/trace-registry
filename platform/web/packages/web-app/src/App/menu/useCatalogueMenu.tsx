@@ -7,7 +7,6 @@ import {useMemo} from "react";
 import {getMenu, MenuItem} from "./index";
 
 function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: Location<any>): MenuItem[] {
-  const { platform } = config()
   if (isMenu(item)) {
     return item.catalogues
       ?.sort(sortCatalogues)
@@ -19,14 +18,7 @@ function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: L
 
   const catalogueLink = cataloguesAll(catalogue.identifier)
   // const catalogueLink = cataloguesAll(catalogue?.identifier!)
-  const baseUrl = platform.url.endsWith('/')
-    ? platform.url.slice(0, -1) // remove trailing slash
-    : platform.url
-  const path = item.img?.startsWith("/")
-    ? item.img
-    : `/${item.img}`
-  const icon = item.img ?
-    <Icon src={`${baseUrl}${path}`}/> : undefined
+
   const items = isLeaf(item)
     ? []
     : isBranch(catalogue)
@@ -38,7 +30,7 @@ function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: L
     // to: isTransient(item) ? undefined : catalogueLink,
     to: catalogueLink,
     label: item.title,
-    icon: icon,
+    icon: <BackEndIcon url={item.img}/>,
     isSelected: location.pathname === catalogueLink,
     items: items
   }]
@@ -88,3 +80,14 @@ const isLeaf = (catalogue: CatalogueRefTree) => catalogue.structure?.type == "ME
 const isAlias = (catalogue: CatalogueRefTree) => catalogue.structure?.alias ?? false
 
 // const isTransient = (catalogue: CatalogueRefTree) => catalogue.structure?.transient ?? false
+
+export const BackEndIcon = ({url}) => {
+  const { platform } = config()
+  const baseUrl = platform.url.endsWith('/')
+    ? platform.url.slice(0, -1) // remove trailing slash
+    : platform.url
+  const path = url?.startsWith("/")
+    ? url
+    : `/${url}`
+  return url ? <Icon src={`${baseUrl}${path}`}/> : undefined
+}
