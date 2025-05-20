@@ -1,7 +1,6 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.ExactMatch
-import f2.spring.exception.ForbiddenAccessException
 import io.komune.im.commons.auth.hasRole
 import io.komune.im.commons.auth.policies.PolicyEnforcer
 import io.komune.registry.f2.catalogue.domain.CataloguePolicies
@@ -62,7 +61,9 @@ class CataloguePoliciesFilterEnforcer : PolicyEnforcer() {
         }
     }
 
-    suspend fun checkHistory(history: List<EventHistory<CatalogueEvent, CatalogueModel>>) = checkAuthed("Get Catalogue history") { authedUser ->
+    suspend fun checkHistory(
+        history: List<EventHistory<CatalogueEvent, CatalogueModel>>
+    ) = checkAuthed("Get Catalogue history") {
         history.none { enforceCatalogue(it.model) == null }
     }
 
