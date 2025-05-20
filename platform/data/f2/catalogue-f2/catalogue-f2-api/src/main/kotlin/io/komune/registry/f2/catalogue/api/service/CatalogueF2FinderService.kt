@@ -12,11 +12,13 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
+import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -34,6 +36,7 @@ class CatalogueF2FinderService(
     private val catalogueI18nService: CatalogueI18nService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
+    private val catalogueEventWithStateService: CatalogueEventWithStateService,
 ) : CatalogueCachedService() {
 
     suspend fun getOrNull(
@@ -82,6 +85,15 @@ class CatalogueF2FinderService(
     suspend fun getRefTreeByIdentifierOrNull(identifier: CatalogueIdentifier, language: Language?): CatalogueRefTreeDTOBase? {
         return catalogueFinderService.getByIdentifierOrNull(identifier)
             ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, false) }
+    }
+    suspend fun getHistory(id: CatalogueId): CatalogueHistoryGetResult {
+        val actualVersion = catalogueFinderService.getOrNull(id)
+        val history = catalogueEventWithStateService.getHistory(id)
+        return CatalogueHistoryGetResult(
+            actualVersion,
+            history,
+        )
+
     }
 
     suspend fun page(

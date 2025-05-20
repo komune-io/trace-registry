@@ -94,7 +94,6 @@ class CatalogueEndpoint(
     private val fileClient: FileClient,
     private val certificate: CatalogueCertificateService,
     private val catalogueSearchFinderService: CatalogueSearchFinderService,
-    private val catalogueEventWithStateService: CatalogueEventWithStateService,
 ): CatalogueApi {
 
     private val logger by Logger()
@@ -102,11 +101,9 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueHistoryGet(): CatalogueHistoryGetFunction = f2Function { query ->
         logger.info("catalogueHistoryGet: $query")
-        val history = catalogueEventWithStateService.getHistory(query.id)
-        cataloguePoliciesFilterEnforcer.checkHistory(history)
-        CatalogueHistoryGetResult(
-            history = history
-        )
+        val event = catalogueF2FinderService.getHistory(query.id)
+        cataloguePoliciesFilterEnforcer.checkHistory(event.history)
+        event
     }
 
     @Bean
