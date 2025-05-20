@@ -28,6 +28,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -79,6 +80,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueUnreferenceDatasets.name}")
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")
+    override fun catalogueHistoryGet(): CatalogueHistoryGetFunction = client.function("data/${this::catalogueDelete.name}")
 
     override fun cataloguePage(): CataloguePageFunction = client.function("data/${this::cataloguePage.name}")
     override fun catalogueSearch(): CatalogueSearchFunction= client.function("data/${this::catalogueSearch.name}")

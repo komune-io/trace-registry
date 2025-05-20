@@ -59,8 +59,11 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -91,9 +94,20 @@ class CatalogueEndpoint(
     private val fileClient: FileClient,
     private val certificate: CatalogueCertificateService,
     private val catalogueSearchFinderService: CatalogueSearchFinderService,
+    private val catalogueEventWithStateService: CatalogueEventWithStateService,
 ): CatalogueApi {
 
     private val logger by Logger()
+
+    @Bean
+    override fun catalogueHistoryGet(): CatalogueHistoryGetFunction = f2Function { query ->
+        logger.info("catalogueHistoryGet: $query")
+        val history = catalogueEventWithStateService.getHistory(query.id)
+        cataloguePoliciesFilterEnforcer.checkHistory(history)
+        CatalogueHistoryGetResult(
+            history = history
+        )
+    }
 
     @Bean
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
