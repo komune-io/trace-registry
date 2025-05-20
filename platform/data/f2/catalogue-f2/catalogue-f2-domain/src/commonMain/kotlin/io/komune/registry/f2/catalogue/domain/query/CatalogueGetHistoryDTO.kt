@@ -46,6 +46,7 @@ data class CatalogueHistoryGetQuery(
 @JsExport
 @JsName("CatalogueHistoryGetResultDTO")
 interface CatalogueHistoryGetResultDTO {
+    val actualVersion: CatalogueModel?
     val history: List<EventHistory<CatalogueEvent, CatalogueModel>>
 }
 
@@ -54,5 +55,6 @@ interface CatalogueHistoryGetResultDTO {
  */
 @Serializable
 data class CatalogueHistoryGetResult(
+    override val actualVersion: CatalogueModel?,
     override val history: List<EventHistory<CatalogueEvent, CatalogueModel>>
 ): CatalogueHistoryGetResultDTO
