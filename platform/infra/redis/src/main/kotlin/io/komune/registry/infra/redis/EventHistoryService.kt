@@ -1,7 +1,6 @@
 package io.komune.registry.infra.redis
 
 import io.komune.registry.s2.commons.history.EventHistory
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import s2.dsl.automate.Evt
 import s2.dsl.automate.model.WithS2Id
@@ -13,7 +12,7 @@ import s2.sourcing.dsl.view.View
  * @param eventRepository Repository for retrieving events.
  * @param view View for evolving entity state based on events.
  */
-open class EventHistoryService<EVENT, ENTITY, ID>(
+abstract class EventHistoryService<EVENT, ENTITY, ID>(
     private val eventRepository: EventRepository<EVENT, ID>,
     private val view: View<EVENT, ENTITY>
 ) where EVENT : Evt, EVENT : WithS2Id<ID> {
@@ -24,7 +23,7 @@ open class EventHistoryService<EVENT, ENTITY, ID>(
      * @return A list of EventWithState objects, each containing the event index, the event itself, and the entity state.
      */
     suspend fun getEventsWithState(id: ID): List<EventHistory<EVENT, ENTITY & Any>> {
-        val events = eventRepository.load(id)
+        val events = eventRepository.load(id).toList().sortedWith(sortBy())
 
         var currentState: ENTITY? = null
         var index = 0
@@ -41,4 +40,7 @@ open class EventHistoryService<EVENT, ENTITY, ID>(
             )
         }.toList()
     }
+
+    abstract fun <EVENT> sortBy(): Comparator<EVENT>
+
 }

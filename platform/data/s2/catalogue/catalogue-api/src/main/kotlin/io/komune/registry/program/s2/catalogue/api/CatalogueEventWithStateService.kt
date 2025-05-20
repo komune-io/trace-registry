@@ -21,4 +21,13 @@ class CatalogueEventWithStateService(
     suspend fun getHistory(id: CatalogueId): List<EventHistory<CatalogueEvent, CatalogueModel>> {
         return getEventsWithState(id).mapEntities { it.model.toModel() }
     }
+
+    override fun <EVENT> sortBy(): Comparator<EVENT> = object : Comparator<EVENT> {
+        override fun compare(event1: EVENT, event2: EVENT): Int {
+            if (event1 is CatalogueEvent && event2 is CatalogueEvent) {
+                return event1.date.compareTo(event2.date)
+            }
+            return 0
+        }
+    }
 }
