@@ -1,12 +1,10 @@
 import { Stack } from '@mui/material'
-import { autoFormFormatter, BackAutoFormData, FormComposable, FormComposableField, getIn, Option, useFormComposable } from '@komune-io/g2'
+import { AutoFormData, autoFormFormatter, BackAutoFormData, FormComposable, FormComposableField, getIn, useAutoFormState, useFormComposable } from '@komune-io/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Catalogue, CatalogueRef, ConceptTranslated } from '../../model'
+import { Catalogue, CatalogueRef } from '../../model'
 import { Co2Counter, TitleDivider } from 'components'
 import { useCatalogueCo2Counter } from '../../api'
-
-const colors = ["#A23E30", "#AC8B23", "#1F693D"]
 
 type simplifiedReadonlyFields = Record<string, {
     value?: any,
@@ -27,42 +25,38 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const formData = useMemo(() => catalogue?.structure?.metadataForm ? autoFormFormatter(catalogue?.structure?.metadataForm as BackAutoFormData) : undefined, [catalogue])
 
-    const metadataFields = useMemo(() => {
-        formData?.sections.map((section) => {
-            const fields = section.fields.map((field) => {
-                type FileType = typeof field.type | "autoComplete-parents" | "select-themes" | "autoComplete-catalogues" | "select-license"
-               
-                       const type = field.type as FileType
-                       if (type === "autoComplete-catalogues") {
-                           return {
-                               ...field,
-                               type: "select",
-                               params: {
-                                ...field.params,
-                                options: getIn(catalogue, field.name).map((ref: CatalogueRef) => ({
-                                    label: ref.title,
-                                    key: ref.id,
-                                    color: ref.structure?.color,
-                                })),
-                               }
-                           } as FormComposableField
-                       }
-                       return field
-            })
-            return (
-                <Stack
-                    key={section.id}
-                    gap={1.5}
-                >
-                    <TitleDivider size='subtitle1' title={section.label ?? ""} />
-                    <FormComposable
-                        fields={fields}
-                        formState={formState}
-                    />
-                </Stack>
-            )
+    const metadataFields = useMemo(() => formData?.sections.map((section) => {
+        const fields = section.fields.map((field) => {
+            type FileType = typeof field.type | "autoComplete-catalogues"
+
+            const type = field.type as FileType
+            if (type === "autoComplete-catalogues") {
+                return {
+                    ...field,
+                    type: "select",
+                    params: {
+                        ...field.params,
+                        options: getIn(catalogue, field.name).map((ref: CatalogueRef) => ({
+                            label: ref.title,
+                            key: ref.id,
+                            color: ref.structure?.color,
+                        })),
+                        readOnlyType: "chip"
+                    }
+                } as FormComposableField
+            }
+            return field
         })
-    }, [formData, catalogue])
+        return (
+            <AutoDetailsForm
+                key={section.id}
+                fields={fields}
+                formData={formData}
+                catalogue={catalogue}
+                title={section.label ?? ""}
+            />
+        )
+    }), [formData, catalogue])
 
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
         publisher: {
@@ -128,7 +122,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             {count && <Co2Counter
                 count={count}
             />}
-            {themesFields}
+            {metadataFields}
             <DetailsForm
                 isLoading={isLoading}
                 title={t("publication")}
@@ -146,6 +140,48 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             /> */}
         </Stack>
     )
+}
+
+interface AutoDetailsFormProps {
+    formData: AutoFormData
+    fields: FormComposableField[]
+    catalogue?: Catalogue
+    title: string
+}
+
+const AutoDetailsForm = (props: AutoDetailsFormProps) => {
+    const { fields, title, formData, catalogue } = props
+
+    const initialValues = useMemo(() => {
+        const values = {}
+        fields.map((field) => {
+            const { name } = field
+            const value = getIn(catalogue, name)
+            if (value) {
+                if (Array.isArray(value) && !!value[0].id) {
+                    values[name] = value.map((ref) => ref.id)
+                } else {
+                    values[name] = value
+                }
+            }
+        })
+        return values
+    }, [fields])
+
+    const formstate = useAutoFormState({
+        formData,
+        initialValues
+    })
+
+    return <Stack
+        gap={1.5}
+    >
+        <TitleDivider size='subtitle1' title={title} />
+        <FormComposable
+            fields={fields}
+            formState={formstate}
+        />
+    </Stack>
 }
 
 
