@@ -9,7 +9,7 @@
 POST {{urlAuth}}/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-client_id = tr-registry-script-api &
+client_id = tr-komune-import-api-key &
 client_secret = secret &
 grant_type = client_credentials
 
@@ -425,4 +425,13 @@ Authorization: Bearer {{accessToken}}
   "parentIdentifier": "100m",
   "offset": 0,
   "limit": 40
+}
+
+### cataloguePage
+POST {{urlBase}}/data/catalogueHistoryGet
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "id": "100m-solution-34"
 }
