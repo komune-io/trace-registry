@@ -63,12 +63,16 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueType
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -102,6 +106,14 @@ class CatalogueEndpoint(
 
     @PermitAll
     @Bean
+    override fun catalogueHistoryGet(): CatalogueHistoryGetFunction = f2Function { query ->
+        logger.info("catalogueHistoryGet: $query")
+        val event = catalogueF2FinderService.getHistory(query.id)
+        cataloguePoliciesFilterEnforcer.checkHistory(event.history)
+        event
+    }
+
+    @Bean
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
         logger.info("cataloguePage: $query")
         catalogueF2FinderService.page(
@@ -109,7 +121,7 @@ class CatalogueEndpoint(
             title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
             status = query.status,
             parentIdentifier = query.parentIdentifier,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             type = query.type?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
@@ -126,7 +138,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        catalogueF2FinderService.getOrNull(query.id, query.language)
+        catalogueF2FinderService.getOrNull(query.id, query.language?.truncateLanguage())
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetResult)
     }
@@ -135,7 +147,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
         logger.info("catalogueGetByIdentifier: $query")
-        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language)
+        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language?.truncateLanguage())
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetByIdentifierResult)
     }
@@ -151,7 +163,7 @@ class CatalogueEndpoint(
     @PermitAll
     @Bean
     override fun catalogueRefGet(): CatalogueRefGetFunction = f2Function { query ->
-        catalogueF2FinderService.getRef(query.id, query.language)
+        catalogueF2FinderService.getRef(query.id, query.language.truncateLanguage())
             .let(::CatalogueRefGetResult)
     }
 
@@ -161,7 +173,7 @@ class CatalogueEndpoint(
         logger.info("catalogueRefGetTree: $query")
         catalogueFinderService.getByIdentifierOrNull(query.identifier)
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
-            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language) }
+            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language.truncateLanguage()) }
             .let(::CatalogueRefGetTreeResult)
     }
 
@@ -171,7 +183,7 @@ class CatalogueEndpoint(
         logger.info("catalogueRefSearch: $query")
         catalogueSearchFinderService.searchRef(
             query = query.query,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
@@ -195,7 +207,7 @@ class CatalogueEndpoint(
         logger.info("catalogueSearch: $query")
         catalogueSearchFinderService.searchCatalogue(
             query = query.query,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
@@ -217,14 +229,14 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction = f2Function { query ->
         logger.info("catalogueListAvailableParents: $query")
-        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language, true)
+        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language.truncateLanguage(), true)
             .let(::CatalogueListAvailableParentsResult)
     }
 
     @Bean
     override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction = f2Function { query ->
         logger.info("catalogueListAvailableThemes: $query")
-        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language)
+        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language.truncateLanguage())
             .sortedBy { it.prefLabel }
             .let(::CatalogueListAvailableThemesResult)
     }

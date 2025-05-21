@@ -42,6 +42,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRigh
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.stereotype.Service
 
 @Service
@@ -57,7 +58,7 @@ class CatalogueAggregateService(
 			identifier = command.identifier,
 			title = command.title,
 			type = command.type,
-			language = command.language,
+			language = command.language?.truncateLanguage(),
 			description = command.description,
 			themeIds = command.themeIds,
 			homepage = command.homepage,
@@ -82,7 +83,7 @@ class CatalogueAggregateService(
 			id = it.id,
 			date = System.currentTimeMillis(),
 			title = command.title,
-			language = command.language,
+			language = command.language?.truncateLanguage(),
 			description = command.description,
 			themeIds = command.themeIds,
 			homepage = command.homepage,
@@ -110,7 +111,7 @@ class CatalogueAggregateService(
 		val translations = catalogueRepository.findAllById(command.catalogues)
 			.associate {
 				if (it.language == null) throw IllegalArgumentException("Catalogue ${it.id} has no language")
-				it.language!! to it.id
+				it.language!!.truncateLanguage() to it.id
 			}
 
 		CatalogueAddedTranslationsEvent(
@@ -124,7 +125,7 @@ class CatalogueAggregateService(
 		CatalogueRemovedTranslationsEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			languages = command.languages.toSet()
+			languages = command.languages.map { it.truncateLanguage() }.toSet()
 		)
 	}
 
