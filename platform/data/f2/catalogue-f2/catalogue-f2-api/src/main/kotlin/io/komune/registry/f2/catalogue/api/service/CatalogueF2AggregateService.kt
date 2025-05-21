@@ -359,13 +359,13 @@ class CatalogueF2AggregateService(
                     ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
             }.let { "${command.type}-$it" }
 
-        val catalogueCreatedEvent = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
+        val catalogue = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
 
-        command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration, false) }
+        command.parentId?.let { assignParent(catalogue.id, it, typeConfiguration, false) }
 
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
-                id = catalogueCreatedEvent.id,
+                id = catalogue.id,
                 relatedCatalogueIds = it
             ).let { catalogueAggregateService.replaceRelatedCatalogues(it) }
         }
@@ -373,13 +373,14 @@ class CatalogueF2AggregateService(
         if (i18nEnabled) {
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
-                originalId = catalogueCreatedEvent.id,
+                originalId = catalogue.id,
                 originalIdentifier = catalogueIdentifier,
                 language = command.language!!,
                 title = command.title,
                 description = command.description,
                 versionNotes = command.versionNotes,
                 initDatasets = initDatasets,
+                integrateCounter = command.integrateCounter,
                 additionalDatasets = typeConfiguration?.i18n?.datasets?.takeIf { initDatasets }
             )
         }
@@ -387,36 +388,36 @@ class CatalogueF2AggregateService(
         if (initDatasets && command.language != null) {
             createAndLinkDatasets(
                 datasets = typeConfiguration?.datasets,
-                catalogueId = catalogueCreatedEvent.id,
+                catalogueId = catalogue.id,
                 catalogueIdentifier = catalogueIdentifier,
                 language = command.language!!
             )
         }
 
         return CatalogueCreatedEvent(
-            id = catalogueCreatedEvent.id,
-            identifier = catalogueCreatedEvent.identifier,
-            title = catalogueCreatedEvent.title,
-            type =catalogueCreatedEvent.type,
-            language = catalogueCreatedEvent.language,
-            description = catalogueCreatedEvent.description,
-            themeIds = catalogueCreatedEvent.themeIds.toSet(),
-            homepage = catalogueCreatedEvent.homepage,
-            structure = catalogueCreatedEvent.structure,
-            isTranslationOf = catalogueCreatedEvent.isTranslationOf,
-            catalogueIds = catalogueCreatedEvent.childrenCatalogueIds.toSet(),
-            datasetIds = catalogueCreatedEvent.childrenDatasetIds.toSet(),
-            creatorId = catalogueCreatedEvent.creatorId,
-            creatorOrganizationId = catalogueCreatedEvent.creatorOrganizationId,
-            ownerOrganizationId = catalogueCreatedEvent.ownerOrganizationId,
-            stakeholder = catalogueCreatedEvent.stakeholder,
-            accessRights = catalogueCreatedEvent.accessRights,
-            licenseId = catalogueCreatedEvent.licenseId,
-            location = catalogueCreatedEvent.location,
-            versionNotes = catalogueCreatedEvent.versionNotes,
-            hidden = catalogueCreatedEvent.hidden,
-            date = catalogueCreatedEvent.modified,
-            integrateCounter = catalogueCreatedEvent.integrateCounter,
+            id = catalogue.id,
+            identifier = catalogue.identifier,
+            title = catalogue.title,
+            type = catalogue.type,
+            language = catalogue.language,
+            description = catalogue.description,
+            themeIds = catalogue.themeIds.toSet(),
+            homepage = catalogue.homepage,
+            structure = catalogue.structure,
+            isTranslationOf = catalogue.isTranslationOf,
+            catalogueIds = catalogue.childrenCatalogueIds.toSet(),
+            datasetIds = catalogue.childrenDatasetIds.toSet(),
+            creatorId = catalogue.creatorId,
+            creatorOrganizationId = catalogue.creatorOrganizationId,
+            ownerOrganizationId = catalogue.ownerOrganizationId,
+            stakeholder = catalogue.stakeholder,
+            accessRights = catalogue.accessRights,
+            licenseId = catalogue.licenseId,
+            location = catalogue.location,
+            versionNotes = catalogue.versionNotes,
+            hidden = catalogue.hidden,
+            date = catalogue.modified,
+            integrateCounter = catalogue.integrateCounter,
         )
     }
 
@@ -446,7 +447,7 @@ class CatalogueF2AggregateService(
         isDraft: Boolean
     ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
-        updateDatasetAggregator(catalogue, command, isDraft)
+        updateDatasetAggregator(catalogue, command.integrateCounter, isDraft)
 
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
@@ -487,15 +488,20 @@ class CatalogueF2AggregateService(
                 title = command.title,
                 description = command.description,
                 versionNotes = command.versionNotes,
-                initDatasets = false
+                initDatasets = false,
+                integrateCounter = command.integrateCounter,
             )
         }
 
         return event
     }
 
-    private suspend fun updateDatasetAggregator(catalogue: CatalogueModel, command: CatalogueUpdateCommandDTOBase, isDraft: Boolean) {
-        if (catalogue.integrateCounter == command.integrateCounter) {
+    private suspend fun updateDatasetAggregator(
+        catalogue: CatalogueModel,
+        integrateCounter: Boolean?,
+        isDraft: Boolean,
+    ) {
+        if (catalogue.integrateCounter == integrateCounter) {
             return
         }
         val counterCo2e = informationConceptF2FinderService.getByIdentifierOrNull("counter-co2e")
@@ -505,7 +511,7 @@ class CatalogueF2AggregateService(
         datasets.items.filter { dataset ->
              dataset.type == "indicator"
         }.mapAsync { dataset ->
-            if (command.integrateCounter == true) {
+            if (integrateCounter == true) {
                 val addCommand = DatasetAddAggregatorsCommand(
                     id = dataset.id,
                     informationConceptIds = listOf(counterCo2e.id),
@@ -644,6 +650,7 @@ class CatalogueF2AggregateService(
         description: String?,
         versionNotes: String?,
         initDatasets: Boolean,
+        integrateCounter: Boolean?,
         additionalDatasets: List<CatalogueTypeSubDataset>? = null
     ) {
         val event = CatalogueCreateCommandDTOBase(
@@ -653,6 +660,7 @@ class CatalogueF2AggregateService(
             description = description,
             language = language,
             versionNotes = versionNotes,
+            integrateCounter = integrateCounter
         ).let { doCreate(it, isTranslation = true, isTranslationOf = originalId, initDatasets = initDatasets) }
 
         createAndLinkDatasets(
