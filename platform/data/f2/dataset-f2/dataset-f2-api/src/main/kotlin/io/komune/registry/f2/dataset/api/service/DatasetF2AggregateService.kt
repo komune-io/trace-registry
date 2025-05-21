@@ -384,27 +384,16 @@ class DatasetF2AggregateService(
     }
 
     private suspend fun applyTypeConfigurations(id: DatasetId, type: String, catalogueId: CatalogueId, isDraft: Boolean) {
-        val masterCatalogue = catalogueFinderService.get(catalogueId).let {
-            it.isTranslationOf?.let { masterId ->
-                catalogueFinderService.get(masterId)
-            } ?: it
+        val catalogue = catalogueFinderService.get(catalogueId)
+        if (catalogue.integrateCounter != true) {
+            return
         }
-        if(masterCatalogue.integrateCounter == true) {
-            applyCounterAggregators(type, catalogueId, id, isDraft)
-        }
-    }
 
-    private suspend fun applyCounterAggregators(
-        type: String,
-        catalogueId: CatalogueId,
-        id: DatasetId,
-        isDraft: Boolean
-    ) {
         val typeConfig = datasetConfig.typeConfigurations[type]?.let { configuration ->
             configuration.configurations
-            // Quick fix because it.isTranslationOf is not provided in draft
+                // Quick fix because it.isTranslationOf is not provided in draft
                 ?.firstOrNull { config -> config.catalogueTypes.any { catalogueId.startsWith(it) } }
-            // ?.firstOrNull { masterCatalogue.type in it.catalogueTypes }
+//                ?.firstOrNull { catalogue.type in it.catalogueTypes }
                 ?: configuration.default
         }
 
