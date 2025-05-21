@@ -6,10 +6,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
-import autoForm from "../DraftEditionPage/autoForm.json"
-import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2';
-
-const formData = autoFormFormatter(autoForm as BackAutoFormData)
+import { useDraftFormData } from '../DraftEditionPage/useDraftFormData';
 
 export const DraftViewPage = () => {
   const { catalogueId, draftId, tab } = useParams()
@@ -33,6 +30,8 @@ export const DraftViewPage = () => {
   const catalogue = catalogueDraftQuery.data?.item?.catalogue
 
   const draft = catalogueDraftQuery.data?.item
+
+  const formData = useDraftFormData({ catalogue })
 
   const metadataFormState = useMetadataFormState({
     formData,

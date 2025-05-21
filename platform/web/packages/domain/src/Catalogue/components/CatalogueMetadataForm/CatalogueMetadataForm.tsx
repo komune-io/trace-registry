@@ -1,4 +1,4 @@
-import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, FormComposableState, useAutoFormState } from '@komune-io/g2'
+import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, FormComposableState, getIn, setIn, useAutoFormState } from '@komune-io/g2'
 import { Paper } from '@mui/material'
 import { SearchIcon, CustomButton } from 'components'
 import { useCallback, useMemo, useState } from 'react'
@@ -32,7 +32,8 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         },
         options: {
             placeholderData: keepPreviousData,
-            enabled: !!contextualFilters["autoComplete-parents"]
+            //@ts-ignore
+            enabled: formData?.sections[0].fields.some((field) => field.type === "autoComplete-parents")
         }
     })
 
@@ -66,14 +67,14 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
 
         const type = field.type as FileType
 
+        //@ts-ignore
+        const filters = field.params?.filters ? JSON.parse(field.params.filters) : undefined
+
         if (type === "autoComplete-parents") {
-            if (!contextualFilters["autoComplete-parents"]) {
+            if (!contextualFilters["autoComplete-parents"] && filters) {
                 setContextualFilters((prev) => ({
                     ...prev,
-                    "autoComplete-parents": {
-                        //@ts-ignore
-                        ...JSON.parse(field.params?.filters),
-                    }
+                    "autoComplete-parents": filters
                 }))
             }
 
@@ -96,13 +97,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             }
         }
         if (type === "select-themes") {
-            if (!contextualFilters["select-themes"]) {
+            if (!contextualFilters["select-themes"] && filters) {
                 setContextualFilters((prev) => ({
                     ...prev,
-                    "select-themes": {
-                        //@ts-ignore
-                        ...JSON.parse(field.params?.filters),
-                    }
+                    "select-themes": filters
                 }))
             }
             return {
@@ -126,8 +124,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     //@ts-ignore
                     params: field.params,
                 },
-                    //@ts-ignore
-                    JSON.parse(field.params?.filters))
+                    filters)
             } as FormComposableField
         }
         if (type === "select-license") {
@@ -148,7 +145,25 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const onSubmitMemo = useCallback(
         async (command: CommandWithFile<any>, values: any) => {
             const { relatedCatalogues } = values
+            formData?.sections.forEach((section) =>
+                section.fields.forEach((field) => {
+                    const fieldValue = getIn(values, field.name)
+                    
+                    if (fieldValue != undefined) {
+                        if (field.type === 'documentHandler') {
+                            command.files.push({
+                                file: fieldValue,
+                                atrKey: field.name
+                            })
+                        } else {
+                            console.log(command)
 
+                            console.log(field.name, fieldValue)
+                            setIn(command, field.name, fieldValue)
+                        }
+                    }
+                })
+            )
             if (onSubmit) {
                 const relatedCataloguesToIds = convertRelatedCataloguesToIds(relatedCatalogues)
                 onSubmit({
@@ -166,10 +181,8 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const localFormState = useAutoFormState({
         formData,
         onSubmit: onSubmitMemo,
-        formikConfig: {
-            initialValues: {
-                context: "creation"
-            }
+        initialValues: {
+            context: "creation"
         }
     })
 

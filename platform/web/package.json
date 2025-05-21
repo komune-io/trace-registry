@@ -28,7 +28,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "5.15.14",
     "@mui/material": "5.15.14",
-    "@komune-io/g2": "0.8.0-alpha.94b8cd2",
+    "@komune-io/g2": "0.9.0-alpha.8f71ddd",
     "@komune-io/im-privilege-domain": "0.20.0",
     "react-infinite-scroll-component": "^6.1.0",
     "@mantine/dropzone": "^7.7.0",

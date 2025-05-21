@@ -1,8 +1,8 @@
 import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth } from 'components'
-import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand, useCatalogueDeleteCommand, useCatalogueGetStructureQuery } from 'domain-components'
+import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand, useCatalogueDeleteCommand } from 'domain-components'
 import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMetadataFormState } from './useMetadataFormState';
@@ -11,11 +11,11 @@ import { useDraftTabs } from './useDraftTabs';
 import { useDraftValidations } from './useDraftValidations';
 import { useDebouncedCallback } from '@mantine/hooks';
 import { useDraftMutations } from './useDraftMutations';
-import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2';
+import { useDraftFormData } from './useDraftFormData';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId, tab } = useParams()
-  const { i18n, t } = useTranslation()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { cataloguesCatalogueIdDraftIdEditTab, cataloguesContributions } = useRoutesDefinition()
   const [isLoading, setIsLoading] = useState(false)
@@ -41,17 +41,7 @@ export const DraftEditionPage = () => {
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
-  const structure = useCatalogueGetStructureQuery({
-    query: {
-      type: catalogue?.type!,
-      language: i18n.language,
-    },
-    options: {
-      enabled: !!catalogue?.type,
-    }
-  })
-
-  const formData = useMemo(() => structure.data?.item?.metadataForm ? autoFormFormatter(structure.data?.item?.metadataForm as BackAutoFormData) : undefined, [structure.data?.item])
+  const formData = useDraftFormData({ catalogue })
 
   const { onDelete, onSectionChange, onSaveMetadata, isUpdating } = useDraftMutations({
     catalogue,

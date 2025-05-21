@@ -91,7 +91,6 @@ const toComponents = (
   searchValue?: string,
 ): FormComposableField => {
   const { name, label, params, customDisplay } = props;
-  console.log(options)
   return {
     name,
     type: "autoComplete",

@@ -9,10 +9,7 @@ import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
 import { useDraftValidations } from '../DraftEditionPage/useDraftValidations';
 import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
-import autoForm from "../DraftEditionPage/autoForm.json"
-import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2';
-
-const formData = autoFormFormatter(autoForm as BackAutoFormData)
+import { useDraftFormData } from '../DraftEditionPage/useDraftFormData';
 
 export const DraftValidationPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -37,6 +34,8 @@ export const DraftValidationPage = () => {
   const catalogue = catalogueDraftQuery.data?.item?.catalogue
 
   const draft = catalogueDraftQuery.data?.item
+
+   const formData = useDraftFormData({catalogue})
 
   const { onSaveMetadata, isUpdating } = useDraftMutations({
     refetchDraft: catalogueDraftQuery.refetch,

@@ -36,7 +36,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                     type: "select",
                     params: {
                         ...field.params,
-                        options: getIn(catalogue, field.name).map((ref: CatalogueRef) => ({
+                        options: getIn(catalogue, field.name)?.map((ref: CatalogueRef) => ({
                             label: ref.title,
                             key: ref.id,
                             color: ref.structure?.color,
@@ -173,6 +173,16 @@ const AutoDetailsForm = (props: AutoDetailsFormProps) => {
         initialValues
     })
 
+    const areFieldsEmpty = useMemo(() => {
+        return fields.every((field) => {    
+            const { name } = field
+            const value = getIn(formstate.values, name)
+            if (Array.isArray(value)) return  value.length === 0
+            return value == undefined || value === ''
+        })
+    }, [fields, formstate.values])
+
+    if (areFieldsEmpty) return null
     return <Stack
         gap={1.5}
     >
