@@ -60,7 +60,7 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     location = location,
     versionNotes = versionNotes.takeIf { withTranslatable },
     hidden = hidden,
-    integrateCounter = integrateCounter
+    integrateCounter = integrateCounter.takeIf { withTranslatable }
 )
 
 fun CatalogueUpdateCommandDTOBase.toCommand(
