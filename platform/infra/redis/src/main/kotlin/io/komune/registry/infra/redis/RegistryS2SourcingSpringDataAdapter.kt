@@ -60,6 +60,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 					logger.info("/////////////////////////")
 					logger.info("Replay ${entityType.name} history")
 					executor.replayHistory()
+					executor.replayHistory()
 					logger.info("/////////////////////////")
 				}
 			} catch (e: Exception) {

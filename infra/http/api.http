@@ -427,6 +427,18 @@ Authorization: Bearer {{accessToken}}
   "limit": 40
 }
 
+### catalogueRefSearch
+POST {{urlBase}}/data/catalogueRefSearch
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "language":"es",
+  "type":["100m-planetary-boundary"],
+  "limit":10,
+  "offset":0
+}
+
 ### cataloguePage
 POST {{urlBase}}/data/catalogueHistoryGet
 Content-Type: application/json
