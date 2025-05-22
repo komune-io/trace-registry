@@ -176,7 +176,7 @@ class CatalogueDraftF2AggregateService(
             datasetIds = datasetIdMap.filterKeys { it in sourceCatalogue.childrenDatasetIds }.values.toList()
         ).let { catalogueAggregateService.linkDatasets(it) }
 
-        datasetIdMap[sourceCatalogue.metadataDatasetId]?.let { datasetId ->
+        sourceCatalogue.metadataDatasetId?.let { datasetIdMap[it] }?.let { datasetId ->
             CatalogueLinkMetadataDatasetCommand(
                 id = destinationCatalogueId,
                 datasetId = datasetId

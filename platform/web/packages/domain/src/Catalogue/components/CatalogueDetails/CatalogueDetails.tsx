@@ -1,10 +1,20 @@
-import { Stack } from '@mui/material'
-import { AutoFormData, autoFormFormatter, BackAutoFormData, FormComposable, FormComposableField, getIn, useAutoFormState, useFormComposable } from '@komune-io/g2'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Catalogue, CatalogueRef } from '../../model'
-import { Co2Counter, TitleDivider } from 'components'
-import { useCatalogueCo2Counter } from '../../api'
+import {Stack} from '@mui/material'
+import {
+    AutoFormData,
+    autoFormFormatter,
+    BackAutoFormData,
+    FormComposable,
+    FormComposableField,
+    getIn,
+    setIn,
+    useAutoFormState,
+    useFormComposable
+} from '@komune-io/g2'
+import {useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Catalogue, CatalogueRef} from '../../model'
+import {Co2Counter, TitleDivider} from 'components'
+import {useCatalogueCo2Counter} from '../../api'
 
 type simplifiedReadonlyFields = Record<string, {
     value?: any,
@@ -30,13 +40,16 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             type FileType = typeof field.type | "autoComplete-catalogues"
 
             const type = field.type as FileType
+
             if (type === "autoComplete-catalogues") {
+                let values = getIn(catalogue, field.name) ?? []
+                values = Array.isArray(values) ? values : [values]
                 return {
                     ...field,
                     type: "select",
                     params: {
                         ...field.params,
-                        options: getIn(catalogue, field.name)?.map((ref: CatalogueRef) => ({
+                        options: values?.map((ref: CatalogueRef) => ({
                             label: ref.title,
                             key: ref.id,
                             color: ref.structure?.color,
@@ -153,20 +166,20 @@ const AutoDetailsForm = (props: AutoDetailsFormProps) => {
     const { fields, title, formData, catalogue } = props
 
     const initialValues = useMemo(() => {
-        const values = {}
+        let values = {}
         fields.map((field) => {
             const { name } = field
             const value = getIn(catalogue, name)
             if (value) {
                 if (Array.isArray(value) && !!value[0].id) {
-                    values[name] = value.map((ref) => ref.id)
+                    values = setIn(values, name, value.map((ref) => ref.id))
                 } else {
-                    values[name] = value
+                    values = setIn(values, name, value.id ?? value)
                 }
             }
         })
         return values
-    }, [fields])
+    }, [fields, catalogue])
 
     const formstate = useAutoFormState({
         formData,
@@ -186,7 +199,7 @@ const AutoDetailsForm = (props: AutoDetailsFormProps) => {
     return <Stack
         gap={1.5}
     >
-        <TitleDivider size='subtitle1' title={title} />
+        {title && <TitleDivider size='subtitle1' title={title} />}
         <FormComposable
             fields={fields}
             formState={formstate}

@@ -3,8 +3,10 @@ package io.komune.registry.f2.catalogue.api.service
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.Match
+import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
+import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
@@ -18,9 +20,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class CatalogueSearchFinderService(
-    private val conceptF2FinderService: ConceptF2FinderService,
+    private val catalogueConfig: CatalogueConfig,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueI18nService: CatalogueI18nService,
+    private val conceptF2FinderService: ConceptF2FinderService,
 ) : CatalogueCachedService() {
 
     @Suppress("LongMethod")
@@ -36,6 +39,7 @@ class CatalogueSearchFinderService(
         licenseId: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
         availableLanguages: Match<Language>? = null,
+        withTransient: Boolean = true,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueRefSearchResult = withCache { cache ->
@@ -51,6 +55,7 @@ class CatalogueSearchFinderService(
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
+            withTransient = withTransient,
             freeCriterion = freeCriterion,
             page = page
         )
@@ -84,6 +89,7 @@ class CatalogueSearchFinderService(
         licenseId: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
         availableLanguages: Match<Language>? = null,
+        withTransient: Boolean = true,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResult = withCache { cache ->
@@ -99,11 +105,12 @@ class CatalogueSearchFinderService(
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
+            withTransient = withTransient,
             freeCriterion = freeCriterion,
             page = page
         )
 
-        if(result.items.isEmpty()) {
+        if (result.items.isEmpty()) {
             return@withCache CatalogueSearchResult(
                 items = emptyList(),
                 total = result.total,
@@ -136,9 +143,15 @@ class CatalogueSearchFinderService(
         licenseId: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
         availableLanguages: Match<Language>? = null,
+        withTransient: Boolean = true,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResultLocal = withCache { cache ->
+        val typeFilter = andMatchOfNotNull(
+            type,
+            CollectionMatch(catalogueConfig.transientTypes).not().takeUnless { withTransient }
+        )
+
         val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
@@ -146,7 +159,7 @@ class CatalogueSearchFinderService(
             language = ExactMatch(language).takeUnless { otherLanguageIfAbsent },
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
-            type = type,
+            type = typeFilter,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,

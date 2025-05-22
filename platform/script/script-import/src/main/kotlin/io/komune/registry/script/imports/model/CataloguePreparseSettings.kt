@@ -1,5 +1,6 @@
 package io.komune.registry.script.imports.model
 
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 
 data class CataloguePreparseSettings(
@@ -20,6 +21,7 @@ data class CataloguePreparseMapping(
     val image: CataloguePreparseFileFieldMapping?,
     val homepage: CataloguePreparseFieldMapping?,
     val themes: List<CataloguePreparseConceptMapping>?,
+    val indicators: Map<InformationConceptIdentifier, CataloguePreparseFieldMapping>?,
     val datasets: List<CataloguePreparseDatasetMapping>?,
 )
 

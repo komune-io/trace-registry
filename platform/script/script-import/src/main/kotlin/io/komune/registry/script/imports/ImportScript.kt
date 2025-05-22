@@ -282,6 +282,7 @@ class ImportScript(
                 license = licence,
                 homepage = catalogueData.homepage,
                 catalogues = catalogueData.children,
+                indicators = catalogueData.indicators?.mapValues { (_, value) -> listOf(value) }
             ) to imageFile
             val catalogueId = createCommand.invokeWith(dataClient.catalogue.catalogueCreate()).id
 

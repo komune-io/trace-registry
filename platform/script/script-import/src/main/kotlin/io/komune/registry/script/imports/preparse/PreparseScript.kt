@@ -10,6 +10,7 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.mapAsyncIndexed
 import io.komune.registry.api.commons.utils.parseJsonTo
 import io.komune.registry.api.commons.utils.toJson
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
@@ -133,6 +134,9 @@ class PreparseScript(
                             ?.parseJsonTo(Array<CatalogueReferences>::class.java)
                             ?.ifEmpty { null }
                     }?.filterValues { it != null } as Map<String, List<CatalogueReferences>>?,
+                    indicators = settings.mapping.indicators?.mapValues { (_, fieldMapping) ->
+                        fileContent.parseField(fieldMapping)
+                    }?.filterValues { it != null } as Map<InformationConceptIdentifier, String>?,
                     datasets = settings.mapping.datasets?.map { fileContent.parseDataset(it, settings.languages) }
                 ).toJson().let { json ->
                     val outputFile = fileInContextDestination(settings.output)
