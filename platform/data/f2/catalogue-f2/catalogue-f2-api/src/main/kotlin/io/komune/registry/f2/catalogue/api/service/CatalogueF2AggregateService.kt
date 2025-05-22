@@ -105,12 +105,13 @@ class CatalogueF2AggregateService(
 
     private val logger by Logger()
 
-    suspend fun create(command: CatalogueCreateCommandDTOBase): CatalogueCreatedEventDTOBase {
+    suspend fun create(command: CatalogueCreateCommandDTOBase, image: FilePart?): CatalogueCreatedEventDTOBase {
         if (!command.withDraft) {
-            return doCreate(command).let {
+            return doCreate(command).let { event ->
+                image?.let { setImage(event.id, it) }
                 CatalogueCreatedEventDTOBase(
-                    id = it.id,
-                    identifier = it.identifier,
+                    id = event.id,
+                    identifier = event.identifier,
                     type = command.type,
                     draftId = null
                 )
@@ -145,6 +146,8 @@ class CatalogueF2AggregateService(
             baseVersion = 0,
             datasetIdMap = emptyMap()
         ).let { catalogueDraftAggregateService.create(it).id }
+
+        image?.let { setImage(draftedCatalogueEvent.id, it) }
 
         return originalCatalogueEvent.copy(draftId = draftId)
     }
@@ -365,13 +368,13 @@ class CatalogueF2AggregateService(
                     ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
             }.let { "${command.type}-$it" }
 
-        val catalogueCreatedEvent = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
+        val catalogue = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
 
-        command.parentId?.let { assignParent(catalogueCreatedEvent.id, it, typeConfiguration, false) }
+        command.parentId?.let { assignParent(catalogue.id, it, typeConfiguration, false) }
 
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
-                id = catalogueCreatedEvent.id,
+                id = catalogue.id,
                 relatedCatalogueIds = it
             ).let { catalogueAggregateService.replaceRelatedCatalogues(it) }
         }
@@ -379,7 +382,7 @@ class CatalogueF2AggregateService(
         if (i18nEnabled) {
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
-                originalId = catalogueCreatedEvent.id,
+                originalId = catalogue.id,
                 originalIdentifier = catalogueIdentifier,
                 language = command.language!!,
                 title = command.title,
@@ -394,21 +397,21 @@ class CatalogueF2AggregateService(
         if (initDatasets && command.language != null) {
             createAndLinkDatasets(
                 datasets = typeConfiguration?.datasets,
-                catalogueId = catalogueCreatedEvent.id,
+                catalogueId = catalogue.id,
                 catalogueIdentifier = catalogueIdentifier,
                 language = command.language!!,
                 withMetadataDataset = true
             )
         }
 
-        if (initDatasets && !i18nEnabled && command.indicators != null) {
-            saveMetadataIndicators(catalogueCreatedEvent.id, command.indicators!!)
+        if (initDatasets && !i18nEnabled && command.language != null && command.indicators != null) {
+            saveMetadataIndicators(catalogue.id, command.indicators!!)
         }
 
         return CatalogueCreatedEventDTOBase(
-            id = catalogueCreatedEvent.id,
-            identifier = catalogueCreatedEvent.identifier,
-            type = catalogueCreatedEvent.type,
+            id = catalogue.id,
+            identifier = catalogue.identifier,
+            type = catalogue.type,
             draftId = null
         )
     }
@@ -787,7 +790,7 @@ class CatalogueF2AggregateService(
                 DatasetAddDistributionValueCommandDTOBase(
                     id = metadataDataset.id,
                     distributionId = distribution.id,
-                    informationConceptId = conceptIdentifier,
+                    informationConceptId = concept.id,
                     unit = concept.unit
                         ?: throw IllegalStateException("Unit not found for concept $conceptIdentifier"),
                     isRange = false,

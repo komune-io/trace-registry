@@ -48,6 +48,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
@@ -63,11 +64,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -193,6 +191,7 @@ class CatalogueEndpoint(
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
+            withTransient = query.withTransient,
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
@@ -217,6 +216,7 @@ class CatalogueEndpoint(
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
+            withTransient = query.withTransient,
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
@@ -293,24 +293,19 @@ class CatalogueEndpoint(
     @PostMapping("/data/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,
-        @RequestPart("file", required = false) image: FilePart?
+        @RequestPart("img", required = false) image: FilePart?
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
         cataloguePoliciesEnforcer.checkCreate(command.type)
 
         val enforceCommand = cataloguePoliciesEnforcer.enforceCommand(command)
-        val event = catalogueF2AggregateService.create(enforceCommand)
-        image?.let {
-            catalogueF2AggregateService.setImage(event.id, it)
-        }
-
-        return event
+        return catalogueF2AggregateService.create(enforceCommand, image)
     }
 
     @PostMapping("/data/catalogueUpdate")
     suspend fun catalogueUpdate(
         @RequestPart("command") command: CatalogueUpdateCommandDTOBase,
-        @RequestPart("file", required = false) image: FilePart?
+        @RequestPart("img", required = false) image: FilePart?
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
         cataloguePoliciesEnforcer.checkUpdate(command.id)

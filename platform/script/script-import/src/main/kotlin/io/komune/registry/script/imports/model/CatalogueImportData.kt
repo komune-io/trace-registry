@@ -5,6 +5,7 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
@@ -26,6 +27,7 @@ data class CatalogueImportData(
     val homepage: String?,
     val children: List<CatalogueId>?,
     val related: Map<String, List<CatalogueReferences>>?,
+    val indicators: Map<InformationConceptIdentifier, String>?,
     val datasets: List<CatalogueDatasetSettings>?,
 
     @Deprecated("Use 'parent` instead")

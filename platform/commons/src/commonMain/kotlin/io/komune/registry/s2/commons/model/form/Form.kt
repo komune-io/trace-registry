@@ -5,14 +5,12 @@ import kotlin.js.JsExport
 
 @JsExport
 interface FormDTO {
-    val readOnly: Boolean
     val sections: List<FormSectionDTO>
-    val properties: Map<String, Any>?
+    val properties: FormPropertiesDTO?
 }
 
 @Serializable
 data class Form(
-    override val readOnly: Boolean = false,
     override val sections: List<FormSection> = emptyList(),
-    override val properties: Map<String, String>? = null
+    override val properties: FormProperties? = null
 ) : FormDTO

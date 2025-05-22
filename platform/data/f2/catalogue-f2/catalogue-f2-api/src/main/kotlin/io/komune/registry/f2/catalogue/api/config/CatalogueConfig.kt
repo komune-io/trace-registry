@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.api.config
 
+import io.komune.registry.f2.catalogue.domain.dto.structure.StructureType
 import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
@@ -36,6 +37,12 @@ class CatalogueConfig(
 
                 typeConfiguration.type to typeConfiguration
             }
+    }
+
+    final val transientTypes: Set<String> by lazy {
+        typeConfigurations.filter { (_, config) ->
+            config.structure?.type == StructureType.TRANSIENT
+        }.keys
     }
 
     final val templates: Map<String, ByteArray> by lazy {
