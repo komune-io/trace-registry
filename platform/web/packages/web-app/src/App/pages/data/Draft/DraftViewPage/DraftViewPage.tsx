@@ -6,6 +6,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
+import { useDraftFormData } from '../DraftEditionPage/useDraftFormData';
 
 export const DraftViewPage = () => {
   const { catalogueId, draftId, tab } = useParams()
@@ -30,7 +31,10 @@ export const DraftViewPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
+  const formData = useDraftFormData({ catalogue })
+
   const metadataFormState = useMetadataFormState({
+    formData,
     catalogue,
     isLoading: catalogueDraftQuery.isInitialLoading,
     readOnly: true
@@ -39,6 +43,7 @@ export const DraftViewPage = () => {
   const title = catalogue?.title ?? t("sheetEdition")
 
   const tabs: Tab[] = useDraftTabs({
+    formData,
     metadataFormState,
     catalogue,
     draft,
