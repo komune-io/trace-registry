@@ -16,6 +16,7 @@ import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFu
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
 import jakarta.annotation.security.PermitAll
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -40,7 +41,7 @@ class InformationConceptEndpoint(
     @Bean
     override fun informationConceptList(): InformationConceptListFunction = f2Function { query ->
         logger.info("informationConceptList: $query")
-        informationConceptF2FinderService.listTranslated(query.language)
+        informationConceptF2FinderService.listTranslated(query.language.truncateLanguage())
             .let(::InformationConceptListResult)
     }
 
@@ -48,7 +49,7 @@ class InformationConceptEndpoint(
     @Bean
     override fun informationConceptGetGlobalValue(): InformationConceptGetGlobalValueFunction = f2Function { query ->
         logger.info("informationConceptGetGlobalValue: $query")
-        informationConceptF2FinderService.getGlobalValue(query.identifier, query.language)
+        informationConceptF2FinderService.getGlobalValue(query.identifier, query.language.truncateLanguage())
             .let(::InformationConceptGetGlobalValueResult)
     }
 

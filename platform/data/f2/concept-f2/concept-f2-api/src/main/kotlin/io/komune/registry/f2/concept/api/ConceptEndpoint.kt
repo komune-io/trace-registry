@@ -14,6 +14,7 @@ import io.komune.registry.f2.concept.domain.query.ConceptGetFunction
 import io.komune.registry.f2.concept.domain.query.ConceptGetResult
 import io.komune.registry.f2.concept.domain.query.ConceptGetTranslatedFunction
 import io.komune.registry.f2.concept.domain.query.ConceptGetTranslatedResult
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import io.komune.registry.s2.concept.api.ConceptAggregateService
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
@@ -47,7 +48,7 @@ class ConceptEndpoint(
     @Bean
     override fun conceptGetTranslated(): ConceptGetTranslatedFunction = f2Function { query ->
         logger.info("conceptGetTranslated: $query")
-        conceptF2FinderService.getTranslatedOrNull(query.id, query.language, query.otherLanguageIfAbsent)
+        conceptF2FinderService.getTranslatedOrNull(query.id, query.language.truncateLanguage(), query.otherLanguageIfAbsent)
             .let(::ConceptGetTranslatedResult)
     }
 

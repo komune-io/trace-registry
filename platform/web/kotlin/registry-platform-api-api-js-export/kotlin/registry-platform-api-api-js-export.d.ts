@@ -1470,6 +1470,7 @@ export declare namespace io.komune.registry.s2.commons.model {
 }
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormDTO {
+        readonly readOnly: boolean;
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
         readonly properties?: Record<string, any>;
 
@@ -1490,6 +1491,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly name: string;
         readonly label?: string;
         readonly type: string;
+        readonly required: boolean;
         readonly description?: string;
         readonly helperText?: string;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
@@ -4181,6 +4183,17 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
     }
     interface CatalogueGetByIdentifierResultDTO {
         readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueHistoryGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueHistoryGetResultDTO {
+        readonly actualVersion?: io.komune.registry.s2.catalogue.domain.model.CatalogueModel;
+        readonly history: io.komune.registry.s2.commons.history.EventHistory<io.komune.registry.s2.catalogue.domain.command.CatalogueEvent, io.komune.registry.s2.catalogue.domain.model.CatalogueModel>[];
 
     }
 }
