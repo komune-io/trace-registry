@@ -1470,9 +1470,8 @@ export declare namespace io.komune.registry.s2.commons.model {
 }
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormDTO {
-        readonly readOnly: boolean;
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
-        readonly properties?: Record<string, any>;
+        readonly properties?: io.komune.registry.s2.commons.model.form.FormPropertiesDTO;
 
     }
 }
@@ -1503,6 +1502,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormFieldPropertiesDTO {
         readonly multiline?: boolean;
+        readonly multiple?: boolean;
         readonly rows?: number;
         readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
         readonly fileTypesAllowed?: string[];
@@ -1515,6 +1515,12 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly key: string;
         readonly label?: string;
         readonly color?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormPropertiesDTO {
+        readonly readOnly?: boolean;
 
     }
 }
@@ -4320,6 +4326,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly licenseId?: string[];
         readonly creatorOrganizationId?: string;
         readonly availableLanguages?: string[];
+        readonly withTransient: boolean;
 
     }
     interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
@@ -4344,6 +4351,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly licenseId?: string[];
         readonly creatorOrganizationId?: string;
         readonly availableLanguages?: string[];
+        readonly withTransient: boolean;
 
     }
     interface CatalogueSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {

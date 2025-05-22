@@ -65,6 +65,7 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftedRef
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
@@ -362,11 +363,7 @@ class CatalogueF2AggregateService(
         val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
 
         val catalogueIdentifier = command.identifier
-            ?: run {
-                typeConfiguration?.identifierSequence
-                    ?.let { sequenceRepository.nextValOf(it.name, it.startValue, it.increment) }
-                    ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
-            }.let { "${command.type}-$it" }
+            ?: computeNewIdentifier(command.type)
 
         val catalogue = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
 
@@ -383,7 +380,7 @@ class CatalogueF2AggregateService(
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
                 originalId = catalogue.id,
-                originalIdentifier = catalogueIdentifier,
+                originalIdentifier = catalogue.identifier,
                 language = command.language!!,
                 title = command.title,
                 description = command.description,
@@ -402,10 +399,10 @@ class CatalogueF2AggregateService(
                 language = command.language!!,
                 withMetadataDataset = true
             )
-        }
 
-        if (initDatasets && !i18nEnabled && command.language != null && command.indicators != null) {
-            saveMetadataIndicators(catalogue.id, command.indicators!!)
+            if (!i18nEnabled && command.indicators != null) {
+                saveMetadataIndicators(catalogue.id, command.indicators!!)
+            }
         }
 
         return CatalogueCreatedEventDTOBase(
@@ -414,6 +411,14 @@ class CatalogueF2AggregateService(
             type = catalogue.type,
             draftId = null
         )
+    }
+
+    private suspend fun computeNewIdentifier(type: CatalogueType): CatalogueIdentifier {
+        val typeConfiguration = catalogueConfig.typeConfigurations[type]
+        val number = typeConfiguration?.identifierSequence
+            ?.let { sequenceRepository.nextValOf(it.name, it.startValue, it.increment) }
+            ?: sequenceRepository.nextValOf(DEFAULT_SEQUENCE)
+        return "${type}-$number"
     }
 
     private suspend fun getOrCreate(

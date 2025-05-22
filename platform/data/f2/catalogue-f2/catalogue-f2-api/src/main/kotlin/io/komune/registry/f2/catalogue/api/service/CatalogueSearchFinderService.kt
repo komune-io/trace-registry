@@ -131,6 +131,7 @@ class CatalogueSearchFinderService(
         )
     }
 
+    @Suppress("LongMethod")
     private suspend fun searchInternal(
         query: String?,
         language: Language,
@@ -147,11 +148,6 @@ class CatalogueSearchFinderService(
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResultLocal = withCache { cache ->
-        val typeFilter = andMatchOfNotNull(
-            type,
-            CollectionMatch(catalogueConfig.transientTypes).not().takeUnless { withTransient }
-        )
-
         val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
@@ -159,7 +155,10 @@ class CatalogueSearchFinderService(
             language = ExactMatch(language).takeUnless { otherLanguageIfAbsent },
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
-            type = typeFilter,
+            type = andMatchOfNotNull(
+                type,
+                CollectionMatch(catalogueConfig.transientTypes).not().takeUnless { withTransient }
+            ),
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
@@ -173,7 +172,8 @@ class CatalogueSearchFinderService(
                 name = key,
                 size = size
             )
-        } ?: emptyList<FacetDistributionDTO>()
+        }.orEmpty()
+
         val themeDistribution = catalogueTranslations.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
             val theme = conceptF2FinderService.getTranslatedOrNull(key, language, true)
             FacetDistribution(
@@ -181,7 +181,7 @@ class CatalogueSearchFinderService(
                 name = theme?.prefLabel ?: "",
                 size = size
             )
-        } ?: emptyList<FacetDistributionDTO>()
+        }.orEmpty()
 
         val licenceDistribution = catalogueTranslations.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
             val licence = cache.licenses.get(key)
@@ -190,7 +190,7 @@ class CatalogueSearchFinderService(
                 name = licence?.name ?: "",
                 size = size
             )
-        } ?: emptyList<FacetDistributionDTO>()
+        }.orEmpty()
 
         val cataloguesDistribution = catalogueTranslations.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
             val catalogue = catalogueF2FinderService.getOrNull("${key}s", language)
@@ -199,7 +199,7 @@ class CatalogueSearchFinderService(
                 name = catalogue?.title ?: "",
                 size = size
             )
-        } ?: emptyList<FacetDistributionDTO>()
+        }.orEmpty()
 
         CatalogueSearchResultLocal(
             items = catalogueTranslations.items,
