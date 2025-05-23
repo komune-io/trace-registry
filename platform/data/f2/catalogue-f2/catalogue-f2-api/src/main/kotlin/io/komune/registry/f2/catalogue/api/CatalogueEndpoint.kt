@@ -111,6 +111,7 @@ class CatalogueEndpoint(
         event
     }
 
+    @PermitAll
     @Bean
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
         logger.info("cataloguePage: $query")
