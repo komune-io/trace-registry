@@ -90,7 +90,7 @@ class CatalogueI18nService(
             pendingDraftsOf(originalCatalogue?.id ?: translated.id, it)
         }
 
-        val aggregators = if (catalogue.integrateCounter == true) {
+        val aggregators = if (translated.integrateCounter == true) {
             catalogueInformationConceptService.computeAggregators(translated)
         } else {
             emptyList()

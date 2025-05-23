@@ -25,17 +25,19 @@ abstract class EventHistoryService<EVENT, ENTITY, ID>(
     suspend fun getEventsWithState(id: ID): List<EventHistory<EVENT, ENTITY & Any>> {
         val events = eventRepository.load(id).toList().sortedWith(sortBy())
 
-        var currentState: ENTITY? = null
-        var index = 0
+        val playedEvents = mutableListOf<EVENT>()
+        return events.mapIndexed { index, currentEvent ->
+            currentEvent::class.simpleName
 
-        return events.map { event ->
-            event::class.simpleName
-            index++
-            currentState = view.evolve(event, currentState)
+            playedEvents.add(currentEvent)
+            val currentState = playedEvents.fold(null as ENTITY?) { acc, event ->
+                view.evolve(event, acc)
+            }
+
             EventHistory(
                 indexEvent = index,
-                event = event,
-                eventType = event::class.simpleName ?: "Unknown",
+                event = currentEvent,
+                eventType = currentEvent::class.simpleName ?: "Unknown",
                 model = currentState!!
             )
         }.toList()

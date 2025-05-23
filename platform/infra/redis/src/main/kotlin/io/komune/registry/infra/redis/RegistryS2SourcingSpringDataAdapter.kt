@@ -1,7 +1,7 @@
 package io.komune.registry.infra.redis
 
 import com.redis.om.spring.search.stream.EntityStream
-import kotlin.reflect.KClass
+import io.komune.registry.s2.commons.model.S2SourcingEvent
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -9,15 +9,17 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import org.springframework.beans.factory.annotation.Autowired
 import redis.clients.jedis.exceptions.JedisDataException
-import s2.dsl.automate.Evt
 import s2.dsl.automate.S2State
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
+import s2.sourcing.dsl.event.EventRepository
 import s2.sourcing.dsl.snap.SnapRepository
 import s2.sourcing.dsl.view.View
+import s2.sourcing.dsl.view.ViewLoader
 import s2.spring.automate.sourcing.S2AutomateDeciderSpring
 import s2.spring.sourcing.data.S2SourcingSpringDataAdapter
 import s2.spring.utils.logger.Logger
+import kotlin.reflect.KClass
 
 @OptIn(ExperimentalSerializationApi::class)
 abstract class RegistryS2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXECUTOR>(
@@ -30,11 +32,11 @@ abstract class RegistryS2SourcingSpringDataAdapter<ENTITY, STATE, EVENT, ID, EXE
 	evolver,
 	projectSnapRepository
 ) where
+ID: Any,
 STATE: S2State,
 ENTITY: WithS2State<STATE>,
 ENTITY: WithS2Id<ID>,
-EVENT: Evt,
-EVENT: WithS2Id<ID>,
+EVENT: S2SourcingEvent<ID>,
 EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 {
 
@@ -58,6 +60,7 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 					logger.info("/////////////////////////")
 					logger.info("Replay ${entityType.name} history")
 					executor.replayHistory()
+					executor.replayHistory()
 					logger.info("/////////////////////////")
 				}
 			} catch (e: Exception) {
@@ -73,5 +76,9 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 			ignoreUnknownKeys = true
 			polymorphic(entityType())
 		}
+	}
+
+	override fun viewLoader(eventStore: EventRepository<EVENT, ID>): ViewLoader<EVENT, ENTITY, ID> {
+		return RgViewLoader(eventStore, view)
 	}
 }

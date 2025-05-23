@@ -386,6 +386,7 @@ class CatalogueF2AggregateService(
                 description = command.description,
                 versionNotes = command.versionNotes,
                 initDatasets = initDatasets,
+                integrateCounter = command.integrateCounter,
                 indicators = command.indicators,
                 additionalDatasets = typeConfiguration?.i18n?.datasets?.takeIf { initDatasets }
             )
@@ -447,7 +448,7 @@ class CatalogueF2AggregateService(
         isDraft: Boolean
     ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
-        updateDatasetAggregator(catalogue, command, isDraft)
+        updateDatasetAggregator(catalogue, command.integrateCounter, isDraft)
 
         command.relatedCatalogueIds?.let {
             CatalogueReplaceRelatedCataloguesCommand(
@@ -494,6 +495,7 @@ class CatalogueF2AggregateService(
                 description = command.description,
                 versionNotes = command.versionNotes,
                 initDatasets = false,
+                integrateCounter = command.integrateCounter,
                 indicators = command.indicators,
             )
         }
@@ -501,8 +503,12 @@ class CatalogueF2AggregateService(
         return event
     }
 
-    private suspend fun updateDatasetAggregator(catalogue: CatalogueModel, command: CatalogueUpdateCommandDTOBase, isDraft: Boolean) {
-        if (catalogue.integrateCounter == command.integrateCounter) {
+    private suspend fun updateDatasetAggregator(
+        catalogue: CatalogueModel,
+        integrateCounter: Boolean?,
+        isDraft: Boolean,
+    ) {
+        if (catalogue.integrateCounter == integrateCounter) {
             return
         }
         val counterCo2e = informationConceptF2FinderService.getByIdentifierOrNull("counter-co2e")
@@ -512,7 +518,7 @@ class CatalogueF2AggregateService(
         datasets.items.filter { dataset ->
              dataset.type == "indicator"
         }.mapAsync { dataset ->
-            if (command.integrateCounter == true) {
+            if (integrateCounter == true) {
                 val addCommand = DatasetAddAggregatorsCommand(
                     id = dataset.id,
                     informationConceptIds = listOf(counterCo2e.id),
@@ -712,6 +718,7 @@ class CatalogueF2AggregateService(
         description: String?,
         versionNotes: String?,
         initDatasets: Boolean,
+        integrateCounter: Boolean?,
         indicators: Map<InformationConceptId, List<String>>?,
         additionalDatasets: List<CatalogueTypeSubDataset>? = null,
     ) {
@@ -722,6 +729,7 @@ class CatalogueF2AggregateService(
             description = description,
             language = language,
             versionNotes = versionNotes,
+            integrateCounter = integrateCounter,
             indicators = indicators,
         ).let { doCreate(it, isTranslation = true, isTranslationOf = originalId, initDatasets = initDatasets) }
 
