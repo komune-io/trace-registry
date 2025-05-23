@@ -91,11 +91,13 @@ const toComponents = (
   searchValue?: string,
 ): FormComposableField => {
   const { name, label, params, customDisplay } = props;
+  console.log("options", options);
   return {
     name,
     type: "autoComplete",
     label,
     params: {
+      ...params,
       popupIcon: <SearchIcon style={{ transform: "none" }} />,
       onInputChange: (_: any, value: string) => onInputChange(value),
       getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
@@ -106,7 +108,6 @@ const toComponents = (
       options: options,
       returnFullObject: true,
       noOptionsText: !searchValue && options.length === 0 ? t("typeToSearch") : options.length === 0 && searchValue ? t("catalogues.noResult") : '',
-      ...params,
     },
     customDisplay
   };

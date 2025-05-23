@@ -156,9 +156,6 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                                 atrKey: field.name
                             })
                         } else {
-                            console.log(command)
-
-                            console.log(field.name, fieldValue)
                             setIn(command, field.name, fieldValue)
                         }
                     }
@@ -166,7 +163,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             )
             if (onSubmit) {
                 const relatedCataloguesToIds = convertRelatedCataloguesToIds(relatedCatalogues)
-                onSubmit({
+                await onSubmit({
                     ...command,
                     command: {
                         ...command.command,

@@ -1,6 +1,6 @@
 import { AutoFormData, CommandWithFile, g2Config, useAutoFormState } from '@komune-io/g2'
 import { Catalogue } from 'domain-components'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 interface UseMetadataFormStateParams {
   formData?: AutoFormData
@@ -23,8 +23,9 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
     }) : undefined
   }, [catalogue])
 
-  const downloadDocument = useMemo(() => {
-    return async (_, fieldValue: any) => g2Config().platform.url + fieldValue
+  const downloadDocument = useCallback(async (_, fieldValue: any) => {
+    console.log('downloadDocument', fieldValue)
+    return g2Config().platform.url + fieldValue
   }, [])
 
   return useAutoFormState({
