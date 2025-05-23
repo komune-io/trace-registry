@@ -7,10 +7,8 @@ import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
-import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
-import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
@@ -42,11 +40,6 @@ class DatasetF2FinderService(
 
     suspend fun get(id: DatasetId): DatasetDTOBase {
         return datasetFinderService.get(id).toDTOCached()
-    }
-
-    suspend fun getAllRefs(): DatasetRefListResult {
-        val items = datasetFinderService.getAll().map { it.toSimpleRefDTO() }
-        return DatasetRefListResult(items = items, total = items.size)
     }
 
     suspend fun getByIdentifier(

@@ -1,11 +1,13 @@
 package io.komune.registry.s2.structure.domain.model
 
+@Deprecated("Use CatalogueStructure instead")
 object StructureDefinition {
     const val ORDER = "order"
     const val MENU_ALIAS = "alias"
     const val MENU_TRANSIENT = "transient"
 }
 
+@Deprecated("Use CatalogueStructure instead")
 object StructureType {
     const val GRID = "grid"
     const val ITEM = "item"

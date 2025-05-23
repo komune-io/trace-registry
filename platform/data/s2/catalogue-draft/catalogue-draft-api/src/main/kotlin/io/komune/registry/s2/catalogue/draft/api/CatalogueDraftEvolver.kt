@@ -66,12 +66,14 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.reject(event: CatalogueDraftRejectedEvent) = apply {
 		status = CatalogueDraftState.REJECTED
 		modified = event.date
+		rejectReason = event.reason
 	}
 
 	private suspend fun CatalogueDraftEntity.requestUpdate(event: CatalogueDraftRequestedUpdateEvent) = apply {
 		status = CatalogueDraftState.UPDATE_REQUESTED
 		modified = event.date
 	}
+
 	private suspend fun CatalogueDraftEntity.updateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
 		modified = event.date
 		title = event.title

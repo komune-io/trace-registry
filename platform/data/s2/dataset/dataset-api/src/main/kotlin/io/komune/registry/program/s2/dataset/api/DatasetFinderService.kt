@@ -46,6 +46,7 @@ class DatasetFinderService(
 	suspend fun page(
 		id: Match<DatasetId>? = null,
 		identifier: Match<DatasetIdentifier>? = null,
+		type: Match<String>? = null,
 		title: Match<String>? = null,
 		catalogueId: Match<String>? = null,
 		datasetIds: Match<DatasetId>? = null,
@@ -55,6 +56,7 @@ class DatasetFinderService(
 		return datasetPageQueryDB.execute(
 			id = id,
 			identifier = identifier,
+			type = type,
 			title = title,
 			catalogueId = catalogueId,
 			datasetIds = datasetIds,

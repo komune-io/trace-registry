@@ -5,6 +5,7 @@ export const SearchIcon = (props: SvgIconProps) => {
         <SvgIcon
             component={ReactComponent}
             inheritViewBox {...props}
+            
         />
     );
 };

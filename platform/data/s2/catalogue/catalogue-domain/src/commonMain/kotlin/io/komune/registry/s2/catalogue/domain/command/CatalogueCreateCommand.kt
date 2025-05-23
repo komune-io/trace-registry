@@ -9,7 +9,6 @@ import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
 data class CatalogueCreateCommand(
@@ -22,7 +21,6 @@ data class CatalogueCreateCommand(
     val homepage: String?,
     val ownerOrganizationId: OrganizationId?,
     val stakeholder: String?,
-    val structure: Structure?,
     val isTranslationOf: CatalogueId?,
     val catalogueIds: Set<CatalogueId>,
     val datasetIds: Set<DatasetId>,
@@ -30,6 +28,7 @@ data class CatalogueCreateCommand(
     val licenseId: LicenseId?,
     val location: Location?,
     val versionNotes: String?,
+    val order: Int?,
     val hidden: Boolean,
     val integrateCounter: Boolean?
 ): CatalogueInitCommand
@@ -42,11 +41,11 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
-    val structure: Structure?
     val accessRights: CatalogueAccessRight
     val licenseId: LicenseId?
     val location: Location?
     val versionNotes: String?
+    val order: Int?
     val hidden: Boolean
     val integrateCounter: Boolean?
 }
@@ -61,7 +60,6 @@ data class CatalogueCreatedEvent(
     override val description: String? = null,
     override val themeIds: Set<ConceptId> = emptySet(),
     override val homepage: String? = null,
-    override val structure: Structure? = null,
     val isTranslationOf: CatalogueId?,
     val catalogueIds: Set<CatalogueId> = emptySet(),
     val datasetIds: Set<DatasetId> = emptySet(),
@@ -73,6 +71,7 @@ data class CatalogueCreatedEvent(
     override val licenseId: LicenseId? = null,
     override val location: Location? = null,
     override val versionNotes: String? = null,
+    override val order: Int?,
     override val hidden: Boolean = false,
     override val date: Long,
     override val integrateCounter: Boolean?

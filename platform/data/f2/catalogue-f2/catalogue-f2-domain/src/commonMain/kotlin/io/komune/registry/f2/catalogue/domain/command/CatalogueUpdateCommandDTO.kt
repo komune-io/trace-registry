@@ -4,14 +4,13 @@ import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.LocationDTO
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -46,7 +45,6 @@ interface CatalogueUpdateCommandDTO {
      */
     val description: String?
     val language: String
-    val structure: StructureDTO?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
@@ -55,6 +53,7 @@ interface CatalogueUpdateCommandDTO {
     val accessRights: CatalogueAccessRight?
     val license: LicenseId?
     val location: LocationDTO?
+    val order: Int?
 
     /**
      * @ref [io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO.hidden]
@@ -64,6 +63,8 @@ interface CatalogueUpdateCommandDTO {
     val versionNotes: String?
 
     val integrateCounter: Boolean?
+
+    val indicators: Map<InformationConceptIdentifier, List<String>>?
 }
 
 /**
@@ -76,7 +77,6 @@ data class CatalogueUpdateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val language: String,
-    override val structure: Structure? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val stakeholder: String? = null,
@@ -85,9 +85,11 @@ data class CatalogueUpdateCommandDTOBase(
     override val accessRights: CatalogueAccessRight? = null,
     override val license: LicenseId? = null,
     override val location: Location? = null,
+    override val order: Int? = null,
     override val hidden: Boolean? = null,
     override val versionNotes: String? = null,
     override val integrateCounter: Boolean? = null,
+    override val indicators: Map<InformationConceptIdentifier, List<String>>? = null,
 ): CatalogueUpdateCommandDTO
 
 /**

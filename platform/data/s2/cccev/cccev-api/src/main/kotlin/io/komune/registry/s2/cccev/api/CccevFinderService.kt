@@ -46,6 +46,11 @@ class CccevFinderService(
             ?.toModel()
     }
 
+    suspend fun getConceptByIdentifier(identifier: String): InformationConceptModel {
+        return getConceptByIdentifierOrNull(identifier)
+            ?: throw NotFoundException("InformationConcept", identifier)
+    }
+
     suspend fun listConcepts(): List<InformationConceptModel> {
         return conceptRepository.findAll()
             .map { it.toModel() }

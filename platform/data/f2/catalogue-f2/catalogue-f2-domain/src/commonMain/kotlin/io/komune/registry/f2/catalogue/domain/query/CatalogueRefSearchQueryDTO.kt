@@ -1,8 +1,6 @@
 package io.komune.registry.f2.catalogue.domain.query
 
 import f2.dsl.fnc.F2Function
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
-import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
@@ -47,6 +45,7 @@ data class CatalogueRefSearchQuery(
     override val type: List<String>?,
     override val creatorOrganizationId: OrganizationId?,
     override val availableLanguages: List<Language>?,
+    override val withTransient: Boolean = true
 ): CatalogueRefSearchQueryDTO
 
 /**
