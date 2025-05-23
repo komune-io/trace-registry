@@ -40,7 +40,7 @@ interface CatalogueSearchQueryDTO {
     val licenseId: List<String>?
     val creatorOrganizationId: OrganizationId?
     val availableLanguages: List<Language>?
-    val withTransient: Boolean
+    val withTransient: Boolean?
 }
 
 /**
