@@ -4326,7 +4326,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly licenseId?: string[];
         readonly creatorOrganizationId?: string;
         readonly availableLanguages?: string[];
-        readonly withTransient: boolean;
+        readonly withTransient?: boolean;
 
     }
     interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
@@ -4351,7 +4351,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly licenseId?: string[];
         readonly creatorOrganizationId?: string;
         readonly availableLanguages?: string[];
-        readonly withTransient: boolean;
+        readonly withTransient?: boolean;
 
     }
     interface CatalogueSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
