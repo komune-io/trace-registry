@@ -1,0 +1,72 @@
+{
+  "sections": [
+    {
+      "id": "create sub-catalogue",
+      "label": "Créer un sous catalogue",
+      "fields": [
+        {
+          "name": "name",
+          "type": "textField",
+          "label": "Nom",
+          "required": true,
+          "properties": {
+            "orientation": "horizontal"
+          },
+          "conditions": [
+            {
+              "type": "display",
+              "expression": "#context == 'creation' || #context == 'edition'"
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "type": "select-catalogueType",
+          "label": "Type de fiche",
+          "required": true,
+          "properties": {
+            "orientation": "horizontal"
+          }
+        },
+        {
+          "name": "displayMode",
+          "type": "select",
+          "label": "Mode d'affichage",
+          "required": true,
+          "properties": {
+            "options": [
+              {
+                "key": "GRID",
+                "label": "Grille"
+              },
+              {
+                "key": "LIST",
+                "label": "Liste"
+              }
+            ],
+            "orientation": "horizontal"
+          }
+        },
+        {
+          "name": "visibility",
+          "type": "select",
+          "label": "Visisbilité",
+          "properties": {
+            "options": [
+              {
+                "key": "PUBLIC",
+                "label": "Public"
+              },
+              {
+                "key": "PRIVATE",
+                "label": "Privé"
+              }
+            ],
+            "orientation": "horizontal"
+          },
+          "required": true
+        }
+      ]
+    }
+  ]
+}
