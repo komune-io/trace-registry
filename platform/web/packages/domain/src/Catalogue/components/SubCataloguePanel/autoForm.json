@@ -15,7 +15,7 @@
           "conditions": [
             {
               "type": "display",
-              "expression": "#context == 'creation' || #context == 'edition'"
+              "expression": "#context == 'create' || #context == 'edit'"
             }
           ]
         },

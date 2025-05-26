@@ -385,7 +385,10 @@
         "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
         "noDataset": "Aucun jeu de données n'a été trouvé",
         "integrateInCounter": "Intégrer ce projet au compteur CO₂",
-        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner"
+        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner",
+        "createSubCatalogue": "Créer un sous-catalogue",
+        "noSubCatalogue": "Aucun sous catalogue associé à cette fiche",
+        "createSubCatalogueDescription": "Définissez ici un nouveau sous-catalogue à rattacher à cette fiche.\n\nVous pourrez choisir le type de fiche à associer, son nom, son affichage, ainsi que ses règles de visibilité."
     },
     "editor": {
         "imageUrl": "URL de l'image",

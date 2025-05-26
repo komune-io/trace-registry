@@ -2,7 +2,7 @@ import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoFormData, FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftGraphManager, DraftIndicatorManager, SubCataloguesManager } from 'domain-components'
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
@@ -27,6 +27,11 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       label: t('metadata'),
       component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} formData={formData} />,
     }),
+    {
+      key: 'subCatalogues',
+      label: t('subCatalogues'),
+      component: <SubCataloguesManager draft={draft} readOnly={readOnly} />,
+    },
     ...(catalogue?.datasets.map((dataset): Tab | undefined => {
       let component: React.ReactNode | undefined = undefined
 

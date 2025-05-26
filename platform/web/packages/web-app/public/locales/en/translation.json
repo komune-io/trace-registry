@@ -375,7 +375,10 @@
     "defineValueRange": "Define a range of values",
     "minOrMaxValueRequired": "Minimum or maximum value is required",
     "integrateInCounter": "Integrate this project into the CO₂ counter",
-    "searchMention": "Enter a URL or search for a sheet to mention it"
+    "searchMention": "Enter a URL or search for a sheet to mention it",
+    "createSubCatalogue": "Create a sub-catalogue",
+    "noSubCatalogue": "No sub-catalogue associated with this sheet",
+    "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules."
   },
   "editor": {
     "imageUrl": "Image URL",
