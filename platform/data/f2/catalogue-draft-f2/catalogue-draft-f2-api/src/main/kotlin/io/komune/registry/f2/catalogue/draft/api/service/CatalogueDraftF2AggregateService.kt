@@ -144,7 +144,7 @@ class CatalogueDraftF2AggregateService(
             ).let { catalogueAggregateService.setImageCommand(it) }
         }
 
-        val draftedToOriginalDatasetIds = applyDatasetUpdatesInDraft(draft, draftedCatalogue, originalCatalogue)
+        val draftedToOriginalDatasetIds = applyDatasetUpdatesFromDraft(draft, draftedCatalogue, originalCatalogue)
         applyLinksUpdates(draft, draftedToOriginalDatasetIds)
 
         catalogueDraftFinderService.page(
@@ -233,12 +233,15 @@ class CatalogueDraftF2AggregateService(
         return idMap
     }
 
-    private suspend fun applyDatasetUpdatesInDraft(
+    private suspend fun applyDatasetUpdatesFromDraft(
         draft: CatalogueDraftModel,
         draftedCatalogue: CatalogueModel,
         originalCatalogue: CatalogueModel
     ): Map<DatasetDraftedId, DatasetId> {
-        val datasetIdMap = applyDatasetUpdates(draft, draftedCatalogue.childrenDatasetIds)
+        val datasetIdMap = applyDatasetUpdates(
+            draft = draft,
+            draftedDatasetIds = draftedCatalogue.childrenDatasetIds + listOfNotNull(draftedCatalogue.metadataDatasetId)
+        )
 
         val directChildren = datasetIdMap.filterKeys { it in draftedCatalogue.childrenDatasetIds }.values
         catalogueF2AggregateService.linkDatasets(draft.originalCatalogueId, directChildren)
@@ -252,14 +255,21 @@ class CatalogueDraftF2AggregateService(
                 ).let { catalogueAggregateService.unlinkDatasets(it) }
             }
 
+        if (originalCatalogue.metadataDatasetId == null && draftedCatalogue.metadataDatasetId != null) {
+            catalogueF2AggregateService.linkMetadataDataset(
+                catalogueId = draft.originalCatalogueId,
+                datasetId = datasetIdMap[draftedCatalogue.metadataDatasetId]!!
+            )
+        }
+
         return datasetIdMap
     }
 
     private suspend fun applyDatasetUpdates(
-        draft: CatalogueDraftModel, datasetIds: Collection<DatasetId>
+        draft: CatalogueDraftModel, draftedDatasetIds: Collection<DatasetId>
     ): Map<DatasetDraftedId, DatasetId> {
         val draftedToActualIds = ConcurrentHashMap<DatasetDraftedId, DatasetId>()
-        datasetIds.mapAsync { draftedDatasetId ->
+        draftedDatasetIds.mapAsync { draftedDatasetId ->
             val originalDatasetId = draft.datasetIdMap.entries
                 .firstOrNull { it.value == draftedDatasetId }
                 ?.key

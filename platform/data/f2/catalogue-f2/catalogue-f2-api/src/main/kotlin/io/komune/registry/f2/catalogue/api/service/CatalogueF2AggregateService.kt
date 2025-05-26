@@ -326,6 +326,17 @@ class CatalogueF2AggregateService(
             }
     }
 
+    suspend fun linkMetadataDataset(catalogueId: CatalogueId, datasetId: DatasetId) {
+        val dataset = datasetFinderService.get(datasetId)
+        require(dataset.type == DatasetTypes.METADATA) { "Only datasets of type ${DatasetTypes.METADATA} can be linked as metadata." }
+
+        val catalogue = catalogueFinderService.get(catalogueId)
+        CatalogueLinkMetadataDatasetCommand(
+            id = catalogue.translationIds[dataset.language] ?: catalogueId,
+            datasetId = datasetId
+        ).let { catalogueAggregateService.linkMetadataDataset(it) }
+    }
+
     suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent {
         val event = catalogueAggregateService.delete(command)
 
@@ -645,10 +656,7 @@ class CatalogueF2AggregateService(
             language = language
         )
 
-        CatalogueLinkMetadataDatasetCommand(
-            id = catalogueId,
-            datasetId = datasetId
-        ).let { catalogueAggregateService.linkMetadataDataset(it) }
+        linkMetadataDataset(catalogueId, datasetId)
 
         return datasetId
     }
