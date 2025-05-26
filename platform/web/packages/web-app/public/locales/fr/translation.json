@@ -176,6 +176,7 @@
     "accessRights": "$t(access)",
     "licenseId": "$t(licence)",
     "themeIds": "$t(category)",
+    "catalogueList": "Liste des fiches",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -388,7 +389,9 @@
         "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner",
         "createSubCatalogue": "Créer un sous-catalogue",
         "noSubCatalogue": "Aucun sous catalogue associé à cette fiche",
-        "createSubCatalogueDescription": "Définissez ici un nouveau sous-catalogue à rattacher à cette fiche.\n\nVous pourrez choisir le type de fiche à associer, son nom, son affichage, ainsi que ses règles de visibilité."
+        "createSubCatalogueDescription": "Définissez ici un nouveau sous-catalogue à rattacher à cette fiche.\n\nVous pourrez choisir le type de fiche à associer, son nom, son affichage, ainsi que ses règles de visibilité.",
+        "subCatalogueDeleteTitle": "Suppression du sous-catalogue {{name}}",
+        "subCatalogueDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce sous-catalogue ?"
     },
     "editor": {
         "imageUrl": "URL de l'image",

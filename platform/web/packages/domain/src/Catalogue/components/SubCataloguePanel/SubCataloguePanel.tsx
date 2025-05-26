@@ -1,12 +1,14 @@
-import { autoFormFormatter, BackAutoFormData, CommandWithFile, FormComposable, FormComposableField, useAutoFormState } from '@komune-io/g2'
-import { EditRounded, MoreVert } from '@mui/icons-material'
-import { IconButton, Paper, Stack, Typography } from '@mui/material'
-import { CustomButton, IconPack, TitleDivider, TMSMenuItem, useButtonMenu } from 'components'
+import { autoFormFormatter, BackAutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
+import {Paper, Stack, Typography } from '@mui/material'
+import { CustomButton, TitleDivider } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import json from "./autoForm.json"
+import { Catalogue } from '../../model'
+import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
 
 export interface SubCataloguePanelProps {
+    catalogue?: Catalogue
     context?: "edit" | "create" | "readOnly"
     onCancel?: () => void
     onSubmit?: (command: CommandWithFile<any>, values: any) => void
@@ -14,27 +16,10 @@ export interface SubCataloguePanelProps {
 }
 
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
-    const { context: defaultContext, onCancel, onSubmit, canUpdate } = props
+    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue } = props
     const [context, setContext] = useState<"edit" | "create" | "readOnly">(defaultContext ?? "create")
 
     const { t } = useTranslation()
-
-    const options = useMemo((): TMSMenuItem[] => [{
-        key: "edit",
-        label: t("edit"),
-        icon: <EditRounded />,
-        onClick: () => setContext("edit")
-    }, {
-        key: "delete",
-        label: t("delete"),
-        icon: <IconPack.trash />,
-        color: "#B01717",
-        onClick: () => { }
-    }], [t])
-
-    const { buttonProps, menu } = useButtonMenu({
-        items: options
-    })
 
     const formData = useMemo(() => autoFormFormatter(json as BackAutoFormData), [])
 
@@ -62,10 +47,18 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     }), [formData])
 
     const initialValues = useMemo(() => {
+        let initialValues: Record<string, any> = {}
+        formData?.sections[0].fields.forEach((field) => {
+            const value = getIn(catalogue, field.name)
+            if (value) {
+                initialValues = setIn(initialValues, field.name, field.defaultValue)
+            }
+        })
         return {
+            ...initialValues,
             context
         }
-    }, [context])
+    }, [context, formData, catalogue])
 
     const formState = useAutoFormState({
         formData,
@@ -74,13 +67,18 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     })
 
     const onCancelMemo = useCallback(
-      () => {
-        onCancel && onCancel()
-        setContext("readOnly")
-      },
-      [onCancel],
+        () => {
+            onCancel && onCancel()
+            setContext("readOnly")
+        },
+        [onCancel],
     )
-    
+
+    const onEdit = useCallback(
+        () => {
+            setContext("edit")
+        }, [])
+
 
     return (
         <Paper
@@ -96,14 +94,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                 title={context === "create" ? t("catalogues.createSubCatalogue") : ""}
                 actions={
                     context === "readOnly" && canUpdate ?
-                        <>
-                            <IconButton
-                                {...buttonProps}
-                            >
-                                <MoreVert />
-                            </IconButton>
-                            {menu}
-                        </>
+                        <SubCataloguePanelOptions catalogue={catalogue} onEdit={onEdit} />
                         : undefined
                 }
             />
@@ -114,15 +105,15 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
             >
                 {t("catalogues.createSubCatalogueDescription")}
             </Typography>}
-            <FormComposable 
-            fields={fields} 
-            formState={formState} 
-            sx={{
-                maxWidth: "600px",
-                "& .AruiInputForm-labelContainer": {
-                    minWidth: "140px"
-                }
-            }}
+            <FormComposable
+                fields={fields}
+                formState={formState}
+                sx={{
+                    maxWidth: "600px",
+                    "& .AruiInputForm-labelContainer": {
+                        minWidth: "140px"
+                    }
+                }}
             />
             {context !== "readOnly" && (
                 <Stack

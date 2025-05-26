@@ -167,6 +167,7 @@
   "options": "Options",
   "deleteCatalogue": "Delete the sheet",
   "deleteDraft": "Delete the draft",
+  "catalogueList": "Sheet list",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -378,7 +379,9 @@
     "searchMention": "Enter a URL or search for a sheet to mention it",
     "createSubCatalogue": "Create a sub-catalogue",
     "noSubCatalogue": "No sub-catalogue associated with this sheet",
-    "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules."
+    "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules.",
+    "subCatalogueDeleteTitle": "Sub-catalogue deletion {{name}}",
+    "subCatalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sub-catalogue?"
   },
   "editor": {
     "imageUrl": "Image URL",

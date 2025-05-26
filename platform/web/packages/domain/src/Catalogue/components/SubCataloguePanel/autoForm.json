@@ -26,7 +26,13 @@
           "required": true,
           "properties": {
             "orientation": "horizontal"
-          }
+          },
+          "conditions": [
+            {
+              "type": "display",
+              "expression": "#context == 'create' || #context == 'readOnly'"
+            }
+          ]
         },
         {
           "name": "displayMode",

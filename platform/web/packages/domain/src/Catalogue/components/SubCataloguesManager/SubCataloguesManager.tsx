@@ -1,17 +1,20 @@
 import { AddCircleOutlineRounded } from '@mui/icons-material'
-import { CustomButton, InfoTicket, TitleDivider } from 'components'
-import { useCallback, useState } from 'react'
+import { Accordion, CustomButton, InfoTicket, TitleDivider } from 'components'
+import { useCallback, useState, useMemo } from 'react'
 import { SubCataloguePanel } from '../SubCataloguePanel'
-import { CatalogueDraft } from '../../model'
+import { Catalogue, CatalogueRef } from '../../model'
 import { useTranslation } from 'react-i18next'
+import { Typography } from '@mui/material'
+import { CatalogueTable } from '../CatalogueTable'
+import { PageQueryResult } from 'template'
 
 export interface SubCataloguesManagerProps {
-  draft?: CatalogueDraft
+  catalogue?: Catalogue
   readOnly?: boolean
 }
 
 export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
-  const { draft, readOnly = false } = props
+  const { catalogue, readOnly = false } = props
 
   const { t } = useTranslation()
 
@@ -28,6 +31,14 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
     () => {
       setCreation(true)
     }, [])
+
+  const data = useMemo((): PageQueryResult<CatalogueRef> => {
+    const items = Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related)
+    return {
+      items,
+      total: items.length,
+    }
+  }, [catalogue])
 
   return (
     <>
@@ -51,6 +62,14 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
         context='create'
         onCancel={onCancel}
       />}
+      <Accordion
+        summary={<Typography variant="h6" >{t("catalogueList")}</Typography>}
+      >
+        <CatalogueTable
+          page={data}
+          isRef
+        />
+      </Accordion>
     </>
   )
 }
