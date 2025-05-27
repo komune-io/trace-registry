@@ -9,9 +9,6 @@
           "type": "textField",
           "label": "Nom",
           "required": true,
-          "properties": {
-            "orientation": "horizontal"
-          },
           "conditions": [
             {
               "type": "display",
@@ -24,9 +21,6 @@
           "type": "select-catalogueType",
           "label": "Type de fiche",
           "required": true,
-          "properties": {
-            "orientation": "horizontal"
-          },
           "conditions": [
             {
               "type": "display",
@@ -49,8 +43,7 @@
                 "key": "LIST",
                 "label": "Liste"
               }
-            ],
-            "orientation": "horizontal"
+            ]
           }
         },
         {
@@ -67,8 +60,7 @@
                 "key": "PRIVATE",
                 "label": "Privé"
               }
-            ],
-            "orientation": "horizontal"
+            ]
           },
           "required": true
         }

@@ -1,11 +1,14 @@
 import { autoFormFormatter, BackAutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
-import {Paper, Stack, Typography } from '@mui/material'
-import { CustomButton, TitleDivider } from 'components'
+import { Paper, Stack, Typography } from '@mui/material'
+import { Accordion, CustomButton, TitleDivider } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import json from "./autoForm.json"
-import { Catalogue } from '../../model'
+import { Catalogue, CatalogueRef } from '../../model'
 import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
+import { useCatalogueListAllowedTypesQuery } from '../../api'
+import { CatalogueTable } from '../CatalogueTable'
+import { PageQueryResult } from 'template'
 
 export interface SubCataloguePanelProps {
     catalogue?: Catalogue
@@ -18,6 +21,12 @@ export interface SubCataloguePanelProps {
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue } = props
     const [context, setContext] = useState<"edit" | "create" | "readOnly">(defaultContext ?? "create")
+
+    const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
+        query: {
+
+        }
+    }).data?.items
 
     const { t } = useTranslation()
 
@@ -34,17 +43,15 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                 type: "select",
                 params: {
                     ...field.params,
-                    options: [
-                        {
-                            label: "...",
-                            key: "..."
-                        }
-                    ]
+                    options: allowedCreationTypes?.map((type) => ({
+                        key: type,
+                        label: type
+                    }))
                 }
             }
         }
         return field
-    }), [formData])
+    }), [formData, allowedCreationTypes])
 
     const initialValues = useMemo(() => {
         let initialValues: Record<string, any> = {}
@@ -79,6 +86,14 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
             setContext("edit")
         }, [])
 
+    const data = useMemo((): PageQueryResult<CatalogueRef> => {
+        const items = Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related)
+        return {
+            items,
+            total: items.length,
+        }
+    }, [catalogue])
+
 
     return (
         <Paper
@@ -108,12 +123,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
             <FormComposable
                 fields={fields}
                 formState={formState}
-                sx={{
-                    maxWidth: "600px",
-                    "& .AruiInputForm-labelContainer": {
-                        minWidth: "140px"
-                    }
-                }}
+                display='grid'
             />
             {context !== "readOnly" && (
                 <Stack
@@ -134,6 +144,16 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                         {t("save")}
                     </CustomButton>
                 </Stack>
+            )}
+            {context === "readOnly" && (
+                <Accordion
+                    summary={<Typography variant="h6" >{t("catalogueList")}</Typography>}
+                >
+                    <CatalogueTable
+                        page={data}
+                        isRef
+                    />
+                </Accordion>
             )}
         </Paper>
     )
