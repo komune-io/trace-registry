@@ -1,12 +1,12 @@
 import { Stack, Typography } from '@mui/material'
 import { ColumnFactory, useTable } from '@komune-io/g2'
-import { Row } from '@tanstack/react-table';
+import { Row, OnChangeFn, RowSelectionState } from '@tanstack/react-table'
 import { Catalogue } from '../../model'
 import { useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
-import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
-import { useTranslation } from 'react-i18next';
-import { extractCatalogueIdentifier } from '../../api';
+import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template"
+import { useTranslation } from 'react-i18next'
+import { extractCatalogueIdentifier } from '../../api'
 
 function useCatalogueColumn() {
     const { t } = useTranslation();
@@ -68,10 +68,22 @@ export interface CatalogueTableProps extends Partial<OffsetTableProps<Catalogue>
     page?: PageQueryResult<Catalogue>
     pagination: OffsetPagination
     isLoading?: boolean
+    rowSelection?: RowSelectionState
+    onRowSelectionChange?: OnChangeFn<RowSelectionState>
 }
 
 export const CatalogueTable = (props: CatalogueTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, ...other } = props
+    const {
+        rowSelection, 
+        onRowSelectionChange, 
+        isLoading, 
+        page, 
+        onOffsetChange, 
+        pagination, 
+        sx, 
+        header, 
+        ...other 
+    } = props
     const { cataloguesAll } = useRoutesDefinition()
     const { t } = useTranslation()
 
@@ -80,6 +92,12 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
     const tableState = useTable({
         data: page?.items ?? [],
         columns: columns,
+        state: {
+            rowSelection
+        },
+        enableRowSelection: !!onRowSelectionChange,
+        onRowSelectionChange: onRowSelectionChange,
+        getRowId: (row) => row.id
     })
 
     const getRowLink = useCallback(
