@@ -1,0 +1,57 @@
+import { AddCircleOutlineRounded } from '@mui/icons-material'
+import { CustomButton, InfoTicket, TitleDivider } from 'components'
+import { useCallback, useState } from 'react'
+import { SubCataloguePanel } from '../SubCataloguePanel'
+import { Catalogue } from '../../model'
+import { useTranslation } from 'react-i18next'
+
+export interface SubCataloguesManagerProps {
+  catalogue?: Catalogue
+  readOnly?: boolean
+}
+
+export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
+  const {  readOnly = false } = props
+
+  const { t } = useTranslation()
+
+  const [creation, setCreation] = useState(false)
+
+  const onCancel = useCallback(
+    () => {
+      setCreation(false)
+    },
+    [],
+  )
+
+  const onCreate = useCallback(
+    () => {
+      setCreation(true)
+    }, [])
+
+    return (
+    <>
+      <TitleDivider
+        size="h6"
+        title={t('subCatalogues')}
+        actions={!readOnly ?
+          <CustomButton
+            startIcon={<AddCircleOutlineRounded />}
+            onClick={onCreate}
+          >
+            {t('catalogues.createSubCatalogue')}
+          </CustomButton>
+          : undefined
+        }
+      />
+      <InfoTicket
+        title={t("catalogues.noSubCatalogue")}
+      />
+      {creation && <SubCataloguePanel
+        context='creation'
+        onCancel={onCancel}
+      />}
+      
+    </>
+  )
+}

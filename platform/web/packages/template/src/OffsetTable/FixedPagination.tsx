@@ -4,8 +4,9 @@ import { useRef } from "react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { OffsetTableBasicProps } from "./OffsetTable";
+import { OffsetPagination } from "./model";
 
-export const FixedPagination = <Data extends {}>(props: OffsetTableBasicProps<Data> & {isLoading?: boolean}) => {
+export const FixedPagination = <Data extends {}>(props: OffsetTableBasicProps<Data> & {isLoading?: boolean, pagination: OffsetPagination}) => {
     const { pagination, page, onOffsetChange, isLoading } = props
 
     const { t } = useTranslation()
