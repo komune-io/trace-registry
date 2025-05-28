@@ -30,6 +30,7 @@ class CatalogueDraftAggregateService(
         CatalogueDraftCreatedEvent(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
+            parentId = command.parentId,
             catalogueId = command.catalogueId,
             original = command.original,
             language = command.language.truncateLanguage(),

@@ -14,6 +14,7 @@ data class CatalogueTypeConfiguration(
     val identifierSequence: SequenceConfiguration?,
     val parentTypes: Set<CatalogueType>?,
     val conceptSchemes: Set<String>?,
+    val parentalControl: Boolean = false,
     val writerRoles: Set<String>?,
     val ownerRoles: Set<String>?,
     val structure: CatalogueStructureModel?,

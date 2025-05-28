@@ -26,6 +26,9 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     open lateinit var status: CatalogueDraftState
 
     @TagIndexed
+    open var parentId: CatalogueDraftId? = null
+
+    @TagIndexed
     open lateinit var catalogueId: CatalogueId
 
     @Searchable(nostem=true)

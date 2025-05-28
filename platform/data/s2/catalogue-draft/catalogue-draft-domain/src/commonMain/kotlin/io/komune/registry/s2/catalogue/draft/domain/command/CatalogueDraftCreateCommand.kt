@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class CatalogueDraftCreateCommand(
+    val parentId: CatalogueDraftId?,
     val catalogueId: CatalogueId,
     val original: CatalogueDraftedRef,
     val language: Language,
@@ -24,6 +25,7 @@ data class CatalogueDraftCreateCommand(
 data class CatalogueDraftCreatedEvent(
     override val id: CatalogueDraftId,
     override val date: Long,
+    val parentId: CatalogueDraftId?,
     val catalogueId: CatalogueId,
     val original: CatalogueDraftedRef,
     val language: Language,
