@@ -32,7 +32,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
             isEmpty(bool)
         }
         return bool
-    }, [dataset, distribution, withCatalogueMetadata, isEmpty])
+    }, [dataset, distribution, withCatalogueMetadata])
 
     if (isDatasetEmpty) {
         return 

@@ -133,6 +133,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
             </InfoTicket>
             }
             <SectionTab
+            keepMounted
                 tabs={tabs}
                 currentTab={currentTab}
                 onTabChange={onTabChange}
