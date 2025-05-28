@@ -2,7 +2,9 @@ package io.komune.registry.f2.catalogue.domain.command
 
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueConfigurationDTOBase
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Location
@@ -45,6 +47,7 @@ interface CatalogueUpdateCommandDTO {
      */
     val description: String?
     val language: String
+    val configuration: CatalogueConfigurationDTO?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
@@ -77,6 +80,7 @@ data class CatalogueUpdateCommandDTOBase(
     override val title: String,
     override val description: String? = null,
     override val language: String,
+    override val configuration: CatalogueConfigurationDTOBase? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val stakeholder: String? = null,

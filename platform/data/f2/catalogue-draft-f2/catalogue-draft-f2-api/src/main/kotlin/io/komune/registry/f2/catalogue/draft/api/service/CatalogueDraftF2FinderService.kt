@@ -43,6 +43,7 @@ class CatalogueDraftF2FinderService(
 
     suspend fun page(
         id: Match<CatalogueDraftId>? = null,
+        parentId: Match<CatalogueDraftId?>? = null,
         catalogueId: Match<CatalogueId>? = null,
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
@@ -55,6 +56,7 @@ class CatalogueDraftF2FinderService(
 
         return catalogueDraftFinderService.page(
             id = id,
+            parentId = parentId,
             catalogueId = catalogueId,
             originalCatalogueId = originalCatalogueId,
             language = language,

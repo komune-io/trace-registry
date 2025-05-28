@@ -24,6 +24,7 @@ data class CatalogueModel(
     val imageFsPath: FilePath? = null,
     val type: CatalogueType,
     val language: String?,
+    val configuration: CatalogueConfigurationModel?,
     val themeIds: Set<ConceptId>,
     val translationIds: Map<Language, CatalogueId>,
     val isTranslationOf: CatalogueId?,

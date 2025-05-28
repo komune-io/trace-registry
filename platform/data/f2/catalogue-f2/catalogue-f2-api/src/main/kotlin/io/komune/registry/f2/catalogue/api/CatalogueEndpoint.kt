@@ -254,8 +254,8 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction = f2Function { query ->
         logger.info("catalogueListAllowedTypes: $query")
-        catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
-            .sorted()
+        catalogueF2FinderService.listAllowedTypes(query)
+            .sortedBy { it.name }
             .let(::CatalogueListAllowedTypesResult)
     }
 

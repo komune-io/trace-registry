@@ -16,6 +16,7 @@ import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
@@ -73,6 +74,8 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
      * @example "en"
      */
     val language: Language
+
+    val configuration: CatalogueConfigurationDTO?
 
     /**
      * A list of available languages for the catalogue.
@@ -212,6 +215,7 @@ data class CatalogueDTOBase(
     override val img: String? = null,
     override val type: String,
     override val language: String,
+    override val configuration: CatalogueConfigurationDTOBase? = null,
     override val availableLanguages: List<Language>,
     override val structure: CatalogueStructureDTOBase? = null,
     override val themes: List<ConceptTranslatedDTOBase>,

@@ -1,6 +1,7 @@
 package io.komune.registry.s2.catalogue.domain.command
 
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
@@ -16,6 +17,7 @@ data class CatalogueCreateCommand(
     val title: String,
     val type: String,
     val language: String?,
+    val configuration: CatalogueConfigurationModel?,
     val description: String?,
     val themeIds: Set<ConceptId>,
     val homepage: String?,
@@ -36,6 +38,7 @@ data class CatalogueCreateCommand(
 sealed interface CatalogueDataEvent : CatalogueEvent {
     val title: String
     val language: String?
+    val configuration: CatalogueConfigurationModel?
     val description: String?
     val themeIds: Set<ConceptId>
     val homepage: String?
@@ -57,6 +60,7 @@ data class CatalogueCreatedEvent(
     override val title: String,
     val type: String,
     override val language: String?,
+    override val configuration: CatalogueConfigurationModel?,
     override val description: String? = null,
     override val themeIds: Set<ConceptId> = emptySet(),
     override val homepage: String? = null,

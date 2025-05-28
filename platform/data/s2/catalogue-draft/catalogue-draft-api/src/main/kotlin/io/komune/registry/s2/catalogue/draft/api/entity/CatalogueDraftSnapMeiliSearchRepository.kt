@@ -15,10 +15,10 @@ import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchab
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.MeiliIndex
 import io.komune.registry.s2.commons.model.UserId
-import kotlin.reflect.KCallable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
+import kotlin.reflect.KCallable
 
 @Service
 class CatalogueDraftSnapMeiliSearchRepository : MeiliSearchSnapRepository<CatalogueDraftSearchableEntity>(
@@ -40,6 +40,10 @@ class CatalogueDraftSnapMeiliSearchRepository : MeiliSearchSnapRepository<Catalo
     )
 
     suspend fun save(entity: CatalogueDraftEntity) {
+        if (entity.parentId != null) {
+            return
+        }
+
         if (entity.deleted) {
             logger.info("CatalogueDraft[${entity.id}, deleted] -  Skip indexing")
             remove(entity.id)

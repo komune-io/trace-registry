@@ -557,6 +557,7 @@ class ImportScript(
             }
     }
 
+    @Suppress("DEPRECATION")
     private fun CatalogueImportData.parentReference(): CatalogueReferences? {
         return parent
             ?: parents?.firstOrNull()?.toReferences()

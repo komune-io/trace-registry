@@ -42,6 +42,7 @@ class CatalogueDraftFinderService(
 
     suspend fun page(
         id: Match<CatalogueDraftId>? = null,
+        parentId: Match<CatalogueDraftId?>? = null,
         catalogueId: Match<CatalogueId>? = null,
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
@@ -51,6 +52,7 @@ class CatalogueDraftFinderService(
         offset: OffsetPagination? = null,
     ) = catalogueDraftPageQueryDB.execute(
         id = id,
+        parentId = parentId,
         catalogueId = catalogueId,
         originalCatalogueId = originalCatalogueId,
         language = language,

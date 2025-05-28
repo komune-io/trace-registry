@@ -8,6 +8,7 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.f2.catalogue.api.model.overrideWith
 import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
@@ -261,6 +262,7 @@ class CatalogueI18nService(
     private suspend fun CatalogueModel.getStructure(): CatalogueStructureDTOBase? {
         return catalogueConfig.typeConfigurations[type]
             ?.structure
-            ?.toDTO(language!!, catalogueConfig.typeConfigurations::get)
+            .overrideWith(configuration)
+            .toDTO(language!!, catalogueConfig.typeConfigurations::get)
     }
 }

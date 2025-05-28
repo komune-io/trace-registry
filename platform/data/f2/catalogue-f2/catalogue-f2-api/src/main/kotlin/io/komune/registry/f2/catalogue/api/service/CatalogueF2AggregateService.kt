@@ -107,50 +107,28 @@ class CatalogueF2AggregateService(
     private val logger by Logger()
 
     suspend fun create(command: CatalogueCreateCommandDTOBase, image: FilePart?): CatalogueCreatedEventDTOBase {
-        if (!command.withDraft) {
-            return doCreate(command).let { event ->
-                image?.let { setImage(event.id, it) }
-                CatalogueCreatedEventDTOBase(
-                    id = event.id,
-                    identifier = event.identifier,
-                    type = command.type,
-                    draftId = null
-                )
-            }
+        val hasParentalControl = catalogueConfig.typeConfigurations[command.type]
+            ?.parentalControl
+            ?: false
+
+        val parentDraft = command.parentId?.let { catalogueDraftFinderService.getByCatalogueIdOrNull(it) }
+
+        val withDraft = !hasParentalControl && command.withDraft
+                || hasParentalControl && parentDraft != null
+
+        if (withDraft) {
+            return createWithDraft(command, parentDraft, image)
         }
 
-        requireNotNull(command.language) { "Language is required for a catalogue draft." }
-
-        // creates basic structure of the catalogue
-        val originalCatalogueEvent = command.copy(
-            language = null,
-            hidden = true
-        ).let { doCreate(it) }
-
-        // create draft of the catalogue in the requested language
-        val draftedCatalogueEvent = createOrphanTranslation(
-            command = command.copy(identifier = "${originalCatalogueEvent.identifier}-draft"),
-            originalCatalogueId = originalCatalogueEvent.id,
-            inferIdentifier = true,
-            inferTranslationType = true,
-            initDatasets = true
-        )
-
-        val draftId = CatalogueDraftCreateCommand(
-            catalogueId = draftedCatalogueEvent.id,
-            original = CatalogueDraftedRef(
-                id = originalCatalogueEvent.id,
-                identifier = originalCatalogueEvent.identifier,
-                type = originalCatalogueEvent.type,
-            ),
-            language = command.language!!,
-            baseVersion = 0,
-            datasetIdMap = emptyMap()
-        ).let { catalogueDraftAggregateService.create(it).id }
-
-        image?.let { setImage(draftedCatalogueEvent.id, it) }
-
-        return originalCatalogueEvent.copy(draftId = draftId)
+        return doCreate(command).let { event ->
+            image?.let { setImage(event.id, it) }
+            CatalogueCreatedEventDTOBase(
+                id = event.id,
+                identifier = event.identifier,
+                type = command.type,
+                draftId = null
+            )
+        }
     }
 
     @Suppress("CyclomaticComplexMethod")
@@ -361,6 +339,53 @@ class CatalogueF2AggregateService(
         }
 
         return event
+    }
+
+    private suspend fun createWithDraft(
+        command: CatalogueCreateCommandDTOBase,
+        parentDraft: CatalogueDraftModel?,
+        image: FilePart? = null,
+    ): CatalogueCreatedEventDTOBase {
+        requireNotNull(command.language) { "Language is required for a catalogue draft." }
+
+        // create basic structure of the catalogue
+        val originalCatalogueEvent = command.copy(
+            language = null,
+            hidden = true
+        ).let { doCreate(it) }
+
+        // create draft of the catalogue in the requested language
+        val draftedCatalogueEvent = createOrphanTranslation(
+            command = command.copy(identifier = "${originalCatalogueEvent.identifier}-draft"),
+            originalCatalogueId = originalCatalogueEvent.id,
+            inferIdentifier = true,
+            inferTranslationType = true,
+            initDatasets = true
+        )
+
+        val draftId = CatalogueDraftCreateCommand(
+            parentId = parentDraft?.id,
+            catalogueId = draftedCatalogueEvent.id,
+            original = CatalogueDraftedRef(
+                id = originalCatalogueEvent.id,
+                identifier = originalCatalogueEvent.identifier,
+                type = originalCatalogueEvent.type,
+            ),
+            language = command.language!!,
+            baseVersion = 0,
+            datasetIdMap = emptyMap()
+        ).let { catalogueDraftAggregateService.create(it).id }
+
+        image?.let { setImage(draftedCatalogueEvent.id, it) }
+
+        if (parentDraft != null) {
+            CatalogueLinkCataloguesCommand(
+                id = parentDraft.catalogueId,
+                catalogueIds = listOf(draftedCatalogueEvent.id)
+            ).let { catalogueAggregateService.linkCatalogues(it) }
+        }
+
+        return originalCatalogueEvent.copy(draftId = draftId)
     }
 
     @Suppress("CyclomaticComplexMethod", "LongMethod")

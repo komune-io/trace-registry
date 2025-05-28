@@ -52,12 +52,6 @@ class CatalogueFinderService(
 			?: throw NotFoundException("Catalogue with identifier", identifier)
 	}
 
-	suspend fun getAll(): List<CatalogueModel> {
-		return catalogueRepository.findAll().map {
-			it.toModel()
-		}
-	}
-
 	suspend fun page(
 		id: Match<CatalogueId>? = null,
 		identifier: Match<CatalogueIdentifier>? = null,
