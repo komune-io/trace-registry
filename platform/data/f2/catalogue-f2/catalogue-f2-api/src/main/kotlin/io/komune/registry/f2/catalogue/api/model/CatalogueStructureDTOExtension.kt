@@ -17,6 +17,7 @@ suspend fun CatalogueStructureModel.toDTO(
     type = type,
     alias = alias,
     color = color,
+    illustration = illustration,
     creationForm = creationForm,
     metadataForm = metadataForm,
     createButton = createButton?.toDTO(language, getTypeConfiguration),

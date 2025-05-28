@@ -10,6 +10,7 @@ interface CatalogueStructureDTO {
     val type: StructureType
     val alias: Boolean
     val color: String?
+    val illustration: CatalogueIllustrationType?
     val creationForm: FormDTO?
     val metadataForm: FormDTO?
     val createButton: CatalogueCreateButtonDTO?
@@ -20,6 +21,7 @@ data class CatalogueStructureDTOBase(
     override val type: StructureType,
     override val alias: Boolean = false,
     override val color: String?,
+    override val illustration: CatalogueIllustrationType?,
     override val creationForm: Form?,
     override val metadataForm: Form?,
     override val createButton: CatalogueCreateButtonDTOBase?
@@ -30,6 +32,7 @@ data class CatalogueStructureModel(
     val type: StructureType,
     val alias: Boolean = false,
     val color: String?,
+    val illustration: CatalogueIllustrationType?,
     val creationForm: Form?,
     val metadataForm: Form?,
     val createButton: CatalogueCreateButtonModel?
