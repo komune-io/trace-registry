@@ -160,7 +160,7 @@ export const DraftEditionPage = () => {
       </Typography>
       }
       <TitleDivider title={title} onChange={policies.draft.canUpdate(draft) ? onChangeTitle : undefined} />
-      <WarningTicket
+      {draft?.status == "REJECTED" && <WarningTicket
         severity='error'
         title={t("catalogues.validatorComment")}
       >
@@ -170,6 +170,7 @@ export const DraftEditionPage = () => {
           {draft?.rejectReason ?? ""}
         </Typography>
       </WarningTicket>
+      }
       <LanguageSelector
         //@ts-ignore
         languages={languages}
