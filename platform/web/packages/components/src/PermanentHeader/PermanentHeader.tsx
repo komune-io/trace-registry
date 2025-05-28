@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom"
 import { Menu } from "@mui/icons-material";
 import {ElementType} from "react";
 import {Link} from "@komune-io/g2"
-import {config} from "domain-components";
+import {config} from "components";
 import {Logo} from "../Icons";
 
 export interface PermanentHeaderProps {

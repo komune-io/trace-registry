@@ -1,4 +1,10 @@
 {
+    "-------------------------- TMP --------------------------": "",
+    "organization-size": "Taille",
+    "sector": "Secteur",
+    "service": "Service",
+    "-------------------------- /TMP --------------------------": "",
+
     "BIODIV": "BIODIV",
     "dashboard": "Tableau de bord",
     "organizations": "Organisations",
@@ -167,6 +173,9 @@
     "options": "Options",
     "deleteCatalogue": "Supprimer la fiche",
     "deleteDraft": "Supprimer le brouillon",
+    "accessRights": "$t(access)",
+    "licenseId": "$t(licence)",
+    "themeIds": "$t(category)",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -313,7 +322,8 @@
             "100m-sectors": "Secteurs",
             "100m-systems": "Systèmes",
             "100m-home-sectors": "Accueil secteurs",
-            "100m-home-systems": "Accueil systèmes"
+            "100m-home-systems": "Accueil systèmes",
+            "organization": "Organisation"
         },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",
@@ -387,6 +397,7 @@
         "columnsNumber": "Nombre de colonnes",
         "gallery": "Galerie",
         "charts": "Graphiques",
+        "addDivider": "Ajouter un séparateur",
         "columnsType": {
             "1-1": "2 colonnes (taille égale)",
             "1-3": "2 colonnes (25% - 75%)",

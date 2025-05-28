@@ -20,6 +20,7 @@ fun main(): Unit = runBlocking {
             clientSecret = "secret"
         ),
         source = "./import",
+        preparse = null,
         flag = ModuleFlagProperties(
             control = true,
             data = true,

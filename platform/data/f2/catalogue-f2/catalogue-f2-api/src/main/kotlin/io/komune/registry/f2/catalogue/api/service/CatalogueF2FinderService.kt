@@ -8,21 +8,25 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.toAccessData
+import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
-import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
+import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -34,6 +38,7 @@ class CatalogueF2FinderService(
     private val catalogueI18nService: CatalogueI18nService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
+    private val catalogueEventWithStateService: CatalogueEventWithStateService,
 ) : CatalogueCachedService() {
 
     suspend fun getOrNull(
@@ -64,14 +69,14 @@ class CatalogueF2FinderService(
             ?.let { catalogueI18nService.translateToDTO(it, language, false) }
     }
 
-    suspend fun getRef(id: CatalogueId, language: Language): CatalogueRefGetResult {
-        val item = catalogueFinderService.getOrNull(id)
+    suspend fun getRef(id: CatalogueId, language: Language): CatalogueRefDTOBase? {
+        return catalogueFinderService.getOrNull(id)
+            ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             ?.let { catalogue ->
                 catalogue.takeIf { it.isTranslationOf == null }
                     ?: catalogueFinderService.getOrNull(catalogue.isTranslationOf!!)
                     ?: catalogue
             }?.let { catalogueI18nService.translateToRefDTO(it, language, false) }
-        return CatalogueRefGetResult(item = item)
     }
 
     suspend fun getRefTreeOrNull(id: CatalogueId, language: Language?): CatalogueRefTreeDTOBase? {
@@ -82,6 +87,15 @@ class CatalogueF2FinderService(
     suspend fun getRefTreeByIdentifierOrNull(identifier: CatalogueIdentifier, language: Language?): CatalogueRefTreeDTOBase? {
         return catalogueFinderService.getByIdentifierOrNull(identifier)
             ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, false) }
+    }
+    suspend fun getHistory(id: CatalogueId): CatalogueHistoryGetResult {
+        val actualVersion = catalogueFinderService.getOrNull(id)
+        val history = catalogueEventWithStateService.getHistory(id)
+        return CatalogueHistoryGetResult(
+            actualVersion,
+            history,
+        )
+
     }
 
     suspend fun page(
@@ -118,9 +132,15 @@ class CatalogueF2FinderService(
         )
     }
 
+    suspend fun getStructure(type: CatalogueType, language: Language?): CatalogueStructureDTOBase? {
+        return catalogueConfig.typeConfigurations[type]
+            ?.structure
+            ?.toDTO(language!!, catalogueConfig.typeConfigurations::get)
+    }
+
     suspend fun listAvailableParentsFor(
         id: CatalogueId?,
-        type: String,
+        type: CatalogueType,
         language: Language?,
         onlyAccessibleByAuthedUser: Boolean
     ): List<CatalogueRefDTOBase> {
@@ -138,14 +158,14 @@ class CatalogueF2FinderService(
             .sortedBy { "${it.title}   ${it.identifier}" }
     }
 
-    suspend fun listAvailableThemesFor(type: String, language: Language): List<ConceptTranslatedDTOBase> {
+    suspend fun listAvailableThemesFor(type: CatalogueType, language: Language): List<ConceptTranslatedDTOBase> {
         return catalogueConfig.typeConfigurations[type]
             ?.conceptSchemes
             ?.flatMap { conceptScheme -> conceptF2FinderService.listByScheme(conceptScheme, language) }
             .orEmpty()
     }
 
-    suspend fun listAvailableOwnersFor(type: String, search: String?, limit: Int?): List<OrganizationRef> {
+    suspend fun listAvailableOwnersFor(type: CatalogueType, search: String?, limit: Int?): List<OrganizationRef> {
         val roles = catalogueConfig.typeConfigurations[type]?.ownerRoles
 
         return organizationF2FinderService.page(

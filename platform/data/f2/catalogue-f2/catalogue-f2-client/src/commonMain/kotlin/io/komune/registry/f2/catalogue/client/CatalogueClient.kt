@@ -19,6 +19,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
@@ -28,6 +29,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -79,12 +81,14 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
         = client.function("data/${this::catalogueUnreferenceDatasets.name}")
     override fun catalogueLinkThemes(): CatalogueLinkThemesFunction = client.function("data/${this::catalogueLinkThemes.name}")
     override fun catalogueDelete(): CatalogueDeleteFunction = client.function("data/${this::catalogueDelete.name}")
+    override fun catalogueHistoryGet(): CatalogueHistoryGetFunction = client.function("data/${this::catalogueDelete.name}")
 
     override fun cataloguePage(): CataloguePageFunction = client.function("data/${this::cataloguePage.name}")
     override fun catalogueSearch(): CatalogueSearchFunction= client.function("data/${this::catalogueSearch.name}")
     override fun catalogueGet(): CatalogueGetFunction = client.function("data/${this::catalogueGet.name}")
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
         = client.function("data/${this::catalogueGetByIdentifier.name}")
+    override fun catalogueGetStructure(): CatalogueGetStructureFunction = client.function("data/${this::catalogueGetStructure.name}")
 
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
         = client.function("data/${this::catalogueListAvailableParents.name}")

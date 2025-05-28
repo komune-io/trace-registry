@@ -2,9 +2,13 @@ import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
 import { config } from "./config";
+import { createBreakpoints } from "@mui/system";
 
 export type LocalTheme = {
-  rotation: string
+  colors: Record<string, string>
+  rotation?: string
+  numberFont?: string
+  borderRadius?: string
 }
 
 export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use
@@ -13,10 +17,10 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
     secondary: config().theme?.colors?.secondary ?? "#353945",
     background: config().theme?.colors?.background ?? "#FFFFFF",
   },
-  logoUrl: config().theme?.logo?.url ?? "/trace.png",
+  logoUrl: config()?.theme?.logo?.url ?? "/trace.png",
   shadows: [
     "none",
-    "0px 4px 8px 0px #E4DEE7",
+    config().theme?.shadow ?? "0px 4px 8px 0px #E4DEE7",
     '0px 5px 12px rgba(0, 0, 0, 0.21)',
     '0px 6px 16px rgba(0, 0, 0, 0.22)',
     '0px 7px 20px rgba(0, 0, 0, 0.23)',
@@ -29,14 +33,19 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
     '0px 14px 48px rgba(0, 0, 0, 0.3)',
     '0px 15px 52px rgba(0, 0, 0, 0.31)'
   ],
+  bgColorOnMenu: true,
   local: {
-    rotation: config().theme?.rotation ?? "rotate(-2deg)"
+    rotation: config().theme?.rotation,
+    numberFont: config().theme?.numberFont,
+    borderRadius: config().theme?.borderRadius
   }
 };
 
+const breakpoints = createBreakpoints({});
+
 export const muiTheme: Partial<ThemeOptions> = {
   typography: {
-    fontFamily: '"Degular", roboto, sans-serif',
+    fontFamily: config().theme?.font ?? '"Degular", roboto, sans-serif',
     allVariants: {
       fontWeight: 400,
       color: "#000000"
@@ -62,18 +71,30 @@ export const muiTheme: Partial<ThemeOptions> = {
     },
     h1: {
       fontSize: "3.25rem",
+      [breakpoints.down("md")]: {
+        fontSize: "2.625rem",
+      },
       fontWeight: 700
     },
     h2: {
       fontSize: "3rem",
+      [breakpoints.down("md")]: {
+        fontSize: "2.3rem",
+      },
       fontWeight: 700
     },
     h3: {
       fontSize: "2.625rem",
+      [breakpoints.down("md")]: {
+        fontSize: "2rem",
+      },
       fontWeight: 700
     },
     h4: {
       fontSize: "2rem",
+      [breakpoints.down("md")]: {
+        fontSize: "1.7rem",
+      },
       fontWeight: 700
     },
     h5: {
@@ -92,7 +113,7 @@ export const muiTheme: Partial<ThemeOptions> = {
           fontSize: "1rem",
         }
       }
-    }
+    },
   }
 
 }

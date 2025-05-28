@@ -9,6 +9,7 @@ import { getKcContextMock } from "./login/KcPageStory";
 import { AlertHub, AppProvider, G2ConfigBuilder, initI18next, ThemeContextProvider } from "@komune-io/g2";
 import { muiTheme, theme } from "./Themes";
 import { QueryClient } from "@tanstack/react-query";
+import { config } from "./config";
 
 //@ts-ignore
 G2ConfigBuilder(window._env_)
@@ -32,7 +33,7 @@ const queryClient = new QueryClient({
     }
 })
 
-const i18n = initI18next({ en: "en-US", fr: 'fr-FR', es: "es-ES" })
+const i18n = initI18next(config().languages ?? { en: "en-US", fr: 'fr-FR', es: "es-ES" })
 i18n.addResourceBundle(
     'fr',
     'translation',

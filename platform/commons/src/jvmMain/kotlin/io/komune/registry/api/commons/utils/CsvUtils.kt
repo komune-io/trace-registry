@@ -1,10 +1,15 @@
 package io.komune.registry.api.commons.utils
 
+import com.fasterxml.jackson.databind.ObjectWriter
+import com.fasterxml.jackson.dataformat.csv.CsvMapper
+import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.apache.commons.csv.QuoteMode
 import java.io.BufferedReader
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.io.OutputStream
 import java.io.Reader
 import kotlin.math.max
 
@@ -51,5 +56,32 @@ private fun BufferedReader.removeUtf8Bom() {
     mark(1)
     if (read() != utf8Bom) {
         reset()
+    }
+}
+
+fun csvWriter(columns: CsvColumns): ObjectWriter = CsvMapper().writer().with(columns.toCsvSchema())
+
+fun ObjectWriter.writeToByteArray(values: Any): ByteArray = ByteArrayOutputStream().use { output ->
+    output.writeCsvEncoding()
+    writeValue(output, values)
+    output.toByteArray()
+}
+
+fun OutputStream.writeCsvEncoding() {
+    write(0xEF)
+    write(0xBB)
+    write(0xBF)
+}
+
+abstract class CsvColumns {
+    protected abstract val columnNames: Iterable<String>
+
+    fun toCsvSchema(): CsvSchema {
+        return CsvSchema.builder()
+            .setUseHeader(true)
+            .setColumnSeparator(',')
+            .setNullValue("")
+            .addColumns(columnNames, CsvSchema.ColumnType.NUMBER_OR_STRING)
+            .build()
     }
 }

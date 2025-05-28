@@ -1,15 +1,16 @@
-import {Catalogue} from "../../model";
-import {useTranslation} from "react-i18next";
-import {useMemo} from "react";
-import {CatalogueResultList} from "../CatalogueResultList";
+import { Catalogue } from "../../model";
+import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
+import { CatalogueResultList } from "../CatalogueResultList";
 
 
 interface CatalogueResultListByTypeProps {
   items?: Catalogue[]
+  withImage?: boolean
 }
 
 export const CatalogueResultListByType = (props: CatalogueResultListByTypeProps) => {
-  const {items} = props
+  const { items, withImage } = props
   const { t } = useTranslation()
   const resultListComponents = useMemo(() => {
     const grouped: Partial<Record<string, Catalogue[]>> = Object.groupBy(
@@ -23,11 +24,12 @@ export const CatalogueResultListByType = (props: CatalogueResultListByTypeProps)
       }
     });
     return grouped
-  }, [ items])
+  }, [items])
   return Object.keys(resultListComponents).map((catalogueType) => {
-    const byType =  resultListComponents[catalogueType] ?? []
+    const byType = resultListComponents[catalogueType] ?? []
     return (
       <CatalogueResultList
+        withImage={withImage}
         catalogues={byType}
         groupLabel={t(`catalogues.types.${catalogueType}`)}
       />

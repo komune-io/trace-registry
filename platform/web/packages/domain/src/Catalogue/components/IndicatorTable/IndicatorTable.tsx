@@ -1,5 +1,5 @@
 import { EditRounded } from '@mui/icons-material'
-import { iconPack, maybeAddItem } from 'components'
+import { IconPack, maybeAddItem } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Stack } from '@mui/material'
@@ -75,7 +75,7 @@ export const IndicatorTable = (props: IndicatorTableProps) => {
                 <IconButton
                     onClick={() => deleteIndicator(row.original)}
                 >
-                    {iconPack.trash}
+                    {<IconPack.trash />}
                 </IconButton>
             </Stack>
         )

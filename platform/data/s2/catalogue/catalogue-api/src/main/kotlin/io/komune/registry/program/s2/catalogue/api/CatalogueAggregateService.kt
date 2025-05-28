@@ -13,9 +13,11 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkMetadataDatasetCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedMetadataDatasetEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
@@ -40,6 +42,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedAccessRigh
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedVersionNotesEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.stereotype.Service
 
 @Service
@@ -55,13 +58,12 @@ class CatalogueAggregateService(
 			identifier = command.identifier,
 			title = command.title,
 			type = command.type,
-			language = command.language,
+			language = command.language?.truncateLanguage(),
 			description = command.description,
 			themeIds = command.themeIds,
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId ?: authedUser?.memberOf,
 			stakeholder = command.stakeholder,
-			structure = command.structure,
 			isTranslationOf = command.isTranslationOf,
 			catalogueIds = command.catalogueIds,
 			datasetIds = command.datasetIds,
@@ -70,6 +72,7 @@ class CatalogueAggregateService(
 			accessRights = command.accessRights ?: CatalogueAccessRight.PRIVATE,
 			licenseId = command.licenseId,
 			location = command.location,
+			order = command.order,
 			hidden = command.hidden,
 			integrateCounter = command.integrateCounter,
 		)
@@ -80,16 +83,16 @@ class CatalogueAggregateService(
 			id = it.id,
 			date = System.currentTimeMillis(),
 			title = command.title,
-			language = command.language,
+			language = command.language?.truncateLanguage(),
 			description = command.description,
 			themeIds = command.themeIds,
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId,
 			stakeholder = command.stakeholder,
-			structure = command.structure,
 			accessRights = command.accessRights ?: it.accessRights,
 			licenseId = command.licenseId,
 			location = command.location,
+			order = command.order,
 			hidden = command.hidden,
 			versionNotes = command.versionNotes,
 			integrateCounter = command.integrateCounter,
@@ -108,7 +111,7 @@ class CatalogueAggregateService(
 		val translations = catalogueRepository.findAllById(command.catalogues)
 			.associate {
 				if (it.language == null) throw IllegalArgumentException("Catalogue ${it.id} has no language")
-				it.language!! to it.id
+				it.language!!.truncateLanguage() to it.id
 			}
 
 		CatalogueAddedTranslationsEvent(
@@ -122,7 +125,7 @@ class CatalogueAggregateService(
 		CatalogueRemovedTranslationsEvent(
 			id = command.id,
 			date = System.currentTimeMillis(),
-			languages = command.languages.toSet()
+			languages = command.languages.map { it.truncateLanguage() }.toSet()
 		)
 	}
 
@@ -181,6 +184,16 @@ class CatalogueAggregateService(
 			id = command.id,
 			date = System.currentTimeMillis(),
 			datasets = command.datasetIds
+		)
+	}
+
+	suspend fun linkMetadataDataset(
+		command: CatalogueLinkMetadataDatasetCommand
+	): CatalogueLinkedMetadataDatasetEvent = automate.transition(command) {
+		CatalogueLinkedMetadataDatasetEvent(
+			id = command.id,
+			date = System.currentTimeMillis(),
+			datasetId = command.datasetId
 		)
 	}
 

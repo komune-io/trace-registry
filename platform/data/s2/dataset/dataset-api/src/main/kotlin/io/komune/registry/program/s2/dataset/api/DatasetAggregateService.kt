@@ -19,6 +19,7 @@ import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.DistributionId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.SupportedValueId
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddedAggregatorsEvent
@@ -76,7 +77,7 @@ class DatasetAggregateService(
 			title = command.title,
 			type = command.type,
 			description = command.description,
-			language = command.language,
+			language = command.language.truncateLanguage(),
 			wasGeneratedBy = command.wasGeneratedBy,
 			source = command.source,
 			creator = command.creator,
@@ -143,7 +144,7 @@ class DatasetAggregateService(
 			title = command.title,
 			type = command.type,
 			description = command.description,
-			language = command.language,
+			language = command.language.truncateLanguage(),
 			wasGeneratedBy = command.wasGeneratedBy,
 			source = command.source,
 			creator = command.creator,

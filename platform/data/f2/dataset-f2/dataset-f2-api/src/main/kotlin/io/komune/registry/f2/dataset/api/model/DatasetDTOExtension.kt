@@ -23,6 +23,7 @@ import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.commons.model.UserId
@@ -218,3 +219,9 @@ suspend fun CatalogueDraftModel.toRef(
     creator = getUser(creatorId),
     status = status
 )
+
+fun DatasetDTOBase.extractAggregators(): Map<InformationConceptIdentifier, List<String>> {
+    return distributions?.flatMap { distribution -> distribution.aggregators }
+        ?.groupBy({ computedConcept -> computedConcept.identifier }, { computedConcept -> computedConcept.value })
+        .orEmpty()
+}

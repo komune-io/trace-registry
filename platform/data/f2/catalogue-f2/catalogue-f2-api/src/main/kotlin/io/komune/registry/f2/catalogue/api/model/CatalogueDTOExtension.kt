@@ -1,9 +1,7 @@
 package io.komune.registry.f2.catalogue.api.model
 
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
@@ -12,9 +10,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
-import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
@@ -47,7 +43,6 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     description = description.takeIf { withTranslatable },
     type = type,
     language = language.takeIf { withTranslatable },
-    structure = structure,
     homepage = homepage,
     ownerOrganizationId = ownerOrganizationId,
     stakeholder = stakeholder,
@@ -59,8 +54,9 @@ fun CatalogueCreateCommandDTOBase.toCommand(
     licenseId = license,
     location = location,
     versionNotes = versionNotes.takeIf { withTranslatable },
+    order = order,
     hidden = hidden,
-    integrateCounter = integrateCounter
+    integrateCounter = integrateCounter.takeIf { withTranslatable }
 )
 
 fun CatalogueUpdateCommandDTOBase.toCommand(
@@ -71,7 +67,6 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     title = title.takeIf { withTranslatable }.orEmpty(),
     description = description.takeIf { withTranslatable },
     language = language.takeIf { withTranslatable },
-    structure = structure,
     homepage = homepage,
     ownerOrganizationId = ownerOrganizationId,
     stakeholder = stakeholder,
@@ -79,6 +74,7 @@ fun CatalogueUpdateCommandDTOBase.toCommand(
     accessRights = accessRights,
     licenseId = license,
     location = location,
+    order = order,
     hidden = hidden,
     versionNotes = versionNotes.takeIf { withTranslatable },
     integrateCounter = integrateCounter.takeIf { withTranslatable },
@@ -89,7 +85,6 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
     title = title,
     description = description,
     language = language,
-    structure = structure,
     homepage = homepage,
     ownerOrganizationId = ownerOrganizationId,
     stakeholder = stakeholder,
@@ -98,13 +93,9 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
     accessRights = accessRights,
     license = licenseId,
     location = location,
+    order = order,
     hidden = hidden,
     integrateCounter = integrateCounter,
-)
-
-fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(
-    id = id,
-    catalogueIds = catalogues
 )
 
 fun CatalogueLinkedCataloguesEvent.toDTO() = CatalogueLinkedCataloguesEventDTOBase(
@@ -118,10 +109,6 @@ fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
 
 fun CatalogueLinkedThemesEvent.toDTO() = CatalogueLinkedThemesEventDTOBase(
     id = id,
-)
-
-fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
-    id = id
 )
 
 fun CatalogueDeletedEvent.toDTO() = CatalogueDeletedEventDTOBase(
