@@ -7,6 +7,7 @@ import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButto
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonModel
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureModel
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
 
 suspend fun CatalogueStructureModel.toDTO(
@@ -35,6 +36,12 @@ fun CatalogueTypeConfiguration.toTypeDTO(language: Language) = CatalogueTypeDTOB
     identifier = type,
     name = name?.get(language).orEmpty(),
     icon = icon?.let { "/data/catalogueTypes/$type/img" },
+)
+
+fun CatalogueTypeDTOBase?.orEmpty(identifier: CatalogueType) = this ?: CatalogueTypeDTOBase(
+    identifier = identifier,
+    name = identifier,
+    icon = null,
 )
 
 suspend fun CatalogueTypeConfiguration.authedUserCanWrite(): Boolean {

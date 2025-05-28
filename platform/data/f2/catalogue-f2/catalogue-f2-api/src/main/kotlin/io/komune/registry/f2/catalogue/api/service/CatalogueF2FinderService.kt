@@ -7,14 +7,19 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.f2.catalogue.api.model.orEmpty
 import io.komune.registry.f2.catalogue.api.model.toAccessData
 import io.komune.registry.f2.catalogue.api.model.toDTO
+import io.komune.registry.f2.catalogue.api.model.toTypeDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueOperation
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesQuery
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
@@ -175,7 +180,16 @@ class CatalogueF2FinderService(
         ).items
     }
 
-    suspend fun listExplicitlyAllowedTypesToWrite(): List<String> {
+    suspend fun listAllowedTypes(
+        query: CatalogueListAllowedTypesQuery
+    ): List<CatalogueTypeDTOBase> {
+        return when (query.operation) {
+            CatalogueOperation.UPDATE -> listExplicitlyAllowedTypesToWrite()
+            CatalogueOperation.RELATION -> listRelationAllowedType(query)
+        }.map { it.toDTO(query.language).orEmpty(it) }
+    }
+
+    suspend fun listExplicitlyAllowedTypesToWrite(): List<CatalogueType> {
         val authedUser = AuthenticationProvider.getAuthedUser()
             ?: return emptyList()
 
@@ -186,10 +200,22 @@ class CatalogueF2FinderService(
         }.map { it.type }
     }
 
+    suspend fun listRelationAllowedType(query: CatalogueListAllowedTypesQuery): List<CatalogueType> {
+        return catalogueConfig.typeConfigurations[query.catalogueType]
+            ?.relatedTypes
+            ?.get(query.relationType)
+            .orEmpty()
+            .toList()
+    }
+
     private suspend fun CatalogueModel.toAccessDataCached() = withCache { cache ->
         toAccessData(
             getOrganization = cache.organizations::get,
             getUser = cache.users::get
         )
+    }
+
+    private fun CatalogueType.toDTO(language: Language): CatalogueTypeDTOBase? {
+        return catalogueConfig.typeConfigurations[this]?.toTypeDTO(language)
     }
 }

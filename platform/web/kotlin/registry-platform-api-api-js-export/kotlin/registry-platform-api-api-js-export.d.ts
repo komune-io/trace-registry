@@ -1462,12 +1462,6 @@ export declare namespace io.komune.registry.s2.commons.model {
 
     }
 }
-export declare namespace io.komune.registry.s2.commons.model {
-    const RedirectableRoutes: {
-        quotations(): string;
-        projects(): string;
-    };
-}
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormDTO {
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
@@ -3250,6 +3244,16 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
     type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
+    interface CatalogueConfigurationDTO {
+        readonly relations: Record<string, io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO>;
+
+    }
+    interface CatalogueRelationConfigurationDTO {
+        readonly types: string[];
+
+    }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model {
     interface FacetPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
         readonly total: number;
         readonly items: T[];
@@ -3894,6 +3898,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly description?: string;
         readonly type: string;
         readonly language?: string;
+        readonly configuration?: io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO;
         readonly homepage?: string;
         readonly ownerOrganizationId?: string;
         readonly stakeholder?: string;
@@ -4035,6 +4040,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
         readonly title: string;
         readonly description?: string;
         readonly language: string;
+        readonly configuration?: io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO;
         readonly homepage?: string;
         readonly ownerOrganizationId?: string;
         readonly stakeholder?: string;
@@ -4066,6 +4072,16 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueConfigurationDTO extends io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO {
+        readonly relations: Record<string, io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO>;
+
+    }
+    interface CatalogueRelationConfigurationDTO extends io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO {
+        readonly types: string[];
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueDTO extends io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO {
         readonly id: string;
         readonly identifier: string;
@@ -4074,6 +4090,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly homepage?: string;
         readonly title: string;
         readonly language: string;
+        readonly configuration?: io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO;
         readonly availableLanguages: string[];
         readonly img?: string;
         readonly type: string;
@@ -4127,6 +4144,9 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     type CatalogueImportType = "M100_PROJECTS";
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    type CatalogueOperation = "UPDATE" | "RELATION";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {
@@ -4227,10 +4247,14 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueListAllowedTypesQueryDTO {
+        readonly language: string;
+        readonly operation: io.komune.registry.f2.catalogue.domain.dto.CatalogueOperation;
+        readonly catalogueType?: string;
+        readonly relationType?: string;
 
     }
     interface CatalogueListAllowedTypesResultDTO {
-        readonly items: string[];
+        readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTO[];
 
     }
 }

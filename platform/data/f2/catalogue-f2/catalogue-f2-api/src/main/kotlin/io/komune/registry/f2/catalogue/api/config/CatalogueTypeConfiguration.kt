@@ -13,6 +13,7 @@ data class CatalogueTypeConfiguration(
     val icon: String?,
     val identifierSequence: SequenceConfiguration?,
     val parentTypes: Set<CatalogueType>?,
+    val relatedTypes: Map<String, Set<CatalogueType>>?,
     val conceptSchemes: Set<String>?,
     val parentalControl: Boolean = false,
     val writerRoles: Set<String>?,
