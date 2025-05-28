@@ -13,6 +13,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         title = title,
         type = type,
         language = language,
+        configuration = configuration,
         img = img?.let { "/data/catalogues/${id}/img" },
         imageFsPath = img,
         description = description,

@@ -20,6 +20,7 @@ data class CatalogueTypeConfiguration(
     val ownerRoles: Set<String>?,
     val structure: CatalogueStructureModel?,
     val i18n: CatalogueTypeI18n?,
+    val catalogues: List<CatalogueTypeSubCatalogues>?,
     val datasets: List<CatalogueTypeSubDataset>?,
     val hidden: Boolean = false
 )
@@ -39,6 +40,13 @@ data class CatalogueTypeSubDataset(
     val structure: Structure?,
     val template: Map<Language, String>?,
     val withEmptyDistribution: Boolean = false
+)
+
+@Serializable
+data class CatalogueTypeSubCatalogues(
+    val type: CatalogueType,
+    val identifierSuffix: String,
+    val title: Map<Language, String>
 )
 
 @Serializable

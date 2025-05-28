@@ -3245,6 +3245,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
     interface CatalogueConfigurationDTO {
+        readonly structureType?: io.komune.registry.s2.catalogue.domain.model.structure.StructureType;
         readonly relations: Record<string, io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO>;
 
     }
@@ -3272,6 +3273,9 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
         readonly size: number;
 
     }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
+    type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain {
     type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED" | "DELETED";
@@ -4073,6 +4077,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueConfigurationDTO extends io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO {
+        readonly structureType?: io.komune.registry.s2.catalogue.domain.model.structure.StructureType;
         readonly relations: Record<string, io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO>;
 
     }
@@ -4181,25 +4186,31 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
+    type CatalogueButtonKind = "SIMPLE" | "SELECT";
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueCreateButtonDTO {
         readonly label: string;
+        readonly kind: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueButtonKind;
         readonly types: io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTO[];
 
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
+    type CatalogueIllustrationType = "IMAGE" | "IDENTIFIER";
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueStructureDTO {
-        readonly type: io.komune.registry.f2.catalogue.domain.dto.structure.StructureType;
+        readonly type?: io.komune.registry.s2.catalogue.domain.model.structure.StructureType;
         readonly alias: boolean;
         readonly color?: string;
+        readonly isTab: boolean;
+        readonly illustration?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueIllustrationType;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
 
     }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
-    type StructureType = "GRID" | "HOME" | "ITEM" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueGetByIdentifierQueryDTO {
