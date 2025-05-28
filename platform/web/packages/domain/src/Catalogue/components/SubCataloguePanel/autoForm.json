@@ -12,7 +12,7 @@
           "conditions": [
             {
               "type": "display",
-              "expression": "#context == 'create' || #context == 'edit'"
+              "expression": "#context == 'creation' || #context == 'edition'"
             }
           ]
         },
@@ -23,8 +23,8 @@
           "required": true,
           "conditions": [
             {
-              "type": "display",
-              "expression": "#context == 'create' || #context == 'readOnly'"
+              "type": "enable",
+              "expression": "#context == 'creation' || #context == 'readOnly'"
             }
           ]
         },

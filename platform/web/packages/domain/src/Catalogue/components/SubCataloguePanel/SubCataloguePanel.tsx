@@ -12,7 +12,7 @@ import { PageQueryResult } from 'template'
 
 export interface SubCataloguePanelProps {
     catalogue?: Catalogue
-    context?: "edit" | "create" | "readOnly"
+    context?: "edition" | "creation" | "readOnly"
     onCancel?: () => void
     onSubmit?: (command: CommandWithFile<any>, values: any) => void
     canUpdate?: boolean
@@ -20,7 +20,7 @@ export interface SubCataloguePanelProps {
 
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue } = props
-    const [context, setContext] = useState<"edit" | "create" | "readOnly">(defaultContext ?? "create")
+    const [context, setContext] = useState<"edition" | "creation" | "readOnly">(defaultContext ?? "creation")
 
     const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
         query: {
@@ -83,7 +83,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
 
     const onEdit = useCallback(
         () => {
-            setContext("edit")
+            setContext("edition")
         }, [])
 
     const data = useMemo((): PageQueryResult<CatalogueRef> => {
@@ -106,14 +106,14 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
         >
             <TitleDivider
                 size="h6"
-                title={context === "create" ? t("catalogues.createSubCatalogue") : ""}
+                title={context === "creation" ? t("catalogues.createSubCatalogue") : ""}
                 actions={
                     context === "readOnly" && canUpdate ?
                         <SubCataloguePanelOptions catalogue={catalogue} onEdit={onEdit} />
                         : undefined
                 }
             />
-            {context === "create" && <Typography
+            {context === "creation" && <Typography
                 sx={{
                     whiteSpace: "pre-line"
                 }}

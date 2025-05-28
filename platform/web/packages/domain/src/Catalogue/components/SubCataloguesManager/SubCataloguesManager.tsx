@@ -48,7 +48,7 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
         title={t("catalogues.noSubCatalogue")}
       />
       {creation && <SubCataloguePanel
-        context='create'
+        context='creation'
         onCancel={onCancel}
       />}
       
