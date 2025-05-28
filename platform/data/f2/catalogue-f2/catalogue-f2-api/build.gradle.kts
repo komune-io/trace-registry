@@ -1,6 +1,7 @@
 plugins {
     id("io.komune.fixers.gradle.kotlin.jvm")
     kotlin("plugin.spring")
+    kotlin("plugin.serialization")
 }
 
 dependencies {

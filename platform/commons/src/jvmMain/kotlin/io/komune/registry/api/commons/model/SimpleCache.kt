@@ -14,4 +14,8 @@ class SimpleCache<K: Any, V>(
     fun register(key: K, value: V) {
         cache[key] = value
     }
+
+    operator fun contains(key: K): Boolean {
+        return cache.containsKey(key)
+    }
 }

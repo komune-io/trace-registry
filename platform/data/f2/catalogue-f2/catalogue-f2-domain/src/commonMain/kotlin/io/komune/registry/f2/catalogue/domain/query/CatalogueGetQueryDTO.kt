@@ -5,9 +5,8 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
-import kotlin.js.JsExport
-import kotlin.js.JsName
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Get a catalogue by id.
@@ -22,7 +21,6 @@ typealias CatalogueGetFunction = F2Function<CatalogueGetQuery, CatalogueGetResul
  * @parent [CatalogueGetFunction]
  */
 @JsExport
-@JsName("CatalogueGetQueryDTO")
 interface CatalogueGetQueryDTO {
     /**
      * Id of the catalogue to fetch.
@@ -50,7 +48,6 @@ data class CatalogueGetQuery(
  * @parent [CatalogueGetFunction]
  */
 @JsExport
-@JsName("CatalogueGetResultDTO")
 interface CatalogueGetResultDTO {
     val item: CatalogueDTO?
 }

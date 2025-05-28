@@ -5,7 +5,6 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.concept.domain.ConceptId
-import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
 data class CatalogueUpdateCommand(
@@ -17,11 +16,11 @@ data class CatalogueUpdateCommand(
     val homepage: String?,
     val ownerOrganizationId: OrganizationId?,
     val stakeholder: String?,
-    val structure: Structure?,
     val accessRights: CatalogueAccessRight?,
     val licenseId: String?,
     val integrateCounter: Boolean?,
     val location: Location?,
+    val order: Int?,
     val hidden: Boolean,
     val versionNotes: String?,
 ): CatalogueCommand
@@ -36,11 +35,11 @@ data class CatalogueUpdatedEvent(
     override val homepage: String?,
     override val ownerOrganizationId: OrganizationId?,
     override val stakeholder: String?,
-    override val structure: Structure?,
     override val accessRights: CatalogueAccessRight,
     override val licenseId: String?,
     override val integrateCounter: Boolean?,
     override val location: Location?,
+    override val order: Int?,
     override val hidden: Boolean = false,
     override val versionNotes: String?,
     override val date: Long,

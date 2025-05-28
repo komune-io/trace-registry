@@ -24,20 +24,8 @@ export const catalogPages: PageRoute[] = [
     element: <CataloguesStructureRouter />
   },
   {
-    path: "catalogues/create/solution",
-    element: <CatalogueCreationPage type="100m-solution" />
-  },
-  {
-    path: "catalogues/create/system",
-    element: <CatalogueCreationPage type="100m-system" />
-  },
-  {
-    path: "catalogues/create/sector",
-    element: <CatalogueCreationPage type="100m-sector" />
-  },
-  {
-    path: "catalogues/create/project",
-    element: <CatalogueCreationPage type="100m-project" />
+    path: "catalogues/create/:type",
+    element: <CatalogueCreationPage />
   },
   {
     path: "catalogues/:catalogueId/:draftId/edit/:tab?",

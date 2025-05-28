@@ -39,6 +39,7 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
             <DatasetIndicator
                 item={item}
                 relatedDatasets={catalogue.referencedDatasets.filter((dataset) => dataset.type === "indicator")}
+                isEmpty={isEmpty}
             />
         )
     } else if (item.type === "graphs") {

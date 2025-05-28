@@ -40,6 +40,7 @@ interface CatalogueSearchQueryDTO {
     val licenseId: List<String>?
     val creatorOrganizationId: OrganizationId?
     val availableLanguages: List<Language>?
+    val withTransient: Boolean?
 }
 
 /**
@@ -62,6 +63,7 @@ data class CatalogueSearchQuery(
     override val type: List<String>?,
     override val creatorOrganizationId: OrganizationId?,
     override val availableLanguages: List<Language>?,
+    override val withTransient: Boolean = false
 ): CatalogueSearchQueryDTO
 
 /**
