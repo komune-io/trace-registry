@@ -1,4 +1,4 @@
-package io.komune.registry.f2.catalogue.domain.dto.structure
+package io.komune.registry.s2.catalogue.domain.model.structure
 
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -6,6 +6,7 @@ import kotlin.js.JsExport
 @JsExport
 @Serializable
 enum class StructureType {
+    FACTORY,
     GRID,
     HOME,
     ITEM,

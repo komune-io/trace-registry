@@ -34,7 +34,7 @@ interface CatalogueRefDTO {
     /**
      * @ref [CatalogueDTO.title]
      */
-    val title: CatalogueType
+    val title: String
 
     /**
      * @ref [CatalogueDTO.language]
@@ -49,7 +49,7 @@ interface CatalogueRefDTO {
     /**
      * @ref [CatalogueDTO.status]
      */
-    val type: String
+    val type: CatalogueType
 
     /**
      * @ref [CatalogueDTO.description]
