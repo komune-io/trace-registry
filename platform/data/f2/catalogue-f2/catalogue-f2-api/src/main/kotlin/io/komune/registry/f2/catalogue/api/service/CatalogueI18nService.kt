@@ -111,17 +111,9 @@ class CatalogueI18nService(
             status = translated.status,
             title = translated.title,
             description = translated.description,
-            catalogues = translated.childrenCatalogueIds.mapNotNull { childId ->
-                cache.untranslatedCatalogues.get(childId)
-                    .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
-                    ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
-            },
+            catalogues = translated.childrenCatalogueIds.toFilteredRefs(language, otherLanguageIfAbsent, draft != null),
             relatedCatalogues = translated.relatedCatalogueIds?.mapValues { (_, catalogueIds) ->
-                catalogueIds.mapNotNull { catalogueId ->
-                    cache.untranslatedCatalogues.get(catalogueId)
-                        .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
-                        ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
-                }
+                catalogueIds.toFilteredRefs(language , otherLanguageIfAbsent, draft != null)
             },
             datasets = datasets,
             referencedDatasets = translated.referencedDatasetIds
@@ -264,5 +256,17 @@ class CatalogueI18nService(
             ?.structure
             .overrideWith(configuration)
             .toDTO(language!!, catalogueConfig.typeConfigurations::get)
+    }
+
+    private suspend fun Collection<CatalogueId>.toFilteredRefs(
+        language: Language?,
+        otherLanguageIfAbsent: Boolean,
+        isDraft: Boolean
+    ) = withCache { cache ->
+        mapNotNull { catalogueId ->
+            cache.untranslatedCatalogues.get(catalogueId)
+                .takeIf { it.status != CatalogueState.DELETED && (!it.hidden || isDraft) }
+                ?.let { translateToRefDTO(it, language, otherLanguageIfAbsent) }
+        }
     }
 }

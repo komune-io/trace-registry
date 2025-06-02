@@ -312,7 +312,7 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkUpdate(command.id)
 
         val enforcedCommand = cataloguePoliciesEnforcer.enforceCommand(command)
-        val event = catalogueF2AggregateService.update(enforcedCommand)
+        val event = catalogueF2AggregateService.update(enforcedCommand, true)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
 
         return event

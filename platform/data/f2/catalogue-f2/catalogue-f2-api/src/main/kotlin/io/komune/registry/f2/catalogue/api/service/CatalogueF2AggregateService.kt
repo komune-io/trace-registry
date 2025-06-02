@@ -51,6 +51,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
@@ -117,18 +118,10 @@ class CatalogueF2AggregateService(
                 || hasParentalControl && parentDraft != null
 
         if (withDraft) {
-            return createWithDraft(command, parentDraft, image)
+            return createWithDraft(command, parentDraft, image).original
         }
 
-        return doCreate(command).let { event ->
-            image?.let { setImage(event.id, it) }
-            CatalogueCreatedEventDTOBase(
-                id = event.id,
-                identifier = event.identifier,
-                type = command.type,
-                draftId = null
-            )
-        }
+        return createWithoutDraft(command, image)
     }
 
     @Suppress("CyclomaticComplexMethod")
@@ -182,7 +175,7 @@ class CatalogueF2AggregateService(
         return event
     }
 
-    suspend fun update(command: CatalogueUpdateCommandDTOBase): CatalogueUpdatedEventDTOBase {
+    suspend fun update(command: CatalogueUpdateCommandDTOBase, initControlledChildren: Boolean): CatalogueUpdatedEventDTOBase {
         val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
             ?.checkLanguage(command.language)
         val isDraft = draft != null
@@ -190,7 +183,7 @@ class CatalogueF2AggregateService(
         if (isDraft && command.title != draft!!.title) {
             catalogueDraftAggregateService.updateTitle(CatalogueDraftUpdateTitleCommand(id = draft.id, title = command.title))
         }
-        doUpdate(command, isDraft)
+        doUpdate(command, isDraft, initControlledChildren)
 
         command.parentId?.let {
             val catalogue = catalogueFinderService.get(command.id)
@@ -341,12 +334,41 @@ class CatalogueF2AggregateService(
         return event
     }
 
+    private suspend fun createWithoutDraft(
+        command: CatalogueCreateCommandDTOBase,
+        image: FilePart? = null,
+    ): CatalogueCreatedEventDTOBase {
+        val createdEvent = doCreate(command)
+        image?.let { setImage(createdEvent.id, it) }
+
+        val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
+        typeConfiguration?.catalogues?.forEach { subCatalogue ->
+            CatalogueCreateCommandDTOBase(
+                identifier = "${createdEvent.identifier}${subCatalogue.identifierSuffix}",
+                parentId = createdEvent.id,
+                type = subCatalogue.type,
+                title = subCatalogue.title[command.language].orEmpty(),
+                language = command.language,
+                accessRights = CatalogueAccessRight.PUBLIC,
+                withDraft = false
+            ).let { doCreate(it) }
+        }
+
+        return CatalogueCreatedEventDTOBase(
+            id = createdEvent.id,
+            identifier = createdEvent.identifier,
+            type = command.type,
+            draftId = null
+        )
+    }
+
     private suspend fun createWithDraft(
         command: CatalogueCreateCommandDTOBase,
         parentDraft: CatalogueDraftModel?,
         image: FilePart? = null,
-    ): CatalogueCreatedEventDTOBase {
+    ): CatalogueCreatedWithDraftEvent {
         requireNotNull(command.language) { "Language is required for a catalogue draft." }
+        val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
 
         // create basic structure of the catalogue
         val originalCatalogueEvent = command.copy(
@@ -356,10 +378,13 @@ class CatalogueF2AggregateService(
 
         // create draft of the catalogue in the requested language
         val draftedCatalogueEvent = createOrphanTranslation(
-            command = command.copy(identifier = "${originalCatalogueEvent.identifier}-draft"),
+            command = command.copy(
+                identifier = "${originalCatalogueEvent.identifier}-draft",
+                parentId = parentDraft?.catalogueId ?: command.parentId
+            ),
             originalCatalogueId = originalCatalogueEvent.id,
             inferIdentifier = true,
-            inferTranslationType = true,
+            inferTranslationType = parentDraft == null,
             initDatasets = true
         )
 
@@ -375,17 +400,32 @@ class CatalogueF2AggregateService(
             baseVersion = 0,
             datasetIdMap = emptyMap()
         ).let { catalogueDraftAggregateService.create(it).id }
+        val draft = catalogueDraftFinderService.get(draftId)
 
         image?.let { setImage(draftedCatalogueEvent.id, it) }
 
-        if (parentDraft != null) {
+        val childrenEvents = typeConfiguration?.catalogues?.map { subCatalogue ->
+            CatalogueCreateCommandDTOBase(
+                identifier = "${originalCatalogueEvent.identifier}${subCatalogue.identifierSuffix}",
+                parentId = originalCatalogueEvent.id,
+                type = subCatalogue.type,
+                title = subCatalogue.title[command.language].orEmpty(),
+                language = command.language,
+                accessRights = CatalogueAccessRight.PUBLIC,
+                withDraft = true
+            ).let { createWithDraft(it, draft, null) }
+        }
+        childrenEvents?.let {
             CatalogueLinkCataloguesCommand(
-                id = parentDraft.catalogueId,
-                catalogueIds = listOf(draftedCatalogueEvent.id)
+                id = draftedCatalogueEvent.id,
+                catalogueIds = childrenEvents.map { it.drafted.id }
             ).let { catalogueAggregateService.linkCatalogues(it) }
         }
 
-        return originalCatalogueEvent.copy(draftId = draftId)
+        return CatalogueCreatedWithDraftEvent(
+            original = originalCatalogueEvent.copy(draftId = draftId),
+            drafted = draftedCatalogueEvent.copy(draftId = draftId)
+        )
     }
 
     @Suppress("CyclomaticComplexMethod", "LongMethod")
@@ -396,12 +436,12 @@ class CatalogueF2AggregateService(
         initDatasets: Boolean = true,
     ): CatalogueCreatedEventDTOBase {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
-        val i18nEnabled = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
+        val createTranslation = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
 
         val catalogueIdentifier = command.identifier
             ?: computeNewIdentifier(command.type)
 
-        val catalogue = getOrCreate(command, catalogueIdentifier, i18nEnabled, isTranslationOf, typeConfiguration)
+        val catalogue = getOrCreate(command, catalogueIdentifier, createTranslation, isTranslationOf, typeConfiguration)
 
         command.parentId?.let { assignParent(catalogue.id, it, typeConfiguration, false) }
 
@@ -412,7 +452,7 @@ class CatalogueF2AggregateService(
             ).let { catalogueAggregateService.replaceRelatedCatalogues(it) }
         }
 
-        if (i18nEnabled) {
+        if (createTranslation) {
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
                 originalId = catalogue.id,
@@ -432,12 +472,12 @@ class CatalogueF2AggregateService(
             createAndLinkDatasets(
                 datasets = typeConfiguration?.datasets,
                 catalogueId = catalogue.id,
-                catalogueIdentifier = catalogueIdentifier,
-                language = command.language!!,
+                catalogueIdentifier = catalogue.identifier,
+                language = catalogue.language!!,
                 withMetadataDataset = true
             )
 
-            if (!i18nEnabled && command.indicators != null) {
+            if (!createTranslation && command.indicators != null) {
                 saveMetadataIndicators(catalogue.id, command.indicators!!)
             }
         }
@@ -481,7 +521,8 @@ class CatalogueF2AggregateService(
 
     private suspend fun doUpdate(
         command: CatalogueUpdateCommandDTOBase,
-        isDraft: Boolean
+        isDraft: Boolean,
+        initControlledChildren: Boolean
     ): CatalogueUpdatedEvent {
         val catalogue = catalogueFinderService.get(command.id)
         updateDatasetAggregator(catalogue, command.integrateCounter, isDraft)
@@ -509,8 +550,19 @@ class CatalogueF2AggregateService(
             hidden = command.hidden ?: catalogue.hidden
         ).let { catalogueAggregateService.update(it) }
 
-        if (command.language in catalogue.translationIds) {
-            val translationId = catalogue.translationIds[command.language]!!
+        doUpdateTranslation(command, catalogue, isDraft, initControlledChildren)
+
+        return event
+    }
+
+    private suspend fun doUpdateTranslation(
+        command: CatalogueUpdateCommandDTOBase,
+        masterCatalogue: CatalogueModel,
+        isDraft: Boolean,
+        initControlledChildren: Boolean
+    ) {
+        if (command.language in masterCatalogue.translationIds) {
+            val translationId = masterCatalogue.translationIds[command.language]!!
             CatalogueUpdateCommandDTOBase(
                 id = translationId,
                 title = command.title,
@@ -519,13 +571,13 @@ class CatalogueF2AggregateService(
                 language = command.language,
                 versionNotes = command.versionNotes,
                 indicators = command.indicators,
-            ).let { doUpdate(it, isDraft) }
+            ).let { doUpdate(it, isDraft, initControlledChildren) }
         } else {
-            val typeConfiguration = catalogueConfig.typeConfigurations[catalogue.type]
+            val typeConfiguration = catalogueConfig.typeConfigurations[masterCatalogue.type]
             createAndLinkTranslation(
                 translationType = typeConfiguration?.i18n?.translationType ?: i18nConfig.defaultCatalogueTranslationType,
-                originalId = catalogue.id,
-                originalIdentifier = catalogue.identifier,
+                originalId = masterCatalogue.id,
+                originalIdentifier = masterCatalogue.identifier,
                 language = command.language,
                 title = command.title,
                 description = command.description,
@@ -534,9 +586,26 @@ class CatalogueF2AggregateService(
                 integrateCounter = command.integrateCounter,
                 indicators = command.indicators,
             )
-        }
 
-        return event
+            // if draft, children catalogues have already been initialized in draft creation
+            if (initControlledChildren && !isDraft && typeConfiguration?.catalogues != null) {
+                val controlledChildren = catalogueFinderService.page(
+                    identifier = CollectionMatch(typeConfiguration.catalogues.map { "${masterCatalogue.identifier}${it.identifierSuffix}" })
+                ).items
+                controlledChildren.mapAsync { child ->
+                    val childIdentifierSuffix = child.identifier.substringAfter(masterCatalogue.identifier)
+                    val childConfiguration = typeConfiguration.catalogues
+                        .find { it.identifierSuffix == childIdentifierSuffix }
+                        ?: return@mapAsync null
+
+                    CatalogueUpdateCommandDTOBase(
+                        id = child.id,
+                        title = childConfiguration.title[command.language] ?: child.title,
+                        language = command.language
+                    ).let { doUpdate(it, isDraft = false, initControlledChildren = true) }
+                }
+            }
+        }
     }
 
     private suspend fun updateDatasetAggregator(
@@ -552,7 +621,7 @@ class CatalogueF2AggregateService(
 
         val datasets = datasetFinderService.page(catalogueId = ExactMatch(catalogue.id))
         datasets.items.filter { dataset ->
-             dataset.type == "indicator"
+            dataset.type == "indicator"
         }.mapAsync { dataset ->
             if (integrateCounter == true) {
                 val addCommand = DatasetAddAggregatorsCommand(
@@ -846,4 +915,9 @@ class CatalogueF2AggregateService(
             }
         }.nullIfEmpty()?.let { datasetF2AggregateService.addDistributionValues(it) }
     }
+
+    private data class CatalogueCreatedWithDraftEvent(
+        val original: CatalogueCreatedEventDTOBase,
+        val drafted: CatalogueCreatedEventDTOBase
+    )
 }
