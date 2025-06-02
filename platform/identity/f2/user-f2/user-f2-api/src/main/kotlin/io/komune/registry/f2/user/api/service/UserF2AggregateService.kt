@@ -1,9 +1,9 @@
 package io.komune.registry.f2.user.api.service
 
+import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.im.f2.organization.domain.command.OrganizationCreateCommand
 import io.komune.im.f2.organization.domain.command.OrganizationDeleteCommand
-import io.komune.im.f2.organization.domain.query.OrganizationPageQuery
 import io.komune.im.f2.user.domain.command.UserCreateCommand
 import io.komune.im.f2.user.domain.command.UserDeleteCommand
 import io.komune.im.f2.user.domain.query.UserGetByEmailQuery
@@ -41,20 +41,16 @@ class UserF2AggregateService(
             throw UserEmailAlreadyExistsException(command.email)
         }
 
-        val orgNameAlreadyExists = OrganizationPageQuery(
-            name = command.organizationName,
-            offset = 0,
-            limit = 1
-        ).invokeWith(imClient.organization.organizationPage()).items.isNotEmpty()
-
-        if (orgNameAlreadyExists) {
-            throw OrganizationNameAlreadyExistsException(command.organizationName)
+        try {
+            context.organizationId = OrganizationCreateCommand(
+                name = command.organizationName,
+                roles = onboardingConfig.defaultOrganizationRoles
+            ).invokeWith(imClient.organization.organizationCreate()).id
+        } catch (e: F2Exception) {
+            if (e.error.code == 409 && e.message.orEmpty().startsWith("Organization")) {
+                throw OrganizationNameAlreadyExistsException(command.organizationName)
+            }
         }
-
-        context.organizationId = OrganizationCreateCommand(
-            name = command.organizationName,
-            roles = onboardingConfig.defaultOrganizationRoles
-        ).invokeWith(imClient.organization.organizationCreate()).id
 
         context.userId = UserCreateCommand(
             email = command.email,
