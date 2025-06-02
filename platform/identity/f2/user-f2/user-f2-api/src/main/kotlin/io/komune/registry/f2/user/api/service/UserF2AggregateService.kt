@@ -50,8 +50,8 @@ class UserF2AggregateService(
 
         val organizationNameAlreadyExists = OrganizationPageQuery(
             name = trimmedOrganizationName,
-            offset = 0,
-            limit = 1
+            offset = null,
+            limit = null
         ).invokeWith(imClient.organization.organizationPage())
             .items.any { it.name.length == trimmedOrganizationName.length }
 
