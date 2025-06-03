@@ -473,7 +473,7 @@ class CatalogueF2AggregateService(
                 datasets = typeConfiguration?.datasets,
                 catalogueId = catalogue.id,
                 catalogueIdentifier = catalogue.identifier,
-                language = catalogue.language!!,
+                language = command.language!!,
                 withMetadataDataset = true
             )
 
