@@ -1,6 +1,6 @@
 import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
 import { Paper, Stack, Typography } from '@mui/material'
-import { Accordion, CustomButton, TitleDivider } from 'components'
+import { Accordion, CustomButton, CustomLinkButton, TitleDivider, useRoutesDefinition } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue, CatalogueRef } from '../../model'
@@ -8,6 +8,8 @@ import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
 import { useCatalogueListAllowedTypesQuery } from '../../api'
 import { CatalogueTable } from '../CatalogueTable'
 import { PageQueryResult } from 'template'
+import { Link } from '@mui/icons-material'
+import { useParams } from 'react-router-dom'
 
 export interface SubCataloguePanelProps {
     formData?: AutoFormData
@@ -16,12 +18,15 @@ export interface SubCataloguePanelProps {
     onCancel?: () => void
     onSubmit?: (command: CommandWithFile<any>, values: any) => Promise<boolean>
     canUpdate?: boolean
+    tab?: CatalogueRef
 }
 
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
-    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData } = props
+    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData, tab } = props
     const [context, setContext] = useState<"edition" | "creation" | "readOnly">(defaultContext ?? "creation")
     const { t, i18n } = useTranslation()
+    const { catalogueId, draftId } = useParams()
+    const { cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue } = useRoutesDefinition()
 
     const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
         query: {
@@ -166,6 +171,17 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                         isRef
                     />
                 </Accordion>
+            )}
+            {context === "readOnly" && (
+                <CustomLinkButton
+                    startIcon={<Link />}
+                    to={cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue(catalogueId!, draftId!, tab?.id!, catalogue?.id!)}
+                    sx={{
+                        alignSelf: "flex-end",
+                    }}
+                >
+                    {t("linkCatalogues")}
+                </CustomLinkButton>
             )}
         </Paper>
     )

@@ -79,17 +79,17 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
     [cataloguePage.refetch, catalogue],
   )
 
-  const subCatalogues = useMemo(() => cataloguePage.data?.items.map((catalogue) => (
+  const subCatalogues = useMemo(() => cataloguePage.data?.items.map((subCatalogue) => (
     <SubCataloguePanel
-      key={catalogue.id}
-      catalogue={catalogue}
+      key={subCatalogue.id}
+      catalogue={subCatalogue}
       canUpdate={!readOnly}
       formData={formData}
       context='readOnly'
       onSubmit={onSubmitEdit}
+      tab={catalogue}
     />
-  )), [cataloguePage.data, formData, onCancel, readOnly, onSubmitEdit])
-
+  )), [cataloguePage.data, formData, onCancel, readOnly, onSubmitEdit, catalogue])
 
   return (
     <>

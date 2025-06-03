@@ -5,14 +5,14 @@ import { FacetDistribution } from '../../api'
 import { useMemo } from 'react'
 
 interface CatalogueSearchFiltersProps {
-    additionnalfilters?: React.ReactNode,
+    additionalFilters?: React.ReactNode,
     savedState: any
     distributions?: Record<string, FacetDistribution[]>
     onChangeDistribution: (key: string) => (values: string[]) => void
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { additionnalfilters = undefined, distributions, onChangeDistribution, savedState } = props
+    const { additionalFilters = undefined, distributions, onChangeDistribution, savedState } = props
     const { t } = useTranslation()
 
     const distributionsDisplay = useMemo(() => Object.entries(distributions ?? {}).map(([key, facets]) => (
@@ -39,7 +39,7 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             }}
         >
             <TitleDivider title={t("filter")} size='subtitle1' />
-            {additionnalfilters}
+            {additionalFilters}
             {distributionsDisplay}
         </Stack>
     )
