@@ -1,9 +1,8 @@
-import { autoFormFormatter, BackAutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
+import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
 import { Paper, Stack, Typography } from '@mui/material'
 import { Accordion, CustomButton, TitleDivider } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import json from "./autoForm.json"
 import { Catalogue, CatalogueRef } from '../../model'
 import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
 import { useCatalogueListAllowedTypesQuery } from '../../api'
@@ -11,26 +10,25 @@ import { CatalogueTable } from '../CatalogueTable'
 import { PageQueryResult } from 'template'
 
 export interface SubCataloguePanelProps {
+    formData?: AutoFormData
     catalogue?: Catalogue
     context?: "edition" | "creation" | "readOnly"
     onCancel?: () => void
-    onSubmit?: (command: CommandWithFile<any>, values: any) => void
+    onSubmit?: (command: CommandWithFile<any>, values: any) => Promise<boolean>
     canUpdate?: boolean
 }
 
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
-    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue } = props
+    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData } = props
     const [context, setContext] = useState<"edition" | "creation" | "readOnly">(defaultContext ?? "creation")
+    const { t, i18n } = useTranslation()
 
     const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
         query: {
-
+            language: i18n.language,
+            operation: "RELATION",
         }
     }).data?.items
-
-    const { t } = useTranslation()
-
-    const formData = useMemo(() => autoFormFormatter(json as BackAutoFormData), [])
 
     const fields = useMemo(() => formData?.sections[0].fields.map((field): FormComposableField => {
         type FileType = typeof field.type | "select-catalogueType"
@@ -44,14 +42,14 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                 params: {
                     ...field.params,
                     options: allowedCreationTypes?.map((type) => ({
-                        key: type,
-                        label: type
+                        key: type.identifier,
+                        label: type.name
                     }))
                 }
             }
         }
         return field
-    }), [formData, allowedCreationTypes])
+    }) ?? [], [formData, allowedCreationTypes])
 
     const initialValues = useMemo(() => {
         let initialValues: Record<string, any> = {}
@@ -63,14 +61,28 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
         })
         return {
             ...initialValues,
-            context
+            context,
+            id: catalogue?.id,
         }
     }, [context, formData, catalogue])
+
+    const onSubmitMemo = useCallback(
+        async (command: CommandWithFile<any>, values: any) => {
+            if (onSubmit) {
+                const res = await onSubmit(command, values)
+                if (res) {
+                    setContext("readOnly")
+
+                }
+            }
+        },
+        [onSubmit],
+    )
 
     const formState = useAutoFormState({
         formData,
         initialValues,
-        onSubmit: onSubmit
+        onSubmit: onSubmitMemo
     })
 
     const onCancelMemo = useCallback(

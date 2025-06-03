@@ -27,11 +27,6 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       label: t('metadata'),
       component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} formData={formData} />,
     }),
-    {
-      key: 'subCatalogues',
-      label: t('subCatalogues'),
-      component: <SubCataloguesManager draft={draft} readOnly={readOnly} />,
-    },
     ...(catalogue?.datasets.map((dataset): Tab | undefined => {
       let component: React.ReactNode | undefined = undefined
 
@@ -47,6 +42,22 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
         return {
           key: dataset.id,
           label: dataset.title!,
+          component
+        }
+      }
+      return undefined
+    }) ?? []).filter(Boolean) as Tab[],
+    ...(catalogue?.catalogues.filter(child => child.structure?.isTab).map((catalogue): Tab | undefined => {
+      let component: React.ReactNode | undefined = undefined
+
+      if (catalogue.structure?.type === "FACTORY") {
+        component = <SubCataloguesManager catalogue={catalogue} readOnly={readOnly} />
+      } 
+
+      if (component) {
+        return {
+          key: catalogue.id,
+          label: catalogue.title!,
           component
         }
       }
