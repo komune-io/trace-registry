@@ -6,10 +6,11 @@ import { CatalogueSearchQuery, catalogueTypes} from 'domain-components'
 
 interface useCataloguesFiltersParams {
     initialValues?: any
+    withPage?: boolean
 }
 
 export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
-    const {initialValues} = params ?? {}
+    const {initialValues, withPage} = params ?? {}
     const {t} = useTranslation()
     const filters = useMemo((): FilterComposableField<keyof CatalogueSearchQuery>[] => [
         {
@@ -45,5 +46,5 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
             }
         }
     ], [t])
-    return useCustomFilters({filters: filters, initialValues: initialValues})
+    return useCustomFilters({filters: filters, initialValues: initialValues, withPage})
 }

@@ -1,25 +1,33 @@
-import { Dialog, Stack } from '@mui/material'
+import { Dialog, IconButton, Stack } from '@mui/material'
 import { keepPreviousData } from '@tanstack/react-query'
-import { LabeledSwitch, useUrlSavedState } from 'components'
+import { LabeledSwitch, useRoutesDefinition, useUrlSavedState } from 'components'
 import {
   CatalogueSearchFilters,
   CatalogueSearchQuery,
   CatalogueTable,
   useCatalogueSearchQuery
 } from 'domain-components'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { OffsetPagination } from 'template'
 import { RowSelectionState } from '@tanstack/react-table';
+import { CloseRounded } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
+import { useCataloguesFilters } from '100m-components'
 
 
 export const CatalogueLinkPage = () => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const { catalogueId, draftId, tabId, subCatalogueId } = useParams()
+  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+  const { submittedFilters, component } = useCataloguesFilters({
+    withPage: false
+  })
 
-  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & {isSelected?: boolean}>({
+  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean }>({
     initialState: {
       limit: 20,
       offset: 0
@@ -29,6 +37,7 @@ export const CatalogueLinkPage = () => {
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
       ...state,
+      ...submittedFilters,
       language: i18n.language,
     },
     options: {
@@ -38,13 +47,26 @@ export const CatalogueLinkPage = () => {
       enabled: !state.goBackUrl,
     }
   })
+
+  useEffect(() => {
+    if (data?.items && subCatalogueId) {
+      const selection: RowSelectionState = {}
+      data.items.forEach(catalogue => {
+        if ((catalogue.relatedCatalogues ?? {})[subCatalogueId]) {
+          selection[catalogue.id] = true
+        }
+      });
+      setRowSelection(selection)
+    }
+  }, [data, subCatalogueId])
+
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
 
   const onClose = useCallback(
     () => {
-      navigate("/")
+      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tabId!))
     },
-    [navigate],
+    [navigate, catalogueId, draftId, tabId],
   )
 
   return (
@@ -57,53 +79,66 @@ export const CatalogueLinkPage = () => {
           p: 3,
           pb: 12,
           display: "flex",
-          flexDirection: "row",
-          alignItems: "start",
-          justifyContent: "start",
           gap: 3
         }
       }}
     >
-      <Stack
+      <IconButton
+        component={Link}
+        to={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tabId!)}
         sx={{
-          maxWidth: 400,
-          width: "100%",
-          gap: 3,
-          pr: 3
+          color: "rgba(0, 0, 0, 0.54) !important",
+          alignSelf: "flex-end"
         }}
       >
-        <CatalogueSearchFilters
-          additionnalfilters={
-            <LabeledSwitch
-            label={t('catalogues.selectedOnly')}
-            checked={state.isSelected}
-            onChange={(_, checked) => changeValueCallback("isSelected")(checked)}
-          />
-          }
-          savedState={state}
-          distributions={data?.distribution}
-          //@ts-ignore
-          onChangeDistribution={changeValueCallback}
-        />
-      </Stack>
+        <CloseRounded />
+      </IconButton>
       <Stack
-        sx={{
-          maxWidth: 1200,
-          gap: 3,
-          pr: 3
-        }}
+      direction="row"
+      gap={3}
       >
-        <CatalogueTable
-          page={data}
-          pagination={pagination}
-          isLoading={isFetching}
-          onOffsetChange={(offset) => {
-            changeValueCallback('limit')(offset.limit)
-            changeValueCallback('offset')(offset.offset)
+        <Stack
+          sx={{
+            maxWidth: 400,
+            width: "100%",
+            gap: 3,
+            pr: 3
           }}
-          rowSelection={rowSelection}
-          onRowSelectionChange={setRowSelection}
-        />
+        >
+          <CatalogueSearchFilters
+            additionnalfilters={
+              <LabeledSwitch
+                label={t('catalogues.selectedOnly')}
+                checked={state.isSelected}
+                onChange={(_, checked) => changeValueCallback("isSelected")(checked)}
+              />
+            }
+            savedState={state}
+            distributions={data?.distribution}
+            //@ts-ignore
+            onChangeDistribution={changeValueCallback}
+          />
+        </Stack>
+        <Stack
+          sx={{
+            maxWidth: 1200,
+            gap: 3,
+            pr: 3
+          }}
+        >
+          {component}
+          <CatalogueTable
+            page={data}
+            pagination={pagination}
+            isLoading={isFetching}
+            onOffsetChange={(offset) => {
+              changeValueCallback('limit')(offset.limit)
+              changeValueCallback('offset')(offset.offset)
+            }}
+            rowSelection={rowSelection}
+            onRowSelectionChange={setRowSelection}
+          />
+        </Stack>
       </Stack>
     </Dialog>
   )

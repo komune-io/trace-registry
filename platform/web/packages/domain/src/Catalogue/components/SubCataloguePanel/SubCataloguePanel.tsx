@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue, CatalogueRef } from '../../model'
 import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
-import { useCatalogueListAllowedTypesQuery } from '../../api'
+import { CatalogueListAllowedTypesQuery, useCatalogueListAllowedTypesQuery } from '../../api'
 import { CatalogueTable } from '../CatalogueTable'
 import { PageQueryResult } from 'template'
 import { Link } from '@mui/icons-material'
@@ -27,11 +27,16 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     const { t, i18n } = useTranslation()
     const { catalogueId, draftId } = useParams()
     const { cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue } = useRoutesDefinition()
+    const [creationTypesFilters, setCreationTypesFilters] = useState<CatalogueListAllowedTypesQuery | undefined>(undefined)
 
     const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
         query: {
             language: i18n.language,
             operation: "RELATION",
+            ...creationTypesFilters
+        },
+        options: {
+            enabled: !!creationTypesFilters
         }
     }).data?.items
 
@@ -40,6 +45,9 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
 
         const type = field.type as FileType
         if (type === "select-catalogueType") {
+            
+            //@ts-ignore
+            if (!creationTypesFilters && field.params?.filters) setCreationTypesFilters(JSON.parse(field.params?.filters) as CatalogueListAllowedTypesQuery)
             //@ts-ignore
             return {
                 ...field,
@@ -54,7 +62,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
             }
         }
         return field
-    }) ?? [], [formData, allowedCreationTypes])
+    }) ?? [], [formData, allowedCreationTypes, creationTypesFilters])
 
     const initialValues = useMemo(() => {
         let initialValues: Record<string, any> = {}

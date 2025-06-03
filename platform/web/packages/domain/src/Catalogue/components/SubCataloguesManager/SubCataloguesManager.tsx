@@ -5,7 +5,7 @@ import { SubCataloguePanel } from '../SubCataloguePanel'
 import { useTranslation } from 'react-i18next'
 import { CatalogueRef } from '../../model'
 import { autoFormFormatter, BackAutoFormData, CommandWithFile } from '@komune-io/g2'
-import { CatalogueCreateCommand, CatalogueUpdateCommand, useCatalogueCreateCommand, useCataloguePageQuery, useCatalogueUpdateCommand } from '../../api'
+import { CatalogueCreateCommand, CatalogueUpdateCommand, useCatalogueCreateCommand, useCatalogueGetStructureQuery, useCataloguePageQuery, useCatalogueUpdateCommand } from '../../api'
 
 export interface SubCataloguesManagerProps {
   catalogue?: CatalogueRef
@@ -17,9 +17,18 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
 
   const { t, i18n } = useTranslation()
 
+  
+
   const [creation, setCreation] = useState(false)
 
-  const formData = useMemo(() => autoFormFormatter(catalogue?.structure?.creationForm as BackAutoFormData), [catalogue])
+  const structure = useCatalogueGetStructureQuery({
+    query: {
+      type: "inventory",
+      language: i18n.language,
+    }
+  })
+
+  const formData = useMemo(() => structure.data?.item?.creationForm ? autoFormFormatter(structure.data?.item?.creationForm as BackAutoFormData) : undefined, [structure.data?.item])
 
   const onCancel = useCallback(
     () => {
@@ -46,7 +55,7 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
   const catalogueCreateCommand = useCatalogueCreateCommand({})
 
   const onSubmitCreate = useCallback(
-    async (command: CommandWithFile<CatalogueCreateCommand>) => {
+    async (command: CommandWithFile<CatalogueCreateCommand>, values: any) => {
       const res = await catalogueCreateCommand.mutateAsync({
         command: {
           ...command.command,
