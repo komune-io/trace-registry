@@ -4,6 +4,7 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.serialization.Serializable
@@ -32,13 +33,12 @@ interface CatalogueRefSearchQueryDTO: CatalogueSearchQueryDTO
 data class CatalogueRefSearchQuery(
     override val offset: Int?,
     override val limit: Int?,
-
     override val query: String? = null,
     override val language: String,
     override val otherLanguageIfAbsent: Boolean = false,
-
     override val accessRights: List<String>? = null,
     override val catalogueIds: List<String>? = null,
+    override val relatedInCatalogueIds: Map<String, List<CatalogueId>>? = null,
     override val parentIdentifier: List<String>? = null,
     override val themeIds: List<String>?,
     override val licenseId: List<String>?,

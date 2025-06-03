@@ -123,6 +123,7 @@ class CatalogueEndpoint(
             language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             type = query.type?.let(::CollectionMatch),
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             hidden = ExactMatch(false),

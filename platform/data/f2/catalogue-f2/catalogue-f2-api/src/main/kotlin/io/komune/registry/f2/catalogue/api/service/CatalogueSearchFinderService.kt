@@ -13,6 +13,7 @@ import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -35,6 +36,7 @@ class CatalogueSearchFinderService(
         catalogueIds: Match<String>? = null,
         parentIdentifier: Match<String>? = null,
         type: Match<String>? = null,
+        relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
@@ -52,6 +54,7 @@ class CatalogueSearchFinderService(
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
             type = type,
+            relatedInCatalogueIds = relatedInCatalogueIds,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
@@ -85,6 +88,7 @@ class CatalogueSearchFinderService(
         catalogueIds: Match<String>? = null,
         parentIdentifier: Match<String>? = null,
         type: Match<String>? = null,
+        relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
@@ -102,6 +106,7 @@ class CatalogueSearchFinderService(
             licenseId = licenseId,
             parentIdentifier = parentIdentifier,
             type = type,
+            relatedInCatalogueIds = relatedInCatalogueIds,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
@@ -140,6 +145,7 @@ class CatalogueSearchFinderService(
         catalogueIds: Match<String>? = null,
         parentIdentifier: Match<String>? = null,
         type: Match<String>? = null,
+        relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
@@ -159,6 +165,7 @@ class CatalogueSearchFinderService(
                 type,
                 CollectionMatch(catalogueConfig.transientTypes).not().takeUnless { withTransient }
             ),
+            relatedInCatalogueIds = relatedInCatalogueIds,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
