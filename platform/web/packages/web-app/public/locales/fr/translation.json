@@ -391,7 +391,8 @@
         "noSubCatalogue": "Aucun sous catalogue associé à cette fiche",
         "createSubCatalogueDescription": "Définissez ici un nouveau sous-catalogue à rattacher à cette fiche.\n\nVous pourrez choisir le type de fiche à associer, son nom, son affichage, ainsi que ses règles de visibilité.",
         "subCatalogueDeleteTitle": "Suppression du sous-catalogue {{name}}",
-        "subCatalogueDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce sous-catalogue ?"
+        "subCatalogueDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce sous-catalogue ?",
+        "selectedOnly": "Sélectionnés uniquement"
     },
     "editor": {
         "imageUrl": "URL de l'image",

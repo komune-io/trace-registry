@@ -381,7 +381,8 @@
     "noSubCatalogue": "No sub-catalogue associated with this sheet",
     "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules.",
     "subCatalogueDeleteTitle": "Sub-catalogue deletion {{name}}",
-    "subCatalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sub-catalogue?"
+    "subCatalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sub-catalogue?",
+    "selectedOnly": "Selected only"
   },
   "editor": {
     "imageUrl": "Image URL",

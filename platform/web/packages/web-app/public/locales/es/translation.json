@@ -382,7 +382,8 @@
     "noSubCatalogue": "No hay subcatálogos asociados a esta ficha",
     "createSubCatalogueDescription": "Defina aquí un nuevo subcatálogo para asociar a esta ficha.\n\nPodrá elegir el tipo de ficha a asociar, su nombre, su visualización, así como sus reglas de visibilidad.",
     "subCatalogueDeleteTitle": "Eliminación del subcatálogo {{name}}",
-    "subCatalogueDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este subcatálogo?"
+    "subCatalogueDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este subcatálogo?",
+    "selectedOnly": "Sólo seleccionados"
   },
   "editor": {
     "imageUrl": "URL de la imagen",

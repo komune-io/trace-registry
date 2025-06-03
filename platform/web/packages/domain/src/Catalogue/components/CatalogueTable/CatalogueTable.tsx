@@ -1,12 +1,12 @@
 import { Stack, Typography } from '@mui/material'
 import { ColumnFactory, useTable } from '@komune-io/g2'
-import { Row } from '@tanstack/react-table';
 import { Catalogue, CatalogueRef } from '../../model'
+import { Row, OnChangeFn, RowSelectionState } from '@tanstack/react-table'
 import { useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
-import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
-import { useTranslation } from 'react-i18next';
-import { extractCatalogueIdentifier } from '../../api';
+import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template"
+import { useTranslation } from 'react-i18next'
+import { extractCatalogueIdentifier } from '../../api'
 
 function useCatalogueColumn(isRef: boolean) {
     const { t } = useTranslation();
@@ -72,10 +72,23 @@ export interface CatalogueTableProps extends Partial<OffsetTableProps<Catalogue 
     pagination?: OffsetPagination
     isLoading?: boolean
     isRef?: boolean
+    rowSelection?: RowSelectionState
+    onRowSelectionChange?: OnChangeFn<RowSelectionState>
 }
 
 export const CatalogueTable = (props: CatalogueTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, isRef = false, ...other } = props
+    const {
+        rowSelection, 
+        onRowSelectionChange, 
+        isLoading, 
+        page, 
+        onOffsetChange, 
+        pagination, 
+        sx, 
+        header, 
+        isRef = false,
+        ...other 
+    } = props
     const { cataloguesAll } = useRoutesDefinition()
     const { t } = useTranslation()
 
@@ -84,6 +97,12 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
     const tableState = useTable({
         data: page?.items ?? [],
         columns: columns,
+        state: {
+            rowSelection
+        },
+        enableRowSelection: !!onRowSelectionChange,
+        onRowSelectionChange: onRowSelectionChange,
+        getRowId: (row) => row.id
     })
 
     const getRowLink = useCallback(
