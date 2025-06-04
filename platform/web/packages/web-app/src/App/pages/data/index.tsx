@@ -9,6 +9,7 @@ import {OrganizationCataloguesPage} from "./Catalogue/OrganizationCataloguesPage
 import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSearchPage";
 import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
 import {CataloguesStructureRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
+import { CatalogueLinkPage } from "./SubCatalogue/CatalogueLinkPage/CatalogueLinkPage";
 
 export const catalogPages: PageRoute[] = [
   {
@@ -62,5 +63,9 @@ export const catalogPages: PageRoute[] = [
   {
     path: "catalogues/:catalogueId/:draftId/graph",
     element: <GraphCreationPage  />
+  },
+  {
+    path: "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue",
+    element: <CatalogueLinkPage  />
   }
 ]

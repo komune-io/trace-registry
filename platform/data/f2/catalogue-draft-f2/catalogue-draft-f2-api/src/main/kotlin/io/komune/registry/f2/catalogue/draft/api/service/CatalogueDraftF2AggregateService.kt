@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.draft.api.service
 
+import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
 import io.komune.registry.api.commons.utils.mapAsync
@@ -15,11 +16,13 @@ import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.program.s2.dataset.api.entity.toCreateCommand
 import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
+import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkMetadataDatasetCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdateVersionNotesCommand
@@ -97,7 +100,8 @@ class CatalogueDraftF2AggregateService(
 
         val datasetIdMap = copyAndLinkDatasets(baseCatalogue, draftedCatalogueId)
 
-        return CatalogueDraftCreateCommand(
+        val draftCreatedEvent = CatalogueDraftCreateCommand(
+            parentId = null,
             catalogueId = draftedCatalogueId,
             original = CatalogueDraftedRef(
                 id = command.catalogueId,
@@ -108,6 +112,10 @@ class CatalogueDraftF2AggregateService(
             baseVersion = translatedOriginalCatalogue?.version ?: 0,
             datasetIdMap = datasetIdMap
         ).let { catalogueDraftAggregateService.create(it) }
+
+        createAndLinkSubDrafts(originalCatalogue, draftedCatalogueId, draftCreatedEvent.id)
+
+        return draftCreatedEvent
     }
 
     suspend fun submit(command: CatalogueDraftSubmitCommand): CatalogueDraftSubmittedEvent {
@@ -147,18 +155,39 @@ class CatalogueDraftF2AggregateService(
         val draftedToOriginalDatasetIds = applyDatasetUpdatesFromDraft(draft, draftedCatalogue, originalCatalogue)
         applyLinksUpdates(draft, draftedToOriginalDatasetIds)
 
-        catalogueDraftFinderService.page(
-            originalCatalogueId = ExactMatch(draft.originalCatalogueId),
-            language = ExactMatch(draft.language),
-            baseVersion = ExactMatch(draft.baseVersion),
-            status = collectionMatchOf(CatalogueDraftState.DRAFT, CatalogueDraftState.SUBMITTED, CatalogueDraftState.UPDATE_REQUESTED)
-        ).items.filter { it.id != draftId }
-            .mapAsync { siblingDraft ->
-                CatalogueDraftRejectCommand(
-                    id = siblingDraft.id,
-                    reason = "Another draft has been validated for this version."
-                ).let { catalogueDraftAggregateService.reject(it) }
-            }
+        rejectOverlappingDraftsOf(draft)
+        validateSubDraftsOf(draft, originalCatalogue)
+    }
+
+    private suspend fun createAndLinkSubDrafts(
+        originalCatalogue: CatalogueModel,
+        draftedCatalogueId: CatalogueId,
+        parentDraftId: CatalogueDraftId
+    ) {
+        if (originalCatalogue.childrenCatalogueIds.isEmpty()) {
+            return
+        }
+
+        val children = catalogueFinderService.page(id = CollectionMatch(originalCatalogue.childrenCatalogueIds)).items
+        val controlledChildren = children.filter { child ->
+            catalogueConfig.typeConfigurations[child.type]?.parentalControl == true
+        }
+        if (controlledChildren.isEmpty()) {
+            return
+        }
+
+        val childrenDraftsEvents = controlledChildren.map { child ->
+            CatalogueDraftCreateCommandDTOBase(
+                parentId = parentDraftId,
+                catalogueId = child.id,
+                language = originalCatalogue.language!!,
+            ).let { create(it) }
+        }
+
+        updateCatalogueChildren(
+            id = draftedCatalogueId,
+            addedChildrenIds = childrenDraftsEvents.map { it.catalogueId },
+        )
     }
 
     private suspend fun copyAndLinkDatasets(
@@ -440,6 +469,83 @@ class CatalogueDraftF2AggregateService(
                 id = catalogueId,
                 datasetIds = datasetIds.mapNotNull { draftedToOriginalDatasetIds[it] }
             ).let { catalogueAggregateService.unreferenceDatasets(it) }
+        }
+    }
+
+    private suspend fun rejectOverlappingDraftsOf(draft: CatalogueDraftModel) {
+        catalogueDraftFinderService.page(
+            originalCatalogueId = ExactMatch(draft.originalCatalogueId),
+            language = ExactMatch(draft.language),
+            baseVersion = ExactMatch(draft.baseVersion),
+            status = collectionMatchOf(CatalogueDraftState.DRAFT, CatalogueDraftState.SUBMITTED, CatalogueDraftState.UPDATE_REQUESTED)
+        ).items.filter { it.id != draft.id }
+            .mapAsync { siblingDraft ->
+                CatalogueDraftRejectCommand(
+                    id = siblingDraft.id,
+                    reason = "Another draft has been validated for this version."
+                ).let { catalogueDraftAggregateService.reject(it) }
+            }
+    }
+
+    private suspend fun validateSubDraftsOf(draft: CatalogueDraftModel, originalCatalogue: CatalogueModel) {
+        val childrenDrafts = catalogueDraftFinderService.page(parentId = ExactMatch(draft.id)).items
+
+        val addedChildrenIds = mutableSetOf<CatalogueId>()
+        val removedChildrenIds = mutableSetOf<CatalogueId>()
+
+        suspend fun validateChildDraft(childDraft: CatalogueDraftModel) {
+            validate(childDraft.id)
+            if (childDraft.originalCatalogueId !in originalCatalogue.childrenCatalogueIds) {
+                addedChildrenIds += childDraft.originalCatalogueId
+            }
+        }
+
+        childrenDrafts.forEach { childDraft ->
+            when (childDraft.status) {
+                CatalogueDraftState.DRAFT,
+                CatalogueDraftState.SUBMITTED,
+                CatalogueDraftState.UPDATE_REQUESTED -> {
+                    validateChildDraft(childDraft)
+                }
+                CatalogueDraftState.REJECTED -> {
+                    val childDraftedCatalogue = catalogueFinderService.get(childDraft.catalogueId)
+                    if (childDraftedCatalogue.status == CatalogueState.DELETED) {
+                        removedChildrenIds += childDraft.originalCatalogueId
+                    } else {
+                        validateChildDraft(childDraft)
+                    }
+                }
+                CatalogueDraftState.DELETED -> {
+                    removedChildrenIds += childDraft.catalogueId
+                }
+                CatalogueDraftState.VALIDATED -> return@forEach
+            }
+        }
+
+        updateCatalogueChildren(
+            id = draft.originalCatalogueId,
+            addedChildrenIds = addedChildrenIds,
+            removedChildrenIds = removedChildrenIds
+        )
+    }
+
+    private suspend fun updateCatalogueChildren(
+        id: CatalogueId,
+        addedChildrenIds: Collection<CatalogueId> = emptyList(),
+        removedChildrenIds: Collection<CatalogueId> = emptyList()
+    ) {
+        if (addedChildrenIds.isNotEmpty()) {
+            CatalogueLinkCataloguesCommand(
+                id = id,
+                catalogueIds = addedChildrenIds.toList()
+            ).let { catalogueAggregateService.linkCatalogues(it) }
+        }
+
+        if (removedChildrenIds.isNotEmpty()) {
+            CatalogueUnlinkCataloguesCommand(
+                id = id,
+                catalogueIds = removedChildrenIds.toList()
+            ).let { catalogueAggregateService.unlinkCatalogues(it) }
         }
     }
 }

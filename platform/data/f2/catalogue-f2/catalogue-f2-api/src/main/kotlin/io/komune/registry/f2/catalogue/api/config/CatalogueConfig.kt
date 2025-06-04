@@ -1,6 +1,6 @@
 package io.komune.registry.f2.catalogue.api.config
 
-import io.komune.registry.f2.catalogue.domain.dto.structure.StructureType
+import io.komune.registry.s2.catalogue.domain.model.structure.StructureType
 import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration

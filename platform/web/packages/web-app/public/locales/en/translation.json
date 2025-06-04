@@ -167,6 +167,8 @@
   "options": "Options",
   "deleteCatalogue": "Delete the sheet",
   "deleteDraft": "Delete the draft",
+  "catalogueList": "Sheet list",
+  "linkCatalogues": "Link sheets",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -375,7 +377,15 @@
     "defineValueRange": "Define a range of values",
     "minOrMaxValueRequired": "Minimum or maximum value is required",
     "integrateInCounter": "Integrate this project into the CO₂ counter",
-    "searchMention": "Enter a URL or search for a sheet to mention it"
+    "searchMention": "Enter a URL or search for a sheet to mention it",
+    "createSubCatalogue": "Create a sub-catalogue",
+    "noSubCatalogue": "No sub-catalogue associated with this sheet",
+    "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules.",
+    "subCatalogueDeleteTitle": "Sub-catalogue deletion {{name}}",
+    "subCatalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sub-catalogue?",
+    "selectedOnly": "Selected only",
+    "noCatalogueLinkedToSub": "No sheet associated with this sub-catalogue",
+    "LinkedCataloguesDescription": "Here, you can link one or more existing sheets to dynamically display their content in this context.\n\nStart by adding one or more sheets to associate."
   },
   "editor": {
     "imageUrl": "Image URL",

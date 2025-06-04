@@ -284,3 +284,32 @@ export const useDatasetRemoveDistributionValueCommand = (
         DatasetRemovedDistributionValueEvent
     >('data/datasetRemoveDistributionValue', requestProps, params)
 }
+
+
+export interface CatalogueAddRelatedCataloguesCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommandDTO { }
+export interface CatalogueAddedRelatedCataloguesEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTO { }
+
+export const useCatalogueAddRelatedCataloguesCommand = (
+    params: CommandParams<CatalogueAddRelatedCataloguesCommand, CatalogueAddedRelatedCataloguesEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueAddRelatedCataloguesCommand,
+        CatalogueAddedRelatedCataloguesEvent
+    >('data/catalogueAddRelatedCatalogues', requestProps, params)
+}
+
+export interface CatalogueRemoveRelatedCataloguesCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCataloguesCommandDTO { }
+export interface CatalogueRemovedRelatedCataloguesEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEventDTO { }
+
+export const useCatalogueRemoveRelatedCataloguesCommand = (
+    params: CommandParams<CatalogueRemoveRelatedCataloguesCommand, CatalogueRemovedRelatedCataloguesEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueRemoveRelatedCataloguesCommand,
+        CatalogueRemovedRelatedCataloguesEvent
+    >('data/catalogueRemoveRelatedCatalogues', requestProps, params)
+}
+
+

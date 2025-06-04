@@ -20,6 +20,7 @@ const strictRoutesAuthorizations = {
     "catalogues/search": "open",
     "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
     "catalogues/:catalogueId/:draftId/graph": "open",
+    "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "open",
     "catalogues/*": "open",
 } as const
 

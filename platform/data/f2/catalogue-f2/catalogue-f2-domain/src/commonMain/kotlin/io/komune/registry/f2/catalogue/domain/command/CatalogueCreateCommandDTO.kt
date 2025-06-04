@@ -3,6 +3,8 @@ package io.komune.registry.f2.catalogue.domain.command
 import f2.dsl.cqrs.Event
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -52,6 +54,7 @@ interface CatalogueCreateCommandDTO {
 
     val type: String
     val language: Language?
+    val configuration: CatalogueConfigurationDTO?
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
     val stakeholder: String?
@@ -89,6 +92,7 @@ data class CatalogueCreateCommandDTOBase(
     override val description: String? = null,
     override val type: String,
     override val language: Language?,
+    override val configuration: CatalogueConfigurationModel? = null,
     override val homepage: String? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val stakeholder: String? = null,

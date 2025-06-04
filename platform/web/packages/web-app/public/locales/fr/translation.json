@@ -176,6 +176,8 @@
     "accessRights": "$t(access)",
     "licenseId": "$t(licence)",
     "themeIds": "$t(category)",
+    "catalogueList": "Liste des fiches",
+    "linkCatalogues": "Lier des fiches",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -385,7 +387,15 @@
         "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
         "noDataset": "Aucun jeu de données n'a été trouvé",
         "integrateInCounter": "Intégrer ce projet au compteur CO₂",
-        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner"
+        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner",
+        "createSubCatalogue": "Créer un sous-catalogue",
+        "noSubCatalogue": "Aucun sous catalogue associé à cette fiche",
+        "createSubCatalogueDescription": "Définissez ici un nouveau sous-catalogue à rattacher à cette fiche.\n\nVous pourrez choisir le type de fiche à associer, son nom, son affichage, ainsi que ses règles de visibilité.",
+        "subCatalogueDeleteTitle": "Suppression du sous-catalogue {{name}}",
+        "subCatalogueDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce sous-catalogue ?",
+        "selectedOnly": "Sélectionnés uniquement",
+        "noCatalogueLinkedToSub": "Aucune fiche associé à ce sous catalogue",
+        "LinkedCataloguesDescription": "Ici, vous pouvez lier une ou plusieurs fiches existantes afin d’exposer dynamiquement leur contenu dans ce contexte.\n\nCommencez par ajouter un ou plusieurs fiches à associer."
     },
     "editor": {
         "imageUrl": "URL de l'image",

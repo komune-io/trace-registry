@@ -167,6 +167,8 @@
   "options": "Opciones",
   "deleteCatalogue": "Eliminar la ficha",
   "deleteDraft": "Eliminar el borrador",
+  "catalogueList": "Lista de fichas",
+  "linkCatalogues": "Vincular fichas",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -376,7 +378,15 @@
     "minOrMaxValueRequired": "El valor mínimo o máximo es obligatorio",
     "noDataset": "No se encontraron conjuntos de datos",
     "integrateInCounter": "Integrar este proyecto en el contador de CO₂",
-    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo"
+    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo",
+    "createSubCatalogue": "Crear un subcatálogo",
+    "noSubCatalogue": "No hay subcatálogos asociados a esta ficha",
+    "createSubCatalogueDescription": "Defina aquí un nuevo subcatálogo para asociar a esta ficha.\n\nPodrá elegir el tipo de ficha a asociar, su nombre, su visualización, así como sus reglas de visibilidad.",
+    "subCatalogueDeleteTitle": "Eliminación del subcatálogo {{name}}",
+    "subCatalogueDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este subcatálogo?",
+    "selectedOnly": "Sólo seleccionados",
+    "noCatalogueLinkedToSub": "No hay fichas asociadas a este subcatálogo",
+    "LinkedCataloguesDescription": "Aquí puedes vincular una o varias fichas existentes para mostrar dinámicamente su contenido en este contexto.\n\nComienza agregando una o varias fichas para asociar."
   },
   "editor": {
     "imageUrl": "URL de la imagen",

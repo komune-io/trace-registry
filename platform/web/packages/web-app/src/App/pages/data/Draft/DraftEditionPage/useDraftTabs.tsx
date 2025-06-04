@@ -2,7 +2,7 @@ import { maybeAddItem, Tab, useExtendedAuth } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoFormData, FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftGraphManager, DraftIndicatorManager, SubCataloguesManager } from 'domain-components'
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
@@ -42,6 +42,22 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
         return {
           key: dataset.id,
           label: dataset.title!,
+          component
+        }
+      }
+      return undefined
+    }) ?? []).filter(Boolean) as Tab[],
+    ...(catalogue?.catalogues.filter(child => child.structure?.isTab).map((catalogue): Tab | undefined => {
+      let component: React.ReactNode | undefined = undefined
+
+      if (catalogue.structure?.type === "FACTORY") {
+        component = <SubCataloguesManager catalogue={catalogue} readOnly={readOnly} />
+      } 
+
+      if (component) {
+        return {
+          key: catalogue.id,
+          label: catalogue.title!,
           component
         }
       }
