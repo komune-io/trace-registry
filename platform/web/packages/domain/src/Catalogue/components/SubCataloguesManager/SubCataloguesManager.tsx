@@ -17,13 +17,18 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
 
   const { t, i18n } = useTranslation()
 
-  
+  const creationContext = useMemo(() => {
+    return {
+      label: catalogue?.structure?.createButton?.label,
+      type: catalogue?.structure?.createButton?.types[0].identifier
+    }
+  }, [catalogue])
 
   const [creation, setCreation] = useState(false)
 
   const structure = useCatalogueGetStructureQuery({
     query: {
-      type: "inventory",
+      type: creationContext.type ?? "inventory",
       language: i18n.language,
     }
   })
@@ -55,12 +60,13 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
   const catalogueCreateCommand = useCatalogueCreateCommand({})
 
   const onSubmitCreate = useCallback(
-    async (command: CommandWithFile<CatalogueCreateCommand>, values: any) => {
+    async (command: CommandWithFile<CatalogueCreateCommand>) => {
       const res = await catalogueCreateCommand.mutateAsync({
         command: {
           ...command.command,
           parentId: catalogue?.identifier,
           language: i18n.language,
+          type: creationContext.type ?? "inventory"
         },
         files: command.files,
       })
@@ -71,25 +77,33 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
       }
       return false
     },
-    [cataloguePage.refetch, catalogue, i18n.language],
+    [cataloguePage.refetch, catalogue, i18n.language, creationContext],
   )
 
   const catalogueUpdateCommand = useCatalogueUpdateCommand({})
 
   const onSubmitEdit = useCallback(
-    async (command: CommandWithFile<CatalogueUpdateCommand>) => {
-      const res = await catalogueUpdateCommand.mutateAsync(command)
+    async (command: CommandWithFile<CatalogueUpdateCommand>, values: any) => {
+      const res = await catalogueUpdateCommand.mutateAsync({
+        command: {
+          ...command.command,
+          id: values.id,
+          language: i18n.language,
+        },
+        files: command.files,
+      })
       if (res) {
         cataloguePage.refetch()
         return true
       }
       return false
     },
-    [cataloguePage.refetch, catalogue],
+    [cataloguePage.refetch, catalogue, i18n.language],
   )
 
   const subCatalogues = useMemo(() => cataloguePage.data?.items.map((subCatalogue) => (
     <SubCataloguePanel
+      refetch={cataloguePage.refetch}
       key={subCatalogue.id}
       catalogue={subCatalogue}
       canUpdate={!readOnly}
@@ -98,27 +112,28 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
       onSubmit={onSubmitEdit}
       tab={catalogue}
     />
-  )), [cataloguePage.data, formData, onCancel, readOnly, onSubmitEdit, catalogue])
+  )), [cataloguePage.data, formData, onCancel, readOnly, onSubmitEdit, catalogue, cataloguePage.refetch])
 
   return (
     <>
       <TitleDivider
         size="h6"
-        title={t('subCatalogues')}
+        title={catalogue?.title ?? t("catalogues.subCatalogues")}
         actions={!readOnly ?
           <CustomButton
             startIcon={<AddCircleOutlineRounded />}
             onClick={onCreate}
           >
-            {t('catalogues.createSubCatalogue')}
+            {creationContext.label ?? t('catalogues.createSubCatalogue')}
           </CustomButton>
           : undefined
         }
       />
-      <InfoTicket
+      {(!subCatalogues || subCatalogues.length === 0) && <InfoTicket
         title={t("catalogues.noSubCatalogue")}
-      />
+      />}
       {creation && <SubCataloguePanel
+        refetch={cataloguePage.refetch}
         formData={formData}
         context='creation'
         onCancel={onCancel}

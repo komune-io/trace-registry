@@ -1,15 +1,12 @@
 import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
 import { Paper, Stack, Typography } from '@mui/material'
-import { Accordion, CustomButton, CustomLinkButton, TitleDivider, useRoutesDefinition } from 'components'
+import { CustomButton, TitleDivider } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Catalogue, CatalogueRef } from '../../model'
 import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
 import { CatalogueListAllowedTypesQuery, useCatalogueListAllowedTypesQuery } from '../../api'
-import { CatalogueTable } from '../CatalogueTable'
-import { PageQueryResult } from 'template'
-import { Link } from '@mui/icons-material'
-import { useParams } from 'react-router-dom'
+import { SubCatalogueLinkedTable } from './SubCatalogueLinkedTable'
 
 export interface SubCataloguePanelProps {
     formData?: AutoFormData
@@ -19,14 +16,13 @@ export interface SubCataloguePanelProps {
     onSubmit?: (command: CommandWithFile<any>, values: any) => Promise<boolean>
     canUpdate?: boolean
     tab?: CatalogueRef
+    refetch: () => void
 }
 
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
-    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData, tab } = props
+    const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData, tab, refetch } = props
     const [context, setContext] = useState<"edition" | "creation" | "readOnly">(defaultContext ?? "creation")
     const { t, i18n } = useTranslation()
-    const { catalogueId, draftId } = useParams()
-    const { cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue } = useRoutesDefinition()
     const [creationTypesFilters, setCreationTypesFilters] = useState<CatalogueListAllowedTypesQuery | undefined>(undefined)
 
     const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
@@ -45,7 +41,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
 
         const type = field.type as FileType
         if (type === "select-catalogueType") {
-            
+
             //@ts-ignore
             if (!creationTypesFilters && field.params?.filters) setCreationTypesFilters(JSON.parse(field.params?.filters) as CatalogueListAllowedTypesQuery)
             //@ts-ignore
@@ -69,7 +65,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
         formData?.sections[0].fields.forEach((field) => {
             const value = getIn(catalogue, field.name)
             if (value) {
-                initialValues = setIn(initialValues, field.name, field.defaultValue)
+                initialValues = setIn(initialValues, field.name, value)
             }
         })
         return {
@@ -95,7 +91,8 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     const formState = useAutoFormState({
         formData,
         initialValues,
-        onSubmit: onSubmitMemo
+        onSubmit: onSubmitMemo,
+        readOnly: context === "readOnly",
     })
 
     const onCancelMemo = useCallback(
@@ -111,15 +108,6 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
             setContext("edition")
         }, [])
 
-    const data = useMemo((): PageQueryResult<CatalogueRef> => {
-        const items = Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related)
-        return {
-            items,
-            total: items.length,
-        }
-    }, [catalogue])
-
-
     return (
         <Paper
             sx={{
@@ -131,10 +119,10 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
         >
             <TitleDivider
                 size="h6"
-                title={context === "creation" ? t("catalogues.createSubCatalogue") : ""}
+                title={context === "creation" ? t("catalogues.createSubCatalogue") : catalogue?.title!}
                 actions={
                     context === "readOnly" && canUpdate ?
-                        <SubCataloguePanelOptions catalogue={catalogue} onEdit={onEdit} />
+                        <SubCataloguePanelOptions catalogue={catalogue} onEdit={onEdit} refetch={refetch} />
                         : undefined
                 }
             />
@@ -171,25 +159,10 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                 </Stack>
             )}
             {context === "readOnly" && (
-                <Accordion
-                    summary={<Typography variant="h6" >{t("catalogueList")}</Typography>}
-                >
-                    <CatalogueTable
-                        page={data}
-                        isRef
-                    />
-                </Accordion>
-            )}
-            {context === "readOnly" && (
-                <CustomLinkButton
-                    startIcon={<Link />}
-                    to={cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue(catalogueId!, draftId!, tab?.id!, catalogue?.id!)}
-                    sx={{
-                        alignSelf: "flex-end",
-                    }}
-                >
-                    {t("linkCatalogues")}
-                </CustomLinkButton>
+                <SubCatalogueLinkedTable
+                    catalogue={catalogue}
+                    tab={tab}
+                />
             )}
         </Paper>
     )

@@ -9,10 +9,11 @@ import { IconButton } from '@mui/material'
 interface SubCataloguePanelOptionsProps {
     catalogue?: Catalogue
     onEdit?: () => void
+    refetch: () => void
 }
 
 export const SubCataloguePanelOptions = (props: SubCataloguePanelOptionsProps) => {
-    const { catalogue, onEdit } = props
+    const { catalogue, onEdit, refetch } = props
 
     const { t } = useTranslation()
 
@@ -24,10 +25,10 @@ export const SubCataloguePanelOptions = (props: SubCataloguePanelOptionsProps) =
                 id: catalogue?.id!
             })
             if (res) {
-                // queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+                refetch()
             }
         },
-        [catalogue],
+        [catalogue, refetch],
     )
 
     const { handleOpen, popup } = useConfirmationPopUp({
