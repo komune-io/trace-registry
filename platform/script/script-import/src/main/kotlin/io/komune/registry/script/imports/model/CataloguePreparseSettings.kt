@@ -1,5 +1,6 @@
 package io.komune.registry.script.imports.model
 
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
 
@@ -14,13 +15,16 @@ data class CataloguePreparseMapping(
     val identifier: CataloguePreparseFieldMapping?,
     val parent: CataloguePreparseFieldMapping?,
     val related: Map<String, CataloguePreparseFieldMapping>?,
+    val relatedIn: Map<String, CataloguePreparseFieldMapping>?,
     val type: CataloguePreparseFieldMapping,
+    val configuration: CatalogueConfigurationModel?,
     val order: CataloguePreparseFieldMapping?,
     val title: CataloguePreparseFieldMapping,
     val description: CataloguePreparseFieldMapping?,
     val image: CataloguePreparseFileFieldMapping?,
     val homepage: CataloguePreparseFieldMapping?,
     val themes: List<CataloguePreparseConceptMapping>?,
+    val catalogues: List<CataloguePreparseMapping>?,
     val indicators: Map<InformationConceptIdentifier, CataloguePreparseFieldMapping>?,
     val datasets: List<CataloguePreparseDatasetMapping>?,
 )

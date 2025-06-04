@@ -10,6 +10,7 @@ enum class StructureType {
     GRID,
     HOME,
     ITEM,
+    LIST,
     MENU,
     MENU_BRANCH,
     MENU_LEAF,

@@ -10,7 +10,7 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.mapAsyncIndexed
 import io.komune.registry.api.commons.utils.parseJsonTo
 import io.komune.registry.api.commons.utils.toJson
-import io.komune.registry.s2.commons.model.InformationConceptIdentifier
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
@@ -105,46 +105,65 @@ class PreparseScript(
 
         (0 until nbElements).mapAsyncIndexed { i, _ ->
             withCatalogueIndex(i) { context ->
-                CatalogueImportData(
-                    identifier = fileContent.parseField(settings.mapping.identifier) ?: "$i",
-                    type = fileContent.parseField(settings.mapping.type)
-                        ?: throw IllegalArgumentException("No catalogue type found for [${file.path}] [$i]"),
-                    img = fileContent.parseFileField(settings.mapping.image)
-                        ?.let { downloadFile(it, settings.mapping.image!!.output.injectContextVariables()) }
-                        ?.path,
-                    order = fileContent.parseField(settings.mapping.order)?.parseJsonTo(),
-                    accessRights = null,
-                    themes = settings.mapping.themes?.flatMap { themeMapping ->
-                        fileContent.parseConcepts(themeMapping, settings.languages)
-                    }?.nullIfEmpty(),
-                    parent = fileContent.parseField(settings.mapping.parent)?.parseJsonTo<CatalogueReferences>(),
-                    languages = settings.languages.associateWith { language ->
-                        withLanguage(language) {
-                            CatalogueTranslationData(
-                                title = fileContent.parseField(settings.mapping.title),
-                                description = fileContent.parseField(settings.mapping.description),
-                                language = language
-                            )
-                        }
-                    },
-                    homepage = fileContent.parseField(settings.mapping.homepage),
-                    children = null,
-                    related = settings.mapping.related?.mapValues { (_, fieldMapping) ->
-                        fileContent.parseField(fieldMapping)
-                            ?.parseJsonTo(Array<CatalogueReferences>::class.java)
-                            ?.ifEmpty { null }
-                    }?.filterValues { it != null } as Map<String, List<CatalogueReferences>>?,
-                    indicators = settings.mapping.indicators?.mapValues { (_, fieldMapping) ->
-                        fileContent.parseField(fieldMapping)
-                    }?.filterValues { it != null } as Map<InformationConceptIdentifier, String>?,
-                    datasets = settings.mapping.datasets?.map { fileContent.parseDataset(it, settings.languages) }
-                ).toJson().let { json ->
+                fileContent.toCatalogueImportData(settings, file).toJson().let { json ->
                     val outputFile = fileInContextDestination(settings.output)
                     outputFile.parentFile?.mkdirs()
                     outputFile.writeText(json)
                 }
             }
         }
+    }
+
+    private suspend fun DocumentContext.toCatalogueImportData(
+        settings: CataloguePreparseSettings,
+        file: File,
+        identifierPrefix: CatalogueIdentifier? = null
+    ): CatalogueImportData {
+        val context = getPreparseContext()
+        val identifier = "${identifierPrefix.orEmpty()}${parseField(settings.mapping.identifier) ?: context.iCatalogue}"
+        return CatalogueImportData(
+            identifier = identifier,
+            type = parseField(settings.mapping.type)
+                ?: throw IllegalArgumentException("No catalogue type found for [${file.path}] [${context.iCatalogue}]"),
+            configuration = settings.mapping.configuration,
+            img = parseFileField(settings.mapping.image)
+                ?.let { downloadFile(it, settings.mapping.image!!.output.injectContextVariables()) }
+                ?.path,
+            order = parseField(settings.mapping.order)?.parseJsonTo(),
+            accessRights = null,
+            themes = settings.mapping.themes?.flatMap { themeMapping ->
+                parseConcepts(themeMapping, settings.languages)
+            }?.nullIfEmpty(),
+            parent = parseField(settings.mapping.parent)?.parseJsonTo<CatalogueReferences>(),
+            languages = settings.languages.associateWith { language ->
+                withLanguage(language) {
+                    CatalogueTranslationData(
+                        title = parseField(settings.mapping.title),
+                        description = parseField(settings.mapping.description),
+                        language = language
+                    )
+                }
+            },
+            homepage = parseField(settings.mapping.homepage),
+            children = null,
+            initChildren = settings.mapping.catalogues?.map {
+                toCatalogueImportData(settings.copy(mapping = it), file, "$identifier-")
+            },
+            related = settings.mapping.related?.mapValues { (_, fieldMapping) ->
+                parseField(fieldMapping)
+                    ?.parseJsonTo(Array<CatalogueReferences>::class.java)
+                    .orEmpty()
+            }?.filterValues { it.isNotEmpty() },
+            relatedIn = settings.mapping.relatedIn?.mapValues { (_, fieldMapping) ->
+                parseField(fieldMapping)
+                    ?.parseJsonTo(Array<CatalogueReferences>::class.java)
+                    .orEmpty()
+            }?.filterValues { it.isNotEmpty() },
+            indicators = settings.mapping.indicators?.mapValues { (_, fieldMapping) ->
+                parseField(fieldMapping).orEmpty()
+            }?.filterValues { it.isNotEmpty() },
+            datasets = settings.mapping.datasets?.map { parseDataset(it, settings.languages) }
+        )
     }
 
     private suspend fun DocumentContext.parseConcepts(
@@ -351,7 +370,7 @@ class PreparseScript(
              ?: return null
 
         return fieldMapping.builder
-            ?.toJson()
+            ?.let { if (it is String) it else it.toJson() }
             ?.injectJsonVariables("value" to mappedValue)
             ?: mappedValue
     }

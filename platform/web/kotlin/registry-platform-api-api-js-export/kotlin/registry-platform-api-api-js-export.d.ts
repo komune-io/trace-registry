@@ -3276,7 +3276,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
-    type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
+    type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "LIST" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain {
     type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED" | "DELETED";

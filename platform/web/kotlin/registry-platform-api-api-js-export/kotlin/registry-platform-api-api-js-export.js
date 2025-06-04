@@ -32,6 +32,11 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -42,11 +47,6 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
-}
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -94,16 +94,16 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
   setMetadataFor(Companion, 'Companion', objectMeta);
   setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -30373,6 +30373,7 @@ if (typeof Math.imul === 'undefined') {
   var StructureType_GRID_instance;
   var StructureType_HOME_instance;
   var StructureType_ITEM_instance;
+  var StructureType_LIST_instance;
   var StructureType_MENU_instance;
   var StructureType_MENU_BRANCH_instance;
   var StructureType_MENU_LEAF_instance;
@@ -30399,7 +30400,7 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_136;
   }
   function values_14() {
-    return [StructureType_FACTORY_getInstance(), StructureType_GRID_getInstance(), StructureType_HOME_getInstance(), StructureType_ITEM_getInstance(), StructureType_MENU_getInstance(), StructureType_MENU_BRANCH_getInstance(), StructureType_MENU_LEAF_getInstance(), StructureType_MOSAIC_getInstance(), StructureType_TABLE_getInstance(), StructureType_TRANSIENT_getInstance()];
+    return [StructureType_FACTORY_getInstance(), StructureType_GRID_getInstance(), StructureType_HOME_getInstance(), StructureType_ITEM_getInstance(), StructureType_LIST_getInstance(), StructureType_MENU_getInstance(), StructureType_MENU_BRANCH_getInstance(), StructureType_MENU_LEAF_getInstance(), StructureType_MOSAIC_getInstance(), StructureType_TABLE_getInstance(), StructureType_TRANSIENT_getInstance()];
   }
   function valueOf_11(value) {
     switch (value) {
@@ -30411,6 +30412,8 @@ if (typeof Math.imul === 'undefined') {
         return StructureType_HOME_getInstance();
       case 'ITEM':
         return StructureType_ITEM_getInstance();
+      case 'LIST':
+        return StructureType_LIST_getInstance();
       case 'MENU':
         return StructureType_MENU_getInstance();
       case 'MENU_BRANCH':
@@ -30438,12 +30441,13 @@ if (typeof Math.imul === 'undefined') {
     StructureType_GRID_instance = new StructureType('GRID', 1);
     StructureType_HOME_instance = new StructureType('HOME', 2);
     StructureType_ITEM_instance = new StructureType('ITEM', 3);
-    StructureType_MENU_instance = new StructureType('MENU', 4);
-    StructureType_MENU_BRANCH_instance = new StructureType('MENU_BRANCH', 5);
-    StructureType_MENU_LEAF_instance = new StructureType('MENU_LEAF', 6);
-    StructureType_MOSAIC_instance = new StructureType('MOSAIC', 7);
-    StructureType_TABLE_instance = new StructureType('TABLE', 8);
-    StructureType_TRANSIENT_instance = new StructureType('TRANSIENT', 9);
+    StructureType_LIST_instance = new StructureType('LIST', 4);
+    StructureType_MENU_instance = new StructureType('MENU', 5);
+    StructureType_MENU_BRANCH_instance = new StructureType('MENU_BRANCH', 6);
+    StructureType_MENU_LEAF_instance = new StructureType('MENU_LEAF', 7);
+    StructureType_MOSAIC_instance = new StructureType('MOSAIC', 8);
+    StructureType_TABLE_instance = new StructureType('TABLE', 9);
+    StructureType_TRANSIENT_instance = new StructureType('TRANSIENT', 10);
     Companion_getInstance_136();
   }
   function StructureType(name, ordinal) {
@@ -30464,6 +30468,10 @@ if (typeof Math.imul === 'undefined') {
   function StructureType_ITEM_getInstance() {
     StructureType_initEntries();
     return StructureType_ITEM_instance;
+  }
+  function StructureType_LIST_getInstance() {
+    StructureType_initEntries();
+    return StructureType_LIST_instance;
   }
   function StructureType_MENU_getInstance() {
     StructureType_initEntries();
@@ -37498,6 +37506,7 @@ if (typeof Math.imul === 'undefined') {
     defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'GRID', StructureType_GRID_getInstance);
     defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'HOME', StructureType_HOME_getInstance);
     defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'ITEM', StructureType_ITEM_getInstance);
+    defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'LIST', StructureType_LIST_getInstance);
     defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'MENU', StructureType_MENU_getInstance);
     defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'MENU_BRANCH', StructureType_MENU_BRANCH_getInstance);
     defineProp($io$komune$registry$s2$catalogue$domain$model$structure.StructureType, 'MENU_LEAF', StructureType_MENU_LEAF_getInstance);
