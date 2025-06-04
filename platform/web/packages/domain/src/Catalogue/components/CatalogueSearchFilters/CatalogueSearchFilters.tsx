@@ -12,7 +12,7 @@ interface CatalogueSearchFiltersProps {
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { additionalFilters = undefined, distributions, onChangeDistribution, savedState } = props
+    const { additionalFilters, distributions, onChangeDistribution, savedState } = props
     const { t } = useTranslation()
 
     const distributionsDisplay = useMemo(() => Object.entries(distributions ?? {}).map(([key, facets]) => (

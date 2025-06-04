@@ -5,9 +5,12 @@ import {
   CatalogueSearchFilters,
   CatalogueSearchQuery,
   CatalogueTable,
+  useCatalogueAddRelatedCataloguesCommand,
+  useCatalogueGetQuery,
+  useCatalogueRemoveRelatedCataloguesCommand,
   useCatalogueSearchQuery
 } from 'domain-components'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { OffsetPagination } from 'template'
@@ -15,12 +18,15 @@ import { RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useCataloguesFilters } from '100m-components'
+import { useDebouncedValue } from '@mantine/hooks'
 
 
 export const CatalogueLinkPage = () => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [debouncedRowSelection] = useDebouncedValue(rowSelection, 300);
+  const previouslySavedRowSelection = useRef<RowSelectionState>({})
   const { catalogueId, draftId, tabId, subCatalogueId } = useParams()
   const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
   const { submittedFilters, component } = useCataloguesFilters({
@@ -34,31 +40,65 @@ export const CatalogueLinkPage = () => {
     }
   })
 
+  const getSubCatalogue = useCatalogueGetQuery({
+    query: {
+      id: subCatalogueId!,
+      language: i18n.language
+    }
+  })
+
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
       ...state,
       ...submittedFilters,
+      isSelected: undefined,
+      relatedInCatalogueIds: state.isSelected ? {"content": [subCatalogueId]} : undefined,
       language: i18n.language,
     },
     options: {
       placeholderData: keepPreviousData,
-      //prevent double fetching when goBackUrl is set
-      //@ts-ignore
-      enabled: !state.goBackUrl,
     }
   })
 
   useEffect(() => {
-    if (data?.items && subCatalogueId) {
+    if (getSubCatalogue.data?.item?.relatedCatalogues) {
       const selection: RowSelectionState = {}
-      data.items.forEach(catalogue => {
-        if ((catalogue.relatedCatalogues ?? {})[subCatalogueId]) {
-          selection[catalogue.id] = true
-        }
-      });
+      getSubCatalogue.data?.item?.relatedCatalogues["content"].forEach((relatedCatalogue) => {
+        selection[relatedCatalogue.id] = true
+      })
       setRowSelection(selection)
+      previouslySavedRowSelection.current = selection
     }
-  }, [data, subCatalogueId])
+  }, [getSubCatalogue.data?.item])
+
+  const addRelation = useCatalogueAddRelatedCataloguesCommand({})
+  const removeRelation = useCatalogueRemoveRelatedCataloguesCommand({})
+
+  useEffect(() => {
+   if (debouncedRowSelection && Object.keys(debouncedRowSelection).length > 0) {
+      //compare difference between initialSelection and debouncedRowSelection
+      const selectedCatalogueIds = Object.keys(debouncedRowSelection).filter(id => debouncedRowSelection[id]);
+      const initialSelectedCatalogueIds = previouslySavedRowSelection.current ? Object.keys(previouslySavedRowSelection.current || {}).filter(id => previouslySavedRowSelection.current[id]) : []
+      console.log(initialSelectedCatalogueIds)
+       console.log(selectedCatalogueIds)
+      const addedCatalogues = selectedCatalogueIds.filter(id => !initialSelectedCatalogueIds.includes(id));
+      const removedCatalogues = initialSelectedCatalogueIds.filter(id => !selectedCatalogueIds.includes(id));
+      if (addedCatalogues.length > 0) {
+        addRelation.mutate({
+          id: subCatalogueId!,
+          relatedCatalogueIds: {"content": addedCatalogues}
+        })
+      }
+      if (removedCatalogues.length > 0) {
+        removeRelation.mutate({
+          id: subCatalogueId!,
+          relatedCatalogueIds: {"content": removedCatalogues},
+        })
+      }
+      previouslySavedRowSelection.current = debouncedRowSelection;
+   }
+  }, [debouncedRowSelection])
+  
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
 
@@ -106,7 +146,7 @@ export const CatalogueLinkPage = () => {
           }}
         >
           <CatalogueSearchFilters
-            additionnalfilters={
+            additionalFilters={
               <LabeledSwitch
                 label={t('catalogues.selectedOnly')}
                 checked={state.isSelected}
