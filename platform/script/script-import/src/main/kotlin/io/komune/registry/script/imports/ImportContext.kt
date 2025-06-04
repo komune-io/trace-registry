@@ -17,7 +17,7 @@ import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.script.imports.model.CatalogueImportSettings
-import io.komune.registry.script.imports.model.CatalogueReferenceMethod
+import io.komune.registry.script.imports.model.CatalogueReferenceIdentifier
 import io.komune.registry.script.imports.model.CatalogueReferences
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -31,7 +31,8 @@ class ImportContext(
     val catalogueIds = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
     val catalogueIdentifiersByTitle = ConcurrentHashMap<String, CatalogueIdentifier>()
     val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueReferences>()
-    val catalogueCatalogueReferences = ConcurrentHashMap<CatalogueIdentifier, Map<String, List<CatalogueReferences>>>()
+    val catalogueCatalogueReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
+    val catalogueCatalogueBackReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
     val catalogueDatasetReferences = ConcurrentHashMap<CatalogueIdentifier, List<DatasetId>>()
 
     val dataUnits = ConcurrentHashMap<DataUnitIdentifier, DataUnitDTOBase>()
@@ -66,11 +67,9 @@ class ImportContext(
         val parentIdentifier = settings.defaults?.parent?.get(catalogueType)?.identifier
             ?: return
 
-        catalogueParents[catalogueId] = CatalogueReferences(
-            method = CatalogueReferenceMethod.IDENTIFIER,
+        catalogueParents[catalogueId] = CatalogueReferenceIdentifier(
             type = catalogueType,
             identifiers = listOf(parentIdentifier),
-            titles = null
         )
     }
 }

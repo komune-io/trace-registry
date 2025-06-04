@@ -111,17 +111,9 @@ class CatalogueI18nService(
             status = translated.status,
             title = translated.title,
             description = translated.description,
-            catalogues = translated.childrenCatalogueIds.mapNotNull { childId ->
-                cache.untranslatedCatalogues.get(childId)
-                    .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
-                    ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
-            },
+            catalogues = translated.childrenCatalogueIds.toFilteredRefs(language, otherLanguageIfAbsent, draft != null),
             relatedCatalogues = translated.relatedCatalogueIds?.mapValues { (_, catalogueIds) ->
-                catalogueIds.mapNotNull { catalogueId ->
-                    cache.untranslatedCatalogues.get(catalogueId)
-                        .takeIf { it.status != CatalogueState.DELETED && !it.hidden }
-                        ?.let { translateToRefDTO(it, language , otherLanguageIfAbsent) }
-                }
+                catalogueIds.toFilteredRefs(language , otherLanguageIfAbsent, draft != null)
             },
             datasets = datasets,
             referencedDatasets = translated.referencedDatasetIds
@@ -132,6 +124,7 @@ class CatalogueI18nService(
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,
+            configuration = translated.configuration,
             availableLanguages = translated.translationIds.keys.sorted(),
             structure = translated.getStructure(),
             homepage = translated.homepage,
@@ -201,7 +194,11 @@ class CatalogueI18nService(
         }
 
         catalogueIds.map { cache.untranslatedCatalogues.get(it) }
-            .filter { it.status != CatalogueState.DELETED && !it.hidden && cataloguePoliciesFilterEnforcer.enforceCatalogue(it) != null }
+            .filter {
+                it.status != CatalogueState.DELETED
+                        && catalogueConfig.typeConfigurations[it.type]?.structure?.isTab == false
+                        && !it.hidden && cataloguePoliciesFilterEnforcer.enforceCatalogue(it) != null
+            }
             .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
             .filterNotNull()
             .sortedBy { "${it.title}   ${it.identifier}" }
@@ -264,5 +261,17 @@ class CatalogueI18nService(
             ?.structure
             .overrideWith(configuration)
             .toDTO(language!!, catalogueConfig.typeConfigurations::get)
+    }
+
+    private suspend fun Collection<CatalogueId>.toFilteredRefs(
+        language: Language?,
+        otherLanguageIfAbsent: Boolean,
+        isDraft: Boolean
+    ) = withCache { cache ->
+        mapNotNull { catalogueId ->
+            cache.untranslatedCatalogues.get(catalogueId)
+                .takeIf { it.status != CatalogueState.DELETED && (!it.hidden || isDraft) }
+                ?.let { translateToRefDTO(it, language, otherLanguageIfAbsent) }
+        }
     }
 }

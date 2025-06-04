@@ -1477,7 +1477,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly message?: string;
 
     }
-    type FormConditionType = "display" | "validator" | "info" | "error" | "warning";
+    type FormConditionType = "display" | "enable" | "validator" | "info" | "error" | "warning";
 }
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormFieldDTO {
@@ -1501,6 +1501,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
         readonly fileTypesAllowed?: string[];
         readonly filters?: string;
+        readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
 
     }
 }
@@ -3275,7 +3276,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
-    type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
+    type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "LIST" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain {
     type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED" | "DELETED";
@@ -4313,6 +4314,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly language: string;
         readonly otherLanguageIfAbsent?: boolean;
         readonly type?: string[];
+        readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly creatorOrganizationId?: string;
         readonly offset?: number;
         readonly limit?: number;
@@ -4355,6 +4357,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
+        readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentIdentifier?: string[];
         readonly type?: string[];
         readonly themeIds?: string[];
@@ -4380,6 +4383,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
+        readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentIdentifier?: string[];
         readonly type?: string[];
         readonly themeIds?: string[];

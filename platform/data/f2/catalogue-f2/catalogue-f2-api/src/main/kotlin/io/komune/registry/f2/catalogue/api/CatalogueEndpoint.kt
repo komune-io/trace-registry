@@ -123,6 +123,7 @@ class CatalogueEndpoint(
             language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             type = query.type?.let(::CollectionMatch),
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             hidden = ExactMatch(false),
@@ -189,6 +190,7 @@ class CatalogueEndpoint(
             licenseId = query.licenseId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
@@ -214,6 +216,7 @@ class CatalogueEndpoint(
             licenseId = query.licenseId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
@@ -312,7 +315,7 @@ class CatalogueEndpoint(
         cataloguePoliciesEnforcer.checkUpdate(command.id)
 
         val enforcedCommand = cataloguePoliciesEnforcer.enforceCommand(command)
-        val event = catalogueF2AggregateService.update(enforcedCommand)
+        val event = catalogueF2AggregateService.update(enforcedCommand, true)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
 
         return event

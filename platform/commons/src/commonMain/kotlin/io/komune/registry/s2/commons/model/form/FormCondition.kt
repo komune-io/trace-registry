@@ -23,6 +23,7 @@ data class FormCondition(
 @JsExport
 enum class FormConditionType {
     display,
+    enable,
     validator,
     info,
     error,

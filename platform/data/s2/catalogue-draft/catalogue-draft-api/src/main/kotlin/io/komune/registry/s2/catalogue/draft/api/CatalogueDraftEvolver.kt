@@ -30,8 +30,9 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 
 	private suspend fun create(event: CatalogueDraftCreatedEvent) = CatalogueDraftEntity().apply {
 		id = event.id
-		catalogueId = event.catalogueId
 		status = CatalogueDraftState.DRAFT
+		parentId = event.parentId
+		catalogueId = event.catalogueId
 		originalCatalogueId = event.original.id
 		originalCatalogueIdentifier = event.original.identifier
 		originalCatalogueType = event.original.type

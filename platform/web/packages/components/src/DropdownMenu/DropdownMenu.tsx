@@ -1,15 +1,7 @@
-import { MenuItems, useTheme } from '@komune-io/g2'
-import {
-  ListItemText,
-  ListItemButton,
-  List,
-  MenuListProps,
-  Divider,
-  Stack,
-  alpha
-} from '@mui/material'
-import { SpecialBehaviorAccordion } from './SpecialBehaviorAccordion'
-import { LocalTheme } from '../utils'
+import {MenuItems, useTheme} from '@komune-io/g2'
+import {alpha, Divider, List, ListItemButton, ListItemText, MenuListProps, Stack} from '@mui/material'
+import {SpecialBehaviorAccordion} from './SpecialBehaviorAccordion'
+import {LocalTheme} from '../utils'
 
 export interface DropdownMenuProps extends MenuListProps {
   items: MenuItems[]
@@ -51,7 +43,7 @@ const Item = (props: MenuItems<{}> & { topLevel: boolean }) => {
   const childIsSelected = items ? someItemsSelected(items) : false
   const isOpen = childIsSelected || isSelected
 
-  if (items)
+  if (items && items.length > 0)
     return (
       <ListItemButton
         sx={{

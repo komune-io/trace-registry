@@ -308,13 +308,14 @@ class ImportRepository(
         }
     }
 
-    suspend fun findCatalogueIdentifierByTitle(title: String, type: CatalogueType): CatalogueIdentifier? {
+    suspend fun findCatalogueByTitle(title: String, type: CatalogueType, parentIdentifier: CatalogueIdentifier?): CatalogueIdentifier? {
         if (importContext.catalogueIdentifiersByTitle.containsKey(title)) {
             return importContext.catalogueIdentifiersByTitle[title]?.ifEmpty { null }
         }
 
         val catalogue = CataloguePageQuery(
             type = listOf(type),
+            parentIdentifier = parentIdentifier,
             title = title,
             language = "",
             otherLanguageIfAbsent = true

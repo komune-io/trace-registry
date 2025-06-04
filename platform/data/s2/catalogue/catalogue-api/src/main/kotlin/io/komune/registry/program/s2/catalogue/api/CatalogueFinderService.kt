@@ -1,5 +1,6 @@
 package io.komune.registry.program.s2.catalogue.api
 
+import f2.dsl.cqrs.filter.AndMatch
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.andMatchOfNotNull
@@ -60,6 +61,7 @@ class CatalogueFinderService(
 		language: Match<String>? = null,
 		type: Match<String>? = null,
 		childrenCatalogueIds: Match<CatalogueId>? = null,
+		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		childrenDatasetIds: Match<DatasetId>? = null,
 		referencedDatasetIds: Match<DatasetId>? = null,
 		creatorOrganizationId: Match<OrganizationId>? = null,
@@ -75,10 +77,19 @@ class CatalogueFinderService(
 					?: listOf("none")
 			}?.let(::CollectionMatch)
 
+		val relatedInIdFilter = relatedInCatalogueIds?.map { (relation, match) ->
+			page(id = match).items
+				.flatMap { it.relatedCatalogueIds?.get(relation).orEmpty() }
+				.toSet()
+				.ifEmpty { setOf("none") }
+				.let(::CollectionMatch)
+		}?.let { AndMatch(it) }
+
 		return cataloguePageQueryDB.execute(
 			id = andMatchOfNotNull(
 				id,
-				childIdFilter
+				childIdFilter,
+				relatedInIdFilter,
 			),
 			identifier = identifier,
 			title = title,
@@ -102,6 +113,7 @@ class CatalogueFinderService(
 		catalogueIds: Match<String>? = null,
 		parentIdentifier: Match<String>? = null,
 		type: Match<String>? = null,
+		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		themeIds: Match<String>? = null,
 		licenseId: Match<String>? = null,
 		creatorOrganizationId: Match<OrganizationId>? = null,
@@ -109,16 +121,30 @@ class CatalogueFinderService(
 		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
-		val childrenIds = parentIdentifier?.let {
+		val childrenIdMatch = parentIdentifier?.let {
 			page(identifier = parentIdentifier).items
 				.flatMap(CatalogueModel::childrenCatalogueIds)
 				.toSet()
 				.ifEmpty { setOf("none") }
-		}
-		val idFilter = childrenIds?.let {
+		}?.let(::CollectionMatch)
+
+		val relatedInIdMatch = relatedInCatalogueIds?.map { (relation, match) ->
+			page(id = match).items
+				.flatMap { it.relatedCatalogueIds?.get(relation).orEmpty() }
+				.toSet()
+				.ifEmpty { setOf("none") }
+				.let(::CollectionMatch)
+		}?.let { AndMatch(it) }
+
+		val idMatch = andMatchOfNotNull(
+			childrenIdMatch,
+			relatedInIdMatch
+		)
+
+		val idFilter = idMatch?.let {
 			orCriterionOf(
-				FieldCriterion(CatalogueCriterionField.Id, CollectionMatch(it)),
-				FieldCriterion(CatalogueCriterionField.IsTranslationOf, CollectionMatch(it))
+				FieldCriterion(CatalogueCriterionField.Id, it),
+				FieldCriterion(CatalogueCriterionField.IsTranslationOf, it)
 			)
 		}
 

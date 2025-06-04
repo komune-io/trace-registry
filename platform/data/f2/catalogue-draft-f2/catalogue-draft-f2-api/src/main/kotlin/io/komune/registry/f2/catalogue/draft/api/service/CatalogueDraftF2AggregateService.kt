@@ -42,6 +42,7 @@ import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.InformationConceptId
+import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.dataset.domain.command.DatasetAddAggregatorsCommand
 import io.komune.registry.s2.dataset.domain.command.DatasetAddDistributionCommand
@@ -71,7 +72,10 @@ class CatalogueDraftF2AggregateService(
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
 ) {
-    suspend fun create(command: CatalogueDraftCreateCommandDTOBase): CatalogueDraftCreatedEvent {
+    suspend fun create(
+        command: CatalogueDraftCreateCommandDTOBase,
+        isSubDraft: Boolean = false
+    ): CatalogueDraftCreatedEvent {
         val now = System.currentTimeMillis()
         val originalCatalogue = catalogueFinderService.get(command.catalogueId)
         val translatedOriginalCatalogue = catalogueI18nService.translate(originalCatalogue, command.language, false)
@@ -93,7 +97,7 @@ class CatalogueDraftF2AggregateService(
             command = it,
             originalCatalogueId = baseCatalogue.id,
             inferIdentifier = false,
-            inferTranslationType = true,
+            inferTranslationType = !isSubDraft,
             // only init datasets in type configuration if no translation exists for the language yet to avoid duplications
             initDatasets = translatedOriginalCatalogue == null
         ).id }
@@ -101,7 +105,7 @@ class CatalogueDraftF2AggregateService(
         val datasetIdMap = copyAndLinkDatasets(baseCatalogue, draftedCatalogueId)
 
         val draftCreatedEvent = CatalogueDraftCreateCommand(
-            parentId = null,
+            parentId = command.parentId,
             catalogueId = draftedCatalogueId,
             original = CatalogueDraftedRef(
                 id = command.catalogueId,
@@ -113,7 +117,7 @@ class CatalogueDraftF2AggregateService(
             datasetIdMap = datasetIdMap
         ).let { catalogueDraftAggregateService.create(it) }
 
-        createAndLinkSubDrafts(originalCatalogue, draftedCatalogueId, draftCreatedEvent.id)
+        createAndLinkSubDrafts(originalCatalogue, draftedCatalogueId, draftCreatedEvent.id, command.language)
 
         return draftCreatedEvent
     }
@@ -143,7 +147,7 @@ class CatalogueDraftF2AggregateService(
             id = draft.originalCatalogueId,
             hidden = typeConfiguration?.hidden ?: false,
             versionNotes = draft.versionNotes,
-        ).let { catalogueF2AggregateService.update(it) }
+        ).let { catalogueF2AggregateService.update(it, false) }
 
         if (draftedCatalogue.imageFsPath != originalCatalogue.imageFsPath) {
             CatalogueSetImageCommand(
@@ -162,7 +166,8 @@ class CatalogueDraftF2AggregateService(
     private suspend fun createAndLinkSubDrafts(
         originalCatalogue: CatalogueModel,
         draftedCatalogueId: CatalogueId,
-        parentDraftId: CatalogueDraftId
+        parentDraftId: CatalogueDraftId,
+        language: Language
     ) {
         if (originalCatalogue.childrenCatalogueIds.isEmpty()) {
             return
@@ -180,8 +185,8 @@ class CatalogueDraftF2AggregateService(
             CatalogueDraftCreateCommandDTOBase(
                 parentId = parentDraftId,
                 catalogueId = child.id,
-                language = originalCatalogue.language!!,
-            ).let { create(it) }
+                language = language,
+            ).let { create(it, isSubDraft = true) }
         }
 
         updateCatalogueChildren(

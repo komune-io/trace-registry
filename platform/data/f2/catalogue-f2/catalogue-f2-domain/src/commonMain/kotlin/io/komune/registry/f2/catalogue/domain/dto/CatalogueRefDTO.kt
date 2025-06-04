@@ -76,7 +76,7 @@ data class CatalogueRefDTOBase(
     override val availableLanguages: List<Language>,
     override val type: CatalogueType,
     override val structure: CatalogueStructureDTOBase?,
-    override val description: String? = null,
-    override val img: String? = null,
-    override val order: Int? = null,
+    override val description: String?,
+    override val img: String?,
+    override val order: Int?,
 ) : CatalogueRefDTO

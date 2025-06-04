@@ -1,8 +1,11 @@
 package io.komune.registry.script.imports.model
 
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
@@ -18,6 +21,7 @@ typealias CataloguePartialIdentifier = String
 data class CatalogueImportData(
     val identifier: CataloguePartialIdentifier,
     val type: String,
+    val configuration: CatalogueConfigurationModel?,
     val img: String?,
     val order: Int?,
     val accessRights: CatalogueAccessRight?,
@@ -26,7 +30,9 @@ data class CatalogueImportData(
     val languages: Map<Language, CatalogueTranslationData>,
     val homepage: String?,
     val children: List<CatalogueId>?,
+    val initChildren: List<CatalogueImportData>?,
     val related: Map<String, List<CatalogueReferences>>?,
+    val relatedIn: Map<String, List<CatalogueReferences>>?,
     val indicators: Map<InformationConceptIdentifier, String>?,
     val datasets: List<CatalogueDatasetSettings>?,
 
@@ -34,15 +40,50 @@ data class CatalogueImportData(
     val parents: List<CatalogueParent>? = null,
 )
 
-data class CatalogueReferences(
-    val method: CatalogueReferenceMethod = CatalogueReferenceMethod.IDENTIFIER,
-    val type: String,
-    val identifiers: List<String>?,
-    val titles: List<String>?
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "method"
 )
+@JsonSubTypes(
+    JsonSubTypes.Type(value = CatalogueReferenceIdentifier::class, name = "IDENTIFIER"),
+    JsonSubTypes.Type(value = CatalogueReferenceTitle::class, name = "TITLE"),
+    JsonSubTypes.Type(value = CatalogueReferenceChild::class, name = "CHILD")
+)
+sealed interface CatalogueReferences {
+    val method: CatalogueReferenceMethod
+}
+
+data class CatalogueReferenceIdentifier(
+    val identifiers: List<String>,
+    val type: String?,
+) : CatalogueReferences {
+    override val method: CatalogueReferenceMethod = CatalogueReferenceMethod.IDENTIFIER
+}
+
+data class CatalogueReferenceTitle(
+    val type: String,
+    val titles: List<String>?
+) : CatalogueReferences {
+    override val method: CatalogueReferenceMethod = CatalogueReferenceMethod.TITLE
+}
+
+data class CatalogueReferenceChild(
+    val root: CatalogueReferences,
+    val child: CatalogueReferences
+) : CatalogueReferences {
+    override val method: CatalogueReferenceMethod = CatalogueReferenceMethod.CHILD
+}
+
+//data class CatalogueReferences(
+//    val method: CatalogueReferenceMethod = CatalogueReferenceMethod.IDENTIFIER,
+//    val type: String,
+//    val identifiers: List<String>?,
+//    val titles: List<String>?
+//)
 
 enum class CatalogueReferenceMethod {
-    IDENTIFIER, TITLE
+    IDENTIFIER, TITLE, CHILD
 }
 
 data class CatalogueTranslationData(
@@ -80,11 +121,9 @@ data class CatalogueParent(
     val identifier: String?
 ) {
     fun toReferences(): CatalogueReferences {
-        return CatalogueReferences(
-            method = CatalogueReferenceMethod.IDENTIFIER,
+        return CatalogueReferenceIdentifier(
             type = type,
             identifiers = listOfNotNull(identifier),
-            titles = null
         )
     }
 }
