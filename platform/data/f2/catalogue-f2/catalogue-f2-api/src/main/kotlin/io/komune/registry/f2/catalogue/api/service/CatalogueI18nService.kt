@@ -194,7 +194,11 @@ class CatalogueI18nService(
         }
 
         catalogueIds.map { cache.untranslatedCatalogues.get(it) }
-            .filter { it.status != CatalogueState.DELETED && !it.hidden && cataloguePoliciesFilterEnforcer.enforceCatalogue(it) != null }
+            .filter {
+                it.status != CatalogueState.DELETED
+                        && catalogueConfig.typeConfigurations[it.type]?.structure?.isTab == false
+                        && !it.hidden && cataloguePoliciesFilterEnforcer.enforceCatalogue(it) != null
+            }
             .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
             .filterNotNull()
             .sortedBy { "${it.title}   ${it.identifier}" }
