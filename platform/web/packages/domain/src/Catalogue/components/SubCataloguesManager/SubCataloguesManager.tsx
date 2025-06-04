@@ -101,7 +101,7 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
     [cataloguePage.refetch, catalogue, i18n.language],
   )
 
-  const subCatalogues = useMemo(() => cataloguePage.data?.items.map((subCatalogue) => (
+  const subCatalogues = useMemo(() => cataloguePage.data?.items.sort((a, b) => a.issued > b.issued ? 1 : -1).map((subCatalogue) => (
     <SubCataloguePanel
       refetch={cataloguePage.refetch}
       key={subCatalogue.id}
