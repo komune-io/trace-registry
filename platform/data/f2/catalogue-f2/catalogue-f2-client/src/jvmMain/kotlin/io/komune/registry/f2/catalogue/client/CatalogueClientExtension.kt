@@ -22,7 +22,7 @@ fun CatalogueClient.catalogueCreate(): CatalogueCreateFunction = F2Function { ms
             url = "${httpF2Client.urlBase}/data/catalogueCreate",
             formData = FormDataBodyBuilder().apply {
                 param("command", cmd)
-                file?.let { file("file", file.content, file.name) }
+                file?.let { file("img", file.content, file.name) }
             }.toFormData()
         ).body()
     }
@@ -35,7 +35,7 @@ fun CatalogueClient.catalogueUpdate(): CatalogueUpdateFunction = F2Function { ms
             url = "${httpF2Client.urlBase}/data/catalogueUpdate",
             formData = FormDataBodyBuilder().apply {
                 param("command", cmd)
-                file?.let { file("file", file.content, file.name) }
+                file?.let { file("img", file.content, file.name) }
             }.toFormData()
         ).body()
     }

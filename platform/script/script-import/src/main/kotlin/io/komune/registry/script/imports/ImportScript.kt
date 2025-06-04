@@ -487,7 +487,7 @@ class ImportScript(
     private suspend fun connectCatalogueCataloguesReferences(importContext: ImportContext) {
         logger.info("Linking catalogues references...")
 
-        val aggregatedReferences = ConcurrentHashMap<CatalogueId, MutableMap<String, MutableList<CatalogueId>>>()
+        val aggregatedReferences = ConcurrentHashMap<CatalogueId, MutableMap<String, List<CatalogueId>>>()
         importContext.catalogueCatalogueReferences.entries.mapAsync { (catalogueId, relations) ->
             aggregatedReferences[catalogueId] = relations.mapValues { (_, references) ->
                 references.mapAsync { catalogueReferencesFinder.findIdentifiers(it) }
@@ -505,9 +505,8 @@ class ImportScript(
                     .map { importContext.catalogueIds[it] ?: it }
             }.forEach { (relationType, catalogueIds) ->
                 catalogueIds.forEach { catalogueId ->
-                    val catalogueRelations = aggregatedReferences.computeIfAbsent(catalogueId) { mutableMapOf() }
-                    catalogueRelations.computeIfAbsent(relationType) { mutableListOf() }
-                        .add(referencedCatalogueId)
+                    val catalogueRelations = aggregatedReferences.computeIfAbsent(catalogueId) { ConcurrentHashMap() }
+                    catalogueRelations[relationType] = catalogueRelations[relationType].orEmpty() + referencedCatalogueId
                 }
             }
         }
