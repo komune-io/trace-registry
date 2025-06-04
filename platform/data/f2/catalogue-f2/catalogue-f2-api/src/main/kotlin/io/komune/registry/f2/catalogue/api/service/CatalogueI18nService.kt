@@ -124,6 +124,7 @@ class CatalogueI18nService(
             themes = themes,
             type = originalCatalogue?.type ?: translated.type,
             language = translated.language!!,
+            configuration = translated.configuration,
             availableLanguages = translated.translationIds.keys.sorted(),
             structure = translated.getStructure(),
             homepage = translated.homepage,

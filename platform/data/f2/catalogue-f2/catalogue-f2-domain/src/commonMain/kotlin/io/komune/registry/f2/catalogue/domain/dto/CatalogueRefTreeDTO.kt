@@ -41,9 +41,9 @@ data class CatalogueRefTreeDTOBase(
     override val language: String,
     override val availableLanguages: List<Language>,
     override val type: CatalogueType,
-    override val description: String? = null,
-    override val img: String? = null,
-    override val catalogues: List<CatalogueRefTreeDTOBase>? = null,
+    override val description: String?,
+    override val img: String?,
+    override val catalogues: List<CatalogueRefTreeDTOBase>?,
     override val structure: CatalogueStructureDTOBase?,
     override val order: Int?,
     override val relatedCatalogues: Map<String, List<CatalogueRefTreeDTOBase>>?
