@@ -84,8 +84,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var ownerOrganizationId: OrganizationId? = null
 
-    var publisherId: UserId? = null
     var validatorId: UserId? = null
+    var validatorOrganizationId: OrganizationId? = null
 
     var stakeholder: String? = null
 

@@ -13,6 +13,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetLinkedThemesEventDTOB
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetRefDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DistributionDTOBase
+import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
@@ -25,6 +26,7 @@ import io.komune.registry.s2.commons.model.DatasetIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.SupportedValueId
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
@@ -210,13 +212,16 @@ fun DatasetDeletedEvent.toDTO() = DatasetDeletedEventDTOBase(
 )
 
 suspend fun CatalogueDraftModel.toRef(
+    getOrganization: suspend (OrganizationId) -> OrganizationRef?,
     getUser: suspend (UserId) -> UserRef,
 ) = CatalogueDraftRefDTOBase(
     id = id,
     originalCatalogueId = originalCatalogueId,
     language = language,
     baseVersion = baseVersion,
-    creator = getUser(creatorId),
+    creator = creatorId?.let { getUser(it) },
+    validator = validatorId?.let { getUser(it) },
+    validatorOrganization = validatorOrganizationId?.let { getOrganization(it) },
     status = status
 )
 

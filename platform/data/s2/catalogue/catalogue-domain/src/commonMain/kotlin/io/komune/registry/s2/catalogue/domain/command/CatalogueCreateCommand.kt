@@ -22,6 +22,8 @@ data class CatalogueCreateCommand(
     val themeIds: Set<ConceptId>,
     val homepage: String?,
     val ownerOrganizationId: OrganizationId?,
+    val validatorId: UserId?,
+    val validatorOrganizationId: UserId?,
     val stakeholder: String?,
     val isTranslationOf: CatalogueId?,
     val catalogueIds: Set<CatalogueId>,
@@ -43,6 +45,8 @@ sealed interface CatalogueDataEvent : CatalogueEvent {
     val themeIds: Set<ConceptId>
     val homepage: String?
     val ownerOrganizationId: OrganizationId?
+    val validatorId: UserId?
+    val validatorOrganizationId: UserId?
     val stakeholder: String?
     val accessRights: CatalogueAccessRight
     val licenseId: LicenseId?
@@ -61,22 +65,24 @@ data class CatalogueCreatedEvent(
     val type: String,
     override val language: String?,
     override val configuration: CatalogueConfigurationModel?,
-    override val description: String? = null,
-    override val themeIds: Set<ConceptId> = emptySet(),
-    override val homepage: String? = null,
+    override val description: String?,
+    override val themeIds: Set<ConceptId>,
+    override val homepage: String?,
     val isTranslationOf: CatalogueId?,
-    val catalogueIds: Set<CatalogueId> = emptySet(),
-    val datasetIds: Set<DatasetId> = emptySet(),
+    val catalogueIds: Set<CatalogueId>,
+    val datasetIds: Set<DatasetId>,
     val creatorId: UserId?,
     val creatorOrganizationId: OrganizationId?,
     override val ownerOrganizationId: OrganizationId?,
+    override val validatorId: UserId?,
+    override val validatorOrganizationId: UserId?,
     override val stakeholder: String?,
     override val accessRights: CatalogueAccessRight,
-    override val licenseId: LicenseId? = null,
-    override val location: Location? = null,
-    override val versionNotes: String? = null,
+    override val licenseId: LicenseId?,
+    override val location: Location?,
+    override val versionNotes: String?,
     override val order: Int?,
-    override val hidden: Boolean = false,
+    override val hidden: Boolean,
     override val date: Long,
     override val integrateCounter: Boolean?
 ): CatalogueDataEvent

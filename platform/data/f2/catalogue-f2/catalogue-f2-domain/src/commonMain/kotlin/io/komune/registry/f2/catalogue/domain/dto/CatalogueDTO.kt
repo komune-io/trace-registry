@@ -139,7 +139,7 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
     val status: CatalogueState
 
     /**
-     * The agent responsible for creating the catalogue.
+     * The user responsible for creating the catalogue.
      */
     override val creator: UserRefDTO?
 
@@ -147,17 +147,17 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
 
     override val ownerOrganization: OrganizationRefDTO?
 
-    val stakeholder: String?
-
     /**
-     * The agent responsible for making the dataset available.
-     */
-    val publisher: UserRefDTO?
-
-    /**
-     * The agent responsible for validating the content of the dataset.
+     * The user responsible for validating the content of the catalogue.
      */
     val validator: UserRefDTO?
+
+    /**
+     * The organization responsible for validating the content of the catalogue.
+     */
+    val validatorOrganization: OrganizationRefDTO?
+
+    val stakeholder: String?
 
     /**
      * Describes the access rights to the dataset. This can indicate permissions, restrictions, or special authorizations
@@ -227,9 +227,9 @@ data class CatalogueDTOBase(
     override val creator: UserRef?,
     override val creatorOrganization: OrganizationRef?,
     override val ownerOrganization: OrganizationRef?,
-    override val stakeholder: String?,
-    override val publisher: UserRef?,
     override val validator: UserRef?,
+    override val validatorOrganization: OrganizationRef?,
+    override val stakeholder: String?,
     override val accessRights: CatalogueAccessRight,
     override val license: LicenseDTOBase?,
     override val location: Location?,

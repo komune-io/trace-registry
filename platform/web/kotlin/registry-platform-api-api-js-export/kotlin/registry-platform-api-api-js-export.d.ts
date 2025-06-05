@@ -4110,9 +4110,9 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly ownerOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
-        readonly stakeholder?: string;
-        readonly publisher?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly stakeholder?: string;
         readonly accessRights: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly license?: io.komune.registry.f2.license.domain.model.LicenseDTO;
         readonly location?: io.komune.registry.s2.commons.model.LocationDTO;
@@ -4143,7 +4143,9 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly originalCatalogueId: string;
         readonly language: string;
         readonly baseVersion: number;
-        readonly creator: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
 
     }
@@ -4482,7 +4484,9 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.model {
         readonly originalCatalogueId: string;
         readonly language: string;
         readonly baseVersion: number;
-        readonly creator: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly status: io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState;
         readonly versionNotes?: string;
         readonly rejectReason?: string;

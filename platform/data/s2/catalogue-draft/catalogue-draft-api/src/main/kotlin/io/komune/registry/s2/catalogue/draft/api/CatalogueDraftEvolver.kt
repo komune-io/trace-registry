@@ -89,6 +89,8 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.validate(event: CatalogueDraftValidatedEvent) = apply {
 		status = CatalogueDraftState.VALIDATED
 		modified = event.date
+		validatorId = event.validatorId
+		validatorOrganizationId = event.validatorOrganizationId
 	}
 
 	private suspend fun CatalogueDraftEntity.delete(event: CatalogueDraftDeletedEvent) = apply {
