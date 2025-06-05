@@ -21,6 +21,7 @@ import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.domain.DatasetTypes
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.domain.model.structure.StructureType
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
@@ -267,11 +268,20 @@ class CatalogueI18nService(
         language: Language?,
         otherLanguageIfAbsent: Boolean,
         isDraft: Boolean
-    ) = withCache { cache ->
-        mapNotNull { catalogueId ->
-            cache.untranslatedCatalogues.get(catalogueId)
+    ): List<CatalogueRefDTOBase> = withCache { cache ->
+        val catalogueRefs = mutableListOf<CatalogueRefDTOBase>()
+        forEach { catalogueId ->
+            val catalogue = cache.untranslatedCatalogues.get(catalogueId)
                 .takeIf { it.status != CatalogueState.DELETED && (!it.hidden || isDraft) }
-                ?.let { translateToRefDTO(it, language, otherLanguageIfAbsent) }
+                ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
+
+            val catalogueRef = catalogue?.let { translateToRefDTO(it, language, otherLanguageIfAbsent) }
+            if (!isDraft && catalogueRef?.structure?.type == StructureType.FACTORY) {
+                catalogueRefs.addAll(catalogue.childrenCatalogueIds.toFilteredRefs(language, otherLanguageIfAbsent, isDraft))
+            } else {
+                catalogueRef?.let { catalogueRefs.add(it) }
+            }
         }
+        catalogueRefs
     }
 }
