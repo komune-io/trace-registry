@@ -153,7 +153,7 @@ class CatalogueF2AggregateService(
             location = command.location ?: originalCatalogue.location,
             ownerOrganizationId = command.ownerOrganizationId ?: originalCatalogue.ownerOrganizationId,
             stakeholder = command.stakeholder ?: originalCatalogue.stakeholder,
-        ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets) }
+        ).let { doCreate(it, isTranslation = true, isTranslationOf = null, initDatasets, isDraftValidation = false) }
 
         originalCatalogue.imageFsPath?.let { path ->
             CatalogueSetImageCommand(
@@ -338,7 +338,7 @@ class CatalogueF2AggregateService(
         command: CatalogueCreateCommandDTOBase,
         image: FilePart? = null,
     ): CatalogueCreatedEventDTOBase {
-        val createdEvent = doCreate(command)
+        val createdEvent = doCreate(command, isDraftValidation = true)
         image?.let { setImage(createdEvent.id, it) }
 
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
@@ -351,7 +351,7 @@ class CatalogueF2AggregateService(
                 language = command.language,
                 accessRights = CatalogueAccessRight.PUBLIC,
                 withDraft = false
-            ).let { doCreate(it) }
+            ).let { doCreate(it, isDraftValidation = true) }
         }
 
         return CatalogueCreatedEventDTOBase(
@@ -374,7 +374,7 @@ class CatalogueF2AggregateService(
         val originalCatalogueEvent = command.copy(
             language = null,
             hidden = true
-        ).let { doCreate(it) }
+        ).let { doCreate(it, isDraftValidation = false) }
 
         // create draft of the catalogue in the requested language
         val draftedCatalogueEvent = createOrphanTranslation(
@@ -434,6 +434,7 @@ class CatalogueF2AggregateService(
         isTranslation: Boolean = false,
         isTranslationOf: CatalogueId? = null,
         initDatasets: Boolean = true,
+        isDraftValidation: Boolean
     ): CatalogueCreatedEventDTOBase {
         val typeConfiguration = catalogueConfig.typeConfigurations[command.type]
         val createTranslation = !isTranslation && (typeConfiguration?.i18n?.enable ?: true) && command.language != null
@@ -441,7 +442,7 @@ class CatalogueF2AggregateService(
         val catalogueIdentifier = command.identifier
             ?: computeNewIdentifier(command.type)
 
-        val catalogue = getOrCreate(command, catalogueIdentifier, createTranslation, isTranslationOf, typeConfiguration)
+        val catalogue = getOrCreate(command, catalogueIdentifier, createTranslation, isTranslationOf, typeConfiguration, isDraftValidation)
 
         command.parentId?.let { assignParent(catalogue.id, it, typeConfiguration, false) }
 
@@ -464,7 +465,8 @@ class CatalogueF2AggregateService(
                 initDatasets = initDatasets,
                 integrateCounter = command.integrateCounter,
                 indicators = command.indicators,
-                additionalDatasets = typeConfiguration?.i18n?.datasets?.takeIf { initDatasets }
+                additionalDatasets = typeConfiguration?.i18n?.datasets?.takeIf { initDatasets },
+                isDraftValidation = isDraftValidation
             )
         }
 
@@ -503,7 +505,8 @@ class CatalogueF2AggregateService(
         catalogueIdentifier: CatalogueIdentifier,
         i18nEnabled: Boolean,
         isTranslationOf: CatalogueId?,
-        typeConfiguration: CatalogueTypeConfiguration?
+        typeConfiguration: CatalogueTypeConfiguration?,
+        isDraftValidation: Boolean
     ): CatalogueModel {
         val existing  = catalogueFinderService.getByIdentifierOrNull(catalogueIdentifier)
         if (existing != null) {
@@ -513,7 +516,8 @@ class CatalogueF2AggregateService(
             identifier = catalogueIdentifier,
             withTranslatable = !i18nEnabled,
             isTranslationOf = isTranslationOf,
-            hidden = command.hidden ?: typeConfiguration?.hidden ?: false
+            hidden = command.hidden ?: typeConfiguration?.hidden ?: false,
+            isDraftValidation = isDraftValidation
         )
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
         return catalogueFinderService.get(catalogueCreatedEvent.id)
@@ -537,7 +541,8 @@ class CatalogueF2AggregateService(
         if (catalogue.language == command.language) {
             val event = command.toCommand(
                 withTranslatable = true,
-                hidden = command.hidden ?: catalogue.hidden
+                hidden = command.hidden ?: catalogue.hidden,
+                isDraftValidation = !isDraft
             ).let { catalogueAggregateService.update(it) }
 
             command.indicators?.let { saveMetadataIndicators(catalogue.id, it) }
@@ -547,10 +552,17 @@ class CatalogueF2AggregateService(
 
         val event = command.toCommand(
             withTranslatable = false,
-            hidden = command.hidden ?: catalogue.hidden
+            hidden = command.hidden ?: catalogue.hidden,
+            isDraftValidation = !isDraft
         ).let { catalogueAggregateService.update(it) }
 
-        doUpdateTranslation(command, catalogue, isDraft, initControlledChildren)
+        doUpdateTranslation(
+            command = command,
+            masterCatalogue = catalogue,
+            isDraft = isDraft,
+            isDraftValidation = !isDraft,
+            initControlledChildren = initControlledChildren
+        )
 
         return event
     }
@@ -559,7 +571,8 @@ class CatalogueF2AggregateService(
         command: CatalogueUpdateCommandDTOBase,
         masterCatalogue: CatalogueModel,
         isDraft: Boolean,
-        initControlledChildren: Boolean
+        isDraftValidation: Boolean,
+        initControlledChildren: Boolean,
     ) {
         if (command.language in masterCatalogue.translationIds) {
             val translationId = masterCatalogue.translationIds[command.language]!!
@@ -585,6 +598,7 @@ class CatalogueF2AggregateService(
                 initDatasets = false,
                 integrateCounter = command.integrateCounter,
                 indicators = command.indicators,
+                isDraftValidation = isDraftValidation
             )
 
             // if draft, children catalogues have already been initialized in draft creation
@@ -823,6 +837,7 @@ class CatalogueF2AggregateService(
         integrateCounter: Boolean?,
         indicators: Map<InformationConceptId, List<String>>?,
         additionalDatasets: List<CatalogueTypeSubDataset>? = null,
+        isDraftValidation: Boolean
     ) {
         val event = CatalogueCreateCommandDTOBase(
             identifier = "$originalIdentifier-${language}",
@@ -833,7 +848,7 @@ class CatalogueF2AggregateService(
             versionNotes = versionNotes,
             integrateCounter = integrateCounter,
             indicators = indicators,
-        ).let { doCreate(it, isTranslation = true, isTranslationOf = originalId, initDatasets = initDatasets) }
+        ).let { doCreate(it, isTranslation = true, isTranslationOf = originalId, initDatasets = initDatasets, isDraftValidation) }
 
         createAndLinkDatasets(
             datasets = additionalDatasets,

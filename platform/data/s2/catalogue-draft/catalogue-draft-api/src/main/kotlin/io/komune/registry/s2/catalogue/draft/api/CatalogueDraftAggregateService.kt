@@ -36,7 +36,7 @@ class CatalogueDraftAggregateService(
             language = command.language.truncateLanguage(),
             baseVersion = command.baseVersion,
             datasetIdMap = command.datasetIdMap,
-            creatorId = AuthenticationProvider.getAuthedUser()!!.id
+            creatorId = AuthenticationProvider.getAuthedUser()?.id
         )
     }
 
@@ -83,9 +83,12 @@ class CatalogueDraftAggregateService(
     }
 
     suspend fun validate(command: CatalogueDraftValidateCommand) = automate.transition(command) {
+        val authedUser = AuthenticationProvider.getAuthedUser()
         CatalogueDraftValidatedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
+            validatorId = authedUser?.id,
+            validatorOrganizationId = authedUser?.memberOf
         )
     }
 

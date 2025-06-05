@@ -30,5 +30,5 @@ object CatalogueDraftPolicies {
         authedUser.owns(it) || authedUser.hasRole(Permissions.CatalogueDraft.DELETE_ALL)
     }
 
-    private fun AuthedUserDTO.owns(draft: CatalogueDraftRefDTO) = draft.creator.id == id
+    private fun AuthedUserDTO.owns(draft: CatalogueDraftRefDTO) = draft.creator?.id == id
 }

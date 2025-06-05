@@ -31,5 +31,5 @@ data class CatalogueDraftCreatedEvent(
     val language: Language,
     val baseVersion: Int,
     val datasetIdMap: Map<DatasetId, DatasetId>,
-    val creatorId: UserId,
+    val creatorId: UserId?,
 ) : CatalogueDraftEvent
