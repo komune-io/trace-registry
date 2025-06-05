@@ -88,6 +88,7 @@ class CatalogueDraftF2AggregateService(
             description = baseCatalogue.description,
             type = baseCatalogue.type,
             language = command.language,
+            configuration = originalCatalogue.configuration,
             catalogues = emptyList(),
             relatedCatalogueIds = baseCatalogue.relatedCatalogueIds?.mapValues { it.value.toList() },
             order = baseCatalogue.order,

@@ -5,6 +5,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
 import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.serialization.Serializable
@@ -39,7 +40,8 @@ data class CatalogueRefSearchQuery(
     override val accessRights: List<String>? = null,
     override val catalogueIds: List<String>? = null,
     override val relatedInCatalogueIds: Map<String, List<CatalogueId>>? = null,
-    override val parentIdentifier: List<String>? = null,
+    override val parentId: List<CatalogueId>? = null,
+    override val parentIdentifier: List<CatalogueIdentifier>? = null,
     override val themeIds: List<String>?,
     override val licenseId: List<String>?,
     override val type: List<String>?,

@@ -31,6 +31,7 @@ interface CataloguePageQueryDTO {
      * id of the catalogue
      */
     val catalogueId: CatalogueId?
+    val parentId: CatalogueId?
     val parentIdentifier: CatalogueIdentifier?
     val title: String?
     val status: String?
@@ -49,6 +50,7 @@ interface CataloguePageQueryDTO {
 @Serializable
 data class CataloguePageQuery(
     override val catalogueId: CatalogueId? = null,
+    override val parentId: CatalogueId? = null,
     override val parentIdentifier: CatalogueIdentifier? = null,
     override val title: String? = null,
     override val status: String? = null,
