@@ -1,6 +1,6 @@
 import { Dialog, IconButton, Stack } from '@mui/material'
-import { keepPreviousData } from '@tanstack/react-query'
-import { LabeledSwitch, useRoutesDefinition, useUrlSavedState } from 'components'
+import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
+import { LabeledSwitch, useRefetchOnDismount, useRoutesDefinition, useUrlSavedState } from 'components'
 import {
   CatalogueSearchFilters,
   CatalogueSearchQuery,
@@ -32,6 +32,8 @@ export const CatalogueLinkPage = () => {
   const { submittedFilters, component } = useCataloguesFilters({
     withPage: false
   })
+
+  const queryClient = useQueryClient()
 
   const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean }>({
     initialState: {
@@ -74,6 +76,17 @@ export const CatalogueLinkPage = () => {
   const addRelation = useCatalogueAddRelatedCataloguesCommand({})
   const removeRelation = useCatalogueRemoveRelatedCataloguesCommand({})
 
+  const refetchData = useCallback(
+    () => {
+      queryClient.invalidateQueries({ queryKey: ["data/cataloguePage", { parentIdentifier: tabId!, }] })
+      getSubCatalogue.refetch()
+    },
+    [queryClient.invalidateQueries, tabId, getSubCatalogue.refetch],
+  )
+
+
+  const { doRefetchOnDismount } = useRefetchOnDismount({ refetch: refetchData })
+
   useEffect(() => {
     if (debouncedRowSelection && Object.keys(debouncedRowSelection).length > 0) {
       //compare difference between initialSelection and debouncedRowSelection
@@ -86,12 +99,14 @@ export const CatalogueLinkPage = () => {
           id: subCatalogueId!,
           relatedCatalogueIds: { "content": addedCatalogues }
         })
+        doRefetchOnDismount()
       }
       if (removedCatalogues.length > 0) {
         removeRelation.mutate({
           id: subCatalogueId!,
           relatedCatalogueIds: { "content": removedCatalogues },
         })
+       doRefetchOnDismount()
       }
       previouslySavedRowSelection.current = debouncedRowSelection;
     }
