@@ -87,6 +87,7 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
     title = title,
     description = description,
     language = language,
+    configuration = configuration,
     homepage = homepage,
     ownerOrganizationId = ownerOrganizationId,
     stakeholder = stakeholder,
