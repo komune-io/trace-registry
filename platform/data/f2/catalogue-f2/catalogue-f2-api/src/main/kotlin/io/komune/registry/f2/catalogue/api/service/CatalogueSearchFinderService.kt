@@ -14,9 +14,12 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.license.domain.LicenseId
 import org.springframework.stereotype.Service
 
 @Service
@@ -34,7 +37,8 @@ class CatalogueSearchFinderService(
         otherLanguageIfAbsent: Boolean = false,
         accessRights: Match<String>? = null,
         catalogueIds: Match<String>? = null,
-        parentIdentifier: Match<String>? = null,
+        parentId: Match<CatalogueId>? = null,
+        parentIdentifier: Match<CatalogueIdentifier>? = null,
         type: Match<String>? = null,
         relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
@@ -52,6 +56,7 @@ class CatalogueSearchFinderService(
             language = language,
             otherLanguageIfAbsent = otherLanguageIfAbsent,
             licenseId = licenseId,
+            parentId = parentId,
             parentIdentifier = parentIdentifier,
             type = type,
             relatedInCatalogueIds = relatedInCatalogueIds,
@@ -86,7 +91,8 @@ class CatalogueSearchFinderService(
         otherLanguageIfAbsent: Boolean = false,
         accessRights: Match<String>? = null,
         catalogueIds: Match<String>? = null,
-        parentIdentifier: Match<String>? = null,
+        parentId: Match<CatalogueId>? = null,
+        parentIdentifier: Match<CatalogueIdentifier>? = null,
         type: Match<String>? = null,
         relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
@@ -104,6 +110,7 @@ class CatalogueSearchFinderService(
             language = language,
             otherLanguageIfAbsent = otherLanguageIfAbsent,
             licenseId = licenseId,
+            parentId = parentId,
             parentIdentifier = parentIdentifier,
             type = type,
             relatedInCatalogueIds = relatedInCatalogueIds,
@@ -142,12 +149,13 @@ class CatalogueSearchFinderService(
         language: Language,
         otherLanguageIfAbsent: Boolean = false,
         accessRights: Match<String>? = null,
-        catalogueIds: Match<String>? = null,
-        parentIdentifier: Match<String>? = null,
-        type: Match<String>? = null,
+        catalogueIds: Match<CatalogueId>? = null,
+        parentId: Match<CatalogueId>? = null,
+        parentIdentifier: Match<CatalogueIdentifier>? = null,
+        type: Match<CatalogueType>? = null,
         relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
-        licenseId: Match<String>? = null,
+        licenseId: Match<LicenseId>? = null,
         creatorOrganizationId: Match<OrganizationId>? = null,
         availableLanguages: Match<Language>? = null,
         withTransient: Boolean = true,
@@ -160,6 +168,7 @@ class CatalogueSearchFinderService(
             accessRights = accessRights,
             language = ExactMatch(language).takeUnless { otherLanguageIfAbsent },
             licenseId = licenseId,
+            parentId = parentId,
             parentIdentifier = parentIdentifier,
             type = andMatchOfNotNull(
                 type,

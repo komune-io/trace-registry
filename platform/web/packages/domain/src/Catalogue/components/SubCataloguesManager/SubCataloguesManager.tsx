@@ -1,11 +1,18 @@
-import { AddCircleOutlineRounded } from '@mui/icons-material'
-import { CustomButton, InfoTicket, TitleDivider } from 'components'
-import { useCallback, useMemo, useState } from 'react'
-import { SubCataloguePanel } from '../SubCataloguePanel'
-import { useTranslation } from 'react-i18next'
-import { CatalogueRef } from '../../model'
-import { autoFormFormatter, BackAutoFormData, CommandWithFile } from '@komune-io/g2'
-import { CatalogueCreateCommand, CatalogueUpdateCommand, useCatalogueCreateCommand, useCatalogueGetStructureQuery, useCataloguePageQuery, useCatalogueUpdateCommand } from '../../api'
+import {AddCircleOutlineRounded} from '@mui/icons-material'
+import {CustomButton, InfoTicket, TitleDivider} from 'components'
+import {useCallback, useMemo, useState} from 'react'
+import {SubCataloguePanel} from '../SubCataloguePanel'
+import {useTranslation} from 'react-i18next'
+import {CatalogueRef} from '../../model'
+import {autoFormFormatter, BackAutoFormData, CommandWithFile} from '@komune-io/g2'
+import {
+  CatalogueCreateCommand,
+  CatalogueUpdateCommand,
+  useCatalogueCreateCommand,
+  useCatalogueGetStructureQuery,
+  useCataloguePageQuery,
+  useCatalogueUpdateCommand
+} from '../../api'
 
 export interface SubCataloguesManagerProps {
   catalogue?: CatalogueRef
@@ -49,11 +56,11 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
 
   const cataloguePage = useCataloguePageQuery({
     query: {
-      parentIdentifier: catalogue?.identifier,
+      parentId: catalogue?.id,
       language: i18n.language
     },
     options: {
-      enabled: catalogue?.identifier !== undefined
+      enabled: catalogue?.id !== undefined
     }
   })
 
@@ -64,7 +71,7 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
       const res = await catalogueCreateCommand.mutateAsync({
         command: {
           ...command.command,
-          parentId: catalogue?.identifier,
+          parentId: catalogue?.id,
           language: i18n.language,
           type: creationContext.type ?? "inventory"
         },

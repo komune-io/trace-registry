@@ -4308,6 +4308,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CataloguePageQueryDTO {
         readonly catalogueId?: string;
+        readonly parentId?: string;
         readonly parentIdentifier?: string;
         readonly title?: string;
         readonly status?: string;
@@ -4358,6 +4359,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
         readonly relatedInCatalogueIds?: Record<string, string[]>;
+        readonly parentId?: string[];
         readonly parentIdentifier?: string[];
         readonly type?: string[];
         readonly themeIds?: string[];
@@ -4384,6 +4386,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
         readonly relatedInCatalogueIds?: Record<string, string[]>;
+        readonly parentId?: string[];
         readonly parentIdentifier?: string[];
         readonly type?: string[];
         readonly themeIds?: string[];
