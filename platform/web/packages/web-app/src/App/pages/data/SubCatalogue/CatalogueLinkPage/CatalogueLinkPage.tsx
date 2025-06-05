@@ -52,7 +52,7 @@ export const CatalogueLinkPage = () => {
       ...state,
       ...submittedFilters,
       isSelected: undefined,
-      relatedInCatalogueIds: state.isSelected ? {"content": [subCatalogueId]} : undefined,
+      relatedInCatalogueIds: state.isSelected ? { "content": [subCatalogueId] } : undefined,
       language: i18n.language,
     },
     options: {
@@ -61,7 +61,7 @@ export const CatalogueLinkPage = () => {
   })
 
   useEffect(() => {
-    if (getSubCatalogue.data?.item?.relatedCatalogues) {
+    if (getSubCatalogue.data?.item?.relatedCatalogues && getSubCatalogue.data?.item?.relatedCatalogues["content"]) {
       const selection: RowSelectionState = {}
       getSubCatalogue.data?.item?.relatedCatalogues["content"].forEach((relatedCatalogue) => {
         selection[relatedCatalogue.id] = true
@@ -75,30 +75,28 @@ export const CatalogueLinkPage = () => {
   const removeRelation = useCatalogueRemoveRelatedCataloguesCommand({})
 
   useEffect(() => {
-   if (debouncedRowSelection && Object.keys(debouncedRowSelection).length > 0) {
+    if (debouncedRowSelection && Object.keys(debouncedRowSelection).length > 0) {
       //compare difference between initialSelection and debouncedRowSelection
       const selectedCatalogueIds = Object.keys(debouncedRowSelection).filter(id => debouncedRowSelection[id]);
       const initialSelectedCatalogueIds = previouslySavedRowSelection.current ? Object.keys(previouslySavedRowSelection.current || {}).filter(id => previouslySavedRowSelection.current[id]) : []
-      console.log(initialSelectedCatalogueIds)
-       console.log(selectedCatalogueIds)
       const addedCatalogues = selectedCatalogueIds.filter(id => !initialSelectedCatalogueIds.includes(id));
       const removedCatalogues = initialSelectedCatalogueIds.filter(id => !selectedCatalogueIds.includes(id));
       if (addedCatalogues.length > 0) {
         addRelation.mutate({
           id: subCatalogueId!,
-          relatedCatalogueIds: {"content": addedCatalogues}
+          relatedCatalogueIds: { "content": addedCatalogues }
         })
       }
       if (removedCatalogues.length > 0) {
         removeRelation.mutate({
           id: subCatalogueId!,
-          relatedCatalogueIds: {"content": removedCatalogues},
+          relatedCatalogueIds: { "content": removedCatalogues },
         })
       }
       previouslySavedRowSelection.current = debouncedRowSelection;
-   }
+    }
   }, [debouncedRowSelection])
-  
+
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
 
@@ -134,8 +132,8 @@ export const CatalogueLinkPage = () => {
         <CloseRounded />
       </IconButton>
       <Stack
-      direction="row"
-      gap={3}
+        direction="row"
+        gap={3}
       >
         <Stack
           sx={{
