@@ -64,6 +64,8 @@ class CatalogueAggregateService(
 			themeIds = command.themeIds,
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId ?: authedUser?.memberOf,
+			validatorId = command.validatorId,
+			validatorOrganizationId = command.validatorOrganizationId,
 			stakeholder = command.stakeholder,
 			isTranslationOf = command.isTranslationOf,
 			catalogueIds = command.catalogueIds,
@@ -75,6 +77,7 @@ class CatalogueAggregateService(
 			location = command.location,
 			order = command.order,
 			hidden = command.hidden,
+			versionNotes = command.versionNotes,
 			integrateCounter = command.integrateCounter,
 		)
 	}
@@ -90,6 +93,8 @@ class CatalogueAggregateService(
 			themeIds = command.themeIds,
 			homepage = command.homepage,
 			ownerOrganizationId = command.ownerOrganizationId,
+			validatorId = command.validatorId,
+			validatorOrganizationId = command.validatorOrganizationId,
 			stakeholder = command.stakeholder,
 			accessRights = command.accessRights ?: it.accessRights,
 			licenseId = command.licenseId,
@@ -97,7 +102,7 @@ class CatalogueAggregateService(
 			order = command.order,
 			hidden = command.hidden,
 			versionNotes = command.versionNotes,
-			integrateCounter = command.integrateCounter,
+			integrateCounter = command.integrateCounter
 		)
 	}
 

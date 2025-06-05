@@ -73,19 +73,19 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
         publisher: {
-            value: "Objectif 100M", //to find in catalogue
+            value: catalogue?.creatorOrganization?.name,
             label: t("publisher"),
         },
         creationDate: {
-            value: new Date().toLocaleDateString(), //to find in catalogue
+            value: catalogue?.issued ? new Date(catalogue.issued).toLocaleDateString() : "",
             label: t("creation"),
         },
         updateDate: {
-            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "", //to find in catalogue
+            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "",
             label: t("update"),
         },
         validator: {
-            value: "Nom Prénom", //to find in catalogue
+            value: catalogue?.validatorOrganization?.name,
             label: t("validator"),
         },
     }), [catalogue, t])

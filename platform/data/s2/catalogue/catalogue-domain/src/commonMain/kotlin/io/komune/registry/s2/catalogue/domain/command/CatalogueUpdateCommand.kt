@@ -5,6 +5,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Location
 import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
 import kotlinx.serialization.Serializable
 
@@ -17,6 +18,8 @@ data class CatalogueUpdateCommand(
     val themeIds: Set<ConceptId>,
     val homepage: String?,
     val ownerOrganizationId: OrganizationId?,
+    val validatorId: UserId?,
+    val validatorOrganizationId: OrganizationId?,
     val stakeholder: String?,
     val accessRights: CatalogueAccessRight?,
     val licenseId: String?,
@@ -37,6 +40,8 @@ data class CatalogueUpdatedEvent(
     override val themeIds: Set<ConceptId>,
     override val homepage: String?,
     override val ownerOrganizationId: OrganizationId?,
+    override val validatorId: UserId?,
+    override val validatorOrganizationId: OrganizationId?,
     override val stakeholder: String?,
     override val accessRights: CatalogueAccessRight,
     override val licenseId: String?,

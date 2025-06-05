@@ -1,8 +1,10 @@
 package io.komune.registry.s2.catalogue.draft.domain.command
 
 import io.komune.registry.s2.commons.model.CatalogueDraftId
-import kotlin.js.JsExport
+import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.UserId
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * @d2 command
@@ -26,5 +28,7 @@ data class CatalogueDraftValidateCommand(
 @Serializable
 data class CatalogueDraftValidatedEvent(
     override val id: CatalogueDraftId,
-    override val date: Long
+    override val date: Long,
+    val validatorId: UserId?,
+    val validatorOrganizationId: OrganizationId?
 ) : CatalogueDraftEvent

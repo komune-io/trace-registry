@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.api.model
 
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
@@ -32,55 +33,67 @@ suspend fun CatalogueModel.toAccessData(
     accessRights = accessRights
 )
 
-fun CatalogueCreateCommandDTOBase.toCommand(
+suspend fun CatalogueCreateCommandDTOBase.toCommand(
     identifier: String,
     withTranslatable: Boolean,
     isTranslationOf: CatalogueId?,
-    hidden: Boolean
-) = CatalogueCreateCommand(
-    identifier = identifier,
-    title = title.takeIf { withTranslatable }.orEmpty(),
-    description = description.takeIf { withTranslatable },
-    type = type,
-    language = language.takeIf { withTranslatable },
-    configuration = configuration,
-    homepage = homepage,
-    ownerOrganizationId = ownerOrganizationId,
-    stakeholder = stakeholder,
-    themeIds = themes?.toSet().orEmpty(),
-    catalogueIds = catalogues?.toSet().orEmpty(),
-    datasetIds = emptySet(),
-    isTranslationOf = isTranslationOf,
-    accessRights = accessRights,
-    licenseId = license,
-    location = location,
-    versionNotes = versionNotes.takeIf { withTranslatable },
-    order = order,
-    hidden = hidden,
-    integrateCounter = integrateCounter.takeIf { withTranslatable }
-)
+    hidden: Boolean,
+    isDraftValidation: Boolean
+): CatalogueCreateCommand {
+    val authedUser = AuthenticationProvider.getAuthedUser()
+    return CatalogueCreateCommand(
+        identifier = identifier,
+        title = title.takeIf { withTranslatable }.orEmpty(),
+        description = description.takeIf { withTranslatable },
+        type = type,
+        language = language.takeIf { withTranslatable },
+        configuration = configuration,
+        homepage = homepage,
+        ownerOrganizationId = ownerOrganizationId,
+        validatorId = authedUser?.id?.takeIf { isDraftValidation },
+        validatorOrganizationId = authedUser?.memberOf?.takeIf { isDraftValidation },
+        stakeholder = stakeholder,
+        themeIds = themes?.toSet().orEmpty(),
+        catalogueIds = catalogues?.toSet().orEmpty(),
+        datasetIds = emptySet(),
+        isTranslationOf = isTranslationOf,
+        accessRights = accessRights,
+        licenseId = license,
+        location = location,
+        versionNotes = versionNotes.takeIf { withTranslatable },
+        order = order,
+        hidden = hidden,
+        integrateCounter = integrateCounter.takeIf { withTranslatable }
+    )
+}
 
-fun CatalogueUpdateCommandDTOBase.toCommand(
+suspend fun CatalogueUpdateCommandDTOBase.toCommand(
     withTranslatable: Boolean,
-    hidden: Boolean
-) = CatalogueUpdateCommand(
-    id = id,
-    title = title.takeIf { withTranslatable }.orEmpty(),
-    description = description.takeIf { withTranslatable },
-    language = language.takeIf { withTranslatable },
-    configuration = configuration,
-    homepage = homepage,
-    ownerOrganizationId = ownerOrganizationId,
-    stakeholder = stakeholder,
-    themeIds = themes?.toSet().orEmpty(),
-    accessRights = accessRights,
-    licenseId = license,
-    location = location,
-    order = order,
-    hidden = hidden,
-    versionNotes = versionNotes.takeIf { withTranslatable },
-    integrateCounter = integrateCounter.takeIf { withTranslatable },
-)
+    hidden: Boolean,
+    isDraftValidation: Boolean
+): CatalogueUpdateCommand {
+    val authedUser = AuthenticationProvider.getAuthedUser()
+    return CatalogueUpdateCommand(
+        id = id,
+        title = title.takeIf { withTranslatable }.orEmpty(),
+        description = description.takeIf { withTranslatable },
+        language = language.takeIf { withTranslatable },
+        configuration = configuration,
+        homepage = homepage,
+        ownerOrganizationId = ownerOrganizationId,
+        validatorId = authedUser?.id?.takeIf { isDraftValidation },
+        validatorOrganizationId = authedUser?.memberOf?.takeIf { isDraftValidation },
+        stakeholder = stakeholder,
+        themeIds = themes?.toSet().orEmpty(),
+        accessRights = accessRights,
+        licenseId = license,
+        location = location,
+        order = order,
+        hidden = hidden,
+        versionNotes = versionNotes.takeIf { withTranslatable },
+        integrateCounter = integrateCounter.takeIf { withTranslatable },
+    )
+}
 
 fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(
     id = id,

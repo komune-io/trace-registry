@@ -47,7 +47,7 @@ class CatalogueDraftPoliciesEnforcer(
     suspend fun enforceGet(draft: CatalogueDraftDTOBase) = enforceConfigAuthed { authedUser ->
         draft.takeIf {
             authedUser != null &&
-                (draft.creator.id == authedUser.id || authedUser.hasRole(Permissions.CatalogueDraft.READ_ALL))
+                (draft.creator?.id == authedUser.id || authedUser.hasRole(Permissions.CatalogueDraft.READ_ALL))
         }
     }
 

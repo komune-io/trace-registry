@@ -156,6 +156,8 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		themeIds = event.themeIds.toMutableSet()
 		homepage = event.homepage
 		ownerOrganizationId = event.ownerOrganizationId
+		event.validatorId?.let { validatorId = it }
+		event.validatorOrganizationId?.let { validatorOrganizationId = it }
 		stakeholder = event.stakeholder
 		accessRights = event.accessRights
 		licenseId = event.licenseId
