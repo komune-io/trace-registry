@@ -105,7 +105,8 @@ class CatalogueF2FinderService(
 
     suspend fun page(
         id: Match<String>? = null,
-        parentIdentifier: String? = null,
+        parentId: Match<CatalogueId>? = null,
+        parentIdentifier: Match<CatalogueIdentifier>? = null,
         language: String,
         otherLanguageIfAbsent: Boolean = false,
         title: Match<String>? = null,
@@ -121,6 +122,7 @@ class CatalogueF2FinderService(
         val catalogues = catalogueFinderService.page(
             id = id,
             title = title,
+            parentId = parentId,
             parentIdentifier = parentIdentifier,
             type = type,
             relatedInCatalogueIds = relatedInCatalogueIds,

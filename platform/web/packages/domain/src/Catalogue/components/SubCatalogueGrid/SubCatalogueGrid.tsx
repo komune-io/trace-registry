@@ -1,10 +1,10 @@
-import { Catalogue } from '../../model'
-import { useCataloguePageQuery } from '../../api'
-import { useTranslation } from 'react-i18next'
-import { Box } from '@mui/material'
-import { TitledImg, useRoutesDefinition } from 'components'
-import { useMemo } from 'react'
-import { g2Config } from '@komune-io/g2'
+import {Catalogue} from '../../model'
+import {useCataloguePageQuery} from '../../api'
+import {useTranslation} from 'react-i18next'
+import {Box} from '@mui/material'
+import {TitledImg, useRoutesDefinition} from 'components'
+import {useMemo} from 'react'
+import {g2Config} from '@komune-io/g2'
 
 export interface SubCatalogueGridProps {
     catalogue?: Catalogue
@@ -21,11 +21,11 @@ export const SubCatalogueGrid = (props: SubCatalogueGridProps) => {
 
     const { data, ["isLoading"]: subCatalogueLoading } = useCataloguePageQuery({
         query: {
-            parentIdentifier: catalogue?.identifier,
+            parentId: catalogue?.id,
             language: i18n.language
         },
         options: {
-            enabled: catalogue?.identifier !== undefined
+            enabled: catalogue?.id !== undefined
         }
     })
 
