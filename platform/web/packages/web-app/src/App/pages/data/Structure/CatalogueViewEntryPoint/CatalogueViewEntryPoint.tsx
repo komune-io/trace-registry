@@ -2,9 +2,8 @@ import {
   CatalogueBreadcrumbs,
   Catalogue, DatasetRouterSection,
   CreateDraftButton,
-  useCatalogueSearchQuery,
-  CatalogueSearchQuery,
-  CatalogueSearchModule,
+  SubCatalogueModule,
+  CatalogueRouterSection,
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -13,31 +12,31 @@ import { InfoTicket, maybeAddItem, useRoutesDefinition, SectionTab, Tab, useExte
 import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
 import { useCataloguesRouteParams } from 'domain-components'
 import { Stack } from '@mui/material'
-import {useLocation} from "react-router";
-import { keepPreviousData } from '@tanstack/react-query'
+import { useLocation } from "react-router";
 
 interface CatalogueViewEntryPointProps {
   catalogue: Catalogue
 }
 
 export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => {
-    const {
-      catalogue
-    } = props
-    const { t, i18n } = useTranslation()
-    const { ids } = useCataloguesRouteParams()
-    const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
-    const {policies} = useExtendedAuth()
-    const navigate = useNavigate()
-    const location = useLocation();
-    const [emptyTabs, setEmptyTabs] = useState<Record<string, boolean>>({})
+  const {
+    catalogue
+  } = props
+  const { t, i18n } = useTranslation()
+  const { ids } = useCataloguesRouteParams()
+  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+  const { policies } = useExtendedAuth()
+  const navigate = useNavigate()
+  const location = useLocation();
+  const [emptyTabs, setEmptyTabs] = useState<Record<string, boolean>>({})
 
-    const { cataloguesTab } = useRoutesDefinition()
-    const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
-        navigate(cataloguesTab(value, ...ids))
-    }, [ids])
+  const { cataloguesTab } = useRoutesDefinition()
+  const onTabChange = useCallback((_: SyntheticEvent<Element, Event>, value: string) => {
+    navigate(cataloguesTab(value, ...ids))
+  }, [ids])
 
-    const datasetTab: Tab[] = useMemo(() => catalogue?.datasets
+  const tabs: Tab[] = useMemo(() => [
+    ...catalogue?.datasets
       ?.filter((it) => {
         const display = it.structure?.definitions?.display ?? ""
         return display.includes("read")
@@ -45,104 +44,100 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
       ?.map((dataset) => {
         if (emptyTabs[dataset.id]) return null
         return {
-            key: dataset.id,
-            label: dataset.title!,
-            component: <DatasetRouterSection
-                catalogue={catalogue}
-                item={dataset}
-                isLoading={false}
-                isEmpty={(isEmpty) => {
-                    setEmptyTabs((prev) => ({
-                        ...prev,
-                        [dataset.id]: isEmpty
-                    }))
-                }}
-            />
+          key: dataset.id,
+          label: dataset.title!,
+          component: <DatasetRouterSection
+            catalogue={catalogue}
+            item={dataset}
+            isLoading={false}
+            isEmpty={(isEmpty) => {
+              setEmptyTabs((prev) => ({
+                ...prev,
+                [dataset.id]: isEmpty
+              }))
+            }}
+          />
         }
-    }).filter(Boolean) as Tab[] ?? [], [catalogue, emptyTabs])
+      }),
+    ...catalogue?.catalogues
+      ?.filter((it) => {
+        return it.structure?.isTab
+      })
+      ?.map((catalogue) => {
+        if (emptyTabs[catalogue.id]) return null
+        return {
+          key: catalogue.id,
+          label: catalogue.title!,
+          component: <CatalogueRouterSection
+            item={catalogue}
+            isLoading={false}
+            isEmpty={(isEmpty) => {
+              setEmptyTabs((prev) => ({
+                ...prev,
+                [catalogue.id]: isEmpty
+              }))
+            }}
+          />
+        }
+      }),
+    ...maybeAddItem(!emptyTabs['subCatalogues'], {
+      key: 'subCatalogues',
+      label: t('subCatalogues'),
+      component: (<SubCatalogueModule
+        parentIdentifier={catalogue?.identifier}
+        type="GRID"
+        isEmpty={(isEmpty) => {
+          setEmptyTabs((prev) => ({
+            ...prev,
+            ['subCatalogues']: isEmpty
+          }))
+        }}
+      />)
+    })
+  ].filter(Boolean) as Tab[] ?? [], [catalogue, emptyTabs])
 
 
   const currentTab = useMemo(() => {
-      const tab = location.hash.replace('#', '')
-      return !tab || tab === '' ? datasetTab[0]?.key : tab
-    },
+    const tab = location.hash.replace('#', '')
+    return !tab || tab === '' ? tabs[0]?.key : tab
+  },
     [location]
   )
 
-  const [state, setState] = useState<Partial<CatalogueSearchQuery>>({})
-  
-  const changeValueCallback = useCallback(
-    (valueKey: keyof CatalogueSearchQuery) => (value: any) => {
-      
-      setState(old => {
-        if ((typeof value === 'number' || !!value) && value.length !== 0) {
-          return {...old, [valueKey]: value}
-        }
-        return {...old, [valueKey]: undefined}
-      })
-    },
-    []
-  )
-  
-    const { data, isFetching } = useCatalogueSearchQuery({
-      query: {
-        ...state,
-        parentIdentifier: [catalogue?.identifier],
-        language: i18n.language
-      },
-      options: {
-        placeholderData: keepPreviousData,
-        enabled: catalogue?.identifier !== undefined
+  const currentLanguageDraft = useMemo(() => catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language), [catalogue, i18n.language])
+
+  return (
+    <AppPage title={catalogue?.title}>
+      <Stack
+        gap={2}
+        justifyContent="space-between"
+        alignItems="center"
+        direction="row"
+      >
+        <CatalogueBreadcrumbs />
+        <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate()} />
+      </Stack>
+      {currentLanguageDraft && <InfoTicket
+        title={t("catalogues.activeContribution")}
+      >
+        <CustomLinkButton
+          to={cataloguesCatalogueIdDraftIdEditTab(catalogue?.id!, currentLanguageDraft.id)}
+        >
+          {t("catalogues.consultContribution")}
+        </CustomLinkButton>
+      </InfoTicket>
       }
-    })
-
-    const items = data?.items ?? []
-    const tabs: Tab[] = useMemo(() => {
-        const tabs: Tab[] = [
-          ...datasetTab
-          , ...maybeAddItem(items.length > 0 || Object.keys(state).length > 0, {
-            key: 'subCatalogues',
-            label: t('subCatalogues'),
-            component: (<CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage />)
-        }),
-        ]
-        return tabs
-    }, [t, data, catalogue, isFetching, state, changeValueCallback])
-
-    const currentLanguageDraft = useMemo(() => catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language), [catalogue, i18n.language])
-
-    return (
-        <AppPage title={catalogue?.title}>
-            <Stack
-                gap={2}
-                justifyContent="space-between"
-                alignItems="center"
-                direction="row"
-            >
-                <CatalogueBreadcrumbs />
-                <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate()} />
-            </Stack>
-            {currentLanguageDraft && <InfoTicket
-                title={t("catalogues.activeContribution")}
-            >
-                <CustomLinkButton
-                    to={cataloguesCatalogueIdDraftIdEditTab(catalogue?.id!, currentLanguageDraft.id)}
-                >
-                    {t("catalogues.consultContribution")}
-                </CustomLinkButton>
-            </InfoTicket>
-            }
-            <SectionTab
-            keepMounted
-                tabs={tabs}
-                currentTab={currentTab}
-                onTabChange={onTabChange}
-                sx={{
-                    "& .AruiSection-contentContainer": {
-                        gap: (theme) => theme.spacing(5)
-                    }
-                }}
-            />
-        </AppPage>
-    )
+      <SectionTab
+        keepMounted
+        tabs={tabs}
+        currentTab={currentTab}
+        onTabChange={onTabChange}
+        sx={{
+          "& .AruiSection-contentContainer": {
+            gap: (theme) => theme.spacing(5)
+          }
+        }}
+      />
+    </AppPage>
+  )
 }
