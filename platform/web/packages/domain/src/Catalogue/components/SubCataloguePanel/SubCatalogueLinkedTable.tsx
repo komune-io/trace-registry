@@ -1,12 +1,15 @@
 import { Stack, Typography } from '@mui/material'
 import { Accordion, CustomLinkButton, InfoTicket, useRoutesDefinition } from 'components'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { CatalogueTable } from '../CatalogueTable'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { Catalogue, CatalogueRef } from '../../model'
 import { PageQueryResult } from 'template'
 import { Link } from '@mui/icons-material'
+import { useCataloguesFilters } from '100m-components'
+import { CatalogueSearchQuery } from '../../api'
+import { Pagination } from '@komune-io/g2'
 
 interface SubCatalogueLinkedTableProps {
     catalogue?: Catalogue
@@ -16,15 +19,52 @@ interface SubCatalogueLinkedTableProps {
 export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => {
     const { catalogue, tab } = props
     const { catalogueId, draftId } = useParams<{ catalogueId: string; draftId: string }>()
+    const { submittedFilters, component, setOffset } = useCataloguesFilters({
+        noType: true,
+        urlStorage: false
+    })
+
     const { t } = useTranslation()
+
     const { cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue } = useRoutesDefinition()
+
     const data = useMemo((): PageQueryResult<CatalogueRef> => {
-        const items = Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related)
+        let items = Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related)
+        const filters = submittedFilters as CatalogueSearchQuery
+        if (filters.query) {
+            items = items.filter((item) => {
+                return item.title?.toLowerCase().includes(filters.query!.toLowerCase()) ||
+                    item.description?.toLowerCase().includes(filters.query!.toLowerCase())
+            })
+        }
+        if (filters.availableLanguages && filters.availableLanguages.length > 0) {
+            items = items.filter((item) => {
+                return item.availableLanguages?.some((lang) => filters.availableLanguages!.includes(lang))
+            })
+        }
         return {
             items,
             total: items.length,
         }
-    }, [catalogue])
+    }, [catalogue, submittedFilters])
+
+    const currentPage: number = useMemo(() => {
+        return (submittedFilters.offset! / submittedFilters.limit!) + 1
+    }, [submittedFilters.offset, submittedFilters.limit])
+
+    const total = useMemo(() => {
+        if (!data?.total) return { page: undefined, items: undefined }
+        return {
+            page: Math.floor((data.total - 1) / submittedFilters.limit!) + 1,
+            items: data.total
+        }
+    }, [data?.total, submittedFilters.limit])
+
+    const handlePageChange = useCallback((pageNumber: number) => {
+        const limit = submittedFilters.limit!
+        const offset = (pageNumber - 1) * limit
+        setOffset({ offset, limit })
+    }, [submittedFilters.limit])
 
     return (
         <>
@@ -32,10 +72,20 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
                 summary={<Typography variant="h6" >{t("catalogueList")}</Typography>}
                 defaultExpanded
             >
-                {data.items.length > 0 ? <CatalogueTable
-                    page={data}
-                    isRef
-                /> :
+                {data.items.length > 0 ? <>
+                    {component}
+                    <CatalogueTable
+                        page={data}
+                        onPageChange={handlePageChange}
+                        isRef
+                    />
+                    <Pagination
+                        onPageChange={handlePageChange}
+                        page={currentPage}
+                        totalPage={total.page ?? 0}
+                        siblingCount={1}
+                    />
+                </> :
                     <Stack
                         gap={5}
                         sx={{

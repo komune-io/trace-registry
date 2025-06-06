@@ -394,8 +394,8 @@
         "subCatalogueDeleteTitle": "Suppression du sous-catalogue {{name}}",
         "subCatalogueDeleteDescription": "Cette action est irréversible. Voulez-vous vraiment supprimer ce sous-catalogue ?",
         "selectedOnly": "Sélectionnés uniquement",
-        "noCatalogueLinkedToSub": "Aucune fiche associé à ce sous catalogue",
-        "LinkedCataloguesDescription": "Ici, vous pouvez lier une ou plusieurs fiches existantes afin d’exposer dynamiquement leur contenu dans ce contexte.\n\nCommencez par ajouter un ou plusieurs fiches à associer."
+        "noCatalogueLinkedToSub": "Aucune fiche associée à ce sous catalogue",
+        "LinkedCataloguesDescription": "Ici, vous pouvez lier une ou plusieurs fiches existantes afin d’exposer dynamiquement leur contenu dans ce contexte.\n\nCommencez par ajouter une ou plusieurs fiches à associer."
     },
     "editor": {
         "imageUrl": "URL de l'image",

@@ -1,4 +1,4 @@
-import { Dialog, IconButton, Stack } from '@mui/material'
+import { Box, CircularProgress, Dialog, IconButton, Stack, Typography } from '@mui/material'
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 import { LabeledSwitch, useRefetchOnDismount, useRoutesDefinition, useUrlSavedState } from 'components'
 import {
@@ -14,7 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { OffsetPagination } from 'template'
-import { RowSelectionState } from '@tanstack/react-table';
+import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useCataloguesFilters } from '100m-components'
@@ -26,11 +26,13 @@ export const CatalogueLinkPage = () => {
   const navigate = useNavigate()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [debouncedRowSelection] = useDebouncedValue(rowSelection, 300);
-  const previouslySavedRowSelection = useRef<RowSelectionState>({})
+  const previouslySavedRowSelection = useRef<RowSelectionState | undefined>(undefined)
+  const [isSaving, setIsSaving] = useState(false)
   const { catalogueId, draftId, tabId, subCatalogueId } = useParams()
   const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
   const { submittedFilters, component } = useCataloguesFilters({
-    withPage: false
+    withPage: false,
+    noType: true,
   })
 
   const queryClient = useQueryClient()
@@ -53,12 +55,15 @@ export const CatalogueLinkPage = () => {
     query: {
       ...state,
       ...submittedFilters,
+
+      type: getSubCatalogue.data?.item?.configuration?.relations?.content?.types,
       isSelected: undefined,
       relatedInCatalogueIds: state.isSelected ? { "content": [subCatalogueId] } : undefined,
       language: i18n.language,
     },
     options: {
       placeholderData: keepPreviousData,
+      enabled: !!getSubCatalogue.data?.item,
     }
   })
 
@@ -70,6 +75,8 @@ export const CatalogueLinkPage = () => {
       })
       setRowSelection(selection)
       previouslySavedRowSelection.current = selection
+    } else if (getSubCatalogue.data?.item) {
+      previouslySavedRowSelection.current = {}
     }
   }, [getSubCatalogue.data?.item])
 
@@ -88,25 +95,29 @@ export const CatalogueLinkPage = () => {
   const { doRefetchOnDismount } = useRefetchOnDismount({ refetch: refetchData })
 
   useEffect(() => {
-    if (debouncedRowSelection && Object.keys(debouncedRowSelection).length > 0) {
+    if (debouncedRowSelection && previouslySavedRowSelection.current) {
       //compare difference between initialSelection and debouncedRowSelection
       const selectedCatalogueIds = Object.keys(debouncedRowSelection).filter(id => debouncedRowSelection[id]);
-      const initialSelectedCatalogueIds = previouslySavedRowSelection.current ? Object.keys(previouslySavedRowSelection.current || {}).filter(id => previouslySavedRowSelection.current[id]) : []
+      const initialSelectedCatalogueIds = previouslySavedRowSelection.current ? Object.keys(previouslySavedRowSelection.current || {}).filter(id => previouslySavedRowSelection.current![id]) : []
       const addedCatalogues = selectedCatalogueIds.filter(id => !initialSelectedCatalogueIds.includes(id));
       const removedCatalogues = initialSelectedCatalogueIds.filter(id => !selectedCatalogueIds.includes(id));
       if (addedCatalogues.length > 0) {
-        addRelation.mutate({
+        addRelation.mutateAsync({
           id: subCatalogueId!,
           relatedCatalogueIds: { "content": addedCatalogues }
+        }).then(() => {
+          setIsSaving(false)
         })
         doRefetchOnDismount()
       }
       if (removedCatalogues.length > 0) {
-        removeRelation.mutate({
+        removeRelation.mutateAsync({
           id: subCatalogueId!,
           relatedCatalogueIds: { "content": removedCatalogues },
+        }).then(() => {
+          setIsSaving(false)
         })
-       doRefetchOnDismount()
+        doRefetchOnDismount()
       }
       previouslySavedRowSelection.current = debouncedRowSelection;
     }
@@ -122,6 +133,21 @@ export const CatalogueLinkPage = () => {
     [navigate, catalogueId, draftId, tabId],
   )
 
+  const onRowSelectionChange = useCallback<OnChangeFn<RowSelectionState>>(
+    (fncOrValue) => {
+      setRowSelection(fncOrValue)
+      setIsSaving(true)
+    },
+    [],
+  )
+
+  const distributionWithoutType = useMemo(() => {
+    if (!data) return undefined
+    const distribution = { ...data.distribution }
+    delete distribution.type
+    return distribution
+  }, [data?.distribution])
+
   return (
     <Dialog
       fullScreen
@@ -136,16 +162,31 @@ export const CatalogueLinkPage = () => {
         }
       }}
     >
-      <IconButton
-        component={Link}
-        to={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tabId!)}
-        sx={{
-          color: "rgba(0, 0, 0, 0.54) !important",
-          alignSelf: "flex-end"
-        }}
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        gap={2}
       >
-        <CloseRounded />
-      </IconButton>
+        {isSaving && (
+          <>
+            <CircularProgress sx={{ml: 448}} size={20} />
+            <Typography
+              variant="body2">
+              {t('saving')}
+            </Typography>
+          </>
+        )}
+        <Box flex={1} />
+        <IconButton
+          component={Link}
+          to={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tabId!)}
+          sx={{
+            color: "rgba(0, 0, 0, 0.54) !important",
+          }}
+        >
+          <CloseRounded />
+        </IconButton>
+      </Stack>
       <Stack
         direction="row"
         gap={3}
@@ -167,9 +208,9 @@ export const CatalogueLinkPage = () => {
               />
             }
             savedState={state}
-            distributions={data?.distribution}
+            distributions={distributionWithoutType}
             //@ts-ignore
-            onChangeDistribution={changeValueCallback}
+            onChangeDistribution={onRowSelectionChange}
           />
         </Stack>
         <Stack
@@ -183,7 +224,7 @@ export const CatalogueLinkPage = () => {
           <CatalogueTable
             page={data}
             pagination={pagination}
-            isLoading={isFetching}
+            isLoading={isFetching || getSubCatalogue.isFetching}
             onOffsetChange={(offset) => {
               changeValueCallback('limit')(offset.limit)
               changeValueCallback('offset')(offset.offset)

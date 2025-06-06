@@ -1,4 +1,4 @@
-import {languages, useCustomFilters} from 'components'
+import {languages, maybeAddItem, useCustomFilters} from 'components'
 import {FilterComposableField} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -8,10 +8,11 @@ interface useCataloguesFiltersParams {
     initialValues?: any
     withPage?: boolean
     urlStorage?: boolean
+    noType?: boolean
 }
 
 export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
-    const {initialValues, withPage, urlStorage} = params ?? {}
+    const {initialValues, withPage, urlStorage, noType = false} = params ?? {}
     const {t} = useTranslation()
     const filters = useMemo((): FilterComposableField<keyof CatalogueSearchQuery>[] => [
         {
@@ -24,7 +25,7 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
             },
             mandatory: true
         },
-        {
+        ...maybeAddItem(!noType,{
             name: 'type',
             type: 'select',
             params: {
@@ -33,7 +34,7 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
                 multiple: true,
                 options: catalogueTypes.map((type) => ({ key: type, label: t("catalogues.types." + type) }))
             }
-        },
+        } as FilterComposableField<keyof CatalogueSearchQuery>),
         {
             name: 'availableLanguages',
             type: 'select',
