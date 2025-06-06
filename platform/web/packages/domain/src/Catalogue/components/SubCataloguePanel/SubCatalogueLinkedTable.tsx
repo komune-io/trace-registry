@@ -33,8 +33,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
         const filters = submittedFilters as CatalogueSearchQuery
         if (filters.query) {
             items = items.filter((item) => {
-                return item.title?.toLowerCase().includes(filters.query!.toLowerCase()) ||
-                    item.description?.toLowerCase().includes(filters.query!.toLowerCase())
+                return item.title?.toLowerCase().includes(filters.query!.toLowerCase())
             })
         }
         if (filters.availableLanguages && filters.availableLanguages.length > 0) {
@@ -43,7 +42,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
             })
         }
         return {
-            items,
+            items: items.slice(submittedFilters.offset!, submittedFilters.offset! + submittedFilters.limit!),
             total: items.length,
         }
     }, [catalogue, submittedFilters])
@@ -72,7 +71,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
                 summary={<Typography variant="h6" >{t("catalogueList")}</Typography>}
                 defaultExpanded
             >
-                {data.items.length > 0 ? <>
+                {Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related).length > 0 ? <>
                     {component}
                     <CatalogueTable
                         page={data}
