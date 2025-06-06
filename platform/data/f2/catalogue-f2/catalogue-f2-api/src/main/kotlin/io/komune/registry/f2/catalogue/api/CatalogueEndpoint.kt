@@ -22,7 +22,6 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
 import io.komune.registry.f2.catalogue.api.service.imports.CatalogueImportService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
@@ -374,8 +373,7 @@ class CatalogueEndpoint(
     override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction = f2Function { command ->
         logger.info("catalogueAddRelatedCatalogues: $command")
         cataloguePoliciesEnforcer.checkUpdate(command.id)
-        catalogueAggregateService.addRelatedCatalogues(command)
-            .let { CatalogueAddedRelatedCataloguesEventDTOBase(it.id) }
+        catalogueF2AggregateService.addRelatedCatalogues(command)
     }
 
     @Bean
