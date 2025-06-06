@@ -43,7 +43,6 @@ class UserF2AggregateService(
         }
 
         val trimmedOrganizationName = command.organizationName.trim()
-
         if (trimmedOrganizationName.isEmpty()) {
             throw OrganizationNameIsEmptyException()
         }
@@ -102,7 +101,7 @@ class UserF2AggregateService(
         try {
             return block(context)
         } catch (e: Exception) {
-            logger.error("Error while onboarding, rolling back...", e)
+            logger.info("Error while onboarding, rolling back...")
             context.userId?.let {
                 UserDeleteCommand(it).invokeWith(imClient.user.userDelete())
             }
