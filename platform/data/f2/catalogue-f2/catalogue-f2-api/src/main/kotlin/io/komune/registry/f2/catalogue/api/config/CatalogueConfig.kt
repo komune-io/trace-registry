@@ -45,6 +45,10 @@ class CatalogueConfig(
         }.keys
     }
 
+    final val controlledTypes: Set<String> by lazy {
+        typeConfigurations.filter { (_, config) -> config.parentalControl }.keys
+    }
+
     final val templates: Map<String, ByteArray> by lazy {
         logger.info("Loading catalogue templates from $templatesDir")
         loadFiles(templatesDir)

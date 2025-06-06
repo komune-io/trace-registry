@@ -194,7 +194,7 @@ class CatalogueI18nService(
                 .forEach { cache.untranslatedCatalogues.register(it.id, it) }
         }
 
-        catalogueIds.map { cache.untranslatedCatalogues.get(it) }
+        catalogueIds.mapNotNull { cache.untranslatedCatalogues.get(it) }
             .filter {
                 it.status != CatalogueState.DELETED
                         && catalogueConfig.typeConfigurations[it.type]?.structure?.isTab == false
@@ -272,7 +272,7 @@ class CatalogueI18nService(
         val catalogueRefs = mutableListOf<CatalogueRefDTOBase>()
         forEach { catalogueId ->
             val catalogue = cache.untranslatedCatalogues.get(catalogueId)
-                .takeIf { it.status != CatalogueState.DELETED && (!it.hidden || isDraft) }
+                ?.takeIf { it.status != CatalogueState.DELETED && (!it.hidden || isDraft) }
                 ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
 
             val catalogueRef = catalogue?.let { translateToRefDTO(it, language, otherLanguageIfAbsent) }

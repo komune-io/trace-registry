@@ -22,7 +22,6 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
 import io.komune.registry.f2.catalogue.api.service.imports.CatalogueImportService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
@@ -68,8 +67,12 @@ import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueType
+import io.komune.registry.s2.commons.model.FieldCriterion
+import io.komune.registry.s2.commons.model.andCriterionOfNotNull
+import io.komune.registry.s2.commons.model.orCriterionOfNotNull
 import io.komune.registry.s2.commons.utils.truncateLanguage
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
@@ -126,8 +129,14 @@ class CatalogueEndpoint(
             type = query.type?.let(::CollectionMatch),
             relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
-            hidden = ExactMatch(false).takeIf { (query.parentId ?: query.parentIdentifier) == null },
+            freeCriterion = andCriterionOfNotNull(
+                cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+                orCriterionOfNotNull(
+                    FieldCriterion(CatalogueCriterionField.Hidden, ExactMatch(false)),
+                    FieldCriterion(CatalogueCriterionField.Type, CollectionMatch(catalogueConfig.controlledTypes))
+                        .takeIf { (query.parentId ?: query.parentIdentifier) != null }
+                )
+            ),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -374,8 +383,7 @@ class CatalogueEndpoint(
     override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction = f2Function { command ->
         logger.info("catalogueAddRelatedCatalogues: $command")
         cataloguePoliciesEnforcer.checkUpdate(command.id)
-        catalogueAggregateService.addRelatedCatalogues(command)
-            .let { CatalogueAddedRelatedCataloguesEventDTOBase(it.id) }
+        catalogueF2AggregateService.addRelatedCatalogues(command)
     }
 
     @Bean

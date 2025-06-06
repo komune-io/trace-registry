@@ -141,6 +141,18 @@ class CatalogueFinderService(
 		)
 	}
 
+	suspend fun checkExist(ids: Collection<CatalogueId>) {
+		if (ids.isEmpty()) return
+
+		val distinctIds = ids.toSet()
+		val existingCatalogues = page(id = CollectionMatch(distinctIds)).items
+
+		if (existingCatalogues.size < distinctIds.size) {
+			val missingIds = distinctIds - existingCatalogues.map { it.id }.toSet()
+			throw NotFoundException("Catalogues", missingIds.joinToString(", "))
+		}
+	}
+
 	private suspend fun buildIdMatch(
 		id: Match<CatalogueId>? = null,
 		parentId: Match<CatalogueId>? = null,

@@ -1,17 +1,22 @@
-import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth, WarningTicket } from 'components'
-import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand, useCatalogueDeleteCommand } from 'domain-components'
-import { AppPage } from 'template'
-import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMetadataFormState } from './useMetadataFormState';
-import { Typography } from '@mui/material';
-import { useDraftTabs } from './useDraftTabs';
-import { useDraftValidations } from './useDraftValidations';
-import { useDebouncedCallback } from '@mantine/hooks';
-import { useDraftMutations } from './useDraftMutations';
-import { useDraftFormData } from './useDraftFormData';
+import {languages, LanguageSelector, SectionTab, Tab, TitleDivider, useExtendedAuth, useRoutesDefinition, WarningTicket} from 'components'
+import {
+  CatalogueEditionHeader,
+  useCatalogueDeleteCommand,
+  useCatalogueDraftCreateCommand,
+  useCatalogueDraftGetQuery
+} from 'domain-components'
+import {AppPage} from 'template'
+import {useNavigate, useParams} from "react-router-dom";
+import {useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useQueryClient} from '@tanstack/react-query';
+import {useMetadataFormState} from './useMetadataFormState';
+import {Typography} from '@mui/material';
+import {useDraftTabs} from './useDraftTabs';
+import {useDraftValidations} from './useDraftValidations';
+import {useDebouncedCallback} from '@mantine/hooks';
+import {useDraftMutations} from './useDraftMutations';
+import {useDraftFormData} from './useDraftFormData';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -36,8 +41,7 @@ export const DraftEditionPage = () => {
   })
 
   const draft = catalogueDraftQuery.data?.item
-
-  const catalogue = catalogueDraftQuery.data?.item?.catalogue
+  const catalogue = draft?.catalogue
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
@@ -57,6 +61,7 @@ export const DraftEditionPage = () => {
   })
 
   const { onSubmit, onValidate, validateMetadata } = useDraftValidations({
+    draft,
     metadataFormState,
     refetchDraft: catalogueDraftQuery.refetch,
     setTab,

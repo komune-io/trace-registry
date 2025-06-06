@@ -14,6 +14,7 @@ import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendant
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
+import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
@@ -38,6 +39,7 @@ import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
@@ -202,6 +204,7 @@ class CatalogueF2AggregateService(
         command.catalogues.ifEmpty {
             return CatalogueLinkedCataloguesEventDTOBase(command.id)
         }
+        catalogueFinderService.checkExist(command.catalogues)
 
         val parent = catalogueFinderService.get(command.id)
         val children = catalogueFinderService.page(
@@ -217,6 +220,12 @@ class CatalogueF2AggregateService(
             id = command.id,
             catalogueIds = command.catalogues
         ).let { catalogueAggregateService.linkCatalogues(it).toDTO() }
+    }
+
+    suspend fun addRelatedCatalogues(command: CatalogueAddRelatedCataloguesCommand): CatalogueAddedRelatedCataloguesEventDTOBase {
+        catalogueFinderService.checkExist(command.relatedCatalogueIds.values.flatten())
+        return catalogueAggregateService.addRelatedCatalogues(command)
+            .let { CatalogueAddedRelatedCataloguesEventDTOBase(it.id) }
     }
 
     suspend fun referenceDatasets(command: CatalogueReferenceDatasetsCommandDTOBase): CatalogueReferencedDatasetsEventDTOBase {
