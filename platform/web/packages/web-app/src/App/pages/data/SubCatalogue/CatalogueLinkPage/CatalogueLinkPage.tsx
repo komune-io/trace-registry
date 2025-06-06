@@ -85,7 +85,7 @@ export const CatalogueLinkPage = () => {
 
   const refetchData = useCallback(
     () => {
-      queryClient.invalidateQueries({ queryKey: ["data/cataloguePage", { parentIdentifier: tabId!, }] })
+      queryClient.invalidateQueries({ queryKey: ["data/cataloguePage", { parentId: tabId!, }] })
       getSubCatalogue.refetch()
     },
     [queryClient.invalidateQueries, tabId, getSubCatalogue.refetch],
@@ -169,7 +169,7 @@ export const CatalogueLinkPage = () => {
       >
         {isSaving && (
           <>
-            <CircularProgress sx={{ml: 448}} size={20} />
+            <CircularProgress sx={{ml: "424px"}} size={20} />
             <Typography
               variant="body2">
               {t('saving')}
@@ -210,7 +210,7 @@ export const CatalogueLinkPage = () => {
             savedState={state}
             distributions={distributionWithoutType}
             //@ts-ignore
-            onChangeDistribution={onRowSelectionChange}
+            onChangeDistribution={changeValueCallback}
           />
         </Stack>
         <Stack
@@ -230,7 +230,7 @@ export const CatalogueLinkPage = () => {
               changeValueCallback('offset')(offset.offset)
             }}
             rowSelection={rowSelection}
-            onRowSelectionChange={setRowSelection}
+            onRowSelectionChange={onRowSelectionChange}
           />
         </Stack>
       </Stack>
