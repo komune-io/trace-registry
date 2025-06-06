@@ -1,15 +1,15 @@
-import { TitleDivider, useRoutesDefinition, SectionTab, Tab } from 'components'
-import { CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand } from 'domain-components'
-import { AppPage } from 'template'
-import { useNavigate, useParams } from "react-router-dom";
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
-import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
-import { useDraftValidations } from '../DraftEditionPage/useDraftValidations';
-import { useDraftMutations } from '../DraftEditionPage/useDraftMutations';
-import { useDraftFormData } from '../DraftEditionPage/useDraftFormData';
+import {SectionTab, Tab, TitleDivider, useRoutesDefinition} from 'components'
+import {CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand} from 'domain-components'
+import {AppPage} from 'template'
+import {useNavigate, useParams} from "react-router-dom";
+import {useCallback} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useQueryClient} from '@tanstack/react-query';
+import {useMetadataFormState} from '../DraftEditionPage/useMetadataFormState';
+import {useDraftTabs} from '../DraftEditionPage/useDraftTabs';
+import {useDraftValidations} from '../DraftEditionPage/useDraftValidations';
+import {useDraftMutations} from '../DraftEditionPage/useDraftMutations';
+import {useDraftFormData} from '../DraftEditionPage/useDraftFormData';
 
 export const DraftValidationPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -31,11 +31,10 @@ export const DraftValidationPage = () => {
     },
   })
 
-  const catalogue = catalogueDraftQuery.data?.item?.catalogue
-
   const draft = catalogueDraftQuery.data?.item
+  const catalogue = draft?.catalogue
 
-   const formData = useDraftFormData({catalogue})
+  const formData = useDraftFormData({catalogue})
 
   const { onSaveMetadata, isUpdating } = useDraftMutations({
     refetchDraft: catalogueDraftQuery.refetch,
@@ -51,11 +50,12 @@ export const DraftValidationPage = () => {
   })
 
   const { onValidate } = useDraftValidations({
-      metadataFormState,
-      refetchDraft: catalogueDraftQuery.refetch,
-      setTab,
-      afterValidateNavigate: cataloguesToVerify(),
-    })
+    draft,
+    metadataFormState,
+    refetchDraft: catalogueDraftQuery.refetch,
+    setTab,
+    afterValidateNavigate: cataloguesToVerify(),
+  })
 
   const title = catalogue?.title ?? t("sheetValidation")
 
