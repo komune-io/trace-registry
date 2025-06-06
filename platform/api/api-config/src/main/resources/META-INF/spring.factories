@@ -1,0 +1,1 @@
+org.springframework.boot.env.EnvironmentPostProcessor=io.komune.registry.api.config.secret.DockerSecretEnvPostProcessor

@@ -30,8 +30,9 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 
 	private suspend fun create(event: CatalogueDraftCreatedEvent) = CatalogueDraftEntity().apply {
 		id = event.id
-		catalogueId = event.catalogueId
 		status = CatalogueDraftState.DRAFT
+		parentId = event.parentId
+		catalogueId = event.catalogueId
 		originalCatalogueId = event.original.id
 		originalCatalogueIdentifier = event.original.identifier
 		originalCatalogueType = event.original.type
@@ -66,12 +67,14 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.reject(event: CatalogueDraftRejectedEvent) = apply {
 		status = CatalogueDraftState.REJECTED
 		modified = event.date
+		rejectReason = event.reason
 	}
 
 	private suspend fun CatalogueDraftEntity.requestUpdate(event: CatalogueDraftRequestedUpdateEvent) = apply {
 		status = CatalogueDraftState.UPDATE_REQUESTED
 		modified = event.date
 	}
+
 	private suspend fun CatalogueDraftEntity.updateTitle(event: CatalogueDraftUpdatedTitleEvent) = apply {
 		modified = event.date
 		title = event.title
@@ -86,6 +89,8 @@ class CatalogueDraftEvolver: View<CatalogueDraftEvent, CatalogueDraftEntity> {
 	private suspend fun CatalogueDraftEntity.validate(event: CatalogueDraftValidatedEvent) = apply {
 		status = CatalogueDraftState.VALIDATED
 		modified = event.date
+		validatorId = event.validatorId
+		validatorOrganizationId = event.validatorOrganizationId
 	}
 
 	private suspend fun CatalogueDraftEntity.delete(event: CatalogueDraftDeletedEvent) = apply {

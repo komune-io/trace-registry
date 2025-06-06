@@ -10,6 +10,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedDatasetsEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedMetadataDatasetEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReferencedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEvent
@@ -42,6 +43,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueReplacedRelatedCataloguesEvent -> model?.replaceRelatedCatalogues(event)
 		is CatalogueRemovedRelatedCataloguesEvent -> model?.removeRelatedCatalogues(event)
 		is CatalogueLinkedDatasetsEvent -> model?.addDatasets(event)
+		is CatalogueLinkedMetadataDatasetEvent -> model?.linkMetadataDataset(event)
 		is CatalogueUnlinkedDatasetsEvent -> model?.removeDatasets(event)
 		is CatalogueReferencedDatasetsEvent -> model?.referenceDatasets(event)
 		is CatalogueUnreferencedDatasetsEvent -> model?.unreferenceDatasets(event)
@@ -64,80 +66,80 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		issued = event.date
 	}
 
-	private suspend fun CatalogueEntity.setImage(event: CatalogueSetImageEvent) = apply {
+	private suspend fun CatalogueEntity.setImage(event: CatalogueSetImageEvent) = update(event) {
 		img = event.img
-		this.modified = event.date
 	}
 
-	private suspend fun CatalogueEntity.delete(event: CatalogueDeletedEvent) = apply {
+	private suspend fun CatalogueEntity.delete(event: CatalogueDeletedEvent) = update(event) {
 		status = CatalogueState.DELETED
-		this.modified = event.date
 	}
 
-	private suspend fun CatalogueEntity.update(event: CatalogueUpdatedEvent) = apply {
+	private suspend fun CatalogueEntity.update(event: CatalogueUpdatedEvent) = update(event) {
 		applyEvent(event)
 	}
 
-	private suspend fun CatalogueEntity.updateAccessRights(event: CatalogueUpdatedAccessRightsEvent) = apply {
+	private suspend fun CatalogueEntity.updateAccessRights(event: CatalogueUpdatedAccessRightsEvent) = update(event) {
 		accessRights = event.accessRights
-		modified = event.date
 	}
 
-	private suspend fun CatalogueEntity.updateVersionNotes(event: CatalogueUpdatedVersionNotesEvent) = apply {
+	private suspend fun CatalogueEntity.updateVersionNotes(event: CatalogueUpdatedVersionNotesEvent) = update(event) {
 		versionNotes = event.versionNotes
-		modified = event.date
 	}
 
-	private suspend fun CatalogueEntity.addTranslations(event: CatalogueAddedTranslationsEvent) = apply {
+	private suspend fun CatalogueEntity.addTranslations(event: CatalogueAddedTranslationsEvent) = update(event) {
 		translationIds += event.catalogues
 	}
 
-	private suspend fun CatalogueEntity.removeTranslations(event: CatalogueRemovedTranslationsEvent) = apply {
+	private suspend fun CatalogueEntity.removeTranslations(event: CatalogueRemovedTranslationsEvent) = update(event) {
 		translationIds -= event.languages
 	}
 
-	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = apply {
+	private suspend fun CatalogueEntity.addThemes(event: CatalogueLinkedThemesEvent) = update(event) {
 		themeIds += event.themes
 	}
 
-	private suspend fun CatalogueEntity.addDatasets(event: CatalogueLinkedDatasetsEvent) = apply {
+	private suspend fun CatalogueEntity.addDatasets(event: CatalogueLinkedDatasetsEvent) = update(event) {
 		childrenDatasetIds += event.datasets
 	}
 
-	private suspend fun CatalogueEntity.removeDatasets(event: CatalogueUnlinkedDatasetsEvent) = apply {
+	private suspend fun CatalogueEntity.linkMetadataDataset(event: CatalogueLinkedMetadataDatasetEvent) = update(event) {
+		metadataDatasetId = event.datasetId
+	}
+
+	private suspend fun CatalogueEntity.removeDatasets(event: CatalogueUnlinkedDatasetsEvent) = update(event) {
 		childrenDatasetIds -= event.datasets.toSet()
 	}
 
-	private suspend fun CatalogueEntity.referenceDatasets(event: CatalogueReferencedDatasetsEvent) = apply {
+	private suspend fun CatalogueEntity.referenceDatasets(event: CatalogueReferencedDatasetsEvent) = update(event) {
 		referencedDatasetIds += event.datasets
 	}
 
-	private suspend fun CatalogueEntity.unreferenceDatasets(event: CatalogueUnreferencedDatasetsEvent) = apply {
+	private suspend fun CatalogueEntity.unreferenceDatasets(event: CatalogueUnreferencedDatasetsEvent) = update(event) {
 		referencedDatasetIds -= event.datasets.toSet()
 	}
 
-	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = apply {
+	private suspend fun CatalogueEntity.addCatalogues(event: CatalogueLinkedCataloguesEvent) = update(event) {
 		childrenCatalogueIds += event.catalogueIds
 	}
 
-	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = apply {
+	private suspend fun CatalogueEntity.removeCatalogues(event: CatalogueUnlinkedCataloguesEvent) = update(event) {
 		childrenCatalogueIds -= event.catalogueIds.toSet()
 	}
 
-	private suspend fun CatalogueEntity.addRelatedCatalogues(event: CatalogueAddedRelatedCataloguesEvent) = apply {
+	private suspend fun CatalogueEntity.addRelatedCatalogues(event: CatalogueAddedRelatedCataloguesEvent) = update(event) {
 		event.relatedCatalogueIds.forEach { (relation, catalogueIds) ->
 			relatedCatalogueIds.getOrPut(relation) { mutableSetOf() } += catalogueIds
 		}
 	}
 
-	private suspend fun CatalogueEntity.replaceRelatedCatalogues(event: CatalogueReplacedRelatedCataloguesEvent) = apply {
+	private suspend fun CatalogueEntity.replaceRelatedCatalogues(event: CatalogueReplacedRelatedCataloguesEvent) = update(event) {
 		relatedCatalogueIds = event.relatedCatalogueIds
 			.mapValues { it.value.toMutableSet() }
 			.filter { it.value.isNotEmpty() }
 			.toMutableMap()
 	}
 
-	private suspend fun CatalogueEntity.removeRelatedCatalogues(event: CatalogueRemovedRelatedCataloguesEvent) = apply {
+	private suspend fun CatalogueEntity.removeRelatedCatalogues(event: CatalogueRemovedRelatedCataloguesEvent) = update(event) {
 		event.relatedCatalogueIds.forEach { (relation, catalogueIds) ->
 			relatedCatalogueIds[relation]?.removeAll(catalogueIds)
 			if (relatedCatalogueIds[relation]?.isEmpty() == true) {
@@ -149,19 +151,26 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
 		title = event.title
 		language = event.language
+		event.configuration?.let { configuration = it }
 		description = event.description
 		themeIds = event.themeIds.toMutableSet()
 		homepage = event.homepage
 		ownerOrganizationId = event.ownerOrganizationId
+		event.validatorId?.let { validatorId = it }
+		event.validatorOrganizationId?.let { validatorOrganizationId = it }
 		stakeholder = event.stakeholder
-		structure = event.structure
 		accessRights = event.accessRights
 		licenseId = event.licenseId
 		location = event.location
 		versionNotes = event.versionNotes
+		order = event.order
 		hidden = event.hidden
-		modified = event.date
 		integrateCounter = event.integrateCounter
 		version++
+	}
+
+	private fun CatalogueEntity.update(event: CatalogueEvent, block: CatalogueEntity.() -> Unit) = apply {
+		modified = event.date
+		block()
 	}
 }

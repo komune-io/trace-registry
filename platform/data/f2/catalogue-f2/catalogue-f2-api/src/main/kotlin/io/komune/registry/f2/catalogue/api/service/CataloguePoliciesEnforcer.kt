@@ -8,12 +8,10 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOB
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.dataset.api.model.toRef
+import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
-import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
-import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.auth.Permissions
-import io.komune.registry.s2.commons.history.EventHistory
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import org.springframework.stereotype.Service
@@ -22,6 +20,7 @@ import org.springframework.stereotype.Service
 class CataloguePoliciesEnforcer(
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
+    private val organizationF2FinderService: OrganizationF2FinderService,
     private val userF2FinderService: UserF2FinderService
 ): PolicyEnforcer() {
     suspend fun checkCreate(type: String) = checkAuthed("create a catalogue of type [$type]") { authedUser ->
@@ -102,6 +101,7 @@ class CataloguePoliciesEnforcer(
     }
 
     private suspend fun getDraftRefOfCatalogueOrNull(catalogueId: CatalogueDraftId): CatalogueDraftRefDTOBase? {
-        return catalogueDraftFinderService.getByCatalogueIdOrNull(catalogueId)?.toRef(userF2FinderService::getRef)
+        return catalogueDraftFinderService.getByCatalogueIdOrNull(catalogueId)
+            ?.toRef(organizationF2FinderService::getRef, userF2FinderService::getRef)
     }
 }

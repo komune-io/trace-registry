@@ -22,4 +22,7 @@ dependencies {
 	Dependencies.Jvm.Cccev.client(::implementation)
 	Dependencies.Jvm.Test.dataFaker(::implementation)
 	Dependencies.Jvm.junit(::testImplementation)
+
+	implementation("com.jayway.jsonpath:json-path:${Versions.jsonPath}")
+	implementation("org.apache.tika:tika-core:${Versions.apacheTika}")
 }

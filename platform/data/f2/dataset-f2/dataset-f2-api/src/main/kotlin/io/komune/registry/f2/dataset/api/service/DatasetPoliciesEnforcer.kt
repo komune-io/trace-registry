@@ -10,6 +10,7 @@ import io.komune.registry.f2.dataset.api.config.DatasetConfig
 import io.komune.registry.f2.dataset.api.config.DatasetTypeAccess
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
+import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
@@ -27,6 +28,7 @@ class DatasetPoliciesEnforcer(
     private val catalogueFinderService: CatalogueFinderService,
     private val datasetConfig: DatasetConfig,
     private val datasetFinderService: DatasetFinderService,
+    private val organizationF2FinderService: OrganizationF2FinderService,
     private val userF2FinderService: UserF2FinderService
 ) : PolicyEnforcer() {
 
@@ -73,7 +75,7 @@ class DatasetPoliciesEnforcer(
     }
 
     private suspend fun AuthedUserDTO.canWriteOnDraft(draftId: CatalogueDraftId): Boolean {
-        val draft = catalogueDraftFinderService.get(draftId).toRef(userF2FinderService::getRef)
+        val draft = catalogueDraftFinderService.get(draftId).toRef(organizationF2FinderService::getRef, userF2FinderService::getRef)
         return CatalogueDraftPolicies.canUpdate(this, draft)
     }
 }

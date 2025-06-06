@@ -16,7 +16,7 @@ class WebFluxConfig : WebFluxConfigurer {
 
     @Bean
     @Primary
-    fun json(): Json = Json {
+    fun jsonConfig(): Json = Json {
         ignoreUnknownKeys = true
         explicitNulls = false
     }
@@ -32,7 +32,7 @@ class WebFluxConfig : WebFluxConfigurer {
     }
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {
-        configurer.customCodecs().register(kotlinSerializationJsonDecoder(json()))
-        configurer.customCodecs().register(kotlinSerializationJsonEncoder(json()))
+        configurer.customCodecs().register(kotlinSerializationJsonDecoder(jsonConfig()))
+        configurer.customCodecs().register(kotlinSerializationJsonEncoder(jsonConfig()))
     }
 }

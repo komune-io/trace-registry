@@ -39,6 +39,32 @@ import {
 } from 'lexical';
 import { $createImageNode, $isImageNode, ImageNode } from '../ImagesPlugin';
 import { $createLayoutContainerNode, $createLayoutItemNode, $isLayoutContainerNode, $isLayoutItemNode, LayoutContainerNode, LayoutItemNode } from '../LayoutPlugin';
+import {
+  $createHorizontalRuleNode,
+  $isHorizontalRuleNode,
+  HorizontalRuleNode,
+} from '@lexical/react/LexicalHorizontalRuleNode';
+
+export const HR: ElementTransformer = {
+  dependencies: [HorizontalRuleNode],
+  export: (node: LexicalNode) => {
+    return $isHorizontalRuleNode(node) ? '***' : null;
+  },
+  regExp: /^(---|\*\*\*|___)\s?$/,
+  replace: (parentNode, _1, _2, isImport) => {
+    const line = $createHorizontalRuleNode();
+
+    // TODO: Get rid of isImport flag
+    if (isImport || parentNode.getNextSibling() != null) {
+      parentNode.replace(line);
+    } else {
+      parentNode.insertBefore(line);
+    }
+
+    line.selectNext();
+  },
+  type: 'element',
+};
 
 export const IMAGE: TextMatchTransformer = {
     dependencies: [ImageNode],
@@ -346,6 +372,7 @@ export const MARKDOWN_TRANSFORMERS: Array<Transformer> = [
     LAYOUT,
     IMAGE,
     CHECK_LIST,
+    HR,
     ...ELEMENT_TRANSFORMERS,
     ...MULTILINE_ELEMENT_TRANSFORMERS,
     ...TEXT_FORMAT_TRANSFORMERS,

@@ -11,9 +11,7 @@ object FsPath {
 
     object Dataset {
         const val TYPE = "datasets"
-        const val MEDIA = "media"
         const val DISTRIBUTION = "distribution"
-        const val DEFAULT_IMAGE_NAME = "img.png"
 
         fun distribution(datasetId: String, filename: String) = FilePath(
             objectType = TYPE,

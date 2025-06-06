@@ -1,6 +1,6 @@
 import { Stack, StackProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { Icon, iconPackSrc } from '../Icons'
+import { IconPack } from '../Icons'
 import { formatNumber, useTheme } from '@komune-io/g2'
 import { keyframes } from "@emotion/react"
 import { LocalTheme } from '../utils'
@@ -36,7 +36,7 @@ export const Co2Counter = (props: Co2CounterProps) => {
             }}
             {...other}
         >
-            <Icon src={iconPackSrc.loading} className='loadingIcon' style={{ width: "54px", height: "auto" }} />
+            <IconPack.loading  className='loadingIcon' style={{ width: "54px", height: "auto" }} />
             <Stack
             >
                 <Typography

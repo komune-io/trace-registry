@@ -1,26 +1,33 @@
-import {Stack} from '@mui/material'
-import {SelectableChipGroup, TitleDivider} from 'components'
-import {useTranslation} from 'react-i18next'
-import {FacetDistribution} from '../../api'
+import { Stack } from '@mui/material'
+import { SelectableChipGroup, TitleDivider } from 'components'
+import { useTranslation } from 'react-i18next'
+import { FacetDistribution } from '../../api'
+import { useMemo } from 'react'
 
 interface CatalogueSearchFiltersProps {
-    licences?: string[]
-    licencesDistribution?: FacetDistribution[]
-    onChangeLicenses?: (values: string[]) => void
-    accesses?: string[]
-    accessesDistribution?: FacetDistribution[]
-    onChangeAccesses?: (values: string[]) => void
-    themes?: string[]
-    themesDistribution?: FacetDistribution[]
-    onChangeThemes?: (values: string[]) => void
+    additionalFilters?: React.ReactNode,
+    savedState: any
+    distributions?: Record<string, FacetDistribution[]>
+    onChangeDistribution: (key: string) => (values: string[]) => void
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { licences, onChangeLicenses, licencesDistribution = [],
-      accesses, onChangeAccesses, accessesDistribution = [],
-      themes, onChangeThemes, themesDistribution = []
-    } = props
+    const { additionalFilters, distributions, onChangeDistribution, savedState } = props
     const { t } = useTranslation()
+
+    const distributionsDisplay = useMemo(() => Object.entries(distributions ?? {}).map(([key, facets]) => (
+        <SelectableChipGroup
+            key={key}
+            title={t(key)}
+            options={facets?.map((distribution) => ({
+                key: distribution.id,
+                label: `${distribution.name} - ${distribution.size}`
+            }))}
+            values={savedState[key]}
+            onChange={onChangeDistribution(key)}
+        />
+    )), [distributions, savedState, onChangeDistribution])
+
     return (
         <Stack
             gap={3.5}
@@ -32,33 +39,8 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             }}
         >
             <TitleDivider title={t("filter")} size='subtitle1' />
-            <SelectableChipGroup
-                title={t("licence")}
-                options={licencesDistribution?.map((distribution) => ({
-                    key: distribution.id,
-                    label: `${distribution.name} - ${distribution.size}`
-                }))}
-                values={licences}
-                onChange={onChangeLicenses}
-            />
-            <SelectableChipGroup
-                title={t("access")}
-                options={accessesDistribution?.map((distribution) => ({
-                  key: distribution.id,
-                  label: `${t(distribution.name.toLowerCase())} - ${distribution.size}`
-                }))}
-                values={accesses}
-                onChange={onChangeAccesses}
-            />
-            <SelectableChipGroup
-                title={t("category")}
-                options={themesDistribution.map((distribution) => ({
-                  key: distribution.id,
-                  label: `${distribution.name} - ${distribution.size}`
-                }))}
-                values={themes}
-                onChange={onChangeThemes}
-            />
+            {additionalFilters}
+            {distributionsDisplay}
         </Stack>
     )
 }

@@ -7,7 +7,6 @@ class SearchProperties(
     val indexedCatalogue: String
 ) {
     fun indexedCatalogue(): List<String> {
-        return indexedCatalogue.split(",")
+        return indexedCatalogue.split(",").map { it.trim() }
     }
 }
-
