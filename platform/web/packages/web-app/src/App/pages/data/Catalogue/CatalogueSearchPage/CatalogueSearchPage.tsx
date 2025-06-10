@@ -2,7 +2,8 @@ import { useTheme } from '@komune-io/g2'
 import { Dialog, Stack } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
-  CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery, catalogueTypes, FacetDistribution,
+  CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery, FacetDistribution,
+  useCatalogueListAllowedTypesQuery,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
@@ -58,20 +59,27 @@ export const CatalogueSearchPage = () => {
 
  const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
+
+   const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+          query: {
+              language: i18n.language,
+              operation: "SEARCH"
+          }
+      }).data?.items
+
   const typeDistribution = useMemo(() => {
-    return catalogueTypes.map((type) => {
-      const distribution = distributions["type"]?.find((distribution) => distribution.id === type)
-      const typeSimple = type.split("-").pop() ?? ""
-      const typeLabel = t("catalogues.types." + type)
-      const Icon = IconPack[typeSimple]
+    return allowedSearchTypes?.map((type) => {
+      console.log(type)
+      const distribution = distributions["type"]?.find((distribution) => distribution.id === type.identifier)
+      const Icon = IconPack[type.name]
       return {
-        key: type,
-        label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
-        color: theme.local?.colors[typeSimple],
+        key: type.identifier,
+        label: distribution ? `${type.name} - ${distribution?.size}` : type.name,
+        color: theme.local?.colors[type.name],
         icon: <Icon />
       }
     })
-  }, [theme, distributions])
+  }, [theme, distributions, allowedSearchTypes])
 
 
   return (
@@ -100,7 +108,7 @@ export const CatalogueSearchPage = () => {
         }}
       >
         <SelectableChipGroup
-          options={typeDistribution}
+          options={typeDistribution ?? []}
           values={state.type}
           onChange={changeValueCallback('type')}
           forTypes
