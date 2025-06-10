@@ -19,7 +19,7 @@ object CataloguePolicies {
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE)
+        return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE_ALL)
     }
 
     fun canCreateWithoutDraft(authedUser: AuthedUserDTO): Boolean {
@@ -63,6 +63,12 @@ object CataloguePolicies {
 
     private fun canWrite(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
         canWriteOnCatalogueWith(authedUser, it.creatorOrganization?.id, it.ownerOrganization?.id)
+    }
+
+    @JsExport.Ignore
+    fun owns(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
+        authedUser.id == it.creator?.id
+                || authedUser.memberOf.orEmpty() in listOf(it.creatorOrganization?.id, it.ownerOrganization?.id)
     }
 
     @JsExport.Ignore

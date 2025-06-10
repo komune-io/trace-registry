@@ -3,6 +3,7 @@ package io.komune.registry.f2.catalogue.draft.api.service
 import io.komune.im.commons.auth.hasRole
 import io.komune.registry.api.config.RgPolicyEnforcer
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageQuery
@@ -17,11 +18,11 @@ class CatalogueDraftPoliciesEnforcer(
 ) : RgPolicyEnforcer() {
 
     suspend fun checkCreate(
-        catalogueType: String
-    ) = checkAuthed("create a catalogue draft for type [$catalogueType]") { authedUser ->
-        CatalogueDraftPolicies.canCreate(authedUser) && (
+        catalogue: CatalogueDTOBase
+    ) = checkAuthed("create a catalogue draft for type [${catalogue.type}]") { authedUser ->
+        CatalogueDraftPolicies.canCreate(authedUser, catalogue) && (
             authedUser.hasRole(Permissions.Catalogue.WRITE_ANY_TYPE)
-                    || catalogueType in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
+                    || catalogue.type in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
         )
     }
 
