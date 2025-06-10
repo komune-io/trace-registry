@@ -32,6 +32,11 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -42,11 +47,6 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
-}
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -33203,8 +33203,9 @@ if (typeof Math.imul === 'undefined') {
   }
   var CatalogueOperation_UPDATE_instance;
   var CatalogueOperation_RELATION_instance;
+  var CatalogueOperation_SEARCH_instance;
   function values_18() {
-    return [CatalogueOperation_UPDATE_getInstance(), CatalogueOperation_RELATION_getInstance()];
+    return [CatalogueOperation_UPDATE_getInstance(), CatalogueOperation_RELATION_getInstance(), CatalogueOperation_SEARCH_getInstance()];
   }
   function valueOf_15(value) {
     switch (value) {
@@ -33212,6 +33213,8 @@ if (typeof Math.imul === 'undefined') {
         return CatalogueOperation_UPDATE_getInstance();
       case 'RELATION':
         return CatalogueOperation_RELATION_getInstance();
+      case 'SEARCH':
+        return CatalogueOperation_SEARCH_getInstance();
       default:
         CatalogueOperation_initEntries();
         THROW_IAE('No enum constant value.');
@@ -33225,6 +33228,7 @@ if (typeof Math.imul === 'undefined') {
     CatalogueOperation_entriesInitialized = true;
     CatalogueOperation_UPDATE_instance = new CatalogueOperation('UPDATE', 0);
     CatalogueOperation_RELATION_instance = new CatalogueOperation('RELATION', 1);
+    CatalogueOperation_SEARCH_instance = new CatalogueOperation('SEARCH', 2);
   }
   function CatalogueOperation(name, ordinal) {
     Enum.call(this, name, ordinal);
@@ -33236,6 +33240,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueOperation_RELATION_getInstance() {
     CatalogueOperation_initEntries();
     return CatalogueOperation_RELATION_instance;
+  }
+  function CatalogueOperation_SEARCH_getInstance() {
+    CatalogueOperation_initEntries();
+    return CatalogueOperation_SEARCH_instance;
   }
   function CatalogueRefDTO() {
   }
@@ -38057,6 +38065,7 @@ if (typeof Math.imul === 'undefined') {
     $io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation.valueOf = valueOf_15;
     defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'UPDATE', CatalogueOperation_UPDATE_getInstance);
     defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'RELATION', CatalogueOperation_RELATION_getInstance);
+    defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'SEARCH', CatalogueOperation_SEARCH_getInstance);
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

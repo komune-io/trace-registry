@@ -209,10 +209,9 @@ class CatalogueSearchFinderService(
         }.orEmpty()
 
         val cataloguesDistribution = catalogueTranslations.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
-            val catalogue = catalogueF2FinderService.getOrNull("${key}s", language)
             FacetDistribution(
                 id = key,
-                name = catalogue?.title ?: "",
+                name = catalogueConfig.typeConfigurations[key]?.name?.get(language) ?: key,
                 size = size
             )
         }.orEmpty()

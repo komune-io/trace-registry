@@ -4154,7 +4154,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     type CatalogueImportType = "M100_PROJECTS";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
-    type CatalogueOperation = "UPDATE" | "RELATION";
+    type CatalogueOperation = "UPDATE" | "RELATION" | "SEARCH";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {
