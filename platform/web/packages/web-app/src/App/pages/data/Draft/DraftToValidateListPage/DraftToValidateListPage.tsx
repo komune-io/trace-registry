@@ -1,11 +1,11 @@
 import {
     DraftTable,
-    useCatalogueDraftPageQuery
+    useCatalogueDraftPageQuery,
+    useDraftsFilters
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react"
-import { useDraftsFilters } from '100m-components'
 
 
 export const DraftToValidateListPage = () => {

@@ -8,7 +8,8 @@ import {
   useCatalogueAddRelatedCataloguesCommand,
   useCatalogueGetQuery,
   useCatalogueRemoveRelatedCataloguesCommand,
-  useCatalogueSearchQuery
+  useCatalogueSearchQuery,
+  useCataloguesFilters
 } from 'domain-components'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +18,6 @@ import { OffsetPagination } from 'template'
 import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { useCataloguesFilters } from '100m-components'
 import { useDebouncedValue } from '@mantine/hooks'
 
 
