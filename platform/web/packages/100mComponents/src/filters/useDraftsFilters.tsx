@@ -2,7 +2,7 @@ import {languages, useCustomFilters} from 'components'
 import {FilterComposableField} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
-import {CatalogueDraftPageQuery, catalogueTypes} from 'domain-components'
+import {CatalogueDraftPageQuery, useCatalogueListAllowedTypesQuery} from 'domain-components'
 
 interface UseDraftsFiltersParams {
     initialValues?: any
@@ -10,7 +10,15 @@ interface UseDraftsFiltersParams {
 
 export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
     const {initialValues} = params ?? {}
-    const {t} = useTranslation()
+    const {t, i18n} = useTranslation()
+
+    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+        query: {
+          language: i18n.language,
+          operation: "SEARCH"
+        }
+      }).data?.items
+
     const filters = useMemo((): FilterComposableField<keyof CatalogueDraftPageQuery>[] => [
         {
             name: 'search',
@@ -28,7 +36,7 @@ export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
             params: {
                 label: t("type"),
                 style: { width: "120px"},
-                options: catalogueTypes.map((type) => ({ key: type, label: t("catalogues.types." + type) }))
+                options: allowedSearchTypes?.map((type) => ({ key: type.identifier, label: type.name }))
             }
         },
         {
@@ -42,6 +50,6 @@ export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
                 }))
             }
         }
-    ], [t])
+    ], [t, allowedSearchTypes])
     return useCustomFilters({filters: filters, initialValues: initialValues})
 }

@@ -1,12 +1,12 @@
-import {RichtTextEditor, useRoutesDefinition} from 'components'
-import {useMemo} from 'react'
-import {Divider, Stack, Typography} from '@mui/material'
-import {InformationConcept, parseRangeValue} from '../../model'
-import {formatNumber, Link} from '@komune-io/g2'
-import {TFunction} from 'i18next'
-import {useTranslation} from 'react-i18next'
-import {Link as RouterLink, LinkProps} from 'react-router-dom'
-import {extractCatalogueIdentifierNumber, useCatalogueRefGetQuery} from '../../api'
+import { RichtTextEditor, useRoutesDefinition } from 'components'
+import { useMemo } from 'react'
+import { Divider, Stack, Typography } from '@mui/material'
+import { InformationConcept, parseRangeValue } from '../../model'
+import { formatNumber, Link } from '@komune-io/g2'
+import { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
+import { Link as RouterLink, LinkProps } from 'react-router-dom'
+import { extractCatalogueIdentifierNumber, useCatalogueListAllowedTypesQuery, useCatalogueRefGetQuery } from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
@@ -18,6 +18,13 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const { title, indicators, referenceId } = props
     const { t, i18n } = useTranslation()
     const { cataloguesAll } = useRoutesDefinition()
+
+    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+        query: {
+            language: i18n.language,
+            operation: "ALL"
+        }
+    }).data?.items
 
     const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
 
@@ -34,8 +41,8 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const relatedTitle = useMemo(() => {
         if (!ref) return undefined
         const identifier = extractCatalogueIdentifierNumber(ref.identifier)
-        return `${t("catalogues.types." + ref.type)} ${identifier ? identifier : ""} - ${ref.title}`
-    }, [ref])
+        return `${allowedSearchTypes?.find((type) => type.identifier === ref.type)?.name ?? ""} ${identifier ? identifier : ""} - ${ref.title}`
+    }, [ref, allowedSearchTypes])
 
     return (
         <Stack
@@ -122,7 +129,7 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
     const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => {
         if (a.length > b.length) return 1
         if (a.length < b.length) -1
-        
+
         if (a[0].identifier === "gain" || a[0].identifier === "rule-of-thumb") return -1
         if (b[0].identifier === "gain" || b[0].identifier === "rule-of-thumb") return 1
         return 0

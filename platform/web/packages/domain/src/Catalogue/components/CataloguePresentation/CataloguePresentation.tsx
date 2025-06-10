@@ -1,8 +1,10 @@
 import { Stack, Typography } from '@mui/material'
 import { Catalogue } from '../../model'
 import { useCatalogueIdentifierNumber } from "../../api";
-import { useTheme } from '@komune-io/g2';
-import { LocalTheme } from 'components';
+import { g2Config, useTheme } from '@komune-io/g2';
+import { defaultCatalogueImg, LocalTheme, UnCachedImage } from 'components';
+import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 export interface CataloguePresentationProps {
     catalogue?: Catalogue
@@ -11,8 +13,10 @@ export interface CataloguePresentationProps {
 
 export const CataloguePresentation = (props: CataloguePresentationProps) => {
     const { catalogue } = props
+    const [noimage, setnoimage] = useState(false)
+    const { t } = useTranslation()
     const identifierNumber = useCatalogueIdentifierNumber(catalogue)
-     const theme = useTheme<LocalTheme>()
+    const theme = useTheme<LocalTheme>()
     return (
         <Stack
             direction="row"
@@ -61,11 +65,13 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                     {catalogue?.description}
                 </Typography>
             </Stack>
-            {/* catalogue?.img && <img
-                className='catalogLogo'
-                src={`${config().platform.url}${catalogue.img}`}
-                alt="The standard logo"
-            /> */}
+            {catalogue?.img &&
+                <UnCachedImage
+                    src={!noimage ? g2Config().platform.url + catalogue.img : defaultCatalogueImg}
+                    alt={t("sheetIllustration")}
+                    className='illustration'
+                    onError={() => setnoimage(true)}
+                />}
         </Stack>
     )
 }

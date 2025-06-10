@@ -6,10 +6,18 @@ import { useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template"
 import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifier } from '../../api'
+import { extractCatalogueIdentifier, useCatalogueListAllowedTypesQuery } from '../../api'
 
 function useCatalogueColumn(isRef: boolean) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+        query: {
+            language: i18n.language,
+            operation: "ALL"
+        }
+    }).data?.items
+
     return useMemo(() => ColumnFactory<Catalogue | CatalogueRef>({
         generateColumns: (generators) => ({
             id: generators.text({
@@ -35,7 +43,7 @@ function useCatalogueColumn(isRef: boolean) {
             type: generators.text({
                 header: t("type"),
                 getCellProps: (catalogue) => ({
-                    value: t("catalogues.types." + catalogue.type)
+                    value: allowedSearchTypes?.find((type) => type.identifier === catalogue.type)?.name,
                 })
             }),
             language: {
@@ -63,7 +71,7 @@ function useCatalogueColumn(isRef: boolean) {
             } : {})
             ,
         })
-    }), [t]);
+    }), [t, allowedSearchTypes]);
 }
 
 export interface CatalogueTableProps extends Partial<OffsetTableProps<Catalogue | CatalogueRef>> {
@@ -78,16 +86,16 @@ export interface CatalogueTableProps extends Partial<OffsetTableProps<Catalogue 
 
 export const CatalogueTable = (props: CatalogueTableProps) => {
     const {
-        rowSelection, 
-        onRowSelectionChange, 
-        isLoading, 
-        page, 
-        onOffsetChange, 
-        pagination, 
-        sx, 
-        header, 
+        rowSelection,
+        onRowSelectionChange,
+        isLoading,
+        page,
+        onOffsetChange,
+        pagination,
+        sx,
+        header,
         isRef = false,
-        ...other 
+        ...other
     } = props
     const { cataloguesAll } = useRoutesDefinition()
     const { t } = useTranslation()

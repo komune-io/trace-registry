@@ -7,3 +7,4 @@ export * from "./PngIcon";
 export * from "./SearchIcon"
 export * from "./SeparationIcon";
 export * from "./StandardIcon"
+export * from "./DefaultCatalogueImg"

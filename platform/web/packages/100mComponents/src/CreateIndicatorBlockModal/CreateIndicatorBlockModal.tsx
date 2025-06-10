@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material'
 import { TmsPopUp, maybeAddItem} from 'components'
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCatalogueReferenceDatasetsCommand, useAutoCompleteCatalogue, useCatalogueRefGetQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand, CatalogueDraft, CatalogueTypes, Dataset } from 'domain-components'
+import { useCatalogueReferenceDatasetsCommand, useAutoCompleteCatalogue, useCatalogueRefGetQuery, useCatalogueUnreferenceDatasetsCommand, useDatasetAddEmptyDistributionCommand, useDatasetCreateCommand, useDatasetUpdateCommand, CatalogueDraft, Dataset } from 'domain-components'
 import { useQueryClient } from '@tanstack/react-query'
 
 interface CreateIndicatorBlockModalProps {
@@ -96,7 +96,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
             </Stack>
         )
     },
-    ...maybeAddItem<FormComposableField>(draft?.catalogue.type === "100m-project" as CatalogueTypes,
+    ...maybeAddItem<FormComposableField>(draft?.catalogue.type === "100m-project",
         catalogueAutoComplete.getComposableField({
             name: "solution",
             label: t("catalogues.linkedSolution"),

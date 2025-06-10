@@ -3,7 +3,7 @@ import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { Chip, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { config, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
+import { config, defaultCatalogueImg, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber } from '../../api'
 import { useTranslation } from 'react-i18next'
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
@@ -44,7 +44,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
-    const { title, themes, id, type, parent, img, withImage } = props
+    const { title, themes, id, type, parent, img, structure, withImage = structure?.illustration === "IMAGE" } = props
     const [imageError, setImageError] = useState(false)
     const { t } = useTranslation()
     const theme = useTheme<LocalTheme>()
@@ -72,12 +72,12 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
                 }
             }}
         >
-            {withImage && img && !imageError ? (
-                <UnCachedImage src={config().platform.url + img} alt={t("sheetIllustration")} className='illustration' onError={() => setImageError(true)} />
+            {withImage && img ? (
+                <UnCachedImage src={!imageError ? config().platform.url + img : defaultCatalogueImg} alt={t("sheetIllustration")} className='illustration' onError={() => setImageError(true)} />
             ) : (
                 <Box
                     sx={{
-                        bgcolor: theme.local?.colors[catType] ?? "#F9DC44",
+                        bgcolor: theme.local?.colors[catType],
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",

@@ -2,6 +2,7 @@ import { Catalogue } from "../../model";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { CatalogueResultList } from "../CatalogueResultList";
+import { useCatalogueListAllowedTypesQuery } from "../../api";
 
 
 interface CatalogueResultListByTypeProps {
@@ -11,7 +12,15 @@ interface CatalogueResultListByTypeProps {
 
 export const CatalogueResultListByType = (props: CatalogueResultListByTypeProps) => {
   const { items, withImage } = props
-  const { t } = useTranslation()
+  const { i18n } = useTranslation()
+
+  const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    query: {
+      language: i18n.language,
+      operation: "ALL"
+    }
+  }).data?.items
+
   const resultListComponents = useMemo(() => {
     const grouped: Partial<Record<string, Catalogue[]>> = Object.groupBy(
       items ?? [],
@@ -25,13 +34,14 @@ export const CatalogueResultListByType = (props: CatalogueResultListByTypeProps)
     });
     return grouped
   }, [items])
+
   return Object.keys(resultListComponents).map((catalogueType) => {
     const byType = resultListComponents[catalogueType] ?? []
     return (
       <CatalogueResultList
         withImage={withImage}
         catalogues={byType}
-        groupLabel={t(`catalogues.types.${catalogueType}`)}
+        groupLabel={allowedSearchTypes?.find(type => type.identifier === catalogueType)?.name}
       />
     )
   })

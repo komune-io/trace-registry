@@ -1,8 +1,8 @@
-import {languages, maybeAddItem, useCustomFilters} from 'components'
-import {FilterComposableField} from '@komune-io/g2'
-import {useMemo} from 'react'
-import {useTranslation} from 'react-i18next'
-import { CatalogueSearchQuery, catalogueTypes} from 'domain-components'
+import { languages, maybeAddItem, useCustomFilters } from 'components'
+import { FilterComposableField } from '@komune-io/g2'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { CatalogueSearchQuery, useCatalogueListAllowedTypesQuery } from 'domain-components'
 
 interface useCataloguesFiltersParams {
     initialValues?: any
@@ -12,27 +12,35 @@ interface useCataloguesFiltersParams {
 }
 
 export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
-    const {initialValues, withPage, urlStorage, noType = false} = params ?? {}
-    const {t} = useTranslation()
+    const { initialValues, withPage, urlStorage, noType = false } = params ?? {}
+    const { t, i18n } = useTranslation()
+
+    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+        query: {
+            language: i18n.language,
+            operation: "SEARCH"
+        }
+    }).data?.items
+
     const filters = useMemo((): FilterComposableField<keyof CatalogueSearchQuery>[] => [
         {
             name: 'query',
             type: 'textField',
-            params: { 
-                textFieldType: 'search', 
-                style: { width: "200px"},
+            params: {
+                textFieldType: 'search',
+                style: { width: "200px" },
                 placeholder: t("search")
             },
             mandatory: true
         },
-        ...maybeAddItem(!noType,{
+        ...maybeAddItem(!noType, {
             name: 'type',
             type: 'select',
             params: {
                 label: t("type"),
-                style: { width: "120px"},
+                style: { width: "120px" },
                 multiple: true,
-                options: catalogueTypes.map((type) => ({ key: type, label: t("catalogues.types." + type) }))
+                options: allowedSearchTypes?.map((type) => ({ key: type.identifier, label: type.name }))
             }
         } as FilterComposableField<keyof CatalogueSearchQuery>),
         {
@@ -47,6 +55,6 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
                 }))
             }
         }
-    ], [t])
-    return useCustomFilters({filters: filters, initialValues: initialValues, withPage, urlStorage})
+    ], [t, allowedSearchTypes])
+    return useCustomFilters({ filters: filters, initialValues: initialValues, withPage, urlStorage })
 }

@@ -33,7 +33,7 @@ export const CatalogueSearchPage = () => {
   useEffect(() => {
     if (searchParams.get("goBackUrl")) {
       searchParams.delete("goBackUrl")
-      setSearchParams(searchParams, {replace: true})
+      setSearchParams(searchParams, { replace: true })
     }
   }, [])
 
@@ -57,25 +57,24 @@ export const CatalogueSearchPage = () => {
     }
   })
 
- const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
+  const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
 
-   const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
-          query: {
-              language: i18n.language,
-              operation: "SEARCH"
-          }
-      }).data?.items
+  const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    query: {
+      language: i18n.language,
+      operation: "SEARCH"
+    }
+  }).data?.items
 
   const typeDistribution = useMemo(() => {
     return allowedSearchTypes?.map((type) => {
-      console.log(type)
       const distribution = distributions["type"]?.find((distribution) => distribution.id === type.identifier)
-      const Icon = IconPack[type.name]
+      const Icon = IconPack[type.identifier]
       return {
         key: type.identifier,
         label: distribution ? `${type.name} - ${distribution?.size}` : type.name,
-        color: theme.local?.colors[type.name],
+        color: theme.local?.colors[type.identifier],
         icon: <Icon />
       }
     })
