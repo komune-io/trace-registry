@@ -1,18 +1,19 @@
 import {
+  Catalogue,
   CatalogueBreadcrumbs,
-  Catalogue, DatasetRouterSection,
-  CreateDraftButton,
-  SubCatalogueModule,
   CatalogueRouterSection,
+  CreateDraftButton,
+  DatasetRouterSection,
+  SubCatalogueModule,
+  useCataloguesRouteParams,
 } from 'domain-components'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { AppPage } from 'template'
-import { InfoTicket, maybeAddItem, useRoutesDefinition, SectionTab, Tab, useExtendedAuth, CustomLinkButton } from 'components'
-import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
-import { useCataloguesRouteParams } from 'domain-components'
-import { Stack } from '@mui/material'
-import { useLocation } from "react-router";
+import {useTranslation} from 'react-i18next'
+import {useNavigate} from 'react-router-dom'
+import {AppPage} from 'template'
+import {CustomLinkButton, InfoTicket, maybeAddItem, SectionTab, Tab, useExtendedAuth, useRoutesDefinition} from 'components'
+import {SyntheticEvent, useCallback, useMemo, useState} from 'react'
+import {Stack} from '@mui/material'
+import {useLocation} from "react-router";
 
 interface CatalogueViewEntryPointProps {
   catalogue: Catalogue
@@ -115,7 +116,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
         direction="row"
       >
         <CatalogueBreadcrumbs />
-        <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate()} />
+        <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate(catalogue)} />
       </Stack>
       {currentLanguageDraft && <InfoTicket
         title={t("catalogues.activeContribution")}

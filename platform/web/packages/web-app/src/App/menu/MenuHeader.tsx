@@ -1,12 +1,12 @@
 import {Stack} from '@mui/material'
-import { IconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
+import {IconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
 import {TFunction} from 'i18next'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
 import {useLocation} from 'react-router-dom'
 import {getMenu, MenuItem} from '.'
-import { useCatalogueDraftPageQuery} from 'domain-components'
-import { CreateCatalogueButton } from './CreateCatalogueButton'
+import {useCatalogueDraftPageQuery} from 'domain-components'
+import {CreateCatalogueButton} from './CreateCatalogueButton'
 
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
@@ -45,11 +45,11 @@ export const usePersonalMenu = (t: TFunction) => {
                 label: t("sheetsToValidate"),
                 icon: <IconPack.validate />,
                 number: totalToVerify,
-                isVisible: policies.draft.canAudit(),
+                isVisible: policies.draft.canSeePublished(),
                 isSelected: location.pathname.includes(cataloguesToVerify())
             }
         ]
-    }, [location, t, cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, totalToVerify, policies.draft.canAudit])
+    }, [location, t, cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, totalToVerify, policies.draft])
 
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }

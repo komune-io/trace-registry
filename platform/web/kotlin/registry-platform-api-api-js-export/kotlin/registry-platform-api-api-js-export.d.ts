@@ -4407,7 +4407,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 }
 export declare namespace io.komune.registry.f2.catalogue.draft.domain {
     const CatalogueDraftPolicies: {
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canSeePublished(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, draft?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO): boolean;
         canSubmit(authedUser: io.komune.im.commons.auth.AuthedUserDTO, draft?: io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO): boolean;
         canAudit(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
