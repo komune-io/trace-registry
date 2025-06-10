@@ -58,7 +58,12 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
 
   const changeValueCallback = useCallback(
     (valueKey: keyof State) => (value: any) => {
-      changeState({...stateRef.current, [valueKey]: value})
+      //@ts-ignore
+      if (valueKey !== "offset" && valueKey !== "limit" && stateRef.current.offset !== 0) {
+        changeState({...stateRef.current, offset: 0, [valueKey]: value})
+      } else {
+        changeState({...stateRef.current, [valueKey]: value})
+      }
     },
     [changeState]
   )

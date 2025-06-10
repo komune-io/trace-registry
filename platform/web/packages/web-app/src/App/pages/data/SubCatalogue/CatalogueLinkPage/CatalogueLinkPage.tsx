@@ -43,6 +43,13 @@ export const CatalogueLinkPage = () => {
       offset: 0
     }
   })
+  
+  useEffect(() => {
+    if ((submittedFilters.query || submittedFilters.availableLanguages) && state.offset && state.offset > 0)  {
+      changeValueCallback("offset")(0)
+    }
+  }, [submittedFilters.query, submittedFilters.availableLanguages])
+  
 
   const getSubCatalogue = useCatalogueGetQuery({
     query: {
@@ -53,12 +60,13 @@ export const CatalogueLinkPage = () => {
 
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
+      query: submittedFilters.query,
+      availableLanguages: submittedFilters.availableLanguages,
       ...state,
-      ...submittedFilters,
-
       type: getSubCatalogue.data?.item?.configuration?.relations?.content?.types,
+      //@ts-ignore
       isSelected: undefined,
-      relatedInCatalogueIds: state.isSelected ? { "content": [subCatalogueId] } : undefined,
+      relatedInCatalogueIds: state.isSelected ? { "content": [subCatalogueId!] } : undefined,
       language: i18n.language,
     },
     options: {
@@ -169,7 +177,7 @@ export const CatalogueLinkPage = () => {
       >
         {isSaving && (
           <>
-            <CircularProgress sx={{ml: "424px"}} size={20} />
+            <CircularProgress sx={{ ml: "424px" }} size={20} />
             <Typography
               variant="body2">
               {t('saving')}
@@ -231,6 +239,7 @@ export const CatalogueLinkPage = () => {
             }}
             rowSelection={rowSelection}
             onRowSelectionChange={onRowSelectionChange}
+            expectedSize={20}
           />
         </Stack>
       </Stack>
