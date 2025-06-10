@@ -54,7 +54,7 @@ suspend fun CatalogueCreateButtonModel.toDTO(
 fun CatalogueTypeConfiguration.toTypeDTO(language: Language) = CatalogueTypeDTOBase(
     identifier = type,
     name = name?.get(language).orEmpty(),
-    icon = icon?.let { "/data/catalogueTypes/$type/img" },
+    icon = icon?.let { "/data/catalogueTypes/$type/img" }
 )
 
 fun CatalogueTypeDTOBase?.orEmpty(identifier: CatalogueType) = this ?: CatalogueTypeDTOBase(

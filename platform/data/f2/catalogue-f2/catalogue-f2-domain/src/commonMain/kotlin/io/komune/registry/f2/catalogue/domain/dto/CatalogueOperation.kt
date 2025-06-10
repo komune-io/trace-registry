@@ -4,5 +4,5 @@ import kotlin.js.JsExport
 
 @JsExport
 enum class CatalogueOperation {
-    UPDATE, RELATION, SEARCH
+    ALL, UPDATE, RELATION, SEARCH
 }

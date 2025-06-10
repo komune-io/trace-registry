@@ -191,6 +191,7 @@ class CatalogueF2FinderService(
         query: CatalogueListAllowedTypesQuery
     ): List<CatalogueTypeDTOBase> {
         return when (query.operation) {
+            CatalogueOperation.ALL -> catalogueConfig.typeConfigurations.keys
             CatalogueOperation.UPDATE -> listExplicitlyAllowedTypesToWrite()
             CatalogueOperation.RELATION -> listRelationAllowedType(query)
             CatalogueOperation.SEARCH -> listSearchAllowedTypes()

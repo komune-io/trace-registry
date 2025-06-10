@@ -89,21 +89,21 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, List, Collection]);
+  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, List]);
   setMetadataFor(Map_0, 'Map', interfaceMeta);
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
   setMetadataFor(Companion, 'Companion', objectMeta);
-  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
+  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, Collection, List], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -443,7 +443,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Symbol_0, 'Symbol', classMeta);
   setMetadataFor(SetTimeoutBasedDispatcher, 'SetTimeoutBasedDispatcher', classMeta, CoroutineDispatcher, VOID, VOID, VOID, VOID, [1]);
   setMetadataFor(NodeDispatcher, 'NodeDispatcher', objectMeta, SetTimeoutBasedDispatcher, VOID, VOID, VOID, VOID, [1]);
-  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [List, Collection]);
+  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [Collection, List]);
   setMetadataFor(ScheduledMessageQueue, 'ScheduledMessageQueue', classMeta, MessageQueue);
   setMetadataFor(WindowMessageQueue, 'WindowMessageQueue', classMeta, MessageQueue);
   setMetadataFor(Dispatchers, 'Dispatchers', objectMeta);
@@ -33201,14 +33201,17 @@ if (typeof Math.imul === 'undefined') {
     CatalogueImportType_initEntries();
     return CatalogueImportType_M100_PROJECTS_instance;
   }
+  var CatalogueOperation_ALL_instance;
   var CatalogueOperation_UPDATE_instance;
   var CatalogueOperation_RELATION_instance;
   var CatalogueOperation_SEARCH_instance;
   function values_18() {
-    return [CatalogueOperation_UPDATE_getInstance(), CatalogueOperation_RELATION_getInstance(), CatalogueOperation_SEARCH_getInstance()];
+    return [CatalogueOperation_ALL_getInstance(), CatalogueOperation_UPDATE_getInstance(), CatalogueOperation_RELATION_getInstance(), CatalogueOperation_SEARCH_getInstance()];
   }
   function valueOf_15(value) {
     switch (value) {
+      case 'ALL':
+        return CatalogueOperation_ALL_getInstance();
       case 'UPDATE':
         return CatalogueOperation_UPDATE_getInstance();
       case 'RELATION':
@@ -33226,12 +33229,17 @@ if (typeof Math.imul === 'undefined') {
     if (CatalogueOperation_entriesInitialized)
       return Unit_instance;
     CatalogueOperation_entriesInitialized = true;
-    CatalogueOperation_UPDATE_instance = new CatalogueOperation('UPDATE', 0);
-    CatalogueOperation_RELATION_instance = new CatalogueOperation('RELATION', 1);
-    CatalogueOperation_SEARCH_instance = new CatalogueOperation('SEARCH', 2);
+    CatalogueOperation_ALL_instance = new CatalogueOperation('ALL', 0);
+    CatalogueOperation_UPDATE_instance = new CatalogueOperation('UPDATE', 1);
+    CatalogueOperation_RELATION_instance = new CatalogueOperation('RELATION', 2);
+    CatalogueOperation_SEARCH_instance = new CatalogueOperation('SEARCH', 3);
   }
   function CatalogueOperation(name, ordinal) {
     Enum.call(this, name, ordinal);
+  }
+  function CatalogueOperation_ALL_getInstance() {
+    CatalogueOperation_initEntries();
+    return CatalogueOperation_ALL_instance;
   }
   function CatalogueOperation_UPDATE_getInstance() {
     CatalogueOperation_initEntries();
@@ -38063,6 +38071,7 @@ if (typeof Math.imul === 'undefined') {
     $io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation = CatalogueOperation;
     $io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation.values = values_18;
     $io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation.valueOf = valueOf_15;
+    defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'ALL', CatalogueOperation_ALL_getInstance);
     defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'UPDATE', CatalogueOperation_UPDATE_getInstance);
     defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'RELATION', CatalogueOperation_RELATION_getInstance);
     defineProp($io$komune$registry$f2$catalogue$domain$dto.CatalogueOperation, 'SEARCH', CatalogueOperation_SEARCH_getInstance);
