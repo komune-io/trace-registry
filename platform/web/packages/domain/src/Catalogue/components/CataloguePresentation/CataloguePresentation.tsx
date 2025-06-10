@@ -24,7 +24,7 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
             alignItems="stretch"
             gap={8}
             sx={{
-                "& .catalogLogo": {
+                "& .illustration": {
                     width: "auto",
                     height: "auto",
                     maxWidth: "500px",
@@ -50,7 +50,7 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                     >
                         {catalogue?.title}
                     </Typography>
-                    <Typography
+                    {catalogue?.structure?.illustration === "IDENTIFIER" && <Typography
                         color="primary"
                         sx={{
                             fontFamily: theme.local?.numberFont,
@@ -59,13 +59,13 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                         }}
                     >
                         {identifierNumber}
-                    </Typography>
+                    </Typography>}
                 </Stack>
                 <Typography>
                     {catalogue?.description}
                 </Typography>
             </Stack>
-            {catalogue?.img &&
+            {catalogue?.img && catalogue.structure?.illustration === "IMAGE" &&
                 <UnCachedImage
                     src={!noimage ? g2Config().platform.url + catalogue.img : defaultCatalogueImg}
                     alt={t("sheetIllustration")}

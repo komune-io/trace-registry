@@ -13,7 +13,7 @@ export interface CatalogueSearchModuleProps<T extends {}> {
 }
 
 export const CatalogueSearchModule = <T extends {}>(props: CatalogueSearchModuleProps<T>) => {
-    const { state, changeValueCallback, data, isFetching, withImage = false } = props
+    const { state, changeValueCallback, data, isFetching, withImage } = props
     const { t } = useTranslation()
    
     return (
