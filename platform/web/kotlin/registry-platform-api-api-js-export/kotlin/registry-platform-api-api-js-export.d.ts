@@ -3847,9 +3847,9 @@ export declare namespace io.komune.registry.f2.user.domain.command {
         readonly givenName: string;
         readonly familyName: string;
         readonly organizationName: string;
-        readonly joinReason: string;
+        readonly joinReason?: string;
         readonly acceptTermsOfUse: boolean;
-        readonly acceptChart100M: boolean;
+        readonly acceptChart100M?: boolean;
         readonly acceptNewsletter: boolean;
 
     }
@@ -4360,6 +4360,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
+        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentId?: string[];
         readonly parentIdentifier?: string[];
@@ -4387,6 +4388,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
+        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentId?: string[];
         readonly parentIdentifier?: string[];

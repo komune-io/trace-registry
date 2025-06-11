@@ -33034,7 +33034,7 @@ if (typeof Math.imul === 'undefined') {
     if (this.canCreateWithoutDraft(authedUser)) {
       tmp = true;
     } else {
-      tmp = hasRole_0(authedUser, 'rg_perm_catalogue_draft_create_all');
+      tmp = hasOneOfRoles_0(authedUser, ['rg_perm_catalogue_draft_create_all', 'rg_perm_catalogue_draft_create_owned']);
     }
     return tmp;
   };
