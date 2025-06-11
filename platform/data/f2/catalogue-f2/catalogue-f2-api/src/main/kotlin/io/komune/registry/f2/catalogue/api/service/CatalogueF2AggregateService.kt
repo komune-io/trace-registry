@@ -7,9 +7,6 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.model.SimpleFilePart
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
-import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
-import io.komune.registry.f2.catalogue.api.config.CatalogueTypeConfiguration
-import io.komune.registry.f2.catalogue.api.config.CatalogueTypeSubDataset
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendantException
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
 import io.komune.registry.f2.catalogue.api.model.toCommand
@@ -34,11 +31,14 @@ import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionC
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTOBase
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
-import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
-import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.s2.catalogue.api.config.CatalogueTypeConfiguration
+import io.komune.registry.s2.catalogue.api.config.CatalogueTypeSubDataset
+import io.komune.registry.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand

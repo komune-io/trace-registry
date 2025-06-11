@@ -1,17 +1,15 @@
-package io.komune.registry.program.s2.catalogue.api
+package io.komune.registry.s2.catalogue.api
 
 import io.komune.registry.infra.redis.EventHistoryService
-import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateConfig
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
-import io.komune.registry.program.s2.catalogue.api.entity.toModel
+import io.komune.registry.s2.catalogue.api.entity.CatalogueAutomateConfig
+import io.komune.registry.s2.catalogue.api.entity.CatalogueEntity
+import io.komune.registry.s2.catalogue.api.entity.toModel
 import io.komune.registry.s2.catalogue.domain.command.CatalogueEvent
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.history.EventHistory
 import io.komune.registry.s2.commons.history.mapEntities
 import io.komune.registry.s2.commons.model.CatalogueId
 import org.springframework.stereotype.Service
-import s2.sourcing.dsl.event.EventRepository
-import s2.spring.sourcing.data.r2dbc.R2dbcEventRepository
 
 @Service
 class CatalogueEventWithStateService(

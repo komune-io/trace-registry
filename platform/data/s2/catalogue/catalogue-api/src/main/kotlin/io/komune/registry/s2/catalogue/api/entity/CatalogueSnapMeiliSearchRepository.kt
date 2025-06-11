@@ -9,7 +9,7 @@ import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.criterion
 import io.komune.registry.infra.meilisearch.config.match
-import io.komune.registry.program.s2.catalogue.api.CatalogueModelI18nService
+import io.komune.registry.s2.catalogue.api.CatalogueModelI18nService
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel

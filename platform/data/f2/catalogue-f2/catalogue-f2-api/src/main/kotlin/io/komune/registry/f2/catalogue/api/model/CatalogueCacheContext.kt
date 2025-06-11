@@ -5,8 +5,8 @@ import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId

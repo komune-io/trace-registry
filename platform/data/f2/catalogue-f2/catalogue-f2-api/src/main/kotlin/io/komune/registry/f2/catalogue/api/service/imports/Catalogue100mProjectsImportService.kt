@@ -10,7 +10,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueC
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel

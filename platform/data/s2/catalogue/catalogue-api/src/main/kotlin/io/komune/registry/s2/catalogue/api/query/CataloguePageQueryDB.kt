@@ -1,4 +1,4 @@
-package io.komune.registry.program.s2.catalogue.api.query
+package io.komune.registry.s2.catalogue.api.query
 
 import com.redis.om.spring.metamodel.MetamodelField
 import com.redis.om.spring.search.stream.EntityStream
@@ -8,8 +8,8 @@ import f2.dsl.cqrs.page.PageDTO
 import io.komune.registry.infra.redis.PageQueryDB
 import io.komune.registry.infra.redis.criterion
 import io.komune.registry.infra.redis.match
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
-import io.komune.registry.program.s2.catalogue.api.entity.`CatalogueEntity$`
+import io.komune.registry.s2.catalogue.api.entity.CatalogueEntity
+import io.komune.registry.s2.catalogue.api.entity.`CatalogueEntity$`
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId

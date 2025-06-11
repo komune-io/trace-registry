@@ -12,8 +12,8 @@ import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.auth.Permissions

@@ -9,7 +9,7 @@ import io.komune.registry.f2.catalogue.api.CatalogueEndpoint
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageQuery
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.s2.catalogue.api.entity.CatalogueRepository
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import s2.bdd.assertion.AssertionBdd

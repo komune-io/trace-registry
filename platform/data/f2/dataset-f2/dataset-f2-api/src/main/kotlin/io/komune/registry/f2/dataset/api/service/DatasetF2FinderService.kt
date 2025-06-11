@@ -9,8 +9,8 @@ import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId

@@ -1,8 +1,8 @@
-package io.komune.registry.program.s2.catalogue.api
+package io.komune.registry.s2.catalogue.api
 
 import io.komune.im.commons.auth.AuthenticationProvider
-import io.komune.registry.program.s2.catalogue.api.config.CatalogueAutomateExecutor
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.s2.catalogue.api.entity.CatalogueAutomateExecutor
+import io.komune.registry.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent

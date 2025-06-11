@@ -39,11 +39,11 @@ import io.komune.registry.f2.dataset.domain.command.DatasetUpdatedMediaDistribut
 import io.komune.registry.f2.dataset.domain.dto.AggregatorConfig
 import io.komune.registry.infra.fs.FsPath
 import io.komune.registry.infra.postgresql.SequenceRepository
-import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.program.s2.dataset.api.entity.toUpdateCommand
+import io.komune.registry.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService

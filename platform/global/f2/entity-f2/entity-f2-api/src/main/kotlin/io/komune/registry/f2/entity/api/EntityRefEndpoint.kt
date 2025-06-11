@@ -7,7 +7,7 @@ import io.komune.registry.f2.entity.api.model.toRef
 import io.komune.registry.f2.entity.domain.model.EntityType
 import io.komune.registry.f2.entity.domain.query.EntityRefGetFunction
 import io.komune.registry.f2.entity.domain.query.EntityRefGetResult
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
