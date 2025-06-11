@@ -31,7 +31,7 @@ class UserF2AggregateService(
     private val logger by Logger()
 
     suspend fun onboardUser(command: UserOnboardCommandDTOBase) = onboard { context ->
-        if (!command.acceptTermsOfUse || !command.acceptChart100M) {
+        if (!command.acceptTermsOfUse || command.acceptChart100M == false) {
             throw UserUnacceptedTermsException()
         }
 
@@ -70,12 +70,12 @@ class UserF2AggregateService(
             roles = onboardingConfig.defaultUserRoles,
             givenName = command.givenName,
             familyName = command.familyName,
-            attributes = mapOf(
-                command::joinReason.name to command.joinReason,
+            attributes = listOfNotNull(
+                command.joinReason?.let { command::joinReason.name to it },
                 command::acceptTermsOfUse.name to command.acceptTermsOfUse.toString(),
-                command::acceptChart100M.name to command.acceptChart100M.toString(),
+                command.acceptChart100M?.let { command::acceptChart100M.name to it.toString() },
                 command::acceptNewsletter.name to command.acceptNewsletter.toString()
-            ),
+            ).toMap(),
             sendVerifyEmail = true,
             isEmailVerified = false
         ).invokeWith(imClient.user.userCreate()).id

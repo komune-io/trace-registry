@@ -53,7 +53,7 @@ platform:
       enable: true
       email: test@kosm.io
     template:
-      charter: 1
+      email-verified: 1
   flag:
     module:
       control: true
