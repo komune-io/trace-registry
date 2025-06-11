@@ -6,10 +6,12 @@ import {
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react"
+import { useExtendedAuth } from 'components'
 
 
 export const DraftToValidateListPage = () => {
     const { t } = useTranslation()
+     const { policies } = useExtendedAuth()
 
     const { submittedFilters, setOffset, component } = useDraftsFilters({
     })
@@ -39,6 +41,7 @@ export const DraftToValidateListPage = () => {
                 pagination={pagination}
                 isLoading={isInitialLoading}
                 onOffsetChange={setOffset}
+                toReadOnly={!policies.draft.canAudit()}
             />
         </AppPage>
     )

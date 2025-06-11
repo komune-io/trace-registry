@@ -105,8 +105,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
             name: "acceptNewsletter",
             type: "checkBox",
             //@ts-ignore
-            label: msgStr("wantNewsletter"),
-            required: true
+            label: msgStr("wantNewsletter")
         }
         ]
     }, [realm, msgStr, t])

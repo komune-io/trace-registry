@@ -24,6 +24,9 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
 
     const [contextualFilters, setContextualFilters] = useState<Record<string, any>>({})
 
+    //@ts-ignore
+    const needParentList = useMemo(() => formData?.sections[0].fields.some((field) => field.type === "autoComplete-parents") ?? false, [formData])
+
     const parentListQuery = useCatalogueListAvailableParentsQuery({
         query: {
             language: draft?.language ?? i18n.language,
@@ -32,8 +35,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         },
         options: {
             placeholderData: keepPreviousData,
-            //@ts-ignore
-            enabled: formData?.sections[0].fields.some((field) => field.type === "autoComplete-parents")
+            enabled: needParentList
         }
     })
 
@@ -148,7 +150,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             formData?.sections.forEach((section) =>
                 section.fields.forEach((field) => {
                     const fieldValue = getIn(values, field.name)
-                    
+
                     if (fieldValue != undefined) {
                         if (field.type === 'documentHandler') {
                             command.files.push({
