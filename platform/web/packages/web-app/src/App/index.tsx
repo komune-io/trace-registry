@@ -5,6 +5,8 @@ import {AppMenu, ConfigMenu, useUserMenu} from "./menu";
 import { useEffect, useMemo } from "react";
 import { languages, useExtendedAuth } from "components";
 
+console.log(languages)
+
 export const App = () => {
   const { t, i18n } = useTranslation()
   const { service, keycloak } = useExtendedAuth()

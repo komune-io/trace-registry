@@ -22,6 +22,7 @@ export interface ThemeConfig {
     numberFont?: string
     borderRadius?: string
     iconPack?: "100m" | "geco"
+    defaultCatalogueImg?: string
     logo?: {
         url?: string
     }
