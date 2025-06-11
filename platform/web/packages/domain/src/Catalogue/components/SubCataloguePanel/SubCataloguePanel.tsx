@@ -162,6 +162,7 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                 <SubCatalogueLinkedTable
                     catalogue={catalogue}
                     tab={tab}
+                    canUpdate={canUpdate}
                 />
             )}
         </Paper>
