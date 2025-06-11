@@ -19,7 +19,8 @@ object CataloguePolicies {
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE_ALL)
+        return canCreateWithoutDraft(authedUser)
+                || authedUser.hasOneOfRoles(Permissions.CatalogueDraft.CREATE_ALL, Permissions.CatalogueDraft.CREATE_OWNED)
     }
 
     fun canCreateWithoutDraft(authedUser: AuthedUserDTO): Boolean {
