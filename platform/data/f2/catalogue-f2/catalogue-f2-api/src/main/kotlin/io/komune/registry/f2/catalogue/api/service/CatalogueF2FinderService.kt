@@ -6,8 +6,6 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.api.config.search.SearchProperties
-import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.orEmpty
 import io.komune.registry.f2.catalogue.api.model.toAccessData
 import io.komune.registry.f2.catalogue.api.model.toDTO
@@ -25,11 +23,11 @@ import io.komune.registry.f2.catalogue.domain.query.CataloguePageResult
 import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
 import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
-import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
-import io.komune.registry.program.s2.catalogue.api.entity.descendantsIds
+import io.komune.registry.s2.catalogue.api.CatalogueEventWithStateService
+import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-import io.komune.registry.s2.catalogue.domain.model.structure.StructureType
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
@@ -46,7 +44,6 @@ class CatalogueF2FinderService(
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val catalogueEventWithStateService: CatalogueEventWithStateService,
-    private val searchProperties: SearchProperties,
 ) : CatalogueCachedService() {
 
     suspend fun getOrNull(
@@ -217,12 +214,8 @@ class CatalogueF2FinderService(
             .toList()
     }
 
-    suspend fun listSearchAllowedTypes(): List<CatalogueType> {
-        return searchProperties.indexedCatalogueTypes.mapNotNull { indexedType ->
-            catalogueConfig.typeConfigurations[indexedType]
-                ?.takeIf { it.structure?.type != StructureType.TRANSIENT }
-                ?.type
-        }
+    suspend fun listSearchAllowedTypes(): Set<CatalogueType> {
+        return catalogueConfig.searchableTypes - catalogueConfig.transientTypes
     }
 
     private suspend fun CatalogueModel.toAccessDataCached() = withCache { cache ->

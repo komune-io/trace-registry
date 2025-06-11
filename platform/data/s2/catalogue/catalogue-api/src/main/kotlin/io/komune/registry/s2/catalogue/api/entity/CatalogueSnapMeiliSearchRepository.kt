@@ -1,15 +1,15 @@
-package io.komune.registry.program.s2.catalogue.api.entity
+package io.komune.registry.s2.catalogue.api.entity
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.meilisearch.sdk.SearchRequest
 import com.meilisearch.sdk.model.SearchResult
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.registry.api.config.search.SearchProperties
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.criterion
 import io.komune.registry.infra.meilisearch.config.match
 import io.komune.registry.s2.catalogue.api.CatalogueModelI18nService
+import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -26,13 +26,13 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueSnapMeiliSearchRepository(
     private val objectMapper: ObjectMapper,
+    private val catalogueConfig: CatalogueConfig,
     private val catalogueI18nService: CatalogueModelI18nService,
-    private val searchProperties: SearchProperties,
 ) : MeiliSearchSnapRepository<CatalogueModel>(
     MeiliIndex.CATALOGUES,
     CatalogueModel::class
 ) {
-    private val indexedCatalogueTypes: List<String> = searchProperties.indexedCatalogueTypes
+    private val indexedCatalogueTypes: Set<String> = catalogueConfig.searchableTypes
 
     override val searchableAttributes: Array<String> = arrayOf(
         CatalogueModel::identifier.name,

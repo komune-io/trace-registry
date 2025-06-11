@@ -1,4 +1,4 @@
-package io.komune.registry.f2.catalogue.domain.dto.structure
+package io.komune.registry.s2.catalogue.domain.model.structure
 
 import kotlin.js.JsExport
 

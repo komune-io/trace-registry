@@ -1,5 +1,6 @@
 package io.komune.registry.f2.catalogue.domain.dto.structure
 
+import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueIllustrationType
 import io.komune.registry.s2.catalogue.domain.model.structure.StructureType
 import io.komune.registry.s2.commons.model.form.Form
 import io.komune.registry.s2.commons.model.form.FormDTO
@@ -29,15 +30,3 @@ data class CatalogueStructureDTOBase(
     override val metadataForm: Form?,
     override val createButton: CatalogueCreateButtonDTOBase?
 ) : CatalogueStructureDTO
-
-@Serializable
-data class CatalogueStructureModel(
-    val type: StructureType?,
-    val alias: Boolean = false,
-    val color: String?,
-    val isTab: Boolean = false,
-    val illustration: CatalogueIllustrationType?,
-    val creationForm: Form?,
-    val metadataForm: Form?,
-    val createButton: CatalogueCreateButtonModel?
-)

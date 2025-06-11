@@ -1,13 +1,13 @@
 package io.komune.registry.f2.catalogue.api.model
 
 import io.komune.im.commons.auth.AuthenticationProvider
-import io.komune.registry.f2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonModel
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
-import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureModel
+import io.komune.registry.s2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
+import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueCreateButtonModel
+import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueStructureModel
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
 

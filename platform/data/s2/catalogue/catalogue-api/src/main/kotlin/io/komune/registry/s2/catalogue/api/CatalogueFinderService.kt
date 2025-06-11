@@ -1,4 +1,4 @@
-package io.komune.registry.program.s2.catalogue.api
+package io.komune.registry.s2.catalogue.api
 
 import f2.dsl.cqrs.filter.AndMatch
 import f2.dsl.cqrs.filter.CollectionMatch
