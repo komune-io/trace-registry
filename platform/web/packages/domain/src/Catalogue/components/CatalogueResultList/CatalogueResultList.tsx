@@ -45,7 +45,6 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 
 const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
     const { title, themes, id, type, parent, img, structure, withImage = structure?.illustration === "IMAGE" } = props
-    console.log(withImage)
     const [imageError, setImageError] = useState(false)
     const { t } = useTranslation()
     const theme = useTheme<LocalTheme>()

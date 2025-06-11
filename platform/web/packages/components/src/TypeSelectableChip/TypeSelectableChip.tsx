@@ -42,7 +42,7 @@ export const TypeSelectableChip = (props: TypeSelectableChipProps) => {
                 gap: "7px",
                 py: 0.5,
                 px: 1.25,
-                width: "170px",
+                width: "180px",
                 zIndex: 0,
                 ...sx
             }}
