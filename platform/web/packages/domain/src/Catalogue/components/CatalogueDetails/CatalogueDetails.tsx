@@ -195,13 +195,30 @@ const AutoDetailsForm = (props: AutoDetailsFormProps) => {
         })
     }, [fields, formstate.values])
 
+    const fieldsWithUrl = useMemo(() => {
+        return fields.map((field) => {
+            const { name, params } = field
+            const value = getIn(initialValues, name)
+            if (typeof value === 'string' && value.startsWith('http')) {
+                return {
+                    ...field,
+                    params: {
+                        ...params,
+                        getReadOnlyTextUrl: () => value
+                    }
+                }
+            }
+            return field
+        })
+    }, [initialValues, fields])
+
     if (areFieldsEmpty) return null
     return <Stack
         gap={1.5}
     >
         {title && <TitleDivider size='subtitle1' title={title} />}
         <FormComposable
-            fields={fields}
+            fields={fieldsWithUrl}
             formState={formstate}
         />
     </Stack>
