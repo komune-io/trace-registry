@@ -4,9 +4,9 @@ import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.init.RegistryScriptInitProperties
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
-import org.slf4j.LoggerFactory
 
 class MarkdownMediaImport(
     private val properties: RegistryScriptInitProperties,
@@ -53,7 +53,7 @@ class MarkdownMediaImport(
             val alt = imageMatch.groupValues[1]
             val path = imageMatch.groupValues[2]
             val title = imageMatch.groupValues[3]
-            if(alt == "chart") {
+            if (alt == "chart") {
                 val rawGraphPath = getRawGraphPath(graphs)
                 // ../../../../app//#14" => 14
                 val regex = Regex("#(\\d+)")

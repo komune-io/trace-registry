@@ -1,16 +1,19 @@
 package io.komune.registry.program.s2.catalogue.api
 
+import f2.dsl.cqrs.filter.AndMatch
 import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
+import io.komune.registry.api.commons.utils.anyNotNull
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
 import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapMeiliSearchRepository
 import io.komune.registry.program.s2.catalogue.api.entity.toModel
 import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.commons.exception.NotFoundException
@@ -18,8 +21,11 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.FieldCriterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.andCriterionOfNotNull
+import io.komune.registry.s2.commons.model.orCriterionOf
 import org.springframework.stereotype.Service
 
 @Service
@@ -48,20 +54,16 @@ class CatalogueFinderService(
 			?: throw NotFoundException("Catalogue with identifier", identifier)
 	}
 
-	suspend fun getAll(): List<CatalogueModel> {
-		return catalogueRepository.findAll().map {
-			it.toModel()
-		}
-	}
-
 	suspend fun page(
 		id: Match<CatalogueId>? = null,
 		identifier: Match<CatalogueIdentifier>? = null,
+		parentId: Match<CatalogueId>? = null,
+		parentIdentifier: Match<CatalogueIdentifier>? = null,
 		title: Match<String>? = null,
-		parentIdentifier: String? = null,
 		language: Match<String>? = null,
 		type: Match<String>? = null,
 		childrenCatalogueIds: Match<CatalogueId>? = null,
+		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		childrenDatasetIds: Match<DatasetId>? = null,
 		referencedDatasetIds: Match<DatasetId>? = null,
 		creatorOrganizationId: Match<OrganizationId>? = null,
@@ -70,17 +72,12 @@ class CatalogueFinderService(
 		freeCriterion: Criterion? = null,
 		offset: OffsetPagination? = null
 	): PageDTO<CatalogueModel> {
-		val childIdFilter = parentIdentifier
-			?.let { pIdentifier ->
-				catalogueRepository.findByIdentifier(pIdentifier)
-					?.childrenCatalogueIds?.takeIf { it.isNotEmpty() }
-					?: listOf("none")
-			}?.let(::CollectionMatch)
-
 		return cataloguePageQueryDB.execute(
-			id = andMatchOfNotNull(
-				id,
-				childIdFilter
+			id = buildIdMatch(
+				id = id,
+				parentId = parentId,
+				parentIdentifier = parentIdentifier,
+				relatedInCatalogueIds = relatedInCatalogueIds
 			),
 			identifier = identifier,
 			title = title,
@@ -102,8 +99,10 @@ class CatalogueFinderService(
 		language: Match<String>? = null,
 		accessRights: Match<String>? = null,
 		catalogueIds: Match<String>? = null,
-		parentIdentifier: Match<String>? = null,
+		parentId: Match<CatalogueId>? = null,
+		parentIdentifier: Match<CatalogueIdentifier>? = null,
 		type: Match<String>? = null,
+		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		themeIds: Match<String>? = null,
 		licenseId: Match<String>? = null,
 		creatorOrganizationId: Match<OrganizationId>? = null,
@@ -111,6 +110,19 @@ class CatalogueFinderService(
 		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
 	): FacetPage<CatalogueModel> {
+		val idMatch = buildIdMatch(
+			parentId = parentId,
+			parentIdentifier = parentIdentifier,
+			relatedInCatalogueIds = relatedInCatalogueIds
+		)
+
+		val idFilter = idMatch?.let {
+			orCriterionOf(
+				FieldCriterion(CatalogueCriterionField.Id, it),
+				FieldCriterion(CatalogueCriterionField.IsTranslationOf, it)
+			)
+		}
+
 		return meiliSearch.search(
 			language = language,
 			query = query,
@@ -121,8 +133,54 @@ class CatalogueFinderService(
 			licenseId = licenseId,
 			creatorOrganizationId = creatorOrganizationId,
 			availableLanguages = availableLanguages,
-			freeCriterion = freeCriterion,
+			freeCriterion = andCriterionOfNotNull(
+				freeCriterion,
+				idFilter
+			),
 			page = page
+		)
+	}
+
+	suspend fun checkExist(ids: Collection<CatalogueId>) {
+		if (ids.isEmpty()) return
+
+		val distinctIds = ids.toSet()
+		val existingCatalogues = page(id = CollectionMatch(distinctIds)).items
+
+		if (existingCatalogues.size < distinctIds.size) {
+			val missingIds = distinctIds - existingCatalogues.map { it.id }.toSet()
+			throw NotFoundException("Catalogues", missingIds.joinToString(", "))
+		}
+	}
+
+	private suspend fun buildIdMatch(
+		id: Match<CatalogueId>? = null,
+		parentId: Match<CatalogueId>? = null,
+		parentIdentifier: Match<CatalogueIdentifier>? = null,
+		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null
+	) : Match<CatalogueId>? {
+		val childIdMatch = takeIf { anyNotNull(parentId, parentIdentifier) }?.let {
+			page(
+				id = parentId,
+				identifier = parentIdentifier,
+			).items.flatMap { it.childrenCatalogueIds }
+				.toSet()
+				.ifEmpty { setOf("none") }
+				.let(::CollectionMatch)
+		}
+
+		val relatedInIdMatch = relatedInCatalogueIds?.map { (relation, match) ->
+			page(id = match).items
+				.flatMap { it.relatedCatalogueIds?.get(relation).orEmpty() }
+				.toSet()
+				.ifEmpty { setOf("none") }
+				.let(::CollectionMatch)
+		}?.let { AndMatch(it) }
+
+		return andMatchOfNotNull(
+			id,
+			childIdMatch,
+			relatedInIdMatch
 		)
 	}
 }

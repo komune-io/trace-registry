@@ -5,6 +5,8 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
 import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
+import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.serialization.Serializable
@@ -27,19 +29,20 @@ typealias CatalogueSearchFunction = F2Function<CatalogueSearchQuery, CatalogueSe
 interface CatalogueSearchQueryDTO {
     val offset: Int?
     val limit: Int?
-
     val query: String?
     val language: String
     val otherLanguageIfAbsent: Boolean?
-
     val accessRights: List<String>?
     val catalogueIds: List<String>?
-    val parentIdentifier: List<String>?
+    val relatedInCatalogueIds: Map<String, List<CatalogueId>>?
+    val parentId: List<CatalogueId>?
+    val parentIdentifier: List<CatalogueIdentifier>?
     val type: List<String>?
     val themeIds: List<String>?
     val licenseId: List<String>?
     val creatorOrganizationId: OrganizationId?
     val availableLanguages: List<Language>?
+    val withTransient: Boolean?
 }
 
 /**
@@ -49,19 +52,20 @@ interface CatalogueSearchQueryDTO {
 data class CatalogueSearchQuery(
     override val offset: Int?,
     override val limit: Int?,
-
-    override val query: String? = null,
+    override val query: String?,
     override val language: String,
     override val otherLanguageIfAbsent: Boolean = false,
-
-    override val accessRights: List<String>? = null,
-    override val catalogueIds: List<String>? = null,
-    override val parentIdentifier: List<String>? = null,
+    override val accessRights: List<String>?,
+    override val catalogueIds: List<String>?,
+    override val relatedInCatalogueIds: Map<String, List<CatalogueId>>?,
+    override val parentId: List<CatalogueId>?,
+    override val parentIdentifier: List<CatalogueIdentifier>?,
     override val themeIds: List<String>?,
     override val licenseId: List<String>?,
     override val type: List<String>?,
     override val creatorOrganizationId: OrganizationId?,
     override val availableLanguages: List<Language>?,
+    override val withTransient: Boolean = false
 ): CatalogueSearchQueryDTO
 
 /**

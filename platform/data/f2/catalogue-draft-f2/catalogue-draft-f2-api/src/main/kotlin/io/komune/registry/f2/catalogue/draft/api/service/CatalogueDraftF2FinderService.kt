@@ -11,6 +11,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.draft.api.model.toDTO
 import io.komune.registry.f2.catalogue.draft.domain.model.CatalogueDraftDTOBase
 import io.komune.registry.f2.dataset.api.model.toRef
+import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.api.entity.CatalogueDraftSnapMeiliSearchRepository
@@ -27,6 +28,7 @@ class CatalogueDraftF2FinderService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueDraftSnapMeiliSearchRepository: CatalogueDraftSnapMeiliSearchRepository,
     private val catalogueF2FinderService: CatalogueF2FinderService,
+    private val organizationF2FinderService: OrganizationF2FinderService,
     private val userF2FinderService: UserF2FinderService
 ) {
     suspend fun get(id: CatalogueDraftId): CatalogueDraftDTOBase {
@@ -43,6 +45,7 @@ class CatalogueDraftF2FinderService(
 
     suspend fun page(
         id: Match<CatalogueDraftId>? = null,
+        parentId: Match<CatalogueDraftId?>? = null,
         catalogueId: Match<CatalogueId>? = null,
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
@@ -55,6 +58,7 @@ class CatalogueDraftF2FinderService(
 
         return catalogueDraftFinderService.page(
             id = id,
+            parentId = parentId,
             catalogueId = catalogueId,
             originalCatalogueId = originalCatalogueId,
             language = language,
@@ -93,10 +97,12 @@ class CatalogueDraftF2FinderService(
 
     private suspend fun CatalogueDraftModel.toDTOCached(cache: Cache = Cache()) = toDTO(
         getCatalogue = { id, language -> cache.catalogues.get(id to language) },
+        getOrganization = cache.organizations::get,
         getUser = cache.users::get
     )
 
     private suspend fun CatalogueDraftModel.toRefCached(cache: Cache = Cache()) = toRef(
+        getOrganization = cache.organizations::get,
         getUser = cache.users::get
     )
 
@@ -106,5 +112,6 @@ class CatalogueDraftF2FinderService(
         }
 
         val users = SimpleCache(userF2FinderService::getRef)
+        val organizations = SimpleCache(organizationF2FinderService::getRef)
     }
 }

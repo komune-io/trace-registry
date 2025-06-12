@@ -47,7 +47,6 @@ export const ImageComponent = ({
     nodeKey,
     width,
     height,
-    maxWidth,
     resizable,
     caption,
     captionsEnabled,
@@ -56,7 +55,6 @@ export const ImageComponent = ({
     altText: string;
     caption: LexicalEditor;
     height: 'inherit' | number;
-    maxWidth?: number;
     nodeKey: NodeKey;
     resizable: boolean;
     src: string;
@@ -291,7 +289,7 @@ export const ImageComponent = ({
         style: {
             width,
             height,
-            maxWidth
+            maxWidth: '100%',
         }
     }
     
@@ -306,7 +304,6 @@ export const ImageComponent = ({
                 editor={editor}
                 buttonRef={buttonRef}
                 imageRef={imageRef}
-                maxWidth={maxWidth}
                 onResizeStart={onResizeStart}
                 onResizeEnd={onResizeEnd}
                 captionsEnabled={captionsEnabled}

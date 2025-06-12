@@ -5,10 +5,11 @@ import {IndicatorVisualization} from "../../../Catalogue/components/IndicatorVis
 export interface DatasetIndicatorProps {
     item: Dataset
     relatedDatasets?: Dataset[]
+    isEmpty: (isEmpty: boolean) => void
 }
 
 export const DatasetIndicator = (props: DatasetIndicatorProps) => {
-    const { item, relatedDatasets } = props
+    const { item, relatedDatasets, isEmpty } = props
 
     const indicatorVisualization = useMemo(() => {
         const orderedDatasets = item.datasets?.sort((a, b) => {
@@ -17,12 +18,15 @@ export const DatasetIndicator = (props: DatasetIndicatorProps) => {
             return 0
         })
 
-        return [
+        const indicators = [
             ...buildIndicatorsVisualizations(orderedDatasets ?? [], (dataset: Dataset) => dataset.referencingCatalogueIds[0]),
             ...buildIndicatorsVisualizations(relatedDatasets ?? [], (dataset: Dataset) => dataset.catalogueId)
         ]
+        console.log("orderedDatasets", orderedDatasets)
+        console.log("relatedDatasets", relatedDatasets)
+        if ((orderedDatasets ?? []).length === 0 && (relatedDatasets ?? []).length === 0) isEmpty(true)
+        return indicators
     },[item, relatedDatasets])
-
 
     return (
      <>{indicatorVisualization}</>

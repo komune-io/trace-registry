@@ -25,6 +25,7 @@ object Versions {
     val cccev = Framework.connect
 
 	const val apacheCsv = "1.14.0"
+	const val apacheTika = "3.1.0"
 	const val bignum = "0.3.8"
 	const val brevo = "1.0.0"
 	const val meilisearch = "0.14.2"
@@ -34,6 +35,7 @@ object Versions {
 	const val jacksonCsv = "2.18.3"
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val javaSnapshotTesting = "4.0.8"
+	const val jsonPath = "2.9.0"
 	const val ktor = FixersVersions.Kotlin.ktor
 	const val redisOm = "0.8.9"
 	const val r2dbcPostgresql = "1.0.7.RELEASE"

@@ -169,7 +169,7 @@ class Catalogue100mProjectsImportService(
     }
 
     private suspend fun importCatalogue(catalogueImportData: CatalogueImportData): CatalogueId {
-        val catalogueId = catalogueF2AggregateService.create(catalogueImportData.createCommand).id
+        val catalogueId = catalogueF2AggregateService.create(catalogueImportData.createCommand, null).id
         val catalogue = catalogueF2FinderService.get(catalogueId, LANGUAGE)
 
         if (catalogueImportData.indicators.isEmpty()) {

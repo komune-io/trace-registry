@@ -1,16 +1,22 @@
-import { languages, LanguageSelector, TitleDivider, useRoutesDefinition, SectionTab, Tab, useExtendedAuth } from 'components'
-import { CatalogueEditionHeader, useCatalogueDraftGetQuery, useCatalogueDraftCreateCommand, useCatalogueDeleteCommand } from 'domain-components'
-import { AppPage } from 'template'
-import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDraftMutations } from '100m-components';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMetadataFormState } from './useMetadataFormState';
-import { Typography } from '@mui/material';
-import { useDraftTabs } from './useDraftTabs';
-import { useDraftValidations } from './useDraftValidations';
-import { useDebouncedCallback } from '@mantine/hooks';
+import {languages, LanguageSelector, SectionTab, Tab, TitleDivider, useExtendedAuth, useRoutesDefinition, WarningTicket} from 'components'
+import {
+  CatalogueEditionHeader,
+  useCatalogueDeleteCommand,
+  useCatalogueDraftCreateCommand,
+  useCatalogueDraftGetQuery
+} from 'domain-components'
+import {AppPage} from 'template'
+import {useNavigate, useParams} from "react-router-dom";
+import {useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useQueryClient} from '@tanstack/react-query';
+import {useMetadataFormState} from './useMetadataFormState';
+import {Typography} from '@mui/material';
+import {useDraftTabs} from './useDraftTabs';
+import {useDraftValidations} from './useDraftValidations';
+import {useDebouncedCallback} from '@mantine/hooks';
+import {useDraftMutations} from './useDraftMutations';
+import {useDraftFormData} from './useDraftFormData';
 
 export const DraftEditionPage = () => {
   const { draftId, catalogueId, tab } = useParams()
@@ -35,10 +41,13 @@ export const DraftEditionPage = () => {
   })
 
   const draft = catalogueDraftQuery.data?.item
+  const catalogue = draft?.catalogue
 
-  const catalogue = catalogueDraftQuery.data?.item?.catalogue
+  const canUdateDraft = policies.draft.canUpdate(draft)
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
+
+  const formData = useDraftFormData({ catalogue })
 
   const { onDelete, onSectionChange, onSaveMetadata, isUpdating } = useDraftMutations({
     catalogue,
@@ -47,12 +56,15 @@ export const DraftEditionPage = () => {
   })
 
   const metadataFormState = useMetadataFormState({
+    formData,
     onSubmit: onSaveMetadata,
     catalogue,
-    isLoading: isDefLoading
+    isLoading: isDefLoading,
+    readOnly: !canUdateDraft,
   })
 
   const { onSubmit, onValidate, validateMetadata } = useDraftValidations({
+    draft,
     metadataFormState,
     refetchDraft: catalogueDraftQuery.refetch,
     setTab,
@@ -61,11 +73,13 @@ export const DraftEditionPage = () => {
   const title = catalogue?.title ?? t("sheetEdition")
 
   const tabs: Tab[] = useDraftTabs({
+    formData,
     metadataFormState,
     catalogue,
     draft,
     isLoading: isDefLoading,
-    onSectionChange
+    onSectionChange,
+    readOnly: !canUdateDraft,
   })
 
   const validateAndSubmitMetadata = useDebouncedCallback(async () => {
@@ -154,7 +168,18 @@ export const DraftEditionPage = () => {
         {t("catalogues.titleRequired")}
       </Typography>
       }
-      <TitleDivider title={title} onChange={policies.draft.canUpdate(draft) ? onChangeTitle : undefined} />
+      <TitleDivider title={title} onChange={canUdateDraft ? onChangeTitle : undefined} />
+      {draft?.status == "REJECTED" && <WarningTicket
+        severity='error'
+        title={t("catalogues.validatorComment")}
+      >
+        <Typography
+          color='error'
+        >
+          {draft?.rejectReason ?? ""}
+        </Typography>
+      </WarningTicket>
+      }
       <LanguageSelector
         //@ts-ignore
         languages={languages}

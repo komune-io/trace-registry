@@ -32,7 +32,7 @@ class CatalogueSnapMeiliSearchRepository(
     MeiliIndex.CATALOGUES,
     CatalogueModel::class
 ) {
-    private val indexedCatalogueTypes: List<String> = searchProperties.indexedCatalogue()
+    private val indexedCatalogueTypes: List<String> = searchProperties.indexedCatalogueTypes
 
     override val searchableAttributes: Array<String> = arrayOf(
         CatalogueModel::identifier.name,

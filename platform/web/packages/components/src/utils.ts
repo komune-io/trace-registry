@@ -24,3 +24,9 @@ export type LocalTheme = {
   numberFont?: string
   borderRadius?: string
 }
+
+export const createObjWithFallbackValue = <T extends {}, F = any>(obj: T, fallback: F) =>
+  new Proxy(obj, {
+    get: (target, prop) =>
+      prop in target ? target[prop] : fallback
+  });

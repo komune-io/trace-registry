@@ -1,12 +1,12 @@
 import {Stack} from '@mui/material'
-import { iconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
+import {IconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
 import {TFunction} from 'i18next'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
 import {useLocation} from 'react-router-dom'
 import {getMenu, MenuItem} from '.'
-import { useCatalogueDraftPageQuery} from 'domain-components'
-import { CreateCatalogueButton } from '100m-components'
+import {useCatalogueDraftPageQuery} from 'domain-components'
+import {CreateCatalogueButton} from './CreateCatalogueButton'
 
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
@@ -27,7 +27,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 key: "mySheets",
                 to: cataloguesMyOrganization(),
                 label: t("mySheets"),
-                icon: iconPack.folder,
+                icon: <IconPack.folder />,
                 isVisible: policies.catalogue.canSeeMyOrganization(),
                 isSelected: location.pathname.includes(cataloguesMyOrganization())
             },
@@ -35,7 +35,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 key: "contributions",
                 to: cataloguesContributions(),
                 label: t("myContributions"),
-                icon: iconPack.contribution,
+                icon: <IconPack.contribution />,
                 isVisible: policies.draft.canCreate(),
                 isSelected: location.pathname.includes(cataloguesContributions())
             },
@@ -43,13 +43,13 @@ export const usePersonalMenu = (t: TFunction) => {
                 key: "sheetsToValidate",
                 to: cataloguesToVerify(),
                 label: t("sheetsToValidate"),
-                icon: iconPack.validate,
+                icon: <IconPack.validate />,
                 number: totalToVerify,
-                isVisible: policies.draft.canAudit(),
+                isVisible: policies.draft.canSeePublished(),
                 isSelected: location.pathname.includes(cataloguesToVerify())
             }
         ]
-    }, [location, t, cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, totalToVerify, policies.draft.canAudit])
+    }, [location, t, cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, totalToVerify, policies.draft])
 
     return useMemo(() => getMenu(location.pathname, menu), [location.pathname, menu])
 }
@@ -68,7 +68,7 @@ export const MenuHeader = () => {
                 pt:1,
             }}
         >
-            <CreateCatalogueButton />
+            <CreateCatalogueButton identifier='menu' />
             <Menu
                 sx={{
                     width: "100%"

@@ -8,6 +8,7 @@ import com.redis.om.spring.annotations.TagIndexed
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
+import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
@@ -18,7 +19,6 @@ import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.commons.model.UserId
 import io.komune.registry.s2.concept.domain.ConceptId
 import io.komune.registry.s2.license.domain.LicenseId
-import io.komune.registry.s2.structure.domain.model.Structure
 import org.springframework.data.annotation.Id
 import s2.dsl.automate.model.WithS2Id
 import s2.dsl.automate.model.WithS2State
@@ -46,6 +46,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @Searchable(nostem=true)
     var language: Language? = null
 
+    var configuration: CatalogueConfigurationModel? = null
+
     @Searchable(nostem=true)
     var description: String? = null
 
@@ -54,9 +56,6 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     @Searchable(nostem=true)
     var homepage: String? = null
-
-    @Indexed
-    var structure: Structure? = null
 
     @TagIndexed
     var childrenCatalogueIds: MutableSet<CatalogueId> = mutableSetOf()
@@ -68,6 +67,9 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     @TagIndexed
     var referencedDatasetIds: MutableSet<DatasetId> = mutableSetOf()
+
+    @TagIndexed
+    var metadataDatasetId: DatasetId? = null
 
     var translationIds: MutableMap<Language, CatalogueId> = mutableMapOf()
 
@@ -82,8 +84,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     @TagIndexed
     var ownerOrganizationId: OrganizationId? = null
 
-    var publisherId: UserId? = null
     var validatorId: UserId? = null
+    var validatorOrganizationId: OrganizationId? = null
 
     var stakeholder: String? = null
 
@@ -94,6 +96,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var integrateCounter: Boolean? = null
 
     var location: Location? = null
+
+    var order: Int? = null
 
     @Indexed
     var hidden: Boolean = false

@@ -1,14 +1,14 @@
-import { maybeAddItem, Tab, useExtendedAuth } from 'components'
+import { Tab } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueSections, CatalogueTypes, Dataset, DraftGraphManager, DraftIndicatorManager } from 'domain-components'
+import { AutoFormData, FormComposableState } from '@komune-io/g2'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftGraphManager, DraftIndicatorManager, SubCataloguesManager } from 'domain-components'
 import { EditorState } from 'lexical'
-import { CatalogueMetadataForm } from '100m-components'
 
 export interface useDraftTabsParams {
   catalogue?: Catalogue
   draft?: CatalogueDraft
+  formData?: AutoFormData
   metadataFormState: FormComposableState
   isLoading?: boolean
   onSectionChange?: (editorState: EditorState, dataset?: Dataset) => void
@@ -16,26 +16,24 @@ export interface useDraftTabsParams {
 }
 
 export const useDraftTabs = (props: useDraftTabsParams) => {
-  const { metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnly = false } = props
+  const { metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnly = false, formData } = props
   const { t } = useTranslation()
-  const { policies } = useExtendedAuth()
-  const canUpdate = policies.draft.canUpdate(draft)
+ 
 
   return useMemo((): Tab[] => {
-    const type = catalogue?.type as CatalogueTypes
-    const tabs: Tab[] = [...maybeAddItem(canUpdate, {
+    const tabs: Tab[] = [{
       key: 'metadata',
       label: t('metadata'),
-      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} type={type} />,
-    }),
+      component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} formData={formData} />,
+    },
     ...(catalogue?.datasets.map((dataset): Tab | undefined => {
       let component: React.ReactNode | undefined = undefined
 
       if (dataset.type === "lexical") {
-        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} dataset={dataset} />
-      } else if (dataset.type === "graphs" && canUpdate) {
+        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={readOnly} catalogue={catalogue} dataset={dataset} />
+      } else if (dataset.type === "graphs") {
         component = <DraftGraphManager dataset={dataset} draft={draft} readOnly={readOnly} />
-      } else if (dataset.type === "indicators" && canUpdate) {
+      } else if (dataset.type === "indicators") {
         component = <DraftIndicatorManager dataset={dataset} draft={draft} readOnly={readOnly} />
       } 
 
@@ -47,8 +45,24 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
         }
       }
       return undefined
+    }) ?? []).filter(Boolean) as Tab[],
+    ...(catalogue?.catalogues.filter(child => child.structure?.isTab).map((catalogue): Tab | undefined => {
+      let component: React.ReactNode | undefined = undefined
+
+      if (catalogue.structure?.type === "FACTORY") {
+        component = <SubCataloguesManager catalogue={catalogue} readOnly={readOnly} />
+      } 
+
+      if (component) {
+        return {
+          key: catalogue.id,
+          label: catalogue.title!,
+          component
+        }
+      }
+      return undefined
     }) ?? []).filter(Boolean) as Tab[]
     ]
     return tabs
-  }, [t, catalogue, metadataFormState, canUpdate, onSectionChange, isLoading, draft, readOnly])
+  }, [t, catalogue, metadataFormState, onSectionChange, isLoading, draft, readOnly, formData])
 }

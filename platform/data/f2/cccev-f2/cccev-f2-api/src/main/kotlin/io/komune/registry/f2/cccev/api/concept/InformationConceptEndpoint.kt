@@ -15,6 +15,7 @@ import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlo
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
+import jakarta.annotation.security.PermitAll
 import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
@@ -44,6 +45,7 @@ class InformationConceptEndpoint(
             .let(::InformationConceptListResult)
     }
 
+    @PermitAll
     @Bean
     override fun informationConceptGetGlobalValue(): InformationConceptGetGlobalValueFunction = f2Function { query ->
         logger.info("informationConceptGetGlobalValue: $query")

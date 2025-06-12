@@ -23,6 +23,7 @@ export const TypeSelectableChip = (props: TypeSelectableChipProps) => {
         [onChange, isSelected],
     )
 
+    console.log(isSelected)
     return (
         //@ts-ignore
         <ToggleButton
@@ -41,7 +42,8 @@ export const TypeSelectableChip = (props: TypeSelectableChipProps) => {
                 gap: "7px",
                 py: 0.5,
                 px: 1.25,
-                width: "150px",
+                width: "180px",
+                zIndex: 0,
                 ...sx
             }}
             disableRipple
@@ -55,7 +57,7 @@ export const TypeSelectableChip = (props: TypeSelectableChipProps) => {
                     bottom: isSelected ? 0 : "-4px",
                     position: "absolute",
                     width: "100%",
-                    background: color ?? "#F9DC44",
+                    background: color,
                     zIndex: -1,
                 }}
             />

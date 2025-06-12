@@ -6,8 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class SearchProperties(
     val indexedCatalogue: String
 ) {
-    fun indexedCatalogue(): List<String> {
-        return indexedCatalogue.split(",")
+    val indexedCatalogueTypes by lazy {
+        indexedCatalogue.split(",").map { it.trim() }
     }
 }
-

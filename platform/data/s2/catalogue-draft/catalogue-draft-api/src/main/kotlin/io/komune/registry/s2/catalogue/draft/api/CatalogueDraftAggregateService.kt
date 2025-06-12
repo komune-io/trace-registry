@@ -30,12 +30,13 @@ class CatalogueDraftAggregateService(
         CatalogueDraftCreatedEvent(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
+            parentId = command.parentId,
             catalogueId = command.catalogueId,
             original = command.original,
             language = command.language.truncateLanguage(),
             baseVersion = command.baseVersion,
             datasetIdMap = command.datasetIdMap,
-            creatorId = AuthenticationProvider.getAuthedUser()!!.id
+            creatorId = AuthenticationProvider.getAuthedUser()?.id
         )
     }
 
@@ -77,13 +78,17 @@ class CatalogueDraftAggregateService(
         CatalogueDraftRejectedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
+            reason = command.reason
         )
     }
 
     suspend fun validate(command: CatalogueDraftValidateCommand) = automate.transition(command) {
+        val authedUser = AuthenticationProvider.getAuthedUser()
         CatalogueDraftValidatedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
+            validatorId = authedUser?.id,
+            validatorOrganizationId = authedUser?.memberOf
         )
     }
 

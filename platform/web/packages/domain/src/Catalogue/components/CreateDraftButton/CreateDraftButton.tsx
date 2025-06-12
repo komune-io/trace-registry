@@ -1,13 +1,13 @@
-import { EditRounded } from '@mui/icons-material'
-import { CircularProgress, IconButton } from '@mui/material'
-import { useRoutesDefinition, useToggleState } from 'components'
-import { useCallback, useMemo, useState } from 'react'
-import { DraftReplacementModal } from '../DraftReplacementModal'
-import { Catalogue } from '../../model'
-import { useTranslation } from 'react-i18next'
-import { useCatalogueDraftCreateCommand, useCatalogueDraftDeleteCommand, useCatalogueListAllowedTypesQuery } from '../../api'
-import { useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import {EditRounded} from '@mui/icons-material'
+import {CircularProgress, IconButton} from '@mui/material'
+import {useRoutesDefinition, useToggleState} from 'components'
+import {useCallback, useMemo, useState} from 'react'
+import {DraftReplacementModal} from '../DraftReplacementModal'
+import {Catalogue} from '../../model'
+import {useTranslation} from 'react-i18next'
+import {useCatalogueDraftCreateCommand, useCatalogueDraftDeleteCommand, useCatalogueListAllowedTypesQuery} from '../../api'
+import {useQueryClient} from '@tanstack/react-query'
+import {useNavigate} from 'react-router-dom'
 
 interface CreateDraftButtonProps {
     catalogue?: Catalogue
@@ -25,7 +25,8 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
 
     const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
         query: {
-
+            language: i18n.language,
+            operation: "UPDATE"
         }
     }).data?.items
 
@@ -71,7 +72,7 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
     )
 
     const iscatalogueTypeAllowed = useMemo(() => {
-        return allowedCreationTypes?.some((type) => type === catalogue?.type) ?? false
+        return allowedCreationTypes?.some((type) => type.identifier === catalogue?.type) ?? false
     }, [allowedCreationTypes, catalogue])
 
     if ((!currentLanguageDraft && !canCreate) || !iscatalogueTypeAllowed) return <></>

@@ -167,6 +167,8 @@
   "options": "Opciones",
   "deleteCatalogue": "Eliminar la ficha",
   "deleteDraft": "Eliminar el borrador",
+  "catalogueList": "Lista de fichas",
+  "linkCatalogues": "Vincular fichas",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -302,19 +304,6 @@
       "UPDATE_REQUESTED": "Actualización solicitada",
       "VALIDATED": "Validado"
     },
-    "types": {
-      "100m-sector": "Sector",
-      "100m-solution": "Solución",
-      "100m-system": "Sistema",
-      "100m-project": "Proyecto",
-      "100m-chart": "Gráfico",
-      "100m-planetary-boundary": "Límite planetario",
-      "100m-planetary-boundaries": "Límites planetarios",
-      "100m-sectors": "Sectores",
-      "100m-systems": "Sistemas",
-      "100m-home-sectors": "Inicio sectores",
-      "100m-home-systems": "Inicio sistemas"
-    },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",
     "administrator": "Administrador de {{entity}}",
@@ -350,6 +339,7 @@
     "newContributionReplace": "Crear una nueva contribución reemplazará su contribución existente",
     "createNewContribution": "Crear una nueva contribución",
     "titleRequired": "Debe proporcionar el título de la ficha",
+    "validatorComment": "Comentario del validador",
     "planetaryLimits": "Libellé(s) límites planetarios",
     "projectOwner": "Promotor del proyecto",
     "noOrganization": "No se encontraron organizaciones",
@@ -374,7 +364,15 @@
     "minOrMaxValueRequired": "El valor mínimo o máximo es obligatorio",
     "noDataset": "No se encontraron conjuntos de datos",
     "integrateInCounter": "Integrar este proyecto en el contador de CO₂",
-    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo"
+    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo",
+    "createSubCatalogue": "Crear un subcatálogo",
+    "noSubCatalogue": "No hay subcatálogos asociados a esta ficha",
+    "createSubCatalogueDescription": "Defina aquí un nuevo subcatálogo para asociar a esta ficha.\n\nPodrá elegir el tipo de ficha a asociar, su nombre, su visualización, así como sus reglas de visibilidad.",
+    "subCatalogueDeleteTitle": "Eliminación del subcatálogo {{name}}",
+    "subCatalogueDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este subcatálogo?",
+    "selectedOnly": "Sólo seleccionados",
+    "noCatalogueLinkedToSub": "No hay fichas asociadas a este subcatálogo",
+    "LinkedCataloguesDescription": "Aquí puedes vincular una o varias fichas existentes para mostrar dinámicamente su contenido en este contexto.\n\nComienza agregando una o varias fichas para asociar."
   },
   "editor": {
     "imageUrl": "URL de la imagen",
@@ -386,6 +384,7 @@
     "columnsNumber": "Número de columnas",
     "gallery": "Galería",
     "charts": "Gráficos",
+    "addDivider": "Agregar un separador",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",
