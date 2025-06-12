@@ -117,7 +117,7 @@ class CatalogueF2FinderService(
         hidden: Match<Boolean>? = null,
         freeCriterion: Criterion? = null,
         offset: OffsetPagination? = null
-    ): CataloguePageResult = withCache {
+    ): CataloguePageResult = withCache { cache ->
         val defaultValue = status?.let { CatalogueState.valueOf(it) } ?: CatalogueState.ACTIVE
         val catalogues = catalogueFinderService.page(
             id = id,
@@ -135,6 +135,7 @@ class CatalogueF2FinderService(
 
         CataloguePageResult(
             items = catalogues.items
+                .onEach { cache.untranslatedCatalogues.register(it.id, it) }
                 .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
                 .sortedBy { "${it.title}   ${it.identifier}" },
             total = catalogues.total

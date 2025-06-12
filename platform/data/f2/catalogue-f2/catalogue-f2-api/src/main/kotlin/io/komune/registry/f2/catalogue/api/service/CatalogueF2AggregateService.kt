@@ -613,11 +613,13 @@ class CatalogueF2AggregateService(
             // if draft, children catalogues have already been initialized in draft creation
             if (initControlledChildren && !isDraft && typeConfiguration?.catalogues != null) {
                 val controlledChildren = catalogueFinderService.page(
-                    identifier = CollectionMatch(typeConfiguration.catalogues.map { "${masterCatalogue.identifier}${it.identifierSuffix}" })
+                    identifier = CollectionMatch(
+                        typeConfiguration.catalogues!!.map { "${masterCatalogue.identifier}${it.identifierSuffix}" }
+                    )
                 ).items
                 controlledChildren.mapAsync { child ->
                     val childIdentifierSuffix = child.identifier.substringAfter(masterCatalogue.identifier)
-                    val childConfiguration = typeConfiguration.catalogues
+                    val childConfiguration = typeConfiguration.catalogues!!
                         .find { it.identifierSuffix == childIdentifierSuffix }
                         ?: return@mapAsync null
 
@@ -710,7 +712,7 @@ class CatalogueF2AggregateService(
     }
 
     private suspend fun checkParenting(catalogueId: CatalogueId, parent: CatalogueModel, typeConfiguration: CatalogueTypeConfiguration?) {
-        if (typeConfiguration?.parentTypes != null && parent.type !in typeConfiguration.parentTypes) {
+        if (typeConfiguration?.parentTypes != null && parent.type !in typeConfiguration.parentTypes!!) {
             throw CatalogueParentTypeInvalidException(typeConfiguration.type, parent.type)
         }
 

@@ -3,10 +3,10 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
-import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
-import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Facet
+import io.komune.registry.s2.commons.model.FacetPageDTO
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.serialization.Serializable
@@ -34,6 +34,7 @@ interface CatalogueSearchQueryDTO {
     val otherLanguageIfAbsent: Boolean?
     val accessRights: List<String>?
     val catalogueIds: List<String>?
+    val relatedCatalogueIds: Map<String, List<CatalogueId>>?
     val relatedInCatalogueIds: Map<String, List<CatalogueId>>?
     val parentId: List<CatalogueId>?
     val parentIdentifier: List<CatalogueIdentifier>?
@@ -57,6 +58,7 @@ data class CatalogueSearchQuery(
     override val otherLanguageIfAbsent: Boolean = false,
     override val accessRights: List<String>?,
     override val catalogueIds: List<String>?,
+    override val relatedCatalogueIds: Map<String, List<CatalogueId>>?,
     override val relatedInCatalogueIds: Map<String, List<CatalogueId>>?,
     override val parentId: List<CatalogueId>?,
     override val parentIdentifier: List<CatalogueIdentifier>?,
@@ -74,7 +76,7 @@ data class CatalogueSearchQuery(
  */
 @JsExport
 @JsName("CatalogueSearchResultDTO")
-interface CatalogueSearchResultDTO: DistributionPageDTO<CatalogueDTO>
+interface CatalogueSearchResultDTO: FacetPageDTO<CatalogueDTO>
 
 /**
  * @d2 inherit
@@ -82,5 +84,5 @@ interface CatalogueSearchResultDTO: DistributionPageDTO<CatalogueDTO>
 data class CatalogueSearchResult(
     override val items: List<CatalogueDTOBase>,
     override val total: Int,
-    override var distribution: Map<String, List<FacetDistributionDTO>>
+    override val facets: List<Facet>
 ): CatalogueSearchResultDTO

@@ -70,5 +70,5 @@ suspend fun CatalogueTypeConfiguration.authedUserCanWrite(): Boolean {
     return AuthenticationProvider.getAuthedUser()
         ?.roles
         .orEmpty()
-        .any { it in writerRoles }
+        .any { it in writerRoles!! }
 }

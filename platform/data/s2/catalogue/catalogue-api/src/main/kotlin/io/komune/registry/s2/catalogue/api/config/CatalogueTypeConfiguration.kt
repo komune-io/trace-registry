@@ -36,13 +36,13 @@ data class CatalogueTypeI18n(
 @Serializable
 data class CatalogueTypeSearch(
     val enable: Boolean,
-    val facets: List<CatalogueTypeSearchFacet>,
+    val facets: List<CatalogueTypeSearchFacet> = emptyList(),
 )
 
 @Serializable
 data class CatalogueTypeSearchFacet(
     val key: String,
-    val name: Map<Language, String>
+    val label: Map<Language, String>
 )
 
 @Serializable

@@ -102,6 +102,7 @@ class CatalogueFinderService(
 		parentId: Match<CatalogueId>? = null,
 		parentIdentifier: Match<CatalogueIdentifier>? = null,
 		type: Match<String>? = null,
+		relatedCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		themeIds: Match<String>? = null,
 		licenseId: Match<String>? = null,
@@ -109,7 +110,7 @@ class CatalogueFinderService(
 		availableLanguages: Match<Language>? = null,
 		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
-	): FacetPage<CatalogueModel> {
+	): FacetPageModel<CatalogueModel> {
 		val idMatch = buildIdMatch(
 			parentId = parentId,
 			parentIdentifier = parentIdentifier,
@@ -128,6 +129,7 @@ class CatalogueFinderService(
 			query = query,
 			accessRights = accessRights,
 			catalogueIds = catalogueIds,
+			relatedCatalogueIds = relatedCatalogueIds,
 			type = type,
 			themeIds = themeIds,
 			licenseId = licenseId,
