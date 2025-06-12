@@ -77,8 +77,4 @@ EXECUTOR : S2AutomateDeciderSpring<ENTITY, STATE, EVENT, ID>
 			polymorphic(entityType())
 		}
 	}
-
-	override fun viewLoader(eventStore: EventRepository<EVENT, ID>): ViewLoader<EVENT, ENTITY, ID> {
-		return RgViewLoader(eventStore, view)
-	}
 }
