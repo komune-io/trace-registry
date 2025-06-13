@@ -4211,6 +4211,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly illustration?: io.komune.registry.s2.catalogue.domain.model.structure.CatalogueIllustrationType;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
+        readonly tagForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
 
     }

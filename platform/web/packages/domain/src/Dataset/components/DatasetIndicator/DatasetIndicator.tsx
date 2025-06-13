@@ -22,8 +22,6 @@ export const DatasetIndicator = (props: DatasetIndicatorProps) => {
             ...buildIndicatorsVisualizations(orderedDatasets ?? [], (dataset: Dataset) => dataset.referencingCatalogueIds[0]),
             ...buildIndicatorsVisualizations(relatedDatasets ?? [], (dataset: Dataset) => dataset.catalogueId)
         ]
-        console.log("orderedDatasets", orderedDatasets)
-        console.log("relatedDatasets", relatedDatasets)
         if ((orderedDatasets ?? []).length === 0 && (relatedDatasets ?? []).length === 0) isEmpty(true)
         return indicators
     },[item, relatedDatasets])

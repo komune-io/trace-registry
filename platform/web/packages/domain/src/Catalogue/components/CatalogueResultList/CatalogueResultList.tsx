@@ -45,7 +45,6 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 
 const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
     const { title, themes, id, type, parent, img, structure, withImage = structure?.illustration === "IMAGE" } = props
-    console.log(withImage)
     const [imageError, setImageError] = useState(false)
     const { t } = useTranslation()
     const theme = useTheme<LocalTheme>()
@@ -74,7 +73,10 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
             }}
         >
             {withImage ? (
-                <UnCachedImage src={!imageError && !!img ? config().platform.url + img : defaultCatalogueImg} alt={t("sheetIllustration")} className='illustration' onError={() => setImageError(true)} />
+                !imageError && !!img ?
+                    <UnCachedImage src={config().platform.url + img} alt={t("sheetIllustration")} className='illustration' onError={() => setImageError(true)} />
+                    :
+                    <img src={defaultCatalogueImg} alt={t("sheetIllustration")} className='illustration' />
             ) : (
                 <Box
                     sx={{

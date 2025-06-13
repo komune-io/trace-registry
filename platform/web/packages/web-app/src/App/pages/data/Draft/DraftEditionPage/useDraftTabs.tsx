@@ -1,4 +1,4 @@
-import { maybeAddItem, Tab, useExtendedAuth } from 'components'
+import { Tab } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoFormData, FormComposableState } from '@komune-io/g2'
@@ -18,23 +18,22 @@ export interface useDraftTabsParams {
 export const useDraftTabs = (props: useDraftTabsParams) => {
   const { metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnly = false, formData } = props
   const { t } = useTranslation()
-  const { policies } = useExtendedAuth()
-  const canUpdate = policies.draft.canUpdate(draft)
+ 
 
   return useMemo((): Tab[] => {
-    const tabs: Tab[] = [...maybeAddItem(canUpdate, {
+    const tabs: Tab[] = [{
       key: 'metadata',
       label: t('metadata'),
       component: <CatalogueMetadataForm draft={draft} formState={metadataFormState} formData={formData} />,
-    }),
+    },
     ...(catalogue?.datasets.map((dataset): Tab | undefined => {
       let component: React.ReactNode | undefined = undefined
 
       if (dataset.type === "lexical") {
-        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={!canUpdate || readOnly} catalogue={catalogue} dataset={dataset} />
-      } else if (dataset.type === "graphs" && canUpdate) {
+        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={readOnly} catalogue={catalogue} dataset={dataset} />
+      } else if (dataset.type === "graphs") {
         component = <DraftGraphManager dataset={dataset} draft={draft} readOnly={readOnly} />
-      } else if (dataset.type === "indicators" && canUpdate) {
+      } else if (dataset.type === "indicators") {
         component = <DraftIndicatorManager dataset={dataset} draft={draft} readOnly={readOnly} />
       } 
 
@@ -65,5 +64,5 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
     }) ?? []).filter(Boolean) as Tab[]
     ]
     return tabs
-  }, [t, catalogue, metadataFormState, canUpdate, onSectionChange, isLoading, draft, readOnly, formData])
+  }, [t, catalogue, metadataFormState, onSectionChange, isLoading, draft, readOnly, formData])
 }

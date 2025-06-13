@@ -13,10 +13,11 @@ import { Pagination } from '@komune-io/g2'
 interface SubCatalogueLinkedTableProps {
     catalogue?: Catalogue
     tab?: CatalogueRef
+    canUpdate?: boolean
 }
 
 export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => {
-    const { catalogue, tab } = props
+    const { catalogue, tab, canUpdate } = props
     const { catalogueId, draftId } = useParams<{ catalogueId: string; draftId: string }>()
     const { submittedFilters, component, setOffset } = useCataloguesFilters({
         noType: true,
@@ -104,7 +105,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
                     </Stack>
                 }
             </Accordion>
-            <CustomLinkButton
+            {canUpdate && <CustomLinkButton
                 startIcon={<Link />}
                 to={cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue(catalogueId!, draftId!, tab?.id!, catalogue?.id!)}
                 sx={{
@@ -112,7 +113,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
                 }}
             >
                 {t("linkCatalogues")}
-            </CustomLinkButton>
+            </CustomLinkButton>}
         </>
     )
 }

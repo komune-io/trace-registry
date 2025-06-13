@@ -43,6 +43,8 @@ export const DraftEditionPage = () => {
   const draft = catalogueDraftQuery.data?.item
   const catalogue = draft?.catalogue
 
+  const canUdateDraft = policies.draft.canUpdate(draft)
+
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
   const formData = useDraftFormData({ catalogue })
@@ -57,7 +59,8 @@ export const DraftEditionPage = () => {
     formData,
     onSubmit: onSaveMetadata,
     catalogue,
-    isLoading: isDefLoading
+    isLoading: isDefLoading,
+    readOnly: !canUdateDraft,
   })
 
   const { onSubmit, onValidate, validateMetadata } = useDraftValidations({
@@ -75,7 +78,8 @@ export const DraftEditionPage = () => {
     catalogue,
     draft,
     isLoading: isDefLoading,
-    onSectionChange
+    onSectionChange,
+    readOnly: !canUdateDraft,
   })
 
   const validateAndSubmitMetadata = useDebouncedCallback(async () => {
@@ -164,7 +168,7 @@ export const DraftEditionPage = () => {
         {t("catalogues.titleRequired")}
       </Typography>
       }
-      <TitleDivider title={title} onChange={policies.draft.canUpdate(draft) ? onChangeTitle : undefined} />
+      <TitleDivider title={title} onChange={canUdateDraft ? onChangeTitle : undefined} />
       {draft?.status == "REJECTED" && <WarningTicket
         severity='error'
         title={t("catalogues.validatorComment")}

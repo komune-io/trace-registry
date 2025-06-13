@@ -8,7 +8,8 @@ import {
     getIn,
     setIn,
     useAutoFormState,
-    useFormComposable
+    useFormComposable,
+    formatNumber
 } from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
@@ -165,14 +166,18 @@ interface AutoDetailsFormProps {
 const AutoDetailsForm = (props: AutoDetailsFormProps) => {
     const { fields, title, formData, catalogue } = props
 
+    const {i18n} = useTranslation()
+
     const initialValues = useMemo(() => {
         let values = {}
         fields.map((field) => {
             const { name } = field
             const value = getIn(catalogue, name)
             if (value) {
-                if (Array.isArray(value) && !!value[0].id) {
+                if (Array.isArray(value) && !!value[0] && !!value[0].id) {
                     values = setIn(values, name, value.map((ref) => ref.id))
+                } else if (!isNaN(Number(value)) && Number(value) > 0) {
+                    values = setIn(values, name, formatNumber(Number(value), i18n.language))
                 } else {
                     values = setIn(values, name, value.id ?? value)
                 }
@@ -195,13 +200,30 @@ const AutoDetailsForm = (props: AutoDetailsFormProps) => {
         })
     }, [fields, formstate.values])
 
+    const fieldsWithUrl = useMemo(() => {
+        return fields.map((field) => {
+            const { name, params } = field
+            const value = getIn(initialValues, name)
+            if (typeof value === 'string' && value.startsWith('http')) {
+                return {
+                    ...field,
+                    params: {
+                        ...params,
+                        getReadOnlyTextUrl: () => value
+                    }
+                }
+            }
+            return field
+        })
+    }, [initialValues, fields])
+
     if (areFieldsEmpty) return null
     return <Stack
         gap={1.5}
     >
         {title && <TitleDivider size='subtitle1' title={title} />}
         <FormComposable
-            fields={fields}
+            fields={fieldsWithUrl}
             formState={formstate}
         />
     </Stack>

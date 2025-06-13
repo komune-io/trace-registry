@@ -90,10 +90,11 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
     withStatus?: boolean
     withOperation?: boolean
     toEdit?: boolean
+    toReadOnly?: boolean
 }
 
 export const DraftTable = (props: DraftTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, ...other } = props
+    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, toReadOnly = false, ...other } = props
     const { cataloguesCatalogueIdDraftIdVerifyTab, cataloguesCatalogueIdDraftIdEditTab, cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
     const { t } = useTranslation()
 
@@ -107,7 +108,9 @@ export const DraftTable = (props: DraftTableProps) => {
     const getRowLink = useCallback(
         (row: Row<CatalogueDraft>) => {
             let url: string | undefined = undefined
-            if (!toEdit) {
+            if (toReadOnly) {
+                url = cataloguesCatalogueIdDraftIdViewTab(row.original.originalCatalogueId, row.original.id)
+            } else if (!toEdit) {
                 url = cataloguesCatalogueIdDraftIdVerifyTab(row.original.originalCatalogueId, row.original.id)
             } else {
                 const status = row.original.status
@@ -121,7 +124,7 @@ export const DraftTable = (props: DraftTableProps) => {
                 to: url,
             }
         },
-        [toEdit],
+        [toEdit, toReadOnly],
     )
 
     return (

@@ -65,13 +65,12 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                     {catalogue?.description}
                 </Typography>
             </Stack>
-            {catalogue?.img && catalogue.structure?.illustration === "IMAGE" &&
-                <UnCachedImage
-                    src={!noimage ? g2Config().platform.url + catalogue.img : defaultCatalogueImg}
-                    alt={t("sheetIllustration")}
-                    className='illustration'
-                    onError={() => setnoimage(true)}
-                />}
+            {catalogue?.structure?.illustration === "IMAGE" && (
+                !noimage && catalogue?.img ?
+                    <UnCachedImage src={g2Config().platform.url + catalogue?.img} alt={t("sheetIllustration")} className='illustration' onError={() => setnoimage(true)} />
+                    :
+                    <img src={defaultCatalogueImg} alt={t("sheetIllustration")} className='illustration' />
+            )}
         </Stack>
     )
 }
