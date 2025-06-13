@@ -1,4 +1,4 @@
-package io.komune.registry.program.s2.catalogue.api.entity
+package io.komune.registry.s2.catalogue.api.entity
 
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel

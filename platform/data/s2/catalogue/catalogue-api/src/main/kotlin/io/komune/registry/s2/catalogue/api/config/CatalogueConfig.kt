@@ -1,4 +1,4 @@
-package io.komune.registry.f2.catalogue.api.config
+package io.komune.registry.s2.catalogue.api.config
 
 import io.komune.registry.s2.catalogue.domain.model.structure.StructureType
 import kotlinx.serialization.json.Json
@@ -47,6 +47,10 @@ class CatalogueConfig(
 
     final val controlledTypes: Set<String> by lazy {
         typeConfigurations.filter { (_, config) -> config.parentalControl }.keys
+    }
+
+    final val searchableTypes: Set<String> by lazy {
+        typeConfigurations.filter { (_, config) -> config.search?.enable == true }.keys
     }
 
     final val templates: Map<String, ByteArray> by lazy {

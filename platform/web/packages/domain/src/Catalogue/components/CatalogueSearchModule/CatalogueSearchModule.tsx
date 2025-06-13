@@ -24,7 +24,7 @@ export const CatalogueSearchModule = <T extends {}>(props: CatalogueSearchModule
         >
             <CatalogueSearchFilters
                 savedState={state}
-                distributions={data?.distribution}
+                facets={data?.facets}
                 //@ts-ignore
                 onChangeDistribution={changeValueCallback}
             />

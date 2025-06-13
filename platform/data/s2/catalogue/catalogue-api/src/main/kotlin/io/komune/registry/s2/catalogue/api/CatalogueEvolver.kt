@@ -1,6 +1,6 @@
-package io.komune.registry.program.s2.catalogue.api
+package io.komune.registry.s2.catalogue.api
 
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
+import io.komune.registry.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent

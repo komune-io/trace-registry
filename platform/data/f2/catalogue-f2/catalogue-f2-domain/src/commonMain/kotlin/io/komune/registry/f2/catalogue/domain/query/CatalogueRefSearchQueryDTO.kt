@@ -2,15 +2,14 @@ package io.komune.registry.f2.catalogue.domain.query
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
-import io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO
-import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.Facet
+import io.komune.registry.s2.commons.model.FacetPageDTO
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
-import kotlin.js.JsName
 
 /**
  * Get a page of catalogue refs.
@@ -39,6 +38,7 @@ data class CatalogueRefSearchQuery(
     override val otherLanguageIfAbsent: Boolean = false,
     override val accessRights: List<String>? = null,
     override val catalogueIds: List<String>? = null,
+    override val relatedCatalogueIds: Map<String, List<CatalogueId>>?,
     override val relatedInCatalogueIds: Map<String, List<CatalogueId>>? = null,
     override val parentId: List<CatalogueId>? = null,
     override val parentIdentifier: List<CatalogueIdentifier>? = null,
@@ -55,8 +55,7 @@ data class CatalogueRefSearchQuery(
  * @parent [CatalogueRefSearchFunction]
  */
 @JsExport
-@JsName("CatalogueRefSearchResultDTO")
-interface CatalogueRefSearchResultDTO: DistributionPageDTO<CatalogueRefDTOBase>
+interface CatalogueRefSearchResultDTO: FacetPageDTO<CatalogueRefDTOBase>
 
 /**
  * @d2 inherit
@@ -64,5 +63,5 @@ interface CatalogueRefSearchResultDTO: DistributionPageDTO<CatalogueRefDTOBase>
 data class CatalogueRefSearchResult(
     override val items: List<CatalogueRefDTOBase>,
     override val total: Int,
-    override var distribution: Map<String, List<FacetDistributionDTO>>
+    override val facets: List<Facet>,
 ): CatalogueRefSearchResultDTO

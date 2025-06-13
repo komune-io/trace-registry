@@ -1449,6 +1449,26 @@ export declare namespace io.komune.registry.s2.commons.auth {
     };
 }
 export declare namespace io.komune.registry.s2.commons.model {
+    interface FacetPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
+        readonly total: number;
+        readonly items: T[];
+        readonly facets: io.komune.registry.s2.commons.model.FacetDTO[];
+
+    }
+    interface FacetDTO {
+        readonly key: string;
+        readonly label: string;
+        readonly values: io.komune.registry.s2.commons.model.FacetValueDTO[];
+
+    }
+    interface FacetValueDTO {
+        readonly key: string;
+        readonly label: string;
+        readonly count: number;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model {
     interface GeoLocationDTO {
         readonly lat: number;
         readonly lon: number;
@@ -3255,25 +3275,11 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
 
     }
 }
-export declare namespace io.komune.registry.s2.catalogue.domain.model {
-    interface FacetPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
-        readonly total: number;
-        readonly items: T[];
-        distribution: Record<string, Record<string, number>>;
-
-    }
-    interface DistributionPageDTO<T> extends f2.dsl.cqrs.page.PageDTO<T> {
-        readonly total: number;
-        readonly items: T[];
-        distribution: Record<string, io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO[]>;
-
-    }
-    interface FacetDistributionDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly size: number;
-
-    }
+export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
+    type CatalogueButtonKind = "SIMPLE" | "SELECT";
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
+    type CatalogueIllustrationType = "IMAGE" | "IDENTIFIER";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
     type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "LIST" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
@@ -4189,18 +4195,12 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
-    type CatalogueButtonKind = "SIMPLE" | "SELECT";
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueCreateButtonDTO {
         readonly label: string;
-        readonly kind: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueButtonKind;
+        readonly kind: io.komune.registry.s2.catalogue.domain.model.structure.CatalogueButtonKind;
         readonly types: io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTO[];
 
     }
-}
-export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
-    type CatalogueIllustrationType = "IMAGE" | "IDENTIFIER";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueStructureDTO {
@@ -4208,7 +4208,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly alias: boolean;
         readonly color?: string;
         readonly isTab: boolean;
-        readonly illustration?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueIllustrationType;
+        readonly illustration?: io.komune.registry.s2.catalogue.domain.model.structure.CatalogueIllustrationType;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly tagForm?: io.komune.registry.s2.commons.model.form.FormDTO;
@@ -4361,6 +4361,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
+        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentId?: string[];
         readonly parentIdentifier?: string[];
@@ -4372,10 +4373,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly withTransient?: boolean;
 
     }
-    interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
+    interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.commons.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
         readonly total: number;
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase[];
-        distribution: Record<string, io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO[]>;
+        readonly facets: io.komune.registry.s2.commons.model.FacetDTO[];
 
     }
 }
@@ -4388,6 +4389,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
+        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentId?: string[];
         readonly parentIdentifier?: string[];
@@ -4399,10 +4401,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly withTransient?: boolean;
 
     }
-    interface CatalogueSearchResultDTO extends io.komune.registry.s2.catalogue.domain.model.DistributionPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
+    interface CatalogueSearchResultDTO extends io.komune.registry.s2.commons.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
         readonly total: number;
         readonly items: io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO[];
-        distribution: Record<string, io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO[]>;
+        readonly facets: io.komune.registry.s2.commons.model.FacetDTO[];
 
     }
 }

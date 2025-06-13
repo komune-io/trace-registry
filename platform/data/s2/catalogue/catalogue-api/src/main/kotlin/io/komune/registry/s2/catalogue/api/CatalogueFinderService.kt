@@ -1,4 +1,4 @@
-package io.komune.registry.program.s2.catalogue.api
+package io.komune.registry.s2.catalogue.api
 
 import f2.dsl.cqrs.filter.AndMatch
 import f2.dsl.cqrs.filter.CollectionMatch
@@ -8,19 +8,19 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.PageDTO
 import f2.dsl.cqrs.page.map
 import io.komune.registry.api.commons.utils.anyNotNull
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueSnapMeiliSearchRepository
-import io.komune.registry.program.s2.catalogue.api.entity.toModel
-import io.komune.registry.program.s2.catalogue.api.query.CataloguePageQueryDB
+import io.komune.registry.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.s2.catalogue.api.entity.CatalogueSnapMeiliSearchRepository
+import io.komune.registry.s2.catalogue.api.entity.toModel
+import io.komune.registry.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.DatasetId
+import io.komune.registry.s2.commons.model.FacetPageModel
 import io.komune.registry.s2.commons.model.FieldCriterion
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -102,6 +102,7 @@ class CatalogueFinderService(
 		parentId: Match<CatalogueId>? = null,
 		parentIdentifier: Match<CatalogueIdentifier>? = null,
 		type: Match<String>? = null,
+		relatedCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
 		themeIds: Match<String>? = null,
 		licenseId: Match<String>? = null,
@@ -109,7 +110,7 @@ class CatalogueFinderService(
 		availableLanguages: Match<Language>? = null,
 		freeCriterion: Criterion? = null,
 		page: OffsetPagination? = null
-	): FacetPage<CatalogueModel> {
+	): FacetPageModel<CatalogueModel> {
 		val idMatch = buildIdMatch(
 			parentId = parentId,
 			parentIdentifier = parentIdentifier,
@@ -128,6 +129,7 @@ class CatalogueFinderService(
 			query = query,
 			accessRights = accessRights,
 			catalogueIds = catalogueIds,
+			relatedCatalogueIds = relatedCatalogueIds,
 			type = type,
 			themeIds = themeIds,
 			licenseId = licenseId,

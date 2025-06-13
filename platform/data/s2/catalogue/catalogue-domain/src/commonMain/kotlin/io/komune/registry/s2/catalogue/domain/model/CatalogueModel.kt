@@ -18,10 +18,10 @@ data class CatalogueModel(
     val id: String,
     val identifier: String,
     val description: String?,
-    val homepage: String? = null,
+    val homepage: String?,
     val title: String,
-    val img: String? = null,
-    val imageFsPath: FilePath? = null,
+    val img: String?,
+    val imageFsPath: FilePath?,
     val type: CatalogueType,
     val language: String?,
     val configuration: CatalogueConfigurationModel?,
@@ -29,7 +29,7 @@ data class CatalogueModel(
     val translationIds: Map<Language, CatalogueId>,
     val isTranslationOf: CatalogueId?,
     val childrenCatalogueIds: Set<CatalogueId>,
-    val relatedCatalogueIds: Map<String, Set<CatalogueId>>? = null,
+    val relatedCatalogueIds: Map<String, Set<CatalogueId>>?,
     val childrenDatasetIds: Set<DatasetId>,
     val referencedDatasetIds: Set<DatasetId>,
     val metadataDatasetId: DatasetId?,
@@ -52,4 +52,17 @@ data class CatalogueModel(
     val integrateCounter: Boolean?,
 ) {
     val availableLanguages = translationIds.keys
+    val flatRelatedCatalogueIds = relatedCatalogueIds?.flatMap { (relation, catalogueIds) ->
+        catalogueIds.map { flattenRelation(relation, it) }
+    }
+
+    companion object {
+        const val RELATION_SEPARATOR = "///"
+
+        fun flattenRelation(relation: String, catalogueId: CatalogueId) = "$relation$RELATION_SEPARATOR$catalogueId"
+
+        fun unflattenRelation(flatRelation: String): Pair<String, CatalogueId> {
+            return flatRelation.split(RELATION_SEPARATOR).let { it[0] to it[1] }
+        }
+    }
 }

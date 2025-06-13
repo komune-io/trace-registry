@@ -2,7 +2,7 @@ import { useTheme } from '@komune-io/g2'
 import { Dialog, Stack } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
-  CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery, FacetDistribution,
+  CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery,
   useCatalogueListAllowedTypesQuery,
   useCatalogueSearchQuery
 } from 'domain-components'
@@ -58,7 +58,7 @@ export const CatalogueSearchPage = () => {
   })
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
-  const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
+  const facets = useMemo(() => data?.facets, [data?.facets])
 
   const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
     query: {
@@ -67,18 +67,18 @@ export const CatalogueSearchPage = () => {
     }
   }).data?.items
 
-  const typeDistribution = useMemo(() => {
+  const typeFacet = useMemo(() => {
     return allowedSearchTypes?.map((type) => {
-      const distribution = distributions["type"]?.find((distribution) => distribution.id === type.identifier)
+      const facetValue = facets?.find(f => f.key === "type")?.values.find(v => v.key === type.identifier)
       const Icon = IconPack[type.identifier]
       return {
         key: type.identifier,
-        label: distribution ? `${type.name} - ${distribution?.size}` : type.name,
+        label: facetValue ? `${type.name} - ${facetValue?.count}` : type.name,
         color: theme.local?.colors[type.identifier],
         icon: <Icon />
       }
     })
-  }, [theme, distributions, allowedSearchTypes])
+  }, [theme, facets, allowedSearchTypes])
 
 
   return (
@@ -107,7 +107,7 @@ export const CatalogueSearchPage = () => {
         }}
       >
         <SelectableChipGroup
-          options={typeDistribution ?? []}
+          options={typeFacet ?? []}
           values={state.type}
           onChange={changeValueCallback('type')}
           forTypes

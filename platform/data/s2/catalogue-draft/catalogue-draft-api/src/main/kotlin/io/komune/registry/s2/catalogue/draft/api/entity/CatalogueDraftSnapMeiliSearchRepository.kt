@@ -8,11 +8,11 @@ import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.config.match
-import io.komune.registry.s2.catalogue.domain.model.FacetPage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.FacetPageModel
 import io.komune.registry.s2.commons.model.MeiliIndex
 import io.komune.registry.s2.commons.model.UserId
 import kotlinx.coroutines.Dispatchers
@@ -94,7 +94,7 @@ class CatalogueDraftSnapMeiliSearchRepository : MeiliSearchSnapRepository<Catalo
         status: Match<CatalogueDraftState>? = null,
         creatorId: Match<UserId>? = null,
         offset: OffsetPagination? = null
-    ): FacetPage<CatalogueDraftSearchableEntity> = withContext(Dispatchers.IO) {
+    ): FacetPageModel<CatalogueDraftSearchableEntity> = withContext(Dispatchers.IO) {
         try {
             val filters = listOfNotNull(
                 match(CatalogueDraftMeiliSearchField.CATALOGUE_ID, catalogueId),
@@ -118,7 +118,7 @@ class CatalogueDraftSnapMeiliSearchRepository : MeiliSearchSnapRepository<Catalo
             val hits = searchResult.hits.map { hit ->
                 jsonMapper.convertValue(hit, CatalogueDraftSearchableEntity::class.java)
             }
-            FacetPage(
+            FacetPageModel(
                 total = searchResult.estimatedTotalHits,
                 items = hits,
                 distribution = distribution.orEmpty()

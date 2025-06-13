@@ -1,8 +1,8 @@
-package io.komune.registry.program.s2.catalogue.api
+package io.komune.registry.s2.catalogue.api
 
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueEntity
-import io.komune.registry.program.s2.catalogue.api.entity.CatalogueRepository
-import io.komune.registry.program.s2.catalogue.api.entity.toModel
+import io.komune.registry.s2.catalogue.api.entity.CatalogueEntity
+import io.komune.registry.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.s2.catalogue.api.entity.toModel
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import org.springframework.stereotype.Service
 

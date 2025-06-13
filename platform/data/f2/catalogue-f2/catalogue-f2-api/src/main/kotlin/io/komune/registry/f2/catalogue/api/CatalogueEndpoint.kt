@@ -10,7 +10,6 @@ import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.buildResponseForFile
 import io.komune.fs.spring.utils.contentByteArray
 import io.komune.fs.spring.utils.serveFile
-import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.api.service.CatalogueCertificateService
@@ -64,8 +63,9 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
-import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -201,6 +201,7 @@ class CatalogueEndpoint(
             parentId = query.parentId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
+            relatedCatalogueIds = query.relatedCatalogueIds?.mapValues { CollectionMatch(it.value) },
             relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
@@ -228,6 +229,7 @@ class CatalogueEndpoint(
             parentId = query.parentId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
+            relatedCatalogueIds = query.relatedCatalogueIds?.mapValues { CollectionMatch(it.value) },
             relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),

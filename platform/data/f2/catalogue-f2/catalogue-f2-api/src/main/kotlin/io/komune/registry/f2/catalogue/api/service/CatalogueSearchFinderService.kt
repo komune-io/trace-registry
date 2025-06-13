@@ -6,17 +6,20 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.filter.andMatchOfNotNull
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.f2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
-import io.komune.registry.f2.concept.api.service.ConceptF2FinderService
+import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.s2.catalogue.api.config.CatalogueTypeSearchFacet
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
-import io.komune.registry.s2.catalogue.domain.model.FacetDistribution
-import io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Criterion
+import io.komune.registry.s2.commons.model.Facet
+import io.komune.registry.s2.commons.model.FacetPageDTOBase
+import io.komune.registry.s2.commons.model.FacetPageModel
+import io.komune.registry.s2.commons.model.FacetValue
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.license.domain.LicenseId
@@ -27,7 +30,6 @@ class CatalogueSearchFinderService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueI18nService: CatalogueI18nService,
-    private val conceptF2FinderService: ConceptF2FinderService,
 ) : CatalogueCachedService() {
 
     @Suppress("LongMethod")
@@ -40,6 +42,7 @@ class CatalogueSearchFinderService(
         parentId: Match<CatalogueId>? = null,
         parentIdentifier: Match<CatalogueIdentifier>? = null,
         type: Match<String>? = null,
+        relatedCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
@@ -59,6 +62,7 @@ class CatalogueSearchFinderService(
             parentId = parentId,
             parentIdentifier = parentIdentifier,
             type = type,
+            relatedCatalogueIds = relatedCatalogueIds,
             relatedInCatalogueIds = relatedInCatalogueIds,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
@@ -69,7 +73,7 @@ class CatalogueSearchFinderService(
         )
 
         val masterCatalogues = catalogueFinderService.page(
-            id = CollectionMatch(result.items.mapNotNull { it.isTranslationOf })
+            id = CollectionMatch(result.items.mapNotNull { it.isTranslationOf }.ifEmpty { listOf("none") })
         ).items.associateBy(CatalogueModel::id)
 
         val refs = result.items.mapAsync { catalogue ->
@@ -80,7 +84,7 @@ class CatalogueSearchFinderService(
         CatalogueRefSearchResult(
             items = refs,
             total = result.total,
-            distribution = result.distribution,
+            facets = result.facets,
         )
     }
 
@@ -94,6 +98,7 @@ class CatalogueSearchFinderService(
         parentId: Match<CatalogueId>? = null,
         parentIdentifier: Match<CatalogueIdentifier>? = null,
         type: Match<String>? = null,
+        relatedCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<String>? = null,
@@ -102,7 +107,7 @@ class CatalogueSearchFinderService(
         withTransient: Boolean = true,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
-    ): CatalogueSearchResult = withCache { cache ->
+    ): CatalogueSearchResult = withCache {
         val result = searchInternal(
             query = query,
             catalogueIds = catalogueIds,
@@ -113,6 +118,7 @@ class CatalogueSearchFinderService(
             parentId = parentId,
             parentIdentifier = parentIdentifier,
             type = type,
+            relatedCatalogueIds = relatedCatalogueIds,
             relatedInCatalogueIds = relatedInCatalogueIds,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
@@ -126,7 +132,7 @@ class CatalogueSearchFinderService(
             return@withCache CatalogueSearchResult(
                 items = emptyList(),
                 total = result.total,
-                distribution = result.distribution,
+                facets = result.facets,
             )
         }
 
@@ -139,11 +145,10 @@ class CatalogueSearchFinderService(
         CatalogueSearchResult(
             items = result.items.mapNotNull { translatedCatalogues[it.isTranslationOf] },
             total = result.total,
-            distribution = result.distribution,
+            facets = result.facets,
         )
     }
 
-    @Suppress("LongMethod")
     private suspend fun searchInternal(
         query: String?,
         language: Language,
@@ -153,6 +158,7 @@ class CatalogueSearchFinderService(
         parentId: Match<CatalogueId>? = null,
         parentIdentifier: Match<CatalogueIdentifier>? = null,
         type: Match<CatalogueType>? = null,
+        relatedCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         relatedInCatalogueIds: Map<String, Match<CatalogueId>>? = null,
         themeIds: Match<String>? = null,
         licenseId: Match<LicenseId>? = null,
@@ -161,7 +167,7 @@ class CatalogueSearchFinderService(
         withTransient: Boolean = true,
         freeCriterion: Criterion? = null,
         page: OffsetPagination? = null
-    ): CatalogueSearchResultLocal = withCache { cache ->
+    ) = withCache {
         val catalogueTranslations = catalogueFinderService.search(
             query = query,
             catalogueIds = catalogueIds,
@@ -174,6 +180,7 @@ class CatalogueSearchFinderService(
                 type,
                 CollectionMatch(catalogueConfig.transientTypes).not().takeUnless { withTransient }
             ),
+            relatedCatalogueIds = relatedCatalogueIds,
             relatedInCatalogueIds = relatedInCatalogueIds,
             themeIds = themeIds,
             creatorOrganizationId = creatorOrganizationId,
@@ -182,55 +189,126 @@ class CatalogueSearchFinderService(
             page = page
         )
 
-        val accessRightsDistribution = catalogueTranslations.distribution[CatalogueModel::accessRights.name]?.entries?.map{ (key, size) ->
-            FacetDistribution(
-                id = key,
-                name = key,
-                size = size
-            )
-        }.orEmpty()
+        val catalogueTypesFacetValues = catalogueTranslations.buildFacetValues(CatalogueMeiliSearchField.TYPE) { key ->
+            key to (catalogueConfig.typeConfigurations[key]?.name?.get(language) ?: key)
+        }
+        val catalogueTypeFacet = Facet(
+            key = CatalogueMeiliSearchField.TYPE.identifier,
+            label = CatalogueMeiliSearchField.TYPE.identifier,
+            values = catalogueTypesFacetValues.sortedBy { it.label }
+        )
 
-        val themeDistribution = catalogueTranslations.distribution[CatalogueModel::themeIds.name]?.entries?.map{ (key, size) ->
-            val theme = conceptF2FinderService.getTranslatedOrNull(key, language, true)
-            FacetDistribution(
-                id = theme?.id ?: key,
-                name = theme?.prefLabel ?: "",
-                size = size
-            )
-        }.orEmpty()
+        val sortedTypeConfigurations = catalogueConfig.typeConfigurations
+            .filterKeys { it in catalogueTypesFacetValues.map(FacetValue::key) }
+            .values
+            .sortedBy { it.type }
 
-        val licenceDistribution = catalogueTranslations.distribution[CatalogueModel::licenseId.name]?.entries?.map{ (key, size) ->
-            val licence = cache.licenses.get(key)
-            FacetDistribution(
-                id = licence?.id ?: key,
-                name = licence?.name ?: "",
-                size = size
-            )
-        }.orEmpty()
+        val facetsConfigurations = sortedTypeConfigurations.flatMap { typeConfiguration ->
+            typeConfiguration.search?.facets.orEmpty()
+        }.distinctBy { it.key }
 
-        val cataloguesDistribution = catalogueTranslations.distribution[CatalogueModel::type.name]?.entries?.map { (key, size) ->
-            FacetDistribution(
-                id = key,
-                name = catalogueConfig.typeConfigurations[key]?.name?.get(language) ?: key,
-                size = size
-            )
-        }.orEmpty()
+        val facets = facetsConfigurations.map { it.toFacet(catalogueTranslations, language) }
 
-        CatalogueSearchResultLocal(
+        FacetPageDTOBase(
             items = catalogueTranslations.items,
             total = catalogueTranslations.total,
-            distribution = mapOf(
-                CatalogueModel::accessRights.name to accessRightsDistribution,
-                CatalogueModel::type.name to cataloguesDistribution,
-                CatalogueModel::licenseId.name to licenceDistribution,
-                CatalogueModel::themeIds.name to themeDistribution,
-            )
+            facets = listOf(catalogueTypeFacet) + facets,
         )
     }
-}
 
-private data class CatalogueSearchResultLocal(
-    val items: List<CatalogueModel>,
-    val total: Int,
-    var distribution: Map<String, List<FacetDistributionDTO>>
-)
+    private suspend fun CatalogueTypeSearchFacet.toFacet(
+        page: FacetPageModel<*>,
+        language: Language
+    ): Facet {
+        val (rootKey, nestedKeys) = key.split('.', limit = 2).padEnd(2)
+
+        val rootKeyField = CatalogueMeiliSearchField.fromIdentifier(rootKey)
+            ?: CatalogueMeiliSearchField.RELATED_CATALOGUE_IDS.takeIf { rootKey == CatalogueModel::relatedCatalogueIds.name }
+            ?: throw IllegalArgumentException("Invalid search facet key: $rootKey")
+
+        val values = when (rootKeyField) {
+            CatalogueMeiliSearchField.ACCESS_RIGHTS -> page.buildAccessRightsFacetValues()
+            CatalogueMeiliSearchField.THEME_IDS -> page.buildThemeFacetValues(language)
+            CatalogueMeiliSearchField.LICENSE_ID -> page.buildLicenseFacetValues()
+            CatalogueMeiliSearchField.RELATED_CATALOGUE_IDS -> page.buildRelatedCatalogueFacetValues(nestedKeys, language)
+            else -> throw IllegalArgumentException("Unsupported search facet key: $rootKey")
+        }
+
+        return Facet(
+            key = key,
+            label = label[language] ?: key,
+            values = values.sortedBy { it.label }
+        )
+    }
+
+    private suspend fun FacetPageModel<*>.buildAccessRightsFacetValues(): List<FacetValue> {
+        return buildFacetValues(CatalogueMeiliSearchField.ACCESS_RIGHTS) { it to it }
+    }
+
+    private suspend fun FacetPageModel<*>.buildThemeFacetValues(
+        language: Language
+    ) = withCache { cache ->
+        buildFacetValues(CatalogueMeiliSearchField.THEME_IDS) {
+            val theme = cache.themes.get(it)
+            theme.id to theme.prefLabels[language].orEmpty()
+        }
+    }
+
+    private suspend fun FacetPageModel<*>.buildLicenseFacetValues() = withCache { cache ->
+        buildFacetValues(CatalogueMeiliSearchField.LICENSE_ID) {
+            cache.licenses.get(it)?.let { license ->
+                license.id to license.name
+            }
+        }
+    }
+
+    private suspend fun FacetPageModel<*>.buildRelatedCatalogueFacetValues(
+        relation: String,
+        language: Language
+    ) = buildFacetValuesBatch(CatalogueMeiliSearchField.RELATED_CATALOGUE_IDS, { key ->
+        key.substringAfter(CatalogueModel.RELATION_SEPARATOR)
+    }) { keys ->
+        val catalogueIds = keys.mapNotNull { key ->
+            val (parsedRelation, catalogueId) = CatalogueModel.unflattenRelation(key)
+            catalogueId.takeIf { parsedRelation == relation }
+        }
+        catalogueF2FinderService.page(id = CollectionMatch(catalogueIds), language = language)
+            .items
+            .associate { it.id to it.title }
+    }
+
+
+    private suspend fun FacetPageModel<*>.buildFacetValues(
+        field: CatalogueMeiliSearchField, build: suspend (key: String) -> Pair<String, String>?
+    ): List<FacetValue> {
+        val entries = distribution[field.identifier]?.entries
+            ?: return emptyList()
+
+        return entries.mapNotNull { (key, size) ->
+            val (id, name) = build(key)
+                ?: return@mapNotNull null
+            FacetValue(key = id, label = name, count = size)
+        }
+    }
+
+    private suspend fun FacetPageModel<*>.buildFacetValuesBatch(
+        field: CatalogueMeiliSearchField,
+        transformKey: (key: String) -> String = { it },
+        build: suspend (keys: Collection<String>) -> Map<String, String>,
+    ): List<FacetValue> {
+        val rawFacetValues = distribution[field.identifier]
+            ?: return emptyList()
+
+        val names = build(rawFacetValues.keys)
+
+        return rawFacetValues.mapKeys { (key) -> transformKey(key) }
+            .mapNotNull { (key, size) ->
+                val name = names[key] ?: return@mapNotNull null
+                FacetValue(key = key, label = name, count = size)
+            }
+    }
+
+    private fun List<String>.padEnd(size: Int) = if (this.size < size) {
+        this + List(size - this.size) { "" }
+    } else this
+}

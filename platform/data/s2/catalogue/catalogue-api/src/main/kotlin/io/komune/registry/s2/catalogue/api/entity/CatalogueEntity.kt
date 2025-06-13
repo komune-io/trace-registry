@@ -1,4 +1,4 @@
-package io.komune.registry.program.s2.catalogue.api.entity
+package io.komune.registry.s2.catalogue.api.entity
 
 import com.redis.om.spring.annotations.Document
 import com.redis.om.spring.annotations.Indexed

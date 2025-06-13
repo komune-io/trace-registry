@@ -1,6 +1,6 @@
-package io.komune.registry.f2.catalogue.api.config
+package io.komune.registry.s2.catalogue.api.config
 
-import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureModel
+import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueStructureModel
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.structure.domain.model.Structure
@@ -20,6 +20,7 @@ data class CatalogueTypeConfiguration(
     val ownerRoles: Set<String>?,
     val structure: CatalogueStructureModel?,
     val i18n: CatalogueTypeI18n?,
+    val search: CatalogueTypeSearch?,
     val catalogues: List<CatalogueTypeSubCatalogues>?,
     val datasets: List<CatalogueTypeSubDataset>?,
     val hidden: Boolean = false
@@ -30,6 +31,18 @@ data class CatalogueTypeI18n(
     val enable: Boolean,
     val translationType: String?,
     val datasets: List<CatalogueTypeSubDataset>?
+)
+
+@Serializable
+data class CatalogueTypeSearch(
+    val enable: Boolean,
+    val facets: List<CatalogueTypeSearchFacet> = emptyList(),
+)
+
+@Serializable
+data class CatalogueTypeSearchFacet(
+    val key: String,
+    val label: Map<Language, String>
 )
 
 @Serializable
