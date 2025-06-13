@@ -43,6 +43,7 @@ import io.komune.registry.script.imports.model.ConceptInitData
 import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 
 class ImportRepository(
     private val dataClient: DataClient,
@@ -309,8 +310,9 @@ class ImportRepository(
     }
 
     suspend fun findCatalogueByTitle(title: String, type: CatalogueType, parentIdentifier: CatalogueIdentifier?): CatalogueIdentifier? {
-        if (importContext.catalogueIdentifiersByTitle.containsKey(title)) {
-            return importContext.catalogueIdentifiersByTitle[title]?.ifEmpty { null }
+        val cachedCatalogueIdentifier = importContext.catalogueIdentifiersByTitleAndType[title]?.get(type)
+        if (cachedCatalogueIdentifier != null) {
+            return cachedCatalogueIdentifier.ifEmpty { null }
         }
 
         val catalogue = CataloguePageQuery(
@@ -324,7 +326,8 @@ class ImportRepository(
             .firstOrNull { it.title == title }
 
         if (catalogue == null) {
-            importContext.catalogueIdentifiersByTitle[title] = ""
+            importContext.catalogueIdentifiersByTitleAndType.getOrPut(title) { ConcurrentHashMap() }
+                .put(type, "")
             return null
         }
 
