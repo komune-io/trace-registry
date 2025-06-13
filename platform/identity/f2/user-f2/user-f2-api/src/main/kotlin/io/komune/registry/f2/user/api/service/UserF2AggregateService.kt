@@ -17,6 +17,7 @@ import io.komune.registry.f2.user.domain.command.UserOnboardedEventDTOBase
 import io.komune.registry.infra.brevo.config.BrevoClient
 import io.komune.registry.infra.brevo.config.BrevoContact
 import io.komune.registry.infra.im.ImClient
+import io.komune.registry.infra.slack.SlackService
 import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.UserId
 import org.springframework.stereotype.Service
@@ -26,11 +27,13 @@ import s2.spring.utils.logger.Logger
 class UserF2AggregateService(
     private val brevoClient: BrevoClient,
     private val imClient: ImClient,
-    private val onboardingConfig: OnboardingConfig
+    private val onboardingConfig: OnboardingConfig,
+    private val slackService: SlackService
 ) {
     private val logger by Logger()
 
-    suspend fun onboardUser(command: UserOnboardCommandDTOBase) = onboard { context ->
+    suspend fun onboardUser(command: UserOnboardCommandDTOBase, sessionId: String) = onboard(sessionId) { context ->
+        context.command = command
         if (!command.acceptTermsOfUse || command.acceptChart100M == false) {
             throw UserUnacceptedTermsException()
         }
@@ -43,20 +46,7 @@ class UserF2AggregateService(
         }
 
         val trimmedOrganizationName = command.organizationName.trim()
-        if (trimmedOrganizationName.isEmpty()) {
-            throw OrganizationNameIsEmptyException()
-        }
-
-        val organizationNameAlreadyExists = OrganizationPageQuery(
-            name = trimmedOrganizationName,
-            offset = null,
-            limit = null
-        ).invokeWith(imClient.organization.organizationPage())
-            .items.any { it.name.length == trimmedOrganizationName.length }
-
-        if (organizationNameAlreadyExists) {
-            throw OrganizationNameAlreadyExistsException(trimmedOrganizationName)
-        }
+        checkOrganizationName(trimmedOrganizationName)
 
         context.organizationId = OrganizationCreateCommand(
             name = trimmedOrganizationName,
@@ -96,23 +86,50 @@ class UserF2AggregateService(
         )
     }
 
-    private suspend fun <R> onboard(block: suspend (OnboardingContext) -> R): R {
+    private suspend fun <R> onboard(sessionId: String, block: suspend (OnboardingContext) -> R): R {
         val context = OnboardingContext()
         try {
             return block(context)
         } catch (e: Exception) {
-            logger.info("Error while onboarding, rolling back...")
+            logger.info("[$sessionId] Error while onboarding, rolling back...")
             context.userId?.let {
                 UserDeleteCommand(it).invokeWith(imClient.user.userDelete())
             }
             context.organizationId?.let {
                 OrganizationDeleteCommand(it).invokeWith(imClient.organization.organizationDelete())
             }
+            @Suppress("InstanceOfCheckForException")
+            if (e !is OrganizationNameAlreadyExistsException && e !is UserEmailAlreadyExistsException) {
+                slackService.sendMessages(
+                    true,
+                    "⚠ *Onboarding error*: `$sessionId`",
+                    "```${context.command.copy(password = "********")}```",
+                    "```${e.message}\n${e.stackTraceToString()}```"
+                )
+            }
             throw e
         }
     }
 
+    private suspend fun checkOrganizationName(name: String) {
+        if (name.isEmpty()) {
+            throw OrganizationNameIsEmptyException()
+        }
+
+        val organizationNameAlreadyExists = OrganizationPageQuery(
+            name = name,
+            offset = null,
+            limit = null
+        ).invokeWith(imClient.organization.organizationPage())
+            .items.any { it.name.length == name.length }
+
+        if (organizationNameAlreadyExists) {
+            throw OrganizationNameAlreadyExistsException(name)
+        }
+    }
+
     private class OnboardingContext {
+        lateinit var command: UserOnboardCommandDTOBase
         var organizationId: OrganizationId? = null
         var userId: UserId? = null
     }
