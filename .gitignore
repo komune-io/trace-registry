@@ -1,5 +1,6 @@
 platform/**/env-config.js
 platform/**/OidcTrustedDomains.js
+platform/**/custom.css
 
 .gradle
 **/build/

@@ -157,7 +157,6 @@ function $onDragStart(event: DragEvent): boolean {
         caption: node.__caption,
         height: node.__height,
         key: node.getKey(),
-        maxWidth: node.__maxWidth,
         src: node.__src,
         width: node.__width,
       },

@@ -19,7 +19,8 @@ object CataloguePolicies {
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE)
+        return canCreateWithoutDraft(authedUser)
+                || authedUser.hasOneOfRoles(Permissions.CatalogueDraft.CREATE_ALL, Permissions.CatalogueDraft.CREATE_OWNED)
     }
 
     fun canCreateWithoutDraft(authedUser: AuthedUserDTO): Boolean {
@@ -66,6 +67,12 @@ object CataloguePolicies {
     }
 
     @JsExport.Ignore
+    fun owns(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
+        authedUser.id == it.creator?.id
+                || authedUser.memberOf.orEmpty() in listOf(it.creatorOrganization?.id, it.ownerOrganization?.id)
+    }
+
+    @JsExport.Ignore
     fun canWriteOnCatalogueWith(
         authedUser: AuthedUserDTO,
         creatorOrganizationId: OrganizationId?,
@@ -78,12 +85,13 @@ object CataloguePolicies {
 
     @JsExport.Ignore
     fun canReadCatalogueWith(
-        authedUser: AuthedUserDTO,
+        authedUser: AuthedUserDTO?,
         accessRights: CatalogueAccessRight,
         creatorOrganizationId: OrganizationId?,
         ownerOrganizationId: OrganizationId?,
         creatorId: UserId?
     ): Boolean = when {
+        authedUser == null -> accessRights == CatalogueAccessRight.PUBLIC
         authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> true
         authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights == CatalogueAccessRight.PUBLIC
                 || creatorOrganizationId == authedUser.memberOf.orEmpty()

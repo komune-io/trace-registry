@@ -1,10 +1,11 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
-import io.komune.registry.s2.structure.domain.model.Structure
-import io.komune.registry.s2.structure.domain.model.StructureDTO
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * Minimal information about a [Catalogue][CatalogueDTO] with children's refs.
@@ -20,10 +21,11 @@ interface CatalogueRefTreeDTO : CatalogueRefDTO {
     override val title: String
     override val language: String
     override val availableLanguages: List<Language>
-    override val type: String
+    override val type: CatalogueType
     override val description: String?
     override val img: String?
-    override val structure: StructureDTO?
+    override val structure: CatalogueStructureDTO?
+    override val order: Int?
     val catalogues: List<CatalogueRefTreeDTO>?
     val relatedCatalogues: Map<String, List<CatalogueRefTreeDTO>>?
 }
@@ -38,10 +40,11 @@ data class CatalogueRefTreeDTOBase(
     override val title: String,
     override val language: String,
     override val availableLanguages: List<Language>,
-    override val type: String,
-    override val description: String? = null,
-    override val img: String? = null,
-    override val catalogues: List<CatalogueRefTreeDTOBase>? = null,
-    override val structure: Structure?,
+    override val type: CatalogueType,
+    override val description: String?,
+    override val img: String?,
+    override val catalogues: List<CatalogueRefTreeDTOBase>?,
+    override val structure: CatalogueStructureDTOBase?,
+    override val order: Int?,
     override val relatedCatalogues: Map<String, List<CatalogueRefTreeDTOBase>>?
 ) : CatalogueRefTreeDTO

@@ -7,10 +7,17 @@ import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
-import { extractCatalogueIdentifierNumber } from '../../api';
+import { extractCatalogueIdentifierNumber, useCatalogueListAllowedTypesQuery } from '../../api';
 
 function useDraftColumn(withStatus: boolean, withOperation: boolean) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+        query: {
+            language: i18n.language,
+            operation: "ALL"
+        }
+    }).data?.items
+
     return useMemo(() => ColumnFactory<CatalogueDraft>({
         generateColumns: (generators) => ({
             id: generators.number({
@@ -36,7 +43,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
             type: generators.text({
                 header: t("type"),
                 getCellProps: (draft) => ({
-                    value: t("catalogues.types." + draft.catalogue.type)
+                    value: allowedSearchTypes?.find((type) => type.identifier === draft.catalogue.type)?.name
                 })
             }),
 
@@ -72,7 +79,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
                 })
             }),
         })
-    }), [t]);
+    }), [t, allowedSearchTypes]);
 }
 
 export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft>> {
@@ -83,10 +90,11 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
     withStatus?: boolean
     withOperation?: boolean
     toEdit?: boolean
+    toReadOnly?: boolean
 }
 
 export const DraftTable = (props: DraftTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, ...other } = props
+    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, toReadOnly = false, ...other } = props
     const { cataloguesCatalogueIdDraftIdVerifyTab, cataloguesCatalogueIdDraftIdEditTab, cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
     const { t } = useTranslation()
 
@@ -100,7 +108,9 @@ export const DraftTable = (props: DraftTableProps) => {
     const getRowLink = useCallback(
         (row: Row<CatalogueDraft>) => {
             let url: string | undefined = undefined
-            if (!toEdit) {
+            if (toReadOnly) {
+                url = cataloguesCatalogueIdDraftIdViewTab(row.original.originalCatalogueId, row.original.id)
+            } else if (!toEdit) {
                 url = cataloguesCatalogueIdDraftIdVerifyTab(row.original.originalCatalogueId, row.original.id)
             } else {
                 const status = row.original.status
@@ -109,12 +119,12 @@ export const DraftTable = (props: DraftTableProps) => {
                 } else {
                     url = cataloguesCatalogueIdDraftIdEditTab(row.original.originalCatalogueId, row.original.id)
                 }
-            }          
+            }
             return {
                 to: url,
             }
         },
-        [toEdit],
+        [toEdit, toReadOnly],
     )
 
     return (

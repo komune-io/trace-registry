@@ -1,14 +1,26 @@
-import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Catalogue } from '../../model'
-import { Co2Counter, TitleDivider } from 'components'
-import { useCatalogueCo2Counter } from '../../api'
+import {Stack} from '@mui/material'
+import {
+    AutoFormData,
+    autoFormFormatter,
+    BackAutoFormData,
+    FormComposable,
+    FormComposableField,
+    getIn,
+    setIn,
+    useAutoFormState,
+    useFormComposable,
+    formatNumber
+} from '@komune-io/g2'
+import {useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Catalogue, CatalogueRef} from '../../model'
+import {Co2Counter, TitleDivider} from 'components'
+import {useCatalogueCo2Counter} from '../../api'
 
 type simplifiedReadonlyFields = Record<string, {
-    value: string,
-    label: string,
+    value?: any,
+    values?: any[],
+    label?: string,
     params?: any
 }>
 
@@ -22,21 +34,59 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const { t } = useTranslation()
 
+    const formData = useMemo(() => catalogue?.structure?.metadataForm ? autoFormFormatter(catalogue?.structure?.metadataForm as BackAutoFormData) : undefined, [catalogue])
+
+    const metadataFields = useMemo(() => formData?.sections.map((section) => {
+        const fields = section.fields.map((field) => {
+            type FileType = typeof field.type | "autoComplete-catalogues"
+
+            const type = field.type as FileType
+
+            if (type === "autoComplete-catalogues") {
+                let values = getIn(catalogue, field.name) ?? []
+                values = Array.isArray(values) ? values : [values]
+                return {
+                    ...field,
+                    type: "select",
+                    params: {
+                        ...field.params,
+                        options: values?.map((ref: CatalogueRef) => ({
+                            label: ref.title,
+                            key: ref.id,
+                            color: ref.structure?.color,
+                        })),
+                        readOnlyType: "chip"
+                    }
+                } as FormComposableField
+            }
+            return field
+        })
+        return (
+            <AutoDetailsForm
+                key={section.id}
+                fields={fields}
+                formData={formData}
+                catalogue={catalogue}
+                title={section.label ?? ""}
+            />
+        )
+    }), [formData, catalogue])
+
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
         publisher: {
-            value: "Objectif 100M", //to find in catalogue
+            value: catalogue?.creatorOrganization?.name,
             label: t("publisher"),
         },
         creationDate: {
-            value: new Date().toLocaleDateString(), //to find in catalogue
+            value: catalogue?.issued ? new Date(catalogue.issued).toLocaleDateString() : "",
             label: t("creation"),
         },
         updateDate: {
-            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "", //to find in catalogue
+            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "",
             label: t("update"),
         },
         validator: {
-            value: "Nom Prénom", //to find in catalogue
+            value: catalogue?.validatorOrganization?.name,
             label: t("validator"),
         },
     }), [catalogue, t])
@@ -86,6 +136,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             {count && <Co2Counter
                 count={count}
             />}
+            {metadataFields}
             <DetailsForm
                 isLoading={isLoading}
                 title={t("publication")}
@@ -105,14 +156,83 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
     )
 }
 
+interface AutoDetailsFormProps {
+    formData: AutoFormData
+    fields: FormComposableField[]
+    catalogue?: Catalogue
+    title: string
+}
+
+const AutoDetailsForm = (props: AutoDetailsFormProps) => {
+    const { fields, title, formData, catalogue } = props
+
+    const {i18n} = useTranslation()
+
+    const initialValues = useMemo(() => {
+        let values = {}
+        fields.map((field) => {
+            const { name } = field
+            const value = getIn(catalogue, name)
+            if (value) {
+                if (Array.isArray(value) && !!value[0] && !!value[0].id) {
+                    values = setIn(values, name, value.map((ref) => ref.id))
+                } else if (!isNaN(Number(value)) && Number(value) > 0) {
+                    values = setIn(values, name, formatNumber(Number(value), i18n.language))
+                } else {
+                    values = setIn(values, name, value.id ?? value)
+                }
+            }
+        })
+        return values
+    }, [fields, catalogue])
+
+    const formstate = useAutoFormState({
+        formData,
+        initialValues
+    })
+
+    const areFieldsEmpty = useMemo(() => {
+        return fields.every((field) => {    
+            const { name } = field
+            const value = getIn(formstate.values, name)
+            if (Array.isArray(value)) return  value.length === 0
+            return value == undefined || value === ''
+        })
+    }, [fields, formstate.values])
+
+    const fieldsWithUrl = useMemo(() => {
+        return fields.map((field) => {
+            const { name, params } = field
+            const value = getIn(initialValues, name)
+            if (typeof value === 'string' && value.startsWith('http')) {
+                return {
+                    ...field,
+                    params: {
+                        ...params,
+                        getReadOnlyTextUrl: () => value
+                    }
+                }
+            }
+            return field
+        })
+    }, [initialValues, fields])
+
+    if (areFieldsEmpty) return null
+    return <Stack
+        gap={1.5}
+    >
+        {title && <TitleDivider size='subtitle1' title={title} />}
+        <FormComposable
+            fields={fieldsWithUrl}
+            formState={formstate}
+        />
+    </Stack>
+}
+
 
 interface DetailsFormProps {
     title: string
-    values: Record<string, {
-        value: string,
-        label: string,
-        params?: any
-    }>,
+    values: simplifiedReadonlyFields,
     isLoading?: boolean
 }
 
@@ -122,7 +242,7 @@ const DetailsForm = (props: DetailsFormProps) => {
     const initialValues = useMemo(() => {
         const res: Record<string, string> = {}
         Object.keys(values).forEach((key) => {
-            res[key] = values[key].value
+            res[key] = values[key].value ?? values[key].values
         })
         return res
     }, [])
@@ -136,13 +256,13 @@ const DetailsForm = (props: DetailsFormProps) => {
     })
 
     const fields = useMemo(() => Object.entries(values).map((value): FormComposableField => {
-        const [key, { label, params }] = value
+        const [key, { label, values, params }] = value
         return {
             name: key,
-            type: "textField",
+            type: !!values ? 'select' : "textField",
             label,
             params: {
-                orientation: "horizontal",
+                orientation: label ? "horizontal" : "vertical",
                 ...params
             }
         }

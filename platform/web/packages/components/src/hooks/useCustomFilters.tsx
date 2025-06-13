@@ -10,10 +10,11 @@ export interface useCustomFiltersParams {
     withPage?: boolean
     actions?: Action[]
     initialValues?: any
+    urlStorage?: boolean
 }
 
 export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersParams) => {
-    const { filters, withPage = true, actions, initialValues, sortOptions, defaultSortKey } = params
+    const { filters, withPage = true, actions, initialValues, sortOptions, defaultSortKey, urlStorage } = params
     const { t } = useTranslation()
     const onSubmit = useCallback(
         (values: any, submittedFilters: any) => {
@@ -24,6 +25,7 @@ export const useCustomFilters = <T extends {} = any>(params: useCustomFiltersPar
     )
     const { filtersCount, formState, submittedFilters, setAdditionalFilter } = useFiltersComposable<T & OffsetPagination>({
         onSubmit: onSubmit,
+        urlStorage,
         formikConfig: {
             initialValues: {
                 ...(withPage ? {

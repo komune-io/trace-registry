@@ -28,7 +28,6 @@ import type {
     caption?: LexicalEditor;
     height?: number;
     key?: NodeKey;
-    maxWidth?: number;
     src: string;
     width?: number;
     captionsEnabled?: boolean;
@@ -59,7 +58,6 @@ import type {
       altText: string;
       caption: SerializedEditor;
       height?: number;
-      maxWidth?: number;
       src: string;
       width?: number;
       unCached?: boolean;
@@ -73,7 +71,6 @@ import type {
     __width: 'inherit' | number;
     __height: 'inherit' | number;
     __unCached?: boolean;
-    __maxWidth?: number;
     __caption: LexicalEditor;
     // Captions cannot yet be used within editor cells
     __captionsEnabled: boolean;
@@ -86,7 +83,6 @@ import type {
       return new ImageNode(
         node.__src,
         node.__altText,
-        node.__maxWidth,
         node.__width,
         node.__height,
         node.__caption,
@@ -97,12 +93,11 @@ import type {
     }
   
     static importJSON(serializedNode: SerializedImageNode): ImageNode {
-      const {altText, height, width, maxWidth, caption, src, unCached} =
+      const {altText, height, width, caption, src, unCached} =
         serializedNode;
       const node = $createImageNode({
         altText,
         height,
-        maxWidth,
         src,
         width,
         unCached
@@ -136,7 +131,6 @@ import type {
     constructor(
       src: string,
       altText: string,
-      maxWidth?: number,
       width?: 'inherit' | number,
       height?: 'inherit' | number,
       caption?: LexicalEditor,
@@ -147,7 +141,6 @@ import type {
       super(key);
       this.__src = src;
       this.__altText = altText;
-      this.__maxWidth = maxWidth;
       this.__width = width || 'inherit';
       this.__height = height || 'inherit';
       this.__caption =
@@ -164,7 +157,6 @@ import type {
         altText: this.getAltText(),
         caption: this.__caption.toJSON(),
         height: this.__height === 'inherit' ? 0 : this.__height,
-        maxWidth: this.__maxWidth,
         src: this.getSrc(),
         type: 'image',
         version: 1,
@@ -221,7 +213,6 @@ import type {
             altText={this.__altText}
             width={this.__width}
             height={this.__height}
-            maxWidth={this.__maxWidth}
             nodeKey={this.getKey()}
             caption={this.__caption}
             captionsEnabled={this.__captionsEnabled}
@@ -236,7 +227,6 @@ import type {
   export function $createImageNode({
     altText,
     height,
-    maxWidth,
     captionsEnabled,
     src,
     width,
@@ -248,7 +238,6 @@ import type {
       new ImageNode(
         src,
         altText,
-        maxWidth,
         width,
         height,
         caption,

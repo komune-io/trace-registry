@@ -13,6 +13,7 @@ dependencies {
     implementation(project(Modules.data.s2.catalogueDraft.api))
     implementation(project(Modules.data.s2.dataset.api))
 
+    implementation(project(Modules.identity.f2.organization.api))
     implementation(project(Modules.identity.f2.user.api))
 
     implementation(project(Modules.api.config))

@@ -1,17 +1,7 @@
-import { useI18n } from "@komune-io/g2";
+import { config } from "./config";
 
-export interface Languages {
-  en: string;
-  fr: string
-  es: string
-}
-
-export const languages: Languages = {
+export const languages = config().languages ?? {
   en: "en-US",
   fr: "fr-FR",
   es: "es-ES"
-};
-
-export const useExtendedI18n = () => {
-  return useI18n<Languages>();
 };

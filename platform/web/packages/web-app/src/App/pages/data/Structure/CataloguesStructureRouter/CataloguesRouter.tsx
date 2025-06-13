@@ -1,7 +1,7 @@
-import {useCataloguesRouteParams, useCatalogueGetByIdentifierQuery} from 'domain-components'
-import { useTranslation } from 'react-i18next'
-import { NoMatchPage } from '@komune-io/g2'
-import { useSearchParams } from 'react-router-dom'
+import {useCatalogueGetByIdentifierQuery, useCataloguesRouteParams} from 'domain-components'
+import {useTranslation} from 'react-i18next'
+import {NoMatchPage} from '@komune-io/g2'
+import {useSearchParams} from 'react-router-dom'
 import {CataloguesEntryPoint} from "../CataloguesEntryPoint/CataloguesEntryPoint";
 import {MosaicCatalogueEntryPoint} from "../CatalogueMosaicEntryPoint/MosaicCatalogueEntryPoint";
 import {CatalogueHomeEntryPoint} from "../CatalogueHomeEntryPoint/CatalogueHomeEntryPoint";
@@ -26,16 +26,18 @@ export const CataloguesStructureRouter = (_: CataloguesStructureRouterProps) => 
 
   if (!catalogueGet.isLoading && !catalogueGet.data?.item) return <NoMatchPage />
   if (catalogueGet.isInitialLoading || catalogueGet.isLoading || !catalogueGet?.data?.item) return <></>
-  if(catalogueGet.data?.item?.structure?.type === "grid") {
-    return <CataloguesEntryPoint catalogue={catalogueGet.data.item} />
-  } else if(catalogueGet.data?.item?.structure?.type === "mosaic") {
-    return <MosaicCatalogueEntryPoint catalogue={catalogueGet.data.item} />
-  } else if(catalogueGet.data?.item?.structure?.type === "home") {
-    return <CatalogueHomeEntryPoint catalogue={catalogueGet.data.item} />
-  } else if(catalogueGet.data?.item?.structure?.type === "table") {
-    return <CatalogueTableEntryPoint catalogue={catalogueGet.data.item} />
-  } else {
-    return <CatalogueViewEntryPoint catalogue={catalogueGet.data.item} />
+
+  switch (catalogueGet.data?.item?.structure?.type) {
+    case "GRID":
+      return <CataloguesEntryPoint catalogue={catalogueGet.data.item} />
+    case "MOSAIC":
+      return <MosaicCatalogueEntryPoint catalogue={catalogueGet.data.item} />
+    case "HOME":
+      return <CatalogueHomeEntryPoint catalogue={catalogueGet.data.item} />
+    case "TABLE":
+      return <CatalogueTableEntryPoint catalogue={catalogueGet.data.item} />
+    default:
+      return <CatalogueViewEntryPoint catalogue={catalogueGet.data.item} />
   }
 
 }

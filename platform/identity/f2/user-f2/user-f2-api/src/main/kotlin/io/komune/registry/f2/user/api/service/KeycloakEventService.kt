@@ -20,10 +20,13 @@ class KeycloakEventService(
     }
 
     private suspend fun handleVerifyEmail(event: KeycloakHttpEvent) {
+        val emailTemplateId = brevoConfig.template.emailVerified
+            ?: return
+
         val user = userF2FinderService.get(event.userId!!)
 
         brevoClient.sendEmail(
-            templateId = brevoConfig.template.charter,
+            templateId = emailTemplateId,
             receivers = listOf(user.toEmailContact()),
             payload = null,
             attachments = null

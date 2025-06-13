@@ -167,6 +167,8 @@
   "options": "Options",
   "deleteCatalogue": "Delete the sheet",
   "deleteDraft": "Delete the draft",
+  "catalogueList": "Sheet list",
+  "linkCatalogues": "Link sheets",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -302,19 +304,6 @@
       "UPDATE_REQUESTED": "Update requested",
       "VALIDATED": "Validated"
     },
-    "types": {
-      "100m-sector": "Sector",
-      "100m-solution": "Solution",
-      "100m-system": "System",
-      "100m-project": "Project",
-      "100m-chart": "Chart",
-      "100m-planetary-boundary": "Planetary boundary",
-      "100m-planetary-boundaries": "Limites planétaires",
-      "100m-sectors": "Sectors",
-      "100m-systems": "Systems",
-      "100m-home-sectors": "Home sectors",
-      "100m-home-systems": "Home systems"
-    },
     "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
     "verifiedProjects": "{{count}} sheets",
     "administrator": "{{entity}} Administrator",
@@ -350,6 +339,7 @@
     "newContributionReplace": "Creating a new contribution will replace your existing contribution",
     "createNewContribution": "Create a new contribution",
     "titleRequired": "You must provide the title of the sheet",
+    "validatorComment": "Validator comment",
     "planetaryLimits": "Label(s) planetary boundaries",
     "projectOwner": "Project leader",
     "noOrganization": "No organization were found",
@@ -373,7 +363,15 @@
     "defineValueRange": "Define a range of values",
     "minOrMaxValueRequired": "Minimum or maximum value is required",
     "integrateInCounter": "Integrate this project into the CO₂ counter",
-    "searchMention": "Enter a URL or search for a sheet to mention it"
+    "searchMention": "Enter a URL or search for a sheet to mention it",
+    "createSubCatalogue": "Create a sub-catalogue",
+    "noSubCatalogue": "No sub-catalogue associated with this sheet",
+    "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules.",
+    "subCatalogueDeleteTitle": "Sub-catalogue deletion {{name}}",
+    "subCatalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sub-catalogue?",
+    "selectedOnly": "Selected only",
+    "noCatalogueLinkedToSub": "No sheet associated with this sub-catalogue",
+    "LinkedCataloguesDescription": "Here, you can link one or more existing sheets to dynamically display their content in this context.\n\nStart by adding one or more sheets to associate."
   },
   "editor": {
     "imageUrl": "Image URL",
@@ -385,6 +383,7 @@
     "columnsNumber": "Number of columns",
     "gallery": "Gallery",
     "charts": "Charts",
+    "addDivider": "Add a divider",
     "columnsType": {
       "1-1": "2 columns (equal size)",
       "1-3": "2 columns (25% - 75%)",

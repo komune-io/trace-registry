@@ -33,7 +33,7 @@ export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, Ca
   )
 }
 
-export interface FacetDistribution extends io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO { }
+export interface FacetDTO extends io.komune.registry.s2.commons.model.FacetDTO { }
 
 export interface CatalogueSearchQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQueryDTO { }
 export interface CatalogueSearchResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResultDTO { }
@@ -207,3 +207,15 @@ export const useCatalogueListAllowedTypesQuery = (params: QueryParams<CatalogueL
     "data/catalogueListAllowedTypes", requestProps, params
   )
 }
+
+
+export interface CatalogueGetStructureQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureQueryDTO { }
+export interface CatalogueGetStructureResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureResultDTO { }
+
+export const useCatalogueGetStructureQuery = (params: QueryParams<CatalogueGetStructureQuery, CatalogueGetStructureResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<CatalogueGetStructureQuery, CatalogueGetStructureResult>(
+    "data/catalogueGetStructure", requestProps, params
+  )
+}
+
