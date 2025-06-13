@@ -23,7 +23,6 @@ export const TypeSelectableChip = (props: TypeSelectableChipProps) => {
         [onChange, isSelected],
     )
 
-    console.log(isSelected)
     return (
         //@ts-ignore
         <ToggleButton
