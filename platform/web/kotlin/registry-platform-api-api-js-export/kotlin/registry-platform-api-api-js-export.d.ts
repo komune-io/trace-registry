@@ -4211,6 +4211,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly illustration?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueIllustrationType;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
+        readonly tagForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
 
     }
@@ -4360,7 +4361,6 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
-        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentId?: string[];
         readonly parentIdentifier?: string[];
@@ -4388,7 +4388,6 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
-        readonly relatedCatalogueIds?: Record<string, string[]>;
         readonly relatedInCatalogueIds?: Record<string, string[]>;
         readonly parentId?: string[];
         readonly parentIdentifier?: string[];
