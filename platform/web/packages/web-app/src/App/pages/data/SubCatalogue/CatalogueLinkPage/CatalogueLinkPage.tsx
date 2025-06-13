@@ -149,12 +149,13 @@ export const CatalogueLinkPage = () => {
     [],
   )
 
-  const distributionWithoutType = useMemo(() => {
+  const facetsWithoutType = useMemo(() => {
     if (!data) return undefined
-    const distribution = { ...data.distribution }
-    delete distribution.type
-    return distribution
-  }, [data?.distribution])
+    const facets = [...data.facets]
+    const index = facets.findIndex(facet => facet.key === "type")
+    facets.splice(index, 1)
+    return facets
+  }, [data?.facets])
 
   return (
     <Dialog
@@ -216,7 +217,7 @@ export const CatalogueLinkPage = () => {
               />
             }
             savedState={state}
-            distributions={distributionWithoutType}
+            facets={facetsWithoutType}
             //@ts-ignore
             onChangeDistribution={changeValueCallback}
           />

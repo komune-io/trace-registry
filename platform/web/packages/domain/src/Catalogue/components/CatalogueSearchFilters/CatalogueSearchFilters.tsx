@@ -1,32 +1,32 @@
 import { Stack } from '@mui/material'
 import { SelectableChipGroup, TitleDivider } from 'components'
 import { useTranslation } from 'react-i18next'
-import { FacetDistribution } from '../../api'
+import { FacetDTO } from '../../api'
 import { useMemo } from 'react'
 
 interface CatalogueSearchFiltersProps {
     additionalFilters?: React.ReactNode,
     savedState: any
-    distributions?: Record<string, FacetDistribution[]>
-    onChangeDistribution: (key: string) => (values: string[]) => void
+    facets?: FacetDTO[]
+    onChangeFacet: (key: string) => (values: string[]) => void
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { additionalFilters, distributions, onChangeDistribution, savedState } = props
+    const { additionalFilters, facets, onChangeFacet, savedState } = props
     const { t } = useTranslation()
 
-    const distributionsDisplay = useMemo(() => Object.entries(distributions ?? {}).map(([key, facets]) => (
+    const facetsDisplay = useMemo(() => facets?.map((facets) => (
         <SelectableChipGroup
-            key={key}
-            title={t(key)}
-            options={facets?.map((distribution) => ({
-                key: distribution.id,
-                label: `${distribution.name} - ${distribution.size}`
+            key={facets.key}
+            title={facets.label}
+            options={facets.values.map((value) => ({
+                key: value.key,
+                label: `${value.label} - ${value.count}`
             }))}
-            values={savedState[key]}
-            onChange={onChangeDistribution(key)}
+            values={savedState[facets.key]}
+            onChange={onChangeFacet(facets.key)}
         />
-    )), [distributions, savedState, onChangeDistribution])
+    )), [facets, savedState, onChangeFacet])
 
     return (
         <Stack
@@ -40,7 +40,7 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
         >
             <TitleDivider title={t("filter")} size='subtitle1' />
             {additionalFilters}
-            {distributionsDisplay}
+            {facetsDisplay}
         </Stack>
     )
 }

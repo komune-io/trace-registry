@@ -33,7 +33,7 @@ export const useCataloguePageQuery = (params: QueryParams<CataloguePageQuery, Ca
   )
 }
 
-export interface FacetDistribution extends io.komune.registry.s2.catalogue.domain.model.FacetDistributionDTO { }
+export interface FacetDTO extends io.komune.registry.s2.commons.model.FacetDTO { }
 
 export interface CatalogueSearchQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQueryDTO { }
 export interface CatalogueSearchResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResultDTO { }
