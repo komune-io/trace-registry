@@ -15,6 +15,7 @@ interface CatalogueStructureDTO {
     val illustration: CatalogueIllustrationType?
     val creationForm: FormDTO?
     val metadataForm: FormDTO?
+    val tagForm: FormDTO?
     val createButton: CatalogueCreateButtonDTO?
 }
 
@@ -27,6 +28,7 @@ data class CatalogueStructureDTOBase(
     override val illustration: CatalogueIllustrationType?,
     override val creationForm: Form?,
     override val metadataForm: Form?,
+    override val tagForm: Form?,
     override val createButton: CatalogueCreateButtonDTOBase?
 ) : CatalogueStructureDTO
 
@@ -39,5 +41,6 @@ data class CatalogueStructureModel(
     val illustration: CatalogueIllustrationType?,
     val creationForm: Form?,
     val metadataForm: Form?,
+    val tagForm: Form?,
     val createButton: CatalogueCreateButtonModel?
 )

@@ -29,7 +29,7 @@ class ImportContext(
     val concepts = ConcurrentHashMap<ConceptIdentifier, ConceptId?>()
     val licenses = ConcurrentHashMap<LicenseIdentifier, LicenseId>()
     val catalogueIds = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
-    val catalogueIdentifiersByTitle = ConcurrentHashMap<String, CatalogueIdentifier>()
+    val catalogueIdentifiersByTitleAndType = ConcurrentHashMap<String, ConcurrentHashMap<CatalogueType, CatalogueIdentifier>>()
     val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueReferences>()
     val catalogueCatalogueReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
     val catalogueCatalogueBackReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
@@ -50,12 +50,9 @@ class ImportContext(
     }
 
     fun registerCatalogue(catalogue: CatalogueDTOBase) {
-        registerCatalogue(catalogue.id, catalogue.identifier, catalogue.title)
-    }
-
-    fun registerCatalogue(catalogueId: CatalogueId, catalogueIdentifier: CatalogueIdentifier, title: String) {
-        catalogueIds[catalogueIdentifier] = catalogueId
-        catalogueIdentifiersByTitle[title] = catalogueIdentifier
+        catalogueIds[catalogue.identifier] = catalogue.id
+        catalogueIdentifiersByTitleAndType.getOrPut(catalogue.title) { ConcurrentHashMap() }
+            .put(catalogue.type, catalogue.identifier)
     }
 
     fun registerParentOrDefault(catalogueId: CatalogueId, catalogueType: CatalogueType, parentReference: CatalogueReferences?) {
