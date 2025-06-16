@@ -3,6 +3,7 @@ import { SelectableChipGroup, TitleDivider } from 'components'
 import { useTranslation } from 'react-i18next'
 import { FacetDTO } from '../../api'
 import { useMemo } from 'react'
+import { getIn } from '@komune-io/g2'
 
 interface CatalogueSearchFiltersProps {
     additionalFilters?: React.ReactNode,
@@ -21,9 +22,9 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             title={facets.label}
             options={facets.values.map((value) => ({
                 key: value.key,
-                label: `${value.label} - ${value.count}`
+                label: `${value.label} (${t("sheetCount", { count: value.count })})`
             }))}
-            values={savedState[facets.key]}
+            values={getIn(savedState, facets.key)}
             onChange={onChangeFacet(facets.key)}
         />
     )), [facets, savedState, onChangeFacet])

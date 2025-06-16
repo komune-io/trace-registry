@@ -128,7 +128,7 @@
   "myContributions": "My contributions",
   "filter": "Filter",
   "sheetIllustration": "Sheet illustration",
-  "resultNumber": "{{total}} Results",
+  "resultNumber": "{{total}} results",
   "or": "Or",
   "confirm": "Confirm",
   "title": "Title",
@@ -169,6 +169,7 @@
   "deleteDraft": "Delete the draft",
   "catalogueList": "Sheet list",
   "linkCatalogues": "Link sheets",
+  "sheetCount": "{{count}} sheets",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

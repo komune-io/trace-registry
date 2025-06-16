@@ -219,7 +219,7 @@ export const CatalogueLinkPage = () => {
             savedState={state}
             facets={facetsWithoutType}
             //@ts-ignore
-            onChangeDistribution={changeValueCallback}
+            onChangeFacet={changeValueCallback}
           />
         </Stack>
         <Stack
