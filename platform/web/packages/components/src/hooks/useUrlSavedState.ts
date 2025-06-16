@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import qs from 'qs'
+import { setIn } from '@komune-io/g2'
 
 const retrieveNumber = (value: any) => {
   const number = Number(value)
@@ -60,9 +61,9 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
     (valueKey: keyof State) => (value: any) => {
       //@ts-ignore
       if (valueKey !== "offset" && valueKey !== "limit" && stateRef.current.offset !== 0) {
-        changeState({...stateRef.current, offset: 0, [valueKey]: value})
+        changeState(setIn({...stateRef.current, offset: 0}, valueKey as string, value))
       } else {
-        changeState({...stateRef.current, [valueKey]: value})
+        changeState(setIn(stateRef.current, valueKey as string, value))
       }
     },
     [changeState]

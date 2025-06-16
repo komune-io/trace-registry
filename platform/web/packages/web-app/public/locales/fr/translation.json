@@ -134,7 +134,7 @@
     "myContributions": "Mes contributions",
     "filter": "Filtrer",
     "sheetIllustration": "Illustration de la fiche",
-    "resultNumber": "{{total}} Résultats",
+    "resultNumber": "{{total}} résultats",
     "or": "Ou",
     "confirm": "Confirmer",
     "title": "Titre",
@@ -178,6 +178,7 @@
     "themeIds": "$t(category)",
     "catalogueList": "Liste des fiches",
     "linkCatalogues": "Lier des fiches",
+    "sheetCount": "{{count}} fiches",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

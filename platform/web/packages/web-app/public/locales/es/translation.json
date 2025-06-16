@@ -128,7 +128,7 @@
   "myContributions": "Mis contribuciones",
   "filter": "Filtrar",
   "sheetIllustration": "Ilustración de la hoja",
-  "resultNumber": "{{total}} Resultados",
+  "resultNumber": "{{total}} resultados",
   "or": "O",
   "confirm": "Confirmar",
   "title": "Título",
@@ -169,6 +169,7 @@
   "deleteDraft": "Eliminar el borrador",
   "catalogueList": "Lista de fichas",
   "linkCatalogues": "Vincular fichas",
+  "sheetCount": "{{count}} fichas",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

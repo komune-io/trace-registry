@@ -26,7 +26,7 @@ export const CatalogueSearchModule = <T extends {}>(props: CatalogueSearchModule
                 savedState={state}
                 facets={data?.facets}
                 //@ts-ignore
-                onChangeDistribution={changeValueCallback}
+                onChangeFacet={changeValueCallback}
             />
             {isFetching ? <Stack direction="row" justifyContent="center" flex={1} pt={6}>
                 <CircularProgress size={60} />
