@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData } from '@tanstack/react-query';
 import { CatalogueSearchModule } from '../CatalogueSearchModule';
 import { CatalogueGrid } from '../CatalogueGrid';
-import { Pagination } from '@komune-io/g2';
+import { Pagination, setIn } from '@komune-io/g2';
 
 interface SubCatalogueModuleProps {
     parentIdentifier?: string;
@@ -24,9 +24,9 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
 
             setState(old => {
                 if ((typeof value === 'number' || !!value) && value.length !== 0) {
-                    return { ...old, [valueKey]: value }
+                    return setIn(old, valueKey, value)
                 }
-                return { ...old, [valueKey]: undefined }
+                return setIn(old, valueKey, undefined)
             })
         },
         []
