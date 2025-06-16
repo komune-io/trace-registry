@@ -51,7 +51,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
             type: "textField",
             label: msgStr("entreprise"),
             required: true
-        }, {
+        }, /* {
             name: "joinReason",
             type: "textField",
             label: msgStr("whyJoinProgram"),
@@ -59,7 +59,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 multiline: true
             },
             required: true
-        }, {
+        }, */ {
             name: "email",
             type: "textField",
             label: msgStr("email"),
@@ -90,7 +90,7 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 </Link>
             </>,
             required: true
-        }, {
+        }, /* {
             name: "acceptChart100M",
             type: "checkBox",
             //@ts-ignore
@@ -101,12 +101,11 @@ export const Register = (props: PageProps<Extract<KcContext, { pageId: "register
                 </Link>
             </>,
             required: true
-        }, {
+        }, */ {
             name: "acceptNewsletter",
             type: "checkBox",
             //@ts-ignore
-            label: msgStr("wantNewsletter"),
-            required: true
+            label: msgStr("wantNewsletter")
         }
         ]
     }, [realm, msgStr, t])

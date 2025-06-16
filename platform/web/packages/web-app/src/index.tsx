@@ -6,7 +6,6 @@ import {
   g2Config,
   ThemeContextProvider,
   AlertHub,
-  OidcSecure
 } from "@komune-io/g2";
 import { languages } from "components";
 import { muiTheme, theme } from "Themes";
@@ -15,6 +14,7 @@ import { createRoot } from 'react-dom/client'
 import { AppRouter } from "App/routes";
 import { OidcConfiguration } from "@axa-fr/oidc-client";
 import {AuthRetryOnError} from "./App/auth/AuthRetryOnError";
+import { ConfigAuthentication } from "ConfigAuthentication";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,7 +53,7 @@ root.render(
         configuration={oidcConfiguration}
         authenticatingErrorComponent={AuthRetryOnError}
       >
-        <OidcSecure>
+        <ConfigAuthentication >
         <AlertHub>
           <AppProvider
             languages={languages}
@@ -62,7 +62,7 @@ root.render(
             <AppRouter />
           </AppProvider>
         </AlertHub>
-        </OidcSecure>
+        </ConfigAuthentication>
       </KeycloakProvider>
     </React.StrictMode>
   </ThemeContextProvider>

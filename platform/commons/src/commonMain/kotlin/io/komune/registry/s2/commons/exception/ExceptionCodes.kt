@@ -1,4 +1,3 @@
-@file:Suppress("FunctionOnlyReturningConstant")
 package io.komune.registry.s2.commons.exception
 
 object ExceptionCodes {

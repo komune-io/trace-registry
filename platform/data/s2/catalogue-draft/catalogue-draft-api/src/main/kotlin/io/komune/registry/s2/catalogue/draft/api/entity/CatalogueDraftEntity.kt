@@ -10,6 +10,7 @@ import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.RedisTable
 import io.komune.registry.s2.commons.model.UserId
 import org.springframework.data.annotation.Id
@@ -24,6 +25,9 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
 
     @Searchable(nostem=true)
     open lateinit var status: CatalogueDraftState
+
+    @TagIndexed
+    open var parentId: CatalogueDraftId? = null
 
     @TagIndexed
     open lateinit var catalogueId: CatalogueId
@@ -59,7 +63,9 @@ open class CatalogueDraftEntity: WithS2Id<CatalogueDraftId>, WithS2State<Catalog
     open var removedExternalReferencesToDatasets: MutableMap<CatalogueId, MutableSet<DatasetId>> = mutableMapOf()
 
     @TagIndexed
-    lateinit var creatorId: UserId
+    var creatorId: UserId? = null
+    var validatorId: UserId? = null
+    var validatorOrganizationId: OrganizationId? = null
 
     var issued: Long = 0
     var modified: Long = 0

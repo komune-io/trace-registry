@@ -24,5 +24,5 @@ data class BrevoDebugProperties(
 )
 
 data class BrevoTemplateProperties(
-    val charter: Long
+    val emailVerified: Long?
 )

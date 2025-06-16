@@ -1,8 +1,7 @@
 import { Theme as AruiTheme } from "@komune-io/g2-themes";
 import { DeepPartial } from "@komune-io/g2-utils";
 import { ThemeOptions } from "@mui/material";
-import { LocalTheme, PermanentHeader } from "components";
-import { config } from "domain-components";
+import { LocalTheme, PermanentHeader, config, createObjWithFallbackValue } from "components";
 import { createBreakpoints } from "@mui/system";
 
 export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to use
@@ -30,12 +29,12 @@ export const theme: DeepPartial<AruiTheme<LocalTheme>> = {// to complete and to 
   ],
   bgColorOnMenu: true,
   local: {
-    colors: config().theme?.colors?.local ?? {
+    colors: createObjWithFallbackValue(config().theme?.colors?.local ?? {
       solution: "#F9DC44",
       project: "#EEBBFD",
       system: "#D0E9A7",
       sector: "#A3BDFD"
-    },
+    }, "#E6E5E0") ,
     rotation: config().theme?.rotation,
     numberFont: config().theme?.numberFont,
     borderRadius: config().theme?.borderRadius

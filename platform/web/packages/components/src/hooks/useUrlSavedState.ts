@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import qs from 'qs'
+import { setIn } from '@komune-io/g2'
 
 const retrieveNumber = (value: any) => {
   const number = Number(value)
@@ -9,6 +10,7 @@ const retrieveNumber = (value: any) => {
 }
 
 const unformatFieldValue = (value: any) => {
+ if (value === "") return value
   if (Array.isArray(value)) return value
   return retrieveNumber(value)
 }
@@ -57,7 +59,12 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
 
   const changeValueCallback = useCallback(
     (valueKey: keyof State) => (value: any) => {
-      changeState({...stateRef.current, [valueKey]: value})
+      //@ts-ignore
+      if (valueKey !== "offset" && valueKey !== "limit" && stateRef.current.offset !== 0) {
+        changeState(setIn({...stateRef.current, offset: 0}, valueKey as string, value))
+      } else {
+        changeState(setIn(stateRef.current, valueKey as string, value))
+      }
     },
     [changeState]
   )

@@ -4,6 +4,7 @@ import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import io.komune.registry.f2.catalogue.api.service.CatalogueF2FinderService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2AggregateService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftF2FinderService
 import io.komune.registry.f2.catalogue.draft.api.service.CatalogueDraftPoliciesEnforcer
@@ -24,9 +25,9 @@ import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetFunct
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftGetResult
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageFunction
 import io.komune.registry.f2.catalogue.draft.domain.query.CatalogueDraftPageResult
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftAggregateService
 import io.komune.registry.s2.commons.utils.truncateLanguage
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -39,11 +40,12 @@ class CatalogueDraftEndpoint(
     private val catalogueDraftF2AggregateService: CatalogueDraftF2AggregateService,
     private val catalogueDraftF2FinderService: CatalogueDraftF2FinderService,
     private val catalogueDraftPoliciesEnforcer: CatalogueDraftPoliciesEnforcer,
-    private val catalogueFinderService: CatalogueFinderService
+    private val catalogueF2FinderService: CatalogueF2FinderService
 ) : CatalogueDraftApi {
 
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     override fun catalogueDraftGet(): CatalogueDraftGetFunction = f2Function { query ->
         logger.info("catalogueDraftGet: $query")
@@ -52,6 +54,7 @@ class CatalogueDraftEndpoint(
             .let(::CatalogueDraftGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueDraftPage(): CatalogueDraftPageFunction = f2Function { query ->
         logger.info("catalogueDraftPage: $query")
@@ -78,8 +81,8 @@ class CatalogueDraftEndpoint(
     @Bean
     override fun catalogueDraftCreate(): CatalogueDraftCreateFunction = f2Function { command ->
         logger.info("catalogueDraftCreate: $command")
-        val catalogue = catalogueFinderService.get(command.catalogueId)
-        catalogueDraftPoliciesEnforcer.checkCreate(catalogue.type)
+        val catalogue = catalogueF2FinderService.get(command.catalogueId, command.language)
+        catalogueDraftPoliciesEnforcer.checkCreate(catalogue)
         catalogueDraftF2AggregateService.create(command).id
             .let { catalogueDraftF2FinderService.get(it) }
             .let(::CatalogueDraftCreatedEventDTOBase)

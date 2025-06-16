@@ -1,4 +1,4 @@
 {
   "extends": "../web-app/tsconfig.json",
-  "include": ["src", "../100mComponents/src/CreateIndicatorBlockModal/CreateIndicatorBlockModal.tsx", "../100mComponents/src/filters/useDraftsFilters.tsx", "../100mComponents/src/filters/useCataloguesFilters.tsx"]
+  "include": ["src"]
 }

@@ -17,7 +17,7 @@ data class CatalogueDraftSearchableEntity(
     val type: String,
     val language: Language,
     val title: String,
-    val creatorId: UserId,
+    val creatorId: UserId?,
     val status: CatalogueDraftState,
     val modified: Long
 )

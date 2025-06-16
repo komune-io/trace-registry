@@ -5,6 +5,7 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.catalogue.domain.query.CataloguePageQuery
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
@@ -25,6 +26,8 @@ import io.komune.registry.f2.license.domain.query.LicenseListQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -40,6 +43,7 @@ import io.komune.registry.script.imports.model.ConceptInitData
 import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 
 class ImportRepository(
     private val dataClient: DataClient,
@@ -303,6 +307,32 @@ class ImportRepository(
             logger.error(e.error.message, e)
             return null
         }
+    }
+
+    suspend fun findCatalogueByTitle(title: String, type: CatalogueType, parentIdentifier: CatalogueIdentifier?): CatalogueIdentifier? {
+        val cachedCatalogueIdentifier = importContext.catalogueIdentifiersByTitleAndType[title]?.get(type)
+        if (cachedCatalogueIdentifier != null) {
+            return cachedCatalogueIdentifier.ifEmpty { null }
+        }
+
+        val catalogue = CataloguePageQuery(
+            type = listOf(type),
+            parentIdentifier = parentIdentifier,
+            title = title,
+            language = "",
+            otherLanguageIfAbsent = true
+        ).invokeWith(dataClient.catalogue.cataloguePage())
+            .items
+            .firstOrNull { it.title == title }
+
+        if (catalogue == null) {
+            importContext.catalogueIdentifiersByTitleAndType.getOrPut(title) { ConcurrentHashMap() }
+                .put(type, "")
+            return null
+        }
+
+        importContext.registerCatalogue(catalogue)
+        return catalogue.identifier
     }
 
     suspend fun getDataset(datasetId: DatasetId): DatasetDTOBase? {

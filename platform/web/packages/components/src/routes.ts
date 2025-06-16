@@ -10,10 +10,7 @@ const strictRoutesAuthorizations = {
     "transactions/:transactionId": "open",
     "transactions": "open",
     "catalogues": "open",
-    "catalogues/create/solution": "open",
-    "catalogues/create/system": "open",
-    "catalogues/create/sector": "open",
-    "catalogues/create/project": "open",
+    "catalogues/create/:type": "open",
     "catalogues/:catalogueId/:draftId/edit/:tab?": "open",
     "catalogues/:catalogueId/:draftId/view/:tab?": "open",
     "catalogues/toVerify": "open",
@@ -23,6 +20,7 @@ const strictRoutesAuthorizations = {
     "catalogues/search": "open",
     "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
     "catalogues/:catalogueId/:draftId/graph": "open",
+    "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "open",
     "catalogues/*": "open",
 } as const
 
