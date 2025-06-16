@@ -126,8 +126,8 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
                             alignItems: "center",
                         },
                         "& .AruiForm-field": {
-                            width: "unset"
-                        }
+                            width: "unset !important"
+                        },
                     }}
                 >
                     <CatalogueAutoDetailsForm
