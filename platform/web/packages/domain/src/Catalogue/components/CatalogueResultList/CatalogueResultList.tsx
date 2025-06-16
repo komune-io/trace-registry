@@ -1,12 +1,13 @@
 import { Fragment, useMemo, useState } from 'react'
 import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
-import { Chip, useTheme } from "@komune-io/g2"
+import { autoFormFormatter, BackAutoFormData, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
 import { config, defaultCatalogueImg, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber } from '../../api'
 import { useTranslation } from 'react-i18next'
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
+import { CatalogueAutoDetailsForm } from '../CatalogueAutoDetailsForm'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
@@ -44,7 +45,10 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
-    const { title, themes, id, type, parent, img, structure, withImage = structure?.illustration === "IMAGE" } = props
+    const { title, id, type, img, structure, withImage = structure?.illustration === "IMAGE" } = props
+
+    const formData = useMemo(() => structure?.tagForm ? autoFormFormatter(structure?.tagForm as BackAutoFormData) : undefined, [structure])
+
     const [imageError, setImageError] = useState(false)
     const { t } = useTranslation()
     const theme = useTheme<LocalTheme>()
@@ -114,11 +118,22 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
                     alignItems="center"
                     flexWrap={"wrap"}
                     gap={1}
+                    sx={{
+                        "& .MuiStack-root": {
+                            flexWrap: "wrap",
+                            gap: 1,
+                            flexDirection: "row",
+                            alignItems: "center",
+                        },
+                        "& .AruiForm-field": {
+                            width: "unset !important"
+                        },
+                    }}
                 >
-                    {parent && <Chip color="#1F1F1F" label={parent.title} />}
-                    {themes?.map((theme) => (
-                        <Chip key={theme.id} color="#492161" label={theme.prefLabel} />
-                    ))}
+                    <CatalogueAutoDetailsForm
+                        formData={formData}
+                        catalogue={props}
+                    />
                 </Stack>
             </Stack>
         </Stack>
