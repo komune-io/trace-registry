@@ -15,7 +15,11 @@ import io.komune.registry.f2.user.api.config.OnboardingConfig
 import io.komune.registry.f2.user.domain.command.UserOnboardCommandDTOBase
 import io.komune.registry.f2.user.domain.command.UserOnboardedEventDTOBase
 import io.komune.registry.infra.brevo.config.BrevoClient
+import io.komune.registry.infra.brevo.config.BrevoConfig
 import io.komune.registry.infra.brevo.config.BrevoContact
+import io.komune.registry.infra.brevo.model.EmailContact
+import io.komune.registry.infra.brevo.model.payload.PayloadOnboardingOrganizationConflictOrchestrator
+import io.komune.registry.infra.brevo.model.payload.PayloadOnboardingOrganizationConflictUser
 import io.komune.registry.infra.im.ImClient
 import io.komune.registry.infra.slack.SlackService
 import io.komune.registry.s2.commons.model.OrganizationId
@@ -26,14 +30,14 @@ import s2.spring.utils.logger.Logger
 @Service
 class UserF2AggregateService(
     private val brevoClient: BrevoClient,
+    private val brevoConfig: BrevoConfig,
     private val imClient: ImClient,
     private val onboardingConfig: OnboardingConfig,
     private val slackService: SlackService
 ) {
     private val logger by Logger()
 
-    suspend fun onboardUser(command: UserOnboardCommandDTOBase, sessionId: String) = onboard(sessionId) { context ->
-        context.command = command
+    suspend fun onboardUser(command: UserOnboardCommandDTOBase, sessionId: String) = onboard(command, sessionId) { context ->
         if (!command.acceptTermsOfUse || !command.acceptChart100M) {
             throw UserUnacceptedTermsException()
         }
@@ -45,11 +49,17 @@ class UserF2AggregateService(
             throw UserEmailAlreadyExistsException(command.email)
         }
 
-        val trimmedOrganizationName = command.organizationName.trim()
-        checkOrganizationName(trimmedOrganizationName)
+        if (!context.isOrganizationNameValid()) {
+            val emailSent = context.sendOrganizationConflictEmails()
+            if (!emailSent) {
+                throw OrganizationNameAlreadyExistsException(command.organizationName)
+            } else {
+                return@onboard UserOnboardedEventDTOBase("", "")
+            }
+        }
 
         context.organizationId = OrganizationCreateCommand(
-            name = trimmedOrganizationName,
+            name = command.organizationName,
             roles = onboardingConfig.defaultOrganizationRoles
         ).invokeWith(imClient.organization.organizationCreate()).id
 
@@ -75,7 +85,7 @@ class UserF2AggregateService(
                 email = command.email,
                 firstname = command.givenName,
                 lastname = command.familyName,
-                organization = trimmedOrganizationName
+                organization = command.organizationName
             )
             brevoClient.registerContact(command.email, contact)
         }
@@ -86,8 +96,14 @@ class UserF2AggregateService(
         )
     }
 
-    private suspend fun <R> onboard(sessionId: String, block: suspend (OnboardingContext) -> R): R {
-        val context = OnboardingContext()
+    private suspend fun <R> onboard(
+        command: UserOnboardCommandDTOBase, sessionId: String, block: suspend (OnboardingContext) -> R
+    ): R {
+        val context = OnboardingContext(
+            command = command.copy(organizationName = command.organizationName.trim()),
+            sessionId = sessionId
+        )
+
         try {
             return block(context)
         } catch (e: Exception) {
@@ -111,25 +127,66 @@ class UserF2AggregateService(
         }
     }
 
-    private suspend fun checkOrganizationName(name: String) {
-        if (name.isEmpty()) {
+    private suspend fun OnboardingContext.isOrganizationNameValid(): Boolean {
+        if (command.organizationName.isEmpty()) {
             throw OrganizationNameIsEmptyException()
         }
 
         val organizationNameAlreadyExists = OrganizationPageQuery(
-            name = name,
+            name = command.organizationName,
             offset = null,
             limit = null
         ).invokeWith(imClient.organization.organizationPage())
-            .items.any { it.name.length == name.length }
+            .items.any { it.name.length == command.organizationName.length }
 
-        if (organizationNameAlreadyExists) {
-            throw OrganizationNameAlreadyExistsException(name)
-        }
+        return !organizationNameAlreadyExists
     }
 
-    private class OnboardingContext {
-        lateinit var command: UserOnboardCommandDTOBase
+    private suspend fun OnboardingContext.sendOrganizationConflictEmails(): Boolean {
+        onboardingConfig.supportEmail ?: return false
+
+        var emailSent = false
+
+        brevoConfig.template.onboardingOrganizationConflictUser?.let {
+            brevoClient.sendEmail(
+                templateId = it,
+                receivers = listOf(EmailContact(
+                    email = command.email,
+                    name = "${command.givenName} ${command.familyName}"
+                )),
+                payload = PayloadOnboardingOrganizationConflictUser(
+                    firstName = command.givenName
+                ),
+                attachments = null
+            )
+            emailSent = true
+        }
+
+        brevoConfig.template.onboardingOrganizationConflictOrchestrator?.let {
+            brevoClient.sendEmail(
+                templateId = it,
+                receivers = listOf(EmailContact(
+                    email = onboardingConfig.supportEmail!!,
+                    name = onboardingConfig.supportEmail!!
+                )),
+                payload = PayloadOnboardingOrganizationConflictOrchestrator(
+                    firstName = command.givenName,
+                    lastName = command.familyName,
+                    email = command.email,
+                    organizationName = command.organizationName
+                ),
+                attachments = null
+            )
+            emailSent = true
+        }
+
+        return emailSent
+    }
+
+    private class OnboardingContext(
+        var command: UserOnboardCommandDTOBase,
+        var sessionId: String
+    ) {
         var organizationId: OrganizationId? = null
         var userId: UserId? = null
     }
