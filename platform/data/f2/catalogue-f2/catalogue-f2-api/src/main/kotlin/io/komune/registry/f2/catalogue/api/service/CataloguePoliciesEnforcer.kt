@@ -10,6 +10,7 @@ import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.CatalogueDraftId
@@ -18,8 +19,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CataloguePoliciesEnforcer(
-    private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
+    private val catalogueF2FinderService: CatalogueF2FinderService,
+    private val catalogueFinderService: CatalogueFinderService,
     private val organizationF2FinderService: OrganizationF2FinderService,
     private val userF2FinderService: UserF2FinderService
 ): PolicyEnforcer() {
@@ -83,6 +85,13 @@ class CataloguePoliciesEnforcer(
     ) = checkAuthed("set aggregator on catalogue [$catalogueId]") { authedUser ->
         val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
         CataloguePolicies.canSetAggregator(authedUser, catalogue)
+    }
+
+    suspend fun checkClaimOwnership(
+        catalogueId: CatalogueId
+    ) = checkAuthed("claim ownership of catalogue [$catalogueId]") {
+        val catalogue = catalogueFinderService.get(catalogueId)
+        catalogue.type in catalogueF2FinderService.listClaimableTypes()
     }
 
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->

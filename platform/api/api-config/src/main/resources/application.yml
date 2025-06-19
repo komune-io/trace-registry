@@ -54,6 +54,8 @@ platform:
       email: test@kosm.io
     template:
       email-verified: 1
+      catalogue-claim-ownership: 5
+    support-email: test@kosm.io
   flag:
     module:
       control: true

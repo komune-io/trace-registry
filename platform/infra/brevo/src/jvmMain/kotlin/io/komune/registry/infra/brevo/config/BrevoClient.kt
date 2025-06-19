@@ -38,7 +38,7 @@ class BrevoClient(
         receivers: List<EmailContact>,
         payload: Any?,
         attachments: Collection<EmailAttachment>?
-    ) = brevo<Unit> {
+    ) = brevo {
         SendSmtpEmail().apply {
             this.templateId = templateId
 
@@ -71,6 +71,7 @@ class BrevoClient(
             }
 
         }.let(emailClient::sendTransacEmail)
+        logger.info("Email sent with template $templateId")
     }
 
     fun registerContact(identifier: String?, contact: BrevoContact) = brevo<Unit> {

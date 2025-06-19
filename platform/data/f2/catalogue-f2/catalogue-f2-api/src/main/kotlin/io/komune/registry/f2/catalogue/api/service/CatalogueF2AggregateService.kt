@@ -4,14 +4,18 @@ import f2.dsl.cqrs.filter.CollectionMatch
 import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.collectionMatchOf
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.model.SimpleFilePart
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
+import io.komune.registry.api.config.ui.UIProperties
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendantException
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
 import io.komune.registry.f2.catalogue.api.model.toCommand
 import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueClaimOwnershipCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueClaimedOwnershipEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
@@ -29,6 +33,11 @@ import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueC
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTOBase
+import io.komune.registry.f2.user.api.service.UserF2FinderService
+import io.komune.registry.infra.brevo.config.BrevoClient
+import io.komune.registry.infra.brevo.config.BrevoConfig
+import io.komune.registry.infra.brevo.model.EmailContact
+import io.komune.registry.infra.brevo.model.payload.PayloadClaimOwnership
 import io.komune.registry.infra.fs.FsService
 import io.komune.registry.infra.postgresql.SequenceRepository
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
@@ -88,19 +97,24 @@ import java.nio.file.Paths
 @Suppress("LargeClass")
 @Service
 class CatalogueF2AggregateService(
+    private val brevoClient: BrevoClient,
+    private val brevoConfig: BrevoConfig,
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueConfig: CatalogueConfig,
     private val catalogueDraftAggregateService: CatalogueDraftAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
+    private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val cccevFinderService: CccevFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
-    private val informationConceptF2FinderService: InformationConceptF2FinderService,
     private val fsService: FsService,
     private val i18nConfig: I18nConfig,
-    private val sequenceRepository: SequenceRepository
+    private val informationConceptF2FinderService: InformationConceptF2FinderService,
+    private val sequenceRepository: SequenceRepository,
+    private val uiProperties: UIProperties,
+    private val userF2FinderService: UserF2FinderService
 ) {
 
     companion object {
@@ -315,6 +329,33 @@ class CatalogueF2AggregateService(
             id = catalogue.translationIds[dataset.language] ?: catalogueId,
             datasetId = datasetId
         ).let { catalogueAggregateService.linkMetadataDataset(it) }
+    }
+
+    suspend fun claimOwnership(command: CatalogueClaimOwnershipCommandDTOBase): CatalogueClaimedOwnershipEventDTOBase {
+        requireNotNull(brevoConfig.supportEmail) { "Brevo support email is not configured." }
+        requireNotNull(brevoConfig.template.catalogueClaimOwnership) { "Brevo template for catalogue claim ownership is not configured." }
+
+        val authedUser = AuthenticationProvider.getAuthedUser()!!
+
+        val catalogue = catalogueF2FinderService.get(command.id, null)
+        val user = userF2FinderService.get(authedUser.id)
+
+        val payload = PayloadClaimOwnership(
+            firstName = user.givenName,
+            lastName = user.familyName,
+            email = user.email,
+            organizationName = user.memberOf!!.name,
+            catalogueUrl = "${uiProperties.url}/catalogues/${command.id}",
+            catalogueTitle = catalogue.title
+        )
+        brevoClient.sendEmail(
+            templateId = brevoConfig.template.catalogueClaimOwnership!!,
+            receivers = listOf(EmailContact(brevoConfig.supportEmail!!, brevoConfig.supportEmail!!)),
+            payload = payload,
+            attachments = null
+        )
+
+        return CatalogueClaimedOwnershipEventDTOBase(command.id)
     }
 
     suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent {

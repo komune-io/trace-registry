@@ -14,6 +14,7 @@ import {CustomLinkButton, InfoTicket, maybeAddItem, SectionTab, Tab, useExtended
 import {SyntheticEvent, useCallback, useMemo, useState} from 'react'
 import {Stack} from '@mui/material'
 import {useLocation} from "react-router";
+import {CatalogueClaimButton} from "domain-components/src/Catalogue/components/CatalogueClaimButton";
 
 interface CatalogueViewEntryPointProps {
   catalogue: Catalogue
@@ -116,7 +117,14 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
         direction="row"
       >
         <CatalogueBreadcrumbs />
-        <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate(catalogue)} />
+        <Stack
+            gap={2}
+            alignItems="end"
+            direction="row"
+        >
+          <CatalogueClaimButton catalogue={catalogue} />
+          <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate(catalogue)} />
+        </Stack>
       </Stack>
       {currentLanguageDraft && <InfoTicket
         title={t("catalogues.activeContribution")}

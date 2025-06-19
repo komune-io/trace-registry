@@ -21,6 +21,7 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
 import io.komune.registry.f2.catalogue.api.service.imports.CatalogueImportService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
+import io.komune.registry.f2.catalogue.domain.command.CatalogueClaimOwnershipFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
@@ -432,5 +433,12 @@ class CatalogueEndpoint(
                     date = it.date,
                 )
             }
+    }
+
+    @Bean
+    override fun catalogueClaimOwnership(): CatalogueClaimOwnershipFunction = f2Function { command ->
+        logger.info("catalogueClaimOwnership: $command")
+        cataloguePoliciesEnforcer.checkClaimOwnership(command.id)
+        catalogueF2AggregateService.claimOwnership(command)
     }
 }

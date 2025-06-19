@@ -1,5 +1,12 @@
-import { io } from "registry-platform-api-api-js-export";
-import { useCommandWithFileRequest, CommandParams, CommandWithFile, useAuthenticatedRequest, useCommandRequest, CommandResquestOptions } from "@komune-io/g2"
+import {io} from "registry-platform-api-api-js-export";
+import {
+    CommandParams,
+    CommandResquestOptions,
+    CommandWithFile,
+    useAuthenticatedRequest,
+    useCommandRequest,
+    useCommandWithFileRequest
+} from "@komune-io/g2"
 
 export interface CatalogueCreateCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTO { }
 export interface CatalogueCreatedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTO { }
@@ -312,4 +319,15 @@ export const useCatalogueRemoveRelatedCataloguesCommand = (
     >('data/catalogueRemoveRelatedCatalogues', requestProps, params)
 }
 
+export interface CatalogueClaimOwnershipCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueClaimOwnershipCommandDTO { }
+export interface CatalogueClaimedOwnershipEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueClaimedOwnershipEventDTO { }
 
+export const useCatalogueClaimOwnershipCommand = (
+    params: CommandParams<CatalogueClaimOwnershipCommand, CatalogueClaimedOwnershipEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueClaimOwnershipCommand,
+        CatalogueClaimedOwnershipEvent
+    >('data/catalogueClaimOwnership', requestProps, params)
+}

@@ -305,6 +305,12 @@
       "UPDATE_REQUESTED": "Actualización solicitada",
       "VALIDATED": "Validado"
     },
+    "claim": {
+      "button": "Reclamar la ficha",
+      "title": "Reclamar la ficha {{name}}",
+      "description": "Estás a punto de solicitar la propiedad de esta ficha. Tu solicitud será enviada a un administrador para su validación y será procesada lo antes posible.",
+      "validate": "Reclamar"
+    },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",
     "administrator": "Administrador de {{entity}}",
