@@ -1,13 +1,28 @@
-import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, FormComposableState, getIn, setIn, useAutoFormState } from '@komune-io/g2'
-import { Paper } from '@mui/material'
-import { SearchIcon, CustomButton } from 'components'
-import { useCallback, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifierNumber, useCatalogueListAvailableParentsQuery, useCatalogueListAvailableThemesQuery, useLicenseListQuery } from '../../api'
-import { keepPreviousData } from '@tanstack/react-query'
-import { CatalogueDraft } from '../../model'
-import { useAutoCompleteCatalogue } from "../IndicatorBlock/useAutoCompleteCatalogue";
-import { convertRelatedCataloguesToIds } from "../../model/RelatedCatalogue";
+import {
+    AutoFormData,
+    CommandWithFile,
+    FormComposable,
+    FormComposableField,
+    FormComposableState,
+    getIn,
+    setIn,
+    useAutoFormState
+} from '@komune-io/g2'
+import {Paper} from '@mui/material'
+import {CustomButton, SearchIcon, useExtendedAuth} from 'components'
+import {useCallback, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {
+    extractCatalogueIdentifierNumber,
+    useCatalogueListAvailableParentsQuery,
+    useCatalogueListAvailableThemesQuery,
+    useLicenseListQuery
+} from '../../api'
+import {keepPreviousData} from '@tanstack/react-query'
+import {CatalogueDraft} from '../../model'
+import {useAutoCompleteCatalogue} from "../IndicatorBlock/useAutoCompleteCatalogue";
+import {convertRelatedCataloguesToIds} from "../../model/RelatedCatalogue";
+import {useAutoCompleteCatalogueOwners} from "../UseAutoCompleteCatalogueOwners/useAutoCompleteCatalgueOwners";
 
 interface CatalogueMetadataFormProps {
     draft?: CatalogueDraft
@@ -18,9 +33,10 @@ interface CatalogueMetadataFormProps {
 }
 
 export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
-    const { onSubmit, formData, formState, draft, type } = props
+    const { onSubmit, formData, formState, draft, type = draft?.catalogue?.type } = props
 
     const { t, i18n } = useTranslation()
+    const { policies } = useExtendedAuth()
 
     const [contextualFilters, setContextualFilters] = useState<Record<string, any>>({})
 
@@ -30,7 +46,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
     const parentListQuery = useCatalogueListAvailableParentsQuery({
         query: {
             language: draft?.language ?? i18n.language,
-            type: draft?.catalogue.type ?? type,
+            type: type,
             ...contextualFilters["autoComplete-parents"]
         },
         options: {
@@ -64,10 +80,15 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         fetchOnInitFocus: true
     })
 
-    const fields = useMemo(() => formData?.sections[0].fields.map((field): FormComposableField => {
-        type FileType = typeof field.type | "autoComplete-parents" | "select-themes" | "autoComplete-catalogues" | "select-license"
+    const ownersAutoComplete = useAutoCompleteCatalogueOwners({
+        catalogueType: type!,
+        fetchOnInitFocus: true
+    })
 
-        const type = field.type as FileType
+    const fields = useMemo(() => formData?.sections[0].fields.map((field): FormComposableField => {
+        type FieldType = typeof field.type | "autoComplete-parents" | "select-themes" | "autoComplete-catalogues" | "select-license" | "autoComplete-owners"
+
+        const type = field.type as FieldType
 
         //@ts-ignore
         const filters = field.params?.filters ? JSON.parse(field.params.filters) : undefined
@@ -125,8 +146,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     label: field.label,
                     //@ts-ignore
                     params: field.params,
-                },
-                    filters)
+                }, filters)
             } as FormComposableField
         }
         if (type === "select-license") {
@@ -140,6 +160,17 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                     }))
                 }
             }
+        }
+        if (type === "autoComplete-owners") {
+            return {
+                ...field,
+                ...ownersAutoComplete.getComposableField({
+                    name: field.name,
+                    label: field.label,
+                    //@ts-ignore
+                    params: field.params,
+                }, filters)
+            } as FormComposableField
         }
         return field
     }), [formData, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, catalogueAutoComplete.getComposableField])
@@ -181,7 +212,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         formData,
         onSubmit: onSubmitMemo,
         initialValues: {
-            context: "creation"
+            context: "creation",
+            policies: {
+                canUpdateOwner: policies.catalogue.canUpdateOwner(draft?.catalogue),
+            }
         }
     })
 

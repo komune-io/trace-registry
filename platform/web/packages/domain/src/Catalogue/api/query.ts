@@ -1,7 +1,7 @@
-import { g2Config, QueryParams, useQueryRequestArray, request, useAuthenticatedRequest, useQueryRequest } from "@komune-io/g2"
-import { io } from "registry-platform-api-api-js-export";
-import { useCallback } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {g2Config, QueryParams, request, useAuthenticatedRequest, useQueryRequest, useQueryRequestArray} from "@komune-io/g2"
+import {io} from "registry-platform-api-api-js-export";
+import {useCallback} from "react";
+import {useQuery} from "@tanstack/react-query";
 
 export interface CatalogueGetQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetQueryDTO { }
 export interface CatalogueGetResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetResultDTO { }
@@ -103,6 +103,16 @@ export const useCatalogueListAvailableThemesQuery = (params: QueryParams<Catalog
   const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CatalogueListAvailableThemesQuery, CatalogueListAvailableThemesResult>(
     "data/catalogueListAvailableThemes", requestProps, params
+  )
+}
+
+export interface CatalogueListAvailableOwnersQuery extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersQueryDTO { }
+export interface CatalogueListAvailableOwnersResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersResultDTO { }
+
+export const useCatalogueListAvailableOwnersQuery = (params: QueryParams<CatalogueListAvailableOwnersQuery, CatalogueListAvailableOwnersResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<CatalogueListAvailableOwnersQuery, CatalogueListAvailableOwnersResult>(
+    "data/catalogueListAvailableOwners", requestProps, params
   )
 }
 
@@ -218,4 +228,3 @@ export const useCatalogueGetStructureQuery = (params: QueryParams<CatalogueGetSt
     "data/catalogueGetStructure", requestProps, params
   )
 }
-

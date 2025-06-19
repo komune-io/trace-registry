@@ -32,9 +32,16 @@ object CataloguePolicies {
     }
 
     fun canUpdateAccessRights(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        val isInOrganization = authedUser.memberOf.orEmpty() in listOf(it.creatorOrganization?.id, it.ownerOrganization?.id)
-        isInOrganization && authedUser.hasRole(Permissions.Catalogue.PUBLISH_ORG)
+        owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.PUBLISH_ORG)
                 || authedUser.hasRole(Permissions.Catalogue.PUBLISH_ALL)
+    }
+
+    fun canUpdateOwner(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
+        return when {
+            authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_ALL) -> true
+            catalogue == null -> authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_OWNED) // creation
+            else -> owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_OWNED)
+        }
     }
 
     fun canSetImg(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
@@ -42,7 +49,7 @@ object CataloguePolicies {
     }
 
     fun canDelete(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        authedUser.hasRole(Permissions.Catalogue.DELETE_ORG) && authedUser.memberOf.orEmpty() == it.creatorOrganization?.id
+        authedUser.hasRole(Permissions.Catalogue.DELETE_ORG) && owns(authedUser, catalogue)
                 || authedUser.hasRole(Permissions.Catalogue.DELETE_ALL)
     }
 
@@ -68,8 +75,22 @@ object CataloguePolicies {
 
     @JsExport.Ignore
     fun owns(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        authedUser.id == it.creator?.id
-                || authedUser.memberOf.orEmpty() in listOf(it.creatorOrganization?.id, it.ownerOrganization?.id)
+        ownsCatalogueWith(authedUser, it.creator?.id, it.creatorOrganization?.id, it.ownerOrganization?.id)
+    }
+
+    @JsExport.Ignore
+    fun ownsCatalogueWith(
+        authedUser: AuthedUserDTO,
+        creatorId: UserId?,
+        creatorOrganizationId: OrganizationId?,
+        ownerOrganizationId: OrganizationId?
+    ): Boolean {
+        return if (ownerOrganizationId != null) {
+            authedUser.memberOf == ownerOrganizationId
+        } else {
+            authedUser.memberOf == creatorOrganizationId
+                    || authedUser.id == creatorId
+        }
     }
 
     @JsExport.Ignore
@@ -78,8 +99,8 @@ object CataloguePolicies {
         creatorOrganizationId: OrganizationId?,
         ownerOrganizationId: OrganizationId?
     ): Boolean {
-        val isInOrganization = authedUser.memberOf.orEmpty() in listOf(creatorOrganizationId, ownerOrganizationId)
-        return isInOrganization && authedUser.hasRole(Permissions.Catalogue.WRITE_ORG)
+        val ownsCatalogue = ownsCatalogueWith(authedUser, null, creatorOrganizationId, ownerOrganizationId)
+        return ownsCatalogue && authedUser.hasRole(Permissions.Catalogue.WRITE_ORG)
                 || authedUser.hasRole(Permissions.Catalogue.WRITE_ALL)
     }
 
@@ -89,14 +110,12 @@ object CataloguePolicies {
         accessRights: CatalogueAccessRight,
         creatorOrganizationId: OrganizationId?,
         ownerOrganizationId: OrganizationId?,
-        creatorId: UserId?
+        creatorId: UserId? = null
     ): Boolean = when {
         authedUser == null -> accessRights == CatalogueAccessRight.PUBLIC
         authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> true
         authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights == CatalogueAccessRight.PUBLIC
-                || creatorOrganizationId == authedUser.memberOf.orEmpty()
-                || ownerOrganizationId == authedUser.memberOf.orEmpty()
-                || creatorId == authedUser.id
-        else -> accessRights == CatalogueAccessRight.PUBLIC || creatorId == authedUser.id
+                || ownsCatalogueWith(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId)
+        else -> accessRights == CatalogueAccessRight.PUBLIC
     }
 }

@@ -13,6 +13,7 @@ import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.history.EventHistory
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.FieldCriterion
+import io.komune.registry.s2.commons.model.andCriterionOf
 import io.komune.registry.s2.commons.model.orCriterionOf
 import org.springframework.stereotype.Service
 
@@ -28,14 +29,16 @@ class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
             authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> null
             authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> orCriterionOf(
                 publicAccessCriterion,
-                FieldCriterion(CatalogueCriterionField.CreatorOrganizationId, ExactMatch(organizationId)),
                 FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(organizationId)),
-                FieldCriterion(CatalogueCriterionField.CreatorId, ExactMatch(authedUser.id)),
+                andCriterionOf(
+                    FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
+                    orCriterionOf(
+                        FieldCriterion(CatalogueCriterionField.CreatorId, ExactMatch(authedUser.id)),
+                        FieldCriterion(CatalogueCriterionField.CreatorOrganizationId, ExactMatch(organizationId))
+                    )
+                )
             )
-            else -> orCriterionOf(
-                publicAccessCriterion,
-                FieldCriterion(CatalogueCriterionField.CreatorId, ExactMatch(authedUser.id))
-            )
+            else -> publicAccessCriterion
         }
     }
 
@@ -57,8 +60,7 @@ class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
                 authedUser = authedUser,
                 accessRights = it.accessRights,
                 creatorOrganizationId = it.creatorOrganizationId,
-                ownerOrganizationId = it.ownerOrganizationId,
-                creatorId = it.creatorId
+                ownerOrganizationId = it.ownerOrganizationId
             )
         }
     }

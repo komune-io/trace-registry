@@ -96,6 +96,7 @@ class CataloguePoliciesEnforcer(
 
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->
         command.copy(
+            ownerOrganizationId = command.ownerOrganizationId.takeIf { CataloguePolicies.canUpdateOwner(authedUser, null) },
             withDraft = command.withDraft || !CataloguePolicies.canCreateWithoutDraft(authedUser)
         )
     }
@@ -105,7 +106,10 @@ class CataloguePoliciesEnforcer(
         command.copy(
             accessRights = command.accessRights
                 .takeIf { CataloguePolicies.canUpdateAccessRights(authedUser, catalogue) }
-                ?: catalogue.accessRights
+                ?: catalogue.accessRights,
+            ownerOrganizationId = command.ownerOrganizationId
+                .takeIf { CataloguePolicies.canUpdateOwner(authedUser, catalogue) }
+                ?: catalogue.ownerOrganization?.id,
         )
     }
 
