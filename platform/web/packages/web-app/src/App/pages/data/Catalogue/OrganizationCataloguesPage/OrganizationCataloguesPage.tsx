@@ -19,7 +19,7 @@ export const OrganizationCataloguesPage = () => {
         query: {
             ...submittedFilters,
             language: i18n.language,
-            creatorOrganizationId: service.getUser()?.memberOf,
+            ownerOrganizationId: service.getUser()?.memberOf,
             otherLanguageIfAbsent: true
         },
         options: {

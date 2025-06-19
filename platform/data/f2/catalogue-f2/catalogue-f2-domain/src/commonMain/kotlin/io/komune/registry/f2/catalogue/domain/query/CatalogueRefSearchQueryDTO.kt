@@ -46,6 +46,7 @@ data class CatalogueRefSearchQuery(
     override val licenseId: List<String>?,
     override val type: List<String>?,
     override val creatorOrganizationId: OrganizationId?,
+    override val ownerOrganizationId: OrganizationId?,
     override val availableLanguages: List<Language>?,
     override val withTransient: Boolean = true
 ): CatalogueRefSearchQueryDTO

@@ -4380,6 +4380,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly themeIds?: string[];
         readonly licenseId?: string[];
         readonly creatorOrganizationId?: string;
+        readonly ownerOrganizationId?: string;
         readonly availableLanguages?: string[];
         readonly withTransient?: boolean;
 
@@ -4408,6 +4409,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly themeIds?: string[];
         readonly licenseId?: string[];
         readonly creatorOrganizationId?: string;
+        readonly ownerOrganizationId?: string;
         readonly availableLanguages?: string[];
         readonly withTransient?: boolean;
 
