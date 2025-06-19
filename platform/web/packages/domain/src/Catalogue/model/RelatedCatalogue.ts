@@ -15,10 +15,9 @@ export function convertRelatedCataloguesToIds(relatedCatalogues: RelatedCatalogu
     if (relatedCatalogues.hasOwnProperty(catalogueType)) {
       relatedCatalogueIds[catalogueType] = relatedCatalogues[catalogueType].map(item => {
         return item.id
-      });
+      }).filter(id => id != null);
     }
   }
 
   return relatedCatalogueIds;
 }
-

@@ -108,6 +108,8 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
 
   const currentLanguageDraft = useMemo(() => catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language), [catalogue, i18n.language])
 
+  const canCreateDraft = policies.draft.canCreate(catalogue)
+
   return (
     <AppPage title={catalogue?.title}>
       <Stack
@@ -117,14 +119,8 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
         direction="row"
       >
         <CatalogueBreadcrumbs />
-        <Stack
-            gap={2}
-            alignItems="end"
-            direction="row"
-        >
-          <CatalogueClaimButton catalogue={catalogue} />
-          <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate(catalogue)} />
-        </Stack>
+        {canCreateDraft && <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate(catalogue)} />}
+        {!canCreateDraft && <CatalogueClaimButton catalogue={catalogue}/>}
       </Stack>
       {currentLanguageDraft && <InfoTicket
         title={t("catalogues.activeContribution")}

@@ -173,7 +173,7 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
             } as FormComposableField
         }
         return field
-    }), [formData, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, catalogueAutoComplete.getComposableField])
+    }), [formData, filteredParents, catalogueThemesQuery.data?.items, licenseListQuery.data?.items, catalogueAutoComplete.getComposableField, ownersAutoComplete.getComposableField])
 
     const onSubmitMemo = useCallback(
         async (command: CommandWithFile<any>, values: any) => {

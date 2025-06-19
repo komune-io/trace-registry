@@ -72,7 +72,9 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.FieldCriterion
+import io.komune.registry.s2.commons.model.andCriterionOf
 import io.komune.registry.s2.commons.model.andCriterionOfNotNull
+import io.komune.registry.s2.commons.model.orCriterionOf
 import io.komune.registry.s2.commons.model.orCriterionOfNotNull
 import io.komune.registry.s2.commons.utils.truncateLanguage
 import jakarta.annotation.security.PermitAll
@@ -208,7 +210,16 @@ class CatalogueEndpoint(
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             withTransient = query.withTransient,
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            freeCriterion = andCriterionOfNotNull(
+                query.ownerOrganizationId?.let { orCriterionOf(
+                    FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(it)),
+                    andCriterionOf(
+                        FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
+                        FieldCriterion(CatalogueCriterionField.CreatorOrganizationId, ExactMatch(it)),
+                    )
+                )},
+                cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            ),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -236,7 +247,16 @@ class CatalogueEndpoint(
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             withTransient = query.withTransient,
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            freeCriterion = andCriterionOfNotNull(
+                query.ownerOrganizationId?.let { orCriterionOf(
+                    FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(it)),
+                    andCriterionOf(
+                        FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
+                        FieldCriterion(CatalogueCriterionField.CreatorOrganizationId, ExactMatch(it)),
+                    )
+                )},
+                cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            ),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
