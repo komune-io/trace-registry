@@ -1,11 +1,21 @@
-import { Catalogue, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, convertRelatedCataloguesToIds } from 'domain-components'
-import { EditorState } from 'lexical'
-import { useCallback, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useQueryClient } from '@tanstack/react-query';
-import { useRefetchOnDismount, useRoutesDefinition } from 'components'
-import { useDebouncedCallback } from '@mantine/hooks'
-import { CommandWithFile } from '@komune-io/g2';
+import {
+  Catalogue,
+  CatalogueDraft,
+  convertRelatedCataloguesToIds,
+  Dataset,
+  findLexicalDataset,
+  useCatalogueDraftDeleteCommand,
+  useCatalogueUpdateCommand,
+  useDatasetAddJsonDistributionCommand,
+  useDatasetUpdateJsonDistributionCommand
+} from 'domain-components'
+import {EditorState} from 'lexical'
+import {useCallback, useState} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useQueryClient} from '@tanstack/react-query';
+import {useRefetchOnDismount, useRoutesDefinition} from 'components'
+import {useDebouncedCallback} from '@mantine/hooks'
+import {CommandWithFile} from '@komune-io/g2';
 
 interface useDraftMutationsParams {
   catalogue?: Catalogue
@@ -52,7 +62,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         homepage: values.homepage,
         versionNotes: values.versionNotes,
         language: values.language,
-        ownerOrganizationId: values.ownerOrganizationId,
+        ownerOrganizationId: values.ownerOrganization?.id,
         id: draft?.catalogue.id!,
       }
     })

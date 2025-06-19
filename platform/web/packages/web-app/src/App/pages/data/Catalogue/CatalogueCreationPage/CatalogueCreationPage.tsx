@@ -1,11 +1,11 @@
-import { autoFormFormatter, BackAutoFormData, CommandWithFile } from '@komune-io/g2'
-import { useQueryClient } from '@tanstack/react-query'
-import { TitleDivider, useRoutesDefinition } from 'components'
-import { useCatalogueCreateCommand, CatalogueMetadataForm, useCatalogueGetStructureQuery } from 'domain-components'
-import { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import { AppPage } from 'template'
+import {autoFormFormatter, BackAutoFormData, CommandWithFile} from '@komune-io/g2'
+import {useQueryClient} from '@tanstack/react-query'
+import {TitleDivider, useRoutesDefinition} from 'components'
+import {CatalogueMetadataForm, useCatalogueCreateCommand, useCatalogueGetStructureQuery} from 'domain-components'
+import {useCallback, useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {useNavigate, useParams} from 'react-router-dom'
+import {AppPage} from 'template'
 
 export const CatalogueCreationPage = () => {
   const { type } = useParams()
@@ -57,7 +57,7 @@ export const CatalogueCreationPage = () => {
       maxWidth={1020}
     >
       <TitleDivider title={title} />
-      <CatalogueMetadataForm formData={formData} onSubmit={onCreate} type={type}  />
+      <CatalogueMetadataForm formData={formData} onSubmit={onCreate} type={type!}  />
     </AppPage>
   )
 }

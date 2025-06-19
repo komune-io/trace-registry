@@ -314,6 +314,12 @@
             "UPDATE_REQUESTED": "Mise à jour demandée",
             "VALIDATED": "Validé"
         },
+        "claim": {
+            "button": "Revendiquer la fiche",
+            "title": "Revendiquer la fiche {{name}}",
+            "description": "Vous êtes sur le point de demander la propriété de cette fiche. Votre demande sera transmise à un administrateur pour validation et sera traitée dans les meilleurs délais.",
+            "validate": "Revendiquer"
+        },
         "exploreDetails": "Explorez notre liste complète de normes reconnues pour l'évaluation et la certification des projets environnementaux. Découvrez des opportunités diverses en énergie, carbone, eau, déchets, et plus encore. Choisissez la norme qui s'aligne avec vos objectifs et ayez un impact environnemental positif.",
         "verifiedProjects": "{{count}} fiches",
         "administrator": "Administrateur {{entity}}",
@@ -433,6 +439,7 @@
             "data/catalogueDraftValidate": "Le brouillon n'a pas pu être validé",
             "data/catalogueDraftReject": "Le brouillon n'a pas pu être rejeté",
             "data/catalogueDraftDelete": "Le brouillon n'a pas pu être supprimé",
+            "data/catalogueClaimOwnership": "La demande de revendication n'a pas pu être envoyée",
             "data/datasetAddMediaDistribution": "Le fichier n'a pas pu être enregistré",
             "data/datasetUpdateMediaDistribution": "Les modifications n'ont pas pu être enregistrées",
             "data/datasetDelete": "La suppresion a échoué",
@@ -454,6 +461,7 @@
             "data/catalogueDraftValidate": "Le brouillon a bien été validé",
             "data/catalogueDraftReject": "Le brouillon a bien été rejeté",
             "data/catalogueDraftDelete": "Le brouillon a bien été supprimé",
+            "data/catalogueClaimOwnership": "La demande de revendication a bien été envoyée",
             "data/datasetAddMediaDistribution": "Le fichier a bien été enregistré",
             "draftUpdated": "Le brouillon a bien été enregistré",
             "graphCreated": "Le graphe a bien été enregistré",

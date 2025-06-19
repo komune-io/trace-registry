@@ -1,12 +1,9 @@
-import { useState, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { useDebouncedState } from "@mantine/hooks";
-import { CatalogueRefSearchQuery, useCatalogueRefSearchQuery } from "../../api";
-import { AutoCompleteProps, FormComposableField, InputFormBasicProps } from "@komune-io/g2";
-import { SearchIcon } from "components";
-import type { TFunction } from "i18next";
-import React from "react";
+import {useCallback, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {useDebouncedState} from "@mantine/hooks";
+import {CatalogueRefSearchQuery, useCatalogueRefSearchQuery} from "../../api";
 import {CatalogueRef} from "../../model";
+import {useAutoComplete} from "components/src/UseAutoComplete";
 
 export interface UseAutoCompleteCatalogueProps {
   fetchOnInitFocus?: boolean;
@@ -23,92 +20,46 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
   const { t, i18n } = useTranslation();
   const currentLanguage = initialLanguage || i18n.language;
 
-  const [filters, setfilters] = useState<Partial<CatalogueRefSearchQuery>>({})
+  const [queryFilters, setQueryFilters] = useState<Partial<CatalogueRefSearchQuery>>({});
   const [searchValue, setSearchValue] = useDebouncedState<string | undefined>(undefined, 400);
-  const [isFocused, setIsFocused] = useState(false);
+  const [enableSearchQuery, setEnableSearchQuery] = useState(false);
 
-  const shouldFetchOnInitFocus = (fetchOnInitFocus && isFocused && !searchValue) || !!searchValue;
-  const queryResult = useCatalogueRefSearchQuery({
+  const catalogueSearchQuery = useCatalogueRefSearchQuery({
     query: {
-      ...filters,
+      ...queryFilters,
       language: currentLanguage,
       query: searchValue,
       limit: searchLimit,
       offset: 0,
     },
     options: {
-      enabled: (isFocused || !!searchValue) && shouldFetchOnInitFocus,
+      enabled: enableSearchQuery,
     },
   });
 
-  const options= queryResult.data?.items ?? [];
-
-  const handleInputChange = useCallback(
-    (value: string, filters?: Partial<CatalogueRefSearchQuery>) => {
-      filters && setfilters(filters);
-      setSearchValue(value);
-      setIsFocused(true);
-    },
-    []
-  );
-
-  const handleFocus = useCallback((filters?: Partial<CatalogueRefSearchQuery>) => {
-    filters && setfilters(filters);
-    setIsFocused(true);
+  const handleSearch = useCallback((searchValue?: string, filters?: Partial<CatalogueRefSearchQuery>) => {
+    setQueryFilters(filters || {})
+    setSearchValue(searchValue)
+    setEnableSearchQuery(true)
   }, []);
 
-  const getComposableField = useCallback((props: ComponentProps, filters?: Partial<CatalogueRefSearchQuery>) => {
-    return toComponents(
-      t,
-      props,
-      options,
-     (value) => handleInputChange(value, filters),
-      () => handleFocus(filters),
-      searchValue // Pass searchValue here
-    );
-  }, [options, t, handleInputChange, handleFocus, searchValue]); // Add searchValue to dependencies
+  const handleGetCatalogueLabel = useCallback((catalogue: CatalogueRef) => catalogue.title, [])
+  const handleGetCatalogueKey = useCallback((catalogue: CatalogueRef) => catalogue.id, [])
+  const handleCatalogueEquals = useCallback((catalogue1: CatalogueRef, catalogue2: CatalogueRef) => catalogue1.id === catalogue2.id, []);
+
+  const autoComplete = useAutoComplete<CatalogueRef, CatalogueRefSearchQuery>({
+    fetchOnInitFocus,
+    options: catalogueSearchQuery.data?.items,
+    onSearch: handleSearch,
+    noResultText: t("catalogues.noResult"),
+    getOptionLabel: handleGetCatalogueLabel,
+    getOptionKey: handleGetCatalogueKey,
+    isOptionEqualToValue: handleCatalogueEquals,
+    isLoading: catalogueSearchQuery.isLoading,
+  })
 
   return {
-    getComposableField,
-    searchValue,
-    queryResult,
-  };
-};
-
-type ComponentProps = {
-  name: string;
-  label?: string;
-  params?: Partial<AutoCompleteProps & InputFormBasicProps<'autoComplete'>>
-  customDisplay?: (input: React.ReactNode) => React.ReactNode
+    ...autoComplete,
+    queryResult: catalogueSearchQuery,
+  }
 }
-
-const toComponents = (
-  t: TFunction,
-  props: ComponentProps,
-  options: CatalogueRef[],
-  onInputChange: (value: string) => void,
-  onFocus: () => void,
-  searchValue?: string,
-): FormComposableField => {
-  const { name, label, params, customDisplay } = props;
-  return {
-    name,
-    type: "autoComplete",
-    label,
-    params: {
-      ...params,
-      popupIcon: <SearchIcon style={{ transform: "none" }} />,
-      onInputChange: (_: any, value: string) => onInputChange(value),
-      getOptionLabel: (catalogue: CatalogueRef) => catalogue.title,
-      getOptionKey: (catalogue: CatalogueRef) => catalogue.id,
-      isOptionEqualToValue: (option: CatalogueRef, catalogue: CatalogueRef) => option.id === catalogue.id,
-      className: "autoCompleteField",
-      onFocus: onFocus,
-      options: options,
-      returnFullObject: true,
-      noOptionsText: !searchValue && options.length === 0 ? t("typeToSearch") : options.length === 0 && searchValue ? t("catalogues.noResult") : '',
-    },
-    customDisplay
-  };
-};
-

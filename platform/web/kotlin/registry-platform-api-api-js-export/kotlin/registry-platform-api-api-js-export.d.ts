@@ -3882,6 +3882,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
         canCreateWithoutDraft(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
         canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canUpdateAccessRights(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canUpdateOwner(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canSetImg(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canLinkCatalogues(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
@@ -3897,6 +3898,16 @@ export declare namespace io.komune.registry.f2.catalogue.domain.command {
 
     }
     interface CatalogueAddedRelatedCataloguesEventDTO extends f2.dsl.cqrs.Event {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.command {
+    interface CatalogueClaimOwnershipCommandDTO {
+        readonly id: string;
+
+    }
+    interface CatalogueClaimedOwnershipEventDTO {
         readonly id: string;
 
     }
@@ -4160,7 +4171,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     type CatalogueImportType = "M100_PROJECTS";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
-    type CatalogueOperation = "ALL" | "UPDATE" | "RELATION" | "SEARCH";
+    type CatalogueOperation = "ALL" | "CLAIM_OWNERSHIP" | "RELATION" | "SEARCH" | "UPDATE";
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueRefDTO {

@@ -32,3 +32,5 @@ export type DataUnitType =  io.komune.registry.s2.cccev.domain.model.DataUnitTyp
 export const buildRangeValue = io.komune.registry.f2.dataset.domain.SupportedValueUtils.buildRangeValue
 
 export const parseRangeValue = io.komune.registry.f2.dataset.domain.SupportedValueUtils.parseRangeValue
+
+export type CatalogueFormContext = "edition" | "creation" | "readOnly"

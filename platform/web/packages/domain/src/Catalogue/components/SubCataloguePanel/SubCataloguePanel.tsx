@@ -1,17 +1,18 @@
-import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from '@komune-io/g2'
-import { Paper, Stack, Typography } from '@mui/material'
-import { CustomButton, TitleDivider } from 'components'
-import { useCallback, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Catalogue, CatalogueRef } from '../../model'
-import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
-import { CatalogueListAllowedTypesQuery, useCatalogueListAllowedTypesQuery } from '../../api'
-import { SubCatalogueLinkedTable } from './SubCatalogueLinkedTable'
+import {AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState} from '@komune-io/g2'
+import {Paper, Stack, Typography} from '@mui/material'
+import {CustomButton, TitleDivider} from 'components'
+import {useCallback, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Catalogue, CatalogueFormContext, CatalogueRef} from '../../model'
+import {SubCataloguePanelOptions} from './SubCataloguePanelOptions'
+import {CatalogueListAllowedTypesQuery, useCatalogueListAllowedTypesQuery} from '../../api'
+import {SubCatalogueLinkedTable} from './SubCatalogueLinkedTable'
+import {useCatalogueFormAdditionalContext} from "../UseCatalogueFormAdditionalContext";
 
 export interface SubCataloguePanelProps {
     formData?: AutoFormData
     catalogue?: Catalogue
-    context?: "edition" | "creation" | "readOnly"
+    context?: CatalogueFormContext
     onCancel?: () => void
     onSubmit?: (command: CommandWithFile<any>, values: any) => Promise<boolean>
     canUpdate?: boolean
@@ -21,7 +22,7 @@ export interface SubCataloguePanelProps {
 
 export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData, tab, refetch } = props
-    const [context, setContext] = useState<"edition" | "creation" | "readOnly">(defaultContext ?? "creation")
+    const [context, setContext] = useState<CatalogueFormContext>(defaultContext ?? "creation")
     const { t, i18n } = useTranslation()
     const [creationTypesFilters, setCreationTypesFilters] = useState<CatalogueListAllowedTypesQuery | undefined>(undefined)
 
@@ -60,6 +61,8 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
         return field
     }) ?? [], [formData, allowedCreationTypes, creationTypesFilters])
 
+    const formAdditionalContext = useCatalogueFormAdditionalContext({ context, catalogue })
+
     const initialValues = useMemo(() => {
         let initialValues: Record<string, any> = {}
         formData?.sections[0].fields.forEach((field) => {
@@ -70,10 +73,10 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
         })
         return {
             ...initialValues,
-            context,
-            id: catalogue?.id,
+            ...formAdditionalContext,
+            id: catalogue?.id
         }
-    }, [context, formData, catalogue])
+    }, [context, formData, catalogue, formAdditionalContext])
 
     const onSubmitMemo = useCallback(
         async (command: CommandWithFile<any>, values: any) => {

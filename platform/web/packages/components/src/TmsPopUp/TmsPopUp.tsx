@@ -1,13 +1,8 @@
-import React, { forwardRef } from 'react'
-import {
-  Dialog,
-  DialogProps,
-  Stack,
-  Typography
-} from '@mui/material'
-import { CloseRounded } from '@mui/icons-material'
-import { CustomButton } from '../CustomButton'
-import { useTranslation } from 'react-i18next'
+import React, {forwardRef} from 'react'
+import {Dialog, DialogProps, Stack, Typography} from '@mui/material'
+import {CloseRounded} from '@mui/icons-material'
+import {CustomButton} from '../CustomButton'
+import {useTranslation} from 'react-i18next'
 
 export interface TmsPopUpProps extends Omit<DialogProps, "title"> {
   /**
@@ -27,7 +22,9 @@ export interface TmsPopUpProps extends Omit<DialogProps, "title"> {
    */
   children?: React.ReactNode
   onCancel?: () => void
+  cancelText?: string
   onSave?: () => void
+  saveText?: string
 }
 
 const TmsPopUpBase = (
@@ -43,7 +40,9 @@ const TmsPopUpBase = (
     PaperProps,
     sx,
     onCancel,
+    cancelText,
     onSave,
+    saveText,
     ...other
   } = props
 
@@ -113,12 +112,12 @@ const TmsPopUpBase = (
             onClick={onCancel}
             variant='text'
           >
-            {t("cancel")}
+            {cancelText ?? t("cancel")}
           </CustomButton>}
           {onSave && <CustomButton
             onClick={onSave}
           >
-            {t("save")}
+            {saveText ?? t("save")}
           </CustomButton>}
         </Stack>
       )}

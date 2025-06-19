@@ -25,6 +25,7 @@ import io.komune.registry.f2.concept.domain.model.ConceptTranslatedDTOBase
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
+import io.komune.registry.s2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.s2.catalogue.api.entity.descendantsIds
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -176,7 +177,9 @@ class CatalogueF2FinderService(
     }
 
     suspend fun listAvailableOwnersFor(type: CatalogueType, search: String?, limit: Int?): List<OrganizationRef> {
-        val roles = catalogueConfig.typeConfigurations[type]?.ownerRoles
+        val roles = catalogueConfig.typeConfigurations[type]
+            ?.ownerRoles
+            ?.ifEmpty { return emptyList() }
 
         return organizationF2FinderService.page(
             name = search,
@@ -190,21 +193,11 @@ class CatalogueF2FinderService(
     ): List<CatalogueTypeDTOBase> {
         return when (query.operation) {
             CatalogueOperation.ALL -> catalogueConfig.typeConfigurations.keys
-            CatalogueOperation.UPDATE -> listExplicitlyAllowedTypesToWrite()
+            CatalogueOperation.CLAIM_OWNERSHIP -> listClaimableTypes()
             CatalogueOperation.RELATION -> listRelationAllowedType(query)
             CatalogueOperation.SEARCH -> listSearchAllowedTypes()
+            CatalogueOperation.UPDATE -> listExplicitlyAllowedTypesToWrite()
         }.map { it.toDTO(query.language).orEmpty(it) }.sortedBy { it.name }
-    }
-
-    suspend fun listExplicitlyAllowedTypesToWrite(): List<CatalogueType> {
-        val authedUser = AuthenticationProvider.getAuthedUser()
-            ?: return emptyList()
-
-        val authedUserRoles = authedUser.roles.orEmpty().toSet()
-
-        return catalogueConfig.typeConfigurations.values.filter { typeConfiguration ->
-            typeConfiguration.writerRoles.orEmpty().any { it in authedUserRoles }
-        }.map { it.type }
     }
 
     suspend fun listRelationAllowedType(query: CatalogueListAllowedTypesQuery): List<CatalogueType> {
@@ -217,6 +210,23 @@ class CatalogueF2FinderService(
 
     suspend fun listSearchAllowedTypes(): Set<CatalogueType> {
         return catalogueConfig.searchableTypes - catalogueConfig.transientTypes
+    }
+
+    suspend fun listExplicitlyAllowedTypesToWrite() = listExplicitlyAllowedTypes { it.writerRoles }
+
+    suspend fun listClaimableTypes() = listExplicitlyAllowedTypes { it.ownerRoles }
+
+    private suspend fun listExplicitlyAllowedTypes(
+        getAllowedRoles: (CatalogueTypeConfiguration) -> Set<String>?
+    ): List<CatalogueType> {
+        val authedUser = AuthenticationProvider.getAuthedUser()
+            ?: return emptyList()
+
+        val authedUserRoles = authedUser.roles.orEmpty().toSet()
+
+        return catalogueConfig.typeConfigurations.values.filter { typeConfiguration ->
+            getAllowedRoles(typeConfiguration)?.any { it in authedUserRoles } == true
+        }.map { it.type }
     }
 
     private suspend fun CatalogueModel.toAccessDataCached() = withCache { cache ->
