@@ -9,6 +9,7 @@ data class CatalogueStructureModel(
     val alias: Boolean = false,
     val color: String?,
     val isTab: Boolean = false,
+    val isInventory: Boolean = false,
     val illustration: CatalogueIllustrationType?,
     val creationForm: Form?,
     val metadataForm: Form?,

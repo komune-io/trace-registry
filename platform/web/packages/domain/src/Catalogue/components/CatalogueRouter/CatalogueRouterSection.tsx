@@ -1,5 +1,5 @@
-import { CatalogueRef } from "../../model"
-import { SubCatalogueModule } from "../SubCatalogueModule"
+import {CatalogueRef} from "../../model"
+import {SubCatalogueModule} from "../SubCatalogueModule"
 
 
 interface CatalogueRouterSectionProps {
@@ -11,7 +11,7 @@ interface CatalogueRouterSectionProps {
 export const CatalogueRouterSection = (props: CatalogueRouterSectionProps) => {
     const { item, isEmpty } = props
     
-    if (item.type === "inventory") {
+    if (item.structure?.isInventory) {
         return (
             <SubCatalogueModule type={item.structure?.type ?? "LIST"} isEmpty={isEmpty} relatedInId={item.id} />
         )

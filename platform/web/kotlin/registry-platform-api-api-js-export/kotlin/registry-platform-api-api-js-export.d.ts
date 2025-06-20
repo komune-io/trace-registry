@@ -4219,6 +4219,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly alias: boolean;
         readonly color?: string;
         readonly isTab: boolean;
+        readonly isInventory: boolean;
         readonly illustration?: io.komune.registry.s2.catalogue.domain.model.structure.CatalogueIllustrationType;
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;

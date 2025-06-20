@@ -33551,7 +33551,7 @@ if (typeof Math.imul === 'undefined') {
     Companion_instance_165 = this;
     var tmp = this;
     var tmp_0 = LazyThreadSafetyMode_PUBLICATION_getInstance();
-    tmp.g2l_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
+    tmp.h2l_1 = lazy(tmp_0, OrderState$Companion$_anonymous__472e3w);
   }
   var Companion_instance_165;
   function Companion_getInstance_165() {
@@ -33578,10 +33578,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrderState(name, ordinal, position) {
     Enum.call(this, name, ordinal);
-    this.j2l_1 = position;
+    this.k2l_1 = position;
   }
   protoOf(OrderState).x18 = function () {
-    return this.j2l_1;
+    return this.k2l_1;
   };
   var OrderRole_User_instance;
   var OrderRole_entriesInitialized;
@@ -33593,10 +33593,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrderRole(name, ordinal, value) {
     Enum.call(this, name, ordinal);
-    this.m2l_1 = value;
+    this.n2l_1 = value;
   }
   protoOf(OrderRole).toString = function () {
-    return this.m2l_1;
+    return this.n2l_1;
   };
   function s2Order$lambda($this$s2Sourcing) {
     _init_properties_S2Order_kt__tze7r1();
@@ -33868,16 +33868,16 @@ if (typeof Math.imul === 'undefined') {
     }
   }
   function OrderCancelCommand(id) {
-    this.n2l_1 = id;
+    this.o2l_1 = id;
   }
   protoOf(OrderCancelCommand).st = function () {
-    return this.n2l_1;
+    return this.o2l_1;
   };
   protoOf(OrderCancelCommand).toString = function () {
-    return 'OrderCancelCommand(id=' + this.n2l_1 + ')';
+    return 'OrderCancelCommand(id=' + this.o2l_1 + ')';
   };
   protoOf(OrderCancelCommand).hashCode = function () {
-    return getStringHashCode(this.n2l_1);
+    return getStringHashCode(this.o2l_1);
   };
   protoOf(OrderCancelCommand).equals = function (other) {
     if (this === other)
@@ -33885,25 +33885,25 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCancelCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCancelCommand ? other : THROW_CCE();
-    if (!(this.n2l_1 === tmp0_other_with_cast.n2l_1))
+    if (!(this.o2l_1 === tmp0_other_with_cast.o2l_1))
       return false;
     return true;
   };
   function OrderCompleteCommand(id, assetTransactionId, certificate) {
-    this.o2l_1 = id;
-    this.p2l_1 = assetTransactionId;
-    this.q2l_1 = certificate;
+    this.p2l_1 = id;
+    this.q2l_1 = assetTransactionId;
+    this.r2l_1 = certificate;
   }
   protoOf(OrderCompleteCommand).st = function () {
-    return this.o2l_1;
+    return this.p2l_1;
   };
   protoOf(OrderCompleteCommand).toString = function () {
-    return 'OrderCompleteCommand(id=' + this.o2l_1 + ', assetTransactionId=' + this.p2l_1 + ', certificate=' + this.q2l_1 + ')';
+    return 'OrderCompleteCommand(id=' + this.p2l_1 + ', assetTransactionId=' + this.q2l_1 + ', certificate=' + this.r2l_1 + ')';
   };
   protoOf(OrderCompleteCommand).hashCode = function () {
-    var result = getStringHashCode(this.o2l_1);
-    result = imul(result, 31) + getStringHashCode(this.p2l_1) | 0;
-    result = imul(result, 31) + (this.q2l_1 == null ? 0 : this.q2l_1.hashCode()) | 0;
+    var result = getStringHashCode(this.p2l_1);
+    result = imul(result, 31) + getStringHashCode(this.q2l_1) | 0;
+    result = imul(result, 31) + (this.r2l_1 == null ? 0 : this.r2l_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderCompleteCommand).equals = function (other) {
@@ -33912,11 +33912,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderCompleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderCompleteCommand ? other : THROW_CCE();
-    if (!(this.o2l_1 === tmp0_other_with_cast.o2l_1))
-      return false;
     if (!(this.p2l_1 === tmp0_other_with_cast.p2l_1))
       return false;
-    if (!equals(this.q2l_1, tmp0_other_with_cast.q2l_1))
+    if (!(this.q2l_1 === tmp0_other_with_cast.q2l_1))
+      return false;
+    if (!equals(this.r2l_1, tmp0_other_with_cast.r2l_1))
       return false;
     return true;
   };
@@ -33927,16 +33927,16 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_166;
   }
   function OrderDeleteCommand(id) {
-    this.r2l_1 = id;
+    this.s2l_1 = id;
   }
   protoOf(OrderDeleteCommand).st = function () {
-    return this.r2l_1;
+    return this.s2l_1;
   };
   protoOf(OrderDeleteCommand).toString = function () {
-    return 'OrderDeleteCommand(id=' + this.r2l_1 + ')';
+    return 'OrderDeleteCommand(id=' + this.s2l_1 + ')';
   };
   protoOf(OrderDeleteCommand).hashCode = function () {
-    return getStringHashCode(this.r2l_1);
+    return getStringHashCode(this.s2l_1);
   };
   protoOf(OrderDeleteCommand).equals = function (other) {
     if (this === other)
@@ -33944,23 +33944,23 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderDeleteCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderDeleteCommand ? other : THROW_CCE();
-    if (!(this.r2l_1 === tmp0_other_with_cast.r2l_1))
+    if (!(this.s2l_1 === tmp0_other_with_cast.s2l_1))
       return false;
     return true;
   };
   function OrderPendCommand(id, certificate) {
-    this.s2l_1 = id;
-    this.t2l_1 = certificate;
+    this.t2l_1 = id;
+    this.u2l_1 = certificate;
   }
   protoOf(OrderPendCommand).st = function () {
-    return this.s2l_1;
+    return this.t2l_1;
   };
   protoOf(OrderPendCommand).toString = function () {
-    return 'OrderPendCommand(id=' + this.s2l_1 + ', certificate=' + this.t2l_1 + ')';
+    return 'OrderPendCommand(id=' + this.t2l_1 + ', certificate=' + this.u2l_1 + ')';
   };
   protoOf(OrderPendCommand).hashCode = function () {
-    var result = getStringHashCode(this.s2l_1);
-    result = imul(result, 31) + (this.t2l_1 == null ? 0 : this.t2l_1.hashCode()) | 0;
+    var result = getStringHashCode(this.t2l_1);
+    result = imul(result, 31) + (this.u2l_1 == null ? 0 : this.u2l_1.hashCode()) | 0;
     return result;
   };
   protoOf(OrderPendCommand).equals = function (other) {
@@ -33969,50 +33969,50 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPendCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPendCommand ? other : THROW_CCE();
-    if (!(this.s2l_1 === tmp0_other_with_cast.s2l_1))
+    if (!(this.t2l_1 === tmp0_other_with_cast.t2l_1))
       return false;
-    if (!equals(this.t2l_1, tmp0_other_with_cast.t2l_1))
+    if (!equals(this.u2l_1, tmp0_other_with_cast.u2l_1))
       return false;
     return true;
   };
   function OrderPlaceCommandDTO() {
   }
   function OrderPlaceCommand(from, to, by, poolId, quantity, type) {
-    this.w2l_1 = from;
-    this.x2l_1 = to;
-    this.y2l_1 = by;
-    this.z2l_1 = poolId;
-    this.a2m_1 = quantity;
-    this.b2m_1 = type;
+    this.x2l_1 = from;
+    this.y2l_1 = to;
+    this.z2l_1 = by;
+    this.a2m_1 = poolId;
+    this.b2m_1 = quantity;
+    this.c2m_1 = type;
   }
   protoOf(OrderPlaceCommand).s15 = function () {
-    return this.w2l_1;
-  };
-  protoOf(OrderPlaceCommand).t15 = function () {
     return this.x2l_1;
   };
-  protoOf(OrderPlaceCommand).u2l = function () {
+  protoOf(OrderPlaceCommand).t15 = function () {
     return this.y2l_1;
   };
-  protoOf(OrderPlaceCommand).c1s = function () {
+  protoOf(OrderPlaceCommand).v2l = function () {
     return this.z2l_1;
   };
-  protoOf(OrderPlaceCommand).v2l = function () {
+  protoOf(OrderPlaceCommand).c1s = function () {
     return this.a2m_1;
   };
-  protoOf(OrderPlaceCommand).ut = function () {
+  protoOf(OrderPlaceCommand).w2l = function () {
     return this.b2m_1;
   };
+  protoOf(OrderPlaceCommand).ut = function () {
+    return this.c2m_1;
+  };
   protoOf(OrderPlaceCommand).toString = function () {
-    return 'OrderPlaceCommand(from=' + this.w2l_1 + ', to=' + this.x2l_1 + ', by=' + this.y2l_1 + ', poolId=' + this.z2l_1 + ', quantity=' + this.a2m_1 + ', type=' + this.b2m_1 + ')';
+    return 'OrderPlaceCommand(from=' + this.x2l_1 + ', to=' + this.y2l_1 + ', by=' + this.z2l_1 + ', poolId=' + this.a2m_1 + ', quantity=' + this.b2m_1 + ', type=' + this.c2m_1 + ')';
   };
   protoOf(OrderPlaceCommand).hashCode = function () {
-    var result = this.w2l_1 == null ? 0 : getStringHashCode(this.w2l_1);
-    result = imul(result, 31) + (this.x2l_1 == null ? 0 : getStringHashCode(this.x2l_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.y2l_1) | 0;
-    result = imul(result, 31) + (this.z2l_1 == null ? 0 : getStringHashCode(this.z2l_1)) | 0;
-    result = imul(result, 31) + this.a2m_1.hashCode() | 0;
+    var result = this.x2l_1 == null ? 0 : getStringHashCode(this.x2l_1);
+    result = imul(result, 31) + (this.y2l_1 == null ? 0 : getStringHashCode(this.y2l_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.z2l_1) | 0;
+    result = imul(result, 31) + (this.a2m_1 == null ? 0 : getStringHashCode(this.a2m_1)) | 0;
     result = imul(result, 31) + this.b2m_1.hashCode() | 0;
+    result = imul(result, 31) + this.c2m_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlaceCommand).equals = function (other) {
@@ -34021,17 +34021,17 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlaceCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlaceCommand ? other : THROW_CCE();
-    if (!(this.w2l_1 == tmp0_other_with_cast.w2l_1))
-      return false;
     if (!(this.x2l_1 == tmp0_other_with_cast.x2l_1))
       return false;
-    if (!(this.y2l_1 === tmp0_other_with_cast.y2l_1))
+    if (!(this.y2l_1 == tmp0_other_with_cast.y2l_1))
       return false;
-    if (!(this.z2l_1 == tmp0_other_with_cast.z2l_1))
+    if (!(this.z2l_1 === tmp0_other_with_cast.z2l_1))
       return false;
-    if (!this.a2m_1.equals(tmp0_other_with_cast.a2m_1))
+    if (!(this.a2m_1 == tmp0_other_with_cast.a2m_1))
       return false;
     if (!this.b2m_1.equals(tmp0_other_with_cast.b2m_1))
+      return false;
+    if (!this.c2m_1.equals(tmp0_other_with_cast.c2m_1))
       return false;
     return true;
   };
@@ -34041,7 +34041,7 @@ if (typeof Math.imul === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp.c2m_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_6())];
+    tmp.d2m_1 = [null, null, null, null, null, null, null, createSimpleEnumSerializer('io.komune.registry.s2.asset.domain.model.AssetTransactionType', values_6())];
   }
   var Companion_instance_167;
   function Companion_getInstance_167() {
@@ -34051,33 +34051,33 @@ if (typeof Math.imul === 'undefined') {
   }
   function OrderPlacedEvent(id, date, poolId, from, to, by, quantity, type) {
     Companion_getInstance_167();
-    this.d2m_1 = id;
-    this.e2m_1 = date;
-    this.f2m_1 = poolId;
-    this.g2m_1 = from;
-    this.h2m_1 = to;
-    this.i2m_1 = by;
-    this.j2m_1 = quantity;
-    this.k2m_1 = type;
+    this.e2m_1 = id;
+    this.f2m_1 = date;
+    this.g2m_1 = poolId;
+    this.h2m_1 = from;
+    this.i2m_1 = to;
+    this.j2m_1 = by;
+    this.k2m_1 = quantity;
+    this.l2m_1 = type;
   }
   protoOf(OrderPlacedEvent).st = function () {
-    return this.d2m_1;
-  };
-  protoOf(OrderPlacedEvent).q18 = function () {
     return this.e2m_1;
   };
+  protoOf(OrderPlacedEvent).q18 = function () {
+    return this.f2m_1;
+  };
   protoOf(OrderPlacedEvent).toString = function () {
-    return 'OrderPlacedEvent(id=' + this.d2m_1 + ', date=' + this.e2m_1.toString() + ', poolId=' + this.f2m_1 + ', from=' + this.g2m_1 + ', to=' + this.h2m_1 + ', by=' + this.i2m_1 + ', quantity=' + this.j2m_1 + ', type=' + this.k2m_1 + ')';
+    return 'OrderPlacedEvent(id=' + this.e2m_1 + ', date=' + this.f2m_1.toString() + ', poolId=' + this.g2m_1 + ', from=' + this.h2m_1 + ', to=' + this.i2m_1 + ', by=' + this.j2m_1 + ', quantity=' + this.k2m_1 + ', type=' + this.l2m_1 + ')';
   };
   protoOf(OrderPlacedEvent).hashCode = function () {
-    var result = getStringHashCode(this.d2m_1);
-    result = imul(result, 31) + this.e2m_1.hashCode() | 0;
-    result = imul(result, 31) + (this.f2m_1 == null ? 0 : getStringHashCode(this.f2m_1)) | 0;
+    var result = getStringHashCode(this.e2m_1);
+    result = imul(result, 31) + this.f2m_1.hashCode() | 0;
     result = imul(result, 31) + (this.g2m_1 == null ? 0 : getStringHashCode(this.g2m_1)) | 0;
     result = imul(result, 31) + (this.h2m_1 == null ? 0 : getStringHashCode(this.h2m_1)) | 0;
-    result = imul(result, 31) + getStringHashCode(this.i2m_1) | 0;
-    result = imul(result, 31) + this.j2m_1.hashCode() | 0;
+    result = imul(result, 31) + (this.i2m_1 == null ? 0 : getStringHashCode(this.i2m_1)) | 0;
+    result = imul(result, 31) + getStringHashCode(this.j2m_1) | 0;
     result = imul(result, 31) + this.k2m_1.hashCode() | 0;
+    result = imul(result, 31) + this.l2m_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderPlacedEvent).equals = function (other) {
@@ -34086,37 +34086,37 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderPlacedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderPlacedEvent ? other : THROW_CCE();
-    if (!(this.d2m_1 === tmp0_other_with_cast.d2m_1))
+    if (!(this.e2m_1 === tmp0_other_with_cast.e2m_1))
       return false;
-    if (!this.e2m_1.equals(tmp0_other_with_cast.e2m_1))
-      return false;
-    if (!(this.f2m_1 == tmp0_other_with_cast.f2m_1))
+    if (!this.f2m_1.equals(tmp0_other_with_cast.f2m_1))
       return false;
     if (!(this.g2m_1 == tmp0_other_with_cast.g2m_1))
       return false;
     if (!(this.h2m_1 == tmp0_other_with_cast.h2m_1))
       return false;
-    if (!(this.i2m_1 === tmp0_other_with_cast.i2m_1))
+    if (!(this.i2m_1 == tmp0_other_with_cast.i2m_1))
       return false;
-    if (!this.j2m_1.equals(tmp0_other_with_cast.j2m_1))
+    if (!(this.j2m_1 === tmp0_other_with_cast.j2m_1))
       return false;
     if (!this.k2m_1.equals(tmp0_other_with_cast.k2m_1))
+      return false;
+    if (!this.l2m_1.equals(tmp0_other_with_cast.l2m_1))
       return false;
     return true;
   };
   function OrderSubmitCommandDTO() {
   }
   function OrderSubmitCommand(id) {
-    this.l2m_1 = id;
+    this.m2m_1 = id;
   }
   protoOf(OrderSubmitCommand).st = function () {
-    return this.l2m_1;
+    return this.m2m_1;
   };
   protoOf(OrderSubmitCommand).toString = function () {
-    return 'OrderSubmitCommand(id=' + this.l2m_1 + ')';
+    return 'OrderSubmitCommand(id=' + this.m2m_1 + ')';
   };
   protoOf(OrderSubmitCommand).hashCode = function () {
-    return getStringHashCode(this.l2m_1);
+    return getStringHashCode(this.m2m_1);
   };
   protoOf(OrderSubmitCommand).equals = function (other) {
     if (this === other)
@@ -34124,33 +34124,33 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderSubmitCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderSubmitCommand ? other : THROW_CCE();
-    if (!(this.l2m_1 === tmp0_other_with_cast.l2m_1))
+    if (!(this.m2m_1 === tmp0_other_with_cast.m2m_1))
       return false;
     return true;
   };
   function OrderUpdateCommandDTO() {
   }
   function OrderUpdateCommand(id, poolId, quantity) {
-    this.m2m_1 = id;
-    this.n2m_1 = poolId;
-    this.o2m_1 = quantity;
+    this.n2m_1 = id;
+    this.o2m_1 = poolId;
+    this.p2m_1 = quantity;
   }
   protoOf(OrderUpdateCommand).st = function () {
-    return this.m2m_1;
-  };
-  protoOf(OrderUpdateCommand).c1s = function () {
     return this.n2m_1;
   };
-  protoOf(OrderUpdateCommand).v2l = function () {
+  protoOf(OrderUpdateCommand).c1s = function () {
     return this.o2m_1;
   };
+  protoOf(OrderUpdateCommand).w2l = function () {
+    return this.p2m_1;
+  };
   protoOf(OrderUpdateCommand).toString = function () {
-    return 'OrderUpdateCommand(id=' + this.m2m_1 + ', poolId=' + this.n2m_1 + ', quantity=' + this.o2m_1 + ')';
+    return 'OrderUpdateCommand(id=' + this.n2m_1 + ', poolId=' + this.o2m_1 + ', quantity=' + this.p2m_1 + ')';
   };
   protoOf(OrderUpdateCommand).hashCode = function () {
-    var result = getStringHashCode(this.m2m_1);
-    result = imul(result, 31) + (this.n2m_1 == null ? 0 : getStringHashCode(this.n2m_1)) | 0;
-    result = imul(result, 31) + this.o2m_1.hashCode() | 0;
+    var result = getStringHashCode(this.n2m_1);
+    result = imul(result, 31) + (this.o2m_1 == null ? 0 : getStringHashCode(this.o2m_1)) | 0;
+    result = imul(result, 31) + this.p2m_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdateCommand).equals = function (other) {
@@ -34159,11 +34159,11 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdateCommand))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdateCommand ? other : THROW_CCE();
-    if (!(this.m2m_1 === tmp0_other_with_cast.m2m_1))
+    if (!(this.n2m_1 === tmp0_other_with_cast.n2m_1))
       return false;
-    if (!(this.n2m_1 == tmp0_other_with_cast.n2m_1))
+    if (!(this.o2m_1 == tmp0_other_with_cast.o2m_1))
       return false;
-    if (!this.o2m_1.equals(tmp0_other_with_cast.o2m_1))
+    if (!this.p2m_1.equals(tmp0_other_with_cast.p2m_1))
       return false;
     return true;
   };
@@ -34174,25 +34174,25 @@ if (typeof Math.imul === 'undefined') {
     return Companion_instance_168;
   }
   function OrderUpdatedEvent(id, date, poolId, quantity) {
-    this.p2m_1 = id;
-    this.q2m_1 = date;
-    this.r2m_1 = poolId;
-    this.s2m_1 = quantity;
+    this.q2m_1 = id;
+    this.r2m_1 = date;
+    this.s2m_1 = poolId;
+    this.t2m_1 = quantity;
   }
   protoOf(OrderUpdatedEvent).st = function () {
-    return this.p2m_1;
-  };
-  protoOf(OrderUpdatedEvent).q18 = function () {
     return this.q2m_1;
   };
+  protoOf(OrderUpdatedEvent).q18 = function () {
+    return this.r2m_1;
+  };
   protoOf(OrderUpdatedEvent).toString = function () {
-    return 'OrderUpdatedEvent(id=' + this.p2m_1 + ', date=' + this.q2m_1.toString() + ', poolId=' + this.r2m_1 + ', quantity=' + this.s2m_1 + ')';
+    return 'OrderUpdatedEvent(id=' + this.q2m_1 + ', date=' + this.r2m_1.toString() + ', poolId=' + this.s2m_1 + ', quantity=' + this.t2m_1 + ')';
   };
   protoOf(OrderUpdatedEvent).hashCode = function () {
-    var result = getStringHashCode(this.p2m_1);
-    result = imul(result, 31) + this.q2m_1.hashCode() | 0;
-    result = imul(result, 31) + (this.r2m_1 == null ? 0 : getStringHashCode(this.r2m_1)) | 0;
-    result = imul(result, 31) + this.s2m_1.hashCode() | 0;
+    var result = getStringHashCode(this.q2m_1);
+    result = imul(result, 31) + this.r2m_1.hashCode() | 0;
+    result = imul(result, 31) + (this.s2m_1 == null ? 0 : getStringHashCode(this.s2m_1)) | 0;
+    result = imul(result, 31) + this.t2m_1.hashCode() | 0;
     return result;
   };
   protoOf(OrderUpdatedEvent).equals = function (other) {
@@ -34201,13 +34201,13 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof OrderUpdatedEvent))
       return false;
     var tmp0_other_with_cast = other instanceof OrderUpdatedEvent ? other : THROW_CCE();
-    if (!(this.p2m_1 === tmp0_other_with_cast.p2m_1))
+    if (!(this.q2m_1 === tmp0_other_with_cast.q2m_1))
       return false;
-    if (!this.q2m_1.equals(tmp0_other_with_cast.q2m_1))
+    if (!this.r2m_1.equals(tmp0_other_with_cast.r2m_1))
       return false;
-    if (!(this.r2m_1 == tmp0_other_with_cast.r2m_1))
+    if (!(this.s2m_1 == tmp0_other_with_cast.s2m_1))
       return false;
-    if (!this.s2m_1.equals(tmp0_other_with_cast.s2m_1))
+    if (!this.t2m_1.equals(tmp0_other_with_cast.t2m_1))
       return false;
     return true;
   };
@@ -34631,7 +34631,7 @@ if (typeof Math.imul === 'undefined') {
       var tmp_0;
       if (_this__u8e3s4.isPrivate) {
         var tmp0_safe_receiver = _this__u8e3s4.proponent;
-        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.f2n_1) == authedUser.memberOf);
+        tmp_0 = !((tmp0_safe_receiver == null ? null : tmp0_safe_receiver.g2n_1) == authedUser.memberOf);
       } else {
         tmp_0 = false;
       }
@@ -35607,13 +35607,13 @@ if (typeof Math.imul === 'undefined') {
     return this.t15();
   });
   defineProp(protoOf(OrderPlaceCommand), 'by', function () {
-    return this.u2l();
+    return this.v2l();
   });
   defineProp(protoOf(OrderPlaceCommand), 'poolId', function () {
     return this.c1s();
   });
   defineProp(protoOf(OrderPlaceCommand), 'quantity', function () {
-    return this.v2l();
+    return this.w2l();
   });
   defineProp(protoOf(OrderPlaceCommand), 'type', function () {
     return this.ut();
@@ -35632,7 +35632,7 @@ if (typeof Math.imul === 'undefined') {
     return this.c1s();
   });
   defineProp(protoOf(OrderUpdateCommand), 'quantity', function () {
-    return this.v2l();
+    return this.w2l();
   });
   protoOf(OrderUpdatedEvent).s2Id = s2Id;
   defineProp(protoOf(OrderUpdatedEvent), 'id', function () {

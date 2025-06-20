@@ -13,6 +13,7 @@ interface CatalogueStructureDTO {
     val alias: Boolean
     val color: String?
     val isTab: Boolean
+    val isInventory: Boolean
     val illustration: CatalogueIllustrationType?
     val creationForm: FormDTO?
     val metadataForm: FormDTO?
@@ -26,6 +27,7 @@ data class CatalogueStructureDTOBase(
     override val alias: Boolean = false,
     override val color: String?,
     override val isTab: Boolean = false,
+    override val isInventory: Boolean = false,
     override val illustration: CatalogueIllustrationType?,
     override val creationForm: Form?,
     override val metadataForm: Form?,
