@@ -319,6 +319,12 @@ class PreparseScript(
                         appendLine()
                         appendLine(fieldValue)
                     }
+                    FieldType.TEXT_FILE -> {
+                        val file = downloadFile(fieldValue, fileInContext(field.field, resourcesDir).path)
+                            ?: return@forEach
+                        appendLine()
+                        appendLine(file.readText())
+                    }
                     FieldType.IMAGE -> {
                         val file = downloadFile(fieldValue, fileInContext(field.field, resourcesDir).path)
                             ?: return@forEach

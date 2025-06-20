@@ -33,7 +33,7 @@ interface CatalogueListAllowedTypesQueryDTO {
  * @d2 inherit
  */
 @Serializable
-class CatalogueListAllowedTypesQuery(
+data class CatalogueListAllowedTypesQuery(
     override val language: Language,
     override val operation: CatalogueOperation,
     override val catalogueType: CatalogueType?,

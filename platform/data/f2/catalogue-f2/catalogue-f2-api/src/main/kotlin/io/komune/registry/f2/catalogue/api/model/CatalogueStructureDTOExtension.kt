@@ -19,6 +19,7 @@ suspend fun CatalogueStructureModel.toDTO(
     alias = alias,
     color = color,
     isTab = isTab,
+    isInventory = isInventory,
     illustration = illustration,
     creationForm = creationForm,
     metadataForm = metadataForm,

@@ -87,7 +87,7 @@ enum class DatasetMediaSource {
 }
 
 enum class FieldType {
-    TEXT, IMAGE
+    TEXT, TEXT_FILE, IMAGE
 }
 
 data class CataloguePreparseDatasetIndicatorsMapping(
