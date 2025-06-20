@@ -260,7 +260,6 @@ class ImportScript(
         val existing = importRepository.getCatalogue(catalogueData)
         if (existing != null) {
             logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
-            importContext.registerCatalogue(existing)
             catalogueData.initChildren?.forEach { childCatalogueData ->
                 importCatalogue(childCatalogueData, importContext, parentId = existing.id)
             }
@@ -462,7 +461,7 @@ class ImportScript(
             }
 
             logger.info("($index/$size) Linking [${catalogueId} -> $parentIdentifier]")
-            val parentId = parentIdentifier?.let { importContext.catalogueIds[it] }
+            val parentId = parentIdentifier?.let { importContext.catalogueIds[it] ?: importRepository.getCatalogue(it)?.id }
                 ?: run {
                     if (importContext.settings.useDefaultIfUnknownParent) {
                         val defaultParentId = getDefaultParentId(catalogueId, importContext)

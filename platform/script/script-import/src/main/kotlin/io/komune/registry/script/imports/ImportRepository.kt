@@ -299,10 +299,15 @@ class ImportRepository(
     }
 
     suspend fun getCatalogue(catalogueData: CatalogueImportData): CatalogueDTOBase? {
+        return getCatalogue(catalogueData.identifier)
+    }
+
+    suspend fun getCatalogue(catalogueIdentifier: CatalogueIdentifier): CatalogueDTOBase? {
         try {
-            return CatalogueGetByIdentifierQuery(catalogueData.identifier, null)
+            return CatalogueGetByIdentifierQuery(catalogueIdentifier, null)
                 .invokeWith(dataClient.catalogue.catalogueGetByIdentifier())
                 .item
+                ?.also { importContext.registerCatalogue(it) }
         } catch (e: F2Exception) {
             logger.error(e.error.message, e)
             return null
