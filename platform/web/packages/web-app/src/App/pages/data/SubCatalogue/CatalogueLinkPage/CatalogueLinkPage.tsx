@@ -2,9 +2,9 @@ import { Box, CircularProgress, Dialog, IconButton, Stack, Typography } from '@m
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 import { LabeledSwitch, useRefetchOnDismount, useRoutesDefinition, useUrlSavedState } from 'components'
 import {
+  AutoCatalogueTable,
   CatalogueSearchFilters,
   CatalogueSearchQuery,
-  CatalogueTable,
   useCatalogueAddRelatedCataloguesCommand,
   useCatalogueGetQuery,
   useCatalogueRemoveRelatedCataloguesCommand,
@@ -19,7 +19,7 @@ import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useDebouncedValue } from '@mantine/hooks'
-
+import autoTable from "./AutoTable.json"
 
 export const CatalogueLinkPage = () => {
   const { t, i18n } = useTranslation()
@@ -230,7 +230,7 @@ export const CatalogueLinkPage = () => {
           }}
         >
           {component}
-          <CatalogueTable
+          <AutoCatalogueTable
             page={data}
             pagination={pagination}
             isLoading={isFetching || getSubCatalogue.isFetching}
@@ -241,6 +241,8 @@ export const CatalogueLinkPage = () => {
             rowSelection={rowSelection}
             onRowSelectionChange={onRowSelectionChange}
             expectedSize={20}
+            //@ts-ignore
+            tableComposable={autoTable}
           />
         </Stack>
       </Stack>
