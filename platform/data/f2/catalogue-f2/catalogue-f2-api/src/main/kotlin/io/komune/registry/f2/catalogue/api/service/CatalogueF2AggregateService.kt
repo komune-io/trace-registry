@@ -955,7 +955,9 @@ class CatalogueF2AggregateService(
             }
 
         val distribution = metadataDataset.distributions.first()
-        distribution.aggregators.flatMap { (conceptId, valueIds) ->
+        distribution.aggregators
+            .filter { (conceptId) -> conceptId in indicators }
+            .flatMap { (conceptId, valueIds) ->
             valueIds.map { valueId ->
                 DatasetRemoveDistributionValueCommandDTOBase(
                     id = metadataDataset.id,
