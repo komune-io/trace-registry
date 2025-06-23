@@ -36,7 +36,7 @@ internal class CatalogueCacheContext(
     }
 
     val dataUnits = SimpleCache(cccevFinderService::getUnit)
-    val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+    val informationConcepts = SimpleCache(cccevFinderService::getConceptOrNull)
     val supportedValues = SimpleCache(cccevFinderService::getValue)
 
     val themes = SimpleCache(conceptFinderService::get)

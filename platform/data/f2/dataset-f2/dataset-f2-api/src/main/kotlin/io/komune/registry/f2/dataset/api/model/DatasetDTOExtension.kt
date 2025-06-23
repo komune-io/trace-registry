@@ -46,7 +46,7 @@ import io.komune.registry.s2.dataset.domain.model.DistributionModel
 suspend fun DatasetModel.toDTO(
     getDataset: suspend (DatasetId) -> DatasetModel,
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
-    getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
+    getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel?,
     getReferencingCatalogues: suspend (DatasetId) -> List<CatalogueId>,
     getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
     getTheme: suspend (ConceptId) -> ConceptModel
@@ -97,7 +97,7 @@ suspend fun DatasetModel.toDTO(
             valueId?.let {
                 val concept = getInformationConcept(conceptId)
                 val value = getSupportedValue(it.computedValue)
-                concept.toComputedDTO(value, language, "", getTheme, getDataUnit)
+                concept?.toComputedDTO(value, language, "", getTheme, getDataUnit)
             }
         }.sortedBy { it.name },
     )
@@ -130,7 +130,7 @@ fun DatasetModel.toSimpleRefDTO(): DatasetRefDTOBase {
 suspend fun DistributionModel.toDTO(
     language: Language,
     getDataUnit: suspend (DataUnitId) -> DataUnitModel,
-    getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel,
+    getInformationConcept: suspend (InformationConceptId) -> InformationConceptModel?,
     getSupportedValue: suspend (SupportedValueId) -> SupportedValueModel,
     getTheme: suspend (ConceptId) -> ConceptModel
 ) = DistributionDTOBase(
@@ -139,7 +139,7 @@ suspend fun DistributionModel.toDTO(
     downloadPath = downloadPath,
     mediaType = mediaType,
     aggregators = aggregators.flatMap { (conceptId, valueIds) ->
-        val concept = getInformationConcept(conceptId)
+        val concept = getInformationConcept(conceptId) ?: return@flatMap emptyList()
         valueIds.map { valueId ->
             val supportedValue = getSupportedValue(valueId)
             concept.toComputedDTO(supportedValue, language, "", getTheme, getDataUnit)

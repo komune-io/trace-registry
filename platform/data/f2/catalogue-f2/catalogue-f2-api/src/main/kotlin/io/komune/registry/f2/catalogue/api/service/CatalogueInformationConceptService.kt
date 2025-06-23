@@ -38,6 +38,7 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
 
         val types = aggregatedByConcept.flatMap { (conceptId, aggregatedValues) ->
             val aggregatorConcept = cache.informationConcepts.get(conceptId)
+                ?: return@flatMap emptyList()
             if (aggregatorConcept.aggregator == null || aggregatorConcept.unit == null) {
                 return@flatMap emptyList()
             }
@@ -59,6 +60,8 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
 
             dependingValues.mapNotNull { (conceptId, valueIds) ->
                 val concept = cache.informationConcepts.get(conceptId)
+                    ?: return@mapNotNull null
+
                 val supportedValues = valueIds.map { cache.supportedValues.get(it) }
                     .filter { !it.isRange }
                     .map { it.value }
@@ -74,7 +77,7 @@ class CatalogueInformationConceptService : CatalogueCachedService() {
         aggregatorValues.mapNotNull { (conceptId, values) ->
             val concept = cache.informationConcepts.get(conceptId)
 
-            if (concept.aggregator == null || concept.unit == null) {
+            if (concept?.aggregator == null || concept.unit == null) {
                 return@mapNotNull null
             }
 
