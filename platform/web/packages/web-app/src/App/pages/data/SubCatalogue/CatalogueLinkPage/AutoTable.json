@@ -10,15 +10,13 @@
         "label": "Nom",
         "value": "title",
         "sortable": true
-    }, {
-        "type": "type",
-        "label": "Type",
-        "value": "type",
-        "sortable": true
     },{
         "type": "catalogues",
         "label": "Secteurs",
-        "value": "relatedCatalogues.sectors"
+        "value": "relatedCatalogues.sectors",
+        "properties": {
+            "limit": 2
+        }
     },{
         "type": "catalogues",
         "label": "Services",
@@ -34,6 +32,9 @@
         "type": "date",
         "label": "Mise à jour",
         "value": "modified",
+        "style": {
+            "minWidth": "170px"
+        },
         "sortable": true
     }]
 }

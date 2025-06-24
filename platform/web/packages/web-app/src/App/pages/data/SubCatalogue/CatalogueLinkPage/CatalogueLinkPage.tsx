@@ -247,6 +247,9 @@ export const CatalogueLinkPage = () => {
             tableComposable={autoTable}
             sortState={state.sort}
             onSortingChange={changeValueCallback('sort')}
+            sx={{
+              width: "100%",
+            }}
           />
         </Stack>
       </Stack>
