@@ -20,6 +20,7 @@ import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useDebouncedValue } from '@mantine/hooks'
 import autoTable from "./AutoTable.json"
+import { SortOrder } from '@komune-io/g2'
 
 export const CatalogueLinkPage = () => {
   const { t, i18n } = useTranslation()
@@ -37,10 +38,11 @@ export const CatalogueLinkPage = () => {
 
   const queryClient = useQueryClient()
 
-  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean }>({
+  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean, sort: Record<string, SortOrder> }>({
     initialState: {
       limit: 20,
-      offset: 0
+      offset: 0,
+      sort: {}
     }
   })
   
@@ -243,6 +245,8 @@ export const CatalogueLinkPage = () => {
             expectedSize={20}
             //@ts-ignore
             tableComposable={autoTable}
+            sortState={state.sort}
+            onSortingChange={changeValueCallback('sort')}
           />
         </Stack>
       </Stack>

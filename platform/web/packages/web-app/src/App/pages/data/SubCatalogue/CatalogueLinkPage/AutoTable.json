@@ -3,15 +3,18 @@
     "columns": [{
         "type": "identifier",
         "label": "Identifiant",
-        "value": "identifier"
+        "value": "identifier",
+        "sortable": true
     }, {
         "type": "text",
         "label": "Nom",
-        "value": "title"
+        "value": "title",
+        "sortable": true
     }, {
         "type": "type",
         "label": "Type",
-        "value": "type"
+        "value": "type",
+        "sortable": true
     },{
         "type": "catalogues",
         "label": "Secteurs",
@@ -30,6 +33,7 @@
     }, {
         "type": "date",
         "label": "Mise à jour",
-        "value": "modified"
+        "value": "modified",
+        "sortable": true
     }]
 }

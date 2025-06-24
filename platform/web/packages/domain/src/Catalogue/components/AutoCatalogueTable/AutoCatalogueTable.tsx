@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { TableComposable, useTableComposable } from '@komune-io/g2'
+import { TableComposable, useTableComposable, SortOrder } from '@komune-io/g2'
 import { Catalogue, CatalogueRef } from '../../model'
 import { Row, OnChangeFn, RowSelectionState } from '@tanstack/react-table'
 import { useCallback } from "react"
@@ -16,6 +16,8 @@ export interface AutoCatalogueTableProps extends Partial<OffsetTableProps<Catalo
     rowSelection?: RowSelectionState
     onRowSelectionChange?: OnChangeFn<RowSelectionState>
     tableComposable?: TableComposable<Catalogue | CatalogueRef>
+    onSortingChange?: (sorting: Record<string, SortOrder>) => void;
+    sortState?: Record<string, SortOrder>;
 }
 
 export const AutoCatalogueTable = (props: AutoCatalogueTableProps) => {
