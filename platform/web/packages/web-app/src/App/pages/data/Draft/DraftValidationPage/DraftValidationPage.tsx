@@ -35,7 +35,6 @@ export const DraftValidationPage = () => {
   const draft = catalogueDraftQuery.data?.item
 
   useEffect(() => {
-    console.log(draft?.status)
     if (draft && draft.status !== "SUBMITTED") {
       navigate(cataloguesCatalogueIdDraftIdViewTab(catalogueId!, draftId!), { replace: true })
     }
