@@ -374,7 +374,11 @@
     "minOrMaxValueRequired": "El valor mínimo o máximo es obligatorio",
     "noDataset": "No se encontraron conjuntos de datos",
     "integrateInCounter": "Integrar este proyecto en el contador de CO₂",
-    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo"
+    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo",
+    "contributionValidated": "Contribución validada y archivada",
+    "consultPublishedSheet": "Consultar la ficha publicada",
+    "contentAddedToSheet": "Los contenidos de esta contribución han sido integrados en la ficha principal. No es posible realizar más modificaciones en esta versión.",
+    "wishToReAddContent": "Si desea realizar nuevas modificaciones, puede crear un nuevo borrador desde la ficha publicada."
   },
   "editor": {
     "imageUrl": "URL de la imagen",

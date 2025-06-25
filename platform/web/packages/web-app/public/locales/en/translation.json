@@ -373,7 +373,11 @@
     "defineValueRange": "Define a range of values",
     "minOrMaxValueRequired": "Minimum or maximum value is required",
     "integrateInCounter": "Integrate this project into the CO₂ counter",
-    "searchMention": "Enter a URL or search for a sheet to mention it"
+    "searchMention": "Enter a URL or search for a sheet to mention it",
+    "contributionValidated": "Contribution validated and archived",
+    "consultPublishedSheet": "View the published sheet",
+    "contentAddedToSheet": "The contents of this contribution have been integrated into the main sheet. No further modifications are possible on this version.",
+    "wishToReAddContent": "If you wish to make new changes, you can create a new draft from the published sheet."
   },
   "editor": {
     "imageUrl": "Image URL",

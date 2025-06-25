@@ -2,7 +2,7 @@ import { TitleDivider, useRoutesDefinition, SectionTab, Tab } from 'components'
 import { CatalogueValidationHeader, useCatalogueDraftGetQuery, useCatalogueDraftRejectCommand } from 'domain-components'
 import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDraftMutations } from '100m-components';
@@ -15,7 +15,7 @@ export const DraftValidationPage = () => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const { cataloguesToVerify, cataloguesCatalogueIdDraftIdVerifyTab } = useRoutesDefinition()
+  const { cataloguesToVerify, cataloguesCatalogueIdDraftIdVerifyTab, cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
 
   const setTab = useCallback(
     (tab: string) => {
@@ -34,6 +34,12 @@ export const DraftValidationPage = () => {
 
   const draft = catalogueDraftQuery.data?.item
 
+  useEffect(() => {
+    if (draft && draft.status !== "SUBMITTED") {
+      navigate(cataloguesCatalogueIdDraftIdViewTab(catalogueId!, draftId!), { replace: true })
+    }
+  }, [draft])
+
   const { onSaveMetadata, isUpdating } = useDraftMutations({
     refetchDraft: catalogueDraftQuery.refetch,
     catalogue,
@@ -47,11 +53,11 @@ export const DraftValidationPage = () => {
   })
 
   const { onValidate } = useDraftValidations({
-      metadataFormState,
-      refetchDraft: catalogueDraftQuery.refetch,
-      setTab,
-      afterValidateNavigate: cataloguesToVerify(),
-    })
+    metadataFormState,
+    refetchDraft: catalogueDraftQuery.refetch,
+    setTab,
+    afterValidateNavigate: cataloguesToVerify(),
+  })
 
   const title = catalogue?.title ?? t("sheetValidation")
 
@@ -72,6 +78,7 @@ export const DraftValidationPage = () => {
       })
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
         navigate(cataloguesToVerify())
       }
     },
@@ -83,7 +90,7 @@ export const DraftValidationPage = () => {
       title={title}
       basicHeader={false}
       maxWidth={1020}
-      customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} isUpdating={isUpdating} />}
+      customHeader={<CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} isUpdating={isUpdating || catalogueDraftQuery.isFetching} />}
     >
       <TitleDivider title={title} />
       <SectionTab
