@@ -1,4 +1,4 @@
-import { TitleDivider, SectionTab, Tab, useRoutesDefinition } from 'components'
+import { TitleDivider, SectionTab, Tab, useRoutesDefinition, InfoTicket, CustomLinkButton } from 'components'
 import { useCatalogueDraftGetQuery } from 'domain-components'
 import { AppPage } from 'template'
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,13 +6,14 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetadataFormState } from '../DraftEditionPage/useMetadataFormState';
 import { useDraftTabs } from '../DraftEditionPage/useDraftTabs';
+import { Typography } from '@mui/material';
 
 export const DraftViewPage = () => {
   const { catalogueId, draftId, tab } = useParams()
   const { t } = useTranslation()
-  const { cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdViewTab, cataloguesAll } = useRoutesDefinition()
   const navigate = useNavigate()
-  
+
   const setTab = useCallback(
     (tab: string) => {
       navigate(cataloguesCatalogueIdDraftIdViewTab(catalogueId!, draftId!, tab!))
@@ -53,6 +54,30 @@ export const DraftViewPage = () => {
       maxWidth={1020}
     >
       <TitleDivider title={title} />
+      {draft?.status === "VALIDATED" && (
+        <>
+          <InfoTicket
+            title={t("catalogues.contributionValidated")}
+            severity='success'
+          >
+            <CustomLinkButton
+              to={cataloguesAll(catalogueId!)}
+            >
+              {t("catalogues.consultPublishedSheet")}
+            </CustomLinkButton>
+          </InfoTicket>
+          <Typography
+            variant='body2'
+          >
+            {t("catalogues.contentAddedToSheet")}
+          </Typography>
+          <Typography
+            variant='body2'
+          >
+            {t("catalogues.wishToReAddContent")}
+          </Typography>
+        </>
+      )}
       <SectionTab
         keepMounted
         tabs={tabs}
