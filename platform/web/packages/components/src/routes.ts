@@ -11,8 +11,7 @@ const strictRoutesAuthorizations = {
     "transactions": "open",
     "catalogues": "open",
     "catalogues/create/:type": "open",
-    "catalogues/:catalogueId/:draftId/edit/:tab?": "open",
-    "catalogues/:catalogueId/:draftId/view/:tab?": "open",
+    "catalogues/:catalogueId/:draftId/:tab?": "open",
     "catalogues/toVerify": "open",
     "catalogues/contributions": "open",
     "catalogues/myOrganization": "open",
@@ -63,9 +62,20 @@ export const useRoutesDefinition = () => {
       [],
     )
 
+    const draftPage = useCallback(
+      (validation: boolean, catalogueId: string, draftId: string, tab?: string) => {
+       if (validation) {
+          return routesDefinitions.cataloguesCatalogueIdDraftIdVerifyTab(catalogueId, draftId, tab!)
+        }
+        return routesDefinitions.cataloguesCatalogueIdDraftIdTab(catalogueId, draftId, tab!)
+      },
+      [],
+    )
+
     return useMemo(() => ({
         ...routesDefinitions,
         cataloguesAll,
-        cataloguesTab
+        cataloguesTab,
+        draftPage
     }), [cataloguesAll])
 }

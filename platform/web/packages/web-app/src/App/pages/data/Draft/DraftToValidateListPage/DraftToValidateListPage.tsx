@@ -41,7 +41,7 @@ export const DraftToValidateListPage = () => {
                 pagination={pagination}
                 isLoading={isInitialLoading}
                 onOffsetChange={setOffset}
-                toReadOnly={!policies.draft.canAudit()}
+                toVerify={policies.draft.canAudit()}
             />
         </AppPage>
     )

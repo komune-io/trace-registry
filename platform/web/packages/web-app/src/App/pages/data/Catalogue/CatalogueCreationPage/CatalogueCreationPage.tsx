@@ -12,7 +12,7 @@ export const CatalogueCreationPage = () => {
   const { i18n } = useTranslation()
 
   const navigate = useNavigate()
-  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdTab } = useRoutesDefinition()
 
   const structure = useCatalogueGetStructureQuery({
     query: {
@@ -43,7 +43,7 @@ export const CatalogueCreationPage = () => {
 
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-        navigate(cataloguesCatalogueIdDraftIdEditTab(res.id, res.draftId!))
+        navigate(cataloguesCatalogueIdDraftIdTab(res.id, res.draftId!))
       }
     },
     [createCommand.mutateAsync, type, i18n.language],

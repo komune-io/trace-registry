@@ -19,7 +19,7 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
     const { i18n } = useTranslation()
     const queryClient = useQueryClient()
     const navigate = useNavigate()
-    const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdTab } = useRoutesDefinition()
     const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
     const [draftLoading, setDraftLoading] = useState(false)
 
@@ -65,7 +65,7 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogue.id }] })
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: catalogue.identifier }] })
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
-                navigate(cataloguesCatalogueIdDraftIdEditTab(catalogue.id, res.item?.id))
+                navigate(cataloguesCatalogueIdDraftIdTab(catalogue.id, res.item?.id))
             }
         },
         [catalogue?.id, i18n.language, createDraft.mutateAsync, navigate, currentLanguageDraft,],

@@ -4,6 +4,7 @@ import {
   convertRelatedCataloguesToIds,
   Dataset,
   findLexicalDataset,
+  useCatalogueDeleteCommand,
   useCatalogueDraftDeleteCommand,
   useCatalogueUpdateCommand,
   useDatasetAddJsonDistributionCommand,
@@ -109,26 +110,48 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     [saveLexicalDistribution],
   )
   
-  const deleteCatalogue = useCatalogueDraftDeleteCommand({})
+  const deleteDraft = useCatalogueDraftDeleteCommand({})
 
-  const onDelete = useCallback(
+  const onDeleteDraft = useCallback(
     async () => {
-      const res = await deleteCatalogue.mutateAsync({
+      const res = await deleteDraft.mutateAsync({
         id: draftId!,
       })
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: catalogueId! }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         navigate(cataloguesContributions())
       }
     },
-    [deleteCatalogue.mutateAsync, draftId, catalogueId, queryClient.invalidateQueries],
+    [deleteDraft.mutateAsync, draftId, catalogueId, queryClient.invalidateQueries],
   )
+
+  const deleteCatalogue = useCatalogueDeleteCommand({})
+  
+    const onDeleteCatalogue = useCallback(
+      async () => {
+        const res = await deleteCatalogue.mutateAsync({
+          id: catalogueId!
+        })
+        if (res) {
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: catalogueId! }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+          queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
+          navigate(cataloguesContributions())
+        }
+      },
+      [catalogueId],
+    )
 
   return {
     onSaveMetadata,
-    onDelete,
+    onDeleteDraft,
     onSectionChange,
+    onDeleteCatalogue,
     isUpdating
   }
 }

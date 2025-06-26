@@ -89,13 +89,12 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
     isLoading?: boolean
     withStatus?: boolean
     withOperation?: boolean
-    toEdit?: boolean
-    toReadOnly?: boolean
+    toVerify?: boolean
 }
 
 export const DraftTable = (props: DraftTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, toReadOnly = false, ...other } = props
-    const { cataloguesCatalogueIdDraftIdVerifyTab, cataloguesCatalogueIdDraftIdEditTab, cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
+    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toVerify = false, ...other } = props
+    const { draftPage } = useRoutesDefinition()
     const { t } = useTranslation()
 
     const columns = useDraftColumn(withStatus, withOperation)
@@ -107,24 +106,11 @@ export const DraftTable = (props: DraftTableProps) => {
 
     const getRowLink = useCallback(
         (row: Row<CatalogueDraft>) => {
-            let url: string | undefined = undefined
-            if (toReadOnly) {
-                url = cataloguesCatalogueIdDraftIdViewTab(row.original.originalCatalogueId, row.original.id)
-            } else if (!toEdit) {
-                url = cataloguesCatalogueIdDraftIdVerifyTab(row.original.originalCatalogueId, row.original.id)
-            } else {
-                const status = row.original.status
-                if (status === "VALIDATED") {
-                    url = cataloguesCatalogueIdDraftIdViewTab(row.original.originalCatalogueId, row.original.id)
-                } else {
-                    url = cataloguesCatalogueIdDraftIdEditTab(row.original.originalCatalogueId, row.original.id)
-                }
-            }
             return {
-                to: url,
+                to: draftPage(toVerify, row.original.catalogue.id, row.original.id, "metadata"),
             }
         },
-        [toEdit, toReadOnly],
+        [toVerify],
     )
 
     return (

@@ -12,11 +12,11 @@ export interface useDraftTabsParams {
   metadataFormState: FormComposableState
   isLoading?: boolean
   onSectionChange?: (editorState: EditorState, dataset?: Dataset) => void
-  readOnly?: boolean
+  readOnlyTabs: Record<string, boolean>
 }
 
 export const useDraftTabs = (props: useDraftTabsParams) => {
-  const { metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnly = false, formData } = props
+  const { metadataFormState, catalogue, draft, isLoading, onSectionChange, readOnlyTabs, formData } = props
   const { t } = useTranslation()
  
 
@@ -30,11 +30,11 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       let component: React.ReactNode | undefined = undefined
 
       if (dataset.type === "lexical") {
-        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={readOnly} catalogue={catalogue} dataset={dataset} />
+        component = <CatalogueSections isLoading={isLoading} onSectionChange={onSectionChange} readOnly={readOnlyTabs[dataset.type]} catalogue={catalogue} dataset={dataset} />
       } else if (dataset.type === "graphs") {
-        component = <DraftGraphManager dataset={dataset} draft={draft} readOnly={readOnly} />
+        component = <DraftGraphManager dataset={dataset} draft={draft} readOnly={readOnlyTabs[dataset.type]} />
       } else if (dataset.type === "indicators") {
-        component = <DraftIndicatorManager dataset={dataset} draft={draft} readOnly={readOnly} />
+        component = <DraftIndicatorManager dataset={dataset} draft={draft} readOnly={readOnlyTabs[dataset.type]} />
       } 
 
       if (component) {
@@ -50,7 +50,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       let component: React.ReactNode | undefined = undefined
 
       if (catalogue.structure?.type === "FACTORY") {
-        component = <SubCataloguesManager catalogue={catalogue} readOnly={readOnly} />
+        component = <SubCataloguesManager catalogue={catalogue} readOnly={readOnlyTabs[catalogue.structure.type]} />
       } 
 
       if (component) {
@@ -64,5 +64,5 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
     }) ?? []).filter(Boolean) as Tab[]
     ]
     return tabs
-  }, [t, catalogue, metadataFormState, onSectionChange, isLoading, draft, readOnly, formData])
+  }, [t, catalogue, metadataFormState, onSectionChange, isLoading, draft, readOnlyTabs, formData])
 }
