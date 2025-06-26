@@ -1,6 +1,6 @@
-import {CatalogueDraft, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand} from 'domain-components'
+import {CatalogueDraft, useCatalogueDraftRejectCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand} from 'domain-components'
 import {useCallback} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import {useQueryClient} from '@tanstack/react-query';
 import {useRoutesDefinition} from 'components'
 import {FormComposableState} from '@komune-io/g2';
@@ -17,7 +17,8 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
   const { draft, refetchDraft, afterValidateNavigate, metadataFormState, setTab } = params
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const { cataloguesContributions } = useRoutesDefinition()
+  const { cataloguesContributions, cataloguesToVerify } = useRoutesDefinition()
+  const { catalogueId, draftId } = useParams<{ catalogueId: string, draftId: string }>()
 
   const validateDraft = useCatalogueDraftValidateCommand({})
 
@@ -80,9 +81,26 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
 
   )
 
+  const rejectDraft = useCatalogueDraftRejectCommand({})
+  
+    const onReject = useCallback(
+      async (reason: string) => {
+        const res = await rejectDraft.mutateAsync({
+          id: draftId!,
+          reason
+        })
+        if (res) {
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+          navigate(cataloguesToVerify())
+        }
+      },
+      [catalogueId, draftId],
+    )
+
   return {
     onValidate,
     onSubmit,
-    validateMetadata
+    validateMetadata,
+    onReject
   }
 }

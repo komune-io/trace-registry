@@ -29,7 +29,7 @@ export const CatalogueLinkPage = () => {
   const previouslySavedRowSelection = useRef<RowSelectionState | undefined>(undefined)
   const [isSaving, setIsSaving] = useState(false)
   const { catalogueId, draftId, tabId, subCatalogueId } = useParams()
-  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftIdTab } = useRoutesDefinition()
   const { submittedFilters, component } = useCataloguesFilters({
     withPage: false,
     noType: true,
@@ -136,7 +136,7 @@ export const CatalogueLinkPage = () => {
 
   const onClose = useCallback(
     () => {
-      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tabId!))
+      navigate(cataloguesCatalogueIdDraftIdTab(catalogueId!, draftId!, tabId!))
     },
     [navigate, catalogueId, draftId, tabId],
   )
@@ -188,7 +188,7 @@ export const CatalogueLinkPage = () => {
         <Box flex={1} />
         <IconButton
           component={Link}
-          to={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, tabId!)}
+          to={cataloguesCatalogueIdDraftIdTab(catalogueId!, draftId!, tabId!)}
           sx={{
             color: "rgba(0, 0, 0, 0.54) !important",
           }}
