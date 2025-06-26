@@ -4,7 +4,6 @@
     "sector": "Secteur",
     "service": "Service",
     "-------------------------- /TMP --------------------------": "",
-
     "BIODIV": "BIODIV",
     "dashboard": "Tableau de bord",
     "organizations": "Organisations",
@@ -381,6 +380,10 @@
         "noDataset": "Aucun jeu de données n'a été trouvé",
         "integrateInCounter": "Intégrer ce projet au compteur CO₂",
         "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner",
+        "contributionValidated": "Contribution validée et archivée",
+        "consultPublishedSheet": "Consulter la fiche publiée",
+        "contentAddedToSheet": "Les contenus de cette contribution ont été intégrés à la fiche principale. Aucune modification supplémentaire n’est possible sur cette version.",
+        "wishToReAddContent": "Si vous souhaitez apporter de nouvelles modifications, vous pouvez créer un nouveau brouillon depuis la fiche publiée.",
         "createSubCatalogue": "Créer un sous-catalogue",
         "noSubCatalogue": "Aucun sous catalogue associé à cette fiche",
         "createSubCatalogueDescription": "Définissez ici un nouveau sous-catalogue à rattacher à cette fiche.\n\nVous pourrez choisir le type de fiche à associer, son nom, son affichage, ainsi que ses règles de visibilité.",

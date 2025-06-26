@@ -1,4 +1,4 @@
-import { createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition, WarningTicket } from 'components'
+import { createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition } from 'components'
 import {
   CatalogueEditionHeader,
   CatalogueValidationHeader,
@@ -9,13 +9,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMetadataFormState } from './useMetadataFormState';
-import { CircularProgress, Typography } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { useDraftTabs } from './useDraftTabs';
 import { useDraftValidations } from './useDraftValidations';
 import { useDraftMutations } from './useDraftMutations';
 import { useDraftFormData } from './useDraftFormData';
 import { DraftLanguageSelector } from './DraftLanguageSelector';
 import { DraftTitle } from './DraftTitle';
+import { ValidatedDraftInfo } from './ValidatedDraftInfo';
+import { RejectedDraftInfo } from './RejectedDraftInfo';
 
 export interface DraftPageProps {
   validation?: boolean
@@ -135,17 +137,8 @@ export const DraftPage = (props: DraftPageProps) => {
         title={title}
         validateMetadata={validateMetadata}
       />
-      {draft?.status == "REJECTED" && <WarningTicket
-        severity='error'
-        title={t("catalogues.validatorComment")}
-      >
-        <Typography
-          color='error'
-        >
-          {draft?.rejectReason ?? ""}
-        </Typography>
-      </WarningTicket>
-      }
+      {draft?.status === "VALIDATED" && <ValidatedDraftInfo />}
+      {draft?.status == "REJECTED" && <RejectedDraftInfo draft={draft} />}
       {canUdateDraft && !canValidate && <DraftLanguageSelector
         isLoading={isLoading}
         refetchDraft={catalogueDraftQuery.refetch}
