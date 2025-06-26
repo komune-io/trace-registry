@@ -1,6 +1,6 @@
 import {PageRoute} from "App/routes";
 import {CatalogueCreationPage} from "./Catalogue/CatalogueCreationPage/CatalogueCreationPage";
-import {DraftPage} from "./Draft/DraftEditionPage/DraftPage";
+import {DraftPage} from "./Draft/DraftPage/DraftPage";
 import {DraftToValidateListPage} from "./Draft/DraftToValidateListPage/DraftToValidateListPage";
 import {ContributionListPage} from "./Catalogue/ContributionListPage/ContributionListPage";
 import {OrganizationCataloguesPage} from "./Catalogue/OrganizationCataloguesPage/OrganizationCataloguesPage";
