@@ -77,5 +77,5 @@ export const useRoutesDefinition = () => {
         cataloguesAll,
         cataloguesTab,
         draftPage
-    }), [cataloguesAll])
+    }), [cataloguesAll, cataloguesTab, draftPage])
 }

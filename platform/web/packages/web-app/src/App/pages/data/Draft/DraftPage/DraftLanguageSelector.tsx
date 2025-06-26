@@ -51,7 +51,6 @@ export const DraftLanguageSelector = (props: DraftLanguageSelectorProps) => {
 
     return (
         <LanguageSelector
-            //@ts-ignore
             languages={languages}
             currentLanguage={draft?.language}
             onChange={onChangeLanguage}

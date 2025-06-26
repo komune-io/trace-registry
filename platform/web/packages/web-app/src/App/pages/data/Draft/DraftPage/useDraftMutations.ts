@@ -40,7 +40,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
       refetchDraft()
     },
-    [queryClient.invalidateQueries],
+    [],
   )
 
 
@@ -124,7 +124,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         navigate(cataloguesContributions())
       }
     },
-    [deleteDraft.mutateAsync, draftId, catalogueId, queryClient.invalidateQueries],
+    [draftId, catalogueId],
   )
 
   const deleteCatalogue = useCatalogueDeleteCommand({})

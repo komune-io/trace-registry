@@ -94,7 +94,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
           navigate(cataloguesToVerify())
         }
       },
-      [catalogueId],
+      [catalogueId, draftId],
     )
 
   return {
