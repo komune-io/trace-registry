@@ -14,12 +14,11 @@ const strictRoutesAuthorizations = {
     "catalogues/create/system": "open",
     "catalogues/create/sector": "open",
     "catalogues/create/project": "open",
-    "catalogues/:catalogueId/:draftId/edit/:tab?": "open",
-    "catalogues/:catalogueId/:draftId/view/:tab?": "open",
+    "catalogues/:catalogueId/:draftId/:tab?": "open",
+    "catalogues/:catalogueId/:draftId/verify/:tab?": "open",
     "catalogues/toVerify": "open",
     "catalogues/contributions": "open",
     "catalogues/myOrganization": "open",
-    "catalogues/:catalogueId/:draftId/verify/:tab?": "open",
     "catalogues/search": "open",
     "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
     "catalogues/:catalogueId/:draftId/graph": "open",
@@ -65,9 +64,20 @@ export const useRoutesDefinition = () => {
       [],
     )
 
+    const draftPage = useCallback(
+      (validation: boolean, catalogueId: string, draftId: string, tab?: string) => {
+       if (validation) {
+          return routesDefinitions.cataloguesCatalogueIdDraftIdVerifyTab(catalogueId, draftId, tab!)
+        }
+        return routesDefinitions.cataloguesCatalogueIdDraftIdTab(catalogueId, draftId, tab!)
+      },
+      [],
+    )
+
     return useMemo(() => ({
         ...routesDefinitions,
         cataloguesAll,
-        cataloguesTab
-    }), [cataloguesAll])
+        cataloguesTab,
+        draftPage
+    }), [cataloguesAll, cataloguesTab, draftPage])
 }
