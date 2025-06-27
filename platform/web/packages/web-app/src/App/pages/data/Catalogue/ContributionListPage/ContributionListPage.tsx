@@ -46,7 +46,6 @@ export const ContributionListPage = () => {
             {component}
             <DraftTable
                 withStatus
-                toEdit
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}

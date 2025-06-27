@@ -1,4 +1,4 @@
-Welcome to the `trace-registry`! This project helps manage a lot of information in a structured and traceable way. Think of it like a big, smart digital library. In this first chapter, we'll explore the very foundation of how this library organizes its contents: **Catalogue and Dataset Management**.
+Welcome to the `trace-registry`! This project helps manage a lot of information in a structured and traceable way. Think of it like a big, smart digital library. In this first chapter, we'll explore the very foundation of how this library organizes its contents: **Catalogue and Dataset Management**. 
 
 ## What's the Big Idea? Organizing Our Digital Library
 

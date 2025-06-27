@@ -9,12 +9,12 @@ export const maybeAddItems = <T,>(condition: boolean, items: T[]): T[] => {
 
 export const addLineClampStyles = (lineClamp: number): SxProps<Theme> => {
   return {
-      WebkitLineClamp: lineClamp,
-      lineClamp: lineClamp,
-      display: '-webkit-box',
-      WebkitBoxOrient: 'vertical',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
+    WebkitLineClamp: lineClamp,
+    lineClamp: lineClamp,
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   }
 };
 
@@ -24,3 +24,9 @@ export type LocalTheme = {
   numberFont?: string
   borderRadius?: string
 }
+
+export const createObjWithFallbackValue = <T extends {}, F = any>(obj: T, fallback: F) =>
+  new Proxy(obj, {
+    get: (target, prop) =>
+      prop in target ? target[prop] : fallback
+  });

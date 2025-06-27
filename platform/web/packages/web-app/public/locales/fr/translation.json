@@ -374,7 +374,11 @@
         "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
         "noDataset": "Aucun jeu de données n'a été trouvé",
         "integrateInCounter": "Intégrer ce projet au compteur CO₂",
-        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner"
+        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner",
+        "contributionValidated": "Contribution validée et archivée",
+        "consultPublishedSheet": "Consulter la fiche publiée",
+        "contentAddedToSheet": "Les contenus de cette contribution ont été intégrés à la fiche principale. Aucune modification supplémentaire n’est possible sur cette version.",
+        "wishToReAddContent": "Si vous souhaitez apporter de nouvelles modifications, vous pouvez créer un nouveau brouillon depuis la fiche publiée."
     },
     "editor": {
         "imageUrl": "URL de l'image",

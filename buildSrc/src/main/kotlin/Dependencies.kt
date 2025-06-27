@@ -35,10 +35,10 @@ object Versions {
 	const val jacksonKotlin = FixersVersions.Json.jacksonKotlin
 	const val javaSnapshotTesting = "4.0.8"
 	const val ktor = FixersVersions.Kotlin.ktor
-	const val redisOm = "0.8.9"
-	const val r2dbcPostgresql = "1.0.7.RELEASE"
 	const val postgresql = "42.7.4"
-
+	const val r2dbcPostgresql = "1.0.7.RELEASE"
+	const val redisOm = "0.8.9"
+	const val slack = "1.45.3"
 	const val xmlgraphicsBatik = "1.18"
 	const val xmlgraphicsFop = "2.10"
 	const val zxing = "3.5.3"
@@ -396,11 +396,12 @@ object Modules {
 		const val brevo = "$BASE:brevo"
 		const val fs = "$BASE:fs"
 		const val im = "$BASE:im"
+		const val meilisearch = "$BASE:meilisearch"
 		const val pdf = "$BASE:pdf"
-		const val svg = "$BASE:svg"
 		const val postgresql = "$BASE:postgresql"
 		const val redis = "$BASE:redis"
-		const val meilisearch = "$BASE:meilisearch"
+		const val slack = "$BASE:slack"
+		const val svg = "$BASE:svg"
 	}
 
 	object project {
