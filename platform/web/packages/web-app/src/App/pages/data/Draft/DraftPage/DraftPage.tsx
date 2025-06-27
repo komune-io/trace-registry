@@ -132,7 +132,7 @@ export const DraftPage = (props: DraftPageProps) => {
         title={title}
         validateMetadata={validateMetadata}
       />
-      {draft?.status === "VALIDATED" && <ValidatedDraftInfo />}
+      {draft?.status === "VALIDATED" && <ValidatedDraftInfo catalogue={catalogue} />}
       {draft?.status == "REJECTED" && <RejectedDraftInfo draft={draft} />}
       {canUdateDraft && !canValidate && <DraftLanguageSelector
         isLoading={isLoading}

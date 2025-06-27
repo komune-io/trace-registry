@@ -38,11 +38,11 @@ export const catalogPages: PageRoute[] = [
     element: <CatalogueCreationPage type="100m-project" />
   },
   {
-    path: "catalogues/:catalogueId/:draftId/verify/:tab?",
+    path: "catalogues/:catalogueId/drafts/:draftId/verify/:tab?",
     element: <DraftPage validation  />
   },
   {
-    path: "catalogues/:catalogueId/:draftId/:tab?",
+    path: "catalogues/:catalogueId/drafts/:draftId/:tab?",
     element: <DraftPage  />
   },
   {

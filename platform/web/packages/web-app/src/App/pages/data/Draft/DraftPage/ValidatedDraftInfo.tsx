@@ -1,11 +1,15 @@
 import { Typography } from '@mui/material'
 import { CustomLinkButton, InfoTicket, useRoutesDefinition } from 'components'
+import { Catalogue } from 'domain-components'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 
-export const ValidatedDraftInfo = () => {
+interface ValidatedDraftInfoProps {
+    catalogue?: Catalogue
+}
+
+export const ValidatedDraftInfo = (props: ValidatedDraftInfoProps) => {
+    const { catalogue } = props
     const { t } = useTranslation()
-    const { catalogueId } = useParams<{ catalogueId: string }>()
     const { cataloguesAll } = useRoutesDefinition()
 
     return (
@@ -15,7 +19,7 @@ export const ValidatedDraftInfo = () => {
                 severity='success'
             >
                 <CustomLinkButton
-                    to={cataloguesAll(catalogueId!)}
+                    to={cataloguesAll(catalogue?.identifier!)}
                 >
                     {t("catalogues.consultPublishedSheet")}
                 </CustomLinkButton>
