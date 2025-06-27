@@ -17,7 +17,7 @@ export const DraftLanguageSelector = (props: DraftLanguageSelectorProps) => {
     const {catalogueId} = useParams<{ catalogueId: string }>()
     const navigate = useNavigate()
     const queryClient = useQueryClient()
-    const {cataloguesCatalogueIdDraftIdTab}  = useRoutesDefinition()
+    const {cataloguesCatalogueIdDraftsDraftIdTab}  = useRoutesDefinition()
 
     const createDraft = useCatalogueDraftCreateCommand({})
 
@@ -27,7 +27,7 @@ export const DraftLanguageSelector = (props: DraftLanguageSelectorProps) => {
 
             const existingDraft = catalogue.pendingDrafts?.find(draft => draft.language === languageTag)
             if (existingDraft) {
-                navigate(cataloguesCatalogueIdDraftIdTab(catalogueId!, existingDraft.id))
+                navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, existingDraft.id))
                 return
             }
 
@@ -43,7 +43,7 @@ export const DraftLanguageSelector = (props: DraftLanguageSelectorProps) => {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
                 refetchDraft()
-                navigate(cataloguesCatalogueIdDraftIdTab(catalogueId!, res.item.id))
+                navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, res.item.id))
             }
         },
         [createDraft.mutateAsync, catalogueId, catalogue, refetchDraft],

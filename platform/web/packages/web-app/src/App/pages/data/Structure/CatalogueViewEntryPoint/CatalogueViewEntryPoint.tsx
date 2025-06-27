@@ -7,14 +7,14 @@ import {
   SubCatalogueModule,
   useCataloguesRouteParams,
 } from 'domain-components'
-import {useTranslation} from 'react-i18next'
-import {useNavigate} from 'react-router-dom'
-import {AppPage} from 'template'
-import {CustomLinkButton, InfoTicket, maybeAddItem, SectionTab, Tab, useExtendedAuth, useRoutesDefinition} from 'components'
-import {SyntheticEvent, useCallback, useMemo, useState} from 'react'
-import {Stack} from '@mui/material'
-import {useLocation} from "react-router";
-import {CatalogueClaimButton} from "domain-components/src/Catalogue/components/CatalogueClaimButton";
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { AppPage } from 'template'
+import { CustomLinkButton, InfoTicket, maybeAddItem, SectionTab, Tab, useExtendedAuth, useRoutesDefinition } from 'components'
+import { SyntheticEvent, useCallback, useMemo, useState } from 'react'
+import { Stack } from '@mui/material'
+import { useLocation } from "react-router";
+import { CatalogueClaimButton } from "domain-components/src/Catalogue/components/CatalogueClaimButton";
 
 interface CatalogueViewEntryPointProps {
   catalogue: Catalogue
@@ -26,7 +26,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
   } = props
   const { t, i18n } = useTranslation()
   const { ids } = useCataloguesRouteParams()
-  const { cataloguesCatalogueIdDraftIdTab } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
   const { policies } = useExtendedAuth()
   const navigate = useNavigate()
   const location = useLocation();
@@ -120,13 +120,13 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
       >
         <CatalogueBreadcrumbs />
         {canCreateDraft && <CreateDraftButton catalogue={catalogue} canCreate={policies.draft.canCreate(catalogue)} />}
-        {!canCreateDraft && <CatalogueClaimButton catalogue={catalogue}/>}
+        {!canCreateDraft && <CatalogueClaimButton catalogue={catalogue} />}
       </Stack>
       {currentLanguageDraft && <InfoTicket
         title={t("catalogues.activeContribution")}
       >
         <CustomLinkButton
-          to={cataloguesCatalogueIdDraftIdTab(catalogue?.id!, currentLanguageDraft.id)}
+          to={cataloguesCatalogueIdDraftsDraftIdTab(catalogue?.id!, currentLanguageDraft.id)}
         >
           {t("catalogues.consultContribution")}
         </CustomLinkButton>
@@ -134,6 +134,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
       }
       <SectionTab
         keepMounted
+        removeTabsWhenLessThan2
         tabs={tabs}
         currentTab={currentTab}
         onTabChange={onTabChange}
