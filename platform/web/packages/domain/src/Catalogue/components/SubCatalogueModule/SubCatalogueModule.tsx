@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData } from '@tanstack/react-query';
 import { CatalogueSearchModule } from '../CatalogueSearchModule';
 import { CatalogueGrid } from '../CatalogueGrid';
-import { Pagination, setIn } from '@komune-io/g2';
+import { setIn } from '@komune-io/g2';
+import { FixedPagination, OffsetPagination } from 'template';
+import { Box } from '@mui/material';
 
 interface SubCatalogueModuleProps {
     parentIdentifier?: string;
@@ -51,35 +53,30 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
         }
     }, [data?.items, isEmpty])
 
-    const currentPage: number = useMemo(() => {
-        return (state.offset! / state.limit!) + 1
-    }, [state.offset, state.limit])
+    const pagination = useMemo(() => ({
+        limit: state.limit!,
+        offset: state.offset!,
+    }), [state.limit, state.offset])
 
-    const total = useMemo(() => {
-        if (!data?.total) return { page: undefined, items: undefined }
-        return {
-            page: Math.floor((data.total - 1) / state.limit!) + 1,
-            items: data.total
-        }
-    }, [data?.total, state.limit])
-
-    const handlePageChange = useCallback((pageNumber: number) => {
-        const limit = state.limit!
-        const offset = (pageNumber - 1) * limit
-        changeValueCallback("limit")(limit)
-        changeValueCallback("offset")(offset)
-    }, [state.limit ])
+    const handlePageChange = useCallback((newPage: OffsetPagination) => {
+        changeValueCallback("limit")(newPage.limit)
+        changeValueCallback("offset")(newPage.offset)
+    }, [])
 
     return (
         <>
             {type === "LIST" ? <CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage />
                 :
                 <CatalogueGrid items={data?.items} isLoading={isFetching} />}
-            <Pagination
-                onPageChange={handlePageChange}
-                page={currentPage}
-                totalPage={total.page ?? 0}
-                siblingCount={1}
+                <Box 
+                sx={{
+                    height: "60px"
+                }}
+                 />
+            <FixedPagination
+                pagination={pagination}
+                page={data}
+                onOffsetChange={handlePageChange}
             />
         </>
     )

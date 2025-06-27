@@ -40,7 +40,7 @@ export const MentionPlugin = (props: MentionPluginProps) => {
             onClick={() => {
                 editor.dispatchCommand(
                     TOGGLE_LINK_COMMAND,
-                    cataloguesAll(ref.id),
+                    cataloguesAll(ref.identifier),
                 )
                 editor.update(() => {
                     const selection = $getSelection();

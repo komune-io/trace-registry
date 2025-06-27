@@ -1,26 +1,26 @@
-import {useMemo, useCallback} from "react"
-import {Roles} from "./roles"
-import {insertObjectIdsInsideRoutes, RecordRouteCamelCase} from "./types"
+import { useMemo, useCallback } from "react"
+import { Roles } from "./roles"
+import { insertObjectIdsInsideRoutes, RecordRouteCamelCase } from "./types"
 const strictRoutesAuthorizations = {
-    "": "open",
-    "projects": "open",
-    "projects/:projectId/view/:tab?/*": "open",
-    "projects/:projectId/transactions/:transactionId/view": "open",
-    "projects/create/:step": "open",
-    "transactions/:transactionId": "open",
-    "transactions": "open",
-    "catalogues": "open",
-    "catalogues/create/:type": "open",
-    "catalogues/:catalogueId/:draftId/:tab?": "open",
-    "catalogues/toVerify": "open",
-    "catalogues/contributions": "open",
-    "catalogues/myOrganization": "open",
-    "catalogues/:catalogueId/:draftId/verify/:tab?": "open",
-    "catalogues/search": "open",
-    "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
-    "catalogues/:catalogueId/:draftId/graph": "open",
-    "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "open",
-    "catalogues/*": "open",
+  "": "open",
+  "projects": "open",
+  "projects/:projectId/view/:tab?/*": "open",
+  "projects/:projectId/transactions/:transactionId/view": "open",
+  "projects/create/:step": "open",
+  "transactions/:transactionId": "open",
+  "transactions": "open",
+  "catalogues": "open",
+  "catalogues/create/:type": "open",
+  "catalogues/toVerify": "open",
+  "catalogues/contributions": "open",
+  "catalogues/myOrganization": "open",
+  "catalogues/search": "open",
+  "catalogues/:catalogueId/drafts/:draftId/:tab?": "open",
+  "catalogues/:catalogueId/drafts/:draftId/verify/:tab?": "open",
+  "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
+  "catalogues/:catalogueId/:draftId/graph": "open",
+  "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "open",
+  "catalogues/*": "open",
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
@@ -37,45 +37,45 @@ type RoutesDefinitions = RecordRouteCamelCase<Routes, (...objectIds: string[]) =
 let routesDefinitions: RoutesDefinitions = {}
 
 for (let route in strictRoutesAuthorizations) {
-    const camelCasedRoute = route
+  const camelCasedRoute = route
     .replaceAll("?", "")
     .replaceAll("*", "All")
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
-    //@ts-ignore
-    routesDefinitions[camelCasedRoute] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
+  //@ts-ignore
+  routesDefinitions[camelCasedRoute] = (...objectIds: string[]) => "/" + insertObjectIdsInsideRoutes(route, ...objectIds)
 }
 
 export type CatalogueAll = (...objectIds: string[]) => string
 
 export const useRoutesDefinition = () => {
-    const cataloguesAll: CatalogueAll = useCallback(
-      (...objectIds: string[]) => {
-       return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds)
-      },
-      [],
-    )
-    const cataloguesTab = useCallback(
-      (tab?: string, ...objectIds: string[]) => {
-        const ends =  `#${tab ? tab : ""}`
-       return  "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds) + ends
-      },
-      [],
-    )
+  const cataloguesAll: CatalogueAll = useCallback(
+    (...objectIds: string[]) => {
+      return "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds)
+    },
+    [],
+  )
+  const cataloguesTab = useCallback(
+    (tab?: string, ...objectIds: string[]) => {
+      const ends = `#${tab ? tab : ""}`
+      return "/" + insertObjectIdsInsideRoutes("catalogues/*", ...objectIds) + ends
+    },
+    [],
+  )
 
-    const draftPage = useCallback(
-      (validation: boolean, catalogueId: string, draftId: string, tab?: string) => {
-       if (validation) {
-          return routesDefinitions.cataloguesCatalogueIdDraftIdVerifyTab(catalogueId, draftId, tab!)
-        }
-        return routesDefinitions.cataloguesCatalogueIdDraftIdTab(catalogueId, draftId, tab!)
-      },
-      [],
-    )
+  const draftPage = useCallback(
+    (validation: boolean, catalogueId: string, draftId: string, tab?: string) => {
+      if (validation) {
+        return routesDefinitions.cataloguesCatalogueIdDraftsDraftIdVerifyTab(catalogueId, draftId, tab!)
+      }
+      return routesDefinitions.cataloguesCatalogueIdDraftsDraftIdTab(catalogueId, draftId, tab!)
+    },
+    [],
+  )
 
-    return useMemo(() => ({
-        ...routesDefinitions,
-        cataloguesAll,
-        cataloguesTab,
-        draftPage
-    }), [cataloguesAll, cataloguesTab, draftPage])
+  return useMemo(() => ({
+    ...routesDefinitions,
+    cataloguesAll,
+    cataloguesTab,
+    draftPage
+  }), [cataloguesAll, cataloguesTab, draftPage])
 }

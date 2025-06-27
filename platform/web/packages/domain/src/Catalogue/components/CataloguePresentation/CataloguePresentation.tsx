@@ -19,19 +19,22 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
     const theme = useTheme<LocalTheme>()
     return (
         <Stack
-            direction="row"
             justifyContent="space-between"
             alignItems="stretch"
             gap={8}
             sx={{
                 "& .illustration": {
-                    width: "auto",
+                    width: "100%",
                     height: "auto",
                     maxWidth: "500px",
                     maxHeight: "350px",
-                    flexShrink: 0,
+                    flexShrink: 1,
                     flexGrow: 1,
                     objectFit: "contain"
+                },
+                flexDirection: {
+                    xs: "column",
+                    sm: "row",
                 }
             }}
         >
