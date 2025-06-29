@@ -1,7 +1,7 @@
-import {Link} from '@komune-io/g2'
+import {Link, Tooltip} from '@komune-io/g2'
 import {EmailRounded, InfoRounded} from '@mui/icons-material'
 import {Box, Paper, Stack, Typography} from '@mui/material'
-import {CustomButton, Tooltip, useRoutesDefinition, useToggleState} from 'components'
+import {CustomButton, useRoutesDefinition, useToggleState} from 'components'
 import {t} from 'i18next'
 import {RejectModal} from './RejectModal'
 import {CatalogueDraft} from '../../model'
@@ -51,7 +51,6 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                         {t("catalogues.reviewModifications", { name: `${draft.creator.givenName} ${draft.creator.familyName}` })}
                     </Typography>}
                     <Tooltip
-
                         helperText={
                             <Stack
                                 gap={0.5}

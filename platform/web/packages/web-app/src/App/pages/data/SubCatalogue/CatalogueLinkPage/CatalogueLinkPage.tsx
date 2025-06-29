@@ -2,9 +2,9 @@ import { Box, CircularProgress, Dialog, IconButton, Stack, Typography } from '@m
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 import { LabeledSwitch, useRefetchOnDismount, useRoutesDefinition, useUrlSavedState } from 'components'
 import {
+  AutoCatalogueTable,
   CatalogueSearchFilters,
   CatalogueSearchQuery,
-  CatalogueTable,
   useCatalogueAddRelatedCataloguesCommand,
   useCatalogueGetQuery,
   useCatalogueRemoveRelatedCataloguesCommand,
@@ -19,7 +19,8 @@ import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useDebouncedValue } from '@mantine/hooks'
-
+import autoTable from "./AutoTable.json"
+import { SortOrder } from '@komune-io/g2'
 
 export const CatalogueLinkPage = () => {
   const { t, i18n } = useTranslation()
@@ -37,10 +38,11 @@ export const CatalogueLinkPage = () => {
 
   const queryClient = useQueryClient()
 
-  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean }>({
+  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean, sort: Record<string, SortOrder> }>({
     initialState: {
       limit: 20,
-      offset: 0
+      offset: 0,
+      sort: {}
     }
   })
   
@@ -230,7 +232,7 @@ export const CatalogueLinkPage = () => {
           }}
         >
           {component}
-          <CatalogueTable
+          <AutoCatalogueTable
             page={data}
             pagination={pagination}
             isLoading={isFetching || getSubCatalogue.isFetching}
@@ -241,6 +243,13 @@ export const CatalogueLinkPage = () => {
             rowSelection={rowSelection}
             onRowSelectionChange={onRowSelectionChange}
             expectedSize={20}
+            //@ts-ignore
+            tableComposable={autoTable}
+            sortState={state.sort}
+            onSortingChange={changeValueCallback('sort')}
+            sx={{
+              width: "100%",
+            }}
           />
         </Stack>
       </Stack>
