@@ -1,4 +1,4 @@
-import {useCataloguesRouteParams, useCatalogueGetByIdentifierQuery} from 'domain-components'
+import {useCataloguesRouteParams, useCatalogueGetQuery} from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { NoMatchPage } from '@komune-io/g2'
 import { useSearchParams } from 'react-router-dom'
@@ -15,11 +15,11 @@ export const CataloguesStructureRouter = (_: CataloguesStructureRouterProps) => 
   const { ids } = useCataloguesRouteParams()
   const {i18n} = useTranslation()
   const [searchParams] = useSearchParams()
-  const catalogueIdentifier = ids[ids.length - 1] ?? "home"
+  const catalogueId = ids[ids.length - 1] ?? "home"
 
-  const catalogueGet = useCatalogueGetByIdentifierQuery({
+  const catalogueGet = useCatalogueGetQuery({
     query: {
-      identifier: catalogueIdentifier,
+      id: catalogueId,
       language: searchParams.get("language") ?? i18n.language
     }
   })

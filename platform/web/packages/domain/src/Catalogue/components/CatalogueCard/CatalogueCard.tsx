@@ -44,7 +44,7 @@ export const CatalogueCard = (props: CatalogueCardProps) => {
             }}
         >
             <Link
-                to={cataloguesAll(...(parentIds ?? ids), catalogue?.identifier ?? "")}
+                to={cataloguesAll(...(parentIds ?? ids), catalogue?.id ?? "")}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
