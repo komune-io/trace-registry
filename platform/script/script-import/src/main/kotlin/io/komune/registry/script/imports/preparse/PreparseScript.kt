@@ -384,7 +384,7 @@ class PreparseScript(
     }
 
     private suspend fun CataloguePreparseFieldMapping.mapRetrievedValue(value: String?): String? {
-        if (value != null && value.length >= 2 && value[0] == '[' && value.last() == ']') {
+        if (value != null && value.isJsonArray()) {
             return value.parseJsonTo(Array<String>::class.java)
                 .ifEmpty { listOf(null) } // ensure DEFAULT behaviour works
                 .mapNotNull { mapRetrievedValue(it) }
@@ -508,6 +508,8 @@ class PreparseScript(
             "$normalizedThis$normalizedOther"
         }
     }
+
+    private fun String.isJsonArray() = length >= 2 && first() == '[' && last() == ']'
 
     enum class IndicatorsCsvColumn(val displayName: String) {
         IDENTIFIER("identifier"),
