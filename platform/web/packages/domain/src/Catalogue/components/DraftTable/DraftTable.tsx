@@ -100,7 +100,7 @@ export const DraftTable = (props: DraftTableProps) => {
     const getRowLink = useCallback(
         (row: Row<CatalogueDraft>) => {
             return {
-                to: draftPage(toVerify, row.original.catalogue.id, row.original.id, "metadata"),
+                to: draftPage(toVerify, row.original.originalCatalogueId, row.original.id, "metadata"),
             }
         },
         [toVerify],

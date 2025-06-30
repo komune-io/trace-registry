@@ -62,7 +62,6 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
 
             if (res) {
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogue.id }] })
-                queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: catalogue.identifier }] })
                 queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
                 navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogue.id, res.item?.id))
             }

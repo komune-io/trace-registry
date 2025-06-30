@@ -34,7 +34,7 @@ export const MustUsedCatalogueSection = (props: MustUsedCatalogueSectionProps) =
             isLoading={cataloguePage.isLoading}
         />
         <LinkButton
-            to={cataloguesAll( ...ids, catalogue?.identifier ?? "" )}
+            to={cataloguesAll( ...ids, catalogue?.id ?? "" )}
             sx={{alignSelf: "flex-end"}}
         >
             {catalogue?.type === "methodologies" ? t("catalogues.seeAllMethodologies") : t("catalogues.seeAllPrograms")}

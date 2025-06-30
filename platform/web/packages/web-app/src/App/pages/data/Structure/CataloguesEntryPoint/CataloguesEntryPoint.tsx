@@ -31,16 +31,16 @@ export const CataloguesEntryPoint = (props: CataloguesEntryPointProps) => {
     const lexicalDistribution = useLexicalDistribution(catalogue)
     const dataDisplay = useMemo(() => data?.items.map((subCatalogue) => {
         return (
-          catalogue?.identifier && <SubCatalogueList
+          catalogue?.id && <SubCatalogueList
             key={subCatalogue.id}
             catalogue={subCatalogue}
             subCatalogues={subCatalogue.catalogues}
-            seeAllLink={cataloguesTab("subCatalogues", catalogue?.identifier, subCatalogue.identifier)}
+            seeAllLink={cataloguesTab("subCatalogues", catalogue?.id, subCatalogue.id)}
             titleVariant="h4"
-            parentIds={[catalogue?.identifier]}
+            parentIds={[catalogue?.id]}
           />
         )
-    }), [data?.items, catalogue?.identifier])
+    }), [data?.items, catalogue?.id])
 
     return (
         <AppPage
