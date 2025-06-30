@@ -80,9 +80,9 @@ export const CatalogueHomeSection = (props: CatalogueContentProps) => {
               key={item.id}
               lexicalDistribution={lexicalDistribution}
               catalogue={catalogue}
-              catalogueIdentifier={item?.identifier}
+              catalogueId={item?.id}
               subCatalogues={item.catalogues}
-              seeAllLink={cataloguesAll(item?.identifier)}
+              seeAllLink={cataloguesAll(item?.id)}
               titleVariant="h4"
             />
         })

@@ -16,14 +16,14 @@ function asMenu(item: CatalogueRefTree, cataloguesAll: CatalogueAll, location: L
   const catalogue = isAlias(item) ? item.relatedCatalogues?.["menu"]?.[0] : item
   if (!catalogue) return []
 
-  const catalogueLink = cataloguesAll(catalogue.identifier)
-  // const catalogueLink = cataloguesAll(catalogue?.identifier!)
+  const catalogueLink = cataloguesAll(catalogue.id)
+  // const catalogueLink = cataloguesAll(catalogue?.id!)
 
   const items = isLeaf(item)
     ? []
     : isBranch(catalogue)
       ? item.catalogues?.flatMap( (it) => asMenu(it, cataloguesAll, location)) ?? []
-      : catalogue.catalogues?.map(mapCatalogueRef([catalogue.identifier], cataloguesAll))
+      : catalogue.catalogues?.map(mapCatalogueRef([catalogue.id], cataloguesAll))
 
   return [{
     key: catalogue.id,
@@ -58,11 +58,11 @@ export const useCatalogueMenu = (identifier: string) => {
 }
 
 const mapCatalogueRef = (currentPaths: string[], cataloguesAll: (...objectIds: string[]) => string) => (item: CatalogueRefTree): MenuItem => {
-  const newPath = [...currentPaths, item.identifier]
-  const ref = cataloguesAll(...currentPaths, item.identifier)
+  const newPath = [...currentPaths, item.id]
+  const ref = cataloguesAll(...currentPaths, item.id)
   const pathWithoutTab = location.pathname
   return {
-    key: item.identifier,
+    key: item.id,
     to: ref,
     label: item.title,
     isSelected: pathWithoutTab === ref,

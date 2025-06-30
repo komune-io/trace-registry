@@ -42,8 +42,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
         id: draft.id,
       })
       if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: draft.catalogue.id }] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: draft.catalogue.identifier }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: draft.originalCatalogueId }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
@@ -52,7 +51,6 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
 
         if (draft.catalogue.parent) {
             queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: draft.catalogue.parent.id }] })
-            queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: draft.catalogue.parent.identifier }] })
         }
 
         navigate(afterValidateNavigate ?? cataloguesContributions())
@@ -72,8 +70,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
       })
       if (res) {
         refetchDraft()
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: draft.catalogue.id }] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { id: draft.catalogue.identifier }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: draft.originalCatalogueId }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         navigate(cataloguesContributions() + "?successfullContribution=true")
