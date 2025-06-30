@@ -114,6 +114,9 @@ export const MarkdownStyleContainer = styled(Box, {
     display: "grid",
     gap: readOnly ? "28px" : "28px",
     margin: "24px 0",
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: "unset !important",
+    }
   },
   "& .editor-layout-item": {
     borderRadius: 8,

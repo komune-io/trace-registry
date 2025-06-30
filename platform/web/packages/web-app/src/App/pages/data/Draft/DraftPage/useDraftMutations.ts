@@ -119,7 +119,8 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       })
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: catalogueId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: draft?.catalogue.identifier }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         navigate(cataloguesContributions())
       }
@@ -136,7 +137,8 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         })
         if (res) {
           queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
-          queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: catalogueId! }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueGetByIdentifier", { identifier: draft?.catalogue.identifier }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
           queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
           queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
