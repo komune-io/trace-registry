@@ -47,6 +47,7 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
 
     useEffect(() => {
         if (data?.items && data?.items.length === 0 && isEmpty) {
+            console.log("is empty")
             isEmpty(true)
         }
     }, [data?.items, isEmpty])
