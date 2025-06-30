@@ -271,7 +271,8 @@ class CatalogueSearchFinderService(
         val catalogueIds = keys.mapNotNull { key ->
             val (parsedRelation, catalogueId) = CatalogueModel.unflattenRelation(key)
             catalogueId.takeIf { parsedRelation == relation }
-        }
+        }.ifEmpty { return@buildFacetValuesBatch emptyMap() }
+
         catalogueF2FinderService.page(id = CollectionMatch(catalogueIds), language = language)
             .items
             .associate { it.id to it.title }
