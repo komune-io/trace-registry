@@ -3,13 +3,11 @@
     "columns": [{
         "type": "identifier",
         "label": "Identifiant",
-        "value": "identifier",
-        "sortable": true
+        "value": "identifier"
     }, {
         "type": "text",
         "label": "Nom",
-        "value": "title",
-        "sortable": true
+        "value": "title"
     },{
         "type": "catalogues",
         "label": "Secteurs",
@@ -34,7 +32,6 @@
         "value": "modified",
         "style": {
             "minWidth": "170px"
-        },
-        "sortable": true
+        }
     }]
 }
