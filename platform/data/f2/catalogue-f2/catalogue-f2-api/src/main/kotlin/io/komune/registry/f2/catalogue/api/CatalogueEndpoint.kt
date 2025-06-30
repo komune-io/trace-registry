@@ -123,7 +123,7 @@ class CatalogueEndpoint(
         logger.info("cataloguePage: $query")
         catalogueF2FinderService.page(
             id = query.catalogueId?.let(::ExactMatch),
-            title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            title = query.title?.let { StringMatch(it.replace("/", "\\/"), StringMatchCondition.CONTAINS) },
             status = query.status,
             parentId = query.parentId?.let(::ExactMatch),
             parentIdentifier = query.parentIdentifier?.let(::ExactMatch),

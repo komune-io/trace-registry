@@ -257,7 +257,7 @@ class ImportScript(
         importContext: ImportContext,
         parentId: CatalogueId? = null
     ): List<CatalogueDTOBase> {
-        val existing = importRepository.getCatalogue(catalogueData)
+        val existing = importRepository.getExistingCatalogue(catalogueData)
         if (existing != null) {
             logger.info("Catalogue ${catalogueData.identifier} already exists. Skipping.")
             catalogueData.initChildren?.forEach { childCatalogueData ->
@@ -271,7 +271,7 @@ class ImportScript(
         }.map { (_, translation) ->
             logger.info("Catalogue creation [${catalogueData.identifier}, ${translation.language}]")
             val createCommand = CatalogueCreateCommandDTOBase(
-                identifier = catalogueData.identifier,
+                identifier = catalogueData.identifier.takeUnless { catalogueData.generateNewIdentifier },
                 parentId = parentId,
                 title = translation.title.orEmpty().removeSuffix(" | null"),
                 description = translation.description,
@@ -301,6 +301,7 @@ class ImportScript(
 
             importContext.registerParentOrDefault(catalogueId, catalogue.type, catalogueData.parentReference())
 
+            catalogueData.childrenRefs?.nullIfEmpty()?.let { importContext.catalogueChildren[catalogueId] = it }
             catalogueData.related?.nullIfEmpty()?.let { importContext.catalogueCatalogueReferences[catalogueId] = it }
             catalogueData.relatedIn?.nullIfEmpty()?.let { importContext.catalogueCatalogueBackReferences[catalogueId] = it }
 
@@ -447,6 +448,7 @@ class ImportScript(
 
     private suspend fun connectCatalogues(importContext: ImportContext) {
         connectCataloguesParents(importContext)
+        connectCataloguesChildren(importContext)
         connectCatalogueCataloguesReferences(importContext)
     }
 
@@ -483,6 +485,22 @@ class ImportScript(
         importContext.catalogueParents.clear()
     }
 
+    private suspend fun connectCataloguesChildren(importContext: ImportContext) {
+        logger.info("Linking catalogues children...")
+        importContext.catalogueChildren.entries.forEachIndexed { index, (catalogueId, childrenReferences) ->
+            val children = childrenReferences.mapAsync { catalogueReferencesFinder.findIdentifiers(it) }
+                .flatten()
+                .toSet()
+                .mapNotNull { importContext.catalogueIds[it] ?: importRepository.getCatalogue(it)?.id }
+                .toMutableList()
+            CatalogueLinkCataloguesCommandDTOBase(
+                id = catalogueId,
+                catalogues = children
+            ).invokeWith(dataClient.catalogue.catalogueLinkCatalogues())
+        }
+        importContext.catalogueChildren.clear()
+    }
+
     private suspend fun connectCatalogueCataloguesReferences(importContext: ImportContext) {
         logger.info("Linking catalogues references...")
 
@@ -492,7 +510,7 @@ class ImportScript(
                 references.mapAsync { catalogueReferencesFinder.findIdentifiers(it) }
                     .flatten()
                     .toSet()
-                    .map { importContext.catalogueIds[it] ?: it }
+                    .map { importContext.catalogueIds[it] ?: importRepository.getCatalogue(it)?.id ?: it }
                     .toMutableList()
             }.toMutableMap()
         }
@@ -501,7 +519,7 @@ class ImportScript(
                 references.mapAsync { catalogueReferencesFinder.findIdentifiers(it) }
                     .flatten()
                     .toSet()
-                    .map { importContext.catalogueIds[it] ?: it }
+                    .map { importContext.catalogueIds[it] ?: importRepository.getCatalogue(it)?.id ?: it }
             }.forEach { (relationType, catalogueIds) ->
                 catalogueIds.forEach { catalogueId ->
                     val catalogueRelations = aggregatedReferences.computeIfAbsent(catalogueId) { ConcurrentHashMap() }

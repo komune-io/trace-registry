@@ -145,7 +145,7 @@ class PreparseScript(
                 }
             },
             homepage = parseField(settings.mapping.homepage),
-            children = null,
+            childrenRefs = null,
             initChildren = settings.mapping.catalogues?.map {
                 toCatalogueImportData(settings.copy(mapping = it), file, "$identifier-")
             },
@@ -162,7 +162,9 @@ class PreparseScript(
             indicators = settings.mapping.indicators?.mapValues { (_, fieldMapping) ->
                 parseField(fieldMapping).orEmpty()
             }?.filterValues { it.isNotEmpty() },
-            datasets = settings.mapping.datasets?.map { parseDataset(it, settings.languages) }
+            datasets = settings.mapping.datasets?.map { parseDataset(it, settings.languages) },
+            generateNewIdentifier = settings.generateNewIdentifiers,
+            checkExistsMethod = settings.checkExistsMethod
         )
     }
 
@@ -382,6 +384,13 @@ class PreparseScript(
     }
 
     private suspend fun CataloguePreparseFieldMapping.mapRetrievedValue(value: String?): String? {
+        if (value != null && value.length >= 2 && value[0] == '[' && value.last() == ']') {
+            return value.parseJsonTo(Array<String>::class.java)
+                .ifEmpty { listOf(null) } // ensure DEFAULT behaviour works
+                .mapNotNull { mapRetrievedValue(it) }
+                .toJson()
+        }
+
         return valuesMap?.get(value)
             ?.let { if (it is String) it else it.toJson() }
             ?: when (unmappedValues) {

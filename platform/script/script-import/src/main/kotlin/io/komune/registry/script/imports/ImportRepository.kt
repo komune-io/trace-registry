@@ -5,7 +5,7 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
-import io.komune.registry.f2.catalogue.domain.query.CataloguePageQuery
+import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQuery
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
@@ -39,6 +39,7 @@ import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
+import io.komune.registry.script.imports.model.CatalogueReferenceMethod
 import io.komune.registry.script.imports.model.ConceptInitData
 import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
@@ -298,8 +299,21 @@ class ImportRepository(
         )).invokeWith(dataClient.dataset.datasetAddMediaDistribution()).distributionId
     }
 
-    suspend fun getCatalogue(catalogueData: CatalogueImportData): CatalogueDTOBase? {
-        return getCatalogue(catalogueData.identifier)
+    suspend fun getExistingCatalogue(catalogueData: CatalogueImportData): CatalogueDTOBase? {
+        return when (catalogueData.checkExistsMethod) {
+            CatalogueReferenceMethod.IDENTIFIER -> getCatalogue(catalogueData.identifier)
+            CatalogueReferenceMethod.TITLE -> catalogueData.languages.firstNotNullOfOrNull { (_, translation) ->
+                translation.title?.let {
+                    findCatalogueByTitle(
+                        title = it,
+                        type = catalogueData.type,
+                        parentIdentifier = null
+                    )
+                }?.let { getCatalogue(it) }
+            }
+            CatalogueReferenceMethod.CHILD ->
+                throw IllegalArgumentException("Child references are not supported for existing catalogue lookup")
+        }
     }
 
     suspend fun getCatalogue(catalogueIdentifier: CatalogueIdentifier): CatalogueDTOBase? {
@@ -320,13 +334,14 @@ class ImportRepository(
             return cachedCatalogueIdentifier.ifEmpty { null }
         }
 
-        val catalogue = CataloguePageQuery(
+        val catalogue = CatalogueSearchQuery(
             type = listOf(type),
-            parentIdentifier = parentIdentifier,
-            title = title,
+            parentIdentifier = parentIdentifier?.let(::listOf),
+            query = title,
             language = "",
-            otherLanguageIfAbsent = true
-        ).invokeWith(dataClient.catalogue.cataloguePage())
+            otherLanguageIfAbsent = true,
+            withTransient = true
+        ).invokeWith(dataClient.catalogue.catalogueSearch())
             .items
             .firstOrNull { it.title == title }
 

@@ -29,15 +29,21 @@ data class CatalogueImportData(
     val parent: CatalogueReferences?,
     val languages: Map<Language, CatalogueTranslationData>,
     val homepage: String?,
-    val children: List<CatalogueId>?,
+    val childrenRefs: List<CatalogueReferences>?,
     val initChildren: List<CatalogueImportData>?,
     val related: Map<String, List<CatalogueReferences>>?,
     val relatedIn: Map<String, List<CatalogueReferences>>?,
     val indicators: Map<InformationConceptIdentifier, String>?,
     val datasets: List<CatalogueDatasetSettings>?,
+    val generateNewIdentifier: Boolean = false,
+    val checkExistsMethod: CatalogueReferenceMethod
+        = if (generateNewIdentifier) CatalogueReferenceMethod.TITLE else CatalogueReferenceMethod.IDENTIFIER,
 
     @Deprecated("Use 'parent` instead")
     val parents: List<CatalogueParent>? = null,
+
+    @Deprecated("Use 'childrenRefs` instead")
+    val children: List<CatalogueId>? = null,
 )
 
 @JsonTypeInfo(
