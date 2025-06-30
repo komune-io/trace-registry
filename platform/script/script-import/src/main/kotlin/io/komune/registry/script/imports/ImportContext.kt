@@ -31,6 +31,7 @@ class ImportContext(
     val catalogueIds = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
     val catalogueIdentifiersByTitleAndType = ConcurrentHashMap<String, ConcurrentHashMap<CatalogueType, CatalogueIdentifier>>()
     val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueReferences>()
+    val catalogueChildren = ConcurrentHashMap<CatalogueId, List<CatalogueReferences>>()
     val catalogueCatalogueReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
     val catalogueCatalogueBackReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
     val catalogueDatasetReferences = ConcurrentHashMap<CatalogueIdentifier, List<DatasetId>>()

@@ -27,10 +27,10 @@ typealias CatalogueSearchFunction = F2Function<CatalogueSearchQuery, CatalogueSe
  */
 @JsExport
 interface CatalogueSearchQueryDTO {
-    val offset: Int?
-    val limit: Int?
     val query: String?
     val language: String
+    val offset: Int?
+    val limit: Int?
     val otherLanguageIfAbsent: Boolean?
     val accessRights: List<String>?
     val catalogueIds: List<String>?
@@ -52,23 +52,23 @@ interface CatalogueSearchQueryDTO {
  */
 @Serializable
 data class CatalogueSearchQuery(
-    override val offset: Int?,
-    override val limit: Int?,
     override val query: String?,
     override val language: String,
+    override val offset: Int? = null,
+    override val limit: Int? = null,
     override val otherLanguageIfAbsent: Boolean = false,
-    override val accessRights: List<String>?,
-    override val catalogueIds: List<String>?,
-    override val relatedCatalogueIds: Map<String, List<CatalogueId>>?,
-    override val relatedInCatalogueIds: Map<String, List<CatalogueId>>?,
-    override val parentId: List<CatalogueId>?,
-    override val parentIdentifier: List<CatalogueIdentifier>?,
-    override val themeIds: List<String>?,
-    override val licenseId: List<String>?,
-    override val type: List<String>?,
-    override val creatorOrganizationId: OrganizationId?,
-    override val ownerOrganizationId: OrganizationId?,
-    override val availableLanguages: List<Language>?,
+    override val accessRights: List<String>? = null,
+    override val catalogueIds: List<String>? = null,
+    override val relatedCatalogueIds: Map<String, List<CatalogueId>>? = null,
+    override val relatedInCatalogueIds: Map<String, List<CatalogueId>>? = null,
+    override val parentId: List<CatalogueId>? = null,
+    override val parentIdentifier: List<CatalogueIdentifier>? = null,
+    override val themeIds: List<String>? = null,
+    override val licenseId: List<String>? = null,
+    override val type: List<String>? = null,
+    override val creatorOrganizationId: OrganizationId? = null,
+    override val ownerOrganizationId: OrganizationId? = null,
+    override val availableLanguages: List<Language>? = null,
     override val withTransient: Boolean = false
 ): CatalogueSearchQueryDTO
 
@@ -83,6 +83,7 @@ interface CatalogueSearchResultDTO: FacetPageDTO<CatalogueDTO>
 /**
  * @d2 inherit
  */
+@Serializable
 data class CatalogueSearchResult(
     override val items: List<CatalogueDTOBase>,
     override val total: Int,

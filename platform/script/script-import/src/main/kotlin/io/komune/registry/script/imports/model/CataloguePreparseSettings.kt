@@ -8,7 +8,10 @@ data class CataloguePreparseSettings(
     val files: Set<String>,
     val languages: Set<Language>,
     val output: String,
-    val mapping: CataloguePreparseMapping
+    val mapping: CataloguePreparseMapping,
+    val generateNewIdentifiers: Boolean = false,
+    val checkExistsMethod: CatalogueReferenceMethod
+        = if (generateNewIdentifiers) CatalogueReferenceMethod.TITLE else CatalogueReferenceMethod.IDENTIFIER,
 )
 
 data class CataloguePreparseMapping(
