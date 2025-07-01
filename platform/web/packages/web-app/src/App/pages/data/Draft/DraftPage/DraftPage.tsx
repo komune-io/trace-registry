@@ -49,9 +49,9 @@ export const DraftPage = (props: DraftPageProps) => {
 
   const canUdateDraft = policies.draft.canUpdate(draft) && draft?.status !== "VALIDATED" && draft?.status !== "DELETED"
 
-  const canUpdateCatalogue = policies.catalogue.canUpdate(catalogue)
+  const canAudit = policies.draft.canAudit()
 
-  const canValidate = canUpdateCatalogue && validation && draft?.status === "SUBMITTED"
+  const canValidate = canAudit && validation && draft?.status === "SUBMITTED"
 
   const isDefLoading = catalogueDraftQuery.isLoading || isLoading
 
@@ -67,7 +67,7 @@ export const DraftPage = (props: DraftPageProps) => {
     isLoading: isDefLoading,
     readOnly: !canUdateDraft,
   })
-
+  
   const { onSubmit, onValidate, onReject, validateMetadata } = useDraftValidations({
     draft,
     metadataFormState,
@@ -120,7 +120,7 @@ export const DraftPage = (props: DraftPageProps) => {
         onDeleteCatalogue={policies.catalogue.canDelete(catalogue) ? onDeleteCatalogue : undefined}
         onSubmit={policies.draft.canSubmit(draft) ? onSubmit : undefined}
         beforeSubmit={validateMetadata}
-        onValidate={canUpdateCatalogue ? onValidate : undefined}
+        onValidate={canAudit ? onValidate : undefined}
         catalogue={catalogue}
         disabled={!metadataFormState.values.title}
         isUpdating={isUpdating || metadataFormState.isSubmitting}
