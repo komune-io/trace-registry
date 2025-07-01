@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CatalogueSearchQuery, useCatalogueSearchQuery } from '../../api';
 import { useTranslation } from 'react-i18next';
 import { keepPreviousData } from '@tanstack/react-query';
@@ -18,6 +18,8 @@ interface SubCatalogueModuleProps {
 export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     const { parentIdentifier, type, relatedInId, isEmpty } = props;
     const { i18n } = useTranslation()
+
+    const anchorRef = useRef<HTMLDivElement | null>(null)
 
     const [state, setState] = useState<Partial<CatalogueSearchQuery>>({ limit: 12, offset: 0 })
 
@@ -49,7 +51,6 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
 
     useEffect(() => {
         if (data?.items && data?.items.length === 0 && isEmpty) {
-            console.log("is empty")
             isEmpty(true)
         }
     }, [data?.items, isEmpty])
@@ -62,10 +63,12 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     const handlePageChange = useCallback((newPage: OffsetPagination) => {
         changeValueCallback("limit")(newPage.limit)
         changeValueCallback("offset")(newPage.offset)
+        anchorRef.current?.scrollIntoView({behavior: "smooth", block: "nearest"})
     }, [])
 
     return (
         <>
+            <div ref={anchorRef} />
             {type === "LIST" ? <CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage />
                 :
                 <CatalogueGrid items={data?.items} isLoading={isFetching} />}
