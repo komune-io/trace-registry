@@ -31,7 +31,6 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
   }, [catalogue])
 
   const downloadDocument = useCallback(async (_, fieldValue: any) => {
-    console.log('downloadDocument', fieldValue)
     return g2Config().platform.url + fieldValue
   }, [])
 

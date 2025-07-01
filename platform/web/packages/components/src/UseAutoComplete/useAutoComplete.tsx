@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 import {useDebouncedState} from "@mantine/hooks";
 import {AutoCompleteProps, FormComposableField, InputFormBasicProps} from "@komune-io/g2";
 import {SearchIcon} from "components";
+import { CatalogueRef } from "domain-components";
 
 export interface UseAutoCompleteProps<Option, Filters> {
     fetchOnInitFocus?: boolean
@@ -54,6 +55,7 @@ export function useAutoComplete<Option, Filters>(props: UseAutoCompleteProps<Opt
 
     const getComposableField = useCallback((props: ComponentProps, filters?: Partial<Filters>): FormComposableField => {
         const { name, label, params, customDisplay } = props
+        console.log(options)
         return {
             name,
             type: "autoComplete",
@@ -64,12 +66,14 @@ export function useAutoComplete<Option, Filters>(props: UseAutoCompleteProps<Opt
                 onInputChange: (_: any, value: string) => handleInputChange(value, filters),
                 getOptionLabel: getOptionLabel,
                 getOptionKey: getOptionKey,
+                getReadOnlyChipColor: (option?: CatalogueRef) => option?.structure?.color,
                 isOptionEqualToValue: isOptionEqualToValue,
                 className: "autoCompleteField",
                 onFocus: () => handleFocus(filters),
                 options: options,
                 returnFullObject: true,
                 isLoading: isLoading,
+                readOnlyType: "chip",
                 noOptionsText: !searchValue && options.length === 0
                     ? t("typeToSearch")
                     : options.length === 0 && searchValue && !isLoading
