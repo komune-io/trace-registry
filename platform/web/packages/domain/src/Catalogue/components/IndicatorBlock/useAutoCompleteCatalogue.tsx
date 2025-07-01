@@ -26,11 +26,11 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
 
   const catalogueSearchQuery = useCatalogueRefSearchQuery({
     query: {
+      limit: searchLimit,
+      offset: 0,
       ...queryFilters,
       language: currentLanguage,
       query: searchValue,
-      limit: searchLimit,
-      offset: 0,
     },
     options: {
       enabled: enableSearchQuery,

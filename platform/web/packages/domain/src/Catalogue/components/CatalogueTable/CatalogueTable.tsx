@@ -116,7 +116,7 @@ export const CatalogueTable = (props: CatalogueTableProps) => {
     const getRowLink = useCallback(
         (row: Row<Catalogue | CatalogueRef>) => {
             return {
-                to: cataloguesAll(row.original.identifier),
+                to: cataloguesAll(row.original.id),
             }
         },
         [cataloguesAll],
