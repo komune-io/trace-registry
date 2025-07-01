@@ -378,7 +378,8 @@
         "contributionValidated": "Contribution validée et archivée",
         "consultPublishedSheet": "Consulter la fiche publiée",
         "contentAddedToSheet": "Les contenus de cette contribution ont été intégrés à la fiche principale. Aucune modification supplémentaire n’est possible sur cette version.",
-        "wishToReAddContent": "Si vous souhaitez apporter de nouvelles modifications, vous pouvez créer un nouveau brouillon depuis la fiche publiée."
+        "wishToReAddContent": "Si vous souhaitez apporter de nouvelles modifications, vous pouvez créer un nouveau brouillon depuis la fiche publiée.",
+        "validatorComment": "Commentaire du validateur"
     },
     "editor": {
         "imageUrl": "URL de l'image",
