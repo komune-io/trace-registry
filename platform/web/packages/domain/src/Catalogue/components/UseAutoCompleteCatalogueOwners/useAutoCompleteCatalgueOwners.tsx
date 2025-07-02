@@ -1,9 +1,9 @@
-import {useCallback, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {useDebouncedState} from "@mantine/hooks";
-import {CatalogueListAvailableOwnersQuery, useCatalogueListAvailableOwnersQuery} from "../../api";
-import {useAutoComplete} from "components/src/UseAutoComplete";
-import {OrganizationRef} from "../../../Identity";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDebouncedState } from "@mantine/hooks";
+import { CatalogueListAvailableOwnersQuery, useCatalogueListAvailableOwnersQuery } from "../../api";
+import { useAutoComplete } from "components/src/UseAutoComplete";
+import { OrganizationRef } from "../../../Identity";
 
 export interface UseAutoCompleteCatalogueOwnersProps {
   catalogueType: string
@@ -20,25 +20,25 @@ export const useAutoCompleteCatalogueOwners = (props: UseAutoCompleteCatalogueOw
   const { t } = useTranslation();
 
   const [queryFilters, setQueryFilters] = useState<Partial<CatalogueListAvailableOwnersQuery>>({});
-  const [searchValue, setSearchValue] = useDebouncedState<string | undefined>(undefined, 400);
-  const [enableSearchQuery, setEnableSearchQuery] = useState(false);
+  const [searchValues, setSearchValues] = useDebouncedState<Record<string, string | undefined>>({}, 400);
+  const [enableSearchQuery, setEnableSearchQuery] = useState<string | undefined>(undefined);
 
-  const ownerSearchQuery = useCatalogueListAvailableOwnersQuery({
+   const ownerSearchQuery = useCatalogueListAvailableOwnersQuery({
     query: {
       ...queryFilters,
       type: catalogueType,
-      search: searchValue,
+      search: searchValues[enableSearchQuery ?? ""],
       limit: searchLimit,
     },
     options: {
-      enabled: enableSearchQuery,
+      enabled: !!enableSearchQuery,
     },
   });
 
-  const handleSearch = useCallback((searchValue?: string, filters?: Partial<CatalogueListAvailableOwnersQuery>) => {
+  const handleSearch = useCallback((name: string, searchValue?: string, filters?: Partial<CatalogueListAvailableOwnersQuery>) => {
     setQueryFilters(filters || {})
-    setSearchValue(searchValue)
-    setEnableSearchQuery(true)
+    setSearchValues(prev => ({ ...prev, [name]: searchValue }))
+    setEnableSearchQuery(name)
   }, []);
 
   const handleGetOrganizationLabel = useCallback((organization: OrganizationRef) => organization.name, [])

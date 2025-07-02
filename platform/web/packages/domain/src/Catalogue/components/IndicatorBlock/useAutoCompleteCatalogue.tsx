@@ -1,9 +1,9 @@
-import {useCallback, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {useDebouncedState} from "@mantine/hooks";
-import {CatalogueRefSearchQuery, useCatalogueRefSearchQuery} from "../../api";
-import {CatalogueRef} from "../../model";
-import {useAutoComplete} from "components/src/UseAutoComplete";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDebouncedState } from "@mantine/hooks";
+import { CatalogueRefSearchQuery, useCatalogueRefSearchQuery } from "../../api";
+import { CatalogueRef } from "../../model";
+import { useAutoComplete } from "components/src/UseAutoComplete";
 
 export interface UseAutoCompleteCatalogueProps {
   fetchOnInitFocus?: boolean;
@@ -21,8 +21,8 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
   const currentLanguage = initialLanguage || i18n.language;
 
   const [queryFilters, setQueryFilters] = useState<Partial<CatalogueRefSearchQuery>>({});
-  const [searchValue, setSearchValue] = useDebouncedState<string | undefined>(undefined, 400);
-  const [enableSearchQuery, setEnableSearchQuery] = useState(false);
+  const [searchValues, setSearchValues] = useDebouncedState<Record<string, string | undefined>>({}, 400);
+  const [enableSearchQuery, setEnableSearchQuery] = useState<string | undefined>(undefined);
 
   const catalogueSearchQuery = useCatalogueRefSearchQuery({
     query: {
@@ -30,17 +30,17 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
       offset: 0,
       ...queryFilters,
       language: currentLanguage,
-      query: searchValue,
+      query: searchValues[enableSearchQuery ?? ""],
     },
     options: {
-      enabled: enableSearchQuery,
+      enabled: !!enableSearchQuery,
     },
   });
 
-  const handleSearch = useCallback((searchValue?: string, filters?: Partial<CatalogueRefSearchQuery>) => {
+  const handleSearch = useCallback((name: string, searchValue?: string, filters?: Partial<CatalogueRefSearchQuery>) => {
     setQueryFilters(filters || {})
-    setSearchValue(searchValue)
-    setEnableSearchQuery(true)
+    setSearchValues(prev => ({ ...prev, [name]: searchValue }))
+    setEnableSearchQuery(name)
   }, []);
 
   const handleGetCatalogueLabel = useCallback((catalogue: CatalogueRef) => catalogue.title, [])
@@ -50,6 +50,7 @@ export const useAutoCompleteCatalogue = (props: UseAutoCompleteCatalogueProps) =
   const autoComplete = useAutoComplete<CatalogueRef, CatalogueRefSearchQuery>({
     fetchOnInitFocus,
     options: catalogueSearchQuery.data?.items,
+    searchValue: searchValues[enableSearchQuery ?? ""],
     onSearch: handleSearch,
     noResultText: t("catalogues.noResult"),
     getOptionLabel: handleGetCatalogueLabel,
