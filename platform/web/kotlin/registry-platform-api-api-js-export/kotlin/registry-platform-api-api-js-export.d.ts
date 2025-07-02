@@ -1515,13 +1515,14 @@ export declare namespace io.komune.registry.s2.commons.model.form {
 }
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormFieldPropertiesDTO {
-        readonly multiline?: boolean;
-        readonly multiple?: boolean;
-        readonly rows?: number;
-        readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
+        readonly chipLimit?: number;
         readonly fileTypesAllowed?: string[];
         readonly filters?: string;
+        readonly multiline?: boolean;
+        readonly multiple?: boolean;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
+        readonly rows?: number;
+        readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
 
     }
 }
@@ -4366,10 +4367,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueRefSearchQueryDTO extends io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQueryDTO {
-        readonly offset?: number;
-        readonly limit?: number;
         readonly query?: string;
         readonly language: string;
+        readonly offset?: number;
+        readonly limit?: number;
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
@@ -4395,10 +4396,10 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueSearchQueryDTO {
-        readonly offset?: number;
-        readonly limit?: number;
         readonly query?: string;
         readonly language: string;
+        readonly offset?: number;
+        readonly limit?: number;
         readonly otherLanguageIfAbsent?: boolean;
         readonly accessRights?: string[];
         readonly catalogueIds?: string[];
