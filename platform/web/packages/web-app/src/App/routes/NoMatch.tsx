@@ -15,7 +15,6 @@ export const NoMatch = (props: NoMatchProps) => {
     const { keycloak } = useExtendedAuth()
     useEffect(() => {
         if (!keycloak.isAuthenticated) {
-            console.log(prevLocation?.current.pathname)
             keycloak.login(prevLocation?.current.pathname)
         }
     }, [keycloak.isAuthenticated])
