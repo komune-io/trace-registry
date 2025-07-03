@@ -44,9 +44,9 @@ export const MosaicCatalogueEntryPoint = (props: MosaicCatalogueEntryPointProps)
             <Stack
               gap={5}
             >
-                {catalogue?.identifier && <SubCatalogueGrid
+                {catalogue?.id && <SubCatalogueGrid
                   catalogue={catalogue}
-                  parentIds={[catalogue?.identifier]}
+                  parentIds={[catalogue?.id]}
                 />}
             </Stack>
         </AppPage>

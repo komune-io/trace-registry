@@ -37,7 +37,7 @@ export const SubCatalogueGrid = (props: SubCatalogueGridProps) => {
             title={subCatalogue?.title}
             src={g2Config().platform.url + subCatalogue?.img}
             alt={t("sheetIllustration")}
-            to={cataloguesAll(...(parentIds ?? []), subCatalogue?.identifier ?? "")}
+            to={cataloguesAll(...(parentIds ?? []), subCatalogue.id ?? "")}
         />
     )), [data?.items, parentIds, t])
 

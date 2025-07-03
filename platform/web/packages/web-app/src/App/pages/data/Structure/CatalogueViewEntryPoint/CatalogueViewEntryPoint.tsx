@@ -23,7 +23,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
     } = props
     const { t, i18n } = useTranslation()
     const { ids } = useCataloguesRouteParams()
-    const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
     const {policies} = useExtendedAuth()
     const navigate = useNavigate()
     const location = useLocation();
@@ -106,7 +106,7 @@ export const CatalogueViewEntryPoint = (props: CatalogueViewEntryPointProps) => 
                 title={t("catalogues.activeContribution")}
             >
                 <CustomLinkButton
-                    to={cataloguesCatalogueIdDraftIdEditTab(catalogue?.id!, currentLanguageDraft.id)}
+                    to={cataloguesCatalogueIdDraftsDraftIdTab(catalogue?.id!, currentLanguageDraft.id)}
                 >
                     {t("catalogues.consultContribution")}
                 </CustomLinkButton>

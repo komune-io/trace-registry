@@ -8,7 +8,7 @@ import {LexicalDistribution} from "../../api";
 export interface SubCatalogueListProps {
     catalogue?: Catalogue
     subCatalogues?: CatalogueRef[]
-    catalogueIdentifier?: string
+    catalogueId?: string
     lexicalDistribution?: LexicalDistribution
     isLoading?: boolean
     title?: string
@@ -23,16 +23,16 @@ export interface SubCatalogueListProps {
 export const SubCatalogueList = (props: SubCatalogueListProps) => {
     const { catalogue, subCatalogues,
         isLoading, description, linkLabel, title, lexicalDistribution,
-        seeAllLink, catalogueIdentifier, titleVariant, parentIds
+        seeAllLink, catalogueId, titleVariant, parentIds
     } = props
 
-    const identifier = catalogueIdentifier ?? catalogue?.identifier
+    const id = catalogueId ?? catalogue?.id
 
     const globalLoading = isLoading
 
     const dataDislpay = useMemo(() => subCatalogues?.slice(0,4)?.map((subCatalogue) => (
-        <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} parentIds={[...(parentIds ?? []), identifier!]} />
-    )), [subCatalogues, parentIds, identifier])
+        <CatalogueCard key={subCatalogue.id} catalogue={subCatalogue} parentIds={[...(parentIds ?? []), id!]} />
+    )), [subCatalogues, parentIds, id])
 
     if ((!dataDislpay || dataDislpay.length === 0) && !globalLoading) return <></>
     return (

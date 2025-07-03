@@ -23,7 +23,7 @@ export const CatalogueBreadcrumbs = () => {
         const refs = refsQuery.data?.map(({item}) => item).filter(Boolean) as CatalogueRef[] | undefined
         return [
             ...ids.map((id, index): Crumb => ({
-                label: refs?.find((ref) => ref.identifier === id && ref.language === i18n.language)?.title ?? id,
+                label: refs?.find((ref) => ref.id === id && ref.language === i18n.language)?.title ?? id,
                 url: cataloguesAll( ...ids.slice(0, index + 1))
             }))
         ]

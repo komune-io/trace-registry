@@ -13,16 +13,6 @@ export const useCatalogueGetQuery = (params: QueryParams<CatalogueGetQuery, Cata
   )
 }
 
-export interface CatalogueGetByIdentifier extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQueryDTO { }
-export interface CatalogueGetByIdentifierResult extends io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResultDTO { }
-
-export const useCatalogueGetByIdentifierQuery = (params: QueryParams<CatalogueGetByIdentifier, CatalogueGetByIdentifierResult>) => {
-  const requestProps = useAuthenticatedRequest()
-  return useQueryRequest<CatalogueGetByIdentifier, CatalogueGetByIdentifierResult>(
-    "data/catalogueGetByIdentifier", requestProps, params
-  )
-}
-
 export interface CataloguePageQuery extends io.komune.registry.f2.catalogue.domain.query.CataloguePageQueryDTO { }
 export interface CataloguePageResult extends io.komune.registry.f2.catalogue.domain.query.CataloguePageResultDTO { }
 
