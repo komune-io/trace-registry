@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback} from "react";
 import {useTranslation} from "react-i18next";
 import {AutoCompleteProps, FormComposableField, InputFormBasicProps} from "@komune-io/g2";
 import {SearchIcon} from "components";
