@@ -4,7 +4,7 @@ import { MenuItems } from '@komune-io/g2-components'
 import { useLocation  } from "react-router";
 import { Login } from "@mui/icons-material";
 import { TFunction } from "i18next";
-import {useExtendedAuth, Menu, IconPack, config} from "components";
+import { Menu, IconPack, config} from "components";
 import { Stack } from "@mui/material";
 import { MenuHeader } from "./MenuHeader";
 import {useCatalogueMenu} from "./useCatalogueMenu";
@@ -47,7 +47,6 @@ export const getMenu = (location: string, menu: MenuItem[]): MenuItem<LinkProps>
 
 export const useUserMenu = (logout: () => void, login: () => void, t: TFunction) => {
   const location = useLocation()
-  const { service } = useExtendedAuth()
   const adminUrl = config().admin.url
   const loggedMenu: MenuItem[] = useMemo(() => [{
     key: "profil",
@@ -66,7 +65,7 @@ export const useUserMenu = (logout: () => void, login: () => void, t: TFunction)
     action: login,
     label: t("login"),
     icon: <Login />
-  }], [Login, t, service.hasUserRouteAuth])
+  }], [Login])
 
   return {
     loggedMenu: useMemo(() => getMenu(location.pathname, loggedMenu), [location.pathname, loggedMenu]),

@@ -170,10 +170,11 @@
   "catalogueList": "Sheet list",
   "linkCatalogues": "Link sheets",
   "sheetCount": "{{count}} sheets",
+  "404Description": "You tried to access a page that may not exist or to which you do not have access rights.",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
-    "user": "Utilisateur"
+    "user": "User"
   },
   "organizationRoles": {
     "support": "Support",

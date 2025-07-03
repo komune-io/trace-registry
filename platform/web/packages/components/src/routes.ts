@@ -1,34 +1,35 @@
 import { useMemo, useCallback } from "react"
-import { Roles } from "./roles"
 import { insertObjectIdsInsideRoutes, RecordRouteCamelCase } from "./types"
-const strictRoutesAuthorizations = {
-  "": "open",
-  "projects": "open",
-  "projects/:projectId/view/:tab?/*": "open",
-  "projects/:projectId/transactions/:transactionId/view": "open",
-  "projects/create/:step": "open",
-  "transactions/:transactionId": "open",
-  "transactions": "open",
-  "catalogues": "open",
-  "catalogues/create/:type": "open",
-  "catalogues/toVerify": "open",
-  "catalogues/contributions": "open",
-  "catalogues/myOrganization": "open",
-  "catalogues/search": "open",
-  "catalogues/:catalogueId/drafts/:draftId/:tab?": "open",
-  "catalogues/:catalogueId/drafts/:draftId/verify/:tab?": "open",
-  "catalogues/:catalogueId/:draftId/:datasetId/graph": "open",
-  "catalogues/:catalogueId/:draftId/graph": "open",
-  "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "open",
-  "catalogues/*": "open",
+import { PathsOfObj } from "./utils"
+import { Policies } from "./auth"
+
+type PoliciesPaths = PathsOfObj<Policies> | "open" | "logged"
+
+export const strictRoutesAuthorizations = {
+  "": "open"  as PoliciesPaths,
+  "projects": "open" as PoliciesPaths,
+  "projects/:projectId/view/:tab?/*": "open" as PoliciesPaths,
+  "projects/:projectId/transactions/:transactionId/view": "open" as PoliciesPaths,
+  "projects/create/:step": "open" as PoliciesPaths,
+  "transactions/:transactionId": "open" as PoliciesPaths,
+  "transactions": "open" as PoliciesPaths,
+  "catalogues": "open" as PoliciesPaths,
+  "catalogues/create/:type": "catalogue.canCreate" as PoliciesPaths,
+  "catalogues/toVerify": "draft.canSeePublished" as PoliciesPaths,
+  "catalogues/contributions": "logged" as PoliciesPaths,
+  "catalogues/myOrganization": "catalogue.canSeeMyOrganization" as PoliciesPaths,
+  "catalogues/search": "open" as PoliciesPaths,
+  "catalogues/:catalogueId/drafts/:draftId/:tab?": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/drafts/:draftId/verify/:tab?": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/:draftId/:datasetId/graph": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/:draftId/graph": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "logged" as PoliciesPaths,
+  "catalogues/*": "open" as PoliciesPaths,
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
 
-export type RoutesRoles = Roles | "memberOf" | "currentUser"
-export type RoutesAuthorizations = { [route: string]: RoutesRoles[] | RoutesRoles[][] | "open" }
-//@ts-ignore
-export const routesAuthorizations: RoutesAuthorizations = { ...strictRoutesAuthorizations }
+export type RoutesAuthorizations = typeof strictRoutesAuthorizations
 
 
 type RoutesDefinitions = RecordRouteCamelCase<Routes, (...objectIds: string[]) => string>

@@ -1,13 +1,14 @@
 import React, {useCallback} from "react";
 import {useTranslation} from "react-i18next";
-import {useDebouncedState} from "@mantine/hooks";
 import {AutoCompleteProps, FormComposableField, InputFormBasicProps} from "@komune-io/g2";
 import {SearchIcon} from "components";
+import { CatalogueRef } from "domain-components";
 
 export interface UseAutoCompleteProps<Option, Filters> {
     fetchOnInitFocus?: boolean
     options?: Option[]
-    onSearch: (searchValue?: string, filters?: Partial<Filters>) => void
+    onSearch: (name:string, searchValue?: string, filters?: Partial<Filters>) => void
+    searchValue?: string
     noResultText?: string
     getOptionLabel?: (option: Option) => string
     getOptionKey?: (option: Option) => string
@@ -32,25 +33,23 @@ export function useAutoComplete<Option, Filters>(props: UseAutoCompleteProps<Opt
         getOptionKey,
         isOptionEqualToValue,
         isLoading = false,
+        searchValue
     } = props;
     const { t } = useTranslation();
 
-    const [searchValue, setSearchValue] = useDebouncedState<string | undefined>(undefined, 400);
-
-    const handleSearch = useCallback((searchValue?: string, filters?: Partial<Filters>) => {
-        setSearchValue(searchValue)
-        onSearch(searchValue, filters)
+    const handleSearch = useCallback((name:string, searchValue?: string, filters?: Partial<Filters>) => {
+        onSearch(name, searchValue, filters)
     }, [onSearch])
 
-    const handleInputChange = useCallback((value: string, filters?: Partial<Filters>) => {
-        handleSearch(value, filters)
+    const handleInputChange = useCallback((name:string, value: string, filters?: Partial<Filters>) => {
+        handleSearch(name, value, filters)
     }, [])
 
-    const handleFocus = useCallback((filters?: Partial<Filters>) => {
-        if (fetchOnInitFocus || !!searchValue) {
-            handleSearch(searchValue, filters)
+    const handleFocus = useCallback((name:string, filters?: Partial<Filters>) => {
+        if (fetchOnInitFocus) {
+            handleSearch(name, undefined, filters)
         }
-    }, [searchValue])
+    }, [])
 
     const getComposableField = useCallback((props: ComponentProps, filters?: Partial<Filters>): FormComposableField => {
         const { name, label, params, customDisplay } = props
@@ -61,15 +60,17 @@ export function useAutoComplete<Option, Filters>(props: UseAutoCompleteProps<Opt
             params: {
                 ...params,
                 popupIcon: <SearchIcon style={{ transform: "none" }} />,
-                onInputChange: (_: any, value: string) => handleInputChange(value, filters),
+                onInputChange: (_: any, value: string) => handleInputChange(name, value, filters),
                 getOptionLabel: getOptionLabel,
                 getOptionKey: getOptionKey,
+                getReadOnlyChipColor: (option?: CatalogueRef) => option?.structure?.color,
                 isOptionEqualToValue: isOptionEqualToValue,
                 className: "autoCompleteField",
-                onFocus: () => handleFocus(filters),
+                onFocus: () => handleFocus(name, filters),
                 options: options,
                 returnFullObject: true,
                 isLoading: isLoading,
+                readOnlyType: "chip",
                 noOptionsText: !searchValue && options.length === 0
                     ? t("typeToSearch")
                     : options.length === 0 && searchValue && !isLoading

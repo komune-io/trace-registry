@@ -1,9 +1,7 @@
 {
-    "-------------------------- TMP --------------------------": "",
     "organization-size": "Taille",
     "sector": "Secteur",
     "service": "Service",
-    "-------------------------- /TMP --------------------------": "",
     "BIODIV": "BIODIV",
     "dashboard": "Tableau de bord",
     "organizations": "Organisations",
@@ -178,6 +176,7 @@
     "catalogueList": "Liste des fiches",
     "linkCatalogues": "Lier des fiches",
     "sheetCount": "{{count}} fiches",
+    "404Description": " Vous avez essayé d'accéder à une page qui n'éxiste peut être pas ou sur laquelle vous n'avez pas les droits d'accès",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
