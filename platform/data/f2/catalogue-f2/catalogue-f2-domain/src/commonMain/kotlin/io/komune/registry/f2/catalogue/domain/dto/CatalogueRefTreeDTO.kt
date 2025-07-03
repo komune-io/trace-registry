@@ -26,6 +26,7 @@ interface CatalogueRefTreeDTO : CatalogueRefDTO {
     override val img: String?
     override val structure: CatalogueStructureDTO?
     override val order: Int?
+    override val modified: Long
     val catalogues: List<CatalogueRefTreeDTO>?
     val relatedCatalogues: Map<String, List<CatalogueRefTreeDTO>>?
 }
@@ -46,5 +47,6 @@ data class CatalogueRefTreeDTOBase(
     override val catalogues: List<CatalogueRefTreeDTOBase>?,
     override val structure: CatalogueStructureDTOBase?,
     override val order: Int?,
-    override val relatedCatalogues: Map<String, List<CatalogueRefTreeDTOBase>>?
+    override val relatedCatalogues: Map<String, List<CatalogueRefTreeDTOBase>>?,
+    override val modified: Long
 ) : CatalogueRefTreeDTO

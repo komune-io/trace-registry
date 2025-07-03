@@ -62,6 +62,8 @@ interface CatalogueRefDTO {
     val img: String?
 
     val order: Int?
+
+    val modified: Long
 }
 
 /**
@@ -79,4 +81,5 @@ data class CatalogueRefDTOBase(
     override val description: String?,
     override val img: String?,
     override val order: Int?,
+    override val modified: Long
 ) : CatalogueRefDTO

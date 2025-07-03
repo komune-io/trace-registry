@@ -56,6 +56,7 @@ class CatalogueI18nService(
                 img = translated.img,
                 structure = translated.getStructure(),
                 order = translated.order,
+                modified = translated.modified
             )
         }
     }
@@ -177,6 +178,7 @@ class CatalogueI18nService(
                 relatedCatalogues = translated.relatedCatalogueIds?.mapValues { (_, catalogueIds) ->
                     getCatalogueTree(catalogueIds, language, otherLanguageIfAbsent)
                 },
+                modified = translated.modified
             )
         }
     }
@@ -202,7 +204,11 @@ class CatalogueI18nService(
             }
             .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
             .filterNotNull()
-            .sortedBy { "${it.title}   ${it.identifier}" }
+            .sortedWith(
+                compareBy<CatalogueRefTreeDTOBase> { it.order ?: Int.MAX_VALUE }
+                    .thenBy { it.title }
+                    .thenBy { it.identifier }
+            )
     }
 
     /**
@@ -242,6 +248,7 @@ class CatalogueI18nService(
             version = translation.version,
             versionNotes = translation.versionNotes,
             integrateCounter = translation.integrateCounter,
+            modified = translation.modified
         )
     }
 
@@ -282,6 +289,9 @@ class CatalogueI18nService(
                 catalogueRef?.let { catalogueRefs.add(it) }
             }
         }
-        catalogueRefs
+        catalogueRefs.sortedWith(
+            compareBy<CatalogueRefDTOBase> { it.order ?: Int.MAX_VALUE }
+                .thenByDescending { it.modified }
+        )
     }
 }
