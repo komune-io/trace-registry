@@ -3,7 +3,7 @@ import { insertObjectIdsInsideRoutes, RecordRouteCamelCase } from "./types"
 import { PathsOfObj } from "./utils"
 import { Policies } from "./auth"
 
-type PoliciesPaths = PathsOfObj<Policies> | "open"
+type PoliciesPaths = PathsOfObj<Policies> | "open" | "logged"
 
 export const strictRoutesAuthorizations = {
   "": "open"  as PoliciesPaths,
@@ -16,14 +16,14 @@ export const strictRoutesAuthorizations = {
   "catalogues": "open" as PoliciesPaths,
   "catalogues/create/:type": "catalogue.canCreate" as PoliciesPaths,
   "catalogues/toVerify": "draft.canSeePublished" as PoliciesPaths,
-  "catalogues/contributions": "open" as PoliciesPaths,
+  "catalogues/contributions": "logged" as PoliciesPaths,
   "catalogues/myOrganization": "catalogue.canSeeMyOrganization" as PoliciesPaths,
   "catalogues/search": "open" as PoliciesPaths,
-  "catalogues/:catalogueId/drafts/:draftId/:tab?": "open" as PoliciesPaths,
-  "catalogues/:catalogueId/drafts/:draftId/verify/:tab?": "open" as PoliciesPaths,
-  "catalogues/:catalogueId/:draftId/:datasetId/graph": "open" as PoliciesPaths,
-  "catalogues/:catalogueId/:draftId/graph": "open" as PoliciesPaths,
-  "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "open" as PoliciesPaths,
+  "catalogues/:catalogueId/drafts/:draftId/:tab?": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/drafts/:draftId/verify/:tab?": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/:draftId/:datasetId/graph": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/:draftId/graph": "logged" as PoliciesPaths,
+  "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "logged" as PoliciesPaths,
   "catalogues/*": "open" as PoliciesPaths,
 } as const
 

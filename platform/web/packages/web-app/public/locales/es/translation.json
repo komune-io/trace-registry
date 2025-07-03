@@ -170,6 +170,7 @@
   "catalogueList": "Lista de fichas",
   "linkCatalogues": "Vincular fichas",
   "sheetCount": "{{count}} fichas",
+  "404Description": "Intentaste acceder a una página que puede que no exista o a la que no tienes derechos de acceso.",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

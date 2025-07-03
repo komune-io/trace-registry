@@ -1,20 +1,31 @@
-import { getIn, NoMatchPage, Router } from "@komune-io/g2";
-import { Route } from "react-router-dom";
+import { getIn, Router } from "@komune-io/g2";
+import { Navigate, Route, useLocation } from "react-router-dom";
 import { Routes, strictRoutesAuthorizations, useExtendedAuth } from "components";
 import { App } from "App";
 import { registryPages } from "App/pages/router";
-import {useMemo} from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { catalogPages } from "App/pages/data";
-
+import { NoMatch } from "./NoMatch";
 
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
 export const AppRouter = () => {
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
+
+  const location = useLocation();
+  const prevLocation = useRef(location);
+
+  useEffect(() => {
+    prevLocation.current = location;
+  }, [location]);
+
   return (
     <Router>
       <Route path="/" element={<App />} >
         {pages}
+        <Route path={"*"} element={
+          <NoMatch prevLocation={prevLocation} />
+        } />
       </Route >
     </Router>
   );
@@ -37,7 +48,7 @@ export const GenerateRoute = (props: PageRoute) => {
 }
 
 export const PrivateElement = (props: { route: Routes, children: JSX.Element }) => {
-  const { policies } = useExtendedAuth()
+  const { policies, keycloak } = useExtendedAuth()
 
   const policyPath = strictRoutesAuthorizations[props.route]
 
@@ -45,6 +56,7 @@ export const PrivateElement = (props: { route: Routes, children: JSX.Element }) 
 
   const canEnter = policyPath === "open" ? true : policy ? policy() : false;
 
-  if (!canEnter) return <NoMatchPage />
+  if (policyPath === "logged" && !keycloak.isAuthenticated) keycloak.login()
+  if (!canEnter) return <Navigate to="/404" replace={true} />
   return props.children;
 }
