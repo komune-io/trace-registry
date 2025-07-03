@@ -205,7 +205,7 @@ class CatalogueI18nService(
             .mapAsync { child -> translateToRefTreeDTO(child, language, otherLanguageIfAbsent) }
             .filterNotNull()
             .sortedWith(
-                compareBy { it.order ?: Int.MAX_VALUE }
+                compareBy<CatalogueRefTreeDTOBase> { it.order ?: Int.MAX_VALUE }
                     .thenBy { it.title }
                     .thenBy { it.identifier }
             )
@@ -290,7 +290,7 @@ class CatalogueI18nService(
             }
         }
         catalogueRefs.sortedWith(
-            compareBy { it.order ?: Int.MAX_VALUE }
+            compareBy<CatalogueRefDTOBase> { it.order ?: Int.MAX_VALUE }
                 .thenByDescending { it.modified }
         )
     }
