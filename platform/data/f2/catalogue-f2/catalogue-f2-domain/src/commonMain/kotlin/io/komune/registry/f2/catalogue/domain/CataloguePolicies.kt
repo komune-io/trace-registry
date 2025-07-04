@@ -115,7 +115,8 @@ object CataloguePolicies {
         authedUser == null -> accessRights == CatalogueAccessRight.PUBLIC
         authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> true
         authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights == CatalogueAccessRight.PUBLIC
+                || accessRights == CatalogueAccessRight.PROTECTED
                 || ownsCatalogueWith(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId)
-        else -> accessRights == CatalogueAccessRight.PUBLIC
+        else -> accessRights == CatalogueAccessRight.PUBLIC || accessRights == CatalogueAccessRight.PROTECTED
     }
 }

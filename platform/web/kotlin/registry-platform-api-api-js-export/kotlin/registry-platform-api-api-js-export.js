@@ -32,6 +32,11 @@ if (typeof Array.prototype.fill === 'undefined') {
     Object.defineProperty(TypedArray.prototype, 'fill', {value: Array.prototype.fill});
   }
 });
+if (typeof Math.log10 === 'undefined') {
+  Math.log10 = function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+}
 if (typeof Math.clz32 === 'undefined') {
   Math.clz32 = function (log, LN2) {
     return function (x) {
@@ -42,11 +47,6 @@ if (typeof Math.clz32 === 'undefined') {
       return 31 - (log(asUint) / LN2 | 0) | 0; // the "| 0" acts like math.floor
     };
   }(Math.log, Math.LN2);
-}
-if (typeof Math.log10 === 'undefined') {
-  Math.log10 = function (x) {
-    return Math.log(x) * Math.LOG10E;
-  };
 }
 if (typeof Math.imul === 'undefined') {
   Math.imul = function imul(a, b) {
@@ -89,21 +89,21 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, List, Collection]);
+  setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, List]);
   setMetadataFor(Map_0, 'Map', interfaceMeta);
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
   setMetadataFor(Companion, 'Companion', objectMeta);
-  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
+  setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, Collection, List], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -443,7 +443,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Symbol_0, 'Symbol', classMeta);
   setMetadataFor(SetTimeoutBasedDispatcher, 'SetTimeoutBasedDispatcher', classMeta, CoroutineDispatcher, VOID, VOID, VOID, VOID, [1]);
   setMetadataFor(NodeDispatcher, 'NodeDispatcher', objectMeta, SetTimeoutBasedDispatcher, VOID, VOID, VOID, VOID, [1]);
-  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [List, Collection]);
+  setMetadataFor(MessageQueue, 'MessageQueue', classMeta, VOID, [Collection, List]);
   setMetadataFor(ScheduledMessageQueue, 'ScheduledMessageQueue', classMeta, MessageQueue);
   setMetadataFor(WindowMessageQueue, 'WindowMessageQueue', classMeta, MessageQueue);
   setMetadataFor(Dispatchers, 'Dispatchers', objectMeta);
@@ -30246,14 +30246,17 @@ if (typeof Math.imul === 'undefined') {
     return true;
   };
   var CatalogueAccessRight_PUBLIC_instance;
+  var CatalogueAccessRight_PROTECTED_instance;
   var CatalogueAccessRight_PRIVATE_instance;
   function values_13() {
-    return [CatalogueAccessRight_PUBLIC_getInstance(), CatalogueAccessRight_PRIVATE_getInstance()];
+    return [CatalogueAccessRight_PUBLIC_getInstance(), CatalogueAccessRight_PROTECTED_getInstance(), CatalogueAccessRight_PRIVATE_getInstance()];
   }
   function valueOf_10(value) {
     switch (value) {
       case 'PUBLIC':
         return CatalogueAccessRight_PUBLIC_getInstance();
+      case 'PROTECTED':
+        return CatalogueAccessRight_PROTECTED_getInstance();
       case 'PRIVATE':
         return CatalogueAccessRight_PRIVATE_getInstance();
       default:
@@ -30268,7 +30271,8 @@ if (typeof Math.imul === 'undefined') {
       return Unit_instance;
     CatalogueAccessRight_entriesInitialized = true;
     CatalogueAccessRight_PUBLIC_instance = new CatalogueAccessRight('PUBLIC', 0);
-    CatalogueAccessRight_PRIVATE_instance = new CatalogueAccessRight('PRIVATE', 1);
+    CatalogueAccessRight_PROTECTED_instance = new CatalogueAccessRight('PROTECTED', 1);
+    CatalogueAccessRight_PRIVATE_instance = new CatalogueAccessRight('PRIVATE', 2);
   }
   function CatalogueAccessRight(name, ordinal) {
     Enum.call(this, name, ordinal);
@@ -30276,6 +30280,10 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueAccessRight_PUBLIC_getInstance() {
     CatalogueAccessRight_initEntries();
     return CatalogueAccessRight_PUBLIC_instance;
+  }
+  function CatalogueAccessRight_PROTECTED_getInstance() {
+    CatalogueAccessRight_initEntries();
+    return CatalogueAccessRight_PROTECTED_instance;
   }
   function CatalogueAccessRight_PRIVATE_getInstance() {
     CatalogueAccessRight_initEntries();
@@ -33154,9 +33162,9 @@ if (typeof Math.imul === 'undefined') {
         tmp = true;
       } else {
         if (hasRole_0(authedUser, 'rg_perm_catalogue_read_org')) {
-          tmp = accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance()) ? true : this.k2j(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId);
+          tmp = (accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance()) ? true : accessRights.equals(CatalogueAccessRight_PROTECTED_getInstance())) ? true : this.k2j(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId);
         } else {
-          tmp = accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance());
+          tmp = accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance()) ? true : accessRights.equals(CatalogueAccessRight_PROTECTED_getInstance());
         }
       }
     }
@@ -37538,6 +37546,7 @@ if (typeof Math.imul === 'undefined') {
     $io$komune$registry$s2$catalogue$domain$model.CatalogueAccessRight.values = values_13;
     $io$komune$registry$s2$catalogue$domain$model.CatalogueAccessRight.valueOf = valueOf_10;
     defineProp($io$komune$registry$s2$catalogue$domain$model.CatalogueAccessRight, 'PUBLIC', CatalogueAccessRight_PUBLIC_getInstance);
+    defineProp($io$komune$registry$s2$catalogue$domain$model.CatalogueAccessRight, 'PROTECTED', CatalogueAccessRight_PROTECTED_getInstance);
     defineProp($io$komune$registry$s2$catalogue$domain$model.CatalogueAccessRight, 'PRIVATE', CatalogueAccessRight_PRIVATE_getInstance);
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
