@@ -9,4 +9,8 @@ class InformationConceptPoliciesEnforcer : PolicyEnforcer() {
     suspend fun checkCreate() = checkAuthed("create an information concept") { authedUser ->
         InformationConceptPolicies.canCreate(authedUser)
     }
+
+    suspend fun checkDelete() = checkAuthed("delete an information concept") { authedUser ->
+        InformationConceptPolicies.canDelete(authedUser)
+    }
 }
