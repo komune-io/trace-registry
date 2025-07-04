@@ -12,17 +12,21 @@ export const DatasetIndicator = (props: DatasetIndicatorProps) => {
     const { item, relatedDatasets, isEmpty } = props
 
     const buildIndicatorsVisualizations = useCallback((datasets: Dataset[], getReferenceId: (dataset: Dataset) => string | undefined) => {
-        return datasets.map(dataset => {
+        let empty = true
+        const visualizations = datasets.map(dataset => {
             const distribution = dataset.distributions?.[0]
             const indicators = distribution?.aggregators ?? []
 
             if (indicators.length === 0) {
-                isEmpty(true)
                 return null
             }
 
+            empty = false
             return <IndicatorVisualization key={dataset.id} title={dataset.title} indicators={indicators} referenceId={getReferenceId(dataset)}/>
         })
+        if (empty) isEmpty(true)
+
+        return visualizations
     }, [isEmpty])
 
     const indicatorVisualization = useMemo(() => {
