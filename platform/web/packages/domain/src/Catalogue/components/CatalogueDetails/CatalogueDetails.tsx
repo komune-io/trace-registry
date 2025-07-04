@@ -1,17 +1,11 @@
 import {Stack} from '@mui/material'
-import {
-    autoFormFormatter,
-    BackAutoFormData,
-    FormComposable,
-    FormComposableField,
-    useFormComposable,
-} from '@komune-io/g2'
+import {autoFormFormatter, BackAutoFormData, FormComposable, FormComposableField, useFormComposable,} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
 import {Catalogue} from '../../model'
 import {Co2Counter, TitleDivider} from 'components'
 import {useCatalogueCo2Counter} from '../../api'
-import { CatalogueAutoDetailsForm } from '../CatalogueAutoDetailsForm'
+import {CatalogueAutoDetailsForm} from '../CatalogueAutoDetailsForm'
 
 type simplifiedReadonlyFields = Record<string, {
     value?: any,
@@ -53,7 +47,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const classificationValues = useMemo((): simplifiedReadonlyFields => ({
         access: {
-            value: catalogue?.accessRights ?? "",
+            value: t(catalogue?.accessRights ?? ""),
             label: t("access"),
         },
         licence: {

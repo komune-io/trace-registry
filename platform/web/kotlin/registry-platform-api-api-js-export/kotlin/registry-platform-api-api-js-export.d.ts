@@ -3263,7 +3263,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
-    type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
+    type CatalogueAccessRight = "PUBLIC" | "PROTECTED" | "PRIVATE";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
     interface CatalogueConfigurationDTO {
@@ -4186,6 +4186,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly description?: string;
         readonly img?: string;
         readonly order?: number;
+        readonly modified: number;
 
     }
 }
@@ -4201,6 +4202,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly img?: string;
         readonly structure?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO;
         readonly order?: number;
+        readonly modified: number;
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
         readonly relatedCatalogues?: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[]>;
 
