@@ -54,7 +54,7 @@ export const PrivateElement = (props: { route: Routes, children: JSX.Element }) 
 
   const policy: (() => boolean) | undefined = getIn(policies, policyPath)
 
-  const canEnter = policyPath === "open" ? true : policy ? policy() : false;
+  const canEnter = policyPath === "open" || policyPath === "logged"  ? true : policy ? policy() : false;
 
   if (policyPath === "logged" && !keycloak.isAuthenticated) keycloak.login()
   if (!canEnter) return <Navigate to="/404" replace={true} />
