@@ -63,7 +63,7 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     const handlePageChange = useCallback((newPage: OffsetPagination) => {
         changeValueCallback("limit")(newPage.limit)
         changeValueCallback("offset")(newPage.offset)
-        anchorRef.current?.scrollIntoView({behavior: "smooth", block: "nearest"})
+        anchorRef.current?.scrollIntoView({behavior: "smooth", block: "start"})
     }, [])
 
     return (
