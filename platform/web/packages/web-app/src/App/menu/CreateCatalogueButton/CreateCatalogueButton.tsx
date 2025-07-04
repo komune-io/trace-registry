@@ -23,14 +23,14 @@ export const CreateCatalogueButton = (props: CreateCatalogueButtonProps) => {
         }
       }).data?.item?.structure?.createButton
 
-    const items = useMemo(() => createButtonStruture?.types?.map((type): TMSMenuItem | undefined => {
+    const items = useMemo(() => createButtonStruture?.types?.map((type): TMSMenuItem => {
         return {
                 key: type.identifier,
                 label: type.name,
                 icon: <BackEndIcon url={type.icon}/>,
                 to: cataloguesCreateType(type.identifier)
             }
-    }).filter(Boolean) as TMSMenuItem[], [t, createButtonStruture])
+    }), [t, createButtonStruture])
 
     const { buttonProps, menu } = useButtonMenu({
         items
