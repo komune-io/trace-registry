@@ -1,5 +1,5 @@
 import {Dataset} from '../../model'
-import {useMemo} from "react";
+import {useCallback, useMemo} from "react";
 import {IndicatorVisualization} from "../../../Catalogue/components/IndicatorVisualization";
 
 export interface DatasetIndicatorProps {
@@ -10,6 +10,20 @@ export interface DatasetIndicatorProps {
 
 export const DatasetIndicator = (props: DatasetIndicatorProps) => {
     const { item, relatedDatasets, isEmpty } = props
+
+    const buildIndicatorsVisualizations = useCallback((datasets: Dataset[], getReferenceId: (dataset: Dataset) => string | undefined) => {
+        return datasets.map(dataset => {
+            const distribution = dataset.distributions?.[0]
+            const indicators = distribution?.aggregators ?? []
+
+            if (indicators.length === 0) {
+                isEmpty(true)
+                return null
+            }
+
+            return <IndicatorVisualization key={dataset.id} title={dataset.title} indicators={indicators} referenceId={getReferenceId(dataset)}/>
+        })
+    }, [isEmpty])
 
     const indicatorVisualization = useMemo(() => {
         const orderedDatasets = item.datasets?.sort((a, b) => {
@@ -24,17 +38,9 @@ export const DatasetIndicator = (props: DatasetIndicatorProps) => {
         ]
         if ((orderedDatasets ?? []).length === 0 && (relatedDatasets ?? []).length === 0) isEmpty(true)
         return indicators
-    },[item, relatedDatasets])
+    }, [item, relatedDatasets, buildIndicatorsVisualizations])
 
     return (
      <>{indicatorVisualization}</>
     )
-}
-
-function buildIndicatorsVisualizations(datasets: Dataset[], getReferenceId: (dataset: Dataset) => string | undefined) {
-    return datasets.map(dataset => {
-        const distribution = dataset.distributions?.[0]
-        const indicators = distribution?.aggregators ?? []
-        return <IndicatorVisualization key={dataset.id} title={dataset.title} indicators={indicators} referenceId={getReferenceId(dataset)}/>
-    })
 }

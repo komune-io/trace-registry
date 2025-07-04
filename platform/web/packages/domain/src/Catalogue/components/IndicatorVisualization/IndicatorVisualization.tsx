@@ -1,12 +1,12 @@
-import { RichtTextEditor, useRoutesDefinition } from 'components'
-import { useMemo } from 'react'
-import { Divider, Stack, Typography } from '@mui/material'
-import { InformationConcept, parseRangeValue } from '../../model'
-import { formatNumber, Link } from '@komune-io/g2'
-import { TFunction } from 'i18next'
-import { useTranslation } from 'react-i18next'
-import { Link as RouterLink, LinkProps } from 'react-router-dom'
-import { extractCatalogueIdentifierNumber, useCatalogueListAllowedTypesQuery, useCatalogueRefGetQuery } from '../../api'
+import {RichtTextEditor, useRoutesDefinition} from 'components'
+import {useMemo} from 'react'
+import {Divider, Stack, Typography} from '@mui/material'
+import {InformationConcept, parseRangeValue} from '../../model'
+import {formatNumber, Link} from '@komune-io/g2'
+import {TFunction} from 'i18next'
+import {useTranslation} from 'react-i18next'
+import {Link as RouterLink, LinkProps} from 'react-router-dom'
+import {extractCatalogueIdentifierNumber, useCatalogueListAllowedTypesQuery, useCatalogueRefGetQuery} from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
@@ -117,6 +117,10 @@ const infoConceptsToMarkdownListItem = (indicators: InformationConcept[], t: TFu
 }
 
 const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFunction, language: string) => {
+    if (indicators.length === 0) {
+        return ""
+    }
+
     const indicatorsByIdentifier = indicators.reduce((acc, indicator) => {
         const identifier = indicator.identifier
         if (!acc[identifier]) {
