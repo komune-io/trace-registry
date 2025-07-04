@@ -3,6 +3,7 @@ package io.komune.registry.s2.cccev.api.entity.concept
 import io.komune.registry.s2.cccev.domain.InformationConceptState
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputedValueEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreatedEvent
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptDeletedEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdatedEvent
 import org.springframework.stereotype.Service
@@ -15,6 +16,7 @@ class InformationConceptEvolver: View<InformationConceptEvent, InformationConcep
 		is InformationConceptCreatedEvent -> create(event)
 		is InformationConceptUpdatedEvent -> model?.update(event)
 		is InformationConceptComputedValueEvent -> model
+		is InformationConceptDeletedEvent -> model?.delete(event)
 	}
 
 	private suspend fun create(event: InformationConceptCreatedEvent) = InformationConceptEntity().apply {
@@ -34,6 +36,11 @@ class InformationConceptEvolver: View<InformationConceptEvent, InformationConcep
 		unit = event.unit
 		aggregator = event.aggregator
 		themeIds = event.themeIds.toMutableSet()
+		modified = event.date
+	}
+
+	private suspend fun InformationConceptEntity.delete(event: InformationConceptDeletedEvent) = apply {
+		status = InformationConceptState.DELETED
 		modified = event.date
 	}
 }

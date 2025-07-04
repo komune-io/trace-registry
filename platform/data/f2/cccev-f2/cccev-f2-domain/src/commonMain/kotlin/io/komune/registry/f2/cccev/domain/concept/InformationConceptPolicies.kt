@@ -11,6 +11,10 @@ object InformationConceptPolicies {
         return canWrite(authedUser)
     }
 
+    fun canDelete(authedUser: AuthedUserDTO): Boolean {
+        return canWrite(authedUser)
+    }
+
     private fun canWrite(authedUser: AuthedUserDTO): Boolean {
         return authedUser.hasRole(Permissions.Configuration.CCCEV_WRITE)
     }

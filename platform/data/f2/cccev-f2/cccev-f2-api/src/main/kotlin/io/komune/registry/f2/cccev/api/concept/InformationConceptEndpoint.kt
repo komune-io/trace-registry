@@ -6,6 +6,8 @@ import io.komune.registry.f2.cccev.api.concept.service.InformationConceptPolicie
 import io.komune.registry.f2.cccev.domain.concept.InformationConceptApi
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreateFunction
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreatedEventDTOBase
+import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptDeleteFunction
+import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptDeletedEventDTOBase
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptUpdateFunction
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptUpdatedEventDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierFunction
@@ -15,8 +17,8 @@ import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlo
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
-import jakarta.annotation.security.PermitAll
 import io.komune.registry.s2.commons.utils.truncateLanguage
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -68,5 +70,13 @@ class InformationConceptEndpoint(
         informationConceptPoliciesEnforcer.checkCreate()
         cccevAggregateService.updateConcept(command)
             .let { InformationConceptUpdatedEventDTOBase(it.id) }
+    }
+
+    @Bean
+    override fun informationConceptDelete(): InformationConceptDeleteFunction = f2Function { command ->
+        logger.info("informationConceptDelete: $command")
+        informationConceptPoliciesEnforcer.checkDelete()
+        cccevAggregateService.deleteConcept(command)
+            .let { InformationConceptDeletedEventDTOBase(it.id) }
     }
 }

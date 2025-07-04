@@ -9,6 +9,7 @@ import f2.dsl.fnc.F2SupplierSingle
 import f2.dsl.fnc.f2SupplierSingle
 import io.komune.registry.f2.cccev.domain.CccevApi
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreateFunction
+import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptDeleteFunction
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptUpdateFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueFunction
@@ -54,6 +55,8 @@ open class CccevClient(val client: F2Client) : CccevApi {
         = client.function("data/${this::informationConceptCreate.name}")
     override fun informationConceptUpdate(): InformationConceptUpdateFunction
         = client.function("data/${this::informationConceptUpdate.name}")
+    override fun informationConceptDelete(): InformationConceptDeleteFunction
+        = client.function("data/${this::informationConceptDelete.name}")
     override fun informationConceptGetByIdentifier(): InformationConceptGetByIdentifierFunction
         = client.function("data/${this::informationConceptGetByIdentifier.name}")
     override fun informationConceptList(): InformationConceptListFunction

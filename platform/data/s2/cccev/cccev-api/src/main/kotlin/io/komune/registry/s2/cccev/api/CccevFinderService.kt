@@ -8,6 +8,7 @@ import io.komune.registry.s2.cccev.api.entity.value.SupportedValueEntity
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
 import io.komune.registry.s2.cccev.api.entity.value.toModel
 import io.komune.registry.s2.cccev.api.processor.compute
+import io.komune.registry.s2.cccev.domain.InformationConceptState
 import io.komune.registry.s2.cccev.domain.SupportedValueState
 import io.komune.registry.s2.cccev.domain.model.AggregatorType
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
@@ -33,6 +34,7 @@ class CccevFinderService(
     suspend fun getConceptOrNull(id: InformationConceptId): InformationConceptModel? {
         return conceptRepository.findById(id)
             .orElse(null)
+            ?.takeUnless { it.status == InformationConceptState.DELETED }
             ?.toModel()
     }
 
@@ -43,6 +45,7 @@ class CccevFinderService(
 
     suspend fun getConceptByIdentifierOrNull(identifier: String): InformationConceptModel? {
         return conceptRepository.findByIdentifier(identifier)
+            ?.takeUnless { it.status == InformationConceptState.DELETED }
             ?.toModel()
     }
 
@@ -52,7 +55,7 @@ class CccevFinderService(
     }
 
     suspend fun listConcepts(): List<InformationConceptModel> {
-        return conceptRepository.findAll()
+        return conceptRepository.findAllByStatus(InformationConceptState.ACTIVE)
             .map { it.toModel() }
     }
 
