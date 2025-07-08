@@ -18,6 +18,7 @@ import {
   getDOMSelection,
   KEY_ESCAPE_COMMAND,
   LexicalEditor,
+  LexicalNode,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
@@ -55,20 +56,25 @@ function FloatingLinkEditor({
     if (!isLink) return
     const selection = $getSelection();
     let url = ""
+
+    const verifyisButton = (node: LexicalNode) => {
+      if ($isButtonableLinkNode(node)) {
+        setisButton(node.getIsButton())
+      } else if ($isLinkNode(node)) {
+        setisButton(false)
+      }
+    }
+
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
 
       if (linkParent) {
         url = linkParent.getURL()
-        if ($isButtonableLinkNode(linkParent)) {
-          setisButton(linkParent.getIsButton())
-        }
+        verifyisButton(linkParent);
       } else if ($isLinkNode(node)) {
         url = node.getURL();
-        if ($isButtonableLinkNode(node)) {
-          setisButton(node.getIsButton())
-        }
+        verifyisButton(node);
       }
       setEditedLinkUrl(url);
     } else if ($isNodeSelection(selection)) {
@@ -78,14 +84,10 @@ function FloatingLinkEditor({
         const parent = node.getParent();
         if ($isLinkNode(parent)) {
           url = parent.getURL()
-          if ($isButtonableLinkNode(parent)) {
-            setisButton(parent.getIsButton())
-          }
+          verifyisButton(parent);
         } else if ($isLinkNode(node)) {
           url = node.getURL()
-          if ($isButtonableLinkNode(node)) {
-            setisButton(node.getIsButton())
-          }
+          verifyisButton(node);
         }
         setEditedLinkUrl(url);
       }
