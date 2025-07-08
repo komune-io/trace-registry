@@ -34,7 +34,7 @@ import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { TableActionMenuPlugin, TableCellActionMenuPlugin, TableCellResizerPlugin } from './plugins/TablePlugin';
 import { ImageNode, ImagesPlugin } from './plugins/ImagesPlugin';
 import { DragDropPasteImgPlugin } from './plugins/DragDropPasteImgPlugin';
-import { LinkEditorPlugin } from './plugins/LinkEditorPlugin';
+import { ButtonnableLinkNode, LinkEditorPlugin } from './plugins/LinkEditorPlugin';
 import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin';
 import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode';
 
@@ -52,6 +52,7 @@ const editorConfig: InitialConfigType = {
         QuoteNode,
         AutoLinkNode,
         LinkNode,
+        ButtonnableLinkNode,
         ListNode,
         ListItemNode,
         ImageNode,

@@ -1,6 +1,5 @@
 import type { JSX } from 'react';
 import {
-  $createLinkNode,
   $isAutoLinkNode,
   $isLinkNode,
   TOGGLE_LINK_COMMAND,
@@ -19,6 +18,7 @@ import {
   getDOMSelection,
   KEY_ESCAPE_COMMAND,
   LexicalEditor,
+  LexicalNode,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
@@ -31,6 +31,9 @@ import { getSelectedNode, sanitizeUrl } from '../../utils';
 import { OpenInNewRounded } from '@mui/icons-material';
 import { MentionPlugin } from './MentionPlugin';
 import { setFloatingElemPositionForLinkEditor } from './setFloatingElemPositionForLinkEditor';
+import { $createButtonableLinkNode, $isButtonableLinkNode } from './ButtonnableLinkNode';
+import { LabeledSwitch } from '../../../LabeledSwitch';
+import {useTranslation} from "react-i18next"
 
 function FloatingLinkEditor({
   editor,
@@ -43,22 +46,35 @@ function FloatingLinkEditor({
   setIsLink: Dispatch<boolean>;
   anchorElem: HTMLElement;
 }): JSX.Element {
+  const {t} = useTranslation()
   const editorRef = useRef<HTMLDivElement | null>(null);
   const [editedLinkUrl, setEditedLinkUrl] = useState('');
   const [isSaved, setIsSaved] = useState(true)
+  const [isButton, setisButton] = useState(false)
 
   const $updateLinkEditor = useCallback(() => {
     if (!isLink) return
     const selection = $getSelection();
     let url = ""
+
+    const verifyisButton = (node: LexicalNode) => {
+      if ($isButtonableLinkNode(node)) {
+        setisButton(node.getIsButton())
+      } else if ($isLinkNode(node)) {
+        setisButton(false)
+      }
+    }
+
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
 
       if (linkParent) {
         url = linkParent.getURL()
+        verifyisButton(linkParent);
       } else if ($isLinkNode(node)) {
         url = node.getURL();
+        verifyisButton(node);
       }
       setEditedLinkUrl(url);
     } else if ($isNodeSelection(selection)) {
@@ -68,8 +84,10 @@ function FloatingLinkEditor({
         const parent = node.getParent();
         if ($isLinkNode(parent)) {
           url = parent.getURL()
+          verifyisButton(parent);
         } else if ($isLinkNode(node)) {
           url = node.getURL()
+          verifyisButton(node);
         }
         setEditedLinkUrl(url);
       }
@@ -210,10 +228,10 @@ function FloatingLinkEditor({
         if ($isRangeSelection(selection)) {
           const parent = getSelectedNode(selection).getParent();
           if ($isAutoLinkNode(parent)) {
-            const linkNode = $createLinkNode(parent.getURL(), {
-              rel: parent.__rel,
-              target: parent.__target,
-              title: parent.__title,
+            const linkNode = $createButtonableLinkNode(parent.getURL(), {
+              rel: parent.getRel(),
+              target: parent.getTarget(),
+              title: parent.getTitle(),
             });
             parent.replace(linkNode, true);
           }
@@ -221,9 +239,32 @@ function FloatingLinkEditor({
       });
       setIsSaved(true)
     },
-    [editedLinkUrl],
+    [editor, editedLinkUrl],
   )
 
+  const onSwitchButton = useCallback(
+    (_, isButton: boolean) => {
+      setisButton(isButton)
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const node = getSelectedNode(selection);
+          const linkNode = $findMatchingParent(node, $isLinkNode);
+          if ($isButtonableLinkNode(linkNode)) {
+            linkNode.setIsButton(isButton);
+          } else if ($isLinkNode(linkNode)) {
+            const newNode = $createButtonableLinkNode(linkNode.getURL(), {
+              rel: linkNode.__rel,
+              target: linkNode.__target,
+              title: linkNode.__title,
+            }, isButton);
+            linkNode.replace(newNode, true);
+          }
+        }
+      });
+    },
+    [editor],
+  )
 
   return (
     <Paper
@@ -278,6 +319,11 @@ function FloatingLinkEditor({
       >
         <IconPack.trash />
       </IconButton>
+      <LabeledSwitch
+        checked={isButton}
+        onChange={onSwitchButton}
+        label={t("button")}
+      />
       <MentionPlugin
         editor={editor}
         linkUrl={editedLinkUrl}

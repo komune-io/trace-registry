@@ -177,6 +177,7 @@
     "linkCatalogues": "Lier des fiches",
     "sheetCount": "{{count}} fiches",
     "404Description": "La page que vous essayez d’ouvrir n’existe pas ou vous n’avez pas les droits nécessaires pour y accéder.",
+    "button": "Bouton",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -378,7 +379,7 @@
         "minOrMaxValueRequired": "Vous devez renseigner la valeur minimale ou maximale",
         "noDataset": "Aucun jeu de données n'a été trouvé",
         "integrateInCounter": "Intégrer ce projet au compteur CO₂",
-        "searchMention": "Entrez une url ou recherchez une fiche pour le mentionner",
+        "searchMention": "Entrez une url ou recherchez une fiche pour la mentionner",
         "contributionValidated": "Contribution validée et archivée",
         "consultPublishedSheet": "Consulter la fiche publiée",
         "contentAddedToSheet": "Les contenus de cette contribution ont été intégrés à la fiche principale. Aucune modification supplémentaire n’est possible sur cette version.",
