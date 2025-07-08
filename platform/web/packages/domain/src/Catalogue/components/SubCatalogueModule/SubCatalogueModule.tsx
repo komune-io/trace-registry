@@ -19,6 +19,8 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     const { parentIdentifier, type, relatedInId, isEmpty } = props;
     const { i18n } = useTranslation()
 
+    const [hasChangedPage, sethasChangedPage] = useState(false)
+
     const anchorRef = useRef<HTMLDivElement | null>(null)
 
     const [state, setState] = useState<Partial<CatalogueSearchQuery>>({ limit: 12, offset: 0 })
@@ -50,6 +52,13 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     })
 
     useEffect(() => {
+     if (data?.items && !isFetching && hasChangedPage) {
+        anchorRef.current?.scrollIntoView({behavior: "instant", block: "start"})
+     }
+    }, [isFetching, data])
+    
+
+    useEffect(() => {
         if (data?.items && data?.items.length === 0 && isEmpty) {
             isEmpty(true)
         }
@@ -63,7 +72,7 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     const handlePageChange = useCallback((newPage: OffsetPagination) => {
         changeValueCallback("limit")(newPage.limit)
         changeValueCallback("offset")(newPage.offset)
-        anchorRef.current?.scrollIntoView({behavior: "smooth", block: "start"})
+        sethasChangedPage(true) 
     }, [])
 
     return (
@@ -72,11 +81,11 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
             {type === "LIST" ? <CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage />
                 :
                 <CatalogueGrid items={data?.items} isLoading={isFetching} />}
-                <Box 
+            <Box
                 sx={{
                     height: "60px"
                 }}
-                 />
+            />
             <FixedPagination
                 pagination={pagination}
                 page={data}
