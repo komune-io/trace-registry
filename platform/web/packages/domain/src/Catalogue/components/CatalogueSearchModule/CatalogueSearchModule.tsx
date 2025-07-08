@@ -10,10 +10,12 @@ export interface CatalogueSearchModuleProps<T extends {}> {
     data?: CatalogueSearchResult
     isFetching?: boolean
     withImage?: boolean
+    onValidate: () => void
+    onClear: () => void
 }
 
 export const CatalogueSearchModule = <T extends {}>(props: CatalogueSearchModuleProps<T>) => {
-    const { state, changeValueCallback, data, isFetching, withImage } = props
+    const { state, changeValueCallback, data, isFetching, withImage, onClear, onValidate } = props
     const { t } = useTranslation()
    
     return (
@@ -27,6 +29,8 @@ export const CatalogueSearchModule = <T extends {}>(props: CatalogueSearchModule
                 facets={data?.facets}
                 //@ts-ignore
                 onChangeFacet={changeValueCallback}
+                onClear={onClear}
+                onValidate={onValidate}
             />
             {isFetching ? <Stack direction="row" justifyContent="center" flex={1} pt={6}>
                 <CircularProgress size={60} />

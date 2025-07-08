@@ -37,7 +37,7 @@ export const CatalogueSearchPage = () => {
     }
   }, [])
 
-  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery>({
+  const { state, validatedState, changeValueCallback, onClear, onValidate } = useUrlSavedState<CatalogueSearchQuery>({
     initialState: {
       limit: 20,
       offset: 0
@@ -46,7 +46,7 @@ export const CatalogueSearchPage = () => {
 
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
-      ...state,
+      ...validatedState,
       language: i18n.language,
     },
     options: {
@@ -97,7 +97,7 @@ export const CatalogueSearchPage = () => {
         }
       }}
     >
-      <CatalogueSearchHeader initialValue={state.query} onSearch={changeValueCallback("query")} goBackUrl={goBackUrl} />
+      <CatalogueSearchHeader initialValue={state.query} onSearch={changeValueCallback("query", true)} goBackUrl={goBackUrl} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -117,14 +117,15 @@ export const CatalogueSearchPage = () => {
           state={state}
           data={data}
           isFetching={isFetching}
-
+          onValidate={onValidate}
+          onClear={onClear}
         />
       </Stack>
       <FixedPagination
         pagination={pagination}
         onOffsetChange={(offset) => {
-          changeValueCallback('limit')(offset.limit)
-          changeValueCallback('offset')(offset.offset)
+          changeValueCallback('limit', true)(offset.limit)
+          changeValueCallback('offset', true)(offset.offset)
         }}
         page={data}
       />

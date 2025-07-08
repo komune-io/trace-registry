@@ -1,5 +1,5 @@
-import { Stack } from '@mui/material'
-import { SelectableChipGroup, TitleDivider } from 'components'
+import { Box, Stack, Typography } from '@mui/material'
+import { CustomButton, SelectableChipGroup, TitleDivider } from 'components'
 import { useTranslation } from 'react-i18next'
 import { FacetDTO } from '../../api'
 import { useMemo } from 'react'
@@ -10,10 +10,12 @@ interface CatalogueSearchFiltersProps {
     savedState: any
     facets?: FacetDTO[]
     onChangeFacet: (key: string) => (values: string[]) => void
+    onValidate: () => void
+    onClear: () => void
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { additionalFilters, facets, onChangeFacet, savedState } = props
+    const { additionalFilters, facets, onChangeFacet, savedState, onClear, onValidate } = props
     const { t } = useTranslation()
 
     const facetsDisplay = useMemo(() => facets?.map((facets) => (
@@ -29,6 +31,8 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
         />
     )), [facets, savedState, onChangeFacet])
 
+    const hasFilters = Object.keys(savedState).length > 2
+
     return (
         <Stack
             gap={3.5}
@@ -42,6 +46,45 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             <TitleDivider title={t("filter")} size='subtitle1' />
             {additionalFilters}
             {facetsDisplay}
+            {hasFilters &&
+                <Stack
+                    alignItems="center"
+                    direction="row"
+                    width="100%"
+                    gap={2}
+                    sx={{
+                        position: "sticky",
+                        bottom: "-70px",
+                        backgroundColor: "background.paper",
+                        padding: 2,
+                        borderRadius: 1,
+                        boxShadow: 1,
+                        zIndex: 11,
+                        borderColor: "divider",
+                        borderStyle: "solid",
+                        borderWidth: "1px"
+                    }}
+                >
+
+                    <Typography
+                        variant='subtitle2'
+                    >
+                        {t("filtersCount", { count: Object.keys(savedState).length - 2 })}
+                    </Typography>
+                    <Box flex={1} />
+                    <CustomButton
+                        onClick={onClear}
+                        variant="text"
+                    >
+                        {t("clear")}
+                    </CustomButton>
+                    <CustomButton
+                        onClick={onValidate}
+                    >
+                        {t("validate")}
+                    </CustomButton>
+                </Stack>
+            }
         </Stack>
     )
 }
