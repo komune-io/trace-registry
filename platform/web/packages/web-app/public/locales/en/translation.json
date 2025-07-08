@@ -171,6 +171,7 @@
   "linkCatalogues": "Link sheets",
   "sheetCount": "{{count}} sheets",
   "404Description": "The page you are trying to open does not exist or you do not have the necessary rights to access it.",
+  "button": "Button",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
