@@ -227,9 +227,9 @@ function FloatingLinkEditor({
           const parent = getSelectedNode(selection).getParent();
           if ($isAutoLinkNode(parent)) {
             const linkNode = $createButtonableLinkNode(parent.getURL(), {
-              rel: parent.__rel,
-              target: parent.__target,
-              title: parent.__title,
+              rel: parent.getRel(),
+              target: parent.getTarget(),
+              title: parent.getTitle(),
             });
             parent.replace(linkNode, true);
           }

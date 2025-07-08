@@ -73,20 +73,12 @@ export class ButtonnableLinkNode extends LinkNode {
   updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedButtonnableLinkNode>): this {
     return super
       .updateFromJSON(serializedNode)
-      .setURL(serializedNode.url)
-      .setRel(serializedNode.rel || null)
-      .setTarget(serializedNode.target || null)
-      .setTitle(serializedNode.title || null)
       .setIsButton(serializedNode.isButton || false);
   }
 
   exportJSON(): SerializedButtonnableLinkNode {
     return {
       ...super.exportJSON(),
-      rel: this.getRel(),
-      target: this.getTarget(),
-      title: this.getTitle(),
-      url: this.getURL(),
       isButton: this.getIsButton(),
     };
   }
