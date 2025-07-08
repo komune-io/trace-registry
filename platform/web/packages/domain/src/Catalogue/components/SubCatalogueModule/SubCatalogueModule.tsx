@@ -53,7 +53,7 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
 
     useEffect(() => {
      if (data?.items && !isFetching && hasChangedPage) {
-        anchorRef.current?.scrollIntoView({behavior: "smooth", block: "start"})
+        anchorRef.current?.scrollIntoView({behavior: "instant", block: "start"})
      }
     }, [isFetching, data])
     
