@@ -4,6 +4,8 @@ import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueIllustrat
 import io.komune.registry.s2.catalogue.domain.model.structure.StructureType
 import io.komune.registry.s2.commons.model.form.Form
 import io.komune.registry.s2.commons.model.form.FormDTO
+import io.komune.registry.s2.commons.model.table.Table
+import io.komune.registry.s2.commons.model.table.TableDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -18,6 +20,7 @@ interface CatalogueStructureDTO {
     val creationForm: FormDTO?
     val metadataForm: FormDTO?
     val tagForm: FormDTO?
+    val table: TableDTO?
     val createButton: CatalogueCreateButtonDTO?
 }
 
@@ -32,5 +35,6 @@ data class CatalogueStructureDTOBase(
     override val creationForm: Form?,
     override val metadataForm: Form?,
     override val tagForm: Form?,
+    override val table: Table?,
     override val createButton: CatalogueCreateButtonDTOBase?
 ) : CatalogueStructureDTO
