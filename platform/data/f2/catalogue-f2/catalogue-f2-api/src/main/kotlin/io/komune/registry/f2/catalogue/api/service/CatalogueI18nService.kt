@@ -206,8 +206,9 @@ class CatalogueI18nService(
             .filterNotNull()
             .sortedWith(
                 compareBy<CatalogueRefTreeDTOBase> { it.order ?: Int.MAX_VALUE }
-                    .thenBy { it.title }
-                    .thenBy { it.identifier }
+                    .thenByDescending { it.modified }
+//                    .thenBy { it.title }
+//                    .thenBy { it.identifier }
             )
     }
 
