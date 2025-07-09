@@ -98,8 +98,6 @@ class ImportScript(
         catalogueReferencesFinder = CatalogueReferencesFinder(importContext, importRepository)
 
         importRepository.fetchPreExistingLicence()
-        importRepository.fetchPreExistingDatasets()
-        importRepository.fetchPreExistingGraphDataset()
 
         if (!catalogueSettings.jsonPathPattern.endsWith(".json")) {
             throw IllegalArgumentException("Invalid JSON path pattern: ${catalogueSettings.jsonPathPattern}")

@@ -28,4 +28,5 @@ data class CatalogueDraftModel(
     val validatorOrganizationId: OrganizationId?,
     val issued: Long,
     val modified: Long,
+    val isDeleted: Boolean,
 )

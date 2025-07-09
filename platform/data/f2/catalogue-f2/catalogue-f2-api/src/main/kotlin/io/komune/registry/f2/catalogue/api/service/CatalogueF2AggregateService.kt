@@ -69,6 +69,7 @@ import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.catalogue.draft.api.entity.checkLanguage
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCreateCommand
+import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftDeleteCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftRejectCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateLinksCommand
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
@@ -368,6 +369,12 @@ class CatalogueF2AggregateService(
 
         catalogue.translationIds.values.mapAsync {
             delete(CatalogueDeleteCommand(it))
+        }
+
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(catalogue.id)
+        if (draft != null) {
+            CatalogueDraftDeleteCommand(draft.id).let { catalogueDraftAggregateService.delete(it) }
+            return event
         }
 
         val pendingDrafts = catalogueDraftFinderService.page(
