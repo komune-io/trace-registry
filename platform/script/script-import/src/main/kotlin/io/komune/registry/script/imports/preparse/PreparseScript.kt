@@ -54,7 +54,10 @@ class PreparseScript(
 
         paths.forEach { path ->
             val rootDirectory = File(path.source).checkIsDirectory()
-            val destinationDirectory = File(path.destination).also { it.deleteRecursively() }
+            val destinationDirectory = File(path.destination).also {
+                it.deleteRecursively()
+                it.mkdirs()
+            }
             val settingsFile = File(rootDirectory, "settings.json").checkIsFile()
 
             PreparseCache(File(path.cache)).use { cache ->
@@ -69,10 +72,9 @@ class PreparseScript(
                         ?.preparse
                         ?.nullIfEmpty()
                         ?.forEach { preparse(it) }
-                        ?: throw IllegalArgumentException("No preparse settings found in ${settingsFile.path}")
 
                     val updatedSettings = settings.copy(
-                        catalogue = settings.catalogue.copy(
+                        catalogue = settings.catalogue?.copy(
                             preparse = null,
                             init = CatalogueInitSettings(
                                 concepts = settings.catalogue.init?.concepts.orEmpty() + cache.savedConcepts(),

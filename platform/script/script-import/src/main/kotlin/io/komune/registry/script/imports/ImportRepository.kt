@@ -20,7 +20,6 @@ import io.komune.registry.f2.dataset.domain.query.DatasetExistsQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
-import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.f2.license.domain.query.LicenseListQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
@@ -51,38 +50,6 @@ class ImportRepository(
     private val importContext: ImportContext,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-
-    suspend fun fetchPreExistingGraphDataset() {
-        setOf("fr", "en", "es").forEach { language ->
-            importContext.preExistinggraphDataset[language] = try {
-                DatasetGraphSearchQuery(
-                    rootCatalogueIdentifier = "100m-charts",
-                    datasetType = "rawGraph",
-                    language = language
-                ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
-            }catch (e: F2Exception) {
-                logger.error(e.error.message, e)
-                emptyList()
-            }
-        }
-    }
-
-    suspend fun fetchPreExistingDatasets() {
-        var offset = 0
-        val limit = 500
-
-        do {
-            val result = DatasetPageQuery(
-                offset = offset,
-                limit = limit
-            ).invokeWith(dataClient.dataset.datasetPage())
-
-            result.items.forEach {
-                importContext.preExistingDatasets[it.identifier] = it
-            }
-            offset += limit
-        } while (result.total > offset)
-    }
 
     suspend fun fetchPreExistingLicence() {
         val licenses = LicenseListQuery()
@@ -194,10 +161,23 @@ class ImportRepository(
         return getAndCache(identifier, language)
     }
 
-    fun findRawGraphDataSet(
+    suspend fun findRawGraphDataSet(
         language: Language,
     ): List<DatasetDTOBase> {
-        return importContext.preExistinggraphDataset[language] ?: emptyList()
+        if (!importContext.preExistinggraphDataset.containsKey(language)) {
+            importContext.preExistinggraphDataset[language] = try {
+                DatasetGraphSearchQuery(
+                    rootCatalogueIdentifier = "100m-charts",
+                    datasetType = "rawGraph",
+                    language = language
+                ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
+            } catch (e: F2Exception) {
+                logger.error(e.error.message, e)
+                emptyList()
+            }
+        }
+
+        return importContext.preExistinggraphDataset[language].orEmpty()
     }
 
     suspend fun initDataset(
