@@ -24,6 +24,7 @@ suspend fun CatalogueStructureModel.toDTO(
     creationForm = creationForm,
     metadataForm = metadataForm,
     tagForm = tagForm,
+    table = table,
     createButton = createButton?.toDTO(language, getTypeConfiguration),
 )
 
@@ -40,6 +41,7 @@ fun CatalogueStructureModel?.orEmpty() = this ?: CatalogueStructureModel(
     creationForm = null,
     metadataForm = null,
     tagForm = null,
+    table = null,
     createButton = null,
 )
 
