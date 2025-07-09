@@ -90,8 +90,7 @@ enum class CatalogueDraftState(override val position: Int): S2State {
     SUBMITTED(1),
     UPDATE_REQUESTED(2),
     VALIDATED(3),
-    REJECTED(4),
-    DELETED(5)
+    REJECTED(4)
 }
 
 enum class CatalogueDraftRole(val value: String): S2Role {

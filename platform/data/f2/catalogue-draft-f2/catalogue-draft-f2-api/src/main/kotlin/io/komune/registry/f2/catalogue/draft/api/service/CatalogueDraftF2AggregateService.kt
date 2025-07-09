@@ -17,6 +17,7 @@ import io.komune.registry.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkMetadataDatasetCommand
@@ -494,7 +495,10 @@ class CatalogueDraftF2AggregateService(
     }
 
     private suspend fun validateSubDraftsOf(draft: CatalogueDraftModel, originalCatalogue: CatalogueModel) {
-        val childrenDrafts = catalogueDraftFinderService.page(parentId = ExactMatch(draft.id)).items
+        val childrenDrafts = catalogueDraftFinderService.page(
+            parentId = ExactMatch(draft.id),
+            deleted = null
+        ).items
 
         val addedChildrenIds = mutableSetOf<CatalogueId>()
         val removedChildrenIds = mutableSetOf<CatalogueId>()
@@ -507,25 +511,22 @@ class CatalogueDraftF2AggregateService(
         }
 
         childrenDrafts.forEach { childDraft ->
-            when (childDraft.status) {
-                CatalogueDraftState.DRAFT,
-                CatalogueDraftState.SUBMITTED,
-                CatalogueDraftState.UPDATE_REQUESTED -> {
-                    validateChildDraft(childDraft)
-                }
-                CatalogueDraftState.REJECTED -> {
-                    val childDraftedCatalogue = catalogueFinderService.get(childDraft.catalogueId)
-                    if (childDraftedCatalogue.status == CatalogueState.DELETED) {
-                        removedChildrenIds += childDraft.originalCatalogueId
-                    } else {
-                        validateChildDraft(childDraft)
-                    }
-                }
-                CatalogueDraftState.DELETED -> {
-                    removedChildrenIds += childDraft.catalogueId
-                }
-                CatalogueDraftState.VALIDATED -> return@forEach
+            if (childDraft.status == CatalogueDraftState.VALIDATED) {
+                return@forEach
             }
+
+            if (childDraft.isDeleted) {
+                removedChildrenIds += childDraft.originalCatalogueId
+
+                val childDraftedCatalogue = catalogueFinderService.get(childDraft.catalogueId)
+                if (childDraftedCatalogue.status == CatalogueState.DELETED) {
+                    CatalogueDeleteCommand(childDraft.originalCatalogueId).let { catalogueAggregateService.delete(it) }
+                }
+
+                return@forEach
+            }
+
+            validateChildDraft(childDraft)
         }
 
         updateCatalogueChildren(
