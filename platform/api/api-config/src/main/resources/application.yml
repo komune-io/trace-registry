@@ -55,8 +55,8 @@ platform:
     template:
       email-verified: 1
       catalogue-claim-ownership: 5
-      onboarding-organization-conflict-user: 2
-      onboarding-organization-conflict-orchestrator: 3
+      onboarding-organization-conflict-user: 8
+      onboarding-organization-conflict-orchestrator: 9
     support-email: test@kosm.io
   flag:
     module:
