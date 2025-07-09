@@ -91,11 +91,11 @@ class DatasetF2FinderService(
 
             val catalogue = catalogueFinderService.getByIdentifier(catalogueIdentifier)
                 .takeIf {
-                    (it.language == null || it.language == language ) &&
+                    (it.language == null || it.language == language ) && (
                             it.accessRights == CatalogueAccessRight.PUBLIC ||
                             (it.accessRights == CatalogueAccessRight.PROTECTED && authedUser != null) ||
                             (it.accessRights == CatalogueAccessRight.PRIVATE && it.ownerOrganizationId == authedUser?.memberOf)
-
+                    )
                 }
             val datasetIds = catalogue?.childrenDatasetIds.orEmpty()
             val catalogueIds = catalogue?.childrenCatalogueIds.orEmpty()
@@ -138,7 +138,7 @@ class DatasetF2FinderService(
     private inner class Cache {
         val datasets = SimpleCache(datasetFinderService::get)
         val dataUnits = SimpleCache(cccevFinderService::getUnit)
-        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+        val informationConcepts = SimpleCache(cccevFinderService::getConceptOrNull)
         val supportedValues = SimpleCache(cccevFinderService::getValue)
         val themes = SimpleCache(conceptFinderService::get)
 
