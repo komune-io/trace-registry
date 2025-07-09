@@ -503,6 +503,15 @@ class CatalogueDraftF2AggregateService(
         val addedChildrenIds = mutableSetOf<CatalogueId>()
         val removedChildrenIds = mutableSetOf<CatalogueId>()
 
+        suspend fun handleDeletedChildDraft(childDraft: CatalogueDraftModel) {
+            removedChildrenIds += childDraft.originalCatalogueId
+
+            val childDraftedCatalogue = catalogueFinderService.get(childDraft.catalogueId)
+            if (childDraftedCatalogue.status == CatalogueState.DELETED) {
+                CatalogueDeleteCommand(childDraft.originalCatalogueId).let { catalogueAggregateService.delete(it) }
+            }
+        }
+
         suspend fun validateChildDraft(childDraft: CatalogueDraftModel) {
             validate(childDraft.id)
             if (childDraft.originalCatalogueId !in originalCatalogue.childrenCatalogueIds) {
@@ -516,13 +525,7 @@ class CatalogueDraftF2AggregateService(
             }
 
             if (childDraft.isDeleted) {
-                removedChildrenIds += childDraft.originalCatalogueId
-
-                val childDraftedCatalogue = catalogueFinderService.get(childDraft.catalogueId)
-                if (childDraftedCatalogue.status == CatalogueState.DELETED) {
-                    CatalogueDeleteCommand(childDraft.originalCatalogueId).let { catalogueAggregateService.delete(it) }
-                }
-
+                handleDeletedChildDraft(childDraft)
                 return@forEach
             }
 
