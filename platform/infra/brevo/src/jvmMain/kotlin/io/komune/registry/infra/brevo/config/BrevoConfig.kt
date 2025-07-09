@@ -27,4 +27,6 @@ data class BrevoDebugProperties(
 data class BrevoTemplateProperties(
     val emailVerified: Long?,
     val catalogueClaimOwnership: Long?,
+    val onboardingOrganizationConflictUser: Long?,
+    val onboardingOrganizationConflictOrchestrator: Long?,
 )
