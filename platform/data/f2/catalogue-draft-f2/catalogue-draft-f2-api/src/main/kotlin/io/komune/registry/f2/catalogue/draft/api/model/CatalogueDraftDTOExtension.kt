@@ -31,5 +31,6 @@ suspend fun CatalogueDraftModel.toDTO(
         rejectReason = rejectReason,
         issued = issued,
         modified = max(modified, catalogue.modified),
+        isDeleted = isDeleted
     )
 }

@@ -4553,6 +4553,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.model {
         readonly rejectReason?: string;
         readonly issued: number;
         readonly modified: number;
+        readonly isDeleted: boolean;
 
     }
 }
