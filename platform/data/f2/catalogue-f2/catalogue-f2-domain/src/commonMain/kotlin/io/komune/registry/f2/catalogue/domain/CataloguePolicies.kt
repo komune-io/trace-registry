@@ -112,11 +112,10 @@ object CataloguePolicies {
         ownerOrganizationId: OrganizationId?,
         creatorId: UserId? = null
     ): Boolean = when {
-        authedUser == null -> accessRights == CatalogueAccessRight.PUBLIC
+        authedUser == null -> accessRights.isPublicOrProtected()
         authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> true
-        authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights == CatalogueAccessRight.PUBLIC
-                || accessRights == CatalogueAccessRight.PROTECTED
+        authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights.isPublicOrProtected()
                 || ownsCatalogueWith(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId)
-        else -> accessRights == CatalogueAccessRight.PUBLIC || accessRights == CatalogueAccessRight.PROTECTED
+        else -> accessRights.isPublicOrProtected()
     }
 }

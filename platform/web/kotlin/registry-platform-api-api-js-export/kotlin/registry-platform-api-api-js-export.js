@@ -94,16 +94,16 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(AbstractMap, 'AbstractMap', classMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, Map_0]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Collection, Set]);
+  setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, Set, Collection]);
   setMetadataFor(Companion, 'Companion', objectMeta);
   setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, List, Collection], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, Map_0], HashMap_init_$Create$);
-  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
-  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Collection, Set, AbstractMutableSet]);
+  setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
+  setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [Set, Collection, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
   setMetadataFor(HashMapKeysDefault, 'HashMapKeysDefault', classMeta, AbstractMutableSet);
-  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Collection, Set], HashSet_init_$Create$);
+  setMetadataFor(HashSet, 'HashSet', classMeta, AbstractMutableSet, [AbstractMutableSet, Set, Collection], HashSet_init_$Create$);
   setMetadataFor(Companion_0, 'Companion', objectMeta);
   setMetadataFor(Itr, 'Itr', classMeta);
   setMetadataFor(KeysItr, 'KeysItr', classMeta, Itr);
@@ -149,7 +149,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(InternalMap, 'InternalMap', interfaceMeta);
   setMetadataFor(InternalHashMap, 'InternalHashMap', classMeta, VOID, [InternalMap], InternalHashMap_init_$Create$);
   setMetadataFor(LinkedHashMap, 'LinkedHashMap', classMeta, HashMap, [HashMap, Map_0], LinkedHashMap_init_$Create$);
-  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Collection, Set], LinkedHashSet_init_$Create$);
+  setMetadataFor(LinkedHashSet, 'LinkedHashSet', classMeta, HashSet, [HashSet, Set, Collection], LinkedHashSet_init_$Create$);
   setMetadataFor(BaseOutput, 'BaseOutput', classMeta);
   setMetadataFor(NodeJsOutput, 'NodeJsOutput', classMeta, BaseOutput);
   setMetadataFor(BufferedOutput, 'BufferedOutput', classMeta, BaseOutput, VOID, BufferedOutput);
@@ -30302,6 +30302,9 @@ if (typeof Math.imul === 'undefined') {
   function CatalogueAccessRight(name, ordinal) {
     Enum.call(this, name, ordinal);
   }
+  protoOf(CatalogueAccessRight).isPublicOrProtected = function () {
+    return this.equals(CatalogueAccessRight_PUBLIC_getInstance()) ? true : this.equals(CatalogueAccessRight_PROTECTED_getInstance());
+  };
   function CatalogueAccessRight_PUBLIC_getInstance() {
     CatalogueAccessRight_initEntries();
     return CatalogueAccessRight_PUBLIC_instance;
@@ -33173,15 +33176,15 @@ if (typeof Math.imul === 'undefined') {
   protoOf(CataloguePolicies).n2j = function (authedUser, accessRights, creatorOrganizationId, ownerOrganizationId, creatorId) {
     var tmp;
     if (authedUser == null) {
-      tmp = accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance());
+      tmp = accessRights.isPublicOrProtected();
     } else {
       if (hasRole_0(authedUser, 'rg_perm_catalogue_read_all')) {
         tmp = true;
       } else {
         if (hasRole_0(authedUser, 'rg_perm_catalogue_read_org')) {
-          tmp = (accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance()) ? true : accessRights.equals(CatalogueAccessRight_PROTECTED_getInstance())) ? true : this.m2j(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId);
+          tmp = accessRights.isPublicOrProtected() ? true : this.m2j(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId);
         } else {
-          tmp = accessRights.equals(CatalogueAccessRight_PUBLIC_getInstance()) ? true : accessRights.equals(CatalogueAccessRight_PROTECTED_getInstance());
+          tmp = accessRights.isPublicOrProtected();
         }
       }
     }
