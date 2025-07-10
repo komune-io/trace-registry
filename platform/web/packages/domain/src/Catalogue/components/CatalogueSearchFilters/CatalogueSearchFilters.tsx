@@ -44,7 +44,6 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
         />
     )), [definitiveFacets, savedState, onChangeFacet])
 
-    console.log(savedState)
 
     const filtersCount = useMemo(() => {
         let filters = { ...savedState }
