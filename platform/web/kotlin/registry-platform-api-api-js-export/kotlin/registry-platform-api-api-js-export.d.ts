@@ -1564,7 +1564,7 @@ export declare namespace io.komune.registry.s2.commons.model.table {
         readonly type: string;
         readonly label: string;
         readonly value: string;
-        readonly properties: io.komune.registry.s2.commons.model.table.TableColumnPropertiesDTO;
+        readonly properties?: io.komune.registry.s2.commons.model.table.TableColumnPropertiesDTO;
         readonly style?: Record<string, string>;
 
     }
@@ -4134,6 +4134,29 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueBlueprintDTO {
+        readonly identifier: string;
+        readonly name?: string;
+        readonly icon?: string;
+        readonly parentTypes?: string[];
+        readonly relatedTypes?: Record<string, string[]>;
+        readonly structure?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO;
+        readonly canUpdate: boolean;
+        readonly canClaim: boolean;
+        readonly includeInGlobalSearch: boolean;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
+    interface CatalogueBlueprintsDTO {
+        readonly globalSearchTypes: string[];
+        readonly updatableTypes: string[];
+        readonly claimableTypes: string[];
+        readonly types: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueBlueprintDTO>;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     interface CatalogueConfigurationDTO extends io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationDTO {
         readonly structureType?: io.komune.registry.s2.catalogue.domain.model.structure.StructureType;
         readonly relations: Record<string, io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO>;
@@ -4272,6 +4295,16 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
+    interface CatalogueGetBlueprintsQueryDTO {
+        readonly language: string;
+
+    }
+    interface CatalogueGetBlueprintsResultDTO {
+        readonly item?: io.komune.registry.f2.catalogue.domain.dto.CatalogueBlueprintsDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueGetByIdentifierQueryDTO {
         readonly identifier?: string;
         readonly language?: string;
@@ -4307,7 +4340,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
 export declare namespace io.komune.registry.f2.catalogue.domain.query {
     interface CatalogueGetStructureQueryDTO {
         readonly type: string;
-        readonly language?: string;
+        readonly language: string;
 
     }
     interface CatalogueGetStructureResultDTO {
