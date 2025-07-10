@@ -38,7 +38,7 @@ export const CatalogueLinkPage = () => {
 
   const queryClient = useQueryClient()
 
-  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean, sort: Record<string, SortOrder> }>({
+  const { state, changeValueCallback, validatedState, onValidate, onClear } = useUrlSavedState<CatalogueSearchQuery & { isSelected?: boolean, sort: Record<string, SortOrder> }>({
     initialState: {
       limit: 20,
       offset: 0,
@@ -64,7 +64,7 @@ export const CatalogueLinkPage = () => {
     query: {
       query: submittedFilters.query,
       availableLanguages: submittedFilters.availableLanguages,
-      ...state,
+      ...validatedState,
       type: getSubCatalogue.data?.item?.configuration?.relations?.content?.types,
       //@ts-ignore
       isSelected: undefined,
@@ -222,6 +222,8 @@ export const CatalogueLinkPage = () => {
             facets={facetsWithoutType}
             //@ts-ignore
             onChangeFacet={changeValueCallback}
+            onClear={onClear}
+            onValidate={onValidate}
           />
         </Stack>
         <Stack

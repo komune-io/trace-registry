@@ -244,6 +244,7 @@ function FloatingLinkEditor({
 
   const onSwitchButton = useCallback(
     (_, isButton: boolean) => {
+      onValidate()
       setisButton(isButton)
       editor.update(() => {
         const selection = $getSelection();
@@ -263,7 +264,7 @@ function FloatingLinkEditor({
         }
       });
     },
-    [editor],
+    [editor, onValidate],
   )
 
   return (
