@@ -5,6 +5,7 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
@@ -79,7 +80,7 @@ class DatasetF2FinderService(
         datasetType: String?
     ): List<DatasetDTOBase> = coroutineScope {
         val cache = Cache()
-        val authedOrganizationId = io.komune.f2.spring.boot.auth.AuthenticationProvider.getOrganizationId()
+        val authedUser = AuthenticationProvider.getAuthedUser()
         val visitedCatalogues = ConcurrentSet<CatalogueIdentifier>()
         val visitedDatasets = ConcurrentSet<DatasetIdentifier>()
 
@@ -90,13 +91,11 @@ class DatasetF2FinderService(
 
             val catalogue = catalogueFinderService.getByIdentifier(catalogueIdentifier)
                 .takeIf {
-                   (it.language == null || it.language == language ) &&
-                           it.accessRights == CatalogueAccessRight.PUBLIC ||
-                          (
-                              it.accessRights == CatalogueAccessRight.PRIVATE &&
-                                      it.ownerOrganizationId == authedOrganizationId
-                          )
-
+                    (it.language == null || it.language == language ) && (
+                            it.accessRights == CatalogueAccessRight.PUBLIC ||
+                            (it.accessRights == CatalogueAccessRight.PROTECTED && authedUser != null) ||
+                            (it.accessRights == CatalogueAccessRight.PRIVATE && it.ownerOrganizationId == authedUser?.memberOf)
+                    )
                 }
             val datasetIds = catalogue?.childrenDatasetIds.orEmpty()
             val catalogueIds = catalogue?.childrenCatalogueIds.orEmpty()
@@ -139,7 +138,7 @@ class DatasetF2FinderService(
     private inner class Cache {
         val datasets = SimpleCache(datasetFinderService::get)
         val dataUnits = SimpleCache(cccevFinderService::getUnit)
-        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+        val informationConcepts = SimpleCache(cccevFinderService::getConceptOrNull)
         val supportedValues = SimpleCache(cccevFinderService::getValue)
         val themes = SimpleCache(conceptFinderService::get)
 

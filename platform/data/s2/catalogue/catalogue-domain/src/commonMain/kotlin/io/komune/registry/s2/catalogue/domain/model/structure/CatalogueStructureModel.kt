@@ -1,6 +1,7 @@
 package io.komune.registry.s2.catalogue.domain.model.structure
 
 import io.komune.registry.s2.commons.model.form.Form
+import io.komune.registry.s2.commons.model.table.Table
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,5 +15,6 @@ data class CatalogueStructureModel(
     val creationForm: Form?,
     val metadataForm: Form?,
     val tagForm: Form?,
+    val table: Table?,
     val createButton: CatalogueCreateButtonModel?
 )

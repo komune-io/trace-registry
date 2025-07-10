@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.api.service
 
 import f2.dsl.cqrs.filter.ExactMatch
+import f2.dsl.cqrs.filter.collectionMatchOf
 import io.komune.im.commons.auth.hasRole
 import io.komune.registry.api.config.RgPolicyEnforcer
 import io.komune.registry.f2.catalogue.domain.CataloguePolicies
@@ -23,12 +24,15 @@ import org.springframework.stereotype.Service
 class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
     suspend fun enforceAccessFilter(): Criterion? = enforceConfigAuthed { authedUser ->
         val organizationId = authedUser?.memberOf.orEmpty()
-        val publicAccessCriterion = FieldCriterion(CatalogueCriterionField.AccessRights, ExactMatch(CatalogueAccessRight.PUBLIC))
+        val protectedAccessCriterion = FieldCriterion(
+            CatalogueCriterionField.AccessRights,
+            collectionMatchOf(CatalogueAccessRight.PUBLIC, CatalogueAccessRight.PROTECTED)
+        )
         when {
-            authedUser == null -> publicAccessCriterion
+            authedUser == null -> FieldCriterion(CatalogueCriterionField.AccessRights, ExactMatch(CatalogueAccessRight.PUBLIC))
             authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> null
             authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> orCriterionOf(
-                publicAccessCriterion,
+                protectedAccessCriterion,
                 FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(organizationId)),
                 andCriterionOf(
                     FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
@@ -38,7 +42,7 @@ class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
                     )
                 )
             )
-            else -> publicAccessCriterion
+            else -> protectedAccessCriterion
         }
     }
 

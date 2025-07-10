@@ -1,23 +1,19 @@
-import { createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition } from 'components'
-import {
-  CatalogueEditionHeader,
-  CatalogueValidationHeader,
-  useCatalogueDraftGetQuery
-} from 'domain-components'
-import { AppPage } from 'template'
-import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMetadataFormState } from './useMetadataFormState';
-import { CircularProgress } from '@mui/material';
-import { useDraftTabs } from './useDraftTabs';
-import { useDraftValidations } from './useDraftValidations';
-import { useDraftMutations } from './useDraftMutations';
-import { useDraftFormData } from './useDraftFormData';
-import { DraftLanguageSelector } from './DraftLanguageSelector';
-import { DraftTitle } from './DraftTitle';
-import { ValidatedDraftInfo } from './ValidatedDraftInfo';
-import { RejectedDraftInfo } from './RejectedDraftInfo';
+import {createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition} from 'components'
+import {CatalogueEditionHeader, CatalogueValidationHeader, useCatalogueDraftGetQuery} from 'domain-components'
+import {AppPage} from 'template'
+import {useNavigate, useParams} from "react-router-dom";
+import {useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useMetadataFormState} from './useMetadataFormState';
+import {CircularProgress} from '@mui/material';
+import {useDraftTabs} from './useDraftTabs';
+import {useDraftValidations} from './useDraftValidations';
+import {useDraftMutations} from './useDraftMutations';
+import {useDraftFormData} from './useDraftFormData';
+import {DraftLanguageSelector} from './DraftLanguageSelector';
+import {DraftTitle} from './DraftTitle';
+import {ValidatedDraftInfo} from './ValidatedDraftInfo';
+import {RejectedDraftInfo} from './RejectedDraftInfo';
 
 export interface DraftPageProps {
   validation?: boolean
@@ -48,7 +44,7 @@ export const DraftPage = (props: DraftPageProps) => {
   const draft = catalogueDraftQuery.data?.item
   const catalogue = draft?.catalogue
 
-  const canUdateDraft = policies.draft.canUpdate(draft) && draft?.status !== "VALIDATED" && draft?.status !== "DELETED"
+  const canUdateDraft = policies.draft.canUpdate(draft) && draft?.status !== "VALIDATED" && !draft?.isDeleted
 
   const canAudit = policies.draft.canAudit()
 

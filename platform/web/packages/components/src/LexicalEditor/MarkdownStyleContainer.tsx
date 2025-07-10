@@ -110,6 +110,19 @@ export const MarkdownStyleContainer = styled(Box, {
         ...theme.typography.h6
       }
     }),
+  "& .editor-linkButton": {
+    cursor: "pointer",
+    fontWeight: 700,
+    fontSize: "1rem",
+    minWidth: "64px",
+    backgroundColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[1],
+    color: "#ffffff",
+    padding: "8px 14px",
+    borderRadius: "6px",
+    textTransform: "none",
+    textDecoration: "none",
+  },
   "& .editor-layout-container": {
     display: "grid",
     gap: readOnly ? "28px" : "28px",

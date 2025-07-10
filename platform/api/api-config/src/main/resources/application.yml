@@ -55,6 +55,8 @@ platform:
     template:
       email-verified: 1
       catalogue-claim-ownership: 5
+      onboarding-organization-conflict-user: 8
+      onboarding-organization-conflict-orchestrator: 9
     support-email: test@kosm.io
   flag:
     module:
@@ -111,7 +113,7 @@ platform:
   brevo:
     token: secret
     contact-list: 3
-    sandbox: true
+    sandbox: false
     debug:
       enable: true
       email: luc+wco2@kosm.io

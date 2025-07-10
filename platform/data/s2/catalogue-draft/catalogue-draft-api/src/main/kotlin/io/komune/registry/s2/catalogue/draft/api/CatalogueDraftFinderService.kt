@@ -49,6 +49,7 @@ class CatalogueDraftFinderService(
         baseVersion: Match<Int>? = null,
         creatorId: Match<UserId>? = null,
         status: Match<CatalogueDraftState>? = null,
+        deleted: Match<Boolean>? = ExactMatch(false),
         offset: OffsetPagination? = null,
     ) = catalogueDraftPageQueryDB.execute(
         id = id,
@@ -59,7 +60,7 @@ class CatalogueDraftFinderService(
         baseVersion = baseVersion,
         creatorId = creatorId,
         status = status,
-        deleted = ExactMatch(false),
+        deleted = deleted,
         offset = offset,
     ).map(CatalogueDraftEntity::toModel)
 }

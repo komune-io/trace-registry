@@ -196,7 +196,7 @@ class CatalogueSearchFinderService(
             key = CatalogueMeiliSearchField.TYPE.identifier,
             label = CatalogueMeiliSearchField.TYPE.identifier,
             values = catalogueTypesFacetValues.sortedBy { it.label }
-        )
+        ).takeIf { it.values.isNotEmpty() }
 
         val sortedTypeConfigurations = catalogueConfig.typeConfigurations
             .filterKeys { it in catalogueTypesFacetValues.map(FacetValue::key) }
@@ -212,7 +212,7 @@ class CatalogueSearchFinderService(
         FacetPageDTOBase(
             items = catalogueTranslations.items,
             total = catalogueTranslations.total,
-            facets = listOf(catalogueTypeFacet) + facets,
+            facets = listOfNotNull(catalogueTypeFacet) + facets,
         )
     }
 

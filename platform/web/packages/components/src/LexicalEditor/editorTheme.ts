@@ -11,6 +11,7 @@ export const theme: EditorThemeClasses = {
   },
   image: 'editor-image',
   link: 'editor-link',
+  linkButton: 'editor-linkButton',
   list: {
     listitem: 'editor-listitem',
     nested: {

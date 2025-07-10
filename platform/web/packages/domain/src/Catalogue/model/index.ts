@@ -25,7 +25,7 @@ export const catalogueStatus: CatalogueStatus[] = ["ACTIVE", "DELETED"]
 
 export type DraftStatus = io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 
-export const draftStatus: DraftStatus[] = ["DRAFT", "REJECTED", "SUBMITTED", "UPDATE_REQUESTED", "VALIDATED", "DELETED"]
+export const draftStatus: DraftStatus[] = ["DRAFT", "REJECTED", "SUBMITTED", "UPDATE_REQUESTED", "VALIDATED"]
 
 export type DataUnitType =  io.komune.registry.s2.cccev.domain.model.DataUnitType
 

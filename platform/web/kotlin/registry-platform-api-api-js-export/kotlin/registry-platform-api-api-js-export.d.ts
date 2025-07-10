@@ -1553,6 +1553,28 @@ export declare namespace io.komune.registry.s2.commons.model.form {
 export declare namespace io.komune.registry.s2.commons.model.form {
     type TextFieldType = "number" | "text" | "email" | "password" | "search";
 }
+export declare namespace io.komune.registry.s2.commons.model.table {
+    interface TableDTO {
+        readonly columns: io.komune.registry.s2.commons.model.table.TableColumnDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.table {
+    interface TableColumnDTO {
+        readonly type: string;
+        readonly label: string;
+        readonly value: string;
+        readonly properties: io.komune.registry.s2.commons.model.table.TableColumnPropertiesDTO;
+        readonly style?: Record<string, string>;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.table {
+    interface TableColumnPropertiesDTO {
+        readonly limit?: number;
+
+    }
+}
 export declare namespace io.komune.fs.s2.file.domain.features.query {
     interface FileAskQuestionQueryDTO {
         readonly question: string;
@@ -2543,6 +2565,12 @@ export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
     }
 }
 export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
+    interface InformationConceptDeleteCommandDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.cccev.domain.command.concept {
     interface InformationConceptEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
         s2Id(): string;
         readonly id: string;
@@ -2719,6 +2747,7 @@ export declare namespace io.komune.registry.f2.concept.domain.query {
 export declare namespace io.komune.registry.f2.cccev.domain.concept {
     const InformationConceptPolicies: {
         canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
     };
 }
 export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
@@ -2732,6 +2761,16 @@ export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
     }
     interface InformationConceptCreatedEventDTO {
         readonly item: io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.cccev.domain.concept.command {
+    interface InformationConceptDeleteCommandDTO extends io.komune.registry.s2.cccev.domain.command.concept.InformationConceptDeleteCommandDTO {
+        readonly id: string;
+
+    }
+    interface InformationConceptDeletedEventDTO {
+        readonly id: string;
 
     }
 }
@@ -3263,7 +3302,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.command {
     }
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
-    type CatalogueAccessRight = "PUBLIC" | "PRIVATE";
+    type CatalogueAccessRight = "PUBLIC" | "PROTECTED" | "PRIVATE";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model {
     interface CatalogueConfigurationDTO {
@@ -3286,7 +3325,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model.structure 
     type StructureType = "FACTORY" | "GRID" | "HOME" | "ITEM" | "LIST" | "MENU" | "MENU_BRANCH" | "MENU_LEAF" | "MOSAIC" | "TABLE" | "TRANSIENT";
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain {
-    type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED" | "DELETED";
+    type CatalogueDraftState = "DRAFT" | "SUBMITTED" | "UPDATE_REQUESTED" | "VALIDATED" | "REJECTED";
 }
 export declare namespace io.komune.registry.s2.catalogue.draft.domain.command {
     interface CatalogueDraftDeleteCommandDTO extends io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftCommand {
@@ -4186,6 +4225,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly description?: string;
         readonly img?: string;
         readonly order?: number;
+        readonly modified: number;
 
     }
 }
@@ -4201,6 +4241,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly img?: string;
         readonly structure?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO;
         readonly order?: number;
+        readonly modified: number;
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
         readonly relatedCatalogues?: Record<string, io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[]>;
 
@@ -4225,6 +4266,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly creationForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly metadataForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly tagForm?: io.komune.registry.s2.commons.model.form.FormDTO;
+        readonly table?: io.komune.registry.s2.commons.model.table.TableDTO;
         readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
 
     }
@@ -4511,6 +4553,7 @@ export declare namespace io.komune.registry.f2.catalogue.draft.domain.model {
         readonly rejectReason?: string;
         readonly issued: number;
         readonly modified: number;
+        readonly isDeleted: boolean;
 
     }
 }
