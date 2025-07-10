@@ -36,6 +36,7 @@ data class CatalogueTypeI18n(
 @Serializable
 data class CatalogueTypeSearch(
     val enable: Boolean,
+    val includeInGlobal: Boolean = false,
     val facets: List<CatalogueTypeSearchFacet> = emptyList(),
 )
 

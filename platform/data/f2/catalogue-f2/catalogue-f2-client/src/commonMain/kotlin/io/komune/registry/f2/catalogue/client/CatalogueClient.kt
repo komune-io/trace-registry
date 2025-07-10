@@ -18,6 +18,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCata
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRightsFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetBlueprintsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
@@ -91,6 +92,7 @@ open class CatalogueClient(val client: F2Client) : CatalogueApi {
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
         = client.function("data/${this::catalogueGetByIdentifier.name}")
     override fun catalogueGetStructure(): CatalogueGetStructureFunction = client.function("data/${this::catalogueGetStructure.name}")
+    override fun catalogueGetBlueprints(): CatalogueGetBlueprintsFunction = client.function("data/${this::catalogueGetBlueprints.name}")
 
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
         = client.function("data/${this::catalogueListAvailableParents.name}")
