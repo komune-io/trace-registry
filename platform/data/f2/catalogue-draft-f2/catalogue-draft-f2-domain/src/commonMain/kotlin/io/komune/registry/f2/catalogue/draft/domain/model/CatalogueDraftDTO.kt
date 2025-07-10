@@ -90,6 +90,8 @@ interface CatalogueDraftDTO : CatalogueDraftRefDTO {
      * @example 1739202490000
      */
     val modified: Long
+
+    val isDeleted: Boolean
 }
 
 /**
@@ -110,4 +112,5 @@ data class CatalogueDraftDTOBase(
     override val rejectReason: String?,
     override val issued: Long,
     override val modified: Long,
+    override val isDeleted: Boolean
 ) : CatalogueDraftDTO
