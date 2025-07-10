@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { keepPreviousData } from '@tanstack/react-query';
 import { CatalogueSearchModule } from '../CatalogueSearchModule';
 import { CatalogueGrid } from '../CatalogueGrid';
-import { setIn } from '@komune-io/g2';
 import { FixedPagination, OffsetPagination } from 'template';
 import { Box } from '@mui/material';
+import { useUrlSavedState } from 'components';
 
 interface SubCatalogueModuleProps {
     parentIdentifier?: string;
@@ -23,24 +23,11 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
 
     const anchorRef = useRef<HTMLDivElement | null>(null)
 
-    const [state, setState] = useState<Partial<CatalogueSearchQuery>>({ limit: 12, offset: 0 })
-
-    const changeValueCallback = useCallback(
-        (valueKey: keyof CatalogueSearchQuery) => (value: any) => {
-
-            setState(old => {
-                if ((typeof value === 'number' || !!value) && value.length !== 0) {
-                    return setIn(old, valueKey, value)
-                }
-                return setIn(old, valueKey, undefined)
-            })
-        },
-        []
-    )
+    const {changeValueCallback, onValidate, onClear, state, validatedState} = useUrlSavedState<Partial<CatalogueSearchQuery>>({ initialState: { limit: 12, offset: 0 }, writeUrl: false})
 
     const { data, isFetching } = useCatalogueSearchQuery({
         query: {
-            ...state,
+            ...validatedState,
             parentIdentifier: parentIdentifier ? [parentIdentifier] : undefined,
             relatedInCatalogueIds: relatedInId ? { "content": [relatedInId] } : undefined,
             language: i18n.language
@@ -78,7 +65,7 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
     return (
         <>
             <div ref={anchorRef} />
-            {type === "LIST" ? <CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage />
+            {type === "LIST" ? <CatalogueSearchModule changeValueCallback={changeValueCallback} state={state} data={data} isFetching={isFetching} withImage onClear={onClear} onValidate={onValidate} />
                 :
                 <CatalogueGrid items={data?.items} isLoading={isFetching} />}
             <Box

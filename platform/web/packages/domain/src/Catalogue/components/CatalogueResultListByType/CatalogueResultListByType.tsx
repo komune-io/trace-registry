@@ -39,6 +39,7 @@ export const CatalogueResultListByType = (props: CatalogueResultListByTypeProps)
     const byType = resultListComponents[catalogueType] ?? []
     return (
       <CatalogueResultList
+        key={catalogueType}
         withImage={withImage}
         catalogues={byType}
         groupLabel={allowedSearchTypes?.find(type => type.identifier === catalogueType)?.name}

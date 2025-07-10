@@ -17,13 +17,14 @@ const unformatFieldValue = (value: any) => {
 
 interface UseUrlSavedStateParams<State extends {}> {
   initialState?: Partial<State>
+  writeUrl?: boolean
 }
 
 export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStateParams<State>) => {
-  const { initialState } = params ?? {}
+  const { initialState, writeUrl = true } = params ?? {}
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [validatedState, setValidatedState] = useState<{ initialized: boolean, state: State }>({ initialized: false, state: {} as State })
+  const [searchParams, setSearchParams] = writeUrl ? useSearchParams() : useState("")
+  const [validatedState, setValidatedState] = useState<{ sent: boolean, state: State }>({ sent: false, state: {} as State })
 
   const stateRef = useRef<State>({} as State)
 
@@ -34,8 +35,8 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
       state[fieldName] = unformatFieldValue(params[fieldName])
     }
     stateRef.current = state
-    if (!validatedState.initialized) {
-      setValidatedState({ initialized: true, state })
+    if (!validatedState.sent) {
+      setValidatedState({ sent: true, state })
     }
     return state
   }, [initialState, searchParams])
@@ -52,7 +53,7 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
       }
       setSearchParams(
         qs.stringify(cleanState, {
-          addQueryPrefix: true,
+          addQueryPrefix: false,
           arrayFormat: 'indices',
           serializeDate: (date) => date.toISOString()
         })
@@ -63,7 +64,7 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
 
   const onValidate = useCallback(
     () => {
-      setValidatedState({ initialized: true, state: stateRef.current })
+      setValidatedState({ sent: true, state: stateRef.current })
     },
     []
   )
@@ -77,7 +78,7 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
         changeState(setIn(stateRef.current, valueKey as string, value))
       }
       if (shouldValidate) {
-        onValidate()
+        setValidatedState({ sent: false, state: stateRef.current })
       }
     },
     [changeState]
@@ -85,19 +86,9 @@ export const useUrlSavedState = <State extends {} = {}>(params?: UseUrlSavedStat
 
   const onClear = useCallback(
     () => {
-      const nextState = {} as State
-      //@ts-ignore
-      if (stateRef.current.limit) {
-        //@ts-ignore
-        nextState.limit = stateRef.current.limit
-      }
-      //@ts-ignore
-      if (stateRef.current.offset) {
-        //@ts-ignore
-        nextState.offset = stateRef.current.offset
-      }
+      const nextState = (initialState ?? {}) as State
       changeState(nextState)
-      setValidatedState({ initialized: true, state: nextState })
+      setValidatedState({ sent: true, state: nextState })
     },
     [initialState]
   )

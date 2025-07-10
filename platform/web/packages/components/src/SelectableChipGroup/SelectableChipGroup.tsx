@@ -59,14 +59,14 @@ export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
                     multiple
                 />
             }
-            <Stack
+            {!withAutoComplete && <Stack
                 direction="row"
                 gap={1.5}
                 alignItems="center"
                 flexWrap="wrap"
             >
                 {chips}
-            </Stack>
+            </Stack>}
         </Stack>
     )
 }

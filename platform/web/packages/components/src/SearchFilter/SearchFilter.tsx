@@ -17,7 +17,7 @@ export const SearchFilter = (props: SearchFilterProps) => {
     const theme = useTheme<LocalTheme>()
 
     useDidUpdate(() => {
-        if (!initialValue === undefined) {
+        if (!initialValue) {
             setValue("")
         }
     }, [initialValue])

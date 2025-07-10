@@ -2,8 +2,8 @@ import { Box, Stack, Typography } from '@mui/material'
 import { CustomButton, SelectableChipGroup, TitleDivider } from 'components'
 import { useTranslation } from 'react-i18next'
 import { FacetDTO } from '../../api'
-import { useMemo } from 'react'
-import { getIn } from '@komune-io/g2'
+import { useEffect, useMemo, useState } from 'react'
+import { getIn, setIn } from '@komune-io/g2'
 
 interface CatalogueSearchFiltersProps {
     additionalFilters?: React.ReactNode,
@@ -18,7 +18,20 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
     const { additionalFilters, facets, onChangeFacet, savedState, onClear, onValidate } = props
     const { t } = useTranslation()
 
-    const facetsDisplay = useMemo(() => facets?.map((facets) => (
+    const [facetsMemory, setfacetsMemory] = useState(facets)
+
+    useEffect(() => {
+        if (facets && facets.length > 0) {
+            setfacetsMemory(facets)
+        }
+    }, [facets])
+
+    const definitiveFacets = useMemo(() => {
+        if (facets && facets.length > 0) return facets;
+        return facetsMemory
+    }, [facetsMemory, facets])
+
+    const facetsDisplay = useMemo(() => definitiveFacets?.map((facets) => (
         <SelectableChipGroup
             key={facets.key}
             title={facets.label}
@@ -29,9 +42,38 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             values={getIn(savedState, facets.key)}
             onChange={onChangeFacet(facets.key)}
         />
-    )), [facets, savedState, onChangeFacet])
+    )), [definitiveFacets, savedState, onChangeFacet])
 
-    const hasFilters = Object.keys(savedState).length > 2
+    console.log(savedState)
+
+    const filtersCount = useMemo(() => {
+        let filters = { ...savedState }
+
+        const counter = (count: number, value: any) => {
+            if (Array.isArray(value)) {
+                return count + value.length;
+            }
+            if (typeof value === 'string' && value.trim() !== '') {
+                return count + 1;
+            }
+            return count
+        }
+
+        const facetsCount = definitiveFacets?.reduce<number>((count, facet) => {
+            const value = getIn(filters, facet.key);
+            filters = setIn(filters, facet.key, undefined); // Remove facet from filters to avoid counting it
+            return counter(count, value);
+        }, 0) ?? 0
+        // Count other filters (e.g., search term, offset)
+        const otherFiltersCount = Object.keys(filters).reduce((count, key) => {
+            const value = filters[key];
+            return counter(count, value);
+        }, 0);
+
+        return facetsCount + otherFiltersCount;
+    }, [definitiveFacets, savedState])
+
+    const hasFilters = filtersCount > 0;
 
     return (
         <Stack
@@ -46,45 +88,43 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             <TitleDivider title={t("filter")} size='subtitle1' />
             {additionalFilters}
             {facetsDisplay}
-            {hasFilters &&
-                <Stack
-                    alignItems="center"
-                    direction="row"
-                    width="100%"
-                    gap={2}
-                    sx={{
-                        position: "sticky",
-                        bottom: "-70px",
-                        backgroundColor: "background.paper",
-                        padding: 2,
-                        borderRadius: 1,
-                        boxShadow: 1,
-                        zIndex: 11,
-                        borderColor: "divider",
-                        borderStyle: "solid",
-                        borderWidth: "1px"
-                    }}
-                >
+            <Stack
+                alignItems="center"
+                direction="row"
+                width="100%"
+                gap={2}
+                sx={{
+                    position: "sticky",
+                    bottom: "-70px",
+                    backgroundColor: "background.paper",
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    zIndex: 11,
+                    borderColor: "divider",
+                    borderStyle: "solid",
+                    borderWidth: "1px"
+                }}
+            >
 
-                    <Typography
-                        variant='subtitle2'
-                    >
-                        {t("filtersCount", { count: Object.keys(savedState).length - 2 })}
-                    </Typography>
-                    <Box flex={1} />
-                    <CustomButton
-                        onClick={onClear}
-                        variant="text"
-                    >
-                        {t("clear")}
-                    </CustomButton>
-                    <CustomButton
-                        onClick={onValidate}
-                    >
-                        {t("validate")}
-                    </CustomButton>
-                </Stack>
-            }
+                <Typography
+                    variant='subtitle2'
+                >
+                    {t("filtersCount", { count: filtersCount })}
+                </Typography>
+                <Box flex={1} />
+                {hasFilters && <CustomButton
+                    onClick={onClear}
+                    variant="text"
+                >
+                    {t("clear")}
+                </CustomButton>}
+                <CustomButton
+                    onClick={onValidate}
+                >
+                    {t("validate")}
+                </CustomButton>
+            </Stack>
         </Stack>
     )
 }
