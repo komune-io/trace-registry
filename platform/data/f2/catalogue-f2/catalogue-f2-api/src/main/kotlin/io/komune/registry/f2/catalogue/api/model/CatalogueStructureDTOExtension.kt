@@ -103,6 +103,6 @@ suspend fun Form.withDefaults(
     }
 
     return copy(
-        initialValues = initialValues.orEmpty() + computedInitialValues
+        initialValues = computedInitialValues + initialValues.orEmpty()
     )
 }
