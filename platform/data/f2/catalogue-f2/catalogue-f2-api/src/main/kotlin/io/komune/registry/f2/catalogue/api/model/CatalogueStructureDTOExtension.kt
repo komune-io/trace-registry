@@ -1,19 +1,27 @@
 package io.komune.registry.f2.catalogue.api.model
 
 import io.komune.im.commons.auth.AuthenticationProvider
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
+import io.komune.registry.f2.license.domain.model.LicenseDTOBase
+import io.komune.registry.s2.catalogue.api.config.CatalogueDefaults
 import io.komune.registry.s2.catalogue.api.config.CatalogueTypeConfiguration
+import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueCreateButtonModel
 import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueStructureModel
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.commons.model.form.Form
+import io.komune.registry.s2.license.domain.LicenseIdentifier
 
 suspend fun CatalogueStructureModel.toDTO(
     language: Language,
-    getTypeConfiguration: suspend (type: String) -> CatalogueTypeConfiguration?
+    defaults: CatalogueDefaults?,
+    getTypeConfiguration: suspend (type: String) -> CatalogueTypeConfiguration?,
+    getLicenseByIdentifier: suspend (licenseIdentifier: LicenseIdentifier) -> LicenseDTOBase?,
 ) = CatalogueStructureDTOBase(
     type = type,
     alias = alias,
@@ -21,7 +29,7 @@ suspend fun CatalogueStructureModel.toDTO(
     isTab = isTab,
     isInventory = isInventory,
     illustration = illustration,
-    creationForm = creationForm,
+    creationForm = creationForm?.withDefaults(defaults, getLicenseByIdentifier),
     metadataForm = metadataForm,
     tagForm = tagForm,
     table = table,
@@ -76,4 +84,25 @@ suspend fun CatalogueTypeConfiguration.authedUserCanWrite(): Boolean {
         ?.roles
         .orEmpty()
         .any { it in writerRoles!! }
+}
+
+suspend fun Form.withDefaults(
+    defaults: CatalogueDefaults?,
+    getLicenseByIdentifier: suspend (licenseIdentifier: LicenseIdentifier) -> LicenseDTOBase?,
+): Form {
+    defaults ?: return this
+
+    val computedInitialValues = buildMap {
+        defaults.accessRights?.let { put(CatalogueCreateCommand::accessRights.name, it.toString()) }
+
+        defaults.licenseIdentifier?.let { licenseIdentifier ->
+            getLicenseByIdentifier(licenseIdentifier)?.let { license ->
+                put(CatalogueDTOBase::license.name, license.id)
+            }
+        }
+    }
+
+    return copy(
+        initialValues = initialValues.orEmpty() + computedInitialValues
+    )
 }

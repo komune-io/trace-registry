@@ -1486,6 +1486,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormDTO {
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
         readonly properties?: io.komune.registry.s2.commons.model.form.FormPropertiesDTO;
+        readonly initialValues?: Record<string, string>;
 
     }
 }

@@ -145,14 +145,21 @@ class CatalogueF2FinderService(
         )
     }
 
-    suspend fun getStructure(type: CatalogueType, language: Language): CatalogueStructureDTOBase? {
-        return catalogueConfig.typeConfigurations[type]
-            ?.structure
-            ?.toDTO(language, catalogueConfig.typeConfigurations::get)
+    suspend fun getStructure(type: CatalogueType, language: Language): CatalogueStructureDTOBase? = withCache { cache ->
+        val blueprint = catalogueConfig.typeConfigurations[type]
+        blueprint?.structure?.toDTO(
+            language = language,
+            defaults = blueprint.defaults,
+            getTypeConfiguration = catalogueConfig.typeConfigurations::get,
+            getLicenseByIdentifier = cache.licensesByIdentifier::get
+        )
     }
 
-    suspend fun getBlueprints(language: Language): CatalogueBlueprintsDTOBase? {
-        return catalogueConfig.typeConfigurations.toBlueprintsDTO(language)
+    suspend fun getBlueprints(language: Language): CatalogueBlueprintsDTOBase? = withCache { cache ->
+        catalogueConfig.typeConfigurations.toBlueprintsDTO(
+            language = language,
+            getLicenseByIdentifier = cache.licensesByIdentifier::get
+        )
     }
 
     suspend fun listAvailableParentsFor(
