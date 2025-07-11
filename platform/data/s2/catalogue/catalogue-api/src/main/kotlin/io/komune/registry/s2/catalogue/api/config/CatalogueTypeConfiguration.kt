@@ -1,8 +1,10 @@
 package io.komune.registry.s2.catalogue.api.config
 
+import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueStructureModel
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
+import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.s2.structure.domain.model.Structure
 import kotlinx.serialization.Serializable
 
@@ -23,7 +25,8 @@ data class CatalogueTypeConfiguration(
     val search: CatalogueTypeSearch?,
     val catalogues: List<CatalogueTypeSubCatalogues>?,
     val datasets: List<CatalogueTypeSubDataset>?,
-    val hidden: Boolean = false
+    val hidden: Boolean = false,
+    val defaults: CatalogueDefaults? = null,
 )
 
 @Serializable
@@ -68,4 +71,10 @@ data class SequenceConfiguration(
     val name: String,
     val startValue: Long = 1,
     val increment: Long = 1
+)
+
+@Serializable
+data class CatalogueDefaults(
+    val accessRights: CatalogueAccessRight?,
+    val licenseIdentifier: LicenseIdentifier?
 )

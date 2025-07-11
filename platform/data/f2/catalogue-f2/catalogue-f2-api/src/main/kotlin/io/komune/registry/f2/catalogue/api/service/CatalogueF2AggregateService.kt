@@ -33,6 +33,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetAddDistributionValueC
 import io.komune.registry.f2.dataset.domain.command.DatasetAddEmptyDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetAddMediaDistributionCommandDTOBase
 import io.komune.registry.f2.dataset.domain.command.DatasetRemoveDistributionValueCommandDTOBase
+import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.infra.brevo.config.BrevoClient
 import io.komune.registry.infra.brevo.config.BrevoConfig
@@ -113,6 +114,7 @@ class CatalogueF2AggregateService(
     private val fsService: FsService,
     private val i18nConfig: I18nConfig,
     private val informationConceptF2FinderService: InformationConceptF2FinderService,
+    private val licenseF2FinderService: LicenseF2FinderService,
     private val sequenceRepository: SequenceRepository,
     private val uiProperties: UIProperties,
     private val userF2FinderService: UserF2FinderService
@@ -575,6 +577,10 @@ class CatalogueF2AggregateService(
             isTranslationOf = isTranslationOf,
             hidden = command.hidden ?: typeConfiguration?.hidden ?: false,
             isDraftValidation = isDraftValidation
+        ).copy(
+            accessRights = command.accessRights ?: typeConfiguration?.defaults?.accessRights,
+            licenseId = command.license
+                ?: typeConfiguration?.defaults?.licenseIdentifier?.let { licenseF2FinderService.getByIdentifierOrNull(it)?.id },
         )
         val catalogueCreatedEvent = catalogueAggregateService.create(createCommand)
         return catalogueFinderService.get(catalogueCreatedEvent.id)

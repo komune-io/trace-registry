@@ -3,6 +3,7 @@ package io.komune.registry.f2.catalogue.api.model
 import f2.dsl.cqrs.filter.ExactMatch
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
+import io.komune.registry.f2.license.domain.model.LicenseDTOBase
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
@@ -11,6 +12,8 @@ import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.concept.api.ConceptFinderService
+import io.komune.registry.s2.license.domain.LicenseId
+import io.komune.registry.s2.license.domain.LicenseIdentifier
 import kotlin.coroutines.CoroutineContext
 
 internal class CatalogueCacheContext(
@@ -40,7 +43,15 @@ internal class CatalogueCacheContext(
     val supportedValues = SimpleCache(cccevFinderService::getValue)
 
     val themes = SimpleCache(conceptFinderService::get)
-    val licenses = SimpleCache(licenseF2FinderService::getOrNull)
+
+    val licenses: SimpleCache<LicenseId, LicenseDTOBase?> = SimpleCache { licenseId ->
+        licenseF2FinderService.getOrNull(licenseId)
+            ?.also { licensesByIdentifier.register(it.identifier, it) }
+    }
+    val licensesByIdentifier = SimpleCache<LicenseIdentifier, LicenseDTOBase?> { licenseIdentifier ->
+        licenseF2FinderService.getByIdentifierOrNull(licenseIdentifier)
+            ?.also { licenses.register(it.id, it) }
+    }
 
     val organizations = SimpleCache(organizationF2FinderService::getRef)
     val users = SimpleCache(userF2FinderService::getRef)
