@@ -51,11 +51,7 @@ export const insertEmbedNode = (embedNode: EmbedNode) => {
 }
 
 
-export const EmbedPlugin = ({
-  captionsEnabled,
-}: {
-  captionsEnabled?: boolean;
-}): JSX.Element | null => {
+export const EmbedPlugin = (): JSX.Element | null => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -128,13 +124,13 @@ export const EmbedPlugin = ({
         COMMAND_PRIORITY_LOW,
       ),
     );
-  }, [captionsEnabled, editor]);
+  }, [editor]);
 
   return null;
 }
 
 const TRANSPARENT_EMBED =
-  'data:embed/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 const img = document.createElement('img');
 img.src = TRANSPARENT_EMBED;
 
@@ -194,6 +190,7 @@ function $onDrop(event: DragEvent, editor: LexicalEditor): boolean {
       rangeSelection.applyDOMRange(range);
     }
     $setSelection(rangeSelection);
+    
     editor.dispatchCommand(INSERT_EMBED_COMMAND, data);
   }
   return true;

@@ -48,14 +48,14 @@ export const EmbedComponent = ({
     height,
     resizable
 }: {
-    height: 'inherit' | number;
+    height: string | number;
     nodeKey: NodeKey;
     resizable: boolean;
     src: string;
-    width: 'inherit' | number;
+    width: string |  number;
 }): JSX.Element => {
     const componentRef = useRef<null | HTMLIFrameElement>(null);
-    const clickableRef = useRef<null | HTMLIFrameElement>(null);
+    const clickableRef = useRef<null | HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const [isSelected, setSelected, clearSelection] =
         useLexicalNodeSelection(nodeKey);
@@ -129,13 +129,10 @@ export const EmbedComponent = ({
     const onClick = useCallback(
         (payload: MouseEvent) => {
             const event = payload;
-            console.log("click")
             if (isResizing) {
                 return true;
             }
             if (event.target === clickableRef.current) {
-                console.log("select")
-                console.log("event.shiftKey", event.shiftKey)
                 if (event.shiftKey) {
                     setSelected(!isSelected);
                 } else {
@@ -150,15 +147,13 @@ export const EmbedComponent = ({
         [isResizing, isSelected, setSelected, clearSelection],
     );
 
-    console.log("isSelected", isSelected)
-
     const onRightClick = useCallback(
         (event: MouseEvent): void => {
             editor.getEditorState().read(() => {
                 const latestSelection = $getSelection();
                 const domElement = event.target as HTMLElement;
                 if (
-                    domElement.tagName === 'IMG' &&
+                    domElement.tagName === 'IFRAME' &&
                     $isRangeSelection(latestSelection) &&
                     latestSelection.getNodes().length === 1
                 ) {
@@ -274,8 +269,6 @@ export const EmbedComponent = ({
 
     const draggable = isSelected && $isNodeSelection(selection) && !isResizing;
     const isFocused = isSelected || isResizing;
-
-    console.log(resizable && $isNodeSelection(selection) && isFocused)
 
     return (
         <>

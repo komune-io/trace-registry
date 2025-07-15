@@ -22,25 +22,25 @@ import type {
   import {EmbedComponent} from "./EmbedComponent"
   
   export interface EmbedPayload {
-    height?: number;
+    height?: string | number;
     key?: NodeKey;
     src: string;
-    width?: number;
+    width?: string | number;
   }
   
   export type SerializedEmbedNode = Spread<
     {
-      height?: number;
+      height?: string | number;
       src: string;
-      width?: number;
+      width?: string | number;
     },
     SerializedLexicalNode
   >;
   
   export class EmbedNode extends DecoratorNode<JSX.Element> {
     __src: string;
-    __width: 'inherit' | number;
-    __height: 'inherit' | number;
+    __width: string | number;
+    __height: string | number;
   
     static getType(): string {
       return 'embed';
@@ -67,7 +67,7 @@ import type {
     }
   
     exportDOM(): DOMExportOutput {
-      const element = document.createElement('embed');
+      const element = document.createElement('iframe');
       element.setAttribute('src', this.__src);
       element.setAttribute('width', this.__width.toString());
       element.setAttribute('height', this.__height.toString());
@@ -76,7 +76,7 @@ import type {
   
     static importDOM(): DOMConversionMap | null {
       return {
-        embed: (_: Node) => ({
+        iframe: (_: Node) => ({
           conversion: (domNode: Node) => {
             const element = domNode as HTMLIFrameElement;
             const {src, width, height} = element;
@@ -95,14 +95,14 @@ import type {
   
     constructor(
       src: string,
-      width?: 'inherit' | number,
-      height?: 'inherit' | number,
+      width?: string | number,
+      height?: string | number,
       key?: NodeKey,
     ) {
       super(key);
       this.__src = src;
-      this.__width = width || 'inherit';
-      this.__height = height || 'inherit';
+      this.__width = width || '100%';
+      this.__height = height || 300;
     }
   
     exportJSON(): SerializedEmbedNode {

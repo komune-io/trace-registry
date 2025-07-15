@@ -134,7 +134,7 @@ export const ComponentResizer = ({
 
     const component = componentRef.current;
     const controlWrapper = controlWrapperRef.current;
-
+   
     if (component !== null && controlWrapper !== null) {
       event.preventDefault();
       const {width, height} = component.getBoundingClientRect();

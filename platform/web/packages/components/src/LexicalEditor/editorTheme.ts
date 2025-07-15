@@ -51,4 +51,5 @@ export const theme: EditorThemeClasses = {
   tableSelection: 'editor-tableSelection',
   hr: 'editor-hr',
   hrSelected: 'editor-hrSelected',
+  embed: 'editor-embed',
 }
