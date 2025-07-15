@@ -33,35 +33,29 @@ import {
     SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {ComponentResizer} from './ComponentResizer';
-import { $isImageNode } from './ImageNode';
-import { UnCachedImage } from '../../../UnCachedImage';
+import { ComponentResizer } from '../ImagesPlugin';
+import { $isEmbedNode } from './EmbedNode';
+import { Box } from '@mui/material';
 
 
-export const RIGHT_CLICK_IMAGE_COMMAND: LexicalCommand<MouseEvent> =
-    createCommand('RIGHT_CLICK_IMAGE_COMMAND');
+export const RIGHT_CLICK_EMBED_COMMAND: LexicalCommand<MouseEvent> =
+    createCommand('RIGHT_CLICK_EMBED_COMMAND');
 
-export const ImageComponent = ({
+export const EmbedComponent = ({
     src,
-    altText,
     nodeKey,
     width,
     height,
-    resizable,
-    caption,
-    unCached
+    resizable
 }: {
-    altText: string;
-    caption: LexicalEditor;
     height: 'inherit' | number;
     nodeKey: NodeKey;
     resizable: boolean;
     src: string;
     width: 'inherit' | number;
-    captionsEnabled: boolean;
-    unCached?: boolean
 }): JSX.Element => {
-    const imageRef = useRef<null | HTMLImageElement>(null);
+    const componentRef = useRef<null | HTMLIFrameElement>(null);
+    const clickableRef = useRef<null | HTMLIFrameElement>(null);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const [isSelected, setSelected, clearSelection] =
         useLexicalNodeSelection(nodeKey);
@@ -78,7 +72,7 @@ export const ImageComponent = ({
                 event.preventDefault();
                 editor.update(() => {
                     deleteSelection.getNodes().forEach((node) => {
-                        if ($isImageNode(node)) {
+                        if ($isEmbedNode(node)) {
                             node.remove();
                         }
                     });
@@ -109,13 +103,12 @@ export const ImageComponent = ({
             }
             return false;
         },
-        [caption, isSelected],
+        [isSelected],
     );
 
     const $onEscape = useCallback(
         (event: KeyboardEvent) => {
             if (
-                activeEditorRef.current === caption ||
                 buttonRef.current === event.target
             ) {
                 $setSelection(null);
@@ -130,17 +123,19 @@ export const ImageComponent = ({
             }
             return false;
         },
-        [caption, editor, setSelected],
+        [editor, setSelected],
     );
 
     const onClick = useCallback(
         (payload: MouseEvent) => {
             const event = payload;
-
+            console.log("click")
             if (isResizing) {
                 return true;
             }
-            if (event.target === imageRef.current) {
+            if (event.target === clickableRef.current) {
+                console.log("select")
+                console.log("event.shiftKey", event.shiftKey)
                 if (event.shiftKey) {
                     setSelected(!isSelected);
                 } else {
@@ -155,6 +150,8 @@ export const ImageComponent = ({
         [isResizing, isSelected, setSelected, clearSelection],
     );
 
+    console.log("isSelected", isSelected)
+
     const onRightClick = useCallback(
         (event: MouseEvent): void => {
             editor.getEditorState().read(() => {
@@ -166,7 +163,7 @@ export const ImageComponent = ({
                     latestSelection.getNodes().length === 1
                 ) {
                     editor.dispatchCommand(
-                        RIGHT_CLICK_IMAGE_COMMAND,
+                        RIGHT_CLICK_EMBED_COMMAND,
                         event as MouseEvent,
                     );
                 }
@@ -198,14 +195,14 @@ export const ImageComponent = ({
                 COMMAND_PRIORITY_LOW,
             ),
             editor.registerCommand<MouseEvent>(
-                RIGHT_CLICK_IMAGE_COMMAND,
+                RIGHT_CLICK_EMBED_COMMAND,
                 onClick,
                 COMMAND_PRIORITY_LOW,
             ),
             editor.registerCommand(
                 DRAGSTART_COMMAND,
                 (event) => {
-                    if (event.target === imageRef.current) {
+                    if (event.target === componentRef.current) {
                         // TODO This is just a temporary workaround for FF to behave like other browsers.
                         // Ideally, this handles drag & drop too (and all browsers).
                         event.preventDefault();
@@ -265,7 +262,7 @@ export const ImageComponent = ({
 
         editor.update(() => {
             const node = $getNodeByKey(nodeKey);
-            if ($isImageNode(node)) {
+            if ($isEmbedNode(node)) {
                 node.setWidthAndHeight(nextWidth, nextHeight);
             }
         });
@@ -278,35 +275,53 @@ export const ImageComponent = ({
     const draggable = isSelected && $isNodeSelection(selection) && !isResizing;
     const isFocused = isSelected || isResizing;
 
-    const imgProps = {
-        className:  isFocused
-        ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}`
-        : undefined,
-        src,
-        alt: altText,
-        ref: imageRef,
-        style: {
-            width,
-            height,
-            maxWidth: '100%',
-        }
-    }
-    
+    console.log(resizable && $isNodeSelection(selection) && isFocused)
+
     return (
         <>
-        <div draggable={draggable}>
-            {unCached ? <UnCachedImage {...imgProps} /> : <img {...imgProps} />}
-        </div>
+            <div style={{position: "relative"}} draggable={draggable}>
+                {editor.isEditable() && <Box
+                    ref={clickableRef}
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        cursor: "pointer",
+                        zIndex: 1,
+                    }}
+                    tabIndex={1}
+                >
+                </Box>}
+                <iframe
+                    ref={componentRef}
+                    className={isFocused
+                        ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}`
+                        : undefined}
+                    width={width}
+                    height={height}
+                    style={{
+                        width,
+                        height,
+                        maxWidth: '100%',
+                    }}
+                    src={src}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen={true}
+                />
+            </div>
 
-        {resizable && $isNodeSelection(selection) && isFocused && (
-            <ComponentResizer
-                editor={editor}
-                buttonRef={buttonRef}
-                componentRef={imageRef}
-                onResizeStart={onResizeStart}
-                onResizeEnd={onResizeEnd}
-            />
-        )}
-    </>
+            {resizable && $isNodeSelection(selection) && isFocused && (
+                <ComponentResizer
+                    editor={editor}
+                    buttonRef={buttonRef}
+                    componentRef={componentRef}
+                    onResizeStart={onResizeStart}
+                    onResizeEnd={onResizeEnd}
+                />
+            )}
+        </>
     );
 }

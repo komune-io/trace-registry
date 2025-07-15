@@ -37,6 +37,7 @@ import { DragDropPasteImgPlugin } from './plugins/DragDropPasteImgPlugin';
 import { ButtonnableLinkNode, LinkEditorPlugin } from './plugins/LinkEditorPlugin';
 import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin';
 import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode';
+import { EmbedNode, EmbedPlugin } from './plugins/EmbedPlugin';
 
 const editorConfig: InitialConfigType = {
     namespace: 'Editor',
@@ -63,7 +64,8 @@ const editorConfig: InitialConfigType = {
         TableCellNode,
         TableNode,
         TableRowNode,
-        HorizontalRuleNode
+        HorizontalRuleNode,
+        EmbedNode
     ]
 };
 
@@ -350,6 +352,7 @@ export const InnerEditor = (props: InnerEditorProps) => {
                     />
                     <TableCellResizerPlugin />
                     <ImagesPlugin />
+                    <EmbedPlugin />
                     <HistoryPlugin />
                     <LayoutPlugin />
                     <CodeHighlightPlugin />

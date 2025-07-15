@@ -25,7 +25,7 @@ export const ImageStyles = (readOnly?: boolean) => ({
         cursor: readOnly ? "default" : "grab"
     },
 
-    "& .image-resizer": {
+    "& .component-resizer": {
         display: readOnly ? "none" : "block",
         width: "7px",
         height: "7px",
@@ -34,49 +34,49 @@ export const ImageStyles = (readOnly?: boolean) => ({
         border: "1px solid #fff",
     },
 
-    "& .image-resizer.image-resizer-n": {
+    "& .component-resizer.component-resizer-n": {
         top: "-6px",
         left: "48%",
         cursor: "n-resize",
     },
 
-    "& .image-resizer.image-resizer-ne": {
+    "& .component-resizer.component-resizer-ne": {
         top: "-6px",
         right: "-6px",
         cursor: "ne-resize",
     },
 
-    "& .image-resizer.image-resizer-e": {
+    "& .component-resizer.component-resizer-e": {
         bottom: "48%",
         right: "-6px",
         cursor: "e-resize",
     },
 
-    "& .image-resizer.image-resizer-se": {
+    "& .component-resizer.component-resizer-se": {
         bottom: "-2px",
         right: "-6px",
         cursor: "nwse-resize",
     },
 
-    "& .image-resizer.image-resizer-s": {
+    "& .component-resizer.component-resizer-s": {
         bottom: "-2px",
         left: "48%",
         cursor: "s-resize",
     },
 
-    "& .image-resizer.image-resizer-sw": {
+    "& .component-resizer.component-resizer-sw": {
         bottom: "-2px",
         left: "-6px",
         cursor: "sw-resize",
     },
 
-    "& .image-resizer.image-resizer-w": {
+    "& .component-resizer.component-resizer-w": {
         bottom: "48%",
         left: "-6px",
         cursor: "w-resize",
     },
 
-    "& .image-resizer.image-resizer-nw": {
+    "& .component-resizer.component-resizer-nw": {
         top: "-6px",
         left: "-6px",
         cursor: "nw-resize",
