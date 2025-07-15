@@ -24,15 +24,15 @@ import org.springframework.stereotype.Service
 class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
     suspend fun enforceAccessFilter(): Criterion? = enforceConfigAuthed { authedUser ->
         val organizationId = authedUser?.memberOf.orEmpty()
-        val protectedAccessCriterion = FieldCriterion(
+        val publicAccessCriterion = FieldCriterion(
             CatalogueCriterionField.AccessRights,
             collectionMatchOf(CatalogueAccessRight.PUBLIC, CatalogueAccessRight.PROTECTED)
         )
         when {
-            authedUser == null -> FieldCriterion(CatalogueCriterionField.AccessRights, ExactMatch(CatalogueAccessRight.PUBLIC))
+            authedUser == null -> publicAccessCriterion
             authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> null
             authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> orCriterionOf(
-                protectedAccessCriterion,
+                publicAccessCriterion,
                 FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(organizationId)),
                 andCriterionOf(
                     FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
@@ -42,7 +42,7 @@ class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
                     )
                 )
             )
-            else -> protectedAccessCriterion
+            else -> publicAccessCriterion
         }
     }
 

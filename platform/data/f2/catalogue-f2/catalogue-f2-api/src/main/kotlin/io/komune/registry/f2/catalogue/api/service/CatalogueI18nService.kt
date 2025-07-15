@@ -265,11 +265,16 @@ class CatalogueI18nService(
         ).items
     }
 
-    private suspend fun CatalogueModel.getStructure(): CatalogueStructureDTOBase? {
-        return catalogueConfig.typeConfigurations[type]
-            ?.structure
+    private suspend fun CatalogueModel.getStructure(): CatalogueStructureDTOBase? = withCache { cache ->
+        val blueprint = catalogueConfig.typeConfigurations[type]
+        blueprint?.structure
             .overrideWith(configuration)
-            .toDTO(language!!, catalogueConfig.typeConfigurations::get)
+            .toDTO(
+                language = language!!,
+                defaults = blueprint?.defaults,
+                getTypeConfiguration = catalogueConfig.typeConfigurations::get,
+                getLicenseByIdentifier = cache.licensesByIdentifier::get
+            )
     }
 
     private suspend fun Collection<CatalogueId>.toFilteredRefs(

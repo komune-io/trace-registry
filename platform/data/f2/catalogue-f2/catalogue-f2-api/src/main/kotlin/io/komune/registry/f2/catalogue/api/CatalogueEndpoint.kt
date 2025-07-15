@@ -41,6 +41,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRight
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedAccessRightsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetBlueprintsFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetBlueprintsResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
@@ -171,6 +173,14 @@ class CatalogueEndpoint(
         logger.info("catalogueGetStructure: $query")
         catalogueF2FinderService.getStructure(query.type, query.language)
             .let(::CatalogueGetStructureResult)
+    }
+
+    @PermitAll
+    @Bean
+    override fun catalogueGetBlueprints(): CatalogueGetBlueprintsFunction = f2Function { query ->
+        logger.info("catalogueGetBlueprints: $query")
+        catalogueF2FinderService.getBlueprints(query.language)
+            .let(::CatalogueGetBlueprintsResult)
     }
 
     @PermitAll

@@ -92,8 +92,7 @@ class DatasetF2FinderService(
             val catalogue = catalogueFinderService.getByIdentifier(catalogueIdentifier)
                 .takeIf {
                     (it.language == null || it.language == language ) && (
-                            it.accessRights == CatalogueAccessRight.PUBLIC ||
-                            (it.accessRights == CatalogueAccessRight.PROTECTED && authedUser != null) ||
+                            it.accessRights.isPublicOrProtected() ||
                             (it.accessRights == CatalogueAccessRight.PRIVATE && it.ownerOrganizationId == authedUser?.memberOf)
                     )
                 }

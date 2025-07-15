@@ -8,7 +8,7 @@ interface TableColumnDTO {
     val type: String
     val label: String
     val value: String
-    val properties: TableColumnPropertiesDTO
+    val properties: TableColumnPropertiesDTO?
     val style: Map<String, String>?
 }
 
@@ -17,6 +17,6 @@ data class TableColumn(
     override val type: String,
     override val label: String,
     override val value: String,
-    override val properties: TableColumnProperties,
+    override val properties: TableColumnProperties?,
     override val style: Map<String, String>?
 ) : TableColumnDTO

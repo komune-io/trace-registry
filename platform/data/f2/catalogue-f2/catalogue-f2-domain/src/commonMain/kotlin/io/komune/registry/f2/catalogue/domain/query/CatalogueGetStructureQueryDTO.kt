@@ -31,7 +31,7 @@ interface CatalogueGetStructureQueryDTO {
      * Language of in which to translate the structure data.
      * @example "en"
      */
-    val language: Language?
+    val language: Language
 }
 
 /**
@@ -40,7 +40,7 @@ interface CatalogueGetStructureQueryDTO {
 @Serializable
 data class CatalogueGetStructureQuery(
     override val type: CatalogueType,
-    override val language: Language?,
+    override val language: Language,
 ): CatalogueGetStructureQueryDTO
 
 /**
