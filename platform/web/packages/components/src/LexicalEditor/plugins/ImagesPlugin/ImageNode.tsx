@@ -11,26 +11,22 @@ import type {
     DOMConversionOutput,
     DOMExportOutput,
     EditorConfig,
-    LexicalEditor,
     LexicalNode,
     NodeKey,
-    SerializedEditor,
     SerializedLexicalNode,
     Spread,
   } from 'lexical';
   
-  import {$applyNodeReplacement, createEditor, DecoratorNode} from 'lexical';
+  import {$applyNodeReplacement, DecoratorNode} from 'lexical';
   import {Suspense} from 'react';
   import {ImageComponent} from "./ImageComponent"
   
   export interface ImagePayload {
     altText: string;
-    caption?: LexicalEditor;
     height?: number;
     key?: NodeKey;
     src: string;
     width?: number;
-    captionsEnabled?: boolean;
     unCached?: boolean;
   }
   
@@ -56,7 +52,6 @@ import type {
   export type SerializedImageNode = Spread<
     {
       altText: string;
-      caption: SerializedEditor;
       height?: number;
       src: string;
       width?: number;
@@ -71,9 +66,6 @@ import type {
     __width: 'inherit' | number;
     __height: 'inherit' | number;
     __unCached?: boolean;
-    __caption: LexicalEditor;
-    // Captions cannot yet be used within editor cells
-    __captionsEnabled: boolean;
   
     static getType(): string {
       return 'image';
@@ -85,15 +77,13 @@ import type {
         node.__altText,
         node.__width,
         node.__height,
-        node.__caption,
-        node.__captionsEnabled,
         node.__key,
         node.__unCached,
       );
     }
   
     static importJSON(serializedNode: SerializedImageNode): ImageNode {
-      const {altText, height, width, caption, src, unCached} =
+      const {altText, height, width, src, unCached} =
         serializedNode;
       const node = $createImageNode({
         altText,
@@ -102,11 +92,6 @@ import type {
         width,
         unCached
       });
-      const nestedEditor = node.__caption;
-      const editorState = nestedEditor.parseEditorState(caption.editorState);
-      if (!editorState.isEmpty()) {
-        nestedEditor.setEditorState(editorState);
-      }
       return node;
     }
   
@@ -133,8 +118,6 @@ import type {
       altText: string,
       width?: 'inherit' | number,
       height?: 'inherit' | number,
-      caption?: LexicalEditor,
-      captionsEnabled?: boolean,
       key?: NodeKey,
       unCached?: boolean
     ) {
@@ -143,19 +126,12 @@ import type {
       this.__altText = altText;
       this.__width = width || 'inherit';
       this.__height = height || 'inherit';
-      this.__caption =
-        caption ||
-        createEditor({
-          nodes: [],
-        });
-      this.__captionsEnabled = captionsEnabled || captionsEnabled === undefined;
       this.__unCached = unCached;
     }
   
     exportJSON(): SerializedImageNode {
       return {
         altText: this.getAltText(),
-        caption: this.__caption.toJSON(),
         height: this.__height === 'inherit' ? 0 : this.__height,
         src: this.getSrc(),
         type: 'image',
@@ -214,8 +190,6 @@ import type {
             width={this.__width}
             height={this.__height}
             nodeKey={this.getKey()}
-            caption={this.__caption}
-            captionsEnabled={this.__captionsEnabled}
             unCached={this.__unCached}
             resizable={true}
           />
@@ -227,10 +201,8 @@ import type {
   export function $createImageNode({
     altText,
     height,
-    captionsEnabled,
     src,
     width,
-    caption,
     key,
     unCached,
   }: ImagePayload): ImageNode {
@@ -240,8 +212,6 @@ import type {
         altText,
         width,
         height,
-        caption,
-        captionsEnabled,
         key,
         unCached,
       ),

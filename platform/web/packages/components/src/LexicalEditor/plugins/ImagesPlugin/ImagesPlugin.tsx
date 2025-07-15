@@ -51,11 +51,7 @@ export const insertImageNode = (imageNode: ImageNode) => {
 }
 
 
-export const ImagesPlugin = ({
-  captionsEnabled,
-}: {
-  captionsEnabled?: boolean;
-}): JSX.Element | null => {
+export const ImagesPlugin = (): JSX.Element | null => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -128,7 +124,7 @@ export const ImagesPlugin = ({
         COMMAND_PRIORITY_LOW,
       ),
     );
-  }, [captionsEnabled, editor]);
+  }, [editor]);
 
   return null;
 }
@@ -153,8 +149,6 @@ function $onDragStart(event: DragEvent): boolean {
     'application/x-lexical-drag',
     JSON.stringify({
       data: {
-        altText: node.__altText,
-        caption: node.__caption,
         height: node.__height,
         key: node.getKey(),
         src: node.__src,
@@ -216,7 +210,7 @@ function getDragImageData(event: DragEvent): null | InsertImagePayload {
   if (!dragData) {
     return null;
   }
-  const { type, data } = JSON.parse(dragData);
+  const {type, data} = JSON.parse(dragData);
   if (type !== 'image') {
     return null;
   }
@@ -237,7 +231,7 @@ function canDropImage(event: DragEvent): boolean {
     isHTMLElement(target) &&
     !target.closest('code, span.editor-image') &&
     isHTMLElement(target.parentElement) &&
-    target.parentElement.closest('div.ContentEditable__root')
+    target.parentElement.closest('div.editor-input')
   );
 }
 

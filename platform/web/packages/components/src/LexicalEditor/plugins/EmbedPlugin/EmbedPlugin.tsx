@@ -232,7 +232,7 @@ function canDropEmbed(event: DragEvent): boolean {
     isHTMLElement(target) &&
     !target.closest('code, span.editor-embed') &&
     isHTMLElement(target.parentElement) &&
-    target.parentElement.closest('div.ContentEditable__root')
+    target.parentElement.closest('div.editor-input')
   );
 }
 
