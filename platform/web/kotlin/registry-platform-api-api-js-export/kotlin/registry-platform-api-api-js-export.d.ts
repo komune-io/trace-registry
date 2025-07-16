@@ -4248,6 +4248,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly type: string;
         readonly description?: string;
         readonly img?: string;
+        readonly accessRights: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly order?: number;
         readonly modified: number;
 
@@ -4264,6 +4265,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
         readonly description?: string;
         readonly img?: string;
         readonly structure?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO;
+        readonly accessRights: io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight;
         readonly order?: number;
         readonly modified: number;
         readonly catalogues?: io.komune.registry.f2.catalogue.domain.dto.CatalogueRefTreeDTO[];
