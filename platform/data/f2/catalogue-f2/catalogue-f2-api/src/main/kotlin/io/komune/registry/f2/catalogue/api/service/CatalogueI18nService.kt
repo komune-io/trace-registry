@@ -55,6 +55,7 @@ class CatalogueI18nService(
                 description = translated.description,
                 img = translated.img,
                 structure = translated.getStructure(),
+                accessRights = translated.accessRights,
                 order = translated.order,
                 modified = translated.modified
             )
@@ -171,6 +172,7 @@ class CatalogueI18nService(
                 description = translated.description,
                 img = translated.img,
                 structure = translated.getStructure(),
+                accessRights = translated.accessRights,
                 order = translated.order,
                 catalogues = translated.childrenCatalogueIds.nullIfEmpty()?.let { catalogueIds ->
                     getCatalogueTree(catalogueIds, language, otherLanguageIfAbsent)
