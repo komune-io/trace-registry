@@ -6,6 +6,7 @@ import { CataloguePresentation } from '../CataloguePresentation';
 import { useCatalogueDistributionLexicalEditor } from "../DistributionLexicalEditor";
 import { Dataset } from '../../../Dataset';
 import { useMemo } from 'react';
+import { useExtendedAuth } from 'components';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
@@ -21,6 +22,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         isEmpty,
         dataset
     } = props
+    const {keycloak} = useExtendedAuth()
 
     const {editor, distribution} = useCatalogueDistributionLexicalEditor(catalogue, dataset)
 
@@ -34,6 +36,10 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         return bool
     }, [dataset, distribution, withCatalogueMetadata])
 
+    const isProtected = catalogue?.accessRights === "PROTECTED"
+
+    const canViewDetails = !(isProtected && !keycloak.isAuthenticated)
+
     if (isDatasetEmpty) {
         return 
     }
@@ -43,7 +49,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                 catalogue={catalogue}
                 isLoading={isLoading}
             />
-            <Stack
+            {canViewDetails && <Stack
                 sx={{
                     flexDirection: {
                         xs: "column",
@@ -63,7 +69,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                     catalogue={catalogue}
                     isLoading={isLoading}
                 />}
-            </Stack>
+            </Stack>}
 
         </>
     )

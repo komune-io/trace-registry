@@ -7,6 +7,7 @@ import {
   CatalogueSearchQuery,
   useCatalogueAddRelatedCataloguesCommand,
   useCatalogueGetQuery,
+  useCatalogueGetStructureQuery,
   useCatalogueRemoveRelatedCataloguesCommand,
   useCatalogueSearchQuery,
   useCataloguesFilters
@@ -19,7 +20,6 @@ import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useDebouncedValue } from '@mantine/hooks'
-import autoTable from "./AutoTable.json"
 import { SortOrder } from '@komune-io/g2'
 
 export const CatalogueLinkPage = () => {
@@ -60,12 +60,21 @@ export const CatalogueLinkPage = () => {
     }
   })
 
+  const subCatalogueTypes = getSubCatalogue.data?.item?.configuration?.relations?.content?.types ?? []
+
+  const structure = useCatalogueGetStructureQuery({
+      query: {
+        type: subCatalogueTypes[0],
+        language: i18n.language,
+      }
+    })
+
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
       query: submittedFilters.query,
       availableLanguages: submittedFilters.availableLanguages,
       ...validatedState,
-      type: getSubCatalogue.data?.item?.configuration?.relations?.content?.types,
+      type: subCatalogueTypes,
       //@ts-ignore
       isSelected: undefined,
       relatedInCatalogueIds: state.isSelected ? { "content": [subCatalogueId!] } : undefined,
@@ -237,16 +246,16 @@ export const CatalogueLinkPage = () => {
           <AutoCatalogueTable
             page={data}
             pagination={pagination}
-            isLoading={isFetching || getSubCatalogue.isFetching}
+            isLoading={isFetching || getSubCatalogue.isFetching || structure.isFetching}
             onOffsetChange={(offset) => {
-              changeValueCallback('limit')(offset.limit)
-              changeValueCallback('offset')(offset.offset)
+              changeValueCallback('limit', true)(offset.limit)
+              changeValueCallback('offset', true)(offset.offset)
             }}
             rowSelection={rowSelection}
             onRowSelectionChange={onRowSelectionChange}
             expectedSize={20}
             //@ts-ignore
-            tableComposable={autoTable}
+            tableComposable={structure.data?.item?.table}
             sortState={state.sort}
             onSortingChange={changeValueCallback('sort')}
             sx={{
