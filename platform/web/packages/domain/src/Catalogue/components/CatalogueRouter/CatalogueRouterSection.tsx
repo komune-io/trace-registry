@@ -19,6 +19,7 @@ export const CatalogueRouterSection = (props: CatalogueRouterSectionProps) => {
     const canDisplayItem = !(isProtected && !keycloak.isAuthenticated)
     
     if (!canDisplayItem) {
+        isEmpty(true)
         return
     }
     if (item.structure?.isInventory) {

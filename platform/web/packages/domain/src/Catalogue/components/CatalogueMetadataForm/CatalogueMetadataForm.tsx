@@ -208,6 +208,8 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
         [onSubmit],
     )
 
+    console.log(formData)
+
     const localFormState = useAutoFormState({
         formData,
         onSubmit: onSubmitMemo,
