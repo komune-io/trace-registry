@@ -401,6 +401,8 @@
     "gallery": "Galería",
     "charts": "Gráficos",
     "addDivider": "Agregar un separador",
+    "addEmbed": "Insertar una página web",
+    "embedUrl": "URL de la página web a insertar",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",

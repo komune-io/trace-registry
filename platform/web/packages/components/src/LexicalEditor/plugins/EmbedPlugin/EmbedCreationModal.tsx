@@ -29,7 +29,7 @@ export const EmbedCreationModal = (props: EmbedCreationModalProps) => {
     const fields = useMemo((): FormComposableField[] => ([{
         name: "src",
         type: "textField",
-        label: t("url"),
+        label: t("editor.embedUrl"),
         required: true
     }]), [t])
 
