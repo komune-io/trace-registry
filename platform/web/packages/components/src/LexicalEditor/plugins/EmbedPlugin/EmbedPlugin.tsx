@@ -32,39 +32,39 @@ import {
 } from 'lexical';
 import { useEffect } from 'react';
 import {
-  $createImageNode,
-  $isImageNode,
-  ImageNode,
-  ImagePayload,
-} from './ImageNode';
+  $createEmbedNode,
+  $isEmbedNode,
+  EmbedNode,
+  EmbedPayload,
+} from './EmbedNode';
 
-export type InsertImagePayload = Readonly<ImagePayload>;
+export type InsertEmbedPayload = Readonly<EmbedPayload>;
 
-export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
-  createCommand('INSERT_IMAGE_COMMAND');
+export const INSERT_EMBED_COMMAND: LexicalCommand<InsertEmbedPayload> =
+  createCommand('INSERT_EMBED_COMMAND');
 
-export const insertImageNode = (imageNode: ImageNode) => {
-  $insertNodes([imageNode]);
-  if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
-    $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd();
+export const insertEmbedNode = (embedNode: EmbedNode) => {
+  $insertNodes([embedNode]);
+  if ($isRootOrShadowRoot(embedNode.getParentOrThrow())) {
+    $wrapNodeInElement(embedNode, $createParagraphNode).selectEnd();
   }
 }
 
 
-export const ImagesPlugin = (): JSX.Element | null => {
+export const EmbedPlugin = (): JSX.Element | null => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    if (!editor.hasNodes([ImageNode])) {
-      throw new Error('ImagesPlugin: ImageNode not registered on editor');
+    if (!editor.hasNodes([EmbedNode])) {
+      throw new Error('EmbedPlugin: EmbedNode not registered on editor');
     }
 
     return mergeRegister(
-      editor.registerCommand<InsertImagePayload>(
-        INSERT_IMAGE_COMMAND,
+      editor.registerCommand<InsertEmbedPayload>(
+        INSERT_EMBED_COMMAND,
         (payload) => {
-          const imageNode = $createImageNode(payload);
-          insertImageNode(imageNode)
+          const embedNode = $createEmbedNode(payload);
+          insertEmbedNode(embedNode)
 
           return true;
         },
@@ -94,7 +94,7 @@ export const ImagesPlugin = (): JSX.Element | null => {
       editor.registerCommand<DragEvent>(
         KEY_ESCAPE_COMMAND,
         () => {
-          const node = $getImageNodeInSelection();
+          const node = $getEmbedNodeInSelection();
           if (!node) {
             return false;
           }
@@ -106,7 +106,7 @@ export const ImagesPlugin = (): JSX.Element | null => {
       editor.registerCommand<DragEvent>(
         KEY_ENTER_COMMAND,
         () => {
-          const node = $getImageNodeInSelection();
+          const node = $getEmbedNodeInSelection();
           if (!node) {
             return false;
           }
@@ -129,13 +129,13 @@ export const ImagesPlugin = (): JSX.Element | null => {
   return null;
 }
 
-const TRANSPARENT_IMAGE =
+const TRANSPARENT_EMBED =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 const img = document.createElement('img');
-img.src = TRANSPARENT_IMAGE;
+img.src = TRANSPARENT_EMBED;
 
 function $onDragStart(event: DragEvent): boolean {
-  const node = $getImageNodeInSelection();
+  const node = $getEmbedNodeInSelection();
   if (!node) {
     return false;
   }
@@ -154,7 +154,7 @@ function $onDragStart(event: DragEvent): boolean {
         src: node.__src,
         width: node.__width,
       },
-      type: 'image',
+      type: 'embed',
     }),
   );
 
@@ -162,27 +162,27 @@ function $onDragStart(event: DragEvent): boolean {
 }
 
 function $onDragover(event: DragEvent): boolean {
-  const node = $getImageNodeInSelection();
+  const node = $getEmbedNodeInSelection();
   if (!node) {
     return false;
   }
-  if (!canDropImage(event)) {
+  if (!canDropEmbed(event)) {
     event.preventDefault();
   }
   return true;
 }
 
 function $onDrop(event: DragEvent, editor: LexicalEditor): boolean {
-  const node = $getImageNodeInSelection();
+  const node = $getEmbedNodeInSelection();
   if (!node) {
     return false;
   }
-  const data = getDragImageData(event);
+  const data = getDragEmbedData(event);
   if (!data) {
     return false;
   }
   event.preventDefault();
-  if (canDropImage(event)) {
+  if (canDropEmbed(event)) {
     const range = getDragSelection(event);
     node.remove();
     const rangeSelection = $createRangeSelection();
@@ -190,28 +190,29 @@ function $onDrop(event: DragEvent, editor: LexicalEditor): boolean {
       rangeSelection.applyDOMRange(range);
     }
     $setSelection(rangeSelection);
-    editor.dispatchCommand(INSERT_IMAGE_COMMAND, data);
+    
+    editor.dispatchCommand(INSERT_EMBED_COMMAND, data);
   }
   return true;
 }
 
-function $getImageNodeInSelection(): ImageNode | null {
+function $getEmbedNodeInSelection(): EmbedNode | null {
   const selection = $getSelection();
   if (!$isNodeSelection(selection)) {
     return null;
   }
   const nodes = selection.getNodes();
   const node = nodes[0];
-  return $isImageNode(node) ? node : null;
+  return $isEmbedNode(node) ? node : null;
 }
 
-function getDragImageData(event: DragEvent): null | InsertImagePayload {
+function getDragEmbedData(event: DragEvent): null | InsertEmbedPayload {
   const dragData = event.dataTransfer?.getData('application/x-lexical-drag');
   if (!dragData) {
     return null;
   }
-  const {type, data} = JSON.parse(dragData);
-  if (type !== 'image') {
+  const { type, data } = JSON.parse(dragData);
+  if (type !== 'embed') {
     return null;
   }
 
@@ -225,11 +226,11 @@ declare global {
   }
 }
 
-function canDropImage(event: DragEvent): boolean {
+function canDropEmbed(event: DragEvent): boolean {
   const target = event.target;
   return !!(
     isHTMLElement(target) &&
-    !target.closest('code, span.editor-image') &&
+    !target.closest('code, span.editor-embed') &&
     isHTMLElement(target.parentElement) &&
     target.parentElement.closest('div.editor-input')
   );

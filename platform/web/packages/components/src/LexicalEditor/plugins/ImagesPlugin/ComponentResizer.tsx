@@ -23,19 +23,18 @@ const Direction = {
   west: 1 << 2,
 };
 
-export default function ImageResizer({
+export const ComponentResizer = ({
   onResizeStart,
   onResizeEnd,
-  imageRef,
+  componentRef,
   editor,
 }: {
   editor: LexicalEditor;
   buttonRef: {current: null | HTMLButtonElement};
-  imageRef: {current: null | HTMLElement};
+  componentRef: {current: null | HTMLElement};
   onResizeEnd: (width: 'inherit' | number, height: 'inherit' | number) => void;
   onResizeStart: () => void;
-  captionsEnabled: boolean;
-}): JSX.Element {
+}): JSX.Element => {
   const controlWrapperRef = useRef<HTMLDivElement>(null);
   const userSelect = useRef({
     priority: '',
@@ -133,13 +132,13 @@ export default function ImageResizer({
       return;
     }
 
-    const image = imageRef.current;
+    const component = componentRef.current;
     const controlWrapper = controlWrapperRef.current;
-
-    if (image !== null && controlWrapper !== null) {
+   
+    if (component !== null && controlWrapper !== null) {
       event.preventDefault();
-      const {width, height} = image.getBoundingClientRect();
-      const zoom = calculateZoomLevel(image);
+      const {width, height} = component.getBoundingClientRect();
+      const zoom = calculateZoomLevel(component);
       const positioning = positioningRef.current;
       positioning.startWidth = width;
       positioning.startHeight = height;
@@ -154,16 +153,16 @@ export default function ImageResizer({
       setStartCursor(direction);
       onResizeStart();
 
-      controlWrapper.classList.add('image-control-wrapper--resizing');
-      image.style.height = `${height}px`;
-      image.style.width = `${width}px`;
+      controlWrapper.classList.add('component-control-wrapper--resizing');
+      component.style.height = `${height}px`;
+      component.style.width = `${width}px`;
 
       document.addEventListener('pointermove', handlePointerMove);
       document.addEventListener('pointerup', handlePointerUp);
     }
   };
   const handlePointerMove = (event: PointerEvent) => {
-    const image = imageRef.current;
+    const component = componentRef.current;
     const positioning = positioningRef.current;
 
     const isHorizontal =
@@ -171,8 +170,8 @@ export default function ImageResizer({
     const isVertical =
       positioning.direction & (Direction.south | Direction.north);
 
-    if (image !== null && positioning.isResizing) {
-      const zoom = calculateZoomLevel(image);
+    if (component !== null && positioning.isResizing) {
+      const zoom = calculateZoomLevel(component);
       // Corner cursor
       if (isHorizontal && isVertical) {
         let diff = Math.floor(positioning.startX - event.clientX / zoom);
@@ -185,8 +184,8 @@ export default function ImageResizer({
         );
 
         const height = width / positioning.ratio;
-        image.style.width = `${width}px`;
-        image.style.height = `${height}px`;
+        component.style.width = `${width}px`;
+        component.style.height = `${height}px`;
         positioning.currentHeight = height;
         positioning.currentWidth = width;
       } else if (isVertical) {
@@ -199,7 +198,7 @@ export default function ImageResizer({
           maxHeightContainer,
         );
 
-        image.style.height = `${height}px`;
+        component.style.height = `${height}px`;
         positioning.currentHeight = height;
       } else {
         let diff = Math.floor(positioning.startX - event.clientX / zoom);
@@ -211,16 +210,16 @@ export default function ImageResizer({
           maxWidthContainer,
         );
 
-        image.style.width = `${width}px`;
+        component.style.width = `${width}px`;
         positioning.currentWidth = width;
       }
     }
   };
   const handlePointerUp = () => {
-    const image = imageRef.current;
+    const component = componentRef.current;
     const positioning = positioningRef.current;
     const controlWrapper = controlWrapperRef.current;
-    if (image !== null && controlWrapper !== null && positioning.isResizing) {
+    if (component !== null && controlWrapper !== null && positioning.isResizing) {
       const width = positioning.currentWidth;
       const height = positioning.currentHeight;
       positioning.startWidth = 0;
@@ -232,7 +231,7 @@ export default function ImageResizer({
       positioning.currentHeight = 0;
       positioning.isResizing = false;
 
-      controlWrapper.classList.remove('image-control-wrapper--resizing');
+      controlWrapper.classList.remove('component-control-wrapper--resizing');
 
       setEndCursor();
       onResizeEnd(width, height);
@@ -244,49 +243,49 @@ export default function ImageResizer({
   return (
     <div ref={controlWrapperRef}>
       <div
-        className="image-resizer image-resizer-n"
+        className="component-resizer component-resizer-n"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north);
         }}
       />
       <div
-        className="image-resizer image-resizer-ne"
+        className="component-resizer component-resizer-ne"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north | Direction.east);
         }}
       />
       <div
-        className="image-resizer image-resizer-e"
+        className="component-resizer component-resizer-e"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.east);
         }}
       />
       <div
-        className="image-resizer image-resizer-se"
+        className="component-resizer component-resizer-se"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south | Direction.east);
         }}
       />
       <div
-        className="image-resizer image-resizer-s"
+        className="component-resizer component-resizer-s"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south);
         }}
       />
       <div
-        className="image-resizer image-resizer-sw"
+        className="component-resizer component-resizer-sw"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south | Direction.west);
         }}
       />
       <div
-        className="image-resizer image-resizer-w"
+        className="component-resizer component-resizer-w"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.west);
         }}
       />
       <div
-        className="image-resizer image-resizer-nw"
+        className="component-resizer component-resizer-nw"
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north | Direction.west);
         }}

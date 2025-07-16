@@ -1,6 +1,7 @@
 import { Box, styled } from "@mui/material"
 import { TableStyles } from "./plugins/TablePlugin"
 import { ImageStyles } from "./plugins/ImagesPlugin"
+import { EmbedStyles } from "./plugins/EmbedPlugin"
 
 export const MarkdownStyleContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'titlesTopLevel' && prop !== 'readOnly' && prop !== "citations"
@@ -168,4 +169,5 @@ export const MarkdownStyleContainer = styled(Box, {
   },
   ...TableStyles,
   ...ImageStyles(readOnly),
+  ...EmbedStyles(readOnly)
 }))

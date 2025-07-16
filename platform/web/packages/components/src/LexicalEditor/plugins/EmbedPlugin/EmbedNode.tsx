@@ -19,86 +19,56 @@ import type {
   
   import {$applyNodeReplacement, DecoratorNode} from 'lexical';
   import {Suspense} from 'react';
-  import {ImageComponent} from "./ImageComponent"
+  import {EmbedComponent} from "./EmbedComponent"
   
-  export interface ImagePayload {
-    altText: string;
-    height?: number;
+  export interface EmbedPayload {
+    height?: string | number;
     key?: NodeKey;
     src: string;
-    width?: number;
-    unCached?: boolean;
+    width?: string | number;
   }
   
-  function isGoogleDocCheckboxImg(img: HTMLImageElement): boolean {
-    return (
-      img.parentElement != null &&
-      img.parentElement.tagName === 'LI' &&
-      img.previousSibling === null &&
-      img.getAttribute('aria-roledescription') === 'checkbox'
-    );
-  }
-  
-  function $convertImageElement(domNode: Node): null | DOMConversionOutput {
-    const img = domNode as HTMLImageElement;
-    if (img.src.startsWith('file:///') || isGoogleDocCheckboxImg(img)) {
-      return null;
-    }
-    const {alt: altText, src, width, height} = img;
-    const node = $createImageNode({altText, height, src, width});
-    return {node};
-  }
-  
-  export type SerializedImageNode = Spread<
+  export type SerializedEmbedNode = Spread<
     {
-      altText: string;
-      height?: number;
+      height?: string | number;
       src: string;
-      width?: number;
-      unCached?: boolean;
+      width?: string | number;
     },
     SerializedLexicalNode
   >;
   
-  export class ImageNode extends DecoratorNode<JSX.Element> {
+  export class EmbedNode extends DecoratorNode<JSX.Element> {
     __src: string;
-    __altText: string;
-    __width: 'inherit' | number;
-    __height: 'inherit' | number;
-    __unCached?: boolean;
+    __width: string | number;
+    __height: string | number;
   
     static getType(): string {
-      return 'image';
+      return 'embed';
     }
   
-    static clone(node: ImageNode): ImageNode {
-      return new ImageNode(
+    static clone(node: EmbedNode): EmbedNode {
+      return new EmbedNode(
         node.__src,
-        node.__altText,
         node.__width,
         node.__height,
         node.__key,
-        node.__unCached,
       );
     }
   
-    static importJSON(serializedNode: SerializedImageNode): ImageNode {
-      const {altText, height, width, src, unCached} =
+    static importJSON(serializedNode: SerializedEmbedNode): EmbedNode {
+      const {height, width, src} =
         serializedNode;
-      const node = $createImageNode({
-        altText,
+      const node = $createEmbedNode({
         height,
         src,
-        width,
-        unCached
+        width
       });
       return node;
     }
   
     exportDOM(): DOMExportOutput {
-      const element = document.createElement('img');
+      const element = document.createElement('iframe');
       element.setAttribute('src', this.__src);
-      element.setAttribute('alt', this.__altText);
       element.setAttribute('width', this.__width.toString());
       element.setAttribute('height', this.__height.toString());
       return {element};
@@ -106,8 +76,18 @@ import type {
   
     static importDOM(): DOMConversionMap | null {
       return {
-        img: (_: Node) => ({
-          conversion: $convertImageElement,
+        iframe: (_: Node) => ({
+          conversion: (domNode: Node) => {
+            const element = domNode as HTMLIFrameElement;
+            const {src, width, height} = element;
+            return {
+              node: $createEmbedNode({
+                src,
+                width: Number(width),
+                height: Number(height),
+              }),
+            } as DOMConversionOutput;
+          },
           priority: 0,
         }),
       };
@@ -115,29 +95,23 @@ import type {
   
     constructor(
       src: string,
-      altText: string,
-      width?: 'inherit' | number,
-      height?: 'inherit' | number,
+      width?: string | number,
+      height?: string | number,
       key?: NodeKey,
-      unCached?: boolean
     ) {
       super(key);
       this.__src = src;
-      this.__altText = altText;
-      this.__width = width || 'inherit';
-      this.__height = height || 'inherit';
-      this.__unCached = unCached;
+      this.__width = width || '100%';
+      this.__height = height || 300;
     }
   
-    exportJSON(): SerializedImageNode {
+    exportJSON(): SerializedEmbedNode {
       return {
-        altText: this.getAltText(),
         height: this.__height === 'inherit' ? 0 : this.__height,
         src: this.getSrc(),
-        type: 'image',
+        type: 'embed',
         version: 1,
         width: this.__width === 'inherit' ? 0 : this.__width,
-        unCached: this.__unCached
       };
     }
   
@@ -155,7 +129,7 @@ import type {
     createDOM(config: EditorConfig): HTMLElement {
       const span = document.createElement('span');
       const theme = config.theme;
-      const className = theme.image;
+      const className = theme.embed;
       if (className !== undefined) {
         span.className = className;
       }
@@ -177,20 +151,14 @@ import type {
       return this.__src;
     }
   
-    getAltText(): string {
-      return this.__altText;
-    }
-  
     decorate(): JSX.Element {
       return (
         <Suspense fallback={null}>
-          <ImageComponent
+          <EmbedComponent
             src={this.__src}
-            altText={this.__altText}
             width={this.__width}
             height={this.__height}
             nodeKey={this.getKey()}
-            unCached={this.__unCached}
             resizable={true}
           />
         </Suspense>
@@ -198,28 +166,24 @@ import type {
     }
   }
   
-  export function $createImageNode({
-    altText,
+  export function $createEmbedNode({
     height,
     src,
     width,
     key,
-    unCached,
-  }: ImagePayload): ImageNode {
+  }: EmbedPayload): EmbedNode {
     return $applyNodeReplacement(
-      new ImageNode(
+      new EmbedNode(
         src,
-        altText,
         width,
         height,
         key,
-        unCached,
       ),
     );
   }
   
-  export function $isImageNode(
+  export function $isEmbedNode(
     node: LexicalNode | null | undefined,
-  ): node is ImageNode {
-    return node instanceof ImageNode;
+  ): node is EmbedNode {
+    return node instanceof EmbedNode;
   }

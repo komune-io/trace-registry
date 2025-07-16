@@ -407,6 +407,8 @@
         "gallery": "Galerie",
         "charts": "Graphiques",
         "addDivider": "Ajouter un séparateur",
+        "addEmbed": "Intégrer une page web",
+        "embedUrl": "URL de la page wed à intégrer",
         "columnsType": {
             "1-1": "2 colonnes (taille égale)",
             "1-3": "2 colonnes (25% - 75%)",
