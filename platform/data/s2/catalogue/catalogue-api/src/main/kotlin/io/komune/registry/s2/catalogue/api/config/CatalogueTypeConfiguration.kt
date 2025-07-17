@@ -20,6 +20,7 @@ data class CatalogueTypeConfiguration(
     val parentalControl: Boolean = false,
     val writerRoles: Set<String>?,
     val ownerRoles: Set<String>?,
+    val simulateClaimForGuests: Boolean = false,
     val structure: CatalogueStructureModel?,
     val i18n: CatalogueTypeI18n?,
     val search: CatalogueTypeSearch?,

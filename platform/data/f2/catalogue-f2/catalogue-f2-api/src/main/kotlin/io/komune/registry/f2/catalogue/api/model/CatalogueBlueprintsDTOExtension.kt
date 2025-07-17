@@ -38,7 +38,8 @@ suspend fun CatalogueTypeConfiguration.toBlueprint(
         relatedTypes = relatedTypes?.mapValues { it.value.toList() },
         structure = structure?.toDTO(language, defaults, getTypeConfiguration, getLicenseByIdentifier),
         canUpdate = writerRoles == null || authedUser?.roles.orEmpty().any { it in writerRoles!! },
-        canClaim = ownerRoles != null && authedUser?.roles.orEmpty().any { it in ownerRoles!! },
+        canClaim = (authedUser == null && simulateClaimForGuests)
+                || ownerRoles != null && authedUser?.roles.orEmpty().any { it in ownerRoles!! },
         includeInGlobalSearch = search?.enable == true && search?.includeInGlobal == true,
     )
 }
