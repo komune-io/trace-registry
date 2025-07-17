@@ -175,6 +175,7 @@
   "clear": "Clear",
   "filtersCount": "{{count}} filters",
   "button": "Button",
+  "poweredBy": "Powered by",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

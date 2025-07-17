@@ -175,6 +175,7 @@
   "clear": "Borrar",
   "filtersCount": "{{count}} filtros",
   "button": "Botón",
+  "poweredBy": "Impulsado por",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
