@@ -2,13 +2,15 @@ version: "3.7"
 services:
   fs-gateway:
     container_name: fs-cccev
-    image: smartbcity/fs-gateway:next-SNAPSHOT
+    image: smartbcity/fs-gateway:0.15.0-RC1
     environment:
       - fs_s3_internal-url=http://minio:9000
       - fs_s3_external-url=http://localhost:9000
       - fs_s3_bucket=cccev
       - fs_s3_username=minio
       - fs_s3_password=minio123
+      - fs_vectorpedia_url=http://vectorpedia:9999
+      - f2_tenant_issuer-base-uri=
     ports:
       - 8090:8090
 

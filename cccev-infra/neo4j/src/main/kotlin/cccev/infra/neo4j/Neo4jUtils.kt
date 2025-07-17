@@ -3,12 +3,13 @@ package cccev.infra.neo4j
 import cccev.commons.utils.mapAsync
 import f2.spring.exception.ConflictException
 import f2.spring.exception.NotFoundException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.neo4j.ogm.session.Session
 import org.neo4j.ogm.session.SessionFactory
 import org.neo4j.ogm.transaction.Transaction
+import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.coroutineContext
@@ -17,7 +18,8 @@ import kotlin.coroutines.coroutineContext
 suspend fun <T> SessionFactory.session(additionalContext: CoroutineContext = EmptyCoroutineContext, execute: suspend (Session) -> T): T {
     val session = coroutineContext[Neo4jContext]?.session
         ?: return withContext(
-            Dispatchers.IO.limitedParallelism(1) // must stay on the same thread for transactions to work
+            // must stay on the same thread for transactions to work
+            Executors.newFixedThreadPool(1).asCoroutineDispatcher().limitedParallelism(1)
                     + Neo4jContext(openSession())
                     + additionalContext
         ) { session(additionalContext, execute) }

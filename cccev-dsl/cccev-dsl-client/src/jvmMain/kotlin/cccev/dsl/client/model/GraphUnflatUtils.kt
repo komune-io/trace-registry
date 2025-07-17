@@ -10,14 +10,14 @@ import cccev.core.requirement.model.RequirementKind
 import cccev.core.unit.entity.DataUnit
 import cccev.core.unit.entity.DataUnitOption
 import cccev.core.unit.model.DataUnitType
-import cccev.f2.certification.domain.model.CertificationFlat
-import cccev.f2.certification.domain.model.RequirementCertificationFlat
-import cccev.f2.certification.domain.model.SupportedValueFlat
-import cccev.f2.commons.CccevFlatGraph
-import cccev.f2.concept.domain.model.InformationConceptFlat
-import cccev.f2.evidence.type.domain.model.EvidenceTypeFlat
-import cccev.f2.requirement.domain.model.RequirementFlat
-import cccev.f2.unit.domain.model.DataUnitFlat
+import cccev.f2.CccevFlatGraph
+import cccev.f2.certification.model.CertificationFlat
+import cccev.f2.certification.model.RequirementCertificationFlat
+import cccev.f2.certification.model.SupportedValueFlat
+import cccev.f2.concept.model.InformationConceptFlat
+import cccev.f2.evidencetype.model.EvidenceTypeFlat
+import cccev.f2.requirement.model.RequirementFlat
+import cccev.f2.unit.model.DataUnitFlat
 import f2.spring.exception.NotFoundException
 
 fun CertificationFlat.unflatten(graph: CccevFlatGraph): Certification {
@@ -144,7 +144,7 @@ fun DataUnitFlat.unflatten(graph: CccevFlatGraph): DataUnit {
     }
 }
 
-fun cccev.f2.unit.domain.model.DataUnitOption.unflatten(graph: CccevFlatGraph): DataUnitOption {
+fun cccev.f2.unit.model.DataUnitOption.unflatten(graph: CccevFlatGraph): DataUnitOption {
     return DataUnitOption().also { option ->
         option.id = id
         option.identifier = identifier

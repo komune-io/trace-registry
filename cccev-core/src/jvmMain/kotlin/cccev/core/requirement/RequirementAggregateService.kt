@@ -98,7 +98,6 @@ class RequirementAggregateService(
         session.removeSeveredRelations(
             Requirement.LABEL, command.id, Requirement.HAS_EVIDENCE_TYPE, EvidenceType.LABEL,
             requirement.evidenceTypes.map { it.id }, command.evidenceTypeIds.toSet()
-
         )
 
         requirement.also { r ->
