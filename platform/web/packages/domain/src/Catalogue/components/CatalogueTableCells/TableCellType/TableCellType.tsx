@@ -1,4 +1,4 @@
-import { useCatalogueListAllowedTypesQuery } from '../../../api'
+import { useCatalogueGetBlueprintsQuery } from '../../../api'
 import { useTranslation } from 'react-i18next'
 import { TableCellText, TableCellTextProps } from '@komune-io/g2'
 
@@ -11,14 +11,13 @@ export const TableCellType = (props: TableCellTypeProps) => {
 
     const { i18n } = useTranslation()
 
-    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "ALL"
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item
 
-    const typeName = allowedSearchTypes?.find((type) => type.identifier === value)?.name
+    const typeName = value ? allowedSearchTypes?.types[value]?.name : undefined
 
     return (
         <TableCellText value={typeName} {...other} />

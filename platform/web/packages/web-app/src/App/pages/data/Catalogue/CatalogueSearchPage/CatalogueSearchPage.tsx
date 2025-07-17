@@ -3,7 +3,7 @@ import { Dialog, Stack } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
   CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery,
-  useCatalogueListAllowedTypesQuery,
+  useCatalogueGetBlueprintsQuery,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
@@ -60,15 +60,15 @@ export const CatalogueSearchPage = () => {
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const facets = useMemo(() => data?.facets, [data?.facets])
 
-  const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+  const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
     query: {
-      language: i18n.language,
-      operation: "SEARCH"
+      language: i18n.language
     }
-  }).data?.items
+  }).data?.item?.types
 
   const typeFacet = useMemo(() => {
-    return allowedSearchTypes?.map((type) => {
+    if (!allowedSearchTypes) return []
+    return Object.values(allowedSearchTypes).filter((type) => type.includeInGlobalSearch).map((type) => {
       const facetValue = facets?.find(f => f.key === "type")?.values.find(v => v.key === type.identifier)
       const Icon = IconPack[type.identifier]
       return {

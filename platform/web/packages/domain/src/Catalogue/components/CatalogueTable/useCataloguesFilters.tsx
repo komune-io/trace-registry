@@ -2,7 +2,7 @@ import { languages, maybeAddItem, useCustomFilters } from 'components'
 import { FilterComposableField } from '@komune-io/g2'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CatalogueSearchQuery, useCatalogueListAllowedTypesQuery } from 'domain-components'
+import { CatalogueSearchQuery, useCatalogueGetBlueprintsQuery } from 'domain-components'
 
 interface useCataloguesFiltersParams {
     initialValues?: any
@@ -15,12 +15,11 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
     const { initialValues, withPage, urlStorage, noType = false } = params ?? {}
     const { t, i18n } = useTranslation()
 
-    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "SEARCH"
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item
 
     const filters = useMemo((): FilterComposableField<keyof CatalogueSearchQuery>[] => [
         {
@@ -40,7 +39,7 @@ export const useCataloguesFilters = (params?: useCataloguesFiltersParams) => {
                 label: t("type"),
                 style: { width: "120px" },
                 multiple: true,
-                options: allowedSearchTypes?.map((type) => ({ key: type.identifier, label: type.name }))
+                options: allowedSearchTypes?.globalSearchTypes.map((type) => ({ key: allowedSearchTypes.types[type].identifier, label: allowedSearchTypes.types[type].name }))
             }
         } as FilterComposableField<keyof CatalogueSearchQuery>),
         {

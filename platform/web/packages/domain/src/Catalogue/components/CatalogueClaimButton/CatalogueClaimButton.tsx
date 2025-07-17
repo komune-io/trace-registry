@@ -2,7 +2,7 @@ import { CustomButton, useExtendedAuth } from 'components'
 import { useCallback, useState } from 'react'
 import { Catalogue } from '../../model'
 import { useTranslation } from 'react-i18next'
-import { useCatalogueClaimOwnershipCommand, useCatalogueListAllowedTypesQuery } from '../../api'
+import { useCatalogueClaimOwnershipCommand, useCatalogueGetBlueprintsQuery } from '../../api'
 import { CatalogueClaimModal } from "../CatalogueClaimModal";
 
 interface CatalogueClaimButtonProps {
@@ -16,12 +16,11 @@ export const CatalogueClaimButton = (props: CatalogueClaimButtonProps) => {
 
     const [openModal, setOpenModal] = useState(false)
 
-    const claimableTypes = useCatalogueListAllowedTypesQuery({
+    const claimableTypes = useCatalogueGetBlueprintsQuery({
         query: {
             language: i18n.language,
-            operation: "CLAIM_OWNERSHIP"
         }
-    }).data?.items ?? []
+    }).data?.item?.claimableTypes ?? []
 
     const claimCommand = useCatalogueClaimOwnershipCommand({})
 
@@ -42,6 +41,11 @@ export const CatalogueClaimButton = (props: CatalogueClaimButtonProps) => {
         }
     }, [claimCommand, catalogue, claimableTypes])
 
+
+    if (!claimableTypes.some(type => type === catalogue.type)) {
+        return <></>
+    }
+
     if (!keycloak.isAuthenticated) {
         return (<CustomButton
             variant="contained"
@@ -51,11 +55,6 @@ export const CatalogueClaimButton = (props: CatalogueClaimButtonProps) => {
         </CustomButton>
         )
     }
-
-    if (!claimableTypes.some(type => type.identifier == catalogue.type)) {
-        return <></>
-    }
-
     return (
         <>
             <CustomButton
