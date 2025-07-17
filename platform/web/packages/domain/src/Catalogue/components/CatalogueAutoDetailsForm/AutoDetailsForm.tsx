@@ -26,7 +26,7 @@ export const AutoDetailsForm = (props: AutoDetailsFormProps) => {
                 if (Array.isArray(value) && !!value[0] && !!value[0].id) {
                     values = setIn(values, name, value.map((ref) => ref.id))
                 } else if (!isNaN(Number(value)) && Number(value) > 0) {
-                    values = setIn(values, name, formatNumber(Number(value), i18n.language))
+                    values = setIn(values, name, value)
                 } else {
                     values = setIn(values, name, value.id ?? value)
                 }
