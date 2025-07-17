@@ -1,9 +1,10 @@
 import { StandAloneAppLayout } from "@komune-io/g2";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
-import {AppMenu, ConfigMenu, useUserMenu} from "./menu";
+import { AppMenu, ConfigMenu, useUserMenu } from "./menu";
 import { useEffect, useMemo } from "react";
 import { languages, useExtendedAuth } from "components";
+import { Footer } from "template";
 
 export const App = () => {
   const { t, i18n } = useTranslation()
@@ -16,7 +17,7 @@ export const App = () => {
       i18n.changeLanguage(Object.keys(languages)[0])
     }
   }, [i18n.language])
-  
+
   return (
     <StandAloneAppLayout
       defaultCloseButton={false}
@@ -51,8 +52,17 @@ export const App = () => {
         notLoggedMenu,
         defaultOpen: true
       }}
+      mainProps={{
+        sx: {
+          paddingBottom: "100px",
+          zIndex: -10,
+          position: "absolute",
+          bgcolor: 'background.default',
+        }
+      }}
     >
       <Outlet />
+      <Footer />
     </StandAloneAppLayout>
   )
 };

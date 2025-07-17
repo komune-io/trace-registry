@@ -1,13 +1,13 @@
-import {AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, setIn, useAutoFormState} from '@komune-io/g2'
-import {Paper, Stack, Typography} from '@mui/material'
-import {CustomButton, TitleDivider} from 'components'
-import {useCallback, useMemo, useState} from 'react'
-import {useTranslation} from 'react-i18next'
-import {Catalogue, CatalogueFormContext, CatalogueRef} from '../../model'
-import {SubCataloguePanelOptions} from './SubCataloguePanelOptions'
-import {CatalogueListAllowedTypesQuery, useCatalogueListAllowedTypesQuery} from '../../api'
-import {SubCatalogueLinkedTable} from './SubCatalogueLinkedTable'
-import {useCatalogueFormAdditionalContext} from "../UseCatalogueFormAdditionalContext";
+import { AutoFormData, CommandWithFile, FormComposable, FormComposableField, getIn, Option, setIn, useAutoFormState } from '@komune-io/g2'
+import { Paper, Stack, Typography } from '@mui/material'
+import { CustomButton, TitleDivider } from 'components'
+import { useCallback, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Catalogue, CatalogueFormContext, CatalogueRef } from '../../model'
+import { SubCataloguePanelOptions } from './SubCataloguePanelOptions'
+import { useCatalogueGetBlueprintsQuery } from '../../api'
+import { SubCatalogueLinkedTable } from './SubCatalogueLinkedTable'
+import { useCatalogueFormAdditionalContext } from "../UseCatalogueFormAdditionalContext";
 
 export interface SubCataloguePanelProps {
     formData?: AutoFormData
@@ -24,42 +24,42 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
     const { context: defaultContext, onCancel, onSubmit, canUpdate, catalogue, formData, tab, refetch } = props
     const [context, setContext] = useState<CatalogueFormContext>(defaultContext ?? "creation")
     const { t, i18n } = useTranslation()
-    const [creationTypesFilters, setCreationTypesFilters] = useState<CatalogueListAllowedTypesQuery | undefined>(undefined)
 
-    const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
+    const allowedTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "RELATION",
-            ...creationTypesFilters
-        },
-        options: {
-            enabled: !!creationTypesFilters
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item?.types
 
     const fields = useMemo(() => formData?.sections[0].fields.map((field): FormComposableField => {
         type FileType = typeof field.type | "select-catalogueType"
 
         const type = field.type as FileType
         if (type === "select-catalogueType") {
-
             //@ts-ignore
-            if (!creationTypesFilters && field.params?.filters) setCreationTypesFilters(JSON.parse(field.params?.filters) as CatalogueListAllowedTypesQuery)
+            const relationFilters = JSON.parse(field.params?.filters)
+
+            const aimedType = allowedTypes ? allowedTypes[relationFilters?.catalogueType] : undefined
+            const relation = aimedType?.relatedTypes ? aimedType.relatedTypes[relationFilters?.relationType] : []
             //@ts-ignore
             return {
                 ...field,
                 type: "select",
                 params: {
                     ...field.params,
-                    options: allowedCreationTypes?.map((type) => ({
-                        key: type.identifier,
-                        label: type.name
-                    }))
+                    options: relation.map((relation) => {
+                        const type = allowedTypes ? allowedTypes[relation] : undefined
+                        if (!type) return undefined
+                        return {
+                            key: type.identifier,
+                            label: type.name
+                        }
+                    }).filter(Boolean) as Option[]
                 }
             }
         }
         return field
-    }) ?? [], [formData, allowedCreationTypes, creationTypesFilters])
+    }) ?? [], [formData, allowedTypes])
 
     const formAdditionalContext = useCatalogueFormAdditionalContext({ context, catalogue })
 

@@ -7,16 +7,15 @@ import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
-import { extractCatalogueIdentifierNumber, useCatalogueListAllowedTypesQuery } from '../../api';
+import { extractCatalogueIdentifierNumber, useCatalogueGetBlueprintsQuery } from '../../api';
 
 function useDraftColumn(withStatus: boolean, withOperation: boolean) {
     const { t, i18n } = useTranslation();
-    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "ALL"
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item
 
     return useMemo(() => ColumnFactory<CatalogueDraft>({
         generateColumns: (generators) => ({
@@ -43,7 +42,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
             type: generators.text({
                 header: t("type"),
                 getCellProps: (draft) => ({
-                    value: allowedSearchTypes?.find((type) => type.identifier === draft.catalogue.type)?.name
+                    value: allowedSearchTypes?.types[draft.catalogue.type]?.name
                 })
             }),
 

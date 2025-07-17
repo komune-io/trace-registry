@@ -160,14 +160,6 @@ export const CatalogueLinkPage = () => {
     [],
   )
 
-  const facetsWithoutType = useMemo(() => {
-    if (!data) return undefined
-    const facets = [...data.facets]
-    const index = facets.findIndex(facet => facet.key === "type")
-    facets.splice(index, 1)
-    return facets
-  }, [data?.facets])
-
   return (
     <Dialog
       fullScreen
@@ -228,7 +220,7 @@ export const CatalogueLinkPage = () => {
               />
             }
             savedState={state}
-            facets={facetsWithoutType}
+            facets={data?.facets}
             //@ts-ignore
             onChangeFacet={changeValueCallback}
             onClear={onClear}
