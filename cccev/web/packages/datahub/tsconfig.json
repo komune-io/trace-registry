@@ -1,4 +1,0 @@
-{
-  "extends": "../cccev-app/tsconfig.json",
-  "include": ["src"]
-}

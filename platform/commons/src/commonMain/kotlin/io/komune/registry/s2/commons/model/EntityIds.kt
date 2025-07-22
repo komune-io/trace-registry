@@ -20,6 +20,12 @@ typealias CatalogueIdentifier = String
 
 /**
  * @d2 hidden
+ * @visual json "9a5d7607-e10a-40f3-a2e7-479a1b23427d"
+ */
+typealias CertificationId = String
+
+/**
+ * @d2 hidden
  * @visual json "df670565-ba7b-45c6-b619-d3b1b02843ea"
  */
 typealias DatasetId = String
@@ -44,9 +50,33 @@ typealias DataUnitIdentifier = String
 
 /**
  * @d2 hidden
+ * @visual json "55355dfd-cbe2-4c2d-a3be-36f4298f484f"
+ */
+typealias DataUnitOptionId = String
+
+/**
+ * @d2 hidden
+ * @visual json "greatOption"
+ */
+typealias DataUnitOptionIdentifier = String
+
+/**
+ * @d2 hidden
  * @visual json "fd37c43d-4260-4311-9f50-9312119c4375"
  */
 typealias DistributionId = String
+
+/**
+ * @d2 hidden
+ * @visual json "72681de7-acbf-4e60-bab5-4779e318e974"
+ */
+typealias EvidenceId = String
+
+/**
+ * @d2 hidden
+ * @visual json "83bd06cd-0e44-4928-8444-1ae86383b8b5"
+ */
+typealias EvidenceTypeId = String
 
 /**
  * @d2 hidden
@@ -65,6 +95,24 @@ typealias InformationConceptIdentifier = String
  * @visual json "f29d4956-be0a-414b-ae99-529acd963380"
  */
 typealias OrganizationId = String
+
+/**
+ * @d2 hidden
+ * @visual json "4cfc1133-23fc-41de-9f2c-c4c2ceb42035"
+ */
+typealias RequirementId = String
+
+/**
+ * @d2 hidden
+ * @visual json "ab8b9a37-8372-4f3d-b5c2-ad6c26343337"
+ */
+typealias RequirementIdentifier = String
+
+/**
+ * @d2 hidden
+ * @visual json "12aa39d7-f754-45b1-8814-3cffc805542c"
+ */
+typealias RequirementCertificationId = String
 
 /**
  * @d2 hidden

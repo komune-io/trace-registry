@@ -5,9 +5,9 @@ import com.meilisearch.sdk.SearchRequest
 import com.meilisearch.sdk.model.SearchResult
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
-import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
-import io.komune.registry.infra.meilisearch.config.criterion
-import io.komune.registry.infra.meilisearch.config.match
+import io.komune.registry.infra.meilisearch.MeiliSearchSnapRepository
+import io.komune.registry.infra.meilisearch.criterion
+import io.komune.registry.infra.meilisearch.match
 import io.komune.registry.s2.catalogue.api.CatalogueModelI18nService
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState

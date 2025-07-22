@@ -28,12 +28,15 @@ include(
 	"platform:infra:fs",
 	"platform:infra:im",
 	"platform:infra:meilisearch",
+	"platform:infra:neo4j",
 	"platform:infra:pdf",
 	"platform:infra:postgresql",
 	"platform:infra:redis",
 	"platform:infra:slack",
 	"platform:infra:svg"
 )
+
+include("platform:test")
 
 ///////////////////////////////
 // Commons
@@ -46,18 +49,18 @@ include(
 // Control
 ///////////////////////////////
 include(
+	"platform:control:f2:activity-f2:activity-f2-api",
+	"platform:control:f2:activity-f2:activity-f2-client",
+	"platform:control:f2:activity-f2:activity-f2-domain",
 	"platform:control:f2:dcs-f2:dcs-f2-api",
 	"platform:control:f2:dcs-f2:dcs-f2-client",
 	"platform:control:f2:dcs-f2:dcs-f2-domain",
 )
 
-
 include(
-	"platform:control:f2:activity-f2:activity-f2-api",
-	"platform:control:f2:activity-f2:activity-f2-client",
-	"platform:control:f2:activity-f2:activity-f2-domain"
+	"platform:control:core:cccev:cccev-api",
+	"platform:control:core:cccev:cccev-domain"
 )
-
 
 include(
 	"platform:control:infra:cccev"

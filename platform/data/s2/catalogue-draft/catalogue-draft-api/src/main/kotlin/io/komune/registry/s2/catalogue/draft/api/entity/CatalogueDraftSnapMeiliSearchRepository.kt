@@ -6,8 +6,8 @@ import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.api.commons.utils.toJson
-import io.komune.registry.infra.meilisearch.config.MeiliSearchSnapRepository
-import io.komune.registry.infra.meilisearch.config.match
+import io.komune.registry.infra.meilisearch.MeiliSearchSnapRepository
+import io.komune.registry.infra.meilisearch.match
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftMeiliSearchField
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftSearchableEntity
