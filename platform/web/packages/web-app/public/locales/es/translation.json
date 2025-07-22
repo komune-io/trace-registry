@@ -415,6 +415,13 @@
       "1-1-1-1": "4 columnas (tamaño igual)"
     }
   },
+  "protected": {
+    "joinUs": "¡Únete a nosotros para ver más! 🚀",
+    "contentReserved": "Este contenido está reservado para usuarios registrados. Inicia sesión o crea una cuenta <strong>gratuitamente</strong> para consultarlo.",
+    "createAccount": "Crear mi cuenta",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "login": "Inicia sesión"
+  },
   "lang": {
     "fr": "Francés",
     "en": "Inglés",

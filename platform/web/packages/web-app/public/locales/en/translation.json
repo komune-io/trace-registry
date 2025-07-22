@@ -414,6 +414,13 @@
       "1-1-1-1": "4 columns (equal size)"
     }
   },
+  "protected": {
+    "joinUs": "Join us to see more! 🚀",
+    "contentReserved": "This content is reserved for logged-in users. Log in or create a <strong>free</strong> account to view it.",
+    "createAccount": "Create my account",
+    "alreadyHaveAccount": "Already registered?",
+    "login": "Log in"
+  },
   "lang": {
     "fr": "French",
     "en": "English",

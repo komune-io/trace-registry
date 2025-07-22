@@ -6,7 +6,7 @@ import { CataloguePresentation } from '../CataloguePresentation';
 import { useCatalogueDistributionLexicalEditor } from "../DistributionLexicalEditor";
 import { Dataset } from '../../../Dataset';
 import { useMemo } from 'react';
-import { useExtendedAuth } from 'components';
+import { useProtectionOverlay } from 'components';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
@@ -22,7 +22,6 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
         isEmpty,
         dataset
     } = props
-    const {keycloak} = useExtendedAuth()
 
     const {editor, distribution} = useCatalogueDistributionLexicalEditor(catalogue, dataset)
 
@@ -38,7 +37,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
 
     const isProtected = catalogue?.accessRights === "PROTECTED"
 
-    const canViewDetails = !(isProtected && !keycloak.isAuthenticated)
+    const { overlay } = useProtectionOverlay({ isProtected })
 
     if (isDatasetEmpty) {
         return 
@@ -49,8 +48,9 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                 catalogue={catalogue}
                 isLoading={isLoading}
             />
-            {canViewDetails && <Stack
+            <Stack
                 sx={{
+                    position: "relative",
                     flexDirection: {
                         xs: "column",
                         sm: "row",
@@ -59,6 +59,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                 gap={6}
                 minWidth={0}
             >
+                {overlay}
                 <Stack
                     gap={5}
                     flexGrow={1}
@@ -69,7 +70,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                     catalogue={catalogue}
                     isLoading={isLoading}
                 />}
-            </Stack>}
+            </Stack>
 
         </>
     )

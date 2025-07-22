@@ -421,6 +421,13 @@
             "1-1-1-1": "4 colonnes (taille égale)"
         }
     },
+    "protected": {
+        "joinUs": "Rejoignez-nous pour en voir plus ! 🚀",
+        "contentReserved": "Ce contenu est réservé aux utilisateurs connectés. Connectez-vous ou créez un compte <strong>gratuitement</strong> pour le consulter.",
+        "createAccount": "Créer mon compte",
+        "alreadyHaveAccount": "Déjà inscrit(e) ?",
+        "login": "Connectez-vous"
+    },
     "lang": {
         "fr": "Français",
         "en": "Anglais",
