@@ -1,0 +1,16 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import RequirementUpdateCommandDesc from './desc.mdx'
+import RequirementUpdateCommandVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<RequirementUpdateCommandDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={RequirementUpdateCommandVisualJson}
+      language={"json"}
+      title={"Command"}
+    />
+  }
+  rightContainerProps={{}}
+/>

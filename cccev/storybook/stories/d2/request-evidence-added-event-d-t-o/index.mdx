@@ -1,0 +1,16 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import RequestEvidenceAddedEventDTODesc from './desc.mdx'
+import RequestEvidenceAddedEventDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<RequestEvidenceAddedEventDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={RequestEvidenceAddedEventDTOVisualJson}
+      language={"json"}
+      title={"Event"}
+    />
+  }
+  rightContainerProps={{}}
+/>

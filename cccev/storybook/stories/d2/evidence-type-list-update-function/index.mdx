@@ -1,0 +1,28 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import EvidenceTypeListUpdateCommandIndex from '../evidence-type-list-update-command/index.mdx'
+import EvidenceTypeListUpdateFunctionDesc from './desc.mdx'
+import EvidenceTypeListUpdateFunctionVisualJson from './visualJson.json'
+import EvidenceTypeListUpdatedEventIndex from '../evidence-type-list-updated-event/index.mdx'
+
+<SegmentedContainer
+  leftElement={<EvidenceTypeListUpdateFunctionDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={EvidenceTypeListUpdateFunctionVisualJson}
+      language={"json"}
+      title={"Evidence Type List Update"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<EvidenceTypeListUpdateCommandIndex />
+
+<EvidenceTypeListUpdatedEventIndex />
+
+<div
+  class={"spacer"}
+/>
+
+

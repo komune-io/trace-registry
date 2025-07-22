@@ -1,0 +1,16 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import DataUnitGetResultDTODesc from './desc.mdx'
+import DataUnitGetResultDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<DataUnitGetResultDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={DataUnitGetResultDTOVisualJson}
+      language={"json"}
+      title={"Result"}
+    />
+  }
+  rightContainerProps={{}}
+/>

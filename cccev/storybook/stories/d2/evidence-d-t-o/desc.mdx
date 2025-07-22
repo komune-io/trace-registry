@@ -1,0 +1,74 @@
+
+
+
+# Evidence
+
+Type: `EvidenceDTO`
+
+Proof that a Requirement is met.
+
+
+
+The class Evidence provides the means to support responses to Criteria or to a concrete Information Requirement or to an Information Concept inside an Information Requirement. The proof described by an Evidence can: <br/>1 verify a claim (i.e. is it true that John is 25, yes/no),<br/>2 prove a condition (i.e. is John 18+, yes/no), or <br/>3 simply provide data (i.e. the age of a person, namely 25). The proof can be given through documents or extracts of base registries, independently of its structure, format or medium used to exchange it: a pdf document, a video, a recording, etc.
+
+
+
+---
+
+***identifier*** [`EvidenceId`](/docs/dsl-evidenceid--page#dsl-evidenceid)
+
+---
+
+***isConformantTo*** [`List<EvidenceTypeId>`](/docs/evidencetypeid--page#evidencetypeid)
+
+Evidence Type that specifies characteristics of the Evidence.
+
+
+
+---
+
+***supportsValue*** `List<SupportedValueId>`
+
+Supported Value that the Evidence contains.
+
+
+
+---
+
+***supportsConcept*** `List<InformationConceptId>`
+
+Information Concept providing facts found/inferred from the Evidence.
+
+
+
+---
+
+***supportsRequirement*** [`List<RequirementId>`](/docs/dsl-requirementid--page#dsl-requirementid)
+
+Requirement for which the Evidence provides proof.
+
+
+
+---
+
+***validityPeriod*** `PeriodOfTime?`
+
+Period of Time during which the Evidence holds true or has force.
+
+
+
+---
+
+***name*** `String`
+
+Name of the Evidence
+
+
+
+---
+
+***file*** `String?`
+
+Proof of evidence
+
+

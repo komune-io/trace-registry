@@ -1,0 +1,573 @@
+{
+  "description" : "AxessImpact's Activities",
+  "name" : "AxessImpact's Activities",
+  "hasRequirement" : [ {
+    "description" : "A preliminary document indicating the intention of the project developers to participate in a VERs project and comply with its requirements.",
+    "identifier" : "A100",
+    "name" : "Letter of Intent (LOI)",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Conduct an initial assessment of the project to determine if it meets the eligibility criteria.",
+    "identifier" : "B100",
+    "name" : "Survey of eligibility",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "This activity involves identifying the project and its location.",
+    "identifier" : "B10X",
+    "name" : "Identification of the project",
+    "type" : {
+      "identifier" : "Activities"
+    },
+    "hasRequirement" : [ {
+      "description" : "Provide a name for the project.",
+      "identifier" : "B101",
+      "name" : "Project name",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assign a number to the project location on the map.",
+      "identifier" : "B102",
+      "name" : "Map numbering",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assign a unique number to the project from the Cadastre Forestier.",
+      "identifier" : "B103",
+      "name" : "CFC number",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assign a unique number to the project from the Cadastre des Concessions de Chasse.",
+      "identifier" : "B104",
+      "name" : "CCC number",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Identify the province where the project is located.",
+      "identifier" : "B105",
+      "name" : "Province",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Provide a visual representation of the project location on the map.",
+      "identifier" : "B106",
+      "name" : "Location on map",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Obtaining the necessary legal and administrative documents for the project.",
+    "identifier" : "B20X",
+    "name" : "First Documentation",
+    "type" : {
+      "identifier" : "Activities"
+    },
+    "hasRequirement" : [ {
+      "description" : "Obtaining notarized documents such as articles of incorporation or bylaws.",
+      "identifier" : "B200",
+      "name" : "Notarial Deeds",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Obtaining the Registre de Commerce et du Crédit Mobilier (RCCM) registration number for the project.",
+      "identifier" : "B201",
+      "name" : "RCCM",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Obtaining the project's tax identification number.",
+      "identifier" : "B202",
+      "name" : "Tax Number",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Obtaining the contract for the forest conservation concession.",
+      "identifier" : "B203",
+      "name" : "Forest Conservation Concession Contract",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "An initial estimation of the baseline emissions of the project, used as a reference for measuring emissions reductions.",
+    "identifier" : "B300",
+    "name" : "First emissions estimate",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "An independent review of the project's emissions data and reduction claims by a third-party organization to ensure accuracy and credibility.",
+    "identifier" : "B400",
+    "name" : "Third-party audit",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "A formal process of verifying that the project meets the criteria or conditions set out in the project protocol and is eligible to receive certification.",
+    "identifier" : "B500",
+    "name" : "Validation",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Defining the procedures and guidelines for the project's implementation, including the scope of the project, \nthe methods for measuring emissions, and the requirements for data collection and reporting.",
+    "identifier" : "C100",
+    "name" : "Protocol definition",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Collecting data on emissions sources and activities related to the project.",
+    "identifier" : "C200",
+    "name" : "Data collection",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Establishing a communication and information-sharing system between project developers and third-party verifiers.",
+    "identifier" : "C300",
+    "name" : "Project interface",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Implementing a blockchain-based system for storing and verifying emissions data.",
+    "identifier" : "C400",
+    "name" : "Blockchain organization",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Using smart protocols to allocate validation keys to project participants based on their level of compliance \nwith project requirements.",
+    "identifier" : "C500",
+    "name" : "Allocation of validation keys",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "Establishing a system for monitoring project activities and emissions reductions over time.",
+    "identifier" : "C600",
+    "name" : "Monitoring process",
+    "type" : {
+      "identifier" : "Steps"
+    },
+    "hasRequirement" : [ ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "",
+    "identifier" : "E10X",
+    "name" : "RedactionDuPIN",
+    "hasRequirement" : [ {
+      "description" : "Obtaining and analyzing relevant documents, such as the Protected Area (PA) or Sustainable Forest Management (SE) plans, to determine the scope of the project area and the legal framework for project implementation.",
+      "identifier" : "E100",
+      "name" : "Document PA/SE",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Mapping the project area and identifying the location and boundaries of forests, as well as other land uses such as agriculture, settlements, and infrastructure.",
+      "identifier" : "E101",
+      "name" : "Cartography",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Engaging with local communities and stakeholders to understand the historical and current land use practices and to gather information on the drivers of deforestation and forest degradation.",
+      "identifier" : "E102",
+      "name" : "Local Consultation",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Analyzing the legal and regulatory framework governing the project area to assess compliance with relevant laws, regulations, and standards.",
+      "identifier" : "E103",
+      "name" : "Legality",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Conducting field inventories to determine the type, age, and density of forests, as well as the presence of degraded or secondary forests.",
+      "identifier" : "E104",
+      "name" : "Forest Inventories",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Developing and selecting appropriate coefficients, indicators, and parameters to estimate carbon stocks, emissions, and the effects of different land use practices on carbon dynamics.",
+      "identifier" : "E105",
+      "name" : "Coefficients, Indicators, and Parameters",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Identifying and quantifying the drivers and extent of forest degradation, as well as the potential for restoration and rehabilitation.",
+      "identifier" : "E106",
+      "name" : "Degradation",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assessing the potential for natural regeneration of forests, as well as the potential for reforestation or afforestation.",
+      "identifier" : "E107",
+      "name" : "Regeneration",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assessing the level and type of current and past forest harvesting activities, as well as the potential for sustainable forest management practices.",
+      "identifier" : "E108",
+      "name" : "Harvesting Activity",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assessing the extent and impact of unplanned forest exploitation and illegal logging, as well as the potential for addressing these practices through project interventions.",
+      "identifier" : "E109",
+      "name" : "Unplanned Exploitation",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Assessing the potential for regeneration under the baseline scenario, and determining the impact of project activities on regeneration rates.",
+      "identifier" : "E110",
+      "name" : "Regeneration anihilated under baseline",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Identifying and assessing the potential impact of project activities, such as alternative livelihoods, sustainable land use practices, and conservation interventions, on carbon stocks and emissions.",
+      "identifier" : "E111",
+      "name" : "Project Activities",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Prevention and mitigation of unauthorized extraction of natural resources outside of the planned or permitted activities of a project, which can have negative environmental and social impacts.",
+      "identifier" : "E112",
+      "name" : "Non-Planned Exploitation",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification.",
+    "identifier" : "E20X",
+    "name" : "Submission of the Project Idea Note (PIN) to the Ministry",
+    "hasRequirement" : [ {
+      "description" : "This activity involves submitting the Project Idea Note (PIN) to the Ministry for approval and certification.",
+      "identifier" : "E200",
+      "name" : "Submission of the Project Idea Note (PIN) to the Ministry",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Provide evidence of payment of any applicable fees related to the submission of the PIN.",
+      "identifier" : "E201",
+      "name" : "Proof of payment",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Obtain an acknowledgment of receipt of the PIN from the Ministry.",
+      "identifier" : "E202",
+      "name" : "Receipt of PIN",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Receive a letter from the Ministry indicating approval of the PIN.",
+      "identifier" : "E203",
+      "name" : "Approval letter",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Obtain a certificate of approval or homologation from the Ministry.",
+      "identifier" : "E300",
+      "name" : "Certification",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "This activity involves the preparation and revision of the Project Design Document (PDD) for the VCS+CCB certification process.",
+    "identifier" : "H10X",
+    "name" : "Draft PDD VCS+CCB",
+    "hasRequirement" : [ {
+      "description" : "Draft the initial version of the PDD.",
+      "identifier" : "H100",
+      "name" : "Rédaction PDD",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Review and revise the PDD to address any issues or feedback.",
+      "identifier" : "H101",
+      "name" : "Révision PDD",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Incorporate any comments or feedback provided by the VCS+CCB auditors during the certification process.",
+      "identifier" : "H102",
+      "name" : "Intégrer possibles commentaires",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Upload the PDD to the certification pipeline.",
+      "identifier" : "H103",
+      "name" : "Charger PDD au pipeline",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "This activity involves submitting the project for validation and verification by the Verra registry.",
+    "identifier" : "E20X",
+    "name" : "Entrée au pipeline Verra",
+    "hasRequirement" : [ {
+      "description" : "Review and revise the draft project design document (PDD) to ensure compliance with Verra requirements.",
+      "identifier" : "E200",
+      "name" : "Réviser draft PDD",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Create an account with the Verra registry to submit the project for validation and verification.",
+      "identifier" : "E201",
+      "name" : "Créer compte Verra",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Upload the revised project design document to the Verra registry for review and validation.",
+      "identifier" : "E202",
+      "name" : "Charger PDD",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Incorporate any comments or feedback provided by the Verra registry during the validation and verification process.",
+      "identifier" : "E203",
+      "name" : "Intégrer possibles commentaires",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "This activity involves the validation process of the Project Design Document (PDD) under the Verified Carbon Standard (VCS) and the Climate, Community and Biodiversity (CCB) Standards.",
+    "identifier" : "H30X",
+    "name" : "Validation PDD VCS+CCB",
+    "hasRequirement" : [ {
+      "description" : "Conduct interviews or solicit other Validation/Verification Bodies (VVBs) for their input or offers.",
+      "identifier" : "H300",
+      "name" : "Entretien/Offre autre VVB",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Select a Validation/Verification Body (VVB) based on their experience and expertise.",
+      "identifier" : "H301",
+      "name" : "Sélection",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Formalize an agreement with the selected Validation/Verification Body (VVB) for the validation process.",
+      "identifier" : "H302",
+      "name" : "Formalisation d'accord de validation/vérification",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "The Validation/Verification Body (VVB) conducts a site visit and review of the Project Design Document (PDD).",
+      "identifier" : "H303",
+      "name" : "Mission",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "The Validation/Verification Body (VVB) evaluates the project against the VCS and CCB Standards and validates the Project Design Document (PDD).",
+      "identifier" : "H304",
+      "name" : "Validation",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Make updates to the Project Design Document (PDD) based on the Validation/Verification Body's (VVB's) recommendations, and provide a margin of error for the project's expected emissions reductions.",
+      "identifier" : "H305",
+      "name" : "Updates/Marge",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  }, {
+    "description" : "This activity involves verifying the emissions reductions claimed in the PDD according to the VCS+CCB standards.",
+    "identifier" : "H40X",
+    "name" : "Verification PDD VCS+CCB",
+    "hasRequirement" : [ {
+      "description" : "Select a third-party verification provider to conduct the verification.",
+      "identifier" : "H400",
+      "name" : "Choice of provider",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Monitor the project's emissions and ensure that they are being accurately measured and reported.",
+      "identifier" : "H401",
+      "name" : "Monitoring",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Conduct an independent third-party verification of the emissions reductions claimed in the PDD.",
+      "identifier" : "H402",
+      "name" : "Verification",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    }, {
+      "description" : "Issue a certificate confirming the verified emissions reductions.",
+      "identifier" : "H403",
+      "name" : "Certificate",
+      "type" : {
+        "identifier" : "Steps"
+      },
+      "hasRequirement" : [ ],
+      "hasQualifiedRelation" : [ ]
+    } ],
+    "hasQualifiedRelation" : [ ]
+  } ],
+  "hasQualifiedRelation" : [ ]
+}

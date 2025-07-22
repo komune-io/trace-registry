@@ -1,0 +1,22 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import InformationConceptIdDesc from './desc.mdx'
+import InformationConceptIdVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<InformationConceptIdDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={InformationConceptIdVisualJson}
+      language={"json"}
+      title={"InformationConceptId"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+

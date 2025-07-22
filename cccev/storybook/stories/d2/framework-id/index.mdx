@@ -1,0 +1,22 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import FrameworkIdDesc from './desc.mdx'
+import FrameworkIdVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<FrameworkIdDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={FrameworkIdVisualJson}
+      language={"json"}
+      title={"DSL/FrameworkId"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+

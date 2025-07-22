@@ -49,7 +49,8 @@ http-client.private.env.json
 /coverage
 
 # production
-/build
+build/
+dist/
 
 # misc
 .DS_Store
@@ -63,3 +64,4 @@ yarn-debug.log*
 yarn-error.log*
 
 platform/script/script-import/src/main/resources/**/*/
+SnapshotSteps.snap.debug

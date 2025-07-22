@@ -1,0 +1,25 @@
+{
+    "createdOn": "Ceated on {{creationDate}}",
+    "representative": "Representative: {{name}}",
+    "beneficiary": "Beneficiary: {{name}}",
+    "trustability": "Trustability",
+    "percentCompleted": "{{percent}}% completed",
+    "category": "Category",
+    "evidence": "Evidence",
+    "searchATerm": "Search a term",
+    "evidenceList": "Evidence list",
+    "addAnEvidence": "Add an evidence",
+    "canDropFile": "You can drop files here",
+    "or": "Or",
+    "validate": "Validate",
+    "certificateFillerPage": {
+        "improveTrustability": "If you want to improve this trustability index",
+        "fillTheFields": "fill the fileds below and add evidence to prove their relability",
+        "evidenceListInfo": "The evidence list that contains and prove the value of the certificat",
+        "evidenceNotAddedHelper": "You haven’t provided this evidence yet. Click on it to add it.",
+        "viewEvidenceHelper": "View this evidence",
+        "deleteEvidenceHelper": "Delete",
+        "evidenceIsBounded": "An evidence is bounded to this field",
+        "noEvidenceIsBounded": "No evidence is bounded to this field"
+    }
+}

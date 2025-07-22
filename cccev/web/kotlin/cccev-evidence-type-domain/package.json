@@ -1,0 +1,12 @@
+{
+  "name": "cccev-evidence-type-domain",
+  "version": "0.0.0-experimental-SNAPSHOT",
+  "main": "kotlin/cccev-evidence-type-domain.js",
+  "devDependencies": {},
+  "dependencies": {
+    "@js-joda/core": "3.2.0"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

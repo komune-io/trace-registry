@@ -1,0 +1,10 @@
+{
+  "name": "cccev-cccev-core-sdk",
+  "version": "0.0.0-latest",
+  "main": "kotlin/cccev-cccev-core-sdk.js",
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

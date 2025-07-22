@@ -1,0 +1,16 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import InformationConceptCreateCommandDTODesc from './desc.mdx'
+import InformationConceptCreateCommandDTOVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<InformationConceptCreateCommandDTODesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={InformationConceptCreateCommandDTOVisualJson}
+      language={"json"}
+      title={"Command"}
+    />
+  }
+  rightContainerProps={{}}
+/>

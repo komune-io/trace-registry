@@ -1,0 +1,22 @@
+import { CodeHighlighter, SegmentedContainer } from '@smartb/g2-documentation'
+import EvidenceTypeListIdDesc from './desc.mdx'
+import EvidenceTypeListIdVisualJson from './visualJson.json'
+
+<SegmentedContainer
+  leftElement={<EvidenceTypeListIdDesc />}
+  leftContainerProps={{}}
+  rightElement={
+    <CodeHighlighter
+      object={EvidenceTypeListIdVisualJson}
+      language={"json"}
+      title={"EvidenceTypeId"}
+    />
+  }
+  rightContainerProps={{}}
+/>
+
+<div
+  class={"spacer"}
+/>
+
+

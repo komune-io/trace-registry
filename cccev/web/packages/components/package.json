@@ -1,0 +1,11 @@
+{
+  "name": "components",
+  "version": "1.0.0",
+  "description": "Plateform components",
+  "author": "SmartB",
+  "license": "",
+  "repository": "SmartB/components",
+  "main": "src/index.ts",
+  "source": "src/index.ts",
+  "types": "src/index.ts"
+}

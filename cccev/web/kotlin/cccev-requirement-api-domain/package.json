@@ -1,0 +1,10 @@
+{
+  "name": "cccev-requirement-api-domain",
+  "version": "0.0.0-experimental",
+  "main": "kotlin/cccev-requirement-api-domain.js",
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

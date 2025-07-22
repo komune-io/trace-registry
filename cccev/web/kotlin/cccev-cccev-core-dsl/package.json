@@ -1,0 +1,10 @@
+{
+  "name": "cccev-cccev-core-dsl",
+  "version": "0.0.0-latest",
+  "main": "kotlin/cccev-cccev-core-dsl.js",
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

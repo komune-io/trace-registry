@@ -1,0 +1,10 @@
+{
+  "name": "cccev-api-commons",
+  "version": "0.0.0-experimental-SNAPSHOT",
+  "main": "kotlin/cccev-api-commons.js",
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}
