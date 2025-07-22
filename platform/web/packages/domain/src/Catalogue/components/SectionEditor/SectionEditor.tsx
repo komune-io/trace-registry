@@ -56,7 +56,7 @@ export const SectionEditor = (props: SectionEditorProps) => {
         >
             <Stack
                 sx={{
-                    maxWidth: "750px",
+                    maxWidth: "872px",
                     width: "100%",
                     "& .editor-toolbar": {
                         position: "sticky",

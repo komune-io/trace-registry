@@ -247,8 +247,8 @@ export const EmbedComponent = ({
     ]);
 
     const onResizeEnd = (
-        nextWidth: 'inherit' | number,
-        nextHeight: 'inherit' | number,
+        nextWidth?: string | number,
+        nextHeight?: string | number,
     ) => {
         // Delay hiding the resize bars for click case
         setTimeout(() => {
@@ -313,6 +313,8 @@ export const EmbedComponent = ({
                     componentRef={componentRef}
                     onResizeStart={onResizeStart}
                     onResizeEnd={onResizeEnd}
+                    width={width}
+                    height={height}
                 />
             )}
         </>

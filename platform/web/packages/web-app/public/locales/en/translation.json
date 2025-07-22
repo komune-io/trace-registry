@@ -403,6 +403,8 @@
     "addDivider": "Add a divider",
     "addEmbed": "Embed a web page",
     "embedUrl": "URL of the web page to embed",
+    "setFullWidth": "Take full width",
+    "setOriginalRatio": "Restore the original image ratio",
     "columnsType": {
       "1-1": "2 columns (equal size)",
       "1-3": "2 columns (25% - 75%)",

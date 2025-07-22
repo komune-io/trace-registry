@@ -404,6 +404,8 @@
     "addDivider": "Agregar un separador",
     "addEmbed": "Insertar una página web",
     "embedUrl": "URL de la página web a insertar",
+    "setFullWidth": "Tomar todo el ancho",
+    "setOriginalRatio": "Restaurar la relación de aspecto original de la imagen",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",

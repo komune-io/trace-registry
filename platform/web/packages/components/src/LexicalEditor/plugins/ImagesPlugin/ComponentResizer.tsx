@@ -6,11 +6,14 @@
  *
  */
 
-import type {LexicalEditor} from 'lexical';
+import type { LexicalEditor } from 'lexical';
 
-import {calculateZoomLevel} from '@lexical/utils';
+import { calculateZoomLevel } from '@lexical/utils';
 import * as React from 'react';
-import {useRef} from 'react';
+import { useRef, useCallback } from 'react';
+import { AspectRatio, KeyboardTabRounded } from '@mui/icons-material';
+import { Tooltip } from '@komune-io/g2';
+import { useTranslation } from 'react-i18next';
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -28,21 +31,28 @@ export const ComponentResizer = ({
   onResizeEnd,
   componentRef,
   editor,
+  width,
+  height,
+  isImage
 }: {
   editor: LexicalEditor;
-  buttonRef: {current: null | HTMLButtonElement};
-  componentRef: {current: null | HTMLElement};
-  onResizeEnd: (width: 'inherit' | number, height: 'inherit' | number) => void;
+  buttonRef: { current: null | HTMLButtonElement };
+  componentRef: { current: null | HTMLElement };
+  onResizeEnd: (width?: string | number, height?: string | number) => void;
   onResizeStart: () => void;
+  height?: string | number;
+  width?: string | number;
+  isImage?: boolean;
 }): JSX.Element => {
+  const { t } = useTranslation()
   const controlWrapperRef = useRef<HTMLDivElement>(null);
   const userSelect = useRef({
     priority: '',
     value: 'default',
   });
   const positioningRef = useRef<{
-    currentHeight: 'inherit' | number;
-    currentWidth: 'inherit' | number;
+    currentHeight: string | number;
+    currentWidth: string | number;
     direction: number;
     isResizing: boolean;
     ratio: number;
@@ -124,6 +134,36 @@ export const ComponentResizer = ({
     }
   };
 
+  const onFullWidthClick = useCallback(
+    () => {
+      if (!editor.isEditable()) {
+        return;
+      }
+      const component = componentRef.current;
+      if (component !== null) {
+
+        component.style.width = "100%";
+        onResizeEnd("100%", undefined);
+      }
+    },
+    [editor],
+  )
+
+  const onAutoHeightClick = useCallback(
+    () => {
+      if (!editor.isEditable()) {
+        return;
+      }
+      const component = componentRef.current;
+      if (component !== null) {
+
+        component.style.height = "auto";
+        onResizeEnd(undefined, "auto");
+      }
+    },
+    [editor],
+  )
+
   const handlePointerDown = (
     event: React.PointerEvent<HTMLDivElement>,
     direction: number,
@@ -134,10 +174,10 @@ export const ComponentResizer = ({
 
     const component = componentRef.current;
     const controlWrapper = controlWrapperRef.current;
-   
+
     if (component !== null && controlWrapper !== null) {
       event.preventDefault();
-      const {width, height} = component.getBoundingClientRect();
+      const { width, height } = component.getBoundingClientRect();
       const zoom = calculateZoomLevel(component);
       const positioning = positioningRef.current;
       positioning.startWidth = width;
@@ -219,6 +259,11 @@ export const ComponentResizer = ({
     const component = componentRef.current;
     const positioning = positioningRef.current;
     const controlWrapper = controlWrapperRef.current;
+    const isHorizontal =
+      positioning.direction & (Direction.east | Direction.west);
+    const isVertical =
+      positioning.direction & (Direction.south | Direction.north);
+
     if (component !== null && controlWrapper !== null && positioning.isResizing) {
       const width = positioning.currentWidth;
       const height = positioning.currentHeight;
@@ -234,7 +279,14 @@ export const ComponentResizer = ({
       controlWrapper.classList.remove('component-control-wrapper--resizing');
 
       setEndCursor();
-      onResizeEnd(width, height);
+      if (isHorizontal && isVertical) {
+        onResizeEnd(width, height);
+      } else if (isVertical) {
+        onResizeEnd(undefined, height);
+      }
+      else if (isHorizontal) {
+        onResizeEnd(width, undefined);
+      }
 
       document.removeEventListener('pointermove', handlePointerMove);
       document.removeEventListener('pointerup', handlePointerUp);
@@ -290,6 +342,26 @@ export const ComponentResizer = ({
           handlePointerDown(event, Direction.north | Direction.west);
         }}
       />
+      {width !== "100%" && (
+        <Tooltip
+          helperText={t('editor.setFullWidth')}
+        >
+          <KeyboardTabRounded
+            className="component-resizer-full-width"
+            onClick={onFullWidthClick}
+          />
+        </Tooltip>
+      )}
+      {isImage && height !== "auto" && (
+        <Tooltip
+          helperText={t('editor.setOriginalRatio')}
+        >
+          <AspectRatio
+            className="component-resizer-auto-height"
+            onClick={onAutoHeightClick}
+          />
+        </Tooltip>
+      )}
     </div>
   );
 }
