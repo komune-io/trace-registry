@@ -146,7 +146,7 @@ export const ComponentResizer = ({
         onResizeEnd("100%", undefined);
       }
     },
-    [editor],
+    [editor, onResizeEnd],
   )
 
   const onAutoHeightClick = useCallback(
@@ -161,7 +161,7 @@ export const ComponentResizer = ({
         onResizeEnd(undefined, "auto");
       }
     },
-    [editor],
+    [editor, onResizeEnd],
   )
 
   const handlePointerDown = (

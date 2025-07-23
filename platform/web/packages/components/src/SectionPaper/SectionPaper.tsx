@@ -12,7 +12,7 @@ export const SectionPaper = (props: PaperProps) => {
                     md: 6,
                 },
                 gap: 3,
-                display: "fleX",
+                display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
                 position: "relative",
