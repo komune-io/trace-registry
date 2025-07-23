@@ -39,7 +39,6 @@ export const ProtectedContentOverlay = (props: ProtectedContentOverlayProps) => 
             ref={ref}
             data-protected-overlay
             alignItems="center"
-            justifyContent="center"
             sx={{
                 background: (theme) => theme.palette.background.default + "99",
                 backdropFilter: 'blur(15px)',
@@ -49,7 +48,8 @@ export const ProtectedContentOverlay = (props: ProtectedContentOverlayProps) => 
                 position: "absolute",
                 top: "-10px",
                 left: "-10px",
-                borderRadius: 2
+                borderRadius: 2,
+                pt: "10%",
             }}
         >
             <Paper
