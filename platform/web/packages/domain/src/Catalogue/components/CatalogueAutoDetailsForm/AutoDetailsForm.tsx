@@ -71,6 +71,11 @@ export const AutoDetailsForm = (props: AutoDetailsFormProps) => {
         <FormComposable
             fields={fieldsWithUrl}
             formState={formstate}
+            sx={{
+                "& .AruiForm-field *": {
+                    "lineBreak": "anywhere"
+                }
+            }}
         />
     </Stack>
 }
