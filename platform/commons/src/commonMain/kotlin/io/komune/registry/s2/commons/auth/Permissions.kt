@@ -4,6 +4,8 @@ object Permissions {
     object Catalogue {
         const val DELETE_ORG = "rg_perm_catalogue_delete_org"
         const val DELETE_ALL = "rg_perm_catalogue_delete_all"
+        const val GRANT_OWNERSHIP_ALL = "rg_perm_catalogue_grant_ownership_all"
+        const val GRANT_OWNERSHIP_OWNED = "rg_perm_catalogue_grant_ownership_owned"
         const val PUBLISH_ORG = "rg_perm_catalogue_publish_org"
         const val PUBLISH_ALL = "rg_perm_catalogue_publish_all"
         const val READ_ORG = "rg_perm_catalogue_read_org"
@@ -15,7 +17,8 @@ object Permissions {
 
     object CatalogueDraft {
         const val AUDIT = "rg_perm_catalogue_draft_audit"
-        const val CREATE = "rg_perm_catalogue_draft_create"
+        const val CREATE_ALL = "rg_perm_catalogue_draft_create_all"
+        const val CREATE_OWNED = "rg_perm_catalogue_draft_create_owned"
         const val DELETE_ALL = "rg_perm_catalogue_draft_delete_all"
         const val READ_ALL = "rg_perm_catalogue_draft_read_all"
         const val WRITE_ALL = "rg_perm_catalogue_draft_write_all"

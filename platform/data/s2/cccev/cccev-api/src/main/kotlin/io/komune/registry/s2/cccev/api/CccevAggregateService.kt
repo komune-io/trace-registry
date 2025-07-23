@@ -1,13 +1,18 @@
 package io.komune.registry.s2.cccev.api
 
+import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.s2.cccev.api.entity.concept.InformationConceptAutomateExecutor
 import io.komune.registry.s2.cccev.api.entity.unit.DataUnitAutomateExecutor
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueAutomateExecutor
+import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
 import io.komune.registry.s2.cccev.api.processor.Processor
+import io.komune.registry.s2.cccev.domain.SupportedValueState
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputedValueEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreatedEvent
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptDeleteCommand
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptDeletedEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdateCommand
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdatedEvent
 import io.komune.registry.s2.cccev.domain.command.unit.DataUnitCreateCommand
@@ -20,6 +25,7 @@ import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdateValu
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueUpdatedValueEvent
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueValidatedEvent
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -27,14 +33,15 @@ import java.util.UUID
 class CccevAggregateService(
     private val conceptAutomate: InformationConceptAutomateExecutor,
     private val unitAutomate: DataUnitAutomateExecutor,
-    private val valueAutomate: SupportedValueAutomateExecutor
+    private val valueAutomate: SupportedValueAutomateExecutor,
+    private val valueRepository: SupportedValueRepository,
 ) {
     suspend fun createConcept(command: InformationConceptCreateCommand) = conceptAutomate.init(command) {
         InformationConceptCreatedEvent(
             id = UUID.randomUUID().toString(),
             date = System.currentTimeMillis(),
             identifier = command.identifier,
-            name = command.name,
+            name = command.name.mapKeys { (key) -> key.truncateLanguage() },
             unit = command.unit,
             aggregator = command.aggregator,
             themeIds = command.themeIds.toSet()
@@ -45,10 +52,19 @@ class CccevAggregateService(
         InformationConceptUpdatedEvent(
             id = command.id,
             date = System.currentTimeMillis(),
-            name = command.name,
+            name = command.name.mapKeys { (key) -> key.truncateLanguage() },
             unit = command.unit,
             aggregator = command.aggregator,
             themeIds = command.themeIds.toSet()
+        )
+    }
+
+    suspend fun deleteConcept(command: InformationConceptDeleteCommand) = conceptAutomate.transition(command) {
+        valueRepository.findAllByConceptIdAndStatusNot(command.id, SupportedValueState.DEPRECATED)
+            .mapAsync { deprecateValue(SupportedValueDeprecateCommand(it.id)) }
+        InformationConceptDeletedEvent(
+            id = command.id,
+            date = System.currentTimeMillis()
         )
     }
 
@@ -58,7 +74,7 @@ class CccevAggregateService(
             date = System.currentTimeMillis(),
             identifier = command.identifier,
             type = command.type,
-            name = command.name,
+            name = command.name.mapKeys { (key) -> key.truncateLanguage() },
             abbreviation = command.abbreviation,
         )
     }

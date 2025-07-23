@@ -8,7 +8,9 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOB
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.CatalogueDraftPolicies
 import io.komune.registry.f2.dataset.api.model.toRef
+import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
 import io.komune.registry.s2.commons.auth.Permissions
 import io.komune.registry.s2.commons.model.CatalogueDraftId
@@ -17,8 +19,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class CataloguePoliciesEnforcer(
-    private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
+    private val catalogueF2FinderService: CatalogueF2FinderService,
+    private val catalogueFinderService: CatalogueFinderService,
+    private val organizationF2FinderService: OrganizationF2FinderService,
     private val userF2FinderService: UserF2FinderService
 ): PolicyEnforcer() {
     suspend fun checkCreate(type: String) = checkAuthed("create a catalogue of type [$type]") { authedUser ->
@@ -83,8 +87,16 @@ class CataloguePoliciesEnforcer(
         CataloguePolicies.canSetAggregator(authedUser, catalogue)
     }
 
+    suspend fun checkClaimOwnership(
+        catalogueId: CatalogueId
+    ) = checkAuthed("claim ownership of catalogue [$catalogueId]") {
+        val catalogue = catalogueFinderService.get(catalogueId)
+        catalogue.type in catalogueF2FinderService.listClaimableTypes()
+    }
+
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->
         command.copy(
+            ownerOrganizationId = command.ownerOrganizationId.takeIf { CataloguePolicies.canUpdateOwner(authedUser, null) },
             withDraft = command.withDraft || !CataloguePolicies.canCreateWithoutDraft(authedUser)
         )
     }
@@ -94,11 +106,15 @@ class CataloguePoliciesEnforcer(
         command.copy(
             accessRights = command.accessRights
                 .takeIf { CataloguePolicies.canUpdateAccessRights(authedUser, catalogue) }
-                ?: catalogue.accessRights
+                ?: catalogue.accessRights,
+            ownerOrganizationId = command.ownerOrganizationId
+                .takeIf { CataloguePolicies.canUpdateOwner(authedUser, catalogue) }
+                ?: catalogue.ownerOrganization?.id,
         )
     }
 
     private suspend fun getDraftRefOfCatalogueOrNull(catalogueId: CatalogueDraftId): CatalogueDraftRefDTOBase? {
-        return catalogueDraftFinderService.getByCatalogueIdOrNull(catalogueId)?.toRef(userF2FinderService::getRef)
+        return catalogueDraftFinderService.getByCatalogueIdOrNull(catalogueId)
+            ?.toRef(organizationF2FinderService::getRef, userF2FinderService::getRef)
     }
 }

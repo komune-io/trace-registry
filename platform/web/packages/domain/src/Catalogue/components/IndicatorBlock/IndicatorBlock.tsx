@@ -1,5 +1,5 @@
 import { AddCircleOutlineRounded, EditRounded, MoreVert } from '@mui/icons-material'
-import { CustomButton, iconPack, InfoTicket, TitleDivider, TMSMenuItem, useButtonMenu, useToggleState } from 'components'
+import { CustomButton, IconPack, InfoTicket, TitleDivider, TMSMenuItem, useButtonMenu, useToggleState } from 'components'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconButton, Paper } from '@mui/material'
@@ -51,7 +51,7 @@ export const IndicatorBlock = (props: IndicatorBlockProps) => {
     }, {
         key: "delete",
         label: t("delete"),
-        icon: iconPack.trash,
+        icon: <IconPack.trash />,
         color: "#B01717",
         onClick: onDelete
     }], [t, onDelete])

@@ -1,17 +1,16 @@
 import { useTheme } from '@komune-io/g2'
-import { CircularProgress, Dialog, Stack, Typography } from '@mui/material'
-import { iconPack, SelectableChipGroup, useUrlSavedState, LocalTheme } from 'components'
+import { Dialog, Stack } from '@mui/material'
+import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
-  CatalogueResultListByType,
-  CatalogueSearchFilters,
-  CatalogueSearchHeader, CatalogueSearchQuery, catalogueTypes, FacetDistribution,
+  CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery,
+  useCatalogueGetBlueprintsQuery,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { FixedPagination, OffsetPagination } from 'template'
 import { keepPreviousData } from '@tanstack/react-query'
+import { FixedPagination, OffsetPagination } from 'template'
 
 export const CatalogueSearchPage = () => {
   const { t, i18n } = useTranslation()
@@ -19,6 +18,12 @@ export const CatalogueSearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
+
+  const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
+    query: {
+      language: i18n.language
+    }
+  }).data?.item
 
   const onClose = useCallback(
     () => {
@@ -34,11 +39,11 @@ export const CatalogueSearchPage = () => {
   useEffect(() => {
     if (searchParams.get("goBackUrl")) {
       searchParams.delete("goBackUrl")
-      setSearchParams(searchParams)
+      setSearchParams(searchParams, { replace: true })
     }
   }, [])
 
-  const { state, changeValueCallback } = useUrlSavedState<CatalogueSearchQuery>({
+  const { state, validatedState, changeValueCallback, onClear, onValidate } = useUrlSavedState<CatalogueSearchQuery>({
     initialState: {
       limit: 20,
       offset: 0
@@ -47,7 +52,8 @@ export const CatalogueSearchPage = () => {
 
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
-      ...state,
+      type: allowedSearchTypes?.globalSearchTypes,
+      ...validatedState,
       language: i18n.language,
     },
     options: {
@@ -59,20 +65,23 @@ export const CatalogueSearchPage = () => {
   })
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
-  const distributions = useMemo((): Record<string, FacetDistribution[]> => (data?.distribution ?? {}), [data?.distribution])
-  const typeDistribution = useMemo(() => {
-    return catalogueTypes.map((type) => {
-      const distribution = distributions["type"]?.find((distribution) => distribution.id === type)
-      const typeSimple = type.split("-").pop() ?? ""
-      const typeLabel = t("catalogues.types." + type)
+  const facets = useMemo(() => data?.facets, [data?.facets])
+
+
+
+  const typeFacet = useMemo(() => {
+    if (!allowedSearchTypes) return []
+    return Object.values(allowedSearchTypes.types).filter((type) => type.includeInGlobalSearch).map((type) => {
+      const facetValue = facets?.find(f => f.key === "type")?.values.find(v => v.key === type.identifier)
+      const Icon = IconPack[type.identifier]
       return {
-        key: type,
-        label: distribution ? `${typeLabel} - ${distribution?.size}` : typeLabel,
-        color: theme.local?.colors[typeSimple],
-        icon: iconPack[typeSimple]
+        key: type.identifier,
+        label: facetValue ? `${type.name} - ${facetValue?.count}` : type.name,
+        color: theme.local?.colors[type.identifier],
+        icon: <Icon />
       }
     })
-  }, [theme, distributions])
+  }, [theme, facets, allowedSearchTypes])
 
 
   return (
@@ -91,7 +100,7 @@ export const CatalogueSearchPage = () => {
         }
       }}
     >
-      <CatalogueSearchHeader initialValue={state.query} onSearch={changeValueCallback("query")} goBackUrl={goBackUrl} />
+      <CatalogueSearchHeader initialValue={state.query} onSearch={changeValueCallback("query", true)} goBackUrl={goBackUrl} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -101,46 +110,25 @@ export const CatalogueSearchPage = () => {
         }}
       >
         <SelectableChipGroup
-          options={typeDistribution}
+          options={typeFacet ?? []}
           values={state.type}
           onChange={changeValueCallback('type')}
           forTypes
         />
-        <Stack
-          direction="row"
-          gap={3}
-        >
-          <CatalogueSearchFilters
-            licences={state.licenseId}
-            licencesDistribution={distributions["licenseId"]}
-            accesses={state.accessRights}
-            accessesDistribution={distributions["accessRights"]}
-            themes={state.themeIds}
-            themesDistribution={distributions["themeIds"]}
-            onChangeAccesses={changeValueCallback('accessRights')}
-            onChangeLicenses={changeValueCallback('licenseId')}
-            onChangeThemes={changeValueCallback('themeIds')}
-          />
-          {isFetching ? <Stack direction="row" justifyContent="center" flex={1} pt={6}>
-            <CircularProgress size={60} />
-          </Stack> : <Stack gap={3} flex={1}>
-            {data && <Typography
-              variant="subtitle1"
-              sx={{
-                fontWeight: "bold"
-              }}
-            >
-              {t("resultNumber", { total: data.total })}
-            </Typography>}
-            <CatalogueResultListByType items={data?.items} />
-          </Stack>}
-        </Stack>
+        <CatalogueSearchModule<CatalogueSearchQuery>
+          changeValueCallback={changeValueCallback}
+          state={state}
+          data={data}
+          isFetching={isFetching}
+          onValidate={onValidate}
+          onClear={onClear}
+        />
       </Stack>
       <FixedPagination
         pagination={pagination}
         onOffsetChange={(offset) => {
-          changeValueCallback('limit')(offset.limit)
-          changeValueCallback('offset')(offset.offset)
+          changeValueCallback('limit', true)(offset.limit)
+          changeValueCallback('offset', true)(offset.offset)
         }}
         page={data}
       />

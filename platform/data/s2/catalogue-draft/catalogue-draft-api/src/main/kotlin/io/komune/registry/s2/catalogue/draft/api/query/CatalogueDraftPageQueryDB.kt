@@ -21,6 +21,7 @@ class CatalogueDraftPageQueryDB(
 
     fun execute(
         id: Match<CatalogueDraftId>? = null,
+        parentId: Match<CatalogueDraftId?>? = null,
         catalogueId: Match<CatalogueId>? = null,
         originalCatalogueId: Match<CatalogueId>? = null,
         language: Match<String>? = null,
@@ -31,6 +32,7 @@ class CatalogueDraftPageQueryDB(
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueDraftEntity> = doQuery(offset) {
         match(`CatalogueDraftEntity$`.ID, id)
+        match(`CatalogueDraftEntity$`.PARENT_ID, parentId)
         match(`CatalogueDraftEntity$`.CATALOGUE_ID, catalogueId)
         match(`CatalogueDraftEntity$`.ORIGINAL_CATALOGUE_ID, originalCatalogueId)
         match(`CatalogueDraftEntity$`.LANGUAGE, language)

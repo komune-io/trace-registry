@@ -19,7 +19,7 @@ import { useEditGraph } from './useEditGraph'
 export const GraphCreationPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, datasetId } = useParams()
-  const { cataloguesCatalogueIdDraftIdEditTab } = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
   const navigate = useNavigate()
 
   const catalogueDraftQuery = useCatalogueDraftGetQuery({
@@ -37,7 +37,7 @@ export const GraphCreationPage = () => {
 
   const onClose = useCallback(
     () => {
-      navigate(cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.id!))
+      navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, graphDataset?.id!))
     },
     [navigate, catalogueId, draftId, graphDataset],
   )
@@ -95,7 +95,7 @@ export const GraphCreationPage = () => {
         }
       }}
     >
-      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftIdEditTab(catalogueId!, draftId!, graphDataset?.id!)} />
+      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, graphDataset?.id!)} />
       <Stack
         sx={{
           maxWidth: 1200,

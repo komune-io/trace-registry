@@ -1,10 +1,12 @@
 package io.komune.registry.script.imports
 
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.unit.model.DataUnitDTOBase
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -15,6 +17,8 @@ import io.komune.registry.s2.concept.domain.ConceptIdentifier
 import io.komune.registry.s2.license.domain.LicenseId
 import io.komune.registry.s2.license.domain.LicenseIdentifier
 import io.komune.registry.script.imports.model.CatalogueImportSettings
+import io.komune.registry.script.imports.model.CatalogueReferenceIdentifier
+import io.komune.registry.script.imports.model.CatalogueReferences
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
@@ -24,8 +28,12 @@ class ImportContext(
 ) {
     val concepts = ConcurrentHashMap<ConceptIdentifier, ConceptId?>()
     val licenses = ConcurrentHashMap<LicenseIdentifier, LicenseId>()
-    val catalogues = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
-    val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueIdentifier>()
+    val catalogueIds = ConcurrentHashMap<CatalogueIdentifier, CatalogueId>()
+    val catalogueIdentifiersByTitleAndType = ConcurrentHashMap<String, ConcurrentHashMap<CatalogueType, CatalogueIdentifier>>()
+    val catalogueParents = ConcurrentHashMap<CatalogueId, CatalogueReferences>()
+    val catalogueChildren = ConcurrentHashMap<CatalogueId, List<CatalogueReferences>>()
+    val catalogueCatalogueReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
+    val catalogueCatalogueBackReferences = ConcurrentHashMap<CatalogueId, Map<String, List<CatalogueReferences>>>()
     val catalogueDatasetReferences = ConcurrentHashMap<CatalogueIdentifier, List<DatasetId>>()
 
     val dataUnits = ConcurrentHashMap<DataUnitIdentifier, DataUnitDTOBase>()
@@ -40,5 +48,26 @@ class ImportContext(
             ?.catalogueTypes
             ?.get(type)
             ?: type
+    }
+
+    fun registerCatalogue(catalogue: CatalogueDTOBase) {
+        catalogueIds[catalogue.identifier] = catalogue.id
+        catalogueIdentifiersByTitleAndType.getOrPut(catalogue.title) { ConcurrentHashMap() }
+            .put(catalogue.type, catalogue.identifier)
+    }
+
+    fun registerParentOrDefault(catalogueId: CatalogueId, catalogueType: CatalogueType, parentReference: CatalogueReferences?) {
+        if (parentReference != null) {
+            catalogueParents[catalogueId] = parentReference
+            return
+        }
+
+        val parentIdentifier = settings.defaults?.parent?.get(catalogueType)?.identifier
+            ?: return
+
+        catalogueParents[catalogueId] = CatalogueReferenceIdentifier(
+            type = catalogueType,
+            identifiers = listOf(parentIdentifier),
+        )
     }
 }

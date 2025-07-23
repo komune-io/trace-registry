@@ -1,7 +1,10 @@
 package io.komune.registry.f2.catalogue.domain
 
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetBlueprintsFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableParentsFunction
@@ -13,10 +16,13 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 
 interface CatalogueQueryApi {
+    fun catalogueHistoryGet(): CatalogueHistoryGetFunction
     fun cataloguePage(): CataloguePageFunction
     fun catalogueSearch(): CatalogueSearchFunction
     fun catalogueGet(): CatalogueGetFunction
     fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction
+    fun catalogueGetStructure(): CatalogueGetStructureFunction
+    fun catalogueGetBlueprints(): CatalogueGetBlueprintsFunction
 
     fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction
     fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction

@@ -13,7 +13,7 @@ dependencies {
 	implementation(project(Modules.commons))
 	api(project(Modules.infra.meilisearch))
 	implementation(project(Modules.infra.postgresql))
-	implementation(project(Modules.infra.redis))
+	api(project(Modules.infra.redis))
 
 	implementation(project(Modules.api.config))
 

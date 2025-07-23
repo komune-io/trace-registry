@@ -6,7 +6,7 @@ import {formatNumber, Link} from '@komune-io/g2'
 import {TFunction} from 'i18next'
 import {useTranslation} from 'react-i18next'
 import {Link as RouterLink, LinkProps} from 'react-router-dom'
-import {extractCatalogueIdentifierNumber, useCatalogueRefGetQuery} from '../../api'
+import {extractCatalogueIdentifierNumber, useCatalogueGetBlueprintsQuery, useCatalogueRefGetQuery} from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
@@ -18,6 +18,12 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const { title, indicators, referenceId } = props
     const { t, i18n } = useTranslation()
     const { cataloguesAll } = useRoutesDefinition()
+
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
+        query: {
+            language: i18n.language
+        }
+    }).data?.item
 
     const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
 
@@ -34,8 +40,8 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const relatedTitle = useMemo(() => {
         if (!ref) return undefined
         const identifier = extractCatalogueIdentifierNumber(ref.identifier)
-        return `${t("catalogues.types." + ref.type)} ${identifier ? identifier : ""} - ${ref.title}`
-    }, [ref])
+        return `${allowedSearchTypes?.types[ref.type]?.name ?? ""} ${identifier ? identifier : ""} - ${ref.title}`
+    }, [ref, allowedSearchTypes])
 
     return (
         <Stack
@@ -110,6 +116,10 @@ const infoConceptsToMarkdownListItem = (indicators: InformationConcept[], t: TFu
 }
 
 const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFunction, language: string) => {
+    if (indicators.length === 0) {
+        return ""
+    }
+
     const indicatorsByIdentifier = indicators.reduce((acc, indicator) => {
         const identifier = indicator.identifier
         if (!acc[identifier]) {
@@ -122,11 +132,17 @@ const indicatorsToMarkdownString = (indicators: InformationConcept[], t: TFuncti
     const indicatorsSorted = Object.values(indicatorsByIdentifier).sort((a, b) => {
         if (a.length > b.length) return 1
         if (a.length < b.length) -1
-        
+
         if (a[0].identifier === "gain" || a[0].identifier === "rule-of-thumb") return -1
         if (b[0].identifier === "gain" || b[0].identifier === "rule-of-thumb") return 1
         return 0
     })
+
+    if (indicators[0].themes.length === 0) {
+        return indicatorsSorted.map((indicators) => {
+            return infoConceptsToMarkdownListItem(indicators, t, language)
+        }).join("\n")
+    }
 
     let markdown = "===COL===\n\n"
     markdown += `---50---\n\n`

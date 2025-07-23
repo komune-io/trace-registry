@@ -1,6 +1,7 @@
 package io.komune.registry.f2.cccev.domain.concept
 
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptCreateFunction
+import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptDeleteFunction
 import io.komune.registry.f2.cccev.domain.concept.command.InformationConceptUpdateFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueFunction
@@ -11,6 +12,7 @@ interface InformationConceptApi : InformationConceptCommandApi, InformationConce
 interface InformationConceptCommandApi {
     fun informationConceptCreate(): InformationConceptCreateFunction
     fun informationConceptUpdate(): InformationConceptUpdateFunction
+    fun informationConceptDelete(): InformationConceptDeleteFunction
 }
 
 interface InformationConceptQueryApi {

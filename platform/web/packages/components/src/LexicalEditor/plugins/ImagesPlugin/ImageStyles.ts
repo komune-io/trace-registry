@@ -3,10 +3,14 @@
 export const ImageStyles = (readOnly?: boolean) => ({
     "& span.editor-image": {
         cursor: "default",
-        display: "inline-block",
+        display: "block",
         position: "relative",
         userSelect: "none",
-      },
+        width: "fit-content",
+    },
+    "& span.editor-image.full-width": {
+        width: "100%",
+    },
     "& .editor-image img": {
         maxWidth: "100%",
         cursor: "default",
@@ -25,58 +29,81 @@ export const ImageStyles = (readOnly?: boolean) => ({
         cursor: readOnly ? "default" : "grab"
     },
 
-    "& .image-resizer": {
+    "& .component-resizer": {
         display: readOnly ? "none" : "block",
-        width: "7px",
-        height: "7px",
+        width: "8px",
+        height: "8px",
         position: "absolute",
         backgroundColor: "rgb(60, 132, 244)",
         border: "1px solid #fff",
+        zIndex: 2
     },
 
-    "& .image-resizer.image-resizer-n": {
+    "& .component-resizer.component-resizer-n": {
         top: "-6px",
         left: "48%",
         cursor: "n-resize",
     },
 
-    "& .image-resizer.image-resizer-ne": {
+    "& .component-resizer.component-resizer-ne": {
         top: "-6px",
         right: "-6px",
         cursor: "ne-resize",
     },
 
-    "& .image-resizer.image-resizer-e": {
+    "& .component-resizer-full-width": {
+        display: readOnly ? "none" : "block",
+        position: "absolute",
+        width: "20px",
+        height: "20px",
+        bottom: "calc(48% - 6px)",
+        right: "-30px",
+        cursor: "pointer",
+        color: "rgb(60, 132, 244)",
+    }, 
+
+    "& .component-resizer-auto-height": {
+        display: readOnly ? "none" : "block",
+        position: "absolute",
+        width: "20px",
+        height: "20px",
+        left: "calc(48% - 6px)",
+        bottom: "-20px",
+        cursor: "pointer",
+        color: "rgb(60, 132, 244)",
+    },
+
+    "& .component-resizer.component-resizer-e": {
         bottom: "48%",
         right: "-6px",
         cursor: "e-resize",
     },
 
-    "& .image-resizer.image-resizer-se": {
-        bottom: "-2px",
+    "& .component-resizer.component-resizer-se": {
+        bottom: "0px",
         right: "-6px",
         cursor: "nwse-resize",
     },
 
-    "& .image-resizer.image-resizer-s": {
-        bottom: "-2px",
+    "& .component-resizer.component-resizer-s": {
+        bottom: "0px",
         left: "48%",
         cursor: "s-resize",
     },
 
-    "& .image-resizer.image-resizer-sw": {
-        bottom: "-2px",
+    "& .component-resizer.component-resizer-sw": {
+        bottom: "0px",
         left: "-6px",
         cursor: "sw-resize",
     },
 
-    "& .image-resizer.image-resizer-w": {
+    "& .component-resizer.component-resizer-w": {
         bottom: "48%",
         left: "-6px",
         cursor: "w-resize",
     },
 
-    "& .image-resizer.image-resizer-nw": {
+    "& .component-resizer.component-resizer-nw": {
         top: "-6px",
         left: "-6px",
         cursor: "nw-resize",

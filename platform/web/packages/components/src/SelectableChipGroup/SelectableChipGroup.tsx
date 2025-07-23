@@ -1,6 +1,6 @@
-import { AutoComplete, Option, SmartKey } from '@komune-io/g2'
+import { AutoComplete, Option } from '@komune-io/g2'
 import { Stack, Typography } from '@mui/material'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { SelectableChip } from '../SelectableChip'
 import { TypeSelectableChip } from '../TypeSelectableChip'
 
@@ -39,22 +39,6 @@ export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
         )
     }), [values, options, onChange, forTypes])
 
-    const onAutoCompleteChange = useCallback(
-        (key?: SmartKey) => {
-            if (onChange && key) {
-                onChange([...(values ?? []), key.toString()])
-            }
-        },
-        [onChange, values],
-    )
-
-    const filteredOptions = useMemo(
-        () => {
-            return options?.filter((option) => !values?.includes(option.key.toString()))
-        },
-        [options, values],
-    )
-
 
     return (
         <Stack
@@ -68,18 +52,21 @@ export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
             {
                 withAutoComplete && <AutoComplete<Option>
                     //@ts-ignore
-                    onChangeValue={onAutoCompleteChange}
-                    options={filteredOptions!}
+                    onChangeValues={onChange}
+                    //@ts-ignore
+                    values={values}
+                    options={options!}
+                    multiple
                 />
             }
-            <Stack
+            {!withAutoComplete && <Stack
                 direction="row"
                 gap={1.5}
                 alignItems="center"
                 flexWrap="wrap"
             >
                 {chips}
-            </Stack>
+            </Stack>}
         </Stack>
     )
 }

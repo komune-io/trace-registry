@@ -5,17 +5,21 @@ import { CatalogueDetails } from '../CatalogueDetails'
 import { CataloguePresentation } from '../CataloguePresentation';
 import { useCatalogueDistributionLexicalEditor } from "../DistributionLexicalEditor";
 import { Dataset } from '../../../Dataset';
+import { useMemo } from 'react';
+import { useProtectionOverlay } from 'components';
 
 export interface CatalogueInformationProps {
     catalogue?: Catalogue
     dataset: Dataset
     isLoading?: boolean
+    isEmpty?: (isEmpty: boolean) => void
 }
 
 export const CatalogueInformation = (props: CatalogueInformationProps) => {
     const {
         catalogue,
         isLoading,
+        isEmpty,
         dataset
     } = props
 
@@ -23,7 +27,21 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
 
     const withCatalogueMetadata = dataset.structure?.definitions?.withCatalogueMetadata === "true"
 
-    if ((!dataset || !distribution) && !withCatalogueMetadata) return
+    const isDatasetEmpty = useMemo(() => {
+        const bool = (!dataset || !distribution) && !withCatalogueMetadata
+        if (isEmpty) {
+            isEmpty(bool)
+        }
+        return bool
+    }, [dataset, distribution, withCatalogueMetadata])
+
+    const isProtected = catalogue?.accessRights === "PROTECTED"
+
+    const { overlay } = useProtectionOverlay({ isProtected })
+
+    if (isDatasetEmpty) {
+        return 
+    }
     return (
         <>
             <CataloguePresentation
@@ -32,6 +50,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
             />
             <Stack
                 sx={{
+                    position: "relative",
                     flexDirection: {
                         xs: "column",
                         sm: "row",
@@ -40,6 +59,7 @@ export const CatalogueInformation = (props: CatalogueInformationProps) => {
                 gap={6}
                 minWidth={0}
             >
+                {overlay}
                 <Stack
                     gap={5}
                     flexGrow={1}

@@ -13,6 +13,7 @@ data class RegistryScriptInitProperties(
     val nbProject: Int,
     val source: String?,
     val sources: ArrayList<String>? = null,
+    val preparse: PreparseProperties?,
     val admin: ApiKeyProperties,
     val flag: ModuleFlagProperties
 )
@@ -25,6 +26,16 @@ data class AuthProperties(
 data class ServiceProperties(
     val url: String,
     val path: String? = null
+)
+
+data class PreparseProperties(
+    val paths: List<ParsePathProperties>
+)
+
+data class ParsePathProperties(
+    val source: String,
+    val destination: String,
+    val cache: String
 )
 
 data class ApiKeyProperties(

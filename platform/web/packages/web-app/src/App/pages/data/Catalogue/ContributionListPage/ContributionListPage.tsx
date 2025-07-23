@@ -1,15 +1,14 @@
 import {
     DraftTable,
     ContributionModal,
-    useCatalogueDraftPageQuery
+    useCatalogueDraftPageQuery,
+    useDraftsFilters
 } from 'domain-components'
 import { useTranslation } from 'react-i18next'
 import { AppPage, Offset, OffsetPagination } from 'template'
 import { useMemo } from "react"
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useExtendedAuth, useRoutesDefinition, useToggleState } from 'components'
-import { useDraftsFilters } from '100m-components'
-
 
 export const ContributionListPage = () => {
     const { t } = useTranslation()
@@ -46,7 +45,6 @@ export const ContributionListPage = () => {
             {component}
             <DraftTable
                 withStatus
-                toEdit
                 page={data}
                 pagination={pagination}
                 isLoading={isInitialLoading}

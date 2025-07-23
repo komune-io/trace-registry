@@ -4,6 +4,8 @@ import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComp
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputedValueEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreatedEvent
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptDeleteCommand
+import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptDeletedEvent
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptUpdateCommand
 import kotlinx.serialization.Serializable
 import s2.dsl.automate.S2Role
@@ -22,6 +24,11 @@ val s2InformationConcept = s2Sourcing {
     }
     selfTransaction<InformationConceptComputeValueCommand, InformationConceptComputedValueEvent> {
         states += InformationConceptState.ACTIVE
+        role = InformationConceptRole.User
+    }
+    transaction<InformationConceptDeleteCommand, InformationConceptDeletedEvent> {
+        from = InformationConceptState.ACTIVE
+        to = InformationConceptState.DELETED
         role = InformationConceptRole.User
     }
 }

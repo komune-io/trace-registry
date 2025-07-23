@@ -1,20 +1,31 @@
-import { NoMatchPage, Router } from "@komune-io/g2";
-import { Route, useParams, useSearchParams } from "react-router-dom";
-import { Routes, useExtendedAuth } from "components";
+import { getIn, Router } from "@komune-io/g2";
+import { Navigate, Route, useLocation } from "react-router-dom";
+import { Routes, strictRoutesAuthorizations, useExtendedAuth } from "components";
 import { App } from "App";
 import { registryPages } from "App/pages/router";
-import {useMemo} from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { catalogPages } from "App/pages/data";
-
+import { NoMatch } from "./NoMatch";
 
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
 export const AppRouter = () => {
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
+
+  const location = useLocation();
+  const prevLocation = useRef(location);
+
+  useEffect(() => {
+    prevLocation.current = location;
+  }, [location]);
+
   return (
     <Router>
       <Route path="/" element={<App />} >
         {pages}
+        <Route path={"*"} element={
+          <NoMatch prevLocation={prevLocation} />
+        } />
       </Route >
     </Router>
   );
@@ -29,18 +40,22 @@ export const GenerateRoute = (props: PageRoute) => {
   const { element, path } = props
   return (
     <Route key={path} path={path} element={
-      // <PrivateElement route={path}>
-      //   {element}
-      // </PrivateElement>
-      element
+      <PrivateElement route={path}>
+        {element}
+      </PrivateElement>
     } />
   )
 }
 
 export const PrivateElement = (props: { route: Routes, children: JSX.Element }) => {
-  const { service } = useExtendedAuth()
-  const { userId, organizationId } = useParams()
-  const [searchParams] = useSearchParams()
-  if (!service.hasUserRouteAuth({ route: props.route, authorizedUserId: searchParams.get("userId") ?? userId, authorizedUserOrgId: searchParams.get("organizationId") ?? organizationId })) return <NoMatchPage />
+  const { policies, keycloak } = useExtendedAuth()
+
+  const policyPath = strictRoutesAuthorizations[props.route]
+
+  const policy: (() => boolean) | undefined = getIn(policies, policyPath)
+
+  const canEnter = policyPath === "logged" && keycloak.isAuthenticated ? true : policyPath === "open"  ? true : policy ? policy() : false;
+
+  if (!canEnter) return <Navigate to="/404" replace={true} />
   return props.children;
 }

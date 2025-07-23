@@ -13,6 +13,7 @@ import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetResult
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListResult
 import io.komune.registry.s2.cccev.api.CccevAggregateService
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -44,7 +45,7 @@ class DataUnitEndpoint(
     @Bean
     override fun dataUnitList(): DataUnitListFunction = f2Function { query ->
         logger.info("dataUnitList: $query")
-        dataUnitF2FinderService.list(query.language)
+        dataUnitF2FinderService.list(query.language.truncateLanguage())
             .let(::DataUnitListResult)
     }
 

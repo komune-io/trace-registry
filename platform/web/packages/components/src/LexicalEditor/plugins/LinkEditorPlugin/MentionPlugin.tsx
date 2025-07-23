@@ -27,7 +27,8 @@ export const MentionPlugin = (props: MentionPluginProps) => {
         query: {
             language: i18n.language,
             query: debouncedSearch,
-            limit: 20
+            limit: 20,
+            withTransient: false
         },
         options: {
             enabled: !!debouncedSearch && isMentionSearch,

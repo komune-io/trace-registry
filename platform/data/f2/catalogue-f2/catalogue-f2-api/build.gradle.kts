@@ -1,6 +1,7 @@
 plugins {
     id("io.komune.fixers.gradle.kotlin.jvm")
     kotlin("plugin.spring")
+    kotlin("plugin.serialization")
 }
 
 dependencies {
@@ -22,6 +23,7 @@ dependencies {
     implementation(project(Modules.identity.f2.user.api))
 
     implementation(project(Modules.api.config))
+    implementation(project(Modules.infra.brevo))
     implementation(project(Modules.infra.fs))
     implementation(project(Modules.infra.postgresql))
     implementation(project(Modules.infra.svg))

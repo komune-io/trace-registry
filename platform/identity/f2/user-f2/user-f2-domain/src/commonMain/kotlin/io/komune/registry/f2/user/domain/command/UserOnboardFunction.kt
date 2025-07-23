@@ -50,7 +50,7 @@ interface UserOnboardCommandDTO {
      * Reason for joining Objectif100M.
      * @example "I want to be da best."
      */
-    val joinReason: String
+    val joinReason: String?
 
     /**
      * Whether the user accepts the terms of use.
@@ -62,7 +62,7 @@ interface UserOnboardCommandDTO {
      * Whether the user accepts the chart of Objectif100M.
      * @example true
      */
-    val acceptChart100M: Boolean
+    val acceptChart100M: Boolean?
 
     /**
      * Whether the user accepts to receive emails from Objectif100M.
@@ -80,9 +80,9 @@ data class UserOnboardCommandDTOBase(
     override val givenName: String,
     override val familyName: String,
     override val organizationName: String,
-    override val joinReason: String,
+    override val joinReason: String?,
     override val acceptTermsOfUse: Boolean,
-    override val acceptChart100M: Boolean,
+    override val acceptChart100M: Boolean?,
     override val acceptNewsletter: Boolean
 ) : UserOnboardCommandDTO
 

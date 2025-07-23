@@ -19,7 +19,8 @@ object CataloguePolicies {
     }
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
-        return canCreateWithoutDraft(authedUser) || authedUser.hasRole(Permissions.CatalogueDraft.CREATE)
+        return canCreateWithoutDraft(authedUser)
+                || authedUser.hasOneOfRoles(Permissions.CatalogueDraft.CREATE_ALL, Permissions.CatalogueDraft.CREATE_OWNED)
     }
 
     fun canCreateWithoutDraft(authedUser: AuthedUserDTO): Boolean {
@@ -31,9 +32,16 @@ object CataloguePolicies {
     }
 
     fun canUpdateAccessRights(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        val isInOrganization = authedUser.memberOf.orEmpty() in listOf(it.creatorOrganization?.id, it.ownerOrganization?.id)
-        isInOrganization && authedUser.hasRole(Permissions.Catalogue.PUBLISH_ORG)
+        owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.PUBLISH_ORG)
                 || authedUser.hasRole(Permissions.Catalogue.PUBLISH_ALL)
+    }
+
+    fun canUpdateOwner(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
+        return when {
+            authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_ALL) -> true
+            catalogue == null -> authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_OWNED) // creation
+            else -> owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_OWNED)
+        }
     }
 
     fun canSetImg(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
@@ -41,7 +49,7 @@ object CataloguePolicies {
     }
 
     fun canDelete(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        authedUser.hasRole(Permissions.Catalogue.DELETE_ORG) && authedUser.memberOf.orEmpty() == it.creatorOrganization?.id
+        authedUser.hasRole(Permissions.Catalogue.DELETE_ORG) && owns(authedUser, catalogue)
                 || authedUser.hasRole(Permissions.Catalogue.DELETE_ALL)
     }
 
@@ -66,29 +74,48 @@ object CataloguePolicies {
     }
 
     @JsExport.Ignore
+    fun owns(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
+        ownsCatalogueWith(authedUser, it.creator?.id, it.creatorOrganization?.id, it.ownerOrganization?.id)
+    }
+
+    @JsExport.Ignore
+    fun ownsCatalogueWith(
+        authedUser: AuthedUserDTO,
+        creatorId: UserId?,
+        creatorOrganizationId: OrganizationId?,
+        ownerOrganizationId: OrganizationId?
+    ): Boolean {
+        return if (ownerOrganizationId != null) {
+            authedUser.memberOf == ownerOrganizationId
+        } else {
+            authedUser.memberOf == creatorOrganizationId
+                    || authedUser.id == creatorId
+        }
+    }
+
+    @JsExport.Ignore
     fun canWriteOnCatalogueWith(
         authedUser: AuthedUserDTO,
         creatorOrganizationId: OrganizationId?,
         ownerOrganizationId: OrganizationId?
     ): Boolean {
-        val isInOrganization = authedUser.memberOf.orEmpty() in listOf(creatorOrganizationId, ownerOrganizationId)
-        return isInOrganization && authedUser.hasRole(Permissions.Catalogue.WRITE_ORG)
+        val ownsCatalogue = ownsCatalogueWith(authedUser, null, creatorOrganizationId, ownerOrganizationId)
+        return ownsCatalogue && authedUser.hasRole(Permissions.Catalogue.WRITE_ORG)
                 || authedUser.hasRole(Permissions.Catalogue.WRITE_ALL)
     }
 
     @JsExport.Ignore
     fun canReadCatalogueWith(
-        authedUser: AuthedUserDTO,
+        authedUser: AuthedUserDTO?,
         accessRights: CatalogueAccessRight,
         creatorOrganizationId: OrganizationId?,
         ownerOrganizationId: OrganizationId?,
-        creatorId: UserId?
+        creatorId: UserId? = null
     ): Boolean = when {
+        authedUser == null -> accessRights.isPublicOrProtected()
         authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> true
-        authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights == CatalogueAccessRight.PUBLIC
-                || creatorOrganizationId == authedUser.memberOf.orEmpty()
-                || ownerOrganizationId == authedUser.memberOf.orEmpty()
-                || creatorId == authedUser.id
-        else -> accessRights == CatalogueAccessRight.PUBLIC || creatorId == authedUser.id
+        authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights.isPublicOrProtected()
+                || ownsCatalogueWith(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId)
+        else -> accessRights.isPublicOrProtected()
     }
 }

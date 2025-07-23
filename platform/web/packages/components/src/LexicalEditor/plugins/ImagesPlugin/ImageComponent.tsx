@@ -33,7 +33,7 @@ import {
     SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import ImageResizer from './ImageResizer';
+import { ComponentResizer } from './ComponentResizer';
 import { $isImageNode } from './ImageNode';
 import { UnCachedImage } from '../../../UnCachedImage';
 
@@ -47,21 +47,15 @@ export const ImageComponent = ({
     nodeKey,
     width,
     height,
-    maxWidth,
     resizable,
-    caption,
-    captionsEnabled,
     unCached
 }: {
     altText: string;
-    caption: LexicalEditor;
-    height: 'inherit' | number;
-    maxWidth?: number;
+    height: string | number;
     nodeKey: NodeKey;
     resizable: boolean;
     src: string;
-    width: 'inherit' | number;
-    captionsEnabled: boolean;
+    width: string | number;
     unCached?: boolean
 }): JSX.Element => {
     const imageRef = useRef<null | HTMLImageElement>(null);
@@ -112,13 +106,12 @@ export const ImageComponent = ({
             }
             return false;
         },
-        [caption, isSelected],
+        [isSelected],
     );
 
     const $onEscape = useCallback(
         (event: KeyboardEvent) => {
             if (
-                activeEditorRef.current === caption ||
                 buttonRef.current === event.target
             ) {
                 $setSelection(null);
@@ -133,7 +126,7 @@ export const ImageComponent = ({
             }
             return false;
         },
-        [caption, editor, setSelected],
+        [editor, setSelected],
     );
 
     const onClick = useCallback(
@@ -179,12 +172,14 @@ export const ImageComponent = ({
     );
 
     useEffect(() => {
-        let isMounted = true;
         const rootElement = editor.getRootElement();
         const unregister = mergeRegister(
             editor.registerUpdateListener(({ editorState }) => {
-                if (isMounted) {
-                    setSelection(editorState.read(() => $getSelection()));
+                const updatedSelection = editorState.read(() => $getSelection());
+                if ($isNodeSelection(updatedSelection)) {
+                    setSelection(updatedSelection);
+                } else {
+                    setSelection(null);
                 }
             }),
             editor.registerCommand(
@@ -239,7 +234,6 @@ export const ImageComponent = ({
         rootElement?.addEventListener('contextmenu', onRightClick);
 
         return () => {
-            isMounted = false;
             unregister();
             rootElement?.removeEventListener('contextmenu', onRightClick);
         };
@@ -258,8 +252,8 @@ export const ImageComponent = ({
     ]);
 
     const onResizeEnd = (
-        nextWidth: 'inherit' | number,
-        nextHeight: 'inherit' | number,
+        nextWidth?: string | number,
+        nextHeight?: string | number,
     ) => {
         // Delay hiding the resize bars for click case
         setTimeout(() => {
@@ -282,36 +276,37 @@ export const ImageComponent = ({
     const isFocused = isSelected || isResizing;
 
     const imgProps = {
-        className:  isFocused
-        ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}`
-        : undefined,
+        className: isFocused
+            ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}`
+            : undefined,
         src,
         alt: altText,
         ref: imageRef,
         style: {
             width,
             height,
-            maxWidth
+            maxWidth: '100%',
         }
     }
-    
+
     return (
         <>
-        <div draggable={draggable}>
-            {unCached ? <UnCachedImage {...imgProps} /> : <img {...imgProps} />}
-        </div>
+            <div draggable={draggable}>
+                {unCached ? <UnCachedImage {...imgProps} /> : <img {...imgProps} />}
+            </div>
 
-        {resizable && $isNodeSelection(selection) && isFocused && (
-            <ImageResizer
-                editor={editor}
-                buttonRef={buttonRef}
-                imageRef={imageRef}
-                maxWidth={maxWidth}
-                onResizeStart={onResizeStart}
-                onResizeEnd={onResizeEnd}
-                captionsEnabled={captionsEnabled}
-            />
-        )}
-    </>
+            {resizable && $isNodeSelection(selection) && isFocused && (
+                <ComponentResizer
+                    editor={editor}
+                    buttonRef={buttonRef}
+                    componentRef={imageRef}
+                    onResizeStart={onResizeStart}
+                    onResizeEnd={onResizeEnd}
+                    width={width}
+                    height={height}
+                    isImage
+                />
+            )}
+        </>
     );
 }

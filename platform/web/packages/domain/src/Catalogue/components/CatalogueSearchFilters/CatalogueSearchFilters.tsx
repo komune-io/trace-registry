@@ -1,26 +1,87 @@
-import {Stack} from '@mui/material'
-import {SelectableChipGroup, TitleDivider} from 'components'
-import {useTranslation} from 'react-i18next'
-import {FacetDistribution} from '../../api'
+import { Box, Stack, Typography } from '@mui/material'
+import { CustomButton, SelectableChipGroup, TitleDivider } from 'components'
+import { useTranslation } from 'react-i18next'
+import { FacetDTO } from '../../api'
+import { useEffect, useMemo, useState } from 'react'
+import { getIn, setIn } from '@komune-io/g2'
 
 interface CatalogueSearchFiltersProps {
-    licences?: string[]
-    licencesDistribution?: FacetDistribution[]
-    onChangeLicenses?: (values: string[]) => void
-    accesses?: string[]
-    accessesDistribution?: FacetDistribution[]
-    onChangeAccesses?: (values: string[]) => void
-    themes?: string[]
-    themesDistribution?: FacetDistribution[]
-    onChangeThemes?: (values: string[]) => void
+    additionalFilters?: React.ReactNode,
+    savedState: any
+    facets?: FacetDTO[]
+    onChangeFacet: (key: string) => (values: string[]) => void
+    onValidate: () => void
+    onClear: () => void
 }
 
 export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
-    const { licences, onChangeLicenses, licencesDistribution = [],
-      accesses, onChangeAccesses, accessesDistribution = [],
-      themes, onChangeThemes, themesDistribution = []
-    } = props
+    const { additionalFilters, facets, onChangeFacet, savedState, onClear, onValidate } = props
     const { t } = useTranslation()
+
+    const facetsWithoutType = useMemo(() => {
+        if (!facets) return undefined
+        const facetsCopy = [...facets]
+        const index = facetsCopy.findIndex(facet => facet.key === "type")
+        facetsCopy.splice(index, 1)
+        return facetsCopy
+    }, [facets])
+
+    const [facetsMemory, setfacetsMemory] = useState(facetsWithoutType)
+
+    useEffect(() => {
+        if (facetsWithoutType && facetsWithoutType.length > 0) {
+            setfacetsMemory(facetsWithoutType)
+        }
+    }, [facetsWithoutType])
+
+    const definitiveFacets = useMemo(() => {
+        if (facetsWithoutType && facetsWithoutType.length > 0) return facetsWithoutType;
+        return facetsMemory
+    }, [facetsMemory, facetsWithoutType])
+
+    const facetsDisplay = useMemo(() => definitiveFacets?.map((facets) => (
+        <SelectableChipGroup
+            key={facets.key}
+            title={facets.label}
+            options={facets.values.map((value) => ({
+                key: value.key,
+                label: `${value.label} (${t("sheetCount", { count: value.count })})`
+            }))}
+            values={getIn(savedState, facets.key)}
+            onChange={onChangeFacet(facets.key)}
+        />
+    )), [definitiveFacets, savedState, onChangeFacet])
+
+
+    const filtersCount = useMemo(() => {
+        let filters = { ...savedState }
+
+        const counter = (count: number, value: any) => {
+            if (Array.isArray(value)) {
+                return count + value.length;
+            }
+            if (typeof value === 'string' && value.trim() !== '') {
+                return count + 1;
+            }
+            return count
+        }
+
+        const facetsCount = definitiveFacets?.reduce<number>((count, facet) => {
+            const value = getIn(filters, facet.key);
+            filters = setIn(filters, facet.key, undefined); // Remove facet from filters to avoid counting it
+            return counter(count, value);
+        }, 0) ?? 0
+        // Count other filters (e.g., search term, offset)
+        const otherFiltersCount = Object.keys(filters).reduce((count, key) => {
+            const value = filters[key];
+            return counter(count, value);
+        }, 0);
+
+        return facetsCount + otherFiltersCount;
+    }, [definitiveFacets, savedState])
+
+    const hasFilters = filtersCount > 0;
+
     return (
         <Stack
             gap={3.5}
@@ -32,33 +93,45 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
             }}
         >
             <TitleDivider title={t("filter")} size='subtitle1' />
-            <SelectableChipGroup
-                title={t("licence")}
-                options={licencesDistribution?.map((distribution) => ({
-                    key: distribution.id,
-                    label: `${distribution.name} - ${distribution.size}`
-                }))}
-                values={licences}
-                onChange={onChangeLicenses}
-            />
-            <SelectableChipGroup
-                title={t("access")}
-                options={accessesDistribution?.map((distribution) => ({
-                  key: distribution.id,
-                  label: `${t(distribution.name.toLowerCase())} - ${distribution.size}`
-                }))}
-                values={accesses}
-                onChange={onChangeAccesses}
-            />
-            <SelectableChipGroup
-                title={t("category")}
-                options={themesDistribution.map((distribution) => ({
-                  key: distribution.id,
-                  label: `${distribution.name} - ${distribution.size}`
-                }))}
-                values={themes}
-                onChange={onChangeThemes}
-            />
+            {additionalFilters}
+            {facetsDisplay}
+            <Stack
+                alignItems="center"
+                direction="row"
+                width="100%"
+                gap={2}
+                sx={{
+                    position: "sticky",
+                    bottom: "-70px",
+                    backgroundColor: "background.paper",
+                    padding: 2,
+                    borderRadius: 1,
+                    boxShadow: 1,
+                    zIndex: 11,
+                    borderColor: "divider",
+                    borderStyle: "solid",
+                    borderWidth: "1px"
+                }}
+            >
+
+                <Typography
+                    variant='subtitle2'
+                >
+                    {t("filtersCount", { count: filtersCount })}
+                </Typography>
+                <Box flex={1} />
+                {hasFilters && <CustomButton
+                    onClick={onClear}
+                    variant="text"
+                >
+                    {t("clear")}
+                </CustomButton>}
+                <CustomButton
+                    onClick={onValidate}
+                >
+                    {t("validate")}
+                </CustomButton>
+            </Stack>
         </Stack>
     )
 }

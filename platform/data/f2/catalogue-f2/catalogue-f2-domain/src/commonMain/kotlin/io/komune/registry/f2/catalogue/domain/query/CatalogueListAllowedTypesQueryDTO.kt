@@ -1,6 +1,11 @@
 package io.komune.registry.f2.catalogue.domain.query
 
 import f2.dsl.fnc.F2Function
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueOperation
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTO
+import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTOBase
+import io.komune.registry.s2.commons.model.CatalogueType
+import io.komune.registry.s2.commons.model.Language
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -17,13 +22,23 @@ typealias CatalogueListAllowedTypesFunction = F2Function<CatalogueListAllowedTyp
  * @parent [CatalogueListAllowedTypesFunction]
  */
 @JsExport
-interface CatalogueListAllowedTypesQueryDTO
+interface CatalogueListAllowedTypesQueryDTO {
+    val language: Language
+    val operation: CatalogueOperation
+    val catalogueType: CatalogueType?
+    val relationType: String?
+}
 
 /**
  * @d2 inherit
  */
 @Serializable
-class CatalogueListAllowedTypesQuery: CatalogueListAllowedTypesQueryDTO
+data class CatalogueListAllowedTypesQuery(
+    override val language: Language,
+    override val operation: CatalogueOperation,
+    override val catalogueType: CatalogueType?,
+    override val relationType: String?
+): CatalogueListAllowedTypesQueryDTO
 
 /**
  * @d2 event
@@ -31,7 +46,7 @@ class CatalogueListAllowedTypesQuery: CatalogueListAllowedTypesQueryDTO
  */
 @JsExport
 interface CatalogueListAllowedTypesResultDTO {
-    val items: List<String>
+    val items: List<CatalogueTypeDTO>
 }
 
 /**
@@ -39,5 +54,5 @@ interface CatalogueListAllowedTypesResultDTO {
  */
 @Serializable
 data class CatalogueListAllowedTypesResult(
-    override val items: List<String>,
+    override val items: List<CatalogueTypeDTOBase>,
 ): CatalogueListAllowedTypesResultDTO

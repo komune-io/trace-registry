@@ -7,10 +7,16 @@ import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template";
 import { useTranslation } from 'react-i18next';
 import { DraftStatusChip } from './DraftStatusChip';
-import { extractCatalogueIdentifierNumber } from '../../api';
+import { extractCatalogueIdentifierNumber, useCatalogueGetBlueprintsQuery } from '../../api';
 
 function useDraftColumn(withStatus: boolean, withOperation: boolean) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
+        query: {
+            language: i18n.language
+        }
+    }).data?.item
+
     return useMemo(() => ColumnFactory<CatalogueDraft>({
         generateColumns: (generators) => ({
             id: generators.number({
@@ -36,7 +42,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
             type: generators.text({
                 header: t("type"),
                 getCellProps: (draft) => ({
-                    value: t("catalogues.types." + draft.catalogue.type)
+                    value: allowedSearchTypes?.types[draft.catalogue.type]?.name
                 })
             }),
 
@@ -72,7 +78,7 @@ function useDraftColumn(withStatus: boolean, withOperation: boolean) {
                 })
             }),
         })
-    }), [t]);
+    }), [t, allowedSearchTypes]);
 }
 
 export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft>> {
@@ -82,12 +88,12 @@ export interface DraftTableProps extends Partial<OffsetTableProps<CatalogueDraft
     isLoading?: boolean
     withStatus?: boolean
     withOperation?: boolean
-    toEdit?: boolean
+    toVerify?: boolean
 }
 
 export const DraftTable = (props: DraftTableProps) => {
-    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toEdit = false, ...other } = props
-    const { cataloguesCatalogueIdDraftIdVerifyTab, cataloguesCatalogueIdDraftIdEditTab, cataloguesCatalogueIdDraftIdViewTab } = useRoutesDefinition()
+    const { isLoading, page, onOffsetChange, pagination, sx, header, withStatus = false, withOperation = false, toVerify = false, ...other } = props
+    const { draftPage } = useRoutesDefinition()
     const { t } = useTranslation()
 
     const columns = useDraftColumn(withStatus, withOperation)
@@ -99,22 +105,11 @@ export const DraftTable = (props: DraftTableProps) => {
 
     const getRowLink = useCallback(
         (row: Row<CatalogueDraft>) => {
-            let url: string | undefined = undefined
-            if (!toEdit) {
-                url = cataloguesCatalogueIdDraftIdVerifyTab(row.original.originalCatalogueId, row.original.id)
-            } else {
-                const status = row.original.status
-                if (status === "VALIDATED") {
-                    url = cataloguesCatalogueIdDraftIdViewTab(row.original.originalCatalogueId, row.original.id)
-                } else {
-                    url = cataloguesCatalogueIdDraftIdEditTab(row.original.originalCatalogueId, row.original.id)
-                }
-            }          
             return {
-                to: url,
+                to: draftPage(toVerify, row.original.originalCatalogueId, row.original.id, "metadata"),
             }
         },
-        [toEdit],
+        [toVerify],
     )
 
     return (

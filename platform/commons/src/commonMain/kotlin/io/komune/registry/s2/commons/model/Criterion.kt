@@ -58,6 +58,24 @@ fun andCriterionOf(vararg criteria: Criterion) = AndCriterion(
     criteria = criteria.toList()
 )
 
+fun andCriterionOfNotNull(vararg criteria: Criterion?): Criterion? {
+    val actualCriteria = criteria.filterNotNull()
+    return when (actualCriteria.size) {
+        0 -> null
+        1 -> actualCriteria.first()
+        else -> AndCriterion(actualCriteria)
+    }
+}
+
 fun orCriterionOf(vararg criteria: Criterion) = OrCriterion(
     criteria = criteria.toList()
 )
+
+fun orCriterionOfNotNull(vararg criteria: Criterion?): Criterion? {
+    val actualCriteria = criteria.filterNotNull()
+    return when (actualCriteria.size) {
+        0 -> null
+        1 -> actualCriteria.first()
+        else -> OrCriterion(actualCriteria)
+    }
+}

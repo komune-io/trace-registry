@@ -3,14 +3,16 @@ package io.komune.registry.f2.catalogue.draft.domain.model
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDraftRefDTO
+import io.komune.registry.f2.organization.domain.model.OrganizationRef
+import io.komune.registry.f2.organization.domain.model.OrganizationRefDTO
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.catalogue.draft.domain.CatalogueDraftState
 import io.komune.registry.s2.commons.model.CatalogueDraftId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.Language
-import kotlin.js.JsExport
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 /**
  * @d2 model
@@ -46,9 +48,19 @@ interface CatalogueDraftDTO : CatalogueDraftRefDTO {
     override val baseVersion: Int
 
     /**
-     * Id of the user who created the draft.
+     * User who created the draft.
      */
-    override val creator: UserRefDTO
+    override val creator: UserRefDTO?
+
+    /**
+     * User who validated the draft.
+     */
+    override val validator: UserRefDTO?
+
+    /**
+     * Organization that validated the draft.
+     */
+    override val validatorOrganization: OrganizationRefDTO?
 
     /**
      * Status of the draft.
@@ -78,6 +90,8 @@ interface CatalogueDraftDTO : CatalogueDraftRefDTO {
      * @example 1739202490000
      */
     val modified: Long
+
+    val isDeleted: Boolean
 }
 
 /**
@@ -90,10 +104,13 @@ data class CatalogueDraftDTOBase(
     override val originalCatalogueId: CatalogueId,
     override val language: Language,
     override val baseVersion: Int,
-    override val creator: UserRef,
+    override val creator: UserRef?,
+    override val validator: UserRef?,
+    override val validatorOrganization: OrganizationRef?,
     override val status: CatalogueDraftState,
     override val versionNotes: String?,
     override val rejectReason: String?,
     override val issued: Long,
     override val modified: Long,
+    override val isDeleted: Boolean
 ) : CatalogueDraftDTO

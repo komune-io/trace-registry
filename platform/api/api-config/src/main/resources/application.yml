@@ -53,7 +53,11 @@ platform:
       enable: true
       email: test@kosm.io
     template:
-      charter: 1
+      email-verified: 1
+      catalogue-claim-ownership: 5
+      onboarding-organization-conflict-user: 8
+      onboarding-organization-conflict-orchestrator: 9
+    support-email: test@kosm.io
   flag:
     module:
       control: true
@@ -65,6 +69,7 @@ platform:
     catalogue:
       default-translation-type: translation
   identity:
+    force-auth: false
     onboarding:
       default-roles:
         organization: rg_role_org_reader
@@ -73,7 +78,7 @@ platform:
     url: http://localhost:7700
     secret: secret
   search:
-    indexed-catalogue: 100m-solution,100m-sector,100m-system,100m-project,100m-planetary-boundary
+    indexed-catalogue: organization, ecosystem
   catalogue:
     type-files: "classpath:catalogues"
   dataset:
@@ -108,7 +113,7 @@ platform:
   brevo:
     token: secret
     contact-list: 3
-    sandbox: true
+    sandbox: false
     debug:
       enable: true
       email: luc+wco2@kosm.io

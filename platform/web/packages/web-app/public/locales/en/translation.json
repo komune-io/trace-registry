@@ -73,8 +73,9 @@
   "toFilterCount": "Filter ({{count}})",
   "apply": "Apply",
   "clearFilters": "Clear filters",
-  "public": "Public",
-  "private": "Private",
+  "PUBLIC": "Public",
+  "PROTECTED": "Protected",
+  "PRIVATE": "Private",
   "visibility": "Visibilty",
   "standards": "Standards",
   "standard": "Standard",
@@ -128,7 +129,7 @@
   "myContributions": "My contributions",
   "filter": "Filter",
   "sheetIllustration": "Sheet illustration",
-  "resultNumber": "{{total}} Results",
+  "resultNumber": "{{total}} results",
   "or": "Or",
   "confirm": "Confirm",
   "title": "Title",
@@ -167,10 +168,18 @@
   "options": "Options",
   "deleteCatalogue": "Delete the sheet",
   "deleteDraft": "Delete the draft",
+  "catalogueList": "Sheet list",
+  "linkCatalogues": "Link sheets",
+  "sheetCount": "{{count}} sheets",
+  "404Description": "The page you are trying to open does not exist or you do not have the necessary rights to access it.",
+  "clear": "Clear",
+  "filtersCount": "{{count}} filters",
+  "button": "Button",
+  "poweredBy": "Powered by",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
-    "user": "Utilisateur"
+    "user": "User"
   },
   "organizationRoles": {
     "support": "Support",
@@ -302,18 +311,11 @@
       "UPDATE_REQUESTED": "Update requested",
       "VALIDATED": "Validated"
     },
-    "types": {
-      "100m-sector": "Sector",
-      "100m-solution": "Solution",
-      "100m-system": "System",
-      "100m-project": "Project",
-      "100m-chart": "Chart",
-      "100m-planetary-boundary": "Planetary boundary",
-      "100m-planetary-boundaries": "Limites planétaires",
-      "100m-sectors": "Sectors",
-      "100m-systems": "Systems",
-      "100m-home-sectors": "Home sectors",
-      "100m-home-systems": "Home systems"
+    "claim": {
+      "button": "Claim this sheet",
+      "title": "Claim the sheet {{name}}",
+      "description": "You are about to claim ownership of this sheet. Your request will be sent to an administrator for validation and will be processed as soon as possible.",
+      "validate": "Claim"
     },
     "exploreDetails": "Explore our comprehensive list of recognized standards for environmental project evaluation and certification. Discover diverse opportunities in energy, carbon, water, waste, and more. Choose the standard that aligns with your goals and make a positive environmental impact.",
     "verifiedProjects": "{{count}} sheets",
@@ -336,7 +338,7 @@
     "thanksForContribution": "Thank you for your contribution!",
     "modificationsSaved": "Your modifications have been successfully saved.",
     "modificationsWillBeReviewed": "They will be reviewed and validated by an expert to ensure the quality and compliance of the content before publication.",
-    "globalSearch": "Search for a solution, system, sector...",
+    "globalSearch": "Search for a organization",
     "startWritingContent": "Start writing the content of your sheet",
     "draftDeleteTitle": "Draft deletion of the sheet {{name}} in {{lang}}",
     "draftDeleteDescription": "This action is irreversible. Do you really want to delete this draft?",
@@ -350,6 +352,7 @@
     "newContributionReplace": "Creating a new contribution will replace your existing contribution",
     "createNewContribution": "Create a new contribution",
     "titleRequired": "You must provide the title of the sheet",
+    "validatorComment": "Validator comment",
     "planetaryLimits": "Label(s) planetary boundaries",
     "projectOwner": "Project leader",
     "noOrganization": "No organization were found",
@@ -373,7 +376,19 @@
     "defineValueRange": "Define a range of values",
     "minOrMaxValueRequired": "Minimum or maximum value is required",
     "integrateInCounter": "Integrate this project into the CO₂ counter",
-    "searchMention": "Enter a URL or search for a sheet to mention it"
+    "searchMention": "Enter a URL or search for a sheet to mention it",
+    "contributionValidated": "Contribution validated and archived",
+    "consultPublishedSheet": "View the published sheet",
+    "contentAddedToSheet": "The contents of this contribution have been integrated into the main sheet. No further modifications are possible on this version.",
+    "wishToReAddContent": "If you wish to make new changes, you can create a new draft from the published sheet.",
+    "createSubCatalogue": "Create a sub-catalogue",
+    "noSubCatalogue": "No sub-catalogue associated with this sheet",
+    "createSubCatalogueDescription": "Define a new sub-catalogue to attach to this sheet here.\n\nYou will be able to choose the type of sheet to associate, its name, its display, as well as its visibility rules.",
+    "subCatalogueDeleteTitle": "Sub-catalogue deletion {{name}}",
+    "subCatalogueDeleteDescription": "This action is irreversible. Do you really want to delete this sub-catalogue?",
+    "selectedOnly": "Selected only",
+    "noCatalogueLinkedToSub": "No sheet associated with this sub-catalogue",
+    "LinkedCataloguesDescription": "Here, you can link one or more existing sheets to dynamically display their content in this context.\n\nStart by adding one or more sheets to associate."
   },
   "editor": {
     "imageUrl": "Image URL",
@@ -385,6 +400,11 @@
     "columnsNumber": "Number of columns",
     "gallery": "Gallery",
     "charts": "Charts",
+    "addDivider": "Add a divider",
+    "addEmbed": "Embed a web page",
+    "embedUrl": "URL of the web page to embed",
+    "setFullWidth": "Take full width",
+    "setOriginalRatio": "Restore the original image ratio",
     "columnsType": {
       "1-1": "2 columns (equal size)",
       "1-3": "2 columns (25% - 75%)",
@@ -393,6 +413,13 @@
       "1-2-1": "3 columns (25% - 50% - 25%)",
       "1-1-1-1": "4 columns (equal size)"
     }
+  },
+  "protected": {
+    "joinUs": "Join us to see more! 🚀",
+    "contentReserved": "This content is reserved for logged-in users. Log in or create a <strong>free</strong> account to view it.",
+    "createAccount": "Create my account",
+    "alreadyHaveAccount": "Already registered?",
+    "login": "Log in"
   },
   "lang": {
     "fr": "French",

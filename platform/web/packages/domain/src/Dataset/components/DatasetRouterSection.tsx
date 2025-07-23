@@ -10,10 +10,11 @@ interface DatasetDataSectionProps {
     catalogue: Catalogue
     item: Dataset
     isLoading: boolean
+    isEmpty: (isEmpty: boolean) => void
 }
 
 export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
-    const { catalogue, item, isLoading } = props
+    const { catalogue, item, isLoading, isEmpty } = props
     
     if (item.type === "document") {
         return (
@@ -26,17 +27,17 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
     } else if (item.type === "table") {
         return
     } else if (item.type === "lexical") {
-        const component = CatalogueInformation({dataset: item, catalogue})
-        if (!component) return undefined
         return <CatalogueInformation
             dataset={item}
             catalogue={catalogue}
+            isEmpty={isEmpty}
         />
     } else if (item.type === "indicators") {
         return (
             <DatasetIndicator
                 item={item}
                 relatedDatasets={catalogue.referencedDatasets.filter((dataset) => dataset.type === "indicator")}
+                isEmpty={isEmpty}
             />
         )
     } else if (item.type === "graphs") {
@@ -50,5 +51,4 @@ export const DatasetRouterSection = (props: DatasetDataSectionProps) => {
     } else {
         return
     }
-
 }

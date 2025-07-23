@@ -1,8 +1,9 @@
 import { IconButton, InputBase, InputBaseProps, Paper, PaperProps } from '@mui/material'
-import { iconPackSrc, Icon } from '../Icons'
+import { IconPack } from '../Icons'
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useTheme } from '@komune-io/g2'
 import { LocalTheme } from '../utils'
+import { useDidUpdate } from '@mantine/hooks'
 
 export interface SearchFilterProps extends InputBaseProps {
     onSearch?: (value: string) => void
@@ -14,6 +15,13 @@ export const SearchFilter = (props: SearchFilterProps) => {
     const { sx, placeholder, onSearch, rootProps, initialValue, ...other } = props
     const [value, setValue] = useState(initialValue ?? '')
     const theme = useTheme<LocalTheme>()
+
+    useDidUpdate(() => {
+        if (!initialValue) {
+            setValue("")
+        }
+    }, [initialValue])
+
 
     const onChange = useCallback(
         (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -56,8 +64,8 @@ export const SearchFilter = (props: SearchFilterProps) => {
             }}
         >
             <InputBase
-                sx={{ 
-                    ml: 1, 
+                sx={{
+                    ml: 1,
                     flex: 1,
                     "& .MuiInputBase-input::placeholder": {
                         color: "#323338",
@@ -72,8 +80,8 @@ export const SearchFilter = (props: SearchFilterProps) => {
                 {...other}
                 inputProps={{ 'aria-label': placeholder }}
             />
-            <IconButton sx={{color: "black"}} onClick={onSearchMemo} type="button" aria-label="search">
-                <Icon src={iconPackSrc.search} size="big" />
+            <IconButton sx={{ color: "black" }} onClick={onSearchMemo} type="button" aria-label="search">
+                <IconPack.search size="big" />
             </IconButton>
         </Paper>
     )

@@ -21,7 +21,7 @@ import io.komune.registry.f2.catalogue.api.service.CatalogueSearchFinderService
 import io.komune.registry.f2.catalogue.api.service.imports.CatalogueImportService
 import io.komune.registry.f2.catalogue.domain.CatalogueApi
 import io.komune.registry.f2.catalogue.domain.command.CatalogueAddRelatedCataloguesFunction
-import io.komune.registry.f2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueClaimOwnershipFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteFunction
@@ -41,10 +41,15 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateAccessRight
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedAccessRightsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdatedEventDTOBase
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetBlueprintsFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetBlueprintsResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueGetStructureResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
@@ -55,15 +60,25 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemes
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableThemesResult
 import io.komune.registry.f2.catalogue.domain.query.CataloguePageFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetFunction
+import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
-import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueAggregateService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
+import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
+import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
+import io.komune.registry.s2.commons.model.CatalogueType
+import io.komune.registry.s2.commons.model.FieldCriterion
+import io.komune.registry.s2.commons.model.andCriterionOf
+import io.komune.registry.s2.commons.model.andCriterionOfNotNull
+import io.komune.registry.s2.commons.model.orCriterionOf
+import io.komune.registry.s2.commons.model.orCriterionOfNotNull
+import io.komune.registry.s2.commons.utils.truncateLanguage
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
@@ -81,6 +96,7 @@ import s2.spring.utils.logger.Logger
 @RequestMapping
 class CatalogueEndpoint(
     private val catalogueAggregateService: CatalogueAggregateService,
+    private val catalogueConfig: CatalogueConfig,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
@@ -94,20 +110,38 @@ class CatalogueEndpoint(
 
     private val logger by Logger()
 
+    @PermitAll
+    @Bean
+    override fun catalogueHistoryGet(): CatalogueHistoryGetFunction = f2Function { query ->
+        logger.info("catalogueHistoryGet: $query")
+        val event = catalogueF2FinderService.getHistory(query.id)
+        cataloguePoliciesFilterEnforcer.checkHistory(event.history)
+        event
+    }
+
+    @PermitAll
     @Bean
     override fun cataloguePage(): CataloguePageFunction = f2Function { query ->
         logger.info("cataloguePage: $query")
         catalogueF2FinderService.page(
             id = query.catalogueId?.let(::ExactMatch),
-            title = query.title?.let { StringMatch(it, StringMatchCondition.CONTAINS) },
+            title = query.title?.let { StringMatch(it.replace("/", "\\/"), StringMatchCondition.CONTAINS) },
             status = query.status,
-            parentIdentifier = query.parentIdentifier,
-            language = query.language,
+            parentId = query.parentId?.let(::ExactMatch),
+            parentIdentifier = query.parentIdentifier?.let(::ExactMatch),
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             type = query.type?.let(::CollectionMatch),
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
-            hidden = ExactMatch(false),
+            freeCriterion = andCriterionOfNotNull(
+                cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+                orCriterionOfNotNull(
+                    FieldCriterion(CatalogueCriterionField.Hidden, ExactMatch(false)),
+                    FieldCriterion(CatalogueCriterionField.Type, CollectionMatch(catalogueConfig.controlledTypes))
+                        .takeIf { (query.parentId ?: query.parentIdentifier) != null }
+                )
+            ),
             offset = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -115,55 +149,87 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun catalogueGet(): CatalogueGetFunction = f2Function { query ->
         logger.info("catalogueGet: $query")
-        catalogueF2FinderService.getOrNull(query.id, query.language)
+        catalogueF2FinderService.getOrNull(query.id, query.language?.truncateLanguage())
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueGetByIdentifier(): CatalogueGetByIdentifierFunction = f2Function { query ->
         logger.info("catalogueGetByIdentifier: $query")
-        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language)
+        catalogueF2FinderService.getByIdentifierOrNull(query.identifier, query.language?.truncateLanguage())
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
             .let(::CatalogueGetByIdentifierResult)
     }
 
-
-
+    @PermitAll
     @Bean
-    override fun catalogueRefGet(): CatalogueRefGetFunction = f2Function { query ->
-        catalogueF2FinderService.getRef(query.id, query.language)
+    override fun catalogueGetStructure(): CatalogueGetStructureFunction = f2Function { query ->
+        logger.info("catalogueGetStructure: $query")
+        catalogueF2FinderService.getStructure(query.type, query.language)
+            .let(::CatalogueGetStructureResult)
     }
 
+    @PermitAll
+    @Bean
+    override fun catalogueGetBlueprints(): CatalogueGetBlueprintsFunction = f2Function { query ->
+        logger.info("catalogueGetBlueprints: $query")
+        catalogueF2FinderService.getBlueprints(query.language)
+            .let(::CatalogueGetBlueprintsResult)
+    }
 
+    @PermitAll
+    @Bean
+    override fun catalogueRefGet(): CatalogueRefGetFunction = f2Function { query ->
+        catalogueF2FinderService.getRef(query.id, query.language.truncateLanguage())
+            .let(::CatalogueRefGetResult)
+    }
+
+    @PermitAll
     @Bean
     override fun catalogueRefGetTree(): CatalogueRefGetTreeFunction = f2Function { query ->
         logger.info("catalogueRefGetTree: $query")
         catalogueFinderService.getByIdentifierOrNull(query.identifier)
             ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
-            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language) }
+            ?.let { catalogueF2FinderService.getRefTreeByIdentifierOrNull(query.identifier, query.language.truncateLanguage()) }
             .let(::CatalogueRefGetTreeResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueRefSearch(): CatalogueRefSearchFunction = f2Function { query ->
         logger.info("catalogueRefSearch: $query")
         catalogueSearchFinderService.searchRef(
             query = query.query,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
             licenseId = query.licenseId?.let(::CollectionMatch),
+            parentId = query.parentId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
+            relatedCatalogueIds = query.relatedCatalogueIds?.mapValues { CollectionMatch(it.value) },
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            withTransient = query.withTransient,
+            freeCriterion = andCriterionOfNotNull(
+                query.ownerOrganizationId?.let { orCriterionOf(
+                    FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(it)),
+                    andCriterionOf(
+                        FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
+                        FieldCriterion(CatalogueCriterionField.CreatorOrganizationId, ExactMatch(it)),
+                    )
+                )},
+                cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            ),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -171,22 +237,36 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun catalogueSearch(): CatalogueSearchFunction = f2Function { query ->
         logger.info("catalogueSearch: $query")
         catalogueSearchFinderService.searchCatalogue(
             query = query.query,
-            language = query.language,
+            language = query.language.truncateLanguage(),
             otherLanguageIfAbsent = query.otherLanguageIfAbsent,
             accessRights = query.accessRights?.let(::CollectionMatch),
             catalogueIds = query.catalogueIds?.let(::CollectionMatch),
             licenseId = query.licenseId?.let(::CollectionMatch),
+            parentId = query.parentId?.let(::CollectionMatch),
             parentIdentifier = query.parentIdentifier?.let(::CollectionMatch),
             type = query.type?.let(::CollectionMatch),
+            relatedCatalogueIds = query.relatedCatalogueIds?.mapValues { CollectionMatch(it.value) },
+            relatedInCatalogueIds = query.relatedInCatalogueIds?.mapValues { CollectionMatch(it.value) },
             themeIds = query.themeIds?.let(::CollectionMatch),
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
-            freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            withTransient = query.withTransient,
+            freeCriterion = andCriterionOfNotNull(
+                query.ownerOrganizationId?.let { orCriterionOf(
+                    FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(it)),
+                    andCriterionOf(
+                        FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(null)),
+                        FieldCriterion(CatalogueCriterionField.CreatorOrganizationId, ExactMatch(it)),
+                    )
+                )},
+                cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
+            ),
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -194,17 +274,18 @@ class CatalogueEndpoint(
         )
     }
 
+    @PermitAll
     @Bean
     override fun catalogueListAvailableParents(): CatalogueListAvailableParentsFunction = f2Function { query ->
         logger.info("catalogueListAvailableParents: $query")
-        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language, true)
+        catalogueF2FinderService.listAvailableParentsFor(query.id, query.type, query.language.truncateLanguage(), true)
             .let(::CatalogueListAvailableParentsResult)
     }
 
     @Bean
     override fun catalogueListAvailableThemes(): CatalogueListAvailableThemesFunction = f2Function { query ->
         logger.info("catalogueListAvailableThemes: $query")
-        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language)
+        catalogueF2FinderService.listAvailableThemesFor(query.type, query.language.truncateLanguage())
             .sortedBy { it.prefLabel }
             .let(::CatalogueListAvailableThemesResult)
     }
@@ -217,11 +298,12 @@ class CatalogueEndpoint(
             .let(::CatalogueListAvailableOwnersResult)
     }
 
+    @PermitAll
     @Bean
     override fun catalogueListAllowedTypes(): CatalogueListAllowedTypesFunction = f2Function { query ->
         logger.info("catalogueListAllowedTypes: $query")
-        catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
-            .sorted()
+        catalogueF2FinderService.listAllowedTypes(query)
+            .sortedBy { it.name }
             .let(::CatalogueListAllowedTypesResult)
     }
 
@@ -244,33 +326,41 @@ class CatalogueEndpoint(
         return buildResponseForFile("certificate-$catalogueId.pdf", file)
     }
 
+    @PermitAll
+    @GetMapping("/data/catalogueTypes/{type}/img")
+    suspend fun catalogueTypeImgDownload(
+        @PathVariable type: CatalogueType,
+    ): ResponseEntity<InputStreamResource> {
+        logger.info("catalogueTypeImgDownload: $type")
+        val filename = catalogueConfig.typeConfigurations[type]?.icon
+        return buildResponseForFile(
+            filename = filename.orEmpty(),
+            fileStream = filename?.let { catalogueConfig.resources[it]?.inputStream() }
+        )
+    }
+
     @PostMapping("/data/catalogueCreate")
     suspend fun catalogueCreate(
         @RequestPart("command") command: CatalogueCreateCommandDTOBase,
-        @RequestPart("file", required = false) image: FilePart?
+        @RequestPart("img", required = false) image: FilePart?
     ): CatalogueCreatedEventDTOBase {
         logger.info("catalogueCreate: $command")
         cataloguePoliciesEnforcer.checkCreate(command.type)
 
         val enforceCommand = cataloguePoliciesEnforcer.enforceCommand(command)
-        val event = catalogueF2AggregateService.create(enforceCommand)
-        image?.let {
-            catalogueF2AggregateService.setImage(event.id, it)
-        }
-
-        return event
+        return catalogueF2AggregateService.create(enforceCommand, image)
     }
 
     @PostMapping("/data/catalogueUpdate")
     suspend fun catalogueUpdate(
         @RequestPart("command") command: CatalogueUpdateCommandDTOBase,
-        @RequestPart("file", required = false) image: FilePart?
+        @RequestPart("img", required = false) image: FilePart?
     ): CatalogueUpdatedEventDTOBase {
         logger.info("catalogueUpdate: $command")
         cataloguePoliciesEnforcer.checkUpdate(command.id)
 
         val enforcedCommand = cataloguePoliciesEnforcer.enforceCommand(command)
-        val event = catalogueF2AggregateService.update(enforcedCommand)
+        val event = catalogueF2AggregateService.update(enforcedCommand, true)
         image?.let { catalogueF2AggregateService.setImage(event.id, it) }
 
         return event
@@ -326,8 +416,7 @@ class CatalogueEndpoint(
     override fun catalogueAddRelatedCatalogues(): CatalogueAddRelatedCataloguesFunction = f2Function { command ->
         logger.info("catalogueAddRelatedCatalogues: $command")
         cataloguePoliciesEnforcer.checkUpdate(command.id)
-        catalogueAggregateService.addRelatedCatalogues(command)
-            .let { CatalogueAddedRelatedCataloguesEventDTOBase(it.id) }
+        catalogueF2AggregateService.addRelatedCatalogues(command)
     }
 
     @Bean
@@ -374,5 +463,12 @@ class CatalogueEndpoint(
                     date = it.date,
                 )
             }
+    }
+
+    @Bean
+    override fun catalogueClaimOwnership(): CatalogueClaimOwnershipFunction = f2Function { command ->
+        logger.info("catalogueClaimOwnership: $command")
+        cataloguePoliciesEnforcer.checkClaimOwnership(command.id)
+        catalogueF2AggregateService.claimOwnership(command)
     }
 }

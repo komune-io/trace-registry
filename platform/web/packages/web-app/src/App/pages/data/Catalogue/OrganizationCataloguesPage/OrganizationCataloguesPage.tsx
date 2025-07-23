@@ -1,9 +1,8 @@
-import {CatalogueTable, useCatalogueSearchQuery} from 'domain-components'
+import {CatalogueTable, useCatalogueSearchQuery, useCataloguesFilters} from 'domain-components'
 import {useTranslation} from 'react-i18next'
 import {AppPage, Offset, OffsetPagination} from 'template'
 import {useMemo} from "react"
 import {useExtendedAuth} from 'components'
-import { useCataloguesFilters } from '100m-components'
 
 
 export const OrganizationCataloguesPage = () => {
@@ -20,7 +19,7 @@ export const OrganizationCataloguesPage = () => {
         query: {
             ...submittedFilters,
             language: i18n.language,
-            creatorOrganizationId: service.getUser()?.memberOf,
+            ownerOrganizationId: service.getUser()?.memberOf,
             otherLanguageIfAbsent: true
         },
         options: {

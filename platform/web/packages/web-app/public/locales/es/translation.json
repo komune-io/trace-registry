@@ -73,8 +73,9 @@
   "toFilterCount": "Filtrar ({{count}})",
   "apply": "Aplicar",
   "clearFilters": "Borrar filtros",
-  "public": "Público",
-  "private": "Privado",
+  "PUBLIC": "Público",
+  "PROTECTED": "Protegido",
+  "PRIVATE": "Privado",
   "visibility": "Visibilidad",
   "standards": "Estándares",
   "standard": "Estándar",
@@ -128,7 +129,7 @@
   "myContributions": "Mis contribuciones",
   "filter": "Filtrar",
   "sheetIllustration": "Ilustración de la hoja",
-  "resultNumber": "{{total}} Resultados",
+  "resultNumber": "{{total}} resultados",
   "or": "O",
   "confirm": "Confirmar",
   "title": "Título",
@@ -167,6 +168,14 @@
   "options": "Opciones",
   "deleteCatalogue": "Eliminar la ficha",
   "deleteDraft": "Eliminar el borrador",
+  "catalogueList": "Lista de fichas",
+  "linkCatalogues": "Vincular fichas",
+  "sheetCount": "{{count}} fichas",
+  "404Description": "La página que intenta abrir no existe o no tiene los permisos necesarios para acceder a ella.",
+  "clear": "Borrar",
+  "filtersCount": "{{count}} filtros",
+  "button": "Botón",
+  "poweredBy": "Impulsado por",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -302,18 +311,11 @@
       "UPDATE_REQUESTED": "Actualización solicitada",
       "VALIDATED": "Validado"
     },
-    "types": {
-      "100m-sector": "Sector",
-      "100m-solution": "Solución",
-      "100m-system": "Sistema",
-      "100m-project": "Proyecto",
-      "100m-chart": "Gráfico",
-      "100m-planetary-boundary": "Límite planetario",
-      "100m-planetary-boundaries": "Límites planetarios",
-      "100m-sectors": "Sectores",
-      "100m-systems": "Sistemas",
-      "100m-home-sectors": "Inicio sectores",
-      "100m-home-systems": "Inicio sistemas"
+    "claim": {
+      "button": "Reclamar la ficha",
+      "title": "Reclamar la ficha {{name}}",
+      "description": "Estás a punto de solicitar la propiedad de esta ficha. Tu solicitud será enviada a un administrador para su validación y será procesada lo antes posible.",
+      "validate": "Reclamar"
     },
     "exploreDetails": "Explora nuestra lista completa de estándares reconocidos para la evaluación y certificación de proyectos ambientales. Descubre diversas oportunidades en energía, carbono, agua, residuos y más. Elige el estándar que se alinee con tus objetivos y genera un impacto ambiental positivo.",
     "verifiedProjects": "{{count}} hojas",
@@ -336,7 +338,7 @@
     "thanksForContribution": "¡Gracias por tu contribución!",
     "modificationsSaved": "Tus modificaciones han sido guardadas con éxito.",
     "modificationsWillBeReviewed": "Serán revisadas y validadas por un experto para garantizar la calidad y conformidad de los contenidos antes de su publicación.",
-    "globalSearch": "Buscar una solución, un sistema, un sector...",
+    "globalSearch": "Buscar una organización",
     "startWritingContent": "Empieza a escribir el contenido de tu hoja",
     "draftDeleteTitle": "Eliminación del borrador de la ficha {{name}} en {{lang}}",
     "draftDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este borrador?",
@@ -350,6 +352,7 @@
     "newContributionReplace": "Crear una nueva contribución reemplazará su contribución existente",
     "createNewContribution": "Crear una nueva contribución",
     "titleRequired": "Debe proporcionar el título de la ficha",
+    "validatorComment": "Comentario del validador",
     "planetaryLimits": "Libellé(s) límites planetarios",
     "projectOwner": "Promotor del proyecto",
     "noOrganization": "No se encontraron organizaciones",
@@ -374,7 +377,19 @@
     "minOrMaxValueRequired": "El valor mínimo o máximo es obligatorio",
     "noDataset": "No se encontraron conjuntos de datos",
     "integrateInCounter": "Integrar este proyecto en el contador de CO₂",
-    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo"
+    "searchMention": "Ingrese una URL o busque una ficha para mencionarlo",
+    "contributionValidated": "Contribución validada y archivada",
+    "consultPublishedSheet": "Consultar la ficha publicada",
+    "contentAddedToSheet": "Los contenidos de esta contribución han sido integrados en la ficha principal. No es posible realizar más modificaciones en esta versión.",
+    "wishToReAddContent": "Si desea realizar nuevas modificaciones, puede crear un nuevo borrador desde la ficha publicada.",
+    "createSubCatalogue": "Crear un subcatálogo",
+    "noSubCatalogue": "No hay subcatálogos asociados a esta ficha",
+    "createSubCatalogueDescription": "Defina aquí un nuevo subcatálogo para asociar a esta ficha.\n\nPodrá elegir el tipo de ficha a asociar, su nombre, su visualización, así como sus reglas de visibilidad.",
+    "subCatalogueDeleteTitle": "Eliminación del subcatálogo {{name}}",
+    "subCatalogueDeleteDescription": "Esta acción es irreversible. ¿Realmente deseas eliminar este subcatálogo?",
+    "selectedOnly": "Sólo seleccionados",
+    "noCatalogueLinkedToSub": "No hay fichas asociadas a este subcatálogo",
+    "LinkedCataloguesDescription": "Aquí puedes vincular una o varias fichas existentes para mostrar dinámicamente su contenido en este contexto.\n\nComienza agregando una o varias fichas para asociar."
   },
   "editor": {
     "imageUrl": "URL de la imagen",
@@ -386,6 +401,11 @@
     "columnsNumber": "Número de columnas",
     "gallery": "Galería",
     "charts": "Gráficos",
+    "addDivider": "Agregar un separador",
+    "addEmbed": "Insertar una página web",
+    "embedUrl": "URL de la página web a insertar",
+    "setFullWidth": "Tomar todo el ancho",
+    "setOriginalRatio": "Restaurar la relación de aspecto original de la imagen",
     "columnsType": {
       "1-1": "2 columnas (tamaño igual)",
       "1-3": "2 columnas (25% - 75%)",
@@ -394,6 +414,13 @@
       "1-2-1": "3 columnas (25% - 50% - 25%)",
       "1-1-1-1": "4 columnas (tamaño igual)"
     }
+  },
+  "protected": {
+    "joinUs": "¡Únete a nosotros para ver más! 🚀",
+    "contentReserved": "Este contenido está reservado para usuarios registrados. Inicia sesión o crea una cuenta <strong>gratuitamente</strong> para consultarlo.",
+    "createAccount": "Crear mi cuenta",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "login": "Inicia sesión"
   },
   "lang": {
     "fr": "Francés",

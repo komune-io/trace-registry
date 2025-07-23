@@ -1,6 +1,6 @@
 import {Box, Stack, StackProps, useMediaQuery, useTheme} from '@mui/material';
 import {ReactNode, useEffect} from "react";
-import {Co2Counter, LanguageSelector} from 'components';
+import {Co2Counter, config, LanguageSelector} from 'components';
 import {CatalogueDraftValidatedEvent, CatalogueSearchBar, useInformationConceptGetGlobalValueQuery} from "domain-components"
 import {useThemeContext} from '@komune-io/g2';
 import {useTranslation} from 'react-i18next';
@@ -33,9 +33,9 @@ export const AppPage = (props: AppPageProps) => {
 
     useEffect(() => {
         if (title) {
-            document.title = "WikiCO2 | " + title
+            document.title = config().title + " | " + title
         } else {
-            document.title = "WikiCO2"
+            document.title = config().title ?? ""
         }
     }, [title])
 

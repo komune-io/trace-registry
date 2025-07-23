@@ -4,5 +4,9 @@ import kotlin.js.JsExport
 
 @JsExport
 enum class CatalogueAccessRight {
-    PUBLIC, PRIVATE
+    PUBLIC, PROTECTED, PRIVATE;
+
+    fun isPublicOrProtected(): Boolean {
+        return this == PUBLIC || this == PROTECTED
+    }
 }

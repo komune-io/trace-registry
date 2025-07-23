@@ -1,14 +1,16 @@
-import { Stack } from '@mui/material'
-import { FormComposable, FormComposableField, useFormComposable } from '@komune-io/g2'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Catalogue } from '../../model'
-import { Co2Counter, TitleDivider } from 'components'
-import { useCatalogueCo2Counter } from '../../api'
+import {Stack} from '@mui/material'
+import {autoFormFormatter, BackAutoFormData, FormComposable, FormComposableField, useFormComposable,} from '@komune-io/g2'
+import {useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Catalogue} from '../../model'
+import {Co2Counter, TitleDivider} from 'components'
+import {useCatalogueCo2Counter} from '../../api'
+import {CatalogueAutoDetailsForm} from '../CatalogueAutoDetailsForm'
 
 type simplifiedReadonlyFields = Record<string, {
-    value: string,
-    label: string,
+    value?: any,
+    values?: any[],
+    label?: string,
     params?: any
 }>
 
@@ -22,28 +24,30 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
     const { t } = useTranslation()
 
+    const formData = useMemo(() => catalogue?.structure?.metadataForm ? autoFormFormatter(catalogue?.structure?.metadataForm as BackAutoFormData) : undefined, [catalogue])
+
     const publicationValues = useMemo((): simplifiedReadonlyFields => ({
         publisher: {
-            value: "Objectif 100M", //to find in catalogue
+            value: catalogue?.creatorOrganization?.name,
             label: t("publisher"),
         },
         creationDate: {
-            value: new Date().toLocaleDateString(), //to find in catalogue
+            value: catalogue?.issued ? new Date(catalogue.issued).toLocaleDateString() : "",
             label: t("creation"),
         },
         updateDate: {
-            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "", //to find in catalogue
+            value: catalogue?.modified ? new Date(catalogue.modified).toLocaleDateString() : "",
             label: t("update"),
         },
         validator: {
-            value: "Nom Prénom", //to find in catalogue
+            value: catalogue?.validatorOrganization?.name,
             label: t("validator"),
         },
     }), [catalogue, t])
 
     const classificationValues = useMemo((): simplifiedReadonlyFields => ({
         access: {
-            value: catalogue?.accessRights ?? "",
+            value: t(catalogue?.accessRights ?? ""),
             label: t("access"),
         },
         licence: {
@@ -86,6 +90,10 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
             {count && <Co2Counter
                 count={count}
             />}
+            <CatalogueAutoDetailsForm 
+                formData={formData}
+                catalogue={catalogue}
+            />
             <DetailsForm
                 isLoading={isLoading}
                 title={t("publication")}
@@ -108,11 +116,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
 
 interface DetailsFormProps {
     title: string
-    values: Record<string, {
-        value: string,
-        label: string,
-        params?: any
-    }>,
+    values: simplifiedReadonlyFields,
     isLoading?: boolean
 }
 
@@ -122,7 +126,7 @@ const DetailsForm = (props: DetailsFormProps) => {
     const initialValues = useMemo(() => {
         const res: Record<string, string> = {}
         Object.keys(values).forEach((key) => {
-            res[key] = values[key].value
+            res[key] = values[key].value ?? values[key].values
         })
         return res
     }, [])
@@ -136,13 +140,13 @@ const DetailsForm = (props: DetailsFormProps) => {
     })
 
     const fields = useMemo(() => Object.entries(values).map((value): FormComposableField => {
-        const [key, { label, params }] = value
+        const [key, { label, values, params }] = value
         return {
             name: key,
-            type: "textField",
+            type: !!values ? 'select' : "textField",
             label,
             params: {
-                orientation: "horizontal",
+                orientation: label ? "horizontal" : "vertical",
                 ...params
             }
         }

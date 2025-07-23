@@ -56,9 +56,9 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
     const fields = useMemo((): FormComposableField[] => ([{
         name: "image",
         type: "documentHandler",
+        label: t("editor.uploadImage"),
         params: {
             fileTypesAllowed: ["jpeg", "png", "svg", "webp"],
-            outterLabel: t("editor.uploadImage")
         }
     }]), [t])
 

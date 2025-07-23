@@ -5,14 +5,13 @@ import f2.dsl.cqrs.filter.ExactMatch
 import f2.dsl.cqrs.filter.StringMatch
 import f2.dsl.cqrs.filter.StringMatchCondition
 import f2.dsl.cqrs.page.OffsetPagination
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.model.SimpleCache
 import io.komune.registry.f2.dataset.api.model.toDTO
-import io.komune.registry.f2.dataset.api.model.toSimpleRefDTO
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.f2.dataset.domain.query.DatasetPageResult
-import io.komune.registry.f2.dataset.domain.query.DatasetRefListResult
-import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
+import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.cccev.api.CccevFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -42,11 +41,6 @@ class DatasetF2FinderService(
 
     suspend fun get(id: DatasetId): DatasetDTOBase {
         return datasetFinderService.get(id).toDTOCached()
-    }
-
-    suspend fun getAllRefs(): DatasetRefListResult {
-        val items = datasetFinderService.getAll().map { it.toSimpleRefDTO() }
-        return DatasetRefListResult(items = items, total = items.size)
     }
 
     suspend fun getByIdentifier(
@@ -86,7 +80,7 @@ class DatasetF2FinderService(
         datasetType: String?
     ): List<DatasetDTOBase> = coroutineScope {
         val cache = Cache()
-        val authedOrganizationId = io.komune.f2.spring.boot.auth.AuthenticationProvider.getOrganizationId()
+        val authedUser = AuthenticationProvider.getAuthedUser()
         val visitedCatalogues = ConcurrentSet<CatalogueIdentifier>()
         val visitedDatasets = ConcurrentSet<DatasetIdentifier>()
 
@@ -97,13 +91,10 @@ class DatasetF2FinderService(
 
             val catalogue = catalogueFinderService.getByIdentifier(catalogueIdentifier)
                 .takeIf {
-                   (it.language == null || it.language == language ) &&
-                           it.accessRights == CatalogueAccessRight.PUBLIC ||
-                          (
-                              it.accessRights == CatalogueAccessRight.PRIVATE &&
-                                      it.ownerOrganizationId == authedOrganizationId
-                          )
-
+                    (it.language == null || it.language == language ) && (
+                            it.accessRights.isPublicOrProtected() ||
+                            (it.accessRights == CatalogueAccessRight.PRIVATE && it.ownerOrganizationId == authedUser?.memberOf)
+                    )
                 }
             val datasetIds = catalogue?.childrenDatasetIds.orEmpty()
             val catalogueIds = catalogue?.childrenCatalogueIds.orEmpty()
@@ -146,7 +137,7 @@ class DatasetF2FinderService(
     private inner class Cache {
         val datasets = SimpleCache(datasetFinderService::get)
         val dataUnits = SimpleCache(cccevFinderService::getUnit)
-        val informationConcepts = SimpleCache(cccevFinderService::getConcept)
+        val informationConcepts = SimpleCache(cccevFinderService::getConceptOrNull)
         val supportedValues = SimpleCache(cccevFinderService::getValue)
         val themes = SimpleCache(conceptFinderService::get)
 

@@ -1,4 +1,3 @@
-@file:Suppress("FunctionOnlyReturningConstant")
 package io.komune.registry.s2.commons.exception
 
 object ExceptionCodes {
@@ -12,6 +11,7 @@ object ExceptionCodes {
         const val EMAIL_EXISTS = 2000
         const val UNACCEPTED_TERMS = 2001
         const val ORGANIZATION_EXISTS = 2002
+        const val EMPTY_ORGANIZATION_NAME = 2003
     }
 
     object Catalogue {

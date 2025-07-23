@@ -12,6 +12,8 @@ fun CatalogueDraftEntity.toModel() = CatalogueDraftModel(
     title = title,
     baseVersion = baseVersion,
     creatorId = creatorId,
+    validatorId = validatorId,
+    validatorOrganizationId = validatorOrganizationId,
     datasetIdMap = datasetIdMap,
     status = status,
     versionNotes = versionNotes,
@@ -21,7 +23,8 @@ fun CatalogueDraftEntity.toModel() = CatalogueDraftModel(
     addedExternalReferencesToDatasets = addedExternalReferencesToDatasets,
     removedExternalReferencesToDatasets = removedExternalReferencesToDatasets,
     issued = issued,
-    modified = modified
+    modified = modified,
+    isDeleted = deleted
 )
 
 fun CatalogueDraftModel.checkLanguage(language: Language): CatalogueDraftModel {

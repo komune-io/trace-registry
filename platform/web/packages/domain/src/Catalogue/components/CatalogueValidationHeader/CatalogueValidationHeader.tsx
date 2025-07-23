@@ -1,11 +1,11 @@
-import { Link } from '@komune-io/g2'
-import { EmailRounded, InfoRounded } from '@mui/icons-material'
-import { Box, Paper, Stack, Typography } from '@mui/material'
-import { Tooltip, useRoutesDefinition, useToggleState, CustomButton } from 'components'
-import { t } from 'i18next'
-import { RejectModal } from './RejectModal'
-import { CatalogueDraft } from '../../model'
-import { useParams } from 'react-router-dom'
+import {Link, Tooltip} from '@komune-io/g2'
+import {EmailRounded, InfoRounded} from '@mui/icons-material'
+import {Box, Paper, Stack, Typography} from '@mui/material'
+import {CustomButton, useRoutesDefinition, useToggleState} from 'components'
+import {t} from 'i18next'
+import {RejectModal} from './RejectModal'
+import {CatalogueDraft} from '../../model'
+import {useParams} from 'react-router-dom'
 
 interface CatalogueValidationHeaderProps {
     draft?: CatalogueDraft
@@ -45,13 +45,12 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     alignItems="center"
                     gap={2}
                 >
-                    <Typography
+                    {draft.creator && <Typography
                         variant='subtitle1'
                     >
                         {t("catalogues.reviewModifications", { name: `${draft.creator.givenName} ${draft.creator.familyName}` })}
-                    </Typography>
+                    </Typography>}
                     <Tooltip
-
                         helperText={
                             <Stack
                                 gap={0.5}
@@ -93,7 +92,7 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                     >
                         {t("catalogues.consultOriginal")}
                     </Link>}
-                    <Link
+                    {draft.creator && <Link
                         variant="body2"
                         href={`mailto:${draft.creator.email}`}
                         sx={{
@@ -102,9 +101,9 @@ export const CatalogueValidationHeader = (props: CatalogueValidationHeaderProps)
                             alignItems: "center"
                         }}
                     >
-                        <EmailRounded />
+                        <EmailRounded/>
                         {t("catalogues.contactEditor")}
-                    </Link>
+                    </Link>}
                 </Stack>
             </Stack>
             <Box flex={1} />

@@ -4,7 +4,7 @@ import { FixedPagination } from "./FixedPagination";
 
 export type OffsetTableBasicProps<DATA extends {}> = {
   page?: PageQueryResult<DATA>
-  pagination: OffsetPagination
+  pagination?: OffsetPagination
   onOffsetChange?: (newPage: OffsetPagination) => void
 }
 
@@ -23,7 +23,7 @@ export const OffsetTable = <Data extends {}>(props: OffsetTableProps<Data>) => {
         isLoading={isLoading}
         {...other}
       />
-     <FixedPagination pagination={pagination} page={page} isLoading={isLoading} onOffsetChange={onOffsetChange} />
+     {pagination && <FixedPagination pagination={pagination} page={page} isLoading={isLoading} onOffsetChange={onOffsetChange} />}
     </>
   )
 }

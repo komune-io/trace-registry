@@ -5,6 +5,7 @@ import f2.dsl.cqrs.exception.F2Exception
 import f2.dsl.fnc.invokeWith
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierQuery
+import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchQuery
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptDTOBase
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetByIdentifierQuery
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetByIdentifierQuery
@@ -19,12 +20,13 @@ import io.komune.registry.f2.dataset.domain.query.DatasetExistsQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetByIdentifierQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGetQuery
 import io.komune.registry.f2.dataset.domain.query.DatasetGraphSearchQuery
-import io.komune.registry.f2.dataset.domain.query.DatasetPageQuery
 import io.komune.registry.f2.license.domain.query.LicenseGetByIdentifierQuery
 import io.komune.registry.f2.license.domain.query.LicenseListQuery
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptCreateCommand
 import io.komune.registry.s2.cccev.domain.model.AggregatorConfig
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
+import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.DataUnitIdentifier
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.DatasetIdentifier
@@ -36,48 +38,18 @@ import io.komune.registry.s2.concept.domain.command.ConceptCreateCommand
 import io.komune.registry.s2.license.domain.command.LicenseCreateCommand
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
 import io.komune.registry.script.imports.model.CatalogueImportData
+import io.komune.registry.script.imports.model.CatalogueReferenceMethod
 import io.komune.registry.script.imports.model.ConceptInitData
 import io.komune.registry.script.imports.model.InformationConceptInitData
 import io.komune.registry.script.imports.model.LicenseInitData
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 
 class ImportRepository(
     private val dataClient: DataClient,
     private val importContext: ImportContext,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
-
-    suspend fun fetchPreExistingGraphDataset() {
-        setOf("fr", "en", "es").forEach { language ->
-            importContext.preExistinggraphDataset[language] = try {
-                DatasetGraphSearchQuery(
-                    rootCatalogueIdentifier = "100m-charts",
-                    datasetType = "rawGraph",
-                    language = language
-                ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
-            }catch (e: F2Exception) {
-                logger.error(e.error.message, e)
-                emptyList()
-            }
-        }
-    }
-
-    suspend fun fetchPreExistingDatasets() {
-        var offset = 0
-        val limit = 500
-
-        do {
-            val result = DatasetPageQuery(
-                offset = offset,
-                limit = limit
-            ).invokeWith(dataClient.dataset.datasetPage())
-
-            result.items.forEach {
-                importContext.preExistingDatasets[it.identifier] = it
-            }
-            offset += limit
-        } while (result.total > offset)
-    }
 
     suspend fun fetchPreExistingLicence() {
         val licenses = LicenseListQuery()
@@ -189,10 +161,23 @@ class ImportRepository(
         return getAndCache(identifier, language)
     }
 
-    fun findRawGraphDataSet(
+    suspend fun findRawGraphDataSet(
         language: Language,
     ): List<DatasetDTOBase> {
-        return importContext.preExistinggraphDataset[language] ?: emptyList()
+        if (!importContext.preExistinggraphDataset.containsKey(language)) {
+            importContext.preExistinggraphDataset[language] = try {
+                DatasetGraphSearchQuery(
+                    rootCatalogueIdentifier = "100m-charts",
+                    datasetType = "rawGraph",
+                    language = language
+                ).invokeWith(dataClient.dataset.datasetGraphSearch()).items
+            } catch (e: F2Exception) {
+                logger.error(e.error.message, e)
+                emptyList()
+            }
+        }
+
+        return importContext.preExistinggraphDataset[language].orEmpty()
     }
 
     suspend fun initDataset(
@@ -294,15 +279,60 @@ class ImportRepository(
         )).invokeWith(dataClient.dataset.datasetAddMediaDistribution()).distributionId
     }
 
-    suspend fun getCatalogue(catalogueData: CatalogueImportData): CatalogueDTOBase? {
+    suspend fun getExistingCatalogue(catalogueData: CatalogueImportData): CatalogueDTOBase? {
+        return when (catalogueData.checkExistsMethod) {
+            CatalogueReferenceMethod.IDENTIFIER -> getCatalogue(catalogueData.identifier)
+            CatalogueReferenceMethod.TITLE -> catalogueData.languages.firstNotNullOfOrNull { (_, translation) ->
+                translation.title?.let {
+                    findCatalogueByTitle(
+                        title = it,
+                        type = catalogueData.type,
+                        parentIdentifier = null
+                    )
+                }?.let { getCatalogue(it) }
+            }
+            CatalogueReferenceMethod.CHILD ->
+                throw IllegalArgumentException("Child references are not supported for existing catalogue lookup")
+        }
+    }
+
+    suspend fun getCatalogue(catalogueIdentifier: CatalogueIdentifier): CatalogueDTOBase? {
         try {
-            return CatalogueGetByIdentifierQuery(catalogueData.identifier, null)
+            return CatalogueGetByIdentifierQuery(catalogueIdentifier, null)
                 .invokeWith(dataClient.catalogue.catalogueGetByIdentifier())
                 .item
+                ?.also { importContext.registerCatalogue(it) }
         } catch (e: F2Exception) {
             logger.error(e.error.message, e)
             return null
         }
+    }
+
+    suspend fun findCatalogueByTitle(title: String, type: CatalogueType, parentIdentifier: CatalogueIdentifier?): CatalogueIdentifier? {
+        val cachedCatalogueIdentifier = importContext.catalogueIdentifiersByTitleAndType[title]?.get(type)
+        if (cachedCatalogueIdentifier != null) {
+            return cachedCatalogueIdentifier.ifEmpty { null }
+        }
+
+        val catalogue = CatalogueSearchQuery(
+            type = listOf(type),
+            parentIdentifier = parentIdentifier?.let(::listOf),
+            query = title,
+            language = "",
+            otherLanguageIfAbsent = true,
+            withTransient = true
+        ).invokeWith(dataClient.catalogue.catalogueSearch())
+            .items
+            .firstOrNull { it.title == title }
+
+        if (catalogue == null) {
+            importContext.catalogueIdentifiersByTitleAndType.getOrPut(title) { ConcurrentHashMap() }
+                .put(type, "")
+            return null
+        }
+
+        importContext.registerCatalogue(catalogue)
+        return catalogue.identifier
     }
 
     suspend fun getDataset(datasetId: DatasetId): DatasetDTOBase? {

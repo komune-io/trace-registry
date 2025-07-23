@@ -1,9 +1,8 @@
 package io.komune.registry.f2.catalogue.api.model
 
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueDeleteCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueDeletedEventDTOBase
-import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkThemesCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedThemesEventDTOBase
@@ -12,9 +11,7 @@ import io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessData
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
-import io.komune.registry.s2.catalogue.domain.command.CatalogueDeleteCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueDeletedEvent
-import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkThemesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkedThemesEvent
@@ -36,60 +33,74 @@ suspend fun CatalogueModel.toAccessData(
     accessRights = accessRights
 )
 
-fun CatalogueCreateCommandDTOBase.toCommand(
+suspend fun CatalogueCreateCommandDTOBase.toCommand(
     identifier: String,
     withTranslatable: Boolean,
     isTranslationOf: CatalogueId?,
-    hidden: Boolean
-) = CatalogueCreateCommand(
-    identifier = identifier,
-    title = title.takeIf { withTranslatable }.orEmpty(),
-    description = description.takeIf { withTranslatable },
-    type = type,
-    language = language.takeIf { withTranslatable },
-    structure = structure,
-    homepage = homepage,
-    ownerOrganizationId = ownerOrganizationId,
-    stakeholder = stakeholder,
-    themeIds = themes?.toSet().orEmpty(),
-    catalogueIds = catalogues?.toSet().orEmpty(),
-    datasetIds = emptySet(),
-    isTranslationOf = isTranslationOf,
-    accessRights = accessRights,
-    licenseId = license,
-    location = location,
-    versionNotes = versionNotes.takeIf { withTranslatable },
-    hidden = hidden,
-    integrateCounter = integrateCounter
-)
+    hidden: Boolean,
+    isDraftValidation: Boolean
+): CatalogueCreateCommand {
+    val authedUser = AuthenticationProvider.getAuthedUser()
+    return CatalogueCreateCommand(
+        identifier = identifier,
+        title = title.takeIf { withTranslatable }.orEmpty(),
+        description = description.takeIf { withTranslatable },
+        type = type,
+        language = language.takeIf { withTranslatable },
+        configuration = configuration,
+        homepage = homepage,
+        ownerOrganizationId = ownerOrganizationId,
+        validatorId = authedUser?.id?.takeIf { isDraftValidation },
+        validatorOrganizationId = authedUser?.memberOf?.takeIf { isDraftValidation },
+        stakeholder = stakeholder,
+        themeIds = themes?.toSet().orEmpty(),
+        catalogueIds = catalogues?.toSet().orEmpty(),
+        datasetIds = emptySet(),
+        isTranslationOf = isTranslationOf,
+        accessRights = accessRights,
+        licenseId = license,
+        location = location,
+        versionNotes = versionNotes.takeIf { withTranslatable },
+        order = order,
+        hidden = hidden,
+        integrateCounter = integrateCounter.takeIf { withTranslatable }
+    )
+}
 
-fun CatalogueUpdateCommandDTOBase.toCommand(
+suspend fun CatalogueUpdateCommandDTOBase.toCommand(
     withTranslatable: Boolean,
-    hidden: Boolean
-) = CatalogueUpdateCommand(
-    id = id,
-    title = title.takeIf { withTranslatable }.orEmpty(),
-    description = description.takeIf { withTranslatable },
-    language = language.takeIf { withTranslatable },
-    structure = structure,
-    homepage = homepage,
-    ownerOrganizationId = ownerOrganizationId,
-    stakeholder = stakeholder,
-    themeIds = themes?.toSet().orEmpty(),
-    accessRights = accessRights,
-    licenseId = license,
-    location = location,
-    hidden = hidden,
-    versionNotes = versionNotes.takeIf { withTranslatable },
-    integrateCounter = integrateCounter.takeIf { withTranslatable },
-)
+    hidden: Boolean,
+    isDraftValidation: Boolean
+): CatalogueUpdateCommand {
+    val authedUser = AuthenticationProvider.getAuthedUser()
+    return CatalogueUpdateCommand(
+        id = id,
+        title = title.takeIf { withTranslatable }.orEmpty(),
+        description = description.takeIf { withTranslatable },
+        language = language.takeIf { withTranslatable },
+        configuration = configuration,
+        homepage = homepage,
+        ownerOrganizationId = ownerOrganizationId,
+        validatorId = authedUser?.id?.takeIf { isDraftValidation },
+        validatorOrganizationId = authedUser?.memberOf?.takeIf { isDraftValidation },
+        stakeholder = stakeholder,
+        themeIds = themes?.toSet().orEmpty(),
+        accessRights = accessRights,
+        licenseId = license,
+        location = location,
+        order = order,
+        hidden = hidden,
+        versionNotes = versionNotes.takeIf { withTranslatable },
+        integrateCounter = integrateCounter.takeIf { withTranslatable },
+    )
+}
 
 fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandDTOBase(
     id = id,
     title = title,
     description = description,
     language = language,
-    structure = structure,
+    configuration = configuration,
     homepage = homepage,
     ownerOrganizationId = ownerOrganizationId,
     stakeholder = stakeholder,
@@ -98,13 +109,9 @@ fun CatalogueModel.toUpdateCommand(language: Language) = CatalogueUpdateCommandD
     accessRights = accessRights,
     license = licenseId,
     location = location,
+    order = order,
     hidden = hidden,
     integrateCounter = integrateCounter,
-)
-
-fun CatalogueLinkCataloguesCommandDTOBase.toCommand() = CatalogueLinkCataloguesCommand(
-    id = id,
-    catalogueIds = catalogues
 )
 
 fun CatalogueLinkedCataloguesEvent.toDTO() = CatalogueLinkedCataloguesEventDTOBase(
@@ -118,10 +125,6 @@ fun CatalogueLinkThemesCommandDTOBase.toCommand() = CatalogueLinkThemesCommand(
 
 fun CatalogueLinkedThemesEvent.toDTO() = CatalogueLinkedThemesEventDTOBase(
     id = id,
-)
-
-fun CatalogueDeleteCommandDTOBase.toCommand() = CatalogueDeleteCommand(
-    id = id
 )
 
 fun CatalogueDeletedEvent.toDTO() = CatalogueDeletedEventDTOBase(
