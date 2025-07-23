@@ -58,7 +58,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         type: "documentHandler",
         label: t("editor.uploadImage"),
         params: {
-            fileTypesAllowed: ["jpeg", "png", "svg", "webp"],
+            fileTypesAllowed: ["jpeg", "png", "svg", "webp", "gif"],
         }
     }]), [t])
 
