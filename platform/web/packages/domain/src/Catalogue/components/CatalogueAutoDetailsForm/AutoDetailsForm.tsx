@@ -1,6 +1,5 @@
-import { AutoFormData, formatNumber, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from "@komune-io/g2"
+import { AutoFormData, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from "@komune-io/g2"
 import { Catalogue } from "../../model"
-import { useTranslation } from "react-i18next"
 import { useMemo } from "react"
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
@@ -14,8 +13,6 @@ interface AutoDetailsFormProps {
 
 export const AutoDetailsForm = (props: AutoDetailsFormProps) => {
     const { fields, title, formData, catalogue } = props
-
-    const { i18n } = useTranslation()
 
     const initialValues = useMemo(() => {
         let values = {}

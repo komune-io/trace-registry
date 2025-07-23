@@ -5,9 +5,16 @@ export interface AdminConfig {
     url: string
 }
 
+export interface KeycloakConfig {
+    realm: string,
+    clientId: string,
+    url: string
+}
+
 export interface Config {
     platform: PlatformConfig
     admin: AdminConfig
+    keycloak: KeycloakConfig
     theme?: ThemeConfig
     requiredAuthentication?: boolean
     title?: string

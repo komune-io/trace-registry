@@ -19,6 +19,12 @@ export const CatalogueSearchPage = () => {
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
 
+  const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
+    query: {
+      language: i18n.language
+    }
+  }).data?.item
+
   const onClose = useCallback(
     () => {
       navigate(goBackUrl)
@@ -46,6 +52,7 @@ export const CatalogueSearchPage = () => {
 
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
+      type: allowedSearchTypes?.globalSearchTypes,
       ...validatedState,
       language: i18n.language,
     },
@@ -60,15 +67,11 @@ export const CatalogueSearchPage = () => {
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const facets = useMemo(() => data?.facets, [data?.facets])
 
-  const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
-    query: {
-      language: i18n.language
-    }
-  }).data?.item?.types
+
 
   const typeFacet = useMemo(() => {
     if (!allowedSearchTypes) return []
-    return Object.values(allowedSearchTypes).filter((type) => type.includeInGlobalSearch).map((type) => {
+    return Object.values(allowedSearchTypes.types).filter((type) => type.includeInGlobalSearch).map((type) => {
       const facetValue = facets?.find(f => f.key === "type")?.values.find(v => v.key === type.identifier)
       const Icon = IconPack[type.identifier]
       return {

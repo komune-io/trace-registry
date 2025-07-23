@@ -69,7 +69,7 @@ export const CatalogueCreationPage = () => {
     <AppPage
       title={title}
       bgcolor='background.default'
-      maxWidth={1020}
+      maxWidth={1080}
     >
       <TitleDivider title={title} />
       <CatalogueMetadataForm formData={formData} onSubmit={onCreate} type={type!} />
