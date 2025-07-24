@@ -25,6 +25,7 @@ export const strictRoutesAuthorizations = {
   "catalogues/:catalogueId/:draftId/graph": "logged" as PoliciesPaths,
   "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue": "logged" as PoliciesPaths,
   "catalogues/*": "open" as PoliciesPaths,
+  "referential": "logged" as PoliciesPaths,
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
