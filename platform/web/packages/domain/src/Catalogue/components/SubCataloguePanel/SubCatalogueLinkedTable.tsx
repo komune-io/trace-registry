@@ -26,7 +26,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
 
     const { t } = useTranslation()
 
-    const { cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdTabSubCatalogueIdLinkSubCatalogue } = useRoutesDefinition()
 
     const data = useMemo((): PageQueryResult<CatalogueRef> => {
         let items = Object.values(catalogue?.relatedCatalogues ?? {}).flatMap((related) => related)
@@ -107,7 +107,7 @@ export const SubCatalogueLinkedTable = (props: SubCatalogueLinkedTableProps) => 
             </Accordion>
             {canUpdate && <CustomLinkButton
                 startIcon={<Link />}
-                to={cataloguesCatalogueIdDraftIdTabIdSubCatalogueIdLinkSubCatalogue(catalogueId!, draftId!, tab?.id!, catalogue?.id!)}
+                to={cataloguesCatalogueIdDraftIdTabSubCatalogueIdLinkSubCatalogue(catalogueId!, draftId!, tab?.id!, catalogue?.id!)}
                 sx={{
                     alignSelf: "flex-end"
                 }}

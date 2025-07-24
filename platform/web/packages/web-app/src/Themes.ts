@@ -48,7 +48,8 @@ export const muiTheme: Partial<ThemeOptions> = {
     fontFamily: config().theme?.font ?? '"Degular", roboto, sans-serif',
     allVariants: {
       fontWeight: 400,
-      color: "#000000"
+      color: "#000000",
+      whiteSpace: "pre-line"
     },
     body1: {
       fontSize: "1.125rem",

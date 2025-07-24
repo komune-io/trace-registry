@@ -1,5 +1,5 @@
 import {createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition} from 'components'
-import {CatalogueEditionHeader, CatalogueValidationHeader, useCatalogueDraftGetQuery} from 'domain-components'
+import {CatalogueEditionHeader, CatalogueValidationHeader, DraftAddReferentialButton, useCatalogueDraftGetQuery} from 'domain-components'
 import {AppPage} from 'template'
 import {useNavigate, useParams} from "react-router-dom";
 import {useCallback, useState} from 'react';
@@ -132,6 +132,7 @@ export const DraftPage = (props: DraftPageProps) => {
         metadataFormState={metadataFormState}
         title={title}
         validateMetadata={validateMetadata}
+        actions={<DraftAddReferentialButton />}
       />
       {draft?.status === "VALIDATED" && <ValidatedDraftInfo />}
       {draft?.status == "REJECTED" && <RejectedDraftInfo draft={draft} />}

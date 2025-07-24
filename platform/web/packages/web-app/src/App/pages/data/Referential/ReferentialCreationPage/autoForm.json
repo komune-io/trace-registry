@@ -3,7 +3,7 @@
     {
       "id": "section_0",
       "label": "Calcul du facteur de sélection",
-      "description": "Ce formulaire permet d’évaluer la pertinence de votre organisation pour le Mapping finance V1.\nLes informations demandées servent à calculer un facteur de sélection, basé sur des critères simples : taille, maturité, engagement climat, et contribution à la dynamique collective.",
+      "description": "Ce formulaire permet d’évaluer la pertinence de votre organisation pour le Mapping finance V1.\n\nLes informations demandées servent à calculer un facteur de sélection, basé sur des critères simples : taille, maturité, engagement climat, et contribution à la dynamique collective.",
       "fields": [
         {
           "name": "yearOfCreation",
@@ -92,7 +92,7 @@
     {
       "id": "section_1",
       "label": "Preuves à l’appui",
-      "description": "Ajoutez ici des documents ou liens qui permettent de justifier les informations déclarées dans le référentiel.\nCes éléments renforcent la crédibilité de votre déclaration et facilitent la validation par l’expert.",
+      "description": "Ajoutez ici des documents ou liens qui permettent de justifier les informations déclarées dans le référentiel.\n\nCes éléments renforcent la crédibilité de votre déclaration et facilitent la validation par l’expert.",
       "fields": [
         {
           "name": "kbis",

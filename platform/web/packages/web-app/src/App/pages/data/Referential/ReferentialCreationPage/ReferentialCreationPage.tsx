@@ -3,7 +3,7 @@ import { CustomButton, CustomLinkButton, useRoutesDefinition } from 'components'
 
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import form from "./autoForm.json"
@@ -12,12 +12,12 @@ import { AutoForm, autoFormFormatter, BackAutoFormData, FormComposableState } fr
 
 export const ReferentialCreationPage = () => {
   const { t } = useTranslation()
+  const { catalogueId, draftId, tab, /* referentialId */ } = useParams()
 
   const navigate = useNavigate()
-  const {} = useRoutesDefinition()
+  const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
 
-  const goBackUrl = "/"
-
+  const goBackUrl = cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!)
 
   const onClose = useCallback(
     () => {
@@ -26,7 +26,7 @@ export const ReferentialCreationPage = () => {
     [navigate, goBackUrl],
   )
 
-  const FormData = useMemo(() => autoFormFormatter(form as BackAutoFormData), [form])
+  const formData = useMemo(() => autoFormFormatter(form as BackAutoFormData), [form])
 
   const getFormActions = useCallback(
     (formState: FormComposableState) => {
@@ -74,7 +74,7 @@ export const ReferentialCreationPage = () => {
         <Box flex={1} />
         <IconButton
           component={Link}
-          to={"/"}
+          to={goBackUrl}
           sx={{
             color: "rgba(0, 0, 0, 0.54) !important",
           }}
@@ -91,7 +91,7 @@ export const ReferentialCreationPage = () => {
       >
         <AutoForm 
         onSubmit={(_, values) => console.log("Form submitted with values:", values)}
-          formData={FormData}
+          formData={formData}
           getFormActions={getFormActions}
         />
 

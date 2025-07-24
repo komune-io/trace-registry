@@ -1,0 +1,29 @@
+{
+  "sections": [
+    {
+      "id": "section_0",
+      "label": "Intégrer un mapping",
+      "description": "Pour intégrer votre structure à l’un des mappings et augmenter vos chances d’être sélectionné parmi les organisations mises en avant chaque année, il vous suffit de remplir le ou les référentiels correspondant(s) à votre domaine d’action.\n\nChaque référentiel vous permet de présenter vos engagements, services et spécificités selon des critères objectifs. Une fois votre dossier complété et validé par notre équipe, un score vous sera attribué pour la sélection finale.",
+      "fields": [
+        {
+          "name": "id",
+          "type": "select",
+          "label": "Sélectionner un référentiel",
+          "properties": {
+            "options": [
+              {
+                "label": "Mapping finance V1",
+                "key": "mapping-finance-v1"
+              },
+              {
+                "label": "Mapping finance V2",
+                "key": "mapping-finance-v2"
+              }
+            ]
+          },
+          "required": true
+        }
+      ]
+    }
+  ]
+}

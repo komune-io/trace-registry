@@ -60,11 +60,11 @@ export const catalogPages: PageRoute[] = [
     element: <GraphCreationPage  />
   },
   {
-    path: "catalogues/:catalogueId/:draftId/:tabId/:subCatalogueId/linkSubCatalogue",
+    path: "catalogues/:catalogueId/:draftId/:tab/:subCatalogueId/linkSubCatalogue",
     element: <CatalogueLinkPage  />
   },
   {
-    path: "referential",
+    path: "catalogues/:catalogueId/:draftId/:tab/:referentialId/referential",
     element: <ReferentialCreationPage />
   }
 ]
