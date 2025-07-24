@@ -59,7 +59,7 @@ export const ReferentialCreationPage = () => {
           p: 3,
           pb: 12,
           display: "flex",
-          gap: 3
+          gap: 8
         }
       }}
     >
@@ -83,14 +83,14 @@ export const ReferentialCreationPage = () => {
         </IconButton>
       </Stack>
       <Stack
-        gap={3}
+        gap={8}
         sx={{
-          py: 3,
           maxWidth: "1200px",
           alignSelf: "center",
         }}
       >
         <AutoForm 
+        onSubmit={(_, values) => console.log("Form submitted with values:", values)}
           formData={FormData}
           getFormActions={getFormActions}
         />

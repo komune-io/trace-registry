@@ -12,14 +12,14 @@
           "properties": {
             "description": "Année de fondation ou d’immatriculation de votre structure.",
             "caption": "Cela permet de situer votre maturité. Utilisez le format AAAA.",
-            "inputType": "number"
+            "textFieldType": "number"
           },
           "required": true,
           "conditions": [
             {
               "expression": "#yearOfCreation <= 1900 || #yearOfCreation > 2025",
-              "type": "error",
-              "message": "Veuillez entrer une année valide"
+              "type": "validator",
+              "error": "Veuillez entrer une année valide"
             }
           ]
         },
@@ -29,14 +29,14 @@
           "label": "Nombre d'employés",
           "properties": {
             "description": "Effectif total actuel de votre organisation (CDI, CDD, alternants inclus).",
-            "inputType": "number"
+            "textFieldType": "number"
           },
           "required": true,
           "conditions": [
             {
               "expression": "#employeesNumber <= 0",
-              "type": "error",
-              "message": "Le nombre d'employés doit être supérieur à zéro"
+              "type": "validator",
+              "error": "Le nombre d'employés doit être supérieur à zéro"
             }
           ]
         },
@@ -46,14 +46,14 @@
           "label": "Chiffre d'affaires",
           "properties": {
             "description": "Montant du chiffre d’affaires annuel, en euros, sur le dernier exercice clôturé.",
-            "inputType": "number"
+            "textFieldType": "number"
           },
           "required": true,
           "conditions": [
             {
               "expression": "#annualRevenue <= 0",
-              "type": "error",
-              "message": "Le chiffre d'affaires doit être supérieur à zéro"
+              "type": "validator",
+              "error": "Le chiffre d'affaires doit être supérieur à zéro"
             }
           ]
         },
@@ -64,14 +64,14 @@
           "properties": {
             "description": "Proportion de votre activité directement liée à des produits ou services ayant un impact positif sur le climat.",
             "caption": "Indiquez un pourcentage entre 0 et 100. Si votre activité n'est pas liée au climat, indiquez 0.",
-            "inputType": "number"
+            "textFieldType": "number"
           },
           "required": true,
           "conditions": [
             {
-              "expression": "#climateActivityPercentage < 0 || #climateActivityPercentage > 100",
-              "type": "error",
-              "message": "Le pourcentage d’activité offre climat doit être compris entre 0 et 100"
+              "expression": "#climateActivityPercentage > 100",
+              "type": "validator",
+              "error": "Le pourcentage d’activité offre climat doit être compris entre 0 et 100"
             }
           ]
         },
@@ -119,7 +119,7 @@
           }
         },
         {
-          "name": "annualReport",
+          "name": "participationProof",
           "type": "documentHandler",
           "label": "Preuve de participation à un atelier Mappings :",
           "required": true,
