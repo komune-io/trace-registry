@@ -2,7 +2,7 @@ import {languages, useCustomFilters} from 'components'
 import {FilterComposableField} from '@komune-io/g2'
 import {useMemo} from 'react'
 import {useTranslation} from 'react-i18next'
-import {CatalogueDraftPageQuery, useCatalogueListAllowedTypesQuery} from 'domain-components'
+import {CatalogueDraftPageQuery, useCatalogueGetBlueprintsQuery} from 'domain-components'
 
 interface UseDraftsFiltersParams {
     initialValues?: any
@@ -12,12 +12,11 @@ export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
     const {initialValues} = params ?? {}
     const {t, i18n} = useTranslation()
 
-    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
         query: {
-          language: i18n.language,
-          operation: "SEARCH"
+          language: i18n.language
         }
-      }).data?.items
+      }).data?.item
 
     const filters = useMemo((): FilterComposableField<keyof CatalogueDraftPageQuery>[] => [
         {
@@ -36,7 +35,7 @@ export const useDraftsFilters = (params?: UseDraftsFiltersParams) => {
             params: {
                 label: t("type"),
                 style: { width: "120px"},
-                options: allowedSearchTypes?.map((type) => ({ key: type.identifier, label: type.name }))
+                options: allowedSearchTypes?.globalSearchTypes.map((type) => ({ key: allowedSearchTypes.types[type].identifier, label: allowedSearchTypes.types[type].identifier }))
             }
         },
         {

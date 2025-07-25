@@ -175,6 +175,7 @@
   "clear": "Clear",
   "filtersCount": "{{count}} filters",
   "button": "Button",
+  "poweredBy": "Powered by",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -402,6 +403,8 @@
     "addDivider": "Add a divider",
     "addEmbed": "Embed a web page",
     "embedUrl": "URL of the web page to embed",
+    "setFullWidth": "Take full width",
+    "setOriginalRatio": "Restore the original image ratio",
     "columnsType": {
       "1-1": "2 columns (equal size)",
       "1-3": "2 columns (25% - 75%)",
@@ -410,6 +413,13 @@
       "1-2-1": "3 columns (25% - 50% - 25%)",
       "1-1-1-1": "4 columns (equal size)"
     }
+  },
+  "protected": {
+    "joinUs": "Join us to see more! 🚀",
+    "contentReserved": "This content is reserved for logged-in users. Log in or create a <strong>free</strong> account to view it.",
+    "createAccount": "Create my account",
+    "alreadyHaveAccount": "Already registered?",
+    "login": "Log in"
   },
   "lang": {
     "fr": "French",

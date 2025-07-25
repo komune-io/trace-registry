@@ -18,18 +18,26 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
     const { additionalFilters, facets, onChangeFacet, savedState, onClear, onValidate } = props
     const { t } = useTranslation()
 
-    const [facetsMemory, setfacetsMemory] = useState(facets)
-
-    useEffect(() => {
-        if (facets && facets.length > 0) {
-            setfacetsMemory(facets)
-        }
+    const facetsWithoutType = useMemo(() => {
+        if (!facets) return undefined
+        const facetsCopy = [...facets]
+        const index = facetsCopy.findIndex(facet => facet.key === "type")
+        facetsCopy.splice(index, 1)
+        return facetsCopy
     }, [facets])
 
+    const [facetsMemory, setfacetsMemory] = useState(facetsWithoutType)
+
+    useEffect(() => {
+        if (facetsWithoutType && facetsWithoutType.length > 0) {
+            setfacetsMemory(facetsWithoutType)
+        }
+    }, [facetsWithoutType])
+
     const definitiveFacets = useMemo(() => {
-        if (facets && facets.length > 0) return facets;
+        if (facetsWithoutType && facetsWithoutType.length > 0) return facetsWithoutType;
         return facetsMemory
-    }, [facetsMemory, facets])
+    }, [facetsMemory, facetsWithoutType])
 
     const facetsDisplay = useMemo(() => definitiveFacets?.map((facets) => (
         <SelectableChipGroup

@@ -6,7 +6,10 @@ export const EmbedStyles = (readOnly?: boolean) => ({
         display: "inline-block",
         position: "relative",
         userSelect: "none",
-      },
+    },
+    "& span.editor-embed.full-width": {
+        width: "100%",
+    },
     "& .editor-embed iframe": {
         maxWidth: "100%",
         cursor: "default",

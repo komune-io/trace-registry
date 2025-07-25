@@ -21,6 +21,7 @@ const ACCEPTABLE_IMAGE_TYPES = [
     'image/png',
     'image/svg+xml',
     'image/webp',
+    "image/gif",
 ];
 
 const createImageNodeWithFixedSize = (file: File, result: string, editor: LexicalEditor): NodeKey => {

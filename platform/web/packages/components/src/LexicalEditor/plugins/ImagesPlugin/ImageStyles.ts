@@ -3,10 +3,14 @@
 export const ImageStyles = (readOnly?: boolean) => ({
     "& span.editor-image": {
         cursor: "default",
-        display: "inline-block",
+        display: "block",
         position: "relative",
         userSelect: "none",
-      },
+        width: "fit-content",
+    },
+    "& span.editor-image.full-width": {
+        width: "100%",
+    },
     "& .editor-image img": {
         maxWidth: "100%",
         cursor: "default",
@@ -27,11 +31,12 @@ export const ImageStyles = (readOnly?: boolean) => ({
 
     "& .component-resizer": {
         display: readOnly ? "none" : "block",
-        width: "7px",
-        height: "7px",
+        width: "8px",
+        height: "8px",
         position: "absolute",
         backgroundColor: "rgb(60, 132, 244)",
         border: "1px solid #fff",
+        zIndex: 2
     },
 
     "& .component-resizer.component-resizer-n": {
@@ -46,6 +51,28 @@ export const ImageStyles = (readOnly?: boolean) => ({
         cursor: "ne-resize",
     },
 
+    "& .component-resizer-full-width": {
+        display: readOnly ? "none" : "block",
+        position: "absolute",
+        width: "20px",
+        height: "20px",
+        bottom: "calc(48% - 6px)",
+        right: "-30px",
+        cursor: "pointer",
+        color: "rgb(60, 132, 244)",
+    }, 
+
+    "& .component-resizer-auto-height": {
+        display: readOnly ? "none" : "block",
+        position: "absolute",
+        width: "20px",
+        height: "20px",
+        left: "calc(48% - 6px)",
+        bottom: "-20px",
+        cursor: "pointer",
+        color: "rgb(60, 132, 244)",
+    },
+
     "& .component-resizer.component-resizer-e": {
         bottom: "48%",
         right: "-6px",
@@ -53,19 +80,19 @@ export const ImageStyles = (readOnly?: boolean) => ({
     },
 
     "& .component-resizer.component-resizer-se": {
-        bottom: "-2px",
+        bottom: "0px",
         right: "-6px",
         cursor: "nwse-resize",
     },
 
     "& .component-resizer.component-resizer-s": {
-        bottom: "-2px",
+        bottom: "0px",
         left: "48%",
         cursor: "s-resize",
     },
 
     "& .component-resizer.component-resizer-sw": {
-        bottom: "-2px",
+        bottom: "0px",
         left: "-6px",
         cursor: "sw-resize",
     },

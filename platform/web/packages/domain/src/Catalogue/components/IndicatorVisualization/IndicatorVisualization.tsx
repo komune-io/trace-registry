@@ -6,7 +6,7 @@ import {formatNumber, Link} from '@komune-io/g2'
 import {TFunction} from 'i18next'
 import {useTranslation} from 'react-i18next'
 import {Link as RouterLink, LinkProps} from 'react-router-dom'
-import {extractCatalogueIdentifierNumber, useCatalogueListAllowedTypesQuery, useCatalogueRefGetQuery} from '../../api'
+import {extractCatalogueIdentifierNumber, useCatalogueGetBlueprintsQuery, useCatalogueRefGetQuery} from '../../api'
 
 export interface IndicatorVisualizationProps {
     title?: string
@@ -19,12 +19,11 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const { t, i18n } = useTranslation()
     const { cataloguesAll } = useRoutesDefinition()
 
-    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "ALL"
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item
 
     const markdown = useMemo(() => indicatorsToMarkdownString(indicators, t, i18n.language), [indicators])
 
@@ -41,7 +40,7 @@ export const IndicatorVisualization = (props: IndicatorVisualizationProps) => {
     const relatedTitle = useMemo(() => {
         if (!ref) return undefined
         const identifier = extractCatalogueIdentifierNumber(ref.identifier)
-        return `${allowedSearchTypes?.find((type) => type.identifier === ref.type)?.name ?? ""} ${identifier ? identifier : ""} - ${ref.title}`
+        return `${allowedSearchTypes?.types[ref.type]?.name ?? ""} ${identifier ? identifier : ""} - ${ref.title}`
     }, [ref, allowedSearchTypes])
 
     return (

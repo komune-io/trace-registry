@@ -3,7 +3,7 @@ import { Dialog, Stack } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
   CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery,
-  useCatalogueListAllowedTypesQuery,
+  useCatalogueGetBlueprintsQuery,
   useCatalogueSearchQuery
 } from 'domain-components'
 import { useCallback, useEffect, useState, useMemo } from 'react'
@@ -18,6 +18,12 @@ export const CatalogueSearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
   const navigate = useNavigate()
+
+  const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
+    query: {
+      language: i18n.language
+    }
+  }).data?.item
 
   const onClose = useCallback(
     () => {
@@ -46,6 +52,7 @@ export const CatalogueSearchPage = () => {
 
   const { data, isFetching } = useCatalogueSearchQuery({
     query: {
+      type: allowedSearchTypes?.globalSearchTypes,
       ...validatedState,
       language: i18n.language,
     },
@@ -60,15 +67,11 @@ export const CatalogueSearchPage = () => {
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
   const facets = useMemo(() => data?.facets, [data?.facets])
 
-  const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
-    query: {
-      language: i18n.language,
-      operation: "SEARCH"
-    }
-  }).data?.items
+
 
   const typeFacet = useMemo(() => {
-    return allowedSearchTypes?.map((type) => {
+    if (!allowedSearchTypes) return []
+    return Object.values(allowedSearchTypes.types).filter((type) => type.includeInGlobalSearch).map((type) => {
       const facetValue = facets?.find(f => f.key === "type")?.values.find(v => v.key === type.identifier)
       const Icon = IconPack[type.identifier]
       return {

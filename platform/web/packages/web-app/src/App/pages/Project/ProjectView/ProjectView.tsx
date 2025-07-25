@@ -13,7 +13,6 @@ import React, { useCallback, useMemo } from 'react'
 import { useExtendedAuth, useRoutesDefinition, useConfirmationPopUp, SectionTab, Tab  } from 'components'
 import { AppPage} from 'template'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
-import { useProjectListFilesQuery } from "domain-components";
 
 export interface ProjectViewProps {
 }
@@ -26,7 +25,6 @@ export const ProjectView = (_: ProjectViewProps) => {
     const { t } = useTranslation()
     const currentTab = useMemo(() => tab ?? "info", [tab])
     const projectQuery = useProjectGetQuery({ query: { id: projectId! } })
-    const fileListQuery = useProjectListFilesQuery({ query: { id: projectId! } })
     const project = projectQuery.data?.item
     if (project) {
         //@ts-ignore
@@ -64,10 +62,10 @@ export const ProjectView = (_: ProjectViewProps) => {
         hasDocument && tabs.push({
             key: 'documents',
             label: t('documents'),
-            component: (<DocumentsPage isLoading={fileListQuery.isLoading} files={fileListQuery.data?.items} />)
+            component: (<DocumentsPage />)
         })
         return tabs
-    }, [project, projectQuery.isLoading, fileListQuery.data?.items, t])
+    }, [project, projectQuery.isLoading, t])
 
     return (
         <AppPage

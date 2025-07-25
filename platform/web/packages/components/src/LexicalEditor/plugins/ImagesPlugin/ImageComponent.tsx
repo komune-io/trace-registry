@@ -51,11 +51,11 @@ export const ImageComponent = ({
     unCached
 }: {
     altText: string;
-    height: 'inherit' | number;
+    height: string | number;
     nodeKey: NodeKey;
     resizable: boolean;
     src: string;
-    width: 'inherit' | number;
+    width: string | number;
     unCached?: boolean
 }): JSX.Element => {
     const imageRef = useRef<null | HTMLImageElement>(null);
@@ -252,8 +252,8 @@ export const ImageComponent = ({
     ]);
 
     const onResizeEnd = (
-        nextWidth: 'inherit' | number,
-        nextHeight: 'inherit' | number,
+        nextWidth?: string | number,
+        nextHeight?: string | number,
     ) => {
         // Delay hiding the resize bars for click case
         setTimeout(() => {
@@ -302,6 +302,9 @@ export const ImageComponent = ({
                     componentRef={imageRef}
                     onResizeStart={onResizeStart}
                     onResizeEnd={onResizeEnd}
+                    width={width}
+                    height={height}
+                    isImage
                 />
             )}
         </>

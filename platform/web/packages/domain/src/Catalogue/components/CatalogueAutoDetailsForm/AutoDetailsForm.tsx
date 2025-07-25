@@ -1,6 +1,5 @@
-import { AutoFormData, formatNumber, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from "@komune-io/g2"
+import { AutoFormData, FormComposable, FormComposableField, getIn, setIn, useAutoFormState } from "@komune-io/g2"
 import { Catalogue } from "../../model"
-import { useTranslation } from "react-i18next"
 import { useMemo } from "react"
 import { TitleDivider } from "components"
 import { Stack } from "@mui/material"
@@ -15,8 +14,6 @@ interface AutoDetailsFormProps {
 export const AutoDetailsForm = (props: AutoDetailsFormProps) => {
     const { fields, title, formData, catalogue } = props
 
-    const { i18n } = useTranslation()
-
     const initialValues = useMemo(() => {
         let values = {}
         fields.map((field) => {
@@ -26,7 +23,7 @@ export const AutoDetailsForm = (props: AutoDetailsFormProps) => {
                 if (Array.isArray(value) && !!value[0] && !!value[0].id) {
                     values = setIn(values, name, value.map((ref) => ref.id))
                 } else if (!isNaN(Number(value)) && Number(value) > 0) {
-                    values = setIn(values, name, formatNumber(Number(value), i18n.language))
+                    values = setIn(values, name, value)
                 } else {
                     values = setIn(values, name, value.id ?? value)
                 }
@@ -74,6 +71,11 @@ export const AutoDetailsForm = (props: AutoDetailsFormProps) => {
         <FormComposable
             fields={fieldsWithUrl}
             formState={formstate}
+            sx={{
+                "& .AruiForm-field *": {
+                    "lineBreak": "anywhere"
+                }
+            }}
         />
     </Stack>
 }

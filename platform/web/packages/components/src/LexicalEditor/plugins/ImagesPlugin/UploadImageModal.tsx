@@ -10,6 +10,7 @@ import { SectionTab, Tab } from "../../../SectionTab";
 import { Stack } from "@mui/material";
 import { CustomButton } from "../../../CustomButton";
 import { ResourceGallery, GraphGallery } from "../../../dataset";
+import { FormikHelpers } from "formik";
 
 export interface UploadImageModalProps {
     open: boolean
@@ -31,7 +32,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         editor.dispatchCommand(INSERT_IMAGE_COMMAND, { altText: "graph", src: src, unCached: true });
     }, [onClose, editor])
 
-    const onSubmit = useCallback(async (values: any) => {
+    const onSubmit = useCallback(async (values: any, formikHelpers: FormikHelpers<any>) => {
         const file: File = values.image
         const res = await uploadImage.mutateAsync({
             command: {
@@ -46,6 +47,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
             const imgSrc = g2Config().platform.url + `/data/datasetDownloadDistribution/${res.id}/${res.distributionId}`
             editor.dispatchCommand(INSERT_IMAGE_COMMAND, { altText: file.name, src: imgSrc });
             onClose();
+            formikHelpers.resetForm()
         }
     }, [onClose, uploadImage.mutateAsync, draftId, editor])
 
@@ -58,7 +60,7 @@ export const UploadImageModal = (props: UploadImageModalProps) => {
         type: "documentHandler",
         label: t("editor.uploadImage"),
         params: {
-            fileTypesAllowed: ["jpeg", "png", "svg", "webp"],
+            fileTypesAllowed: ["jpeg", "png", "svg", "webp", "gif"],
         }
     }]), [t])
 

@@ -97,7 +97,7 @@ export const DraftPage = (props: DraftPageProps) => {
     return <AppPage
       title={title}
       basicHeader={false}
-      maxWidth={1020}
+      maxWidth={1080}
     >
       <CircularProgress 
         size={40}
@@ -112,7 +112,7 @@ export const DraftPage = (props: DraftPageProps) => {
     <AppPage
       title={title}
       basicHeader={false}
-      maxWidth={1020}
+      maxWidth={1080}
       customHeader={canValidate ? <CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} isUpdating={isUpdating} /> : undefined}
     >
       {canUdateDraft && !canValidate && <CatalogueEditionHeader

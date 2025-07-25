@@ -5,7 +5,7 @@ import {useCallback, useMemo, useState} from 'react'
 import {DraftReplacementModal} from '../DraftReplacementModal'
 import {Catalogue} from '../../model'
 import {useTranslation} from 'react-i18next'
-import {useCatalogueDraftCreateCommand, useCatalogueDraftDeleteCommand, useCatalogueListAllowedTypesQuery} from '../../api'
+import {useCatalogueDraftCreateCommand, useCatalogueDraftDeleteCommand, useCatalogueGetBlueprintsQuery} from '../../api'
 import {useQueryClient} from '@tanstack/react-query'
 import {useNavigate} from 'react-router-dom'
 
@@ -23,12 +23,11 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
     const [openDraftReplacement, _, toggleDraftReplacement] = useToggleState()
     const [draftLoading, setDraftLoading] = useState(false)
 
-    const allowedCreationTypes = useCatalogueListAllowedTypesQuery({
+    const allowedTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "UPDATE"
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item
 
     const currentLanguageDraft = useMemo(() => catalogue?.pendingDrafts?.find((draft) => draft.language === i18n.language), [catalogue, i18n.language])
 
@@ -71,8 +70,8 @@ export const CreateDraftButton = (props: CreateDraftButtonProps) => {
     )
 
     const iscatalogueTypeAllowed = useMemo(() => {
-        return allowedCreationTypes?.some((type) => type.identifier === catalogue?.type) ?? false
-    }, [allowedCreationTypes, catalogue])
+        return allowedTypes?.updatableTypes.some((type) => type === catalogue?.type) ?? false
+    }, [allowedTypes, catalogue])
 
     if ((!currentLanguageDraft && !canCreate) || !iscatalogueTypeAllowed) return <></>
     return (

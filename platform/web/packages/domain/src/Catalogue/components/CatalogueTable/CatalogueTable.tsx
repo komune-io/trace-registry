@@ -6,17 +6,16 @@ import { useCallback, useMemo } from "react"
 import { languageToEmojiFlag, useRoutesDefinition } from 'components'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template"
 import { useTranslation } from 'react-i18next'
-import { extractCatalogueIdentifier, useCatalogueListAllowedTypesQuery } from '../../api'
+import { extractCatalogueIdentifier, useCatalogueGetBlueprintsQuery } from '../../api'
 
 function useCatalogueColumn(isRef: boolean) {
     const { t, i18n } = useTranslation();
 
-    const allowedSearchTypes = useCatalogueListAllowedTypesQuery({
+    const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
         query: {
-            language: i18n.language,
-            operation: "ALL"
+            language: i18n.language
         }
-    }).data?.items
+    }).data?.item
 
     return useMemo(() => ColumnFactory<Catalogue | CatalogueRef>({
         generateColumns: (generators) => ({
@@ -43,7 +42,7 @@ function useCatalogueColumn(isRef: boolean) {
             type: generators.text({
                 header: t("type"),
                 getCellProps: (catalogue) => ({
-                    value: allowedSearchTypes?.find((type) => type.identifier === catalogue.type)?.name,
+                    value: allowedSearchTypes?.types[catalogue.type]?.name,
                 })
             }),
             language: {
