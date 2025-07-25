@@ -1,0 +1,74 @@
+[
+    {
+        "name": "basic greater than or equal comparison",
+        "expression": { ">=": [10, 5] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with equal values",
+        "expression": { ">=": [5, 5] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with multiple values (all true)",
+        "expression": { ">=": [4, 3, 3, 2, 1] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with multiple values (one false)",
+        "expression": { ">=": [4, 2, 3, 1] },
+        "expected": false
+    },
+    {
+        "name": "greater than or equal comparison with negative numbers",
+        "expression": { ">=": [-5, -5, -10] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with decimal numbers",
+        "expression": { ">=": [1.6, 1.5, 1.5] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with mixed numbers",
+        "expression": { ">=": [5.5, 0, 0, -5] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with variables",
+        "expression": {
+            ">=": [
+                { "var": "a" },
+                { "var": "b" },
+                { "var": "c" }
+            ]
+        },
+        "data": { "a": 7, "b": 7, "c": 3 },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with string numbers",
+        "expression": { ">=": ["10", "10", "5"] },
+        "expected": true
+    },
+    {
+        "name": "greater than or equal comparison with empty parameters",
+        "expression": { ">=": [] },
+        "errorJsonPath": "$.>=[0]"
+    },
+    {
+        "name": "greater than or equal comparison without parameters",
+        "expression": { ">=": null },
+        "errorJsonPath": "$.>=[0]"
+    },
+    {
+        "name": "greater than or equal comparison with one null parameter",
+        "expression": { ">=": [1, null] },
+        "errorJsonPath": "$.>=[1]"
+    },
+    {
+        "name": "greater than or equal comparison with non-numeric string",
+        "expression": { ">=": [1, "abc"] },
+        "errorJsonPath": "$.>=[1]"
+    }
+]

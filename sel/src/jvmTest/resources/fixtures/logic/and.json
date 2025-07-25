@@ -1,0 +1,90 @@
+[
+    {
+        "name": "and with all true values",
+        "expression": { "and": [true, true, true] },
+        "expected": true
+    },
+    {
+        "name": "and with one false value",
+        "expression": { "and": [true, false, true] },
+        "expected": false
+    },
+    {
+        "name": "and with all false values",
+        "expression": { "and": [false, false, false] },
+        "expected": false
+    },
+    {
+        "name": "and with single true value",
+        "expression": { "and": [true] },
+        "expected": true
+    },
+    {
+        "name": "and with single false value",
+        "expression": { "and": [false] },
+        "expected": false
+    },
+    {
+        "name": "and with truthy non-boolean values",
+        "expression": { "and": [1, "hello", [1, 2, 3]] },
+        "expected": true
+    },
+    {
+        "name": "and with mixed truthy and falsy values",
+        "expression": { "and": [1, false, "hello"] },
+        "expected": false
+    },
+    {
+        "name": "and with null value",
+        "expression": { "and": [true, null, true] },
+        "expected": false
+    },
+    {
+        "name": "and with zero value (which is truthy)",
+        "expression": { "and": [true, 0, true] },
+        "expected": true
+    },
+    {
+        "name": "and with variables",
+        "expression": {
+            "and": [
+                { "var": "a" },
+                { "var": "b" },
+                { "var": "c" }
+            ]
+        },
+        "data": { "a": true, "b": true, "c": true },
+        "expected": true
+    },
+    {
+        "name": "and with nested expressions",
+        "expression": {
+            "and": [
+                { ">": [5, 3] },
+                { "<": [10, 20] },
+                { "==": ["hello", "hello"] }
+            ]
+        },
+        "expected": true
+    },
+    {
+        "name": "and with null variable",
+        "expression": {
+            "and": [
+              { "var": "nonexistent" },
+              false
+            ]
+        },
+        "expected": false
+    },
+    {
+        "name": "and with empty parameters",
+        "expression": { "and": [] },
+        "errorJsonPath": "$.and"
+    },
+    {
+        "name": "and without parameters",
+        "expression": { "and": null },
+        "expected": false
+    }
+]

@@ -1,0 +1,185 @@
+[
+    {
+        "name": "complex arithmetic and comparison",
+        "expression": {
+            "and": [
+                { ">": [{ "+": [3, { "*": [4, 5] }] }, 15] },
+                { "<": [{ "/": [100, { "-": [25, 5] }] }, 10] }
+            ]
+        },
+        "expected": true
+    },
+    {
+        "name": "nested array operations",
+        "expression": {
+            "map": [
+                { "filter": [[1, 2, 3, 4, 5, 6], { "==": [{ "%": [{ "var": "item" }, 2] }, 0] }] },
+                { "*": [{ "var": "item" }, 3] }
+            ]
+        },
+        "expected": [6, 12, 18]
+    },
+    {
+        "name": "complex logical expression",
+        "expression": {
+            "or": [
+                { "and": [
+                    { ">": [{ "var": "temp" }, 25] },
+                    { "<": [{ "var": "humidity" }, 60] }
+                ]},
+                { "and": [
+                    { "<": [{ "var": "temp" }, 10] },
+                    { ">": [{ "var": "humidity" }, 80] }
+                ]}
+            ]
+        },
+        "data": {
+            "temp": 30,
+            "humidity": 50
+        },
+        "expected": true
+    },
+    {
+        "name": "complex array filtering with nested conditions",
+        "expression": {
+            "filter": [
+                { "var": "people" },
+                { "and": [
+                    { ">": [{ "var": "item.age" }, 18] },
+                    { "or": [
+                        { "==": [{ "var": "item.country" }, "USA"] },
+                        { "==": [{ "var": "item.country" }, "Canada"] }
+                    ]},
+                    { "any": [
+                        { "var": "item.skills" },
+                        { "==": [{ "var": "item" }, "programming"] }
+                    ]}
+                ]}
+            ]
+        },
+        "data": {
+            "people": [
+                { "name": "Alice", "age": 25, "country": "USA", "skills": ["design", "programming"] },
+                { "name": "Bob", "age": 17, "country": "USA", "skills": ["programming"] },
+                { "name": "Charlie", "age": 30, "country": "UK", "skills": ["programming"] },
+                { "name": "David", "age": 22, "country": "Canada", "skills": ["programming", "management"] },
+                { "name": "Eve", "age": 28, "country": "Canada", "skills": ["design"] }
+            ]
+        },
+        "expected": [
+            { "name": "Alice", "age": 25, "country": "USA", "skills": ["design", "programming"] },
+            { "name": "David", "age": 22, "country": "Canada", "skills": ["programming", "management"] }
+        ]
+    },
+    {
+        "name": "complex calculation with variables and defaults",
+        "expression": {
+            "+": [
+                { "*": [
+                    { "var": ["base_price", 100] },
+                    { "+": [1, { "/": [{ "var": ["tax_rate", 0] }, 100] }] }
+                ]},
+                { "var": ["shipping", 0] }
+            ]
+        },
+        "data": {
+            "base_price": 50,
+            "tax_rate": 8.5,
+            "shipping": 4.99
+        },
+        "expected": 59.24
+    },
+    {
+        "name": "complex array transformation",
+        "expression": {
+            "map": [
+                { "filter": [
+                    { "var": "transactions" },
+                    { ">": [{ "var": "item.amount" }, 100] }
+                ]},
+                {
+                    "concat": [
+                        "Transaction #",
+                        { "var": "item.id" },
+                        ": $",
+                        { "var": "item.amount" },
+                        " (",
+                        { "var": "item.date" },
+                        ")"
+                    ]
+                }
+            ]
+        },
+        "data": {
+            "transactions": [
+                { "id": "T001", "amount": 75.50, "date": "2023-01-15" },
+                { "id": "T002", "amount": 125.00, "date": "2023-01-20" },
+                { "id": "T003", "amount": 250.75, "date": "2023-01-25" },
+                { "id": "T004", "amount": 50.25, "date": "2023-01-30" }
+            ]
+        },
+        "expected": [
+            "Transaction #T002: $125 (2023-01-20)",
+            "Transaction #T003: $250.75 (2023-01-25)"
+        ]
+    },
+    {
+        "name": "array operations with iteration data",
+        "expression": {
+            "map": [
+                { "filter": [
+                    [10, 20, 30, 40, 50],
+                    { ">": [{ "var": "item" }, 20] }
+                ]},
+                { "concat": [
+                    "Value: ",
+                    { "var": "item" },
+                    " (original data: ",
+                    { "var": "data.prefix" },
+                    ")"
+                ]}
+            ]
+        },
+        "data": {
+            "prefix": "test-"
+        },
+        "expected": [
+            "Value: 30 (original data: test-)",
+            "Value: 40 (original data: test-)",
+            "Value: 50 (original data: test-)"
+        ]
+    },
+    {
+        "name": "nested array operations with parent reference",
+        "expression": {
+            "map": [
+                { "var": "" },
+                {
+                    "map": [
+                        { "var": "item.items" },
+                        {
+                            "concat": [
+                                { "var": "parent.item.name" },
+                                " item: ",
+                                { "var": "item" },
+                                " at index ",
+                                { "var": "index" },
+                                " (parent index: ",
+                                { "var": "parent.index" },
+                                ")"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "data": [
+            {"name": "Group A", "items": [1, 2, 3]},
+            {"name": "Group B", "items": [4, 5, 6]}
+        ],
+        "expected": [
+            ["Group A item: 1 at index 0 (parent index: 0)", "Group A item: 2 at index 1 (parent index: 0)", "Group A item: 3 at index 2 (parent index: 0)"],
+            ["Group B item: 4 at index 0 (parent index: 1)", "Group B item: 5 at index 1 (parent index: 1)", "Group B item: 6 at index 2 (parent index: 1)"]
+        ]
+    }
+]

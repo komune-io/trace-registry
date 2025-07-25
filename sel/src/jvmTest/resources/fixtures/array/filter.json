@@ -1,0 +1,76 @@
+[
+    {
+        "name": "filter with simple condition",
+        "expression": { "filter": [[1, 2, 3, 4, 5], { ">": [{ "var": "item" }, 3] }] },
+        "expected": [4, 5]
+    },
+    {
+        "name": "filter with all matching",
+        "expression": { "filter": [[1, 2, 3], { ">": [{ "var": "item" }, 0] }] },
+        "expected": [1, 2, 3]
+    },
+    {
+        "name": "filter with none matching",
+        "expression": { "filter": [[1, 2, 3], { ">": [{ "var": "item" }, 5] }] },
+        "expected": []
+    },
+    {
+        "name": "filter with empty array",
+        "expression": { "filter": [[], { ">": [{ "var": "item" }, 0] }] },
+        "expected": []
+    },
+    {
+        "name": "filter with variable array",
+        "expression": { "filter": [{ "var": "numbers" }, { "==": [{ "%": [{ "var": "item" }, 2] }, 0] }] },
+        "data": { "numbers": [1, 2, 3, 4, 5, 6] },
+        "expected": [2, 4, 6]
+    },
+    {
+        "name": "filter with complex objects",
+        "expression": { "filter": [{ "var": "people" }, { ">": [{ "var": "item.age" }, 30] }] },
+        "data": { 
+            "people": [
+                { "name": "Alice", "age": 25 },
+                { "name": "Bob", "age": 35 },
+                { "name": "Charlie", "age": 45 },
+                { "name": "David", "age": 28 }
+            ]
+        },
+        "expected": [
+            { "name": "Bob", "age": 35 },
+            { "name": "Charlie", "age": 45 }
+        ]
+    },
+    {
+        "name": "filter with too few arguments",
+        "expression": { "filter": [[1, 2, 3]] },
+        "errorJsonPath": "$.filter"
+    },
+    {
+        "name": "filter with too many arguments",
+        "expression": { "filter": [[1, 2, 3], { ">": [{ "var": "item" }, 0] }, "extra"] },
+        "errorJsonPath": "$.filter"
+    },
+    {
+        "name": "filter with non-array first argument",
+        "expression": { "filter": ["not an array", { ">": [{ "var": "item" }, 0] }] },
+        "errorJsonPath": "$.filter[0]"
+    },
+    {
+        "name": "filter with iteration data",
+        "expression": { "filter": [
+            ["apple", "banana", "cherry", "date", "elderberry"],
+            { "var": { "concat": ["data.include_item.", { "var": "item" }] } }
+        ]},
+        "data": {
+            "include_item": {
+                "apple": false,
+                "banana": true,
+                "cherry": false,
+                "date": false,
+                "elderberry": true
+            }
+        },
+        "expected": ["banana", "elderberry"]
+    }
+]

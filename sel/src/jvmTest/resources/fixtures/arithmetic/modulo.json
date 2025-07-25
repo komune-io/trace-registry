@@ -1,0 +1,78 @@
+[
+    {
+        "name": "basic modulo",
+        "expression": { "%": [10, 3] },
+        "expected": 1
+    },
+    {
+        "name": "modulo with negative number",
+        "expression": { "%": [10, -3] },
+        "expected": 1
+    },
+    {
+        "name": "modulo of multiple numbers",
+        "expression": { "%": [10, 2, 3, 4] },
+        "errorJsonPath": "$.%[2]"
+    },
+    {
+        "name": "modulo with decimal numbers",
+        "expression": { "%": [10, 3.5] },
+        "expected": 3
+    },
+    {
+        "name": "modulo of one number",
+        "expression": { "%": [7] },
+        "errorJsonPath": "$.%[0]"
+    },
+    {
+        "name": "modulo of nested arrays",
+        "expression": { "%": [10, [3]] },
+        "expected": 1
+    },
+    {
+        "name": "modulo with string number",
+        "expression": { "%": ["10", 3] },
+        "expected": 1
+    },
+    {
+        "name": "modulo with simple variables",
+        "expression": {
+            "%": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 10, "b": 3 },
+        "expected": 1
+    },
+    {
+        "name": "modulo with array variable",
+        "expression": {
+            "%": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [10, 3] },
+        "expected": 1
+    },
+    {
+        "name": "modulo with empty parameters",
+        "expression": { "%": [] },
+        "errorJsonPath": "$.%[0]"
+    },
+    {
+        "name": "modulo without parameters",
+        "expression": { "%": null },
+        "errorJsonPath": "$.%[0]"
+    },
+    {
+        "name": "modulo with one null parameter",
+        "expression": { "%": [1, null] },
+        "errorJsonPath": "$.%[1]"
+    },
+    {
+        "name": "modulo with malformed string parameter",
+        "expression": { "%": [1, "blblbl"] },
+        "errorJsonPath": "$.%[1]"
+    }
+]

@@ -37,6 +37,7 @@ include(
 )
 
 include("platform:test")
+include("sel")
 
 ///////////////////////////////
 // Commons

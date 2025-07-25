@@ -1,0 +1,83 @@
+[
+    {
+        "name": "basic division",
+        "expression": { "/": [4, 2] },
+        "expected": 2
+    },
+    {
+        "name": "division with negative number",
+        "expression": { "/": [4, -2] },
+        "expected": -2
+    },
+    {
+        "name": "division of multiple numbers",
+        "expression": { "/": [10, 2, 3, 4] },
+        "errorJsonPath": "$./[2]"
+    },
+    {
+        "name": "division with decimal numbers",
+        "expression": { "/": [3, 1.2] },
+        "expected": 2.5
+    },
+    {
+        "name": "division of one number",
+        "expression": { "/": [7] },
+        "errorJsonPath": "$./[0]"
+    },
+    {
+        "name": "division of large numbers",
+        "expression": { "/": [2200000000, 2] },
+        "expected": 1100000000
+    },
+    {
+        "name": "division of nested arrays",
+        "expression": { "/": [10, [4]] },
+        "expected": 2.5
+    },
+    {
+        "name": "division with string number",
+        "expression": { "/": ["3", 2] },
+        "expected": 1.5
+    },
+    {
+        "name": "division with simple variables",
+        "expression": {
+            "/": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 4, "b": 2 },
+        "expected": 2
+    },
+    {
+        "name": "division with array variable",
+        "expression": {
+            "/": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [4, 2] },
+        "expected": 2
+    },
+    {
+        "name": "division with empty parameters",
+        "expression": { "/": [] },
+        "errorJsonPath": "$./[0]"
+    },
+    {
+        "name": "division without parameters",
+        "expression": { "/": null },
+        "errorJsonPath": "$./[0]"
+    },
+    {
+        "name": "division with one null parameter",
+        "expression": { "/": [1, null] },
+        "errorJsonPath": "$./[1]"
+    },
+    {
+        "name": "division with malformed string parameter",
+        "expression": { "/": [1, "blblbl"] },
+        "errorJsonPath": "$./[1]"
+    }
+]

@@ -1,0 +1,78 @@
+[
+    {
+        "name": "basic power",
+        "expression": { "pow": [4, 2] },
+        "expected": 16
+    },
+    {
+        "name": "power with negative number",
+        "expression": { "pow": [4, -2] },
+        "expected": 0.0625
+    },
+    {
+        "name": "power of multiple numbers",
+        "expression": { "pow": [10, 2, 3, 4] },
+        "errorJsonPath": "$.pow[2]"
+    },
+    {
+        "name": "power of one number",
+        "expression": { "pow": [7] },
+        "errorJsonPath": "$.pow[0]"
+    },
+    {
+        "name": "power of large numbers",
+        "expression": { "pow": [2200000000, 2] },
+        "expected": 4840000000000000000
+    },
+    {
+        "name": "power of nested arrays",
+        "expression": { "pow": [10, [4]] },
+        "expected": 10000
+    },
+    {
+        "name": "power with string number",
+        "expression": { "pow": ["3", 2] },
+        "expected": 9
+    },
+    {
+        "name": "power with simple variables",
+        "expression": {
+            "pow": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 4, "b": 2 },
+        "expected": 16
+    },
+    {
+        "name": "power with array variable",
+        "expression": {
+            "pow": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [4, 2] },
+        "expected": 16
+    },
+    {
+        "name": "power with empty parameters",
+        "expression": { "pow": [] },
+        "errorJsonPath": "$.pow[0]"
+    },
+    {
+        "name": "power without parameters",
+        "expression": { "pow": null },
+        "errorJsonPath": "$.pow[0]"
+    },
+    {
+        "name": "power with one null parameter",
+        "expression": { "pow": [1, null] },
+        "errorJsonPath": "$.pow[1]"
+    },
+    {
+        "name": "power with malformed string parameter",
+        "expression": { "pow": [1, "blblbl"] },
+        "errorJsonPath": "$.pow[1]"
+    }
+]

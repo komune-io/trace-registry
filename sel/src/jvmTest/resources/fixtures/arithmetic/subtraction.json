@@ -1,0 +1,88 @@
+[
+    {
+        "name": "basic subtraction",
+        "expression": { "-": [1, 2] },
+        "expected": -1
+    },
+    {
+        "name": "subtraction with negative number",
+        "expression": { "-": [5, -3] },
+        "expected": 8
+    },
+    {
+        "name": "subtraction of multiple numbers",
+        "expression": { "-": [10, 2, 3, 4] },
+        "expected": 1
+    },
+    {
+        "name": "subtraction with decimal numbers",
+        "expression": { "-": [2.6, 1.5] },
+        "expected": 1.1
+    },
+    {
+        "name": "subtraction of one number",
+        "expression": { "-": [7] },
+        "expected": -7
+    },
+    {
+        "name": "subtraction of mixed numbers",
+        "expression": { "-": [10, -5, 2.5] },
+        "expected": 12.5
+    },
+    {
+        "name": "subtraction of large numbers",
+        "expression": { "-": [2200000000, 2000000] },
+        "expected": 2198000000
+    },
+    {
+        "name": "subtraction of nested arrays",
+        "expression": { "-": [10, [2, [3, [4]]]] },
+        "expected": 1
+    },
+    {
+        "name": "subtraction with string number",
+        "expression": { "-": ["3", 1] },
+        "expected": 2
+    },
+    {
+        "name": "subtraction with simple variables",
+        "expression": {
+            "-": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 3, "b": 1 },
+        "expected": 2
+    },
+    {
+        "name": "subtraction with array variable",
+        "expression": {
+            "-": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [3, 1] },
+        "expected": 2
+    },
+    {
+        "name": "subtraction with empty parameters",
+        "expression": { "-": [] },
+        "errorJsonPath": "$.-[0]"
+    },
+    {
+        "name": "subtraction without parameters",
+        "expression": { "-": null },
+        "errorJsonPath": "$.-[0]"
+    },
+    {
+        "name": "subtraction with one null parameter",
+        "expression": { "-": [1, null] },
+        "errorJsonPath": "$.-[1]"
+    },
+    {
+        "name": "subtraction with malformed string parameter",
+        "expression": { "-": [1, "blblbl"] },
+        "errorJsonPath": "$.-[1]"
+    }
+]

@@ -1,0 +1,73 @@
+[
+    {
+        "name": "basic less than comparison",
+        "expression": { "<": [5, 10] },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with equal values",
+        "expression": { "<": [5, 5] },
+        "expected": false
+    },
+    {
+        "name": "less than comparison with multiple values (all true)",
+        "expression": { "<": [1, 2, 3, 4] },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with multiple values (one false)",
+        "expression": { "<": [1, 3, 2, 4] },
+        "expected": false
+    },
+    {
+        "name": "less than comparison with negative numbers",
+        "expression": { "<": [-10, -5] },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with decimal numbers",
+        "expression": { "<": [1.5, 1.6] },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with mixed numbers",
+        "expression": { "<": [-5, 0, 5.5] },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with variables",
+        "expression": {
+            "<": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 3, "b": 7 },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with string numbers",
+        "expression": { "<": ["5", "10"] },
+        "expected": true
+    },
+    {
+        "name": "less than comparison with empty parameters",
+        "expression": { "<": [] },
+        "errorJsonPath": "$.<[0]"
+    },
+    {
+        "name": "less than comparison without parameters",
+        "expression": { "<": null },
+        "errorJsonPath": "$.<[0]"
+    },
+    {
+        "name": "less than comparison with one null parameter",
+        "expression": { "<": [1, null] },
+        "errorJsonPath": "$.<[1]"
+    },
+    {
+        "name": "less than comparison with non-numeric string",
+        "expression": { "<": [1, "abc"] },
+        "errorJsonPath": "$.<[1]"
+    }
+]

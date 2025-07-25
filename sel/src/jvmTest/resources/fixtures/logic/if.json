@@ -1,0 +1,115 @@
+[
+    {
+        "name": "basic if-then-else",
+        "expression": { "if": [true, "then", "else"] },
+        "expected": "then"
+    },
+    {
+        "name": "basic if-then-else with false condition",
+        "expression": { "if": [false, "then", "else"] },
+        "expected": "else"
+    },
+    {
+        "name": "if with variable condition",
+        "expression": { "if": [{ "var": "condition" }, "then", "else"] },
+        "data": { "condition": true },
+        "expected": "then"
+    },
+    {
+        "name": "if with complex condition",
+        "expression": { "if": [{ ">": [{ "var": "age" }, 18] }, "adult", "minor"] },
+        "data": { "age": 25 },
+        "expected": "adult"
+    },
+    {
+        "name": "if with complex result expressions",
+        "expression": { 
+            "if": [
+                { ">": [{ "var": "age" }, 18] }, 
+                { "concat": ["Adult: ", { "var": "name" }] }, 
+                { "concat": ["Minor: ", { "var": "name" }] }
+            ]
+        },
+        "data": { "age": 15, "name": "John" },
+        "expected": "Minor: John"
+    },
+    {
+        "name": "if with multiple conditions (if-elseif-else)",
+        "expression": { 
+            "if": [
+                { "<": [{ "var": "age" }, 13] }, "child",
+                { "<": [{ "var": "age" }, 20] }, "teenager",
+                "adult"
+            ]
+        },
+        "data": { "age": 15 },
+        "expected": "teenager"
+    },
+    {
+        "name": "if with multiple conditions (all false)",
+        "expression": { 
+            "if": [
+                { "<": [{ "var": "age" }, 13] }, "child",
+                { "<": [{ "var": "age" }, 20] }, "teenager",
+                "adult"
+            ]
+        },
+        "data": { "age": 25 },
+        "expected": "adult"
+    },
+    {
+        "name": "if with nested if expressions",
+        "expression": { 
+            "if": [
+                { ">": [{ "var": "age" }, 18] },
+                { "if": [
+                    { ">": [{ "var": "income" }, 50000] },
+                    "adult with high income",
+                    "adult with low income"
+                ]},
+                "minor"
+            ]
+        },
+        "data": { "age": 30, "income": 40000 },
+        "expected": "adult with low income"
+    },
+    {
+        "name": "if with array result",
+        "expression": { 
+            "if": [
+                { ">": [{ "var": "age" }, 18] },
+                ["can", "vote", "drive"],
+                ["cannot", "vote"]
+            ]
+        },
+        "data": { "age": 16 },
+        "expected": ["cannot", "vote"]
+    },
+    {
+        "name": "if with numeric results",
+        "expression": { 
+            "if": [
+                { "var": "premium" },
+                { "*": [{ "var": "price" }, 0.8] },
+                { "var": "price" }
+            ]
+        },
+        "data": { "premium": true, "price": 100 },
+        "expected": 80
+    },
+    {
+        "name": "if with too few arguments",
+        "expression": { "if": [true, "then"] },
+        "errorJsonPath": "$.if[2]"
+    },
+    {
+        "name": "if with even number of arguments",
+        "expression": { "if": [true, "then", false, "else2"] },
+        "errorJsonPath": "$.if[4]"
+    },
+    {
+        "name": "if with null condition",
+        "expression": { "if": [null, "then", "else"] },
+        "expected": "else"
+    }
+]

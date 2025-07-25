@@ -1,0 +1,75 @@
+[
+    {
+        "name": "map with simple transformation",
+        "expression": { "map": [[1, 2, 3], { "*": [{ "var": "item" }, 2] }] },
+        "expected": [2, 4, 6]
+    },
+    {
+        "name": "map with complex transformation",
+        "expression": { "map": [[1, 2, 3], { "+": [{ "var": "item" }, { "*": [{ "var": "item" }, 2] }] }] },
+        "expected": [3, 6, 9]
+    },
+    {
+        "name": "map with empty array",
+        "expression": { "map": [[], { "*": [{ "var": "item" }, 2] }] },
+        "expected": []
+    },
+    {
+        "name": "map with variable array",
+        "expression": { "map": [{ "var": "numbers" }, { "*": [{ "var": "item" }, 3] }] },
+        "data": { "numbers": [1, 2, 3] },
+        "expected": [3, 6, 9]
+    },
+    {
+        "name": "map with string transformation",
+        "expression": { "map": [["a", "b", "c"], { "concat": [{ "var": "item" }, "x"] }] },
+        "expected": ["ax", "bx", "cx"]
+    },
+    {
+        "name": "map with complex objects",
+        "expression": { "map": [{ "var": "people" }, { "var": "item.name" }] },
+        "data": { 
+            "people": [
+                { "name": "Alice", "age": 25 },
+                { "name": "Bob", "age": 35 },
+                { "name": "Charlie", "age": 45 }
+            ]
+        },
+        "expected": ["Alice", "Bob", "Charlie"]
+    },
+    {
+        "name": "map with too few arguments",
+        "expression": { "map": [[1, 2, 3]] },
+        "errorJsonPath": "$.map"
+    },
+    {
+        "name": "map with too many arguments",
+        "expression": { "map": [[1, 2, 3], { "*": [{ "var": "item" }, 2] }, "extra"] },
+        "errorJsonPath": "$.map"
+    },
+    {
+        "name": "map with non-array first argument",
+        "expression": { "map": ["not an array", { "*": [{ "var": "item" }, 2] }] },
+        "errorJsonPath": "$.map[0]"
+    },
+    {
+        "name": "map with iteration data",
+        "expression": { "map": [
+            ["a", "b", "c"],
+            { "concat": [
+                "Item: ",
+                { "var": "item" },
+                ", Index: ",
+                { "var": "index" },
+                ", Original data: ",
+                { "var": "data.prefix" }
+            ]}
+        ]},
+        "data": { "prefix": "test-" },
+        "expected": [
+            "Item: a, Index: 0, Original data: test-",
+            "Item: b, Index: 1, Original data: test-",
+            "Item: c, Index: 2, Original data: test-"
+        ]
+    }
+]

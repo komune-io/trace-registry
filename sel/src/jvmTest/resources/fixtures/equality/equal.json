@@ -1,0 +1,112 @@
+[
+    {
+        "name": "equal numbers",
+        "expression": { "==": [5, 5] },
+        "expected": true
+    },
+    {
+        "name": "unequal numbers",
+        "expression": { "==": [5, 10] },
+        "expected": false
+    },
+    {
+        "name": "equal strings",
+        "expression": { "==": ["hello", "hello"] },
+        "expected": true
+    },
+    {
+        "name": "unequal strings",
+        "expression": { "==": ["hello", "world"] },
+        "expected": false
+    },
+    {
+        "name": "equal booleans",
+        "expression": { "==": [true, true] },
+        "expected": true
+    },
+    {
+        "name": "unequal booleans",
+        "expression": { "==": [true, false] },
+        "expected": false
+    },
+    {
+        "name": "equal null values",
+        "expression": { "==": [null, null] },
+        "expected": true
+    },
+    {
+        "name": "null and non-null",
+        "expression": { "==": [null, "value"] },
+        "expected": false
+    },
+    {
+        "name": "different types (number and string)",
+        "expression": { "==": [5, "5"] },
+        "expected": false
+    },
+    {
+        "name": "equal variables",
+        "expression": {
+            "==": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 10, "b": 10 },
+        "expected": true
+    },
+    {
+        "name": "unequal variables",
+        "expression": {
+            "==": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 10, "b": 20 },
+        "expected": false
+    },
+    {
+        "name": "equal complex objects",
+        "expression": {
+            "==": [
+                { "var": "obj1" },
+                { "var": "obj2" }
+            ]
+        },
+        "data": {
+            "obj1": { "name": "John", "age": 30 },
+            "obj2": { "name": "John", "age": 30 }
+        },
+        "expected": true
+    },
+    {
+        "name": "unequal complex objects",
+        "expression": {
+            "==": [
+                { "var": "obj1" },
+                { "var": "obj2" }
+            ]
+        },
+        "data": {
+            "obj1": { "name": "John", "age": 30 },
+            "obj2": { "name": "Jane", "age": 25 }
+        },
+        "expected": false
+    },
+    {
+        "name": "equal with too few arguments",
+        "expression": { "==": [5] },
+        "errorJsonPath": "$.=="
+    },
+    {
+        "name": "equal with too many arguments",
+        "expression": { "==": [1, 2, 3] },
+        "errorJsonPath": "$.=="
+    },
+    {
+        "name": "equal without arguments",
+        "expression": { "==": null },
+        "errorJsonPath": "$.=="
+    }
+]

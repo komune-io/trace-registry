@@ -1,0 +1,73 @@
+[
+    {
+        "name": "basic average",
+        "expression": { "avg": [1, 2] },
+        "expected": 1.5
+    },
+    {
+        "name": "average of multiple numbers",
+        "expression": { "avg": [-2, 1, 2, 3, 4, 10.6] },
+        "expected": 3.1
+    },
+    {
+        "name": "average of one number",
+        "expression": { "avg": [7] },
+        "expected": 7
+    },
+    {
+        "name": "average of large numbers",
+        "expression": { "avg": [2200000000, 2000000] },
+        "expected": 1101000000
+    },
+    {
+        "name": "average of nested arrays",
+        "expression": { "avg": [1, [2, [3, [4]]]] },
+        "expected": 2.5
+    },
+    {
+        "name": "average with string number",
+        "expression": { "avg": ["1", 3] },
+        "expected": 2
+    },
+    {
+        "name": "average with simple variables",
+        "expression": {
+            "avg": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 1, "b": 3 },
+        "expected": 2
+    },
+    {
+        "name": "average with array variable",
+        "expression": {
+            "avg": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [1, 3] },
+        "expected": 2
+    },
+    {
+        "name": "average with empty parameters",
+        "expression": { "avg": [] },
+        "errorJsonPath": "$.avg[0]"
+    },
+    {
+        "name": "average without parameters",
+        "expression": { "avg": null },
+        "errorJsonPath": "$.avg[0]"
+    },
+    {
+        "name": "average with one null parameter",
+        "expression": { "avg": [1, null] },
+        "errorJsonPath": "$.avg[1]"
+    },
+    {
+        "name": "average with malformed string parameter",
+        "expression": { "avg": [1, "blblbl"] },
+        "errorJsonPath": "$.avg[1]"
+    }
+]
