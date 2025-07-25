@@ -1,18 +1,23 @@
 import { Stack } from '@mui/material'
 import 'reactflow/dist/style.css';
-import {Activity} from "../../../Activity";
+import { Activity } from "../../../Activity";
 import { ActivitiesSummary, ActivitiesGraph } from "../../../Activity";
 import { ReactFlowProvider } from 'reactflow';
 import { Project } from '../../model';
+import { Dataset, useDatasetDataQuery } from '../../../Dataset';
 
 export interface ActivitiesSectionProps {
   isLoading?: boolean
-  items: Activity[]
+  dataset?: Dataset
   project?: Project
 }
 
 export const ActivitiesSection = (props: ActivitiesSectionProps) => {
-  const { isLoading, items, project } = props
+  const { isLoading, dataset, project } = props
+
+  const fileListQuery = useDatasetDataQuery({ query: { id: dataset?.id! }, options: { enabled: !!dataset } })
+
+  const items = fileListQuery.data?.items as Activity[]
 
   return (
     <Stack
@@ -24,7 +29,7 @@ export const ActivitiesSection = (props: ActivitiesSectionProps) => {
     >
       <ReactFlowProvider>
         <ActivitiesGraph activities={items} />
-        <ActivitiesSummary project={project} isLoading={isLoading} activities={items} />
+        <ActivitiesSummary project={project} isLoading={isLoading || fileListQuery.isLoading} activities={items} />
       </ReactFlowProvider>
     </Stack>
   )
