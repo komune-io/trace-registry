@@ -1,6 +1,8 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.evaluator.SelExpressionKey
+import kotlin.js.JsExport
 
 object AggregateExpressions: List<AggregateExpression> by listOf(
     AggregateExpression("avg", Iterable<Double>::average, minArguments = 1),

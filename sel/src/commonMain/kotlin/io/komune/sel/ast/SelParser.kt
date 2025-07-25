@@ -1,3 +1,4 @@
+@file:JsExport
 package io.komune.sel.ast
 
 import kotlinx.serialization.json.Json
@@ -9,6 +10,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.longOrNull
+import kotlin.js.JsExport
 
 object SelParser {
     fun parse(json: String): SelNode {

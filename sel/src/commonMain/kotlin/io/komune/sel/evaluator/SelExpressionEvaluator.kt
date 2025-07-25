@@ -1,9 +1,11 @@
+@file:JsExport
 package io.komune.sel.evaluator
 
 import io.komune.sel.ast.SelArray
 import io.komune.sel.ast.SelNode
 import io.komune.sel.ast.SelOperation
 import io.komune.sel.ast.SelPrimitive
+import kotlin.js.JsExport
 
 class SelExpressionEvaluator {
     private val expressions: MutableMap<String, SelExpression> = SelExpressionNativeDirectory.toMutableMap()

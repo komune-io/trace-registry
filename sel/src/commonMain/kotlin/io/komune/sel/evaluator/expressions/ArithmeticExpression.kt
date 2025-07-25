@@ -1,6 +1,8 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.evaluator.SelExpressionKey
+import kotlin.js.JsExport
 import kotlin.math.log
 import kotlin.math.pow
 

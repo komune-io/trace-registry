@@ -26,8 +26,6 @@ class RgTestContext: TestContext() {
 
     val cccev = Cccev()
 
-    override fun resetEnv() {}
-
     inner class Cccev {
         // structure
         val conceptIds = testEntities<InformationConceptKey, InformationConceptId>("InformationConcept")

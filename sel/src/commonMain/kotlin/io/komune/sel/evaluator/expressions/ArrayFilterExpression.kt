@@ -1,8 +1,10 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.ast.SelNode
 import io.komune.sel.evaluator.SelExpressionEvaluator
 import io.komune.sel.isTruthy
+import kotlin.js.JsExport
 
 object ArrayFilterExpression: ArrayIterateExpression<Boolean, List<Any?>>() {
     override val key: String = "filter"

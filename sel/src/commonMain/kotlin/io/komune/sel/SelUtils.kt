@@ -1,3 +1,4 @@
+@file:JsExport
 package io.komune.sel
 
 import kotlinx.serialization.json.JsonArray
@@ -7,6 +8,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.doubleOrNull
+import kotlin.js.JsExport
 import kotlin.math.abs
 import kotlin.math.round
 
@@ -22,7 +24,7 @@ fun Any?.isTruthy(): Boolean = when (this) {
 
 fun Any?.normalize(): Any? = when (this) {
     null -> null
-    is JsonElement -> normalize()
+    is JsonElement -> normalizeJsonElement()
     is String -> toBooleanOrNull()
         ?: toLongOrNull()
         ?: toDoubleOrNull()?.normalizeNumber()
@@ -31,15 +33,15 @@ fun Any?.normalize(): Any? = when (this) {
     else -> this
 }
 
-fun JsonElement.normalize(): Any? = when (this) {
+fun JsonElement.normalizeJsonElement(): Any? = when (this) {
     is JsonNull -> null
     is JsonPrimitive -> content.normalize()
-    is JsonArray -> map { it.normalize() }
-    is JsonObject -> mapValues { it.value.normalize() }
+    is JsonArray -> map { it.normalizeJsonElement() }
+    is JsonObject -> mapValues { it.value.normalizeJsonElement() }
 }
 
 fun Any?.normalizeNumber(): Any? = when (this) {
-    is Double -> fixFloatingPrecision().let {
+    is Double -> fixDoubleFloatingPrecision().let {
         if (isFinite() && it == it.toLong().toDouble()) {
             it.toLong()
         } else {
@@ -56,7 +58,7 @@ fun Any?.normalizeNumber(): Any? = when (this) {
     else -> this
 }
 
-fun Double.fixFloatingPrecision(): Double {
+fun Double.fixDoubleFloatingPrecision(): Double {
     return if (this.isNaN() || this.isInfinite()) {
         this
     } else {

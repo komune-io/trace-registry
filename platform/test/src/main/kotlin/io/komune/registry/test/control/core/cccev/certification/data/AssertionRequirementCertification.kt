@@ -13,7 +13,8 @@ fun AssertionBdd.requirementCertification(repository: CertificationRepository) =
 
 class AssertionRequirementCertification(
     private val repository: CertificationRepository
-): AssertionApiEntity<RequirementCertification, RequirementCertificationId, AssertionRequirementCertification.RequirementCertificationAssert>() {
+): AssertionApiEntity<
+        RequirementCertification, RequirementCertificationId, AssertionRequirementCertification.RequirementCertificationAssert>() {
 
     override suspend fun findById(id: RequirementCertificationId) = repository.findRequirementCertificationById(id)
     override suspend fun assertThat(entity: RequirementCertification) = RequirementCertificationAssert(entity)

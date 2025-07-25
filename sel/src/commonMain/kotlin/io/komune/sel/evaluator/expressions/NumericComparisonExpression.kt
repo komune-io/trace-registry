@@ -1,6 +1,8 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.evaluator.SelExpressionKey
+import kotlin.js.JsExport
 
 object NumericComparisonExpressions : List<NumericComparisonExpression> by listOf(
     NumericComparisonExpression("<") { a, b -> a < b },

@@ -9,4 +9,5 @@ dependencies {
             jsMainApi(it)
         }
     }
+    jsMainApi(project(Modules.sel))
 }

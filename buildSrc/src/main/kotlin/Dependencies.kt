@@ -235,6 +235,7 @@ object Dependencies {
 
 object Modules {
 	const val commons = ":platform:commons"
+	const val sel = ":sel"
 
 	object api {
 		private const val BASE = ":platform:api:api"

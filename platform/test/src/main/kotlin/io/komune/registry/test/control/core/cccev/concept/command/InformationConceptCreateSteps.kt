@@ -88,7 +88,9 @@ class InformationConceptCreateSteps: En, RgCucumberStepsDefinition() {
         }
     }
 
-    private suspend fun createInformationConcept(params: InformationConceptCreateParams) = context.cccev.conceptIds.register(params.identifier) {
+    private suspend fun createInformationConcept(
+        params: InformationConceptCreateParams
+    ) = context.cccev.conceptIds.register(params.identifier) {
         command = InformationConceptCreateCommand(
             identifier = params.identifier,
             name = params.name,

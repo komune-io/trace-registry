@@ -1,3 +1,4 @@
+@file:JsExport
 package io.komune.sel.evaluator
 
 import io.komune.sel.SelException
@@ -14,6 +15,8 @@ import io.komune.sel.evaluator.expressions.LogicExpressions
 import io.komune.sel.evaluator.expressions.NotExpressions
 import io.komune.sel.evaluator.expressions.NumericComparisonExpressions
 import io.komune.sel.evaluator.expressions.VariableExpression
+import kotlin.js.JsExport
+import kotlin.js.JsName
 
 private val nativeExpressions = mutableMapOf<String, SelExpression>()
 
@@ -28,6 +31,7 @@ object SelExpressionNativeDirectory: Map<SelExpressionKey, SelExpression> by nat
         nativeExpressions[expression.key] = expression
     }
 
+    @JsName("registerAll")
     fun register(expressions: Iterable<SelExpression>) {
         expressions.forEach { register(it) }
     }

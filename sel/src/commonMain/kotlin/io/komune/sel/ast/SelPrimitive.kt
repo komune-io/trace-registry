@@ -1,4 +1,7 @@
+@file:JsExport
 package io.komune.sel.ast
+
+import kotlin.js.JsExport
 
 sealed interface SelPrimitive<T>: SelNode {
     val value: T

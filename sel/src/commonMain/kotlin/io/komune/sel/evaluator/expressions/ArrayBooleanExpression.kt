@@ -1,9 +1,11 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.ast.SelNode
 import io.komune.sel.evaluator.SelExpressionEvaluator
 import io.komune.sel.evaluator.SelExpressionKey
 import io.komune.sel.isTruthy
+import kotlin.js.JsExport
 
 object ArrayBooleanExpressions: List<ArrayBooleanExpression> by listOf(
     object: ArrayBooleanExpression("all") {

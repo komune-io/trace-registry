@@ -58,7 +58,9 @@ class RequirementAggregateService(
             requirement.enablingConditionDependencies = command.enablingConditionDependencies.mapNotNull { concepts[it] }.toMutableList()
             requirement.required = command.required
             requirement.validatingCondition = command.validatingCondition
-            requirement.validatingConditionDependencies = command.validatingConditionDependencies.mapNotNull { concepts[it] }.toMutableList()
+            requirement.validatingConditionDependencies = command.validatingConditionDependencies
+                .mapNotNull { concepts[it] }
+                .toMutableList()
             requirement.evidenceValidatingCondition = command.evidenceValidatingCondition
             requirement.order = command.order
             requirement.properties = command.properties

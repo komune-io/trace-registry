@@ -1,4 +1,7 @@
+@file:JsExport
 package io.komune.sel
+
+import kotlin.js.JsExport
 
 open class SelException(
     message: String,

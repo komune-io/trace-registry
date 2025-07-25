@@ -1,4 +1,7 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
+
+import kotlin.js.JsExport
 
 object ArrayMapExpression: ArrayIterateExpression<Any?, List<Any?>>() {
     override val key: String = "map"

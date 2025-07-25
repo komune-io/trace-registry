@@ -1,3 +1,4 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.ast.SelArray
@@ -5,6 +6,7 @@ import io.komune.sel.evaluator.SelEvaluationException
 import io.komune.sel.evaluator.SelExpression
 import io.komune.sel.evaluator.SelExpressionEvaluator
 import io.komune.sel.normalizeNumber
+import kotlin.js.JsExport
 
 abstract class MathExpression: SelExpression {
     protected open val defaultFirstArgument: Number? = null
@@ -18,32 +20,32 @@ abstract class MathExpression: SelExpression {
     }
 
     protected fun parseArguments(evaluator: SelExpressionEvaluator, arguments: SelArray, data: Any?, jsonPath: String): List<Number> {
-        val arguments = evaluator.evaluateArray(arguments, data, jsonPath)
+        val evaluatedArguments = evaluator.evaluateArray(arguments, data, jsonPath)
             .flatMapIndexed { i, arg -> arg.parseArgument("$jsonPath[$i]") }
             .toMutableList()
 
-        val originalArgumentsSize = arguments.size
+        val originalArgumentsSize = evaluatedArguments.size
         val actualMinArgumentsSize = if (defaultFirstArgument != null) minArguments - 1 else minArguments
 
-        if (arguments.size < minArguments && defaultFirstArgument != null) {
-            arguments.add(0, defaultFirstArgument!!)
+        if (evaluatedArguments.size < minArguments && defaultFirstArgument != null) {
+            evaluatedArguments.add(0, defaultFirstArgument!!)
         }
 
-        if (arguments.size < minArguments) {
+        if (evaluatedArguments.size < minArguments) {
             throw SelEvaluationException(
                 "Not enough arguments for operation '$key'. Expected at least $actualMinArgumentsSize, found ${originalArgumentsSize}.",
                 "$jsonPath[0]"
             )
         }
 
-        if (maxArguments > 0 && arguments.size > maxArguments) {
+        if (maxArguments > 0 && evaluatedArguments.size > maxArguments) {
             throw SelEvaluationException(
                 "Too many arguments for operation '$key'. Expected at most $maxArguments, found ${originalArgumentsSize}.",
                 "$jsonPath[$maxArguments]"
             )
         }
 
-        return arguments
+        return evaluatedArguments
     }
 
     protected fun Any?.parseArgument(jsonPath: String): List<Number> {

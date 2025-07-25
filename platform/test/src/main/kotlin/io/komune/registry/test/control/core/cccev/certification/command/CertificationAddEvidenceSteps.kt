@@ -83,7 +83,8 @@ class CertificationAddEvidenceSteps: En, RgCucumberStepsDefinition() {
                         AssertionBdd.evidence(certificationRepository).assertThat(evidence!!)
                             .hasFields(
                                 filePath = params.path?.let { FilePath.from(it) } ?: evidence.file,
-                                evidenceTypeId = params.evidenceType?.let(context.cccev.evidenceTypeIds::safeGet) ?: evidence.evidenceType.id
+                                evidenceTypeId = params.evidenceType?.let(context.cccev.evidenceTypeIds::safeGet)
+                                    ?: evidence.evidenceType.id
                             )
 
                         params.path?.let {

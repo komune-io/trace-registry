@@ -1,6 +1,8 @@
+@file:JsExport
 package io.komune.sel.evaluator
 
 import io.komune.sel.ast.SelArray
+import kotlin.js.JsExport
 
 typealias SelExpressionKey = String
 

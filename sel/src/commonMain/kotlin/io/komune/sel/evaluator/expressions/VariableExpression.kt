@@ -1,3 +1,4 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.ast.SelArray
@@ -10,6 +11,7 @@ import io.komune.sel.evaluator.SelExpressionKey
 import io.komune.sel.normalize
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+import kotlin.js.JsExport
 
 object VariableExpression: SelExpression {
     override val key: SelExpressionKey = "var"

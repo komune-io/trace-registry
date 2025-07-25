@@ -1,3 +1,4 @@
+@file:JsExport
 package io.komune.sel.evaluator.expressions
 
 import io.komune.sel.ast.SelArray
@@ -5,6 +6,7 @@ import io.komune.sel.ast.SelNode
 import io.komune.sel.evaluator.SelEvaluationException
 import io.komune.sel.evaluator.SelExpression
 import io.komune.sel.evaluator.SelExpressionEvaluator
+import kotlin.js.JsExport
 
 abstract class ArrayIterateExpression<ItemTransformationResult, ArrayEvaluationResult>: SelExpression {
     protected abstract fun evaluateArray(array: Iterable<Any?>, evalItem: (Int, Any?) -> ItemTransformationResult): ArrayEvaluationResult
