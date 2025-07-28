@@ -2,6 +2,7 @@ package io.komune.registry.core.cccev.certification.service
 
 import f2.spring.exception.NotFoundException
 import io.komune.registry.api.commons.utils.mapAsync
+import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.core.cccev.certification.entity.RequirementCertification
 import io.komune.registry.core.cccev.certification.entity.SupportedValue
@@ -14,11 +15,10 @@ import io.komune.registry.infra.neo4j.transaction
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.RequirementCertificationId
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.toLocalDate
+import io.komune.sel.SelExecutor
+import io.komune.sel.isTruthy
+import io.komune.sel.normalize
 import org.neo4j.ogm.session.SessionFactory
-import org.springframework.expression.spel.standard.SpelExpressionParser
-import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -29,7 +29,7 @@ class CertificationValuesFillerService(
     private val sessionFactory: SessionFactory
 ) {
     companion object {
-        val spelParser = SpelExpressionParser()
+        val selExecutor = SelExecutor()
     }
 
     /**
@@ -47,7 +47,7 @@ class CertificationValuesFillerService(
         }
 
         certificationRepository.findAllSupportedValues(context.certificationId, context.rootRequirementCertificationId)
-            .forEach { context.knownValues[it.concept.identifier] = it.value.convertTo(it.concept.unit.type) }
+            .forEach { context.knownValues[it.concept.identifier] = it.value.normalize() }
 
         computeValuesOfConsumersOf(values.keys, context)
     }
@@ -112,9 +112,7 @@ class CertificationValuesFillerService(
                     && concept.dependencies.all { it.identifier in context.knownValues }
         }
 
-        val expressionContext = StandardEvaluationContext().apply {
-            setVariables(context.knownValues)
-        }
+        val expressionDataJson = context.knownValues.toJson()
 
         computableConcepts.forEach { concept ->
             println("compute value: [${concept.identifier}]")
@@ -123,8 +121,7 @@ class CertificationValuesFillerService(
                 context.certificationId, context.rootRequirementCertificationId, concept.identifier
             )
 
-            val value = spelParser.parseExpression(concept.expressionOfExpectedValue!!)
-                .getValue(expressionContext, concept.unit.type.klass())
+            val value = selExecutor.evaluate(concept.expressionOfExpectedValue!!, expressionDataJson)
                 .also { context.knownValues[concept.identifier] = it }
                 .let {
                     SupportedValue().also { supportedValue ->
@@ -143,7 +140,7 @@ class CertificationValuesFillerService(
         var changed: Boolean
 
         val mappedValues = values.associate {
-            it.concept.identifier to it.value.convertTo(it.concept.unit.type)
+            it.concept.identifier to it.value.normalize()
         }
 
         hasAllValues = requirement.concepts.all { mappedValues[it.identifier] != null }
@@ -184,27 +181,13 @@ class CertificationValuesFillerService(
             return false
         }
 
-        val expressionContext = StandardEvaluationContext().apply {
-            setVariables(dependencies.associateWith { values[it] })
-        }
-
-        return spelParser.parseExpression(expression)
-            .getValue(expressionContext, Boolean::class.java)
-            ?: false
+        return selExecutor.evaluate(expression, values.toJson()).isTruthy()
     }
 
     private fun String?.convertTo(type: DataUnitType): Any? = when (type) {
         DataUnitType.BOOLEAN -> this?.toBoolean()
-        DataUnitType.DATE -> this?.toLocalDate() // TODO define a standard type for DATE
         DataUnitType.NUMBER -> this?.toDouble()
         DataUnitType.STRING -> this
-    }
-
-    private fun DataUnitType.klass() = when (this) {
-        DataUnitType.BOOLEAN -> Boolean::class.java
-        DataUnitType.DATE -> LocalDate::class.java // TODO define a standard type for DATE
-        DataUnitType.NUMBER -> Double::class.java
-        DataUnitType.STRING -> String::class.java
     }
 
     data class Context(

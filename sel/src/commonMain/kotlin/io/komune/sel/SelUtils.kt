@@ -30,6 +30,9 @@ fun Any?.normalize(): Any? = when (this) {
         ?: toDoubleOrNull()?.normalizeNumber()
         ?: this
     is Number -> this.normalizeNumber()
+    is Iterable<*> -> map { it.normalize() }
+    is Array<*> -> map { it.normalize() }
+    is Map<*, *> -> mapValues { it.value.normalize() }
     else -> this
 }
 

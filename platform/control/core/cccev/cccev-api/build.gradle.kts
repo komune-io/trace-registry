@@ -9,6 +9,7 @@ dependencies {
 	api(project(Modules.control.core.cccev.domain))
 
 	implementation(project(Modules.commons))
+	implementation(project(Modules.sel))
 
 	implementation(project(Modules.infra.fs))
 	api(project(Modules.infra.neo4j))
