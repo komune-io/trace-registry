@@ -364,7 +364,7 @@ object Modules {
 			}
 
 			object cccev {
-				private const val BASE = "${s2.BASE}:cccev:cccev"
+				private const val BASE = "${s2.BASE}:cccev-old:cccev-old"
 				const val api = "$BASE-api"
 				const val domain = "$BASE-domain"
 			}
