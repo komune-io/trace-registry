@@ -81,3 +81,15 @@ fun String.toBooleanOrNull(): Boolean? = when {
     equals("false", ignoreCase = true) -> false
     else -> null
 }
+
+fun Any?.toJsonElement(): JsonElement = when (this) {
+    null -> JsonNull
+    is String -> JsonPrimitive(this)
+    is Number -> JsonPrimitive(this)
+    is Boolean -> JsonPrimitive(this)
+    is JsonElement -> this
+    is Iterable<*> -> JsonArray(map { it.toJsonElement() })
+    is Array<*> -> JsonArray(map { it.toJsonElement() })
+    is Map<*, *> -> JsonObject(entries.associate { (key, value) -> key.toString() to value.toJsonElement() })
+    else -> throw IllegalArgumentException("Unsupported type for JSON conversion: ${this::class.simpleName}")
+}

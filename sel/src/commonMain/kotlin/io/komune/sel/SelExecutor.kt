@@ -5,6 +5,7 @@ import io.komune.sel.ast.SelParseException
 import io.komune.sel.ast.SelParser
 import io.komune.sel.evaluator.SelExpression
 import io.komune.sel.evaluator.SelExpressionEvaluator
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.js.JsExport
 
@@ -24,5 +25,9 @@ class SelExecutor {
         }
 
         return evaluator.evaluate(selNode, data, "$")
+    }
+
+    fun evaluateToJson(expressionJson: String, dataJson: String): String {
+        return Json.encodeToString(evaluate(expressionJson, dataJson).toJsonElement())
     }
 }
