@@ -1,5 +1,5 @@
 import { Box, Dialog, IconButton, Stack, Typography } from '@mui/material'
-import { CustomButton, CustomLinkButton, useRoutesDefinition } from 'components'
+import { CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
 
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,25 +28,37 @@ export const ReferentialCreationPage = () => {
 
   const formData = useMemo(() => autoFormFormatter(form as BackAutoFormData), [form])
 
+  const onSave = useCallback(
+    (formState: FormComposableState) => {
+      console.log(formState.values)
+    },
+    [],
+  )
+  
   const getFormActions = useCallback(
     (formState: FormComposableState) => {
       return (
-        <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
+        <StickyContainer>
           <CustomLinkButton
             variant="text"
             to={goBackUrl}
           >
             {t("cancel")}
           </CustomLinkButton>
-             <CustomButton
+          <CustomButton
+            onClick={() => onSave(formState)}
+          >
+            {t("save")}
+          </CustomButton>
+          <CustomButton
             onClick={formState.submitForm}
           >
             {t("submitForValidation")}
           </CustomButton>
-        </Stack>
+        </StickyContainer>
       )
     },
-    [goBackUrl],
+    [goBackUrl, onSave],
   )
 
   return (
@@ -54,6 +66,9 @@ export const ReferentialCreationPage = () => {
       fullScreen
       open
       onClose={onClose}
+      PaperProps={{
+        className: "scroll-container",
+      }}
       sx={{
         "& .MuiDialog-paper": {
           p: 3,
@@ -89,8 +104,8 @@ export const ReferentialCreationPage = () => {
           alignSelf: "center",
         }}
       >
-        <AutoForm 
-        onSubmit={(_, values) => console.log("Form submitted with values:", values)}
+        <AutoForm
+          onSubmit={(_, values) => console.log("Form submitted with values:", values)}
           formData={formData}
           getFormActions={getFormActions}
         />

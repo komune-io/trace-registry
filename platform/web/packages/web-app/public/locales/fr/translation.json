@@ -428,6 +428,10 @@
         "alreadyHaveAccount": "Déjà inscrit(e) ?",
         "login": "Connectez-vous"
     },
+    "referential":  {
+        "completedReferentialTitle": "🎉 Référentiel complété avec succès !",
+        "completedReferentialDescription": "Votre saisie a bien été enregistrée.\n\nElle va maintenant être transmise à un expert pour validation.\n\nCette étape permet de garantir la fiabilité des données et d'assurer une évaluation équitable dans le cadre du mapping."
+    },
     "lang": {
         "fr": "Français",
         "en": "Anglais",

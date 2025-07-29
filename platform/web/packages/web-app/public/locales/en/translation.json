@@ -421,6 +421,10 @@
     "alreadyHaveAccount": "Already registered?",
     "login": "Log in"
   },
+  "referential": {
+    "completedReferentialTitle": "🎉 Referential successfully completed!",
+    "completedReferentialDescription": "Your entry has been successfully saved.\n\nIt will now be sent to an expert for validation.\n\nThis step ensures the reliability of the data and guarantees a fair assessment as part of the mapping."
+  },
   "lang": {
     "fr": "French",
     "en": "English",

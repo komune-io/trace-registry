@@ -422,6 +422,10 @@
     "alreadyHaveAccount": "¿Ya tienes una cuenta?",
     "login": "Inicia sesión"
   },
+  "referential": {
+    "completedReferentialTitle": "🎉 ¡Referencial completado con éxito!",
+    "completedReferentialDescription": "Su entrada ha sido registrada correctamente.\n\nAhora será enviada a un experto para su validación.\n\nEste paso garantiza la fiabilidad de los datos y asegura una evaluación justa en el marco del mapeo."
+  },
   "lang": {
     "fr": "Francés",
     "en": "Inglés",

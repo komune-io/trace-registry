@@ -1,0 +1,24 @@
+{
+  "id": "draft-referential-table",
+  "columns": [{
+    "label": "Nom du référentiel",
+    "type": "text",
+    "value": "name"
+  }, {
+    "label": "Statut",
+    "type": "text",
+    "value": "status"
+  }, {
+    "label": "Badge",
+    "type": "number",
+    "value": "badge"
+  }, {
+    "label": "Complétion",
+    "type": "progress",
+    "value": "completion"
+  }, {
+    "label": "Actions",
+    "type": "actions",
+    "value": "actions"
+  }]
+}
