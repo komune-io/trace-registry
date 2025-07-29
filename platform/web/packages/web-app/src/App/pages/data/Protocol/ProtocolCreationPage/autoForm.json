@@ -17,7 +17,13 @@
           "required": true,
           "conditions": [
             {
-              "expression": "#yearOfCreation <= 1900 || #yearOfCreation > 2025",
+              "expression": "#yearOfCreation <= 1800 || #yearOfCreation > #currentYear",
+              "logic": {
+                "or": [
+                  { "<=": [{ "var": "yearOfCreation" }, 1800] },
+                  { ">": [{ "var": "yearOfCreation" }, { "var": "currentYear" }] }
+                ]
+              },
               "type": "validator",
               "error": "Veuillez entrer une année valide"
             }
@@ -35,6 +41,9 @@
           "conditions": [
             {
               "expression": "#employeesNumber <= 0",
+              "logic": {
+                "<=": [{ "var": "employeesNumber" }, 0]
+              },
               "type": "validator",
               "error": "Le nombre d'employés doit être supérieur à zéro"
             }
@@ -52,6 +61,9 @@
           "conditions": [
             {
               "expression": "#annualRevenue <= 0",
+              "logic": {
+                "<=": [{ "var": "annualRevenue" }, 0]
+              },
               "type": "validator",
               "error": "Le chiffre d'affaires doit être supérieur à zéro"
             }
@@ -70,6 +82,9 @@
           "conditions": [
             {
               "expression": "#climateActivityPercentage > 100",
+              "logic": {
+                ">": [{ "var": "climateActivityPercentage" }, 0]
+              },
               "type": "validator",
               "error": "Le pourcentage d’activité offre climat doit être compris entre 0 et 100"
             }
