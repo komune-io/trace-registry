@@ -64,7 +64,7 @@ export const catalogPages: PageRoute[] = [
     element: <CatalogueLinkPage  />
   },
   {
-    path: "catalogues/:catalogueId/:draftId/:tab/:referentialId/referential",
+    path: "catalogues/:catalogueId/:draftId/:tab/:protocolId/protocol",
     element: <ProtocolCreationPage />
   }
 ]

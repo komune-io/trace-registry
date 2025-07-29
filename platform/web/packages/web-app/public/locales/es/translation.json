@@ -422,9 +422,11 @@
     "alreadyHaveAccount": "¿Ya tienes una cuenta?",
     "login": "Inicia sesión"
   },
-  "referential": {
-    "completedReferentialTitle": "🎉 ¡Referencial completado con éxito!",
-    "completedReferentialDescription": "Su entrada ha sido registrada correctamente.\n\nAhora será enviada a un experto para su validación.\n\nEste paso garantiza la fiabilidad de los datos y asegura una evaluación justa en el marco del mapeo."
+  "protocol": {
+    "completedProtocolTitle": "🎉 ¡Referencial completado con éxito!",
+    "completedProtocolDescription": "Su entrada ha sido registrada correctamente.\n\nAhora será enviada a un experto para su validación.\n\nEste paso garantiza la fiabilidad de los datos y asegura una evaluación justa en el marco del mapeo.",
+    "unvalidatedProtocol": "Uno o varios referenciales que ha enviado no han sido validados.",
+    "unvalidateProtocolDetails": "El validador ha dejado comentarios para ayudarle a corregir los puntos bloqueantes.\nAbra el referencial correspondiente para consultar los comentarios, realizar los cambios necesarios y volver a enviarlo."
   },
   "lang": {
     "fr": "Francés",

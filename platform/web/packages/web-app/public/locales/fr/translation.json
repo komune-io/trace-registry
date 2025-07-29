@@ -428,9 +428,11 @@
         "alreadyHaveAccount": "Déjà inscrit(e) ?",
         "login": "Connectez-vous"
     },
-    "referential":  {
-        "completedReferentialTitle": "🎉 Référentiel complété avec succès !",
-        "completedReferentialDescription": "Votre saisie a bien été enregistrée.\n\nElle va maintenant être transmise à un expert pour validation.\n\nCette étape permet de garantir la fiabilité des données et d'assurer une évaluation équitable dans le cadre du mapping."
+    "protocol":  {
+        "completedProtocolTitle": "🎉 Référentiel complété avec succès !",
+        "completedProtocolDescription": "Votre saisie a bien été enregistrée.\n\nElle va maintenant être transmise à un expert pour validation.\n\nCette étape permet de garantir la fiabilité des données et d'assurer une évaluation équitable dans le cadre du mapping.",
+        "unvalidatedProtocol": "Un ou plusieurs référentiels que vous avez soumis n’ont pas été validés.",
+        "unvalidateProtocolDetails": "Le validateur a laissé des commentaires pour vous aider à corriger les points bloquants.\nOuvrez le référentiel concerné pour consulter les retours, apporter les modifications nécessaires, puis soumettez-le à nouveau."
     },
     "lang": {
         "fr": "Français",

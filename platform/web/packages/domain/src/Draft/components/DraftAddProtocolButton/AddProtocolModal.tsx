@@ -6,23 +6,23 @@ import { CustomButton, TmsPopUp, useRoutesDefinition } from "components";
 import { useNavigate, useParams } from "react-router-dom";
 
 
-export interface AddReferentialModalProps {
+export interface AddProtocolModalProps {
     formData?: AutoFormData
     open: boolean
     onClose: () => void
 }
 
-export const AddReferentialModal = (props: AddReferentialModalProps) => {
+export const AddProtocolModal = (props: AddProtocolModalProps) => {
     const { onClose, open, formData } = props
     const { catalogueId, draftId, tab } = useParams()
     const { t } = useTranslation()
-    const {cataloguesCatalogueIdDraftIdTabReferentialIdReferential} = useRoutesDefinition()
+    const {cataloguesCatalogueIdDraftIdTabProtocolIdProtocol} = useRoutesDefinition()
     const navigate = useNavigate()
 
     const onSubmit = useCallback((command: CommandWithFile<any>, values: any) => {
         console.log("Command submitted:", command);
         console.log(catalogueId, draftId, tab, values.id);
-        navigate(cataloguesCatalogueIdDraftIdTabReferentialIdReferential(catalogueId!, draftId!, tab!, values.id))
+        navigate(cataloguesCatalogueIdDraftIdTabProtocolIdProtocol(catalogueId!, draftId!, tab!, values.id))
         onClose();
     }, [onClose, catalogueId, draftId, tab])
 

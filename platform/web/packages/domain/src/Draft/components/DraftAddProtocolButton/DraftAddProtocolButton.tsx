@@ -2,9 +2,9 @@ import { CustomButton, useToggleState } from 'components'
 import form from './autoForm.json'
 import { useMemo } from 'react'
 import { autoFormFormatter, BackAutoFormData } from '@komune-io/g2'
-import { AddReferentialModal } from './AddReferentialModal'
+import { AddProtocolModal } from './AddProtocolModal'
 
-export const DraftAddReferentialButton = () => {
+export const DraftAddProtocolButton = () => {
 
   const [open, _, toggle] = useToggleState()
 
@@ -14,7 +14,7 @@ export const DraftAddReferentialButton = () => {
       <CustomButton color="info" onClick={toggle}>
         {formData.sections[0].label}
       </CustomButton>
-      <AddReferentialModal
+      <AddProtocolModal
         open={open}
         onClose={toggle}
         formData={formData}

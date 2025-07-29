@@ -2,9 +2,11 @@ import { ProgressIndicator, TableComposable, TableV2, useTableComposable } from 
 
 import tableComposable from './autoTable.json'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { useRoutesDefinition, useToggleState } from 'components'
+import { useRoutesDefinition, useToggleState, WarningTicket } from 'components'
 import { useCallback } from 'react'
 import { ProtocolCompleteModal } from '../../../Protocol'
+import { Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 const extendingColumns = {
   progress: ProgressIndicator
@@ -13,12 +15,13 @@ const extendingColumns = {
 export const DraftProtocolPage = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const {catalogueId, draftId, tab} = useParams()
+  const {t} = useTranslation()
+  const { catalogueId, draftId, tab } = useParams()
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
 
-  const completedReferential = searchParams.get('completed') === "true"
+  const completedProtocol = searchParams.get('completed') === "true"
 
-  const [open, _, toggle] = useToggleState({ defaultOpen: completedReferential })
+  const [open, _, toggle] = useToggleState({ defaultOpen: completedProtocol })
 
   const onCloseModale = useCallback(
     () => {
@@ -27,7 +30,7 @@ export const DraftProtocolPage = () => {
     },
     [catalogueId, draftId, tab, toggle],
   )
-  
+
   const tableState = useTableComposable({
     tableComposable: tableComposable as TableComposable,
     extendingColumns,
@@ -36,6 +39,9 @@ export const DraftProtocolPage = () => {
 
   return (
     <>
+      <WarningTicket severity='error' title={t("protocol.unvalidatedProtocol")} >
+        <Typography variant="body2" color="inherit">{t("protocol.unvalidatedProtocolDetails")}</Typography>
+      </WarningTicket>
       <TableV2
         tableState={tableState}
         isLoading={false}

@@ -1,5 +1,5 @@
 {
-  "id": "draft-referential-table",
+  "id": "draft-protocol-table",
   "columns": [{
     "label": "Nom du référentiel",
     "type": "text",

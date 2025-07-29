@@ -18,7 +18,7 @@ export const ProtocolCompleteModal = (props: ProtocolCompleteModalProps) => {
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={t('referential.completedReferentialTitle')}
+            title={t('protocol.completedProtocolTitle')}
             sx={{
                 width: "700px"
             }}
@@ -32,7 +32,7 @@ export const ProtocolCompleteModal = (props: ProtocolCompleteModalProps) => {
                 <Typography
                     variant='body2'
                 >
-                    {t('referential.completedReferentialDescription')}
+                    {t('protocol.completedProtocolDescription')}
                 </Typography>
                 <Box
                     sx={{

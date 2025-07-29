@@ -12,7 +12,7 @@ import { AutoForm, autoFormFormatter, BackAutoFormData, FormComposableState } fr
 
 export const ProtocolCreationPage = () => {
   const { t } = useTranslation()
-  const { catalogueId, draftId, tab, /* referentialId */ } = useParams()
+  const { catalogueId, draftId, tab, /* protocolId */ } = useParams()
 
   const navigate = useNavigate()
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
