@@ -3,11 +3,11 @@ package io.komune.registry.test.control.core.cccev.certification.command
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.core.cccev.CccevFlatGraph
-import io.komune.registry.core.cccev.certification.CertificationAggregateService
-import io.komune.registry.core.cccev.certification.command.CertificationCreateCommand
-import io.komune.registry.core.cccev.certification.entity.CertificationRepository
-import io.komune.registry.core.cccev.flattenTo
+import io.komune.registry.control.core.cccev.CccevFlatGraph
+import io.komune.registry.control.core.cccev.certification.CertificationAggregateService
+import io.komune.registry.control.core.cccev.certification.command.CertificationCreateCommand
+import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
+import io.komune.registry.control.core.cccev.flattenTo
 import io.komune.registry.test.CertificationKey
 import io.komune.registry.test.RequirementKey
 import io.komune.registry.test.RgCucumberStepsDefinition

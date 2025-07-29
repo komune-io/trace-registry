@@ -1,6 +1,6 @@
 package cccev.dsl.client.graph
 
-import io.komune.registry.core.cccev.concept.model.InformationConceptId
+import io.komune.registry.control.core.cccev.concept.model.InformationConceptId
 import cccev.dsl.model.InformationConcept
 import cccev.dsl.model.InformationConceptIdentifier
 import cccev.f2.concept.client.InformationConceptClient

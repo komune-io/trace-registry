@@ -2,9 +2,9 @@ package io.komune.registry.test.control.core.cccev.evidencetype.command
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import io.komune.registry.core.cccev.evidencetype.EvidenceTypeAggregateService
-import io.komune.registry.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
-import io.komune.registry.core.cccev.evidencetype.entity.EvidenceTypeRepository
+import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeAggregateService
+import io.komune.registry.control.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
+import io.komune.registry.control.core.cccev.evidencetype.entity.EvidenceTypeRepository
 import io.komune.registry.test.EvidenceTypeKey
 import io.komune.registry.test.InformationConceptKey
 import io.komune.registry.test.RgCucumberStepsDefinition

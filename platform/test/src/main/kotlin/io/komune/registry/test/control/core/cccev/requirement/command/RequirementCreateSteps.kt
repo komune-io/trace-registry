@@ -2,10 +2,10 @@ package io.komune.registry.test.control.core.cccev.requirement.command
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import io.komune.registry.core.cccev.requirement.RequirementAggregateService
-import io.komune.registry.core.cccev.requirement.command.RequirementCreateCommand
-import io.komune.registry.core.cccev.requirement.entity.RequirementRepository
-import io.komune.registry.core.cccev.requirement.model.RequirementKind
+import io.komune.registry.control.core.cccev.requirement.RequirementAggregateService
+import io.komune.registry.control.core.cccev.requirement.command.RequirementCreateCommand
+import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
+import io.komune.registry.control.core.cccev.requirement.model.RequirementKind
 import io.komune.registry.test.RgCucumberStepsDefinition
 import io.komune.registry.test.control.core.cccev.requirement.data.requirement
 import net.datafaker.Faker

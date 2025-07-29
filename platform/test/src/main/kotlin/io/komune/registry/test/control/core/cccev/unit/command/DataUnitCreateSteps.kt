@@ -2,10 +2,10 @@ package io.komune.registry.test.control.core.cccev.unit.command
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import io.komune.registry.core.cccev.unit.DataUnitAggregateService
-import io.komune.registry.core.cccev.unit.command.DataUnitCreateCommand
-import io.komune.registry.core.cccev.unit.entity.DataUnitRepository
-import io.komune.registry.core.cccev.unit.model.DataUnitType
+import io.komune.registry.control.core.cccev.unit.DataUnitAggregateService
+import io.komune.registry.control.core.cccev.unit.command.DataUnitCreateCommand
+import io.komune.registry.control.core.cccev.unit.entity.DataUnitRepository
+import io.komune.registry.control.core.cccev.unit.model.DataUnitType
 import io.komune.registry.test.RgCucumberStepsDefinition
 import io.komune.registry.test.control.core.cccev.unit.data.dataUnit
 import org.assertj.core.api.Assertions

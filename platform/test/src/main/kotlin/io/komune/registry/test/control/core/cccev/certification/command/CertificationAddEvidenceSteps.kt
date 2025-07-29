@@ -4,9 +4,9 @@ import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.registry.core.cccev.certification.CertificationAggregateService
-import io.komune.registry.core.cccev.certification.command.CertificationAddEvidenceCommand
-import io.komune.registry.core.cccev.certification.entity.CertificationRepository
+import io.komune.registry.control.core.cccev.certification.CertificationAggregateService
+import io.komune.registry.control.core.cccev.certification.command.CertificationAddEvidenceCommand
+import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.test.CertificationKey
 import io.komune.registry.test.EvidenceKey
 import io.komune.registry.test.EvidenceTypeKey

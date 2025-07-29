@@ -1,7 +1,7 @@
 package io.komune.registry.test.control.core.cccev.concept.data
 
-import io.komune.registry.core.cccev.concept.entity.InformationConcept
-import io.komune.registry.core.cccev.concept.entity.InformationConceptRepository
+import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
+import io.komune.registry.control.core.cccev.concept.entity.InformationConceptRepository
 import io.komune.registry.s2.commons.model.DataUnitId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import org.assertj.core.api.Assertions

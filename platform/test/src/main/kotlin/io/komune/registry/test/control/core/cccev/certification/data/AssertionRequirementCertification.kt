@@ -1,7 +1,7 @@
 package io.komune.registry.test.control.core.cccev.certification.data
 
-import io.komune.registry.core.cccev.certification.entity.CertificationRepository
-import io.komune.registry.core.cccev.certification.entity.RequirementCertification
+import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
+import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
 import io.komune.registry.s2.commons.model.RequirementCertificationId
 import io.komune.registry.s2.commons.model.RequirementId
 import io.komune.registry.s2.commons.model.SupportedValueId

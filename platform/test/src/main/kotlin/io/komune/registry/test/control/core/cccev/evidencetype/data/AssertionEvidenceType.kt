@@ -1,7 +1,7 @@
 package io.komune.registry.test.control.core.cccev.evidencetype.data
 
-import io.komune.registry.core.cccev.evidencetype.entity.EvidenceType
-import io.komune.registry.core.cccev.evidencetype.entity.EvidenceTypeRepository
+import io.komune.registry.control.core.cccev.evidencetype.entity.EvidenceType
+import io.komune.registry.control.core.cccev.evidencetype.entity.EvidenceTypeRepository
 import io.komune.registry.s2.commons.model.EvidenceTypeId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import org.assertj.core.api.Assertions

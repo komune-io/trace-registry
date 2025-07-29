@@ -1,9 +1,9 @@
 package cccev.client
 
-import io.komune.registry.core.cccev.certification.command.CertificationAddRequirementsFunction
-import io.komune.registry.core.cccev.certification.command.CertificationCreateFunction
-import io.komune.registry.core.cccev.certification.command.CertificationFillValuesFunction
-import io.komune.registry.core.cccev.certification.command.CertificationRemoveRequirementsFunction
+import io.komune.registry.control.core.cccev.certification.command.CertificationAddRequirementsFunction
+import io.komune.registry.control.core.cccev.certification.command.CertificationCreateFunction
+import io.komune.registry.control.core.cccev.certification.command.CertificationFillValuesFunction
+import io.komune.registry.control.core.cccev.certification.command.CertificationRemoveRequirementsFunction
 import cccev.f2.certification.CertificationApi
 import cccev.f2.certification.query.CertificationGetFunction
 import f2.client.F2Client

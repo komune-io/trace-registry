@@ -1,8 +1,8 @@
 package io.komune.registry.test.control.core.cccev.certification.data
 
 import io.komune.fs.s2.file.domain.model.FilePath
-import io.komune.registry.core.cccev.certification.entity.CertificationRepository
-import io.komune.registry.core.cccev.certification.entity.Evidence
+import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
+import io.komune.registry.control.core.cccev.certification.entity.Evidence
 import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeId
 import org.assertj.core.api.Assertions

@@ -1,7 +1,7 @@
 package cccev.client
 
-import io.komune.registry.core.cccev.concept.command.InformationConceptCreateFunction
-import io.komune.registry.core.cccev.concept.command.InformationConceptUpdateFunction
+import io.komune.registry.control.core.cccev.concept.command.InformationConceptCreateFunction
+import io.komune.registry.control.core.cccev.concept.command.InformationConceptUpdateFunction
 import cccev.f2.concept.InformationConceptApi
 import cccev.f2.concept.query.InformationConceptGetByIdentifierFunction
 import cccev.f2.concept.query.InformationConceptGetFunction

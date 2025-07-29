@@ -1,6 +1,6 @@
 package cccev.dsl.client.graph
 
-import io.komune.registry.core.cccev.requirement.model.RequirementId
+import io.komune.registry.control.core.cccev.requirement.model.RequirementId
 import cccev.dsl.model.Requirement
 import cccev.dsl.model.RequirementIdentifier
 import cccev.f2.requirement.domain.query.RequirementGetByIdentifierQueryDTOBase

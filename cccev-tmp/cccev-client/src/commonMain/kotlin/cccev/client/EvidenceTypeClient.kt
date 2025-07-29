@@ -1,6 +1,6 @@
 package cccev.client
 
-import io.komune.registry.core.cccev.evidencetype.command.EvidenceTypeCreateFunction
+import io.komune.registry.control.core.cccev.evidencetype.command.EvidenceTypeCreateFunction
 import cccev.f2.evidencetype.EvidenceTypeApi
 import cccev.f2.evidencetype.query.EvidenceTypeGetFunction
 import f2.client.F2Client

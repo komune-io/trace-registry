@@ -4,22 +4,22 @@ import cccev.client.DataUnitClient
 import cccev.client.EvidenceTypeClient
 import cccev.client.InformationConceptClient
 import cccev.client.RequirementClient
-import io.komune.registry.core.cccev.concept.command.InformationConceptCreateCommand
-import io.komune.registry.core.cccev.concept.command.InformationConceptUpdateCommand
-import io.komune.registry.core.cccev.concept.model.InformationConceptId
-import io.komune.registry.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
-import io.komune.registry.core.cccev.evidencetype.model.EvidenceTypeId
-import io.komune.registry.core.cccev.requirement.command.RequirementAddRequirementsCommand
-import io.komune.registry.core.cccev.requirement.command.RequirementCreateCommand
-import io.komune.registry.core.cccev.requirement.command.RequirementUpdateCommand
-import io.komune.registry.core.cccev.requirement.model.RequirementId
-import io.komune.registry.core.cccev.requirement.model.RequirementIdentifier
-import io.komune.registry.core.cccev.requirement.model.RequirementKind
-import io.komune.registry.core.cccev.unit.command.DataUnitCreateCommand
-import io.komune.registry.core.cccev.unit.command.DataUnitOptionCommand
-import io.komune.registry.core.cccev.unit.command.DataUnitUpdateCommand
-import io.komune.registry.core.cccev.unit.model.DataUnitId
-import io.komune.registry.core.cccev.unit.model.DataUnitType
+import io.komune.registry.control.core.cccev.concept.command.InformationConceptCreateCommand
+import io.komune.registry.control.core.cccev.concept.command.InformationConceptUpdateCommand
+import io.komune.registry.control.core.cccev.concept.model.InformationConceptId
+import io.komune.registry.control.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
+import io.komune.registry.control.core.cccev.evidencetype.model.EvidenceTypeId
+import io.komune.registry.control.core.cccev.requirement.command.RequirementAddRequirementsCommand
+import io.komune.registry.control.core.cccev.requirement.command.RequirementCreateCommand
+import io.komune.registry.control.core.cccev.requirement.command.RequirementUpdateCommand
+import io.komune.registry.control.core.cccev.requirement.model.RequirementId
+import io.komune.registry.control.core.cccev.requirement.model.RequirementIdentifier
+import io.komune.registry.control.core.cccev.requirement.model.RequirementKind
+import io.komune.registry.control.core.cccev.unit.command.DataUnitCreateCommand
+import io.komune.registry.control.core.cccev.unit.command.DataUnitOptionCommand
+import io.komune.registry.control.core.cccev.unit.command.DataUnitUpdateCommand
+import io.komune.registry.control.core.cccev.unit.model.DataUnitId
+import io.komune.registry.control.core.cccev.unit.model.DataUnitType
 import cccev.dsl.client.graph.InformationConceptGraphInitializer
 import cccev.dsl.client.graph.RequirementGraphInitializer
 import cccev.dsl.client.model.unflatten
@@ -55,7 +55,7 @@ class CCCEVGraphClient(
     private val informationConceptGraphInitializer = InformationConceptGraphInitializer(informationConceptClient)
     private val requirementGraphInitializer = RequirementGraphInitializer(requirementClient)
 
-    suspend fun save(graph: Flow<Requirement>): Flow<io.komune.registry.core.cccev.requirement.entity.Requirement> {
+    suspend fun save(graph: Flow<Requirement>): Flow<io.komune.registry.control.core.cccev.requirement.entity.Requirement> {
         val context = Context()
         val requirements = graph.flatCollect()
 
@@ -76,7 +76,7 @@ class CCCEVGraphClient(
     }
 
     @Deprecated("Use save instead", ReplaceWith("save"))
-    suspend fun create(requirements: Flow<Requirement>): Flow<io.komune.registry.core.cccev.requirement.entity.Requirement> {
+    suspend fun create(requirements: Flow<Requirement>): Flow<io.komune.registry.control.core.cccev.requirement.entity.Requirement> {
         return save(requirements)
     }
 
@@ -125,7 +125,7 @@ class CCCEVGraphClient(
         context.processedRequirements.putAllNew(processedRequirements)
     }
 
-    private suspend fun Requirement.save(context: Context): io.komune.registry.core.cccev.requirement.entity.Requirement {
+    private suspend fun Requirement.save(context: Context): io.komune.registry.control.core.cccev.requirement.entity.Requirement {
         val getResult = RequirementGetByIdentifierQuery(identifier)
             .invokeWith(requirementClient.requirementGetByIdentifier())
 
@@ -334,6 +334,6 @@ class CCCEVGraphClient(
         val processedRequirements = mutableMapOf<RequirementIdentifier, RequirementId>()
         val processedUnits = mutableMapOf<String, DataUnitId>()
 
-        val resultRequirements = mutableListOf<io.komune.registry.core.cccev.requirement.entity.Requirement>()
+        val resultRequirements = mutableListOf<io.komune.registry.control.core.cccev.requirement.entity.Requirement>()
     }
 }

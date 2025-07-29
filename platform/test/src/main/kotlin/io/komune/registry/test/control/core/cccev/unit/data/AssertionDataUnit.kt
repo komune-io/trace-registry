@@ -1,8 +1,8 @@
 package io.komune.registry.test.control.core.cccev.unit.data
 
-import io.komune.registry.core.cccev.unit.entity.DataUnit
-import io.komune.registry.core.cccev.unit.entity.DataUnitRepository
-import io.komune.registry.core.cccev.unit.model.DataUnitType
+import io.komune.registry.control.core.cccev.unit.entity.DataUnit
+import io.komune.registry.control.core.cccev.unit.entity.DataUnitRepository
+import io.komune.registry.control.core.cccev.unit.model.DataUnitType
 import io.komune.registry.s2.commons.model.DataUnitId
 import org.assertj.core.api.Assertions
 import s2.bdd.assertion.AssertionBdd

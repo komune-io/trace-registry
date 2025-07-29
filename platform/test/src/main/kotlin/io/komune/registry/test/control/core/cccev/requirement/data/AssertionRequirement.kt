@@ -1,8 +1,8 @@
 package io.komune.registry.test.control.core.cccev.requirement.data
 
-import io.komune.registry.core.cccev.requirement.entity.Requirement
-import io.komune.registry.core.cccev.requirement.entity.RequirementRepository
-import io.komune.registry.core.cccev.requirement.model.RequirementKind
+import io.komune.registry.control.core.cccev.requirement.entity.Requirement
+import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
+import io.komune.registry.control.core.cccev.requirement.model.RequirementKind
 import io.komune.registry.s2.commons.model.EvidenceTypeId
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.RequirementId

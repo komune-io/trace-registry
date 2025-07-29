@@ -2,9 +2,9 @@ package io.komune.registry.test.control.core.cccev.concept.command
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import io.komune.registry.core.cccev.concept.InformationConceptAggregateService
-import io.komune.registry.core.cccev.concept.command.InformationConceptCreateCommand
-import io.komune.registry.core.cccev.concept.entity.InformationConceptRepository
+import io.komune.registry.control.core.cccev.concept.InformationConceptAggregateService
+import io.komune.registry.control.core.cccev.concept.command.InformationConceptCreateCommand
+import io.komune.registry.control.core.cccev.concept.entity.InformationConceptRepository
 import io.komune.registry.test.RgCucumberStepsDefinition
 import io.komune.registry.test.control.core.cccev.concept.data.informationConcept
 import org.assertj.core.api.Assertions

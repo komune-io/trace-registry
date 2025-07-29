@@ -1,7 +1,7 @@
 package cccev.client
 
-import io.komune.registry.core.cccev.unit.command.DataUnitCreateFunction
-import io.komune.registry.core.cccev.unit.command.DataUnitUpdateFunction
+import io.komune.registry.control.core.cccev.unit.command.DataUnitCreateFunction
+import io.komune.registry.control.core.cccev.unit.command.DataUnitUpdateFunction
 import cccev.f2.unit.DataUnitApi
 import cccev.f2.unit.query.DataUnitGetByIdentifierFunction
 import cccev.f2.unit.query.DataUnitGetFunction

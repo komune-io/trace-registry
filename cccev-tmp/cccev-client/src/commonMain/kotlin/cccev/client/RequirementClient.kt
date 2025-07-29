@@ -1,13 +1,13 @@
 package cccev.client
 
-import io.komune.registry.core.cccev.requirement.command.RequirementAddConceptsFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementAddEvidenceTypesFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementAddRequirementsFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementCreateFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementRemoveConceptsFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementRemoveEvidenceTypesFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementRemoveRequirementsFunction
-import io.komune.registry.core.cccev.requirement.command.RequirementUpdateFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementAddConceptsFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementAddEvidenceTypesFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementAddRequirementsFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementCreateFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementRemoveConceptsFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementRemoveEvidenceTypesFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementRemoveRequirementsFunction
+import io.komune.registry.control.core.cccev.requirement.command.RequirementUpdateFunction
 import cccev.f2.requirement.RequirementApi
 import cccev.f2.requirement.query.RequirementGetByIdentifierFunction
 import cccev.f2.requirement.query.RequirementGetFunction

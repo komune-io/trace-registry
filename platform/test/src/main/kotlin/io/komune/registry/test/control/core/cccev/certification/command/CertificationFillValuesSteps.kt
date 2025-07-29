@@ -2,11 +2,11 @@ package io.komune.registry.test.control.core.cccev.certification.command
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
-import io.komune.registry.core.cccev.certification.CertificationAggregateService
-import io.komune.registry.core.cccev.certification.command.CertificationFillValuesCommand
-import io.komune.registry.core.cccev.certification.entity.CertificationRepository
-import io.komune.registry.core.cccev.certification.entity.SupportedValue
-import io.komune.registry.core.cccev.concept.entity.InformationConcept
+import io.komune.registry.control.core.cccev.certification.CertificationAggregateService
+import io.komune.registry.control.core.cccev.certification.command.CertificationFillValuesCommand
+import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
+import io.komune.registry.control.core.cccev.certification.entity.SupportedValue
+import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.test.CertificationKey
 import io.komune.registry.test.EvidenceKey
