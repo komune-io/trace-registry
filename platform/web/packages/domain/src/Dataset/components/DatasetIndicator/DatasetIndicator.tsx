@@ -1,6 +1,6 @@
+import { IndicatorVisualization } from '../../../Draft';
 import {Dataset} from '../../model'
 import {useCallback, useMemo} from "react";
-import {IndicatorVisualization} from "../../../Catalogue/components/IndicatorVisualization";
 
 export interface DatasetIndicatorProps {
     item: Dataset

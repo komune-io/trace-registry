@@ -4,8 +4,8 @@ import {Box, Paper, Stack, Typography} from '@mui/material'
 import {CustomButton, useRoutesDefinition, useToggleState} from 'components'
 import {t} from 'i18next'
 import {RejectModal} from './RejectModal'
-import {CatalogueDraft} from '../../model'
 import {useParams} from 'react-router-dom'
+import { CatalogueDraft } from '../../../Draft'
 
 interface CatalogueValidationHeaderProps {
     draft?: CatalogueDraft

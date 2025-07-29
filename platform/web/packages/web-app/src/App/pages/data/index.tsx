@@ -8,7 +8,7 @@ import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSear
 import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
 import {CataloguesStructureRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
 import { CatalogueLinkPage } from "./SubCatalogue/CatalogueLinkPage/CatalogueLinkPage";
-import { ReferentialCreationPage } from "./Referential/ReferentialCreationPage/ReferentialCreationPage";
+import { ProtocolCreationPage } from "./Protocol/ProtocolCreationPage/ProtocolCreationPage";
 
 export const catalogPages: PageRoute[] = [
   {
@@ -65,6 +65,6 @@ export const catalogPages: PageRoute[] = [
   },
   {
     path: "catalogues/:catalogueId/:draftId/:tab/:referentialId/referential",
-    element: <ReferentialCreationPage />
+    element: <ProtocolCreationPage />
   }
 ]

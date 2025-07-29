@@ -3,10 +3,9 @@ import { useDatasetDataQuery } from "../api";
 import { DocumentsPage, FilePath } from "../../Documents";
 import { ActivitiesSection } from "../../Project/components/ActivitiesSection";
 import { Activity } from "../../Activity";
-import { Catalogue, CatalogueInformation } from "../../Catalogue";
-import { CatalogueGraphManager } from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
-import { CataloguePdfCertificate } from "../../Catalogue/components/CataloguePdfCertificate";
+import { Catalogue, CatalogueInformation, CataloguePdfCertificate } from "../../Catalogue";
 import { DatasetIndicator } from "./DatasetIndicator";
+import { CatalogueGraphManager } from "../../Draft";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue
