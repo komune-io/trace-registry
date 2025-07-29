@@ -1,5 +1,5 @@
 import { Box, Dialog, IconButton, Stack, Typography } from '@mui/material'
-import { CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
+import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
 
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -34,7 +34,7 @@ export const ProtocolCreationPage = () => {
     },
     [],
   )
-  
+
   const getFormActions = useCallback(
     (formState: FormComposableState) => {
       return (
@@ -97,6 +97,7 @@ export const ProtocolCreationPage = () => {
           <CloseRounded />
         </IconButton>
       </Stack>
+
       <Stack
         gap={8}
         sx={{
@@ -104,6 +105,10 @@ export const ProtocolCreationPage = () => {
           alignSelf: "center",
         }}
       >
+        <CommentContainer
+          title={t("protocol.validatorComment")}
+          comment="Certaines informations déclarées sont incomplètes ou manquent de précision, notamment sur la part d’activité liée à l’offre climat.\nMerci d’apporter des éléments plus concrets ou de joindre une preuve (rapport, lien, etc.).\n\nUne fois corrigé, vous pourrez soumettre à nouveau ce référentiel."
+        />
         <AutoForm
           onSubmit={(_, values) => console.log("Form submitted with values:", values)}
           formData={formData}
