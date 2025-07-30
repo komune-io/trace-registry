@@ -23,7 +23,7 @@ class InformationConceptAggregateService(
 ) {
     suspend fun create(command: InformationConceptCreateCommand) = sessionFactory.transaction { session, _ ->
         val dependencies = session.findSafeShallowAllById<InformationConcept>(command.dependsOn, InformationConcept.LABEL)
-        val unit = session.findSafeShallowById<DataUnit>(command.hasUnit, DataUnit.LABEL)
+        val unit = session.findSafeShallowById<DataUnit>(command.unitId, DataUnit.LABEL)
 
         val concept = InformationConcept().apply {
             id = UUID.randomUUID().toString()

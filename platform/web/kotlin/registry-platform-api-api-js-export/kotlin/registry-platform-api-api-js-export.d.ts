@@ -1618,20 +1618,20 @@ export declare namespace io.komune.fs.s2.file.domain.model {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev {
+export declare namespace io.komune.registry.control.core.cccev {
     interface CccevFlatGraphDTO {
-        readonly certifications: Record<string, io.komune.registry.core.cccev.certification.model.CertificationFlatDTO>;
-        readonly requirementCertifications: Record<string, io.komune.registry.core.cccev.certification.model.RequirementCertificationFlatDTO>;
-        readonly requirements: Record<string, io.komune.registry.core.cccev.requirement.model.RequirementFlatDTO>;
-        readonly concepts: Record<string, io.komune.registry.core.cccev.concept.model.InformationConceptFlatDTO>;
-        readonly evidenceTypes: Record<string, io.komune.registry.core.cccev.evidencetype.model.EvidenceTypeFlatDTO>;
-        readonly units: Record<string, io.komune.registry.core.cccev.unit.model.DataUnitFlatDTO>;
-        readonly unitOptions: Record<string, io.komune.registry.core.cccev.unit.model.DataUnitOptionFlatDTO>;
-        readonly supportedValues: Record<string, io.komune.registry.core.cccev.certification.model.SupportedValueFlatDTO>;
+        readonly certifications: Record<string, io.komune.registry.control.core.cccev.certification.model.CertificationFlatDTO>;
+        readonly requirementCertifications: Record<string, io.komune.registry.control.core.cccev.certification.model.RequirementCertificationFlatDTO>;
+        readonly requirements: Record<string, io.komune.registry.control.core.cccev.requirement.model.RequirementFlatDTO>;
+        readonly concepts: Record<string, io.komune.registry.control.core.cccev.concept.model.InformationConceptFlatDTO>;
+        readonly evidenceTypes: Record<string, io.komune.registry.control.core.cccev.evidencetype.model.EvidenceTypeFlatDTO>;
+        readonly units: Record<string, io.komune.registry.control.core.cccev.unit.model.DataUnitFlatDTO>;
+        readonly unitOptions: Record<string, io.komune.registry.control.core.cccev.unit.model.DataUnitOptionFlatDTO>;
+        readonly supportedValues: Record<string, io.komune.registry.control.core.cccev.certification.model.SupportedValueFlatDTO>;
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.command {
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
     interface CertificationAddEvidenceCommandDTO {
         readonly id: string;
         readonly rootRequirementCertificationId?: string;
@@ -1648,7 +1648,7 @@ export declare namespace io.komune.registry.core.cccev.certification.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.command {
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
     interface CertificationAddRequirementsCommandDTO {
         readonly id: string;
         readonly parentId?: string;
@@ -1662,7 +1662,7 @@ export declare namespace io.komune.registry.core.cccev.certification.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.command {
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
     interface CertificationCreateCommandDTO {
         readonly id?: string;
         readonly requirementIdentifiers: string[];
@@ -1673,7 +1673,7 @@ export declare namespace io.komune.registry.core.cccev.certification.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.command {
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
     interface CertificationFillValuesCommandDTO {
         readonly id: string;
         readonly rootRequirementCertificationId?: string;
@@ -1686,7 +1686,7 @@ export declare namespace io.komune.registry.core.cccev.certification.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.command {
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
     interface CertificationRemoveRequirementsCommandDTO {
         readonly id: string;
         readonly requirementIds: string[];
@@ -1698,14 +1698,14 @@ export declare namespace io.komune.registry.core.cccev.certification.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.model {
+export declare namespace io.komune.registry.control.core.cccev.certification.model {
     interface CertificationFlatDTO {
         readonly id: string;
         readonly requirementCertificationIds: string[];
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.model {
+export declare namespace io.komune.registry.control.core.cccev.certification.model {
     interface RequirementCertificationFlatDTO {
         readonly id: string;
         readonly requirementIdentifier: string;
@@ -1718,7 +1718,7 @@ export declare namespace io.komune.registry.core.cccev.certification.model {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.certification.model {
+export declare namespace io.komune.registry.control.core.cccev.certification.model {
     interface SupportedValueFlatDTO {
         readonly id: string;
         readonly value?: string;
@@ -1726,11 +1726,11 @@ export declare namespace io.komune.registry.core.cccev.certification.model {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.concept.command {
+export declare namespace io.komune.registry.control.core.cccev.concept.command {
     interface InformationConceptCreateCommandDTO {
         readonly identifier?: string;
         readonly name: string;
-        readonly hasUnit: string;
+        readonly unitId: string;
         readonly description?: string;
         readonly expressionOfExpectedValue?: string;
         readonly dependsOn: string[];
@@ -1741,7 +1741,7 @@ export declare namespace io.komune.registry.core.cccev.concept.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.concept.command {
+export declare namespace io.komune.registry.control.core.cccev.concept.command {
     interface InformationConceptUpdateCommandDTO {
         readonly id: string;
         readonly name: string;
@@ -1755,7 +1755,7 @@ export declare namespace io.komune.registry.core.cccev.concept.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.concept.model {
+export declare namespace io.komune.registry.control.core.cccev.concept.model {
     interface InformationConceptFlatDTO {
         readonly id: string;
         readonly identifier: string;
@@ -1767,7 +1767,7 @@ export declare namespace io.komune.registry.core.cccev.concept.model {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.evidencetype.command {
+export declare namespace io.komune.registry.control.core.cccev.evidencetype.command {
     interface EvidenceTypeCreateCommandDTO {
         readonly id?: string;
         readonly name: string;
@@ -1779,7 +1779,7 @@ export declare namespace io.komune.registry.core.cccev.evidencetype.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.evidencetype.model {
+export declare namespace io.komune.registry.control.core.cccev.evidencetype.model {
     interface EvidenceTypeFlatDTO {
         readonly id: string;
         readonly name: string;
@@ -1787,7 +1787,7 @@ export declare namespace io.komune.registry.core.cccev.evidencetype.model {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.requirement.command {
+export declare namespace io.komune.registry.control.core.cccev.requirement.command {
     interface RequirementAddRequirementsCommandDTO {
         readonly id: string;
         readonly requirementIds: string[];
@@ -1799,13 +1799,13 @@ export declare namespace io.komune.registry.core.cccev.requirement.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.requirement.command {
+export declare namespace io.komune.registry.control.core.cccev.requirement.command {
     interface RequirementCreatedEventDTO {
         readonly id: string;
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.requirement.command {
+export declare namespace io.komune.registry.control.core.cccev.requirement.command {
     interface RequirementUpdateCommandDTO {
         readonly id: string;
         readonly name?: string;
@@ -1821,7 +1821,7 @@ export declare namespace io.komune.registry.core.cccev.requirement.command {
         readonly validatingConditionDependencies: string[];
         readonly evidenceValidatingCondition?: string;
         readonly order?: number;
-        readonly properties?: Record<string, string>;
+        readonly properties?: Record<string, Nullable<string>>;
 
     }
     interface RequirementUpdatedEventDTO {
@@ -1829,11 +1829,11 @@ export declare namespace io.komune.registry.core.cccev.requirement.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.requirement.model {
+export declare namespace io.komune.registry.control.core.cccev.requirement.model {
     interface RequirementFlatDTO {
         readonly id: string;
         readonly identifier: string;
-        readonly kind: io.komune.registry.core.cccev.requirement.model.RequirementKind;
+        readonly kind: io.komune.registry.control.core.cccev.requirement.model.RequirementKind;
         readonly description?: string;
         readonly type?: string;
         readonly name?: string;
@@ -1846,14 +1846,14 @@ export declare namespace io.komune.registry.core.cccev.requirement.model {
         readonly validatingCondition?: string;
         readonly validatingConditionDependencies: string[];
         readonly order?: number;
-        readonly properties?: Record<string, string>;
+        readonly properties?: Record<string, Nullable<string>>;
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.requirement.model {
+export declare namespace io.komune.registry.control.core.cccev.requirement.model {
     type RequirementKind = "CONSTRAINT" | "CRITERION" | "INFORMATION";
 }
-export declare namespace io.komune.registry.core.cccev.unit.command {
+export declare namespace io.komune.registry.control.core.cccev.unit.command {
     interface DataUnitOptionCommandDTO {
         readonly id?: string;
         readonly identifier: string;
@@ -1865,19 +1865,19 @@ export declare namespace io.komune.registry.core.cccev.unit.command {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.unit.model {
+export declare namespace io.komune.registry.control.core.cccev.unit.model {
     interface DataUnitFlatDTO {
         readonly id: string;
         readonly identifier: string;
         readonly name: string;
-        readonly description: string;
-        readonly notation?: string;
-        readonly type: io.komune.registry.core.cccev.unit.model.DataUnitType;
+        readonly description?: string;
+        readonly abbreviation?: string;
+        readonly type: io.komune.registry.control.core.cccev.unit.model.DataUnitType;
         readonly optionIdentifiers: string[];
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.unit.model {
+export declare namespace io.komune.registry.control.core.cccev.unit.model {
     interface DataUnitOptionFlatDTO {
         readonly id: string;
         readonly identifier: string;
@@ -1889,852 +1889,61 @@ export declare namespace io.komune.registry.core.cccev.unit.model {
 
     }
 }
-export declare namespace io.komune.registry.core.cccev.unit.model {
-    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "STRING";
+export declare namespace io.komune.registry.control.core.cccev.unit.model {
+    type DataUnitType = "BOOLEAN" | "NUMBER" | "STRING";
 }
-export declare namespace cccev.dsl.model {
-    class Code {
-        constructor();
-        toString(): string;
-        
+export declare namespace io.komune.registry.control.f2.protocol.domain.command {
+    interface ProtocolDefineCommandDTO {
+        readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO;
+
+    }
+    interface ProtocolDefinedEventDTO {
+        readonly id: string;
+
     }
 }
-export declare namespace cccev.dsl.model {
-    interface DataUnitOptionDTO {
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    interface DataCollectionStepDTO extends io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO {
+        readonly sections: io.komune.registry.control.f2.protocol.domain.model.DataSectionDTO[];
         readonly identifier: string;
-        readonly name: string;
-        readonly value: string;
-        readonly order: number;
-        readonly icon?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-        readonly color?: string;
-
-    }
-}
-export declare namespace cccev.dsl.model {
-    const DataUnitTypeValues: {
-        boolean(): string;
-        date(): string;
-        number(): string;
-        string(): string;
-    };
-}
-export declare namespace cccev.dsl.model {
-    interface EvidenceDTO {
-        readonly identifier: string;
-        readonly isConformantTo?: string[];
-        readonly supportsValue?: string[];
-        readonly supportsConcept?: string[];
-        readonly supportsRequirement?: string[];
-        readonly validityPeriod?: cccev.dsl.model.PeriodOfTime;
-        readonly name: string;
-        readonly file?: string;
-
-    }
-}
-export declare namespace cccev.dsl.model {
-    interface EvidenceTypeList {
-        readonly description: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly specifiesEvidenceType?: cccev.dsl.model.EvidenceType[];
-
-    }
-    interface EvidenceType {
-        readonly identifier: string;
-        readonly name: string;
-        readonly supportConcept: cccev.dsl.model.InformationConceptDTO[];
-        readonly evidenceTypeClassification?: cccev.dsl.model.Code;
-        readonly validityPeriodConstraint?: cccev.dsl.model.PeriodOfTime;
-        readonly issuingPlace?: cccev.dsl.model.CoreLocationLocation;
-
-    }
-    class CoreLocationLocation {
-        constructor();
-        
-    }
-    class PeriodOfTime {
-        constructor(duration?: string, endTime?: number, startTime?: number);
-        get duration(): Nullable<string>;
-        get endTime(): Nullable<number>;
-        get startTime(): Nullable<number>;
-        copy(duration?: string, endTime?: number, startTime?: number): cccev.dsl.model.PeriodOfTime;
-        toString(): string;
-        hashCode(): number;
-        equals(other?: any): boolean;
-        
-    }
-}
-export declare namespace cccev.dsl.model {
-    interface InformationConceptDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly unit: cccev.dsl.model.DataUnitDTO;
-        readonly type?: cccev.dsl.model.Code;
-        readonly description?: string;
-        readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
-
-    }
-}
-export declare namespace cccev.dsl.model {
-    interface SupportedValueDTO {
-        readonly identifier: string;
-        readonly value?: string;
-        readonly query?: string;
-        readonly providesValueFor: string;
-
-    }
-}
-export declare namespace cccev.dsl.model {
-    interface DataUnitDTO {
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly notation?: string;
-        readonly type: cccev.dsl.model.DataUnitType;
-        readonly options?: cccev.dsl.model.DataUnitOption[];
-
-    }
-}
-export declare namespace cccev.f2 {
-    interface CccevFlatGraphDTO {
-        readonly certifications: Record<string, cccev.f2.certification.model.CertificationFlatDTO>;
-        readonly requirementCertifications: Record<string, cccev.f2.certification.model.RequirementCertificationFlatDTO>;
-        readonly requirements: Record<string, cccev.f2.requirement.model.RequirementFlatDTO>;
-        readonly concepts: Record<string, cccev.f2.concept.model.InformationConceptFlatDTO>;
-        readonly evidenceListTypes: Record<string, cccev.f2.evidencetypelist.model.EvidenceTypeListFlatDTO>;
-        readonly evidenceTypes: Record<string, cccev.f2.evidencetype.model.EvidenceTypeFlatDTO>;
-        readonly units: Record<string, cccev.f2.unit.model.DataUnitFlatDTO>;
-        readonly unitOptions: Record<string, cccev.dsl.model.DataUnitOptionDTO>;
-        readonly supportedValues: Record<string, cccev.f2.certification.model.SupportedValueFlatDTO>;
-
-    }
-}
-export declare namespace cccev.f2.certification.command {
-    interface CertificationAddEvidenceCommandDTO {
-        readonly id: string;
-        readonly rootRequirementCertificationId?: string;
-        readonly evidenceTypeId: string;
-        readonly filePath?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-        readonly vectorize: boolean;
-
-    }
-    interface CertificationAddedEvidenceEventDTO {
-        readonly id: string;
-        readonly rootRequirementCertificationId?: string;
-        readonly evidenceId: string;
-        readonly filePath: io.komune.fs.s2.file.domain.model.FilePathDTO;
-
-    }
-}
-export declare namespace cccev.f2.certification.command {
-    interface CertificationAddRequirementsCommandDTO {
-        readonly id: string;
-        readonly parentId?: string;
-        readonly requirementIdentifiers: string[];
-
-    }
-    interface CertificationAddedRequirementsEventDTO {
-        readonly id: string;
-        readonly parentId?: string;
-        readonly requirementCertificationIds: string[];
-
-    }
-}
-export declare namespace cccev.f2.certification.command {
-    interface CertificationCreateCommandDTO {
-        readonly id?: string;
-        readonly requirementIdentifiers: string[];
-
-    }
-    interface CertificationCreatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.certification.command {
-    interface CertificationFillValuesCommandDTO {
-        readonly id: string;
-        readonly rootRequirementCertificationId?: string;
-        readonly values: Record<string, Nullable<string>>;
-
-    }
-    interface CertificationFilledValuesEventDTO {
-        readonly id: string;
-        readonly rootRequirementCertificationId?: string;
-
-    }
-}
-export declare namespace cccev.f2.certification.command {
-    interface CertificationRemoveRequirementsCommandDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface CertificationRemovedRequirementsEventDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-}
-export declare namespace cccev.f2.certification.model {
-    interface CertificationFlatDTO {
-        readonly id: string;
-        readonly requirementCertificationIds: string[];
-
-    }
-}
-export declare namespace cccev.f2.certification.model {
-    interface RequirementCertificationFlatDTO {
-        readonly id: string;
-        readonly requirementIdentifier: string;
-        readonly subCertificationIds: string[];
-        readonly valueIds: string[];
-        readonly isEnabled: boolean;
-        readonly isValidated: boolean;
-        readonly hasAllValues: boolean;
-        readonly isFulfilled: boolean;
-
-    }
-}
-export declare namespace cccev.f2.certification.model {
-    interface SupportedValueFlatDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly value?: string;
-        readonly conceptIdentifier: string;
-
-    }
-}
-export declare namespace cccev.f2.certification.query {
-    interface CertificationGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface CertificationGetResultDTO {
-        readonly certification?: cccev.f2.certification.model.CertificationFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.concept.command {
-    interface InformationConceptCreateCommandDTO {
-        readonly identifier?: string;
-        readonly name: string;
-        readonly hasUnit: string;
-        readonly description?: string;
-        readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
-
-    }
-    interface InformationConceptCreatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.concept.command {
-    interface InformationConceptUpdateCommandDTO {
-        readonly id: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
-
-    }
-    interface InformationConceptUpdatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.concept.model {
-    interface InformationConceptFlatDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly unitIdentifier: string;
-        readonly description?: string;
-        readonly expressionOfExpectedValue?: string;
-        readonly dependsOn?: string[];
-
-    }
-}
-export declare namespace cccev.f2.concept.query {
-    interface InformationConceptGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface InformationConceptGetByIdentifierResultDTO {
-        readonly item?: cccev.f2.concept.model.InformationConceptFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.concept.query {
-    interface InformationConceptGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface InformationConceptGetResultDTO {
-        readonly item?: cccev.f2.concept.model.InformationConceptFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.evidencetype.command {
-    interface EvidenceTypeCreateCommandDTO {
-        readonly id?: string;
-        readonly identifier?: string;
-        readonly name: string;
-        readonly conceptIdentifiers: string[];
-
-    }
-    interface EvidenceTypeCreatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.evidencetype.model {
-    interface EvidenceTypeFlatDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly conceptIdentifiers: string[];
-
-    }
-}
-export declare namespace cccev.f2.evidencetype.query {
-    interface EvidenceTypeGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface EvidenceTypeGetByIdentifierResultDTO {
-        readonly item?: cccev.f2.evidencetype.model.EvidenceTypeFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.evidencetype.query {
-    interface EvidenceTypeGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface EvidenceTypeGetResultDTO {
-        readonly item?: cccev.f2.evidencetype.model.EvidenceTypeFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.evidencetypelist.command {
-    interface EvidenceTypeListCreateCommandDTO {
-        readonly id?: string;
-        readonly identifier?: string;
-        readonly name: string;
-        readonly description: string;
-        readonly specifiesEvidenceType?: string[];
-
-    }
-    interface EvidenceTypeListCreatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.evidencetypelist.model {
-    interface EvidenceTypeListFlatDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description: string;
-        readonly specifiesEvidenceType?: string[];
-
-    }
-}
-export declare namespace cccev.f2.evidencetypelist.query {
-    interface EvidenceTypeListGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface EvidenceTypeListGetByIdentifierResultDTO {
-        readonly item?: cccev.f2.evidencetypelist.model.EvidenceTypeListFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.evidencetypelist.query {
-    interface EvidenceTypeListGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface EvidenceTypeListGetResultDTO {
-        readonly item?: cccev.f2.evidencetypelist.model.EvidenceTypeListFlatDTO/* Nullable<cccev.f2.evidencetypelist.model.EvidenceTypeListFlat> */;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.requirement.command {
-    interface RequirementAddRequirementsCommandDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-    interface RequirementAddedRequirementsEventDTO {
-        readonly id: string;
-        readonly requirementIds: string[];
-
-    }
-}
-export declare namespace cccev.f2.requirement.command {
-    interface RequirementCreatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.requirement.command {
-    interface RequirementUpdateCommandDTO {
-        readonly id: string;
-        readonly name?: string;
-        readonly description?: string;
-        readonly type?: string;
-        readonly conceptIds?: string[];
-        readonly evidenceTypeIds?: string[];
-        readonly subRequirementIds?: string[];
-        readonly enablingCondition?: string;
-        readonly enablingConditionDependencies?: string[];
-        readonly required: boolean;
-        readonly validatingCondition?: string;
-        readonly validatingConditionDependencies?: string[];
-        readonly evidenceValidatingCondition?: string;
-        readonly order?: number;
-        readonly properties?: Record<string, string>;
-
-    }
-    interface RequirementUpdatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace cccev.f2.requirement.model {
-    interface RequirementFlatDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly kind: string;
-        readonly description?: string;
-        readonly type?: string;
-        readonly name?: string;
-        readonly subRequirementIds: string[];
-        readonly conceptIdentifiers: string[];
-        readonly evidenceTypeIds: string[];
-        readonly enablingCondition?: string;
-        readonly enablingConditionDependencies: string[];
-        readonly required: boolean;
-        readonly validatingCondition?: string;
-        readonly evidenceValidatingCondition?: string;
-        readonly validatingConditionDependencies: string[];
-        readonly order?: number;
-        readonly properties?: Record<string, string>;
-
-    }
-}
-export declare namespace cccev.f2.requirement.query {
-    interface RequirementGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface RequirementGetByIdentifierResultDTO {
-        readonly item?: cccev.f2.requirement.model.RequirementFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.requirement.query {
-    interface RequirementGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface RequirementGetResultDTO {
-        readonly item?: cccev.f2.requirement.model.RequirementFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.unit.command {
-    interface DataUnitOptionCommandDTO {
-        readonly id?: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly value: string;
-        readonly order: number;
-        readonly icon?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-        readonly color?: string;
-
-    }
-}
-export declare namespace cccev.f2.unit.model {
-    interface DataUnitFlatDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly notation?: string;
         readonly type: string;
-        readonly optionIdentifiers?: string[];
-
-    }
-}
-export declare namespace cccev.f2.unit.query {
-    interface DataUnitGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface DataUnitGetByIdentifierResultDTO {
-        readonly item?: cccev.f2.unit.model.DataUnitFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace cccev.f2.unit.query {
-    interface DataUnitGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface DataUnitGetResultDTO {
-        readonly item?: cccev.f2.unit.model.DataUnitFlatDTO;
-        readonly graph: cccev.f2.CccevFlatGraphDTO;
-
-    }
-}
-export declare namespace io.komune.registry.s2.asset.domain.automate {
-    interface AssetPoolInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface AssetPoolCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-    interface AssetPoolEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.asset.domain.automate {
-    interface AssetTransactionInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface AssetTransactionCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-    interface AssetTransactionEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.asset.domain.command.pool {
-    interface AssetPoolCloseCommandDTO extends io.komune.registry.s2.asset.domain.automate.AssetPoolCommand {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.asset.domain.command.pool {
-    interface AssetPoolHoldCommandDTO extends io.komune.registry.s2.asset.domain.automate.AssetPoolCommand {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.asset.domain.command.pool {
-    interface AssetPoolResumeCommandDTO extends io.komune.registry.s2.asset.domain.automate.AssetPoolCommand {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.asset.domain.model {
-    interface AssetPoolStats {
-        readonly available: number;
-        readonly retired: number;
-        readonly transferred: number;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.automate {
-    interface ProjectInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface ProjectCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-    interface ProjectEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.command {
-    interface ProjectAddAssetPoolCommandDTO extends io.komune.registry.s2.project.domain.automate.ProjectCommand {
-        readonly id: string;
-
-    }
-    interface ProjectAddedAssetPoolEventDTO extends io.komune.registry.s2.project.domain.automate.ProjectEvent {
-        readonly id: string;
-        readonly poolId: string;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.command {
-    interface ProjectChangePrivacyCommandDTO extends io.komune.registry.s2.project.domain.automate.ProjectCommand {
-        readonly id: string;
-
-    }
-    interface ProjectChangedPrivacyEventDTO extends io.komune.registry.s2.project.domain.automate.ProjectEvent {
-        readonly id: string;
-        readonly isPrivate: boolean;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.command {
-    interface ProjectCreateCommandDTO /* extends io.komune.registry.s2.project.domain.command.ProjectAbstractMsg */ {
-        isPrivate: Nullable<boolean>;
-
-    }
-    interface ProjectCreatedEventDTO extends io.komune.registry.s2.project.domain.automate.ProjectEvent/*, io.komune.registry.s2.project.domain.command.ProjectAbstractMsg */ {
-        readonly id: string;
-        isPrivate: Nullable<boolean>;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.command {
-    interface ProjectDeleteCommandDTO extends io.komune.registry.s2.project.domain.automate.ProjectCommand {
-        readonly id: string;
-
-    }
-    interface ProjectDeletedEventDTO extends io.komune.registry.s2.project.domain.automate.ProjectEvent {
-        readonly id: string;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.command {
-    interface ProjectUpdateCommandDTO /* extends io.komune.registry.s2.project.domain.command.ProjectAbstractMsg */ {
-
-    }
-    interface ProjectUpdatedEventDTO extends io.komune.registry.s2.project.domain.automate.ProjectEvent/*, io.komune.registry.s2.project.domain.command.ProjectAbstractMsg */ {
-        readonly id: string;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.project.domain.model {
-    interface OrganizationRefDTO {
-        readonly id: string;
-        readonly name: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.command {
-    interface ActivityCreateCommandDTO {
-        readonly identifier: string;
-        readonly name: string;
+        readonly label?: string;
         readonly description?: string;
-        readonly hasActivity?: Array<io.komune.registry.f2.activity.domain.command.ActivityCreateCommandDTO>;
-        readonly hasStep?: Array<io.komune.registry.f2.activity.domain.command.ActivityStepCreateCommandDTO>;
-
-    }
-    interface ActivityCreatedEventDTO extends f2.dsl.cqrs.Event {
-        readonly identifier: string;
+        readonly steps?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO[];
+        readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
+        readonly properties?: string;
 
     }
 }
-export declare namespace io.komune.registry.f2.activity.domain.command {
-    interface ActivityStepCreateCommandDTO {
-        readonly identifier: string;
-        readonly name: string;
-        readonly description?: string;
-        readonly hasConcept?: cccev.dsl.model.InformationConceptDTO/* Nullable<cccev.dsl.model.InformationConcept> */;
-
-    }
-    interface ActivityStepCreatedEventDTO extends f2.dsl.cqrs.Event {
-        readonly identifier: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.command {
-    interface ActivityStepFulfillCommandDTO {
-        readonly certificationId: string;
-        readonly identifier: string;
-        readonly value?: string;
-
-    }
-    interface ActivityStepFulfilledEventDTO extends f2.dsl.cqrs.Event {
-        readonly identifier: string;
-        readonly value?: string;
-        readonly file?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.command {
-    interface ActivityStepEvidenceFulfillCommandDTO {
-        readonly certificationId: string;
-        readonly identifier: string;
-        readonly url?: string;
-        readonly isPublic?: boolean;
-
-    }
-    interface ActivityStepEvidenceFulfilledEventDTO extends f2.dsl.cqrs.Event {
-        readonly identifier: string;
-        readonly file?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.model {
-    interface ActivityDTO {
-        readonly identifier: string;
-        readonly certificationId?: string;
-        readonly name?: string;
-        readonly type?: string;
-        readonly description?: string;
-        readonly hasQualifiedRelation: string[];
-        readonly hasRequirement: io.komune.registry.f2.activity.domain.model.ActivityDTO[];
-        readonly progression: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.model {
-    interface ActivityFileDTO {
-        readonly name: string;
-        readonly content: Int8Array;
-        readonly metadata?: Record<string, string>;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.model {
-    interface ActivityStepDTO {
-        readonly id: string;
-        readonly identifier: string;
-        readonly name?: string;
-        readonly description?: string;
-        readonly hasConcept?: cccev.dsl.model.InformationConceptDTO/* Nullable<cccev.dsl.model.InformationConcept> */;
-        readonly value?: string;
-        readonly evidences: cccev.dsl.model.EvidenceDTO[];
-        readonly completed: boolean;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.policy {
-    const ActivityPolicies: {
-        canPage(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canPageSteps(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canCreateStep(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canFulfillTask(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-    };
-}
-export declare namespace io.komune.registry.f2.activity.domain.query {
-    interface ActivityPageQueryDTO {
-        readonly projectId: string;
-        readonly offset?: number;
-        readonly limit?: number;
-
-    }
-    interface ActivityPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.activity.domain.model.ActivityDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.activity.domain.model.ActivityDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.query {
-    interface ActivityStepEvidenceDownloadQueryDTO {
-        readonly certificationId: string;
-        readonly evidenceId: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.activity.domain.query {
-    interface ActivityStepPageQueryDTO {
-        readonly activityIdentifier: string;
-        readonly certificationId: string;
-        readonly offset?: number;
-        readonly limit?: number;
-
-    }
-    interface ActivityStepPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.activity.domain.model.ActivityStepDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.activity.domain.model.ActivityStepDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.dcs.domain.command {
-    interface DataCollectionStepDefineCommandDTO {
-        readonly identifier: string;
-        readonly label: string;
-        readonly description?: string;
-        readonly sections: io.komune.registry.f2.dcs.domain.model.DataSectionDTO[];
-        readonly properties?: Record<string, string>;
-
-    }
-    interface DataCollectionStepDefinedEventDTO {
-        readonly identifier: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dcs.domain.command {
-    interface DataCollectionStepFillCommandDTO {
-        readonly identifier: string;
-        readonly certificationId: string;
-        readonly values: Record<string, Nullable<string>>;
-
-    }
-    interface DataCollectionStepFilledEventDTO {
-        readonly identifier: string;
-        readonly certificationId: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dcs.domain.model {
-    interface DataCollectionStepDTO {
-        readonly identifier: string;
-        readonly label: string;
-        readonly description?: string;
-        readonly sections: io.komune.registry.f2.dcs.domain.model.DataSectionDTO[];
-        readonly properties?: Record<string, string>;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dcs.domain.model {
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     interface DataConditionDTO {
         readonly identifier: string;
-        readonly type: string;
+        readonly type: io.komune.registry.control.f2.protocol.domain.model.DataConditionType;
         readonly expression: string;
         readonly dependencies?: string[];
         readonly error?: string;
 
     }
 }
-export declare namespace io.komune.registry.f2.dcs.domain.model {
-    const DataConditionTypeValues: {
-        display(): string;
-        validator(): string;
-        get all(): kotlin.collections.Set<string>;
-    };
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    type DataConditionType = "display" | "validator";
 }
-export declare namespace io.komune.registry.f2.dcs.domain.model {
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     interface DataFieldDTO {
         readonly name: string;
-        readonly label: string;
+        readonly label?: string;
         readonly type: string;
-        readonly dataType: string;
+        readonly description?: string;
+        readonly helperText?: string;
+        readonly unit: io.komune.registry.control.f2.protocol.domain.model.DataUnitRefDTO;
         readonly required: boolean;
-        readonly options?: io.komune.registry.f2.dcs.domain.model.DataFieldOptionDTO[];
-        readonly conditions?: io.komune.registry.f2.dcs.domain.model.DataConditionDTO[];
-        readonly properties?: Record<string, string>;
+        readonly options?: io.komune.registry.control.f2.protocol.domain.model.DataFieldOptionDTO[];
+        readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
+        readonly properties?: string;
 
     }
 }
-export declare namespace io.komune.registry.f2.dcs.domain.model {
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     interface DataFieldOptionDTO {
         readonly key: string;
         readonly label: string;
@@ -2743,57 +1952,55 @@ export declare namespace io.komune.registry.f2.dcs.domain.model {
 
     }
 }
-export declare namespace io.komune.registry.f2.dcs.domain.model {
-    const DataFieldTypeValues: {
-        textField(): string;
-        select(): string;
-        autoComplete(): string;
-        checkBox(): string;
-        datePicker(): string;
-        radioChoices(): string;
-        multiChoices(): string;
-        dropPicture(): string;
-        documentHandler(): string;
-        map(): string;
-        get all(): kotlin.collections.Set<string>;
-    };
-}
-export declare namespace io.komune.registry.f2.dcs.domain.model {
-    interface DataSectionDTO {
-        readonly identifier: string;
-        readonly label?: string;
-        readonly description?: string;
-        readonly fields: io.komune.registry.f2.dcs.domain.model.DataFieldDTO[];
-        readonly properties?: Record<string, string>;
-
-    }
-}
-export declare namespace io.komune.registry.f2.dcs.domain.model {
-    interface SectionConditionDTO {
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    interface DataSectionDTO extends io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO {
+        readonly fields: io.komune.registry.control.f2.protocol.domain.model.DataFieldDTO[];
         readonly identifier: string;
         readonly type: string;
-        readonly expression: string;
-        readonly dependencies: string[];
-        readonly message?: string;
+        readonly label?: string;
+        readonly description?: string;
+        readonly steps?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO[];
+        readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
+        readonly properties?: string;
 
     }
 }
-export declare namespace io.komune.registry.f2.dcs.domain.model {
-    const SectionConditionTypeValues: {
-        error(): string;
-        warning(): string;
-        info(): string;
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    interface DataUnitRefDTO {
+        readonly identifier: string;
+        readonly type: io.komune.registry.control.core.cccev.unit.model.DataUnitType;
+        readonly name?: string;
+        readonly abbreviation?: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    interface ProtocolDTO {
+        readonly identifier: string;
+        readonly type: string;
+        readonly label?: string;
+        readonly description?: string;
+        readonly steps?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO[];
+        readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
+        readonly properties?: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    const ReservedProtocolTypes: {
+        get DATA_COLLECTION_STEP(): string;
+        get DATA_SECTION(): string;
+        dataCollectionStep(): string;
+        dataSection(): string;
     };
 }
-export declare namespace io.komune.registry.f2.dcs.domain.query {
-    interface DataCollectionStepGetQueryDTO {
-        readonly identifier: string;
-        readonly certificationId?: string;
+export declare namespace io.komune.registry.control.f2.protocol.domain.query {
+    interface ProtocolGetQueryDTO {
+        readonly id: string;
 
     }
-    interface DataCollectionStepGetResultDTO {
-        readonly structure: io.komune.registry.f2.dcs.domain.model.DataCollectionStepDTO;
-        readonly values: Record<string, Nullable<string>>;
+    interface ProtocolGetResultDTO {
+        readonly item?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO;
 
     }
 }
@@ -2927,7 +2134,7 @@ export declare namespace io.komune.registry.s2.cccev.domain.model {
     type CompositeDataUnitOperator = "DIVISION";
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
-    type DataUnitType = "BOOLEAN" | "DATE" | "NUMBER" | "STRING";
+    type DataUnitType = "BOOLEAN" | "NUMBER" | "STRING";
 }
 export declare namespace io.komune.registry.s2.cccev.domain.model {
     type FileProcessorType = "CSV_SQL";
@@ -4921,602 +4128,6 @@ export declare namespace io.komune.registry.f2.entity.domain.query {
         readonly item?: io.komune.registry.f2.entity.domain.model.EntityRefDTO;
 
     }
-}
-export declare namespace io.komune.registry.s2.order.domain {
-    interface OrderInitCommand extends s2.dsl.automate.S2InitCommand {
-
-    }
-    interface OrderCommand extends s2.dsl.automate.S2Command<string> {
-        readonly id: string;
-
-    }
-    interface OrderEvent extends f2.dsl.cqrs.Event, s2.dsl.automate.WithId<string>, s2.dsl.automate.model.WithS2Id<string>/*, io.komune.registry.s2.commons.model.S2SourcingEvent<string> */ {
-        s2Id(): string;
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.order.domain.command {
-    interface OrderPlaceCommandDTO extends io.komune.registry.s2.order.domain.OrderInitCommand {
-        readonly from?: string;
-        readonly to?: string;
-        readonly by: string;
-        readonly poolId?: string;
-        readonly quantity: number;
-        readonly type: io.komune.registry.s2.asset.domain.model.AssetTransactionType;
-
-    }
-}
-export declare namespace io.komune.registry.s2.order.domain.command {
-    interface OrderSubmitCommandDTO extends io.komune.registry.s2.order.domain.OrderCommand {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.s2.order.domain.command {
-    interface OrderUpdateCommandDTO extends io.komune.registry.s2.order.domain.OrderCommand {
-        readonly id: string;
-        readonly poolId?: string;
-        readonly quantity: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.command {
-    interface AssetOrderCancelCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetOrderCanceledEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.command {
-    interface AssetOrderCompleteCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetOrderCompletedEventDTO {
-        readonly id: string;
-        readonly transactionId: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.command {
-    interface AssetOrderDeleteCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetOrderDeletedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.command {
-    interface AssetOrderPlaceCommandDTO extends io.komune.registry.s2.order.domain.command.OrderPlaceCommandDTO {
-        readonly from?: string;
-        readonly to?: string;
-        readonly by: string;
-        readonly poolId?: string;
-        readonly quantity: number;
-        readonly type: io.komune.registry.s2.asset.domain.model.AssetTransactionType;
-
-    }
-    interface AssetOrderPlacedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.command {
-    interface AssetOrderSubmitCommandDTO extends io.komune.registry.s2.order.domain.command.OrderSubmitCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetOrderSubmittedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.command {
-    interface AssetOrderUpdateCommandDTO extends io.komune.registry.s2.order.domain.command.OrderUpdateCommandDTO {
-        readonly id: string;
-        readonly poolId?: string;
-        readonly quantity: number;
-
-    }
-    interface AssetOrderUpdatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.model {
-    interface OrderDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* io.komune.registry.s2.asset.domain.automate.AssetTransactionState */> {
-        readonly id: string;
-        readonly status: string;
-        readonly poolId?: string;
-        readonly from?: string;
-        readonly to?: string;
-        readonly by: string;
-        readonly quantity: number;
-        readonly type: string;
-        readonly creationDate: number;
-        readonly certificate?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-        readonly cancelReason?: string;
-        s2State(): s2.dsl.automate.S2State/* io.komune.registry.s2.asset.domain.automate.AssetTransactionState */;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.query {
-    interface AssetOrderGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface AssetOrderGetResultDTO {
-        readonly item?: io.komune.registry.f2.asset.order.domain.model.OrderDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.query {
-    interface AssetOrderPageQueryDTO {
-        readonly limit?: number;
-        readonly offset?: number;
-        readonly status?: string;
-        readonly from?: string;
-        readonly to?: string;
-        readonly by?: string;
-        readonly type?: string;
-        readonly poolId?: string;
-
-    }
-    interface AssetOrderPageResultDTO extends f2.dsl.cqrs.page.PageQueryResultDTO<io.komune.registry.f2.asset.order.domain.model.OrderDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.asset.order.domain.model.OrderDTO[];
-        readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.utils {
-    const AssetPolicies: {
-        canGetOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canListOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canPlaceOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canSubmitOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO, order: io.komune.registry.f2.asset.order.domain.model.OrderDTO): boolean;
-        canUpdateOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO, order: io.komune.registry.f2.asset.order.domain.model.OrderDTO): boolean;
-        canCompleteOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO, order: io.komune.registry.f2.asset.order.domain.model.OrderDTO): boolean;
-        canCancelOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO, order: io.komune.registry.f2.asset.order.domain.model.OrderDTO): boolean;
-        canDeleteOrder(authedUser: io.komune.im.commons.auth.AuthedUserDTO, order: io.komune.registry.f2.asset.order.domain.model.OrderDTO): boolean;
-    };
-}
-export declare namespace io.komune.registry.f2.asset.order.domain.utils {
-    const OrderStatusValues: {
-        draft(): string;
-        submitted(): string;
-        pending(): string;
-        completed(): string;
-        cancelled(): string;
-        deleted(): string;
-    };
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetIssueCommandDTO /* extends io.komune.registry.f2.asset.pool.domain.command.AbstractAssetTransactionCommand */ {
-
-    }
-    interface AssetIssuedEventDTO {
-        readonly id: string;
-        readonly transactionId: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetOffsetCommandDTO {
-        readonly id: string;
-        readonly from: string;
-        readonly to: string;
-        readonly quantity: number;
-        readonly draft: boolean;
-
-    }
-    interface AssetOffsettedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetPoolCloseCommandDTO extends io.komune.registry.s2.asset.domain.command.pool.AssetPoolCloseCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetPoolClosedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetPoolCreateCommandDTO {
-        readonly vintage: string;
-        readonly indicator: cccev.dsl.model.InformationConceptDTO/* cccev.dsl.model.InformationConcept */;
-        readonly granularity: number;
-
-    }
-    interface AssetPoolCreatedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetPoolHoldCommandDTO extends io.komune.registry.s2.asset.domain.command.pool.AssetPoolHoldCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetPoolHeldEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetPoolResumeCommandDTO extends io.komune.registry.s2.asset.domain.command.pool.AssetPoolResumeCommandDTO {
-        readonly id: string;
-
-    }
-    interface AssetPoolResumedEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetRetireCommandDTO {
-        readonly id: string;
-        readonly from: string;
-        readonly quantity: number;
-        readonly draft: boolean;
-
-    }
-    interface AssetRetiredEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.command {
-    interface AssetTransferCommandDTO {
-        readonly id: string;
-        readonly from: string;
-        readonly to: string;
-        readonly quantity: number;
-        readonly draft: boolean;
-
-    }
-    interface AssetTransferredEventDTO {
-        readonly id: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.model {
-    interface AssetPoolDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* io.komune.registry.s2.asset.domain.automate.AssetPoolState */> {
-        readonly id: string;
-        readonly status: string;
-        readonly vintage?: string;
-        readonly indicator: cccev.dsl.model.InformationConceptDTO/* cccev.dsl.model.InformationConcept */;
-        readonly granularity: number;
-        readonly wallets: Record<string, number>;
-        readonly stats: io.komune.registry.s2.asset.domain.model.AssetPoolStats;
-        readonly metadata: Record<string, Nullable<string>>;
-        s2State(): s2.dsl.automate.S2State/* io.komune.registry.s2.asset.domain.automate.AssetPoolState */;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.model {
-    interface AssetTransactionDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* io.komune.registry.s2.asset.domain.automate.AssetTransactionState */> {
-        readonly id: string;
-        readonly date: number;
-        readonly poolId: string;
-        readonly type: string;
-        readonly from?: string;
-        readonly to?: string;
-        readonly by: string;
-        readonly quantity: number;
-        readonly unit: string;
-        readonly vintage?: string;
-        readonly file?: io.komune.fs.s2.file.domain.model.FilePathDTO;
-        readonly status: string;
-        s2State(): s2.dsl.automate.S2State/* io.komune.registry.s2.asset.domain.automate.AssetTransactionState */;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.query {
-    interface AssetCertificateDownloadQueryDTO {
-        readonly transactionId: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.query {
-    interface AssetStatsGetQueryDTO {
-        readonly projectId: string;
-
-    }
-    interface AssetStatsGetResultDTO {
-        readonly available: number;
-        readonly retired: number;
-        readonly transferred: number;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.query {
-    interface AssetPoolGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface AssetPoolGetResultDTO {
-        readonly item?: io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.query {
-    interface AssetPoolPageQueryDTO {
-        readonly limit?: number;
-        readonly offset?: number;
-        readonly status?: string;
-        readonly vintage?: string;
-
-    }
-    interface AssetPoolPageResultDTO extends f2.dsl.cqrs.page.PageQueryResultDTO<io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTO[];
-        readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.query {
-    interface AssetTransactionGetQueryDTO {
-        readonly transactionId: string;
-
-    }
-    interface AssetTransactionGetResultDTO {
-        readonly item?: io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.query {
-    interface AssetTransactionPageQueryDTO {
-        readonly limit?: number;
-        readonly offset?: number;
-        readonly projectId?: string;
-        readonly poolId?: string;
-        readonly transactionId?: string;
-        readonly transactionFrom?: string;
-        readonly transactionTo?: string;
-        readonly type?: string;
-
-    }
-    interface AssetTransactionPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.asset.pool.domain.model.AssetTransactionDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.utils {
-    const AssetPoolPolicies: {
-        canList(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canHold(authedUser: io.komune.im.commons.auth.AuthedUserDTO, assetPool: io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTO): boolean;
-        canResume(authedUser: io.komune.im.commons.auth.AuthedUserDTO, assetPool: io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTO): boolean;
-        canClose(authedUser: io.komune.im.commons.auth.AuthedUserDTO, assetPool: io.komune.registry.f2.asset.pool.domain.model.AssetPoolDTO): boolean;
-        canIssue(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canTransfer(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canOffset(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canRetire(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canEmitTransactionForOther(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-    };
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.utils {
-    const AssetPoolStatusValues: {
-        active(): string;
-        onHold(): string;
-        closed(): string;
-    };
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.utils {
-    const TransactionStatusValues: {
-        emitted(): string;
-        cancelled(): string;
-    };
-}
-export declare namespace io.komune.registry.f2.asset.pool.domain.utils {
-    const TransactionTypeValues: {
-        issued(): string;
-        transferred(): string;
-        retired(): string;
-        offset(): string;
-    };
-}
-export declare namespace io.komune.registry.f2.chat.domain.model {
-    interface ChatMessageDTO {
-        readonly content: string;
-        readonly type: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.chat.domain.model {
-    interface ChatMetadataDTO {
-        readonly targetedFiles: string[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.chat.domain.query {
-    interface ChatAskQuestionQueryDTO {
-        readonly question: string;
-        readonly history: io.komune.registry.f2.chat.domain.model.ChatMessageDTO[];
-        readonly metadata: io.komune.registry.f2.chat.domain.model.ChatMetadataDTO;
-        readonly projectId?: string;
-
-    }
-    interface ChatAskQuestionResultDTO {
-        readonly item: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.command {
-    interface ProjectAddAssetPoolCommandDTO extends io.komune.registry.s2.project.domain.command.ProjectAddAssetPoolCommandDTO {
-        readonly id: string;
-
-    }
-    interface ProjectAddedAssetPoolEventDTO extends io.komune.registry.s2.project.domain.command.ProjectAddedAssetPoolEventDTO {
-        readonly id: string;
-        readonly date: number;
-        readonly poolId: string;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.command {
-    interface ProjectChangePrivacyCommandDTO extends io.komune.registry.s2.project.domain.command.ProjectChangePrivacyCommandDTO {
-        readonly id: string;
-
-    }
-    interface ProjectChangedPrivacyEventDTO extends io.komune.registry.s2.project.domain.command.ProjectChangedPrivacyEventDTO {
-        readonly id: string;
-        readonly date: number;
-        readonly isPrivate: boolean;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.command {
-    interface ProjectCreateCommandDTO extends io.komune.registry.s2.project.domain.command.ProjectCreateCommandDTO {
-        isPrivate: Nullable<boolean>;
-
-    }
-    interface ProjectCreatedEventDTO extends io.komune.registry.s2.project.domain.command.ProjectCreatedEventDTO {
-        readonly id: string;
-        isPrivate: Nullable<boolean>;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.command {
-    interface ProjectDeleteCommandDTO extends io.komune.registry.s2.project.domain.command.ProjectDeleteCommandDTO {
-        readonly id: string;
-
-    }
-    interface ProjectDeletedEventDTO extends io.komune.registry.s2.project.domain.command.ProjectDeletedEventDTO {
-        readonly id: string;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.command {
-    interface ProjectUpdateCommandDTO extends io.komune.registry.s2.project.domain.command.ProjectUpdateCommandDTO {
-
-    }
-    interface ProjectUpdatedEventDTO extends io.komune.registry.s2.project.domain.command.ProjectUpdatedEventDTO {
-        readonly id: string;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.model {
-    interface ProjectDTO extends s2.dsl.automate.model.WithS2State<s2.dsl.automate.S2State/* io.komune.registry.s2.project.domain.automate.ProjectState */>, s2.dsl.automate.model.WithS2Id<string> {
-        readonly id: string;
-        readonly identifier?: string;
-        readonly name?: string;
-        readonly country?: string;
-        readonly indicator: string;
-        readonly creditingPeriodStartDate?: number;
-        readonly creditingPeriodEndDate?: number;
-        readonly description?: string;
-        readonly dueDate?: number;
-        readonly estimatedReductions?: string;
-        readonly localization?: string;
-        readonly proponent?: io.komune.registry.s2.project.domain.model.OrganizationRefDTO/* Nullable<io.komune.registry.s2.project.domain.model.OrganizationRef> */;
-        readonly type?: number;
-        readonly referenceYear?: string;
-        readonly registrationDate?: number;
-        readonly vintage: string[];
-        readonly slug?: string;
-        readonly vvb?: io.komune.registry.s2.project.domain.model.OrganizationRefDTO/* Nullable<io.komune.registry.s2.project.domain.model.OrganizationRef> */;
-        readonly assessor?: io.komune.registry.s2.project.domain.model.OrganizationRefDTO/* Nullable<io.komune.registry.s2.project.domain.model.OrganizationRef> */;
-        readonly location?: io.komune.registry.s2.commons.model.GeoLocationDTO;
-        readonly activities?: string[];
-        readonly certificationId?: string;
-        readonly status: s2.dsl.automate.S2State/* io.komune.registry.s2.project.domain.automate.ProjectState */;
-        readonly creationDate: number;
-        readonly lastModificationDate: number;
-        readonly sdgs?: number[];
-        readonly assetPools: string[];
-        readonly isPrivate: boolean;
-        s2State(): s2.dsl.automate.S2State/* io.komune.registry.s2.project.domain.automate.ProjectState */;
-        s2Id(): string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.query {
-    interface ProjectDownloadFileQueryDTO {
-        readonly id: string;
-        readonly path: io.komune.fs.s2.file.domain.model.FilePathDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.query {
-    interface ProjectGetByIdentifierQueryDTO {
-        readonly identifier: string;
-
-    }
-    interface ProjectGetByIdentifierResultDTO {
-        readonly item?: io.komune.registry.f2.project.domain.model.ProjectDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.query {
-    interface ProjectGetQueryDTO {
-        readonly id: string;
-
-    }
-    interface ProjectGetResultDTO {
-        readonly item?: io.komune.registry.f2.project.domain.model.ProjectDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.query {
-    interface ProjectListFilesQueryDTO {
-        readonly id: string;
-
-    }
-    interface ProjectListFilesResultDTO {
-        readonly items: io.komune.fs.s2.file.domain.model.FilePathDTO[];
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.query {
-    interface ProjectPageQueryDTO {
-        readonly limit?: number;
-        readonly offset?: number;
-        readonly identifier?: string;
-        readonly name?: string;
-        readonly proponent?: string;
-        readonly type?: number;
-        readonly estimatedReductions?: string;
-        readonly referenceYear?: string;
-        readonly vintage?: string;
-        readonly origin?: string;
-        readonly dueDate?: number;
-        readonly status?: string;
-
-    }
-    interface ProjectPageResultDTO extends f2.dsl.cqrs.page.PageQueryResultDTO<io.komune.registry.f2.project.domain.model.ProjectDTO> {
-        readonly total: number;
-        readonly items: io.komune.registry.f2.project.domain.model.ProjectDTO[];
-        readonly pagination?: f2.dsl.cqrs.page.OffsetPaginationDTO;
-
-    }
-}
-export declare namespace io.komune.registry.f2.project.domain.utils {
-    const ProjectPolicies: {
-        canGet(authedUser?: io.komune.im.commons.auth.AuthedUserDTO, project: io.komune.registry.f2.project.domain.model.ProjectDTO): boolean;
-        canList(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        privateOrganizationId(authedUser?: io.komune.im.commons.auth.AuthedUserDTO): Nullable<string>;
-        canCreate(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
-        canUpdate(authedUser: io.komune.im.commons.auth.AuthedUserDTO, project: io.komune.registry.f2.project.domain.model.ProjectDTO): boolean;
-        canDelete(authedUser: io.komune.im.commons.auth.AuthedUserDTO, project: io.komune.registry.f2.project.domain.model.ProjectDTO): boolean;
-    };
 }
 export declare namespace io.komune.sel {
     class SelException /* extends kotlin.Exception */ {

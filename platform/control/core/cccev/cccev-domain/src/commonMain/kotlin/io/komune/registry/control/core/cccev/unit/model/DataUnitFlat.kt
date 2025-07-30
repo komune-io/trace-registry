@@ -32,12 +32,12 @@ interface DataUnitFlatDTO {
     /**
      * @ref [DataUnitDTO.description]
      */
-    val description: String
+    val description: String?
 
     /**
      * @ref [DataUnitDTO.notation]
      */
-    val notation: String?
+    val abbreviation: String?
 
     /**
      * @ref [DataUnitDTO.type]
@@ -58,8 +58,8 @@ data class DataUnitFlat(
     override val id: DataUnitId,
     override val identifier: DataUnitIdentifier,
     override val name: String,
-    override val description: String,
-    override val notation: String? = null,
+    override val description: String?,
+    override val abbreviation: String? = null,
     override val type: DataUnitType,
     override val optionIdentifiers: List<DataUnitOptionIdentifier>
 ): DataUnitFlatDTO

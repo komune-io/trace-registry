@@ -4,10 +4,10 @@ plugins {
 }
 
 dependencies {
-	implementation(project(":platform:control:f2:activity-f2:activity-f2-api"))
+//	implementation(project(":platform:control:f2:activity-f2:activity-f2-api"))
 	implementation(project(":platform:project:f2:asset-order-f2:asset-order-f2-api"))
 	implementation(project(":platform:project:f2:asset-pool-f2:asset-pool-f2-api"))
-	implementation(project(":platform:control:f2:dcs-f2:dcs-f2-api"))
+//	implementation(project(":platform:control:f2:dcs-f2:dcs-f2-api"))
 	implementation(project(":platform:project:f2:project-f2:project-f2-api"))
 
 
@@ -22,7 +22,7 @@ dependencies {
 
 	implementation(project(":platform:infra:im"))
 	implementation(project(":platform:infra:redis"))
-	implementation(project(":platform:control:infra:cccev"))
+//	implementation(project(":platform:control:infra:cccev"))
 
 	implementation(project(":platform:commons"))
 

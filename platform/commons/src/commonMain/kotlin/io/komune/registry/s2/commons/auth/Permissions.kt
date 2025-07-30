@@ -25,8 +25,12 @@ object Permissions {
     }
 
     object Configuration {
-        const val CCCEV_WRITE = "rg_perm_configuration_cccev_write"
+        const val CCCEV_OLD_WRITE = "rg_perm_configuration_cccev_write"
         const val CONCEPT_WRITE = "rg_perm_configuration_concept_write"
         const val LICENSE_WRITE = "rg_perm_configuration_license_write"
+    }
+
+    object Protocol {
+        const val WRITE_ALL = "rg_perm_protocol_write_all"
     }
 }

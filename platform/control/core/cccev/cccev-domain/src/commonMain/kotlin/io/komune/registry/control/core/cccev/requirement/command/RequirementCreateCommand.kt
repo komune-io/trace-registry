@@ -104,7 +104,7 @@ interface RequirementCreateCommandDTO {
     /**
      * @ref [io.komune.registry.control.core.cccev.requirement.model.Requirement.properties]
      */
-    val properties: Map<String, String>?
+    val properties: Map<String, String?>?
 }
 
 /**
@@ -127,7 +127,7 @@ data class RequirementCreateCommand(
     override val validatingConditionDependencies: List<InformationConceptId> = emptyList(),
     override val evidenceValidatingCondition: String? = null,
     override val order: Int? = null,
-    override val properties: Map<String, String>? = null,
+    override val properties: Map<String, String?>? = null,
 ): RequirementCreateCommandDTO
 
 /**

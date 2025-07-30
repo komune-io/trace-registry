@@ -5,6 +5,6 @@ import io.komune.registry.s2.commons.model.DataUnitId
 import org.springframework.stereotype.Repository
 
 @Repository
-interface DataUnitRepository: RedisRepository<DataUnitEntity, DataUnitId> {
+interface DataUnitOldRepository: RedisRepository<DataUnitEntity, DataUnitId> {
     fun findByIdentifier(identifier: String): DataUnitEntity?
 }

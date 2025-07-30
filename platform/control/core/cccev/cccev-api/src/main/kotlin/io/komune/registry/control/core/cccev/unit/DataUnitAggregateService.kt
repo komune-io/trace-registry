@@ -25,7 +25,7 @@ class DataUnitAggregateService(
             identifier = command.identifier
             name = command.name
             description = command.description
-            notation = command.notation
+            abbreviation = command.abbreviation
             type = command.type
             options = command.options.map { option ->
                 DataUnitOption().apply {
@@ -58,7 +58,7 @@ class DataUnitAggregateService(
         unit.apply {
             name = command.name
             description = command.description
-            notation = command.notation
+            abbreviation = command.abbreviation
             options = command.options.map { option ->
                 val optionToMutate = existingOptions[option.id]
                     ?: DataUnitOption().apply { id = UUID.randomUUID().toString() }

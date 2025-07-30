@@ -23,14 +23,14 @@ class AssertionDataUnit(
         fun hasFields(
             id: DataUnitId = unit.id,
             name: String = unit.name,
-            description: String = unit.description,
-            notation: String? = unit.notation,
+            description: String? = unit.description,
+            abbreviation: String? = unit.abbreviation,
             type: DataUnitType = unit.type
         ) = also {
             Assertions.assertThat(unit.id).isEqualTo(id)
             Assertions.assertThat(unit.name).isEqualTo(name)
             Assertions.assertThat(unit.description).isEqualTo(description)
-            Assertions.assertThat(unit.notation).isEqualTo(notation)
+            Assertions.assertThat(unit.abbreviation).isEqualTo(abbreviation)
             Assertions.assertThat(unit.type).isEqualTo(type)
         }
     }

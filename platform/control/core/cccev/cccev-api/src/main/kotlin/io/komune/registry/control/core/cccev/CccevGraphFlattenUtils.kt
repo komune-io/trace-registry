@@ -106,7 +106,7 @@ fun DataUnit.flattenTo(graph: CccevFlatGraph): DataUnitIdentifier {
         identifier = identifier,
         name = name,
         description = description,
-        notation = notation,
+        abbreviation = abbreviation,
         type = type,
         optionIdentifiers = options.map { it.flattenTo(graph) }
     )

@@ -34,13 +34,13 @@ data class DataUnitUpdateCommand(
      * The description of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.description]
      */
-    val description: String,
+    val description: String?,
 
     /**
      * The notation of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.notation]
      */
-    val notation: String? = null,
+    val abbreviation: String? = null,
 
     /**
      * @ref [cccev.s2.unit.domain.model.DataUnit.options]

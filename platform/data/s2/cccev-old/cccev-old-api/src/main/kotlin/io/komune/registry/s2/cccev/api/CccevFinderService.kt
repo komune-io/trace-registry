@@ -1,8 +1,8 @@
 package io.komune.registry.s2.cccev.api
 
-import io.komune.registry.s2.cccev.api.entity.concept.InformationConceptRepository
+import io.komune.registry.s2.cccev.api.entity.concept.InformationConceptOldRepository
 import io.komune.registry.s2.cccev.api.entity.concept.toModel
-import io.komune.registry.s2.cccev.api.entity.unit.DataUnitRepository
+import io.komune.registry.s2.cccev.api.entity.unit.DataUnitOldRepository
 import io.komune.registry.s2.cccev.api.entity.unit.toModel
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueEntity
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class CccevFinderService(
-    private val conceptRepository: InformationConceptRepository,
-    private val unitRepository: DataUnitRepository,
+    private val conceptRepository: InformationConceptOldRepository,
+    private val unitRepository: DataUnitOldRepository,
     private val valueRepository: SupportedValueRepository,
 ) {
 

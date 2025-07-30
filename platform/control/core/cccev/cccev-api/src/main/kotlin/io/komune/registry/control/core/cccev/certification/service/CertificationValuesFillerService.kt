@@ -18,6 +18,11 @@ import io.komune.registry.s2.commons.model.RequirementCertificationId
 import io.komune.sel.SelExecutor
 import io.komune.sel.isTruthy
 import io.komune.sel.normalize
+import io.komune.sel.normalizeJsonElement
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.json.Json
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -47,7 +52,7 @@ class CertificationValuesFillerService(
         }
 
         certificationRepository.findAllSupportedValues(context.certificationId, context.rootRequirementCertificationId)
-            .forEach { context.knownValues[it.concept.identifier] = it.value.normalize() }
+            .forEach { context.registerJsonValue(it.concept.identifier, it.value) }
 
         computeValuesOfConsumersOf(values.keys, context)
     }
@@ -121,12 +126,12 @@ class CertificationValuesFillerService(
                 context.certificationId, context.rootRequirementCertificationId, concept.identifier
             )
 
-            val value = selExecutor.evaluate(concept.expressionOfExpectedValue!!, expressionDataJson)
-                .also { context.knownValues[concept.identifier] = it }
+            val value = selExecutor.evaluateToJson(concept.expressionOfExpectedValue!!, expressionDataJson)
+                .also { context.registerJsonValue(concept.identifier, it) }
                 .let {
                     SupportedValue().also { supportedValue ->
                         supportedValue.id = UUID.randomUUID().toString()
-                        supportedValue.value = it.toString()
+                        supportedValue.value = it
                         supportedValue.concept = concept
                     }
                 }
@@ -190,9 +195,26 @@ class CertificationValuesFillerService(
         DataUnitType.STRING -> this
     }
 
-    data class Context(
+
+
+    class Context(
         val certificationId: CertificationId,
         val rootRequirementCertificationId: RequirementCertificationId?,
-        val knownValues: MutableMap<InformationConceptIdentifier, Any?> = mutableMapOf()
-    )
+    ) {
+        private val values: MutableMap<InformationConceptIdentifier, Any?> = genericParams()
+
+        val knownValues: Map<InformationConceptIdentifier, Any?> = values
+
+        fun registerJsonValue(conceptIdentifier: InformationConceptIdentifier, value: String?) {
+            values[conceptIdentifier] = value?.let { Json.parseToJsonElement(it).normalizeJsonElement() }
+        }
+
+        private fun genericParams(): MutableMap<String, Any?> {
+            val now = Clock.System.now()
+            return mutableMapOf(
+                "now" to now.toEpochMilliseconds(),
+                "currentYear" to now.toLocalDateTime(TimeZone.UTC).year
+            )
+        }
+    }
 }

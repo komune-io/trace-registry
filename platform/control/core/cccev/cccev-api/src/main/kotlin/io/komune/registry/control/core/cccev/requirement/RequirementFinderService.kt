@@ -20,7 +20,7 @@ class RequirementFinderService(
             ?: throw NotFoundException("Requirement", id)
     }
 
-    suspend fun getOrNullByIdentifier(identifier: RequirementIdentifier): Requirement? {
+    suspend fun getByIdentifierOrNull(identifier: RequirementIdentifier): Requirement? {
         return requirementRepository.findByIdentifier(identifier)
     }
 }

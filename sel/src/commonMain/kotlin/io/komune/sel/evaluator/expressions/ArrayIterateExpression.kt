@@ -14,6 +14,7 @@ abstract class ArrayIterateExpression<ItemTransformationResult, ArrayEvaluationR
     protected open fun evaluateItem(
         evaluator: SelExpressionEvaluator, itemEvalNode: SelNode, iterationData: IterationData, jsonPath: String
     ): ItemTransformationResult {
+        @Suppress("UNCHECKED_CAST")
         return evaluator.evaluate(itemEvalNode, iterationData, jsonPath) as ItemTransformationResult
     }
 

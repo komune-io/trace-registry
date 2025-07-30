@@ -16,6 +16,6 @@ object InformationConceptPolicies {
     }
 
     private fun canWrite(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Permissions.Configuration.CCCEV_WRITE)
+        return authedUser.hasRole(Permissions.Configuration.CCCEV_OLD_WRITE)
     }
 }

@@ -3,7 +3,6 @@ package io.komune.registry.data.test.bdd
 import au.com.origin.snapshots.SnapshotVerifier
 import cccev.dsl.model.InformationConceptId
 import io.komune.im.f2.organization.domain.model.Organization
-import io.komune.registry.f2.activity.domain.model.ActivityId
 import io.komune.registry.s2.asset.domain.automate.AssetPoolId
 import io.komune.registry.s2.asset.domain.automate.AssetTransactionId
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -31,7 +30,7 @@ typealias UserKey = TestContextKey
 
 @Component
 class VerTestContext: TestContext() {
-    val activityIds = testEntities<ActivityKey, ActivityId>("Activity")
+//    val activityIds = testEntities<ActivityKey, ActivityId>("Activity")
     val assetPoolIds = testEntities<AssetPoolKey, AssetPoolId>("AssetPool")
     val transactionIds = testEntities<TransactionKey, AssetTransactionId>("Transaction")
     val orderIds = testEntities<OrderKey, OrderId>("Order")

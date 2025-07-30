@@ -65,7 +65,7 @@ class DataUnitCreateSteps: En, RgCucumberStepsDefinition() {
                 AssertionBdd.dataUnit(dataUnitRepository).assertThatId(unitId).hasFields(
                     name = command.name,
                     description = command.description,
-                    notation = command.notation,
+                    abbreviation = command.abbreviation,
                     type = command.type,
                 )
             }
@@ -80,7 +80,7 @@ class DataUnitCreateSteps: En, RgCucumberStepsDefinition() {
                 AssertionBdd.dataUnit(dataUnitRepository).assertThat(unit!!).hasFields(
                     name = params.name ?: unit.name,
                     description = params.description ?: unit.description,
-                    notation = params.notation.parseNullableOrDefault(unit.notation),
+                    abbreviation = params.notation.parseNullableOrDefault(unit.abbreviation),
                     type = params.type ?: unit.type,
                 )
             }
@@ -92,7 +92,7 @@ class DataUnitCreateSteps: En, RgCucumberStepsDefinition() {
             name = params.name,
             identifier = params.identifier,
             description = params.description,
-            notation = params.notation,
+            abbreviation = params.notation,
             type = params.type,
             options = emptyList()
         )

@@ -24,7 +24,7 @@ interface RequirementFlatDTO {
     val validatingCondition: String?
     val validatingConditionDependencies: List<InformationConceptIdentifier>
     val order: Int?
-    val properties: Map<String, String>?
+    val properties: Map<String, String?>?
 }
 
 @Serializable
@@ -44,5 +44,5 @@ data class RequirementFlat(
     override val validatingCondition: String?,
     override val validatingConditionDependencies: List<InformationConceptIdentifier>,
     override val order: Int?,
-    override val properties: Map<String, String>?
+    override val properties: Map<String, String?>?
 ): RequirementFlatDTO

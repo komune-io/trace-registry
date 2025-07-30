@@ -61,8 +61,8 @@ class Requirement {
     var order: Int? = null
 
     private var propertiesJson: String? = null
-    var properties: Map<String, String>?
-        get() = propertiesJson?.parseJsonTo<Map<String, String>>()
+    var properties: Map<String, String?>?
+        get() = propertiesJson?.parseJsonTo<Map<String, String?>>()
         set(value) { propertiesJson = value?.toJson() }
 
     @Version

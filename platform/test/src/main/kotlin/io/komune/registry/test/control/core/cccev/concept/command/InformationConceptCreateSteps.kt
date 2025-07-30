@@ -63,7 +63,7 @@ class InformationConceptCreateSteps: En, RgCucumberStepsDefinition() {
                 val conceptId = context.cccev.conceptIds.lastUsed
                 AssertionBdd.informationConcept(informationConceptRepository).assertThatId(conceptId).hasFields(
                     name = command.name,
-                    unit = command.hasUnit,
+                    unit = command.unitId,
                     description = command.description,
                     expressionOfExpectedValue = command.expressionOfExpectedValue,
                     dependencies = command.dependsOn,
@@ -94,7 +94,7 @@ class InformationConceptCreateSteps: En, RgCucumberStepsDefinition() {
         command = InformationConceptCreateCommand(
             identifier = params.identifier,
             name = params.name,
-            hasUnit = context.cccev.unitIds[params.unit] ?: params.unit,
+            unitId = context.cccev.unitIds[params.unit] ?: params.unit,
             description = params.description,
             expressionOfExpectedValue = params.expressionOfExpectedValue,
             dependsOn = params.dependsOn.map(context.cccev.conceptIds::safeGet)

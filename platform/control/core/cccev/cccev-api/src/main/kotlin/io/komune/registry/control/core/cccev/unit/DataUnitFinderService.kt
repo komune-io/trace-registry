@@ -20,7 +20,12 @@ class DataUnitFinderService(
             ?: throw NotFoundException("DataUnit", id)
     }
 
-    suspend fun getByIdentifierOrNull(id: DataUnitIdentifier): DataUnit? {
-        return dataUnitRepository.findByIdentifier(id)
+    suspend fun getByIdentifierOrNull(identifier: DataUnitIdentifier): DataUnit? {
+        return dataUnitRepository.findByIdentifier(identifier)
+    }
+
+    suspend fun getByIdentifier(identifier: DataUnitIdentifier): DataUnit {
+        return getByIdentifierOrNull(identifier)
+            ?: throw NotFoundException("DataUnit", identifier)
     }
 }

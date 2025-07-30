@@ -6,7 +6,7 @@ import s2.sourcing.dsl.snap.SnapRepository
 
 @Service
 class InformationConceptSnapRepository(
-    private val repository: InformationConceptRepository
+    private val repository: InformationConceptOldRepository
 ): SnapRepository<InformationConceptEntity, InformationConceptId> {
     override suspend fun get(id: InformationConceptId): InformationConceptEntity? {
         return repository.findById(id).orElse(null)

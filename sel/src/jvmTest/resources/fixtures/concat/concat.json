@@ -7,7 +7,7 @@
     {
         "name": "concat numbers",
         "expression": { "concat": [1, 2, 3] },
-        "expected": "123"
+        "expected": 123
     },
     {
         "name": "concat mixed types",

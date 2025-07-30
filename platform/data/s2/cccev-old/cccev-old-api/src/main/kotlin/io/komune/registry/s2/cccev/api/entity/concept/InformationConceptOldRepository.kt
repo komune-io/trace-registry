@@ -6,7 +6,7 @@ import io.komune.registry.s2.commons.model.InformationConceptId
 import org.springframework.stereotype.Repository
 
 @Repository
-interface InformationConceptRepository: RedisRepository<InformationConceptEntity, InformationConceptId> {
+interface InformationConceptOldRepository: RedisRepository<InformationConceptEntity, InformationConceptId> {
     fun findByIdentifier(identifier: String): InformationConceptEntity?
     fun findAllByStatus(status: InformationConceptState): List<InformationConceptEntity>
 }

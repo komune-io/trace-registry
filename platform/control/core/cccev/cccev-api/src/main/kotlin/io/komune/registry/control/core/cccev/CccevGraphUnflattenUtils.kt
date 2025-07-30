@@ -133,7 +133,7 @@ fun DataUnitFlat.unflattenFrom(graph: CccevFlatGraph): DataUnit {
         unit.identifier = identifier
         unit.name = name
         unit.description = description
-        unit.notation = notation
+        unit.abbreviation = abbreviation
         unit.type = type
         unit.options = optionIdentifiers.map {
             graph.unitOptions[it]?.unflattenFrom(graph)

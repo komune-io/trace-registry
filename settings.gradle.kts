@@ -3,7 +3,6 @@ pluginManagement {
 		mavenLocal()
 		mavenCentral()
 		gradlePluginPortal()
-		maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots") }
 		maven { url = uri("https://repo.spring.io/milestone") }
 	}
 }
@@ -50,12 +49,18 @@ include(
 // Control
 ///////////////////////////////
 include(
-	"platform:control:f2:activity-f2:activity-f2-api",
-	"platform:control:f2:activity-f2:activity-f2-client",
-	"platform:control:f2:activity-f2:activity-f2-domain",
-	"platform:control:f2:dcs-f2:dcs-f2-api",
-	"platform:control:f2:dcs-f2:dcs-f2-client",
-	"platform:control:f2:dcs-f2:dcs-f2-domain",
+//	"platform:control:f2:activity-f2:activity-f2-api",
+//	"platform:control:f2:activity-f2:activity-f2-client",
+//	"platform:control:f2:activity-f2:activity-f2-domain",
+	"platform:control:f2:cccev-f2:cccev-f2-api",
+	"platform:control:f2:cccev-f2:cccev-f2-client",
+	"platform:control:f2:cccev-f2:cccev-f2-domain",
+//	"platform:control:f2:dcs-f2:dcs-f2-api",
+//	"platform:control:f2:dcs-f2:dcs-f2-client",
+//	"platform:control:f2:dcs-f2:dcs-f2-domain",
+	"platform:control:f2:protocol-f2:protocol-f2-api",
+	"platform:control:f2:protocol-f2:protocol-f2-client",
+	"platform:control:f2:protocol-f2:protocol-f2-domain",
 )
 
 include(
@@ -63,9 +68,9 @@ include(
 	"platform:control:core:cccev:cccev-domain"
 )
 
-include(
-	"platform:control:infra:cccev"
-)
+//include(
+//	"platform:control:infra:cccev"
+//)
 
 include(
 	"platform:control:test:bdd"
@@ -145,9 +150,9 @@ include(
 	"platform:data:f2:catalogue-draft-f2:catalogue-draft-f2-api",
 	"platform:data:f2:catalogue-draft-f2:catalogue-draft-f2-client",
 	"platform:data:f2:catalogue-draft-f2:catalogue-draft-f2-domain",
-	"platform:data:f2:cccev-f2:cccev-f2-api",
-	"platform:data:f2:cccev-f2:cccev-f2-client",
-	"platform:data:f2:cccev-f2:cccev-f2-domain",
+	"platform:data:f2:cccev-f2-old:cccev-f2-old-api",
+	"platform:data:f2:cccev-f2-old:cccev-f2-old-client",
+	"platform:data:f2:cccev-f2-old:cccev-f2-old-domain",
 	"platform:data:f2:concept-f2:concept-f2-api",
 	"platform:data:f2:concept-f2:concept-f2-client",
 	"platform:data:f2:concept-f2:concept-f2-domain",
@@ -164,8 +169,8 @@ include(
 	"platform:data:s2:catalogue:catalogue-domain",
 	"platform:data:s2:catalogue-draft:catalogue-draft-api",
 	"platform:data:s2:catalogue-draft:catalogue-draft-domain",
-	"platform:data:s2:cccev:cccev-api",
-	"platform:data:s2:cccev:cccev-domain",
+	"platform:data:s2:cccev-old:cccev-old-api",
+	"platform:data:s2:cccev-old:cccev-old-domain",
 	"platform:data:s2:concept:concept-api",
 	"platform:data:s2:concept:concept-domain",
 	"platform:data:s2:dataset:dataset-api",

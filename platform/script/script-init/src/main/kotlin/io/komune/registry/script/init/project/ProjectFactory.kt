@@ -2,9 +2,6 @@ package io.komune.registry.script.init.project
 
 import f2.client.domain.AuthRealm
 import f2.dsl.fnc.invokeWith
-import io.komune.registry.f2.activity.client.ActivityClient
-import io.komune.registry.f2.activity.client.activityClient
-import io.komune.registry.f2.activity.domain.command.ActivityStepFulfillCommandDTOBase
 import io.komune.registry.f2.project.client.ProjectClient
 import io.komune.registry.f2.project.client.projectClient
 import io.komune.registry.f2.project.domain.command.ProjectCreatedEventDTOBase
@@ -25,7 +22,7 @@ import net.datafaker.providers.base.Address
 
 class ProjectFactory(url: String, authRealm: AuthRealm) {
     val faker = Faker()
-    val activityClient = activityClient(url, { authRealm })
+//    val activityClient = activityClient(url, { authRealm })
     val projectClient = projectClient(url, { authRealm })
     val years = (1980..2022)
     val types = listOf("Solar", "Wind power", "Biogaz", "AFLU")
@@ -48,7 +45,7 @@ suspend fun createRandomProject(
 ): List<ProjectId> {
     val helper = ProjectFactory(url, accessTokenAdmin.authRealm)
     val projectClient = helper.projectClient.invoke()
-    val activityClient = helper.activityClient.invoke()
+//    val activityClient = helper.activityClient.invoke()
     val faker = helper.faker
     val subContinents = helper.subContinents
     val address =  faker.address()
@@ -57,23 +54,23 @@ suspend fun createRandomProject(
         randomProject(faker, address, subContinents, years, count)
     }
         .createProjects(projectClient)
-        .fullfillActivities(activityClient)
+//        .fullfillActivities(activityClient)
         .map { it.id }
 }
 
-private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(
-    activityClient: ActivityClient
-): List<ProjectCreatedEventDTOBase> =
-    asyncExecution { project ->
-        project.certificationId?.let { certificationId ->
-            ActivityStepFulfillCommandDTOBase(
-                certificationId = certificationId,
-                identifier = "B101",
-                value = "Yahuma Sud"
-            ).invokeWith(activityClient.activityStepFulfill())
-        }
-        project
-    }
+//private suspend fun List<ProjectCreatedEventDTOBase>.fullfillActivities(
+//    activityClient: ActivityClient
+//): List<ProjectCreatedEventDTOBase> =
+//    asyncExecution { project ->
+//        project.certificationId?.let { certificationId ->
+//            ActivityStepFulfillCommandDTOBase(
+//                certificationId = certificationId,
+//                identifier = "B101",
+//                value = "Yahuma Sud"
+//            ).invokeWith(activityClient.activityStepFulfill())
+//        }
+//        project
+//    }
 
 private suspend fun List<ProjectCreateCommand>.createProjects(
     projectClient: ProjectClient

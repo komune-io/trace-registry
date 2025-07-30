@@ -10,7 +10,7 @@ services:
       -  meilisearch_data:/data.ms
     networks:
       - net
-      -
+
   meilisearch-test:
     image: getmeili/meilisearch:latest
     container_name: meilisearch-test

@@ -36,13 +36,13 @@ data class DataUnitCreateCommand(
      * The description of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.description]
      */
-    val description: String,
+    val description: String?,
 
     /**
      * The notation of the data unit.
      * @example [cccev.s2.unit.domain.model.DataUnit.notation]
      */
-    val notation: String? = null,
+    val abbreviation: String? = null,
 
     /**
      * The type of data used for this data unit.

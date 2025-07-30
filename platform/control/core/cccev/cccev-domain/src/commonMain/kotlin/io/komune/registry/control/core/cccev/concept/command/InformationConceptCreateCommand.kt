@@ -37,7 +37,7 @@ interface InformationConceptCreateCommandDTO {
      * The data unit used for the information concept.
      * @example [cccev.s2.concept.domain.model.InformationConcept.unit]
      */
-    val hasUnit: DataUnitId
+    val unitId: DataUnitId
 
     /**
      * The description of the information concept.
@@ -67,7 +67,7 @@ interface InformationConceptCreateCommandDTO {
 data class InformationConceptCreateCommand(
     override val name: String,
     override val identifier: String?,
-    override val hasUnit: DataUnitId,
+    override val unitId: DataUnitId,
     override val description: String?,
     override val expressionOfExpectedValue: String?,
     override val dependsOn: List<InformationConceptId>

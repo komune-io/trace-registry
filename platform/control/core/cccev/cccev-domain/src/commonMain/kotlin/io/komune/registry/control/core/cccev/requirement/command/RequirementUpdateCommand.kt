@@ -50,7 +50,7 @@ interface RequirementUpdateCommandDTO {
     val validatingConditionDependencies: List<InformationConceptId>
     val evidenceValidatingCondition: String?
     val order: Int?
-    val properties: Map<String, String>?
+    val properties: Map<String, String?>?
 }
 
 /**
@@ -72,7 +72,7 @@ data class RequirementUpdateCommand(
     override val validatingConditionDependencies: List<InformationConceptId>,
     override val evidenceValidatingCondition: String?,
     override val order: Int?,
-    override val properties: Map<String, String>?
+    override val properties: Map<String, String?>?
 ): RequirementUpdateCommandDTO
 
 /**

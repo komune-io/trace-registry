@@ -49,7 +49,7 @@ object Versions {
 
 object Repo {
 	val snapshot: List<String> = listOf(
-		"https://s01.oss.sonatype.org/service/local/repositories/releases/content",
+//		"https://s01.oss.sonatype.org/service/local/repositories/releases/content",
 		"https://s01.oss.sonatype.org/content/repositories/snapshots",
 	)
 }
@@ -265,8 +265,22 @@ object Modules {
 				const val domain = "$BASE-domain"
 			}
 
+			object cccev {
+				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
 			object dcs {
 				private const val BASE = "${f2.BASE}:dcs-f2:dcs-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+
+			object protocol {
+				private const val BASE = "${f2.BASE}:protocol-f2:protocol-f2"
 				const val api = "$BASE-api"
 				const val client = "$BASE-client"
 				const val domain = "$BASE-domain"
@@ -322,7 +336,7 @@ object Modules {
 			}
 
 			object cccev {
-				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+				private const val BASE = "${f2.BASE}:cccev-f2-old:cccev-f2-old"
 				const val api = "$BASE-api"
 				const val client = "$BASE-client"
 				const val domain = "$BASE-domain"

@@ -1,7 +1,11 @@
-package io.komune.registry.api.config
+package io.komune.registry.api.gateway
 
+import io.komune.registry.control.f2.protocol.api.config.ProtocolDTOSerializer
+import io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -19,6 +23,11 @@ class WebFluxConfig : WebFluxConfigurer {
     fun jsonConfig(): Json = Json {
         ignoreUnknownKeys = true
         explicitNulls = false
+        serializersModule = SerializersModule {
+            polymorphic(ProtocolDTO::class) {
+                defaultDeserializer { ProtocolDTOSerializer }
+            }
+        }
     }
 
     @Bean

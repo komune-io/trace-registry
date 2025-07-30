@@ -24,10 +24,10 @@ class SelExecutor {
             throw SelParseException("Failed to parse data", "$", e)
         }
 
-        return evaluator.evaluate(selNode, data, "$")
+        return evaluator.evaluate(selNode, data, "$").normalize()
     }
 
     fun evaluateToJson(expressionJson: String, dataJson: String): String {
-        return Json.encodeToString(evaluate(expressionJson, dataJson).toJsonElement())
+        return Json.encodeToString(evaluate(expressionJson, dataJson).normalize().toJsonElement())
     }
 }
