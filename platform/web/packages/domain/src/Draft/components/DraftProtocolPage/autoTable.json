@@ -10,15 +10,15 @@
     "value": "status"
   }, {
     "label": "Badge",
-    "type": "number",
-    "value": "badge"
+    "type": "badge",
+    "value": {
+      "label": "shortLabel",
+      "value": "result",
+      "icon": "/path/to/icon.svg"
+    }
   }, {
     "label": "Complétion",
     "type": "progress",
     "value": "completion"
-  }, {
-    "label": "Actions",
-    "type": "actions",
-    "value": "actions"
   }]
 }
