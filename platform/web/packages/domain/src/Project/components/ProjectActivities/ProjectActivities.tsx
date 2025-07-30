@@ -1,6 +1,5 @@
 import { Project } from '../../model'
 import 'reactflow/dist/style.css';
-import { useActivityPageQuery } from "../../../Activity";
 import {ActivitiesSection} from "../ActivitiesSection";
 
 export interface ProjectActivitiesProps {
@@ -10,16 +9,8 @@ export interface ProjectActivitiesProps {
 
 export const ProjectActivities = (props: ProjectActivitiesProps) => {
   const { isLoading, project } = props
-  const activityPageQuery = useActivityPageQuery({
-    query: {
-      projectId: project.id,
-      limit: undefined,
-      offset: undefined,
-    }
-  })
-  const activities = activityPageQuery.data?.items ?? []
   
   return (
-      <ActivitiesSection project={project} items={activities} isLoading={isLoading}/>
+      <ActivitiesSection project={project}  isLoading={isLoading}/>
   )
 }

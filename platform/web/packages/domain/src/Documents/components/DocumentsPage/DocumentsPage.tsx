@@ -1,4 +1,4 @@
-import { DocumentsChatbot, DocumentsList, DocumentsViewer } from "domain-components";
+import { Dataset, DocumentsChatbot, DocumentsList, DocumentsViewer, useDatasetDataQuery } from "domain-components";
 import { Stack } from "@mui/material";
 import { useState, useMemo, useCallback } from "react";
 import { FilePath, useProjectFilesQuery } from "../../api";
@@ -8,18 +8,20 @@ import qs from 'qs';
 
 export interface DocumentsPageProps {
     isLoading?: boolean
-    files?: FilePath[]
+    dataset?: Dataset
 }
 
 export const DocumentsPage = (props: DocumentsPageProps) => {
-    const { isLoading = false, files } = props
+    const { isLoading = false, dataset } = props
     const { projectId } = useParams()
     const [reference, setReference] = useState<string | undefined>(undefined)
     const [quote, setQuote] = useState<{ quote: string, fileName: string, pageNumber: number } | undefined>(undefined)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const fileList = files
+    const fileListQuery = useDatasetDataQuery({ query: { id: dataset?.id! }, options: { enabled: !!dataset } })
+
+    const fileList = fileListQuery.data?.items
 
     const selectedFiles = useMemo(() => (qs.parse(searchParams.toString()).files ?? []) as string[], [searchParams])
     const isPreviewMode = useMemo(() => selectedFiles.length !== 0, [selectedFiles])
@@ -85,7 +87,7 @@ export const DocumentsPage = (props: DocumentsPageProps) => {
                 isPreviewMode
                     ? <DocumentsViewer reference={reference} setQuote={onSetQuote} isLoading={!filteredDownloadedFiles || filteredDownloadedFiles.length === 0} files={filteredDownloadedFiles} />
                     //@ts-ignore
-                    : <DocumentsList onRowClicked={onRowClicked} page={fileList} rowSelection={rowSelection} onRowSelectionChange={setRowSelection} isLoading={isLoading} />
+                    : <DocumentsList onRowClicked={onRowClicked} page={fileList} rowSelection={rowSelection} onRowSelectionChange={setRowSelection} isLoading={isLoading || fileListQuery.isLoading} />
             }
             <DocumentsChatbot
                 removeQuote={removeQuote}
