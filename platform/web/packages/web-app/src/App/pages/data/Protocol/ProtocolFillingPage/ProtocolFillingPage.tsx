@@ -10,7 +10,7 @@ import form from "./autoForm.json"
 import { AutoForm, autoFormFormatter, BackAutoFormData, FormComposableState } from '@komune-io/g2'
 
 
-export const ProtocolCreationPage = () => {
+export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, tab, /* protocolId */ } = useParams()
 
@@ -84,7 +84,9 @@ export const ProtocolCreationPage = () => {
         gap={2}
       >
         <Typography variant="h5" >
-          Saisie du référentiel : Mapping Finance V1
+          {t("protocol.protocolFillingTitle", {
+            name: "Mapping finance v1"
+          })}
         </Typography>
         <Box flex={1} />
         <IconButton

@@ -8,7 +8,8 @@ import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSear
 import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
 import {CataloguesStructureRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
 import { CatalogueLinkPage } from "./SubCatalogue/CatalogueLinkPage/CatalogueLinkPage";
-import { ProtocolCreationPage } from "./Protocol/ProtocolCreationPage/ProtocolCreationPage";
+import { ProtocolFillingPage } from "./Protocol/ProtocolFillingPage/ProtocolFillingPage";
+import { ProtocolVerificationPage } from "./Protocol/ProtocolVerificationPage/ProtocolVerificationPage";
 
 export const catalogPages: PageRoute[] = [
   {
@@ -65,6 +66,10 @@ export const catalogPages: PageRoute[] = [
   },
   {
     path: "catalogues/:catalogueId/:draftId/:tab/:protocolId/protocol",
-    element: <ProtocolCreationPage />
+    element: <ProtocolFillingPage />
+  },
+  {
+    path: "protocols/:protocolId/verify",
+    element: <ProtocolVerificationPage />
   }
 ]

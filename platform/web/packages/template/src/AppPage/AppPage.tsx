@@ -1,23 +1,24 @@
-import {Box, Stack, StackProps, useMediaQuery, useTheme} from '@mui/material';
-import {ReactNode, useEffect} from "react";
-import {Co2Counter, config, LanguageSelector} from 'components';
-import {CatalogueDraftValidatedEvent, CatalogueSearchBar, useInformationConceptGetGlobalValueQuery} from "domain-components"
-import {useThemeContext} from '@komune-io/g2';
-import {useTranslation} from 'react-i18next';
-import {MutationStatus, useMutationState} from '@tanstack/react-query';
+import { Box, Stack, StackProps, useMediaQuery, useTheme } from '@mui/material';
+import { ReactNode, useEffect } from "react";
+import { Co2Counter, config, LanguageSelector } from 'components';
+import { CatalogueDraftValidatedEvent, CatalogueSearchBar, useInformationConceptGetGlobalValueQuery } from "domain-components"
+import { useThemeContext } from '@komune-io/g2';
+import { useTranslation } from 'react-i18next';
+import { MutationStatus, useMutationState } from '@tanstack/react-query';
 
 export interface AppPageProps extends StackProps {
     title?: string
     children?: ReactNode
     header?: ReactNode
     headerProps?: StackProps
+    headerContainerProps?: StackProps
     customHeader?: ReactNode
     maxWidth?: number
     basicHeader?: boolean
 }
 
 export const AppPage = (props: AppPageProps) => {
-    const { title, children, header, headerProps, sx, maxWidth = 1280, customHeader, basicHeader = true, ...other } = props
+    const { title, children, header, headerProps, headerContainerProps, sx, maxWidth = 1280, customHeader, basicHeader = true, ...other } = props
 
     const { i18n } = useTranslation()
     const { openDrawer, theme: g2Theme } = useThemeContext()
@@ -79,6 +80,7 @@ export const AppPage = (props: AppPageProps) => {
             }}
         >
             <Box
+                {...headerContainerProps}
                 sx={{
                     width: !openDrawer || isMobile ? "calc(100% - 216px)" : "100%",
                     alignSelf: !openDrawer || isMobile ? 'flex-end' : undefined,
@@ -88,6 +90,7 @@ export const AppPage = (props: AppPageProps) => {
                             duration: theme.transitions.duration.leavingScreen
                         })
                         : "width 220ms ease-out",
+                    ...headerContainerProps?.sx
                 }}
             >
                 {customHeader ? customHeader : <Stack

@@ -49,22 +49,26 @@ export const muiTheme: Partial<ThemeOptions> = {
     allVariants: {
       fontWeight: 400,
       color: "#000000",
-      whiteSpace: "pre-line"
     },
     body1: {
       fontSize: "1.125rem",
+      whiteSpace: "pre-line"
     },
     body2: {
       fontSize: "0.938rem",
+      whiteSpace: "pre-line"
     },
     caption: {
       fontSize: "0.813rem",
+      whiteSpace: "pre-line"
     },
     subtitle1: {
       fontSize: "1.188rem",
+      whiteSpace: "pre-line"
     },
     subtitle2: {
       fontSize: "1rem",
+      whiteSpace: "pre-line"
     },
     button: {
       fontSize: "1rem",
