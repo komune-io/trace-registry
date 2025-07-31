@@ -20,6 +20,11 @@ class RequirementFinderService(
             ?: throw NotFoundException("Requirement", id)
     }
 
+    suspend fun getShallow(id: RequirementId): Requirement {
+        return requirementRepository.findShallowById(id)
+            ?: throw NotFoundException("Requirement", id)
+    }
+
     suspend fun getByIdentifierOrNull(identifier: RequirementIdentifier): Requirement? {
         return requirementRepository.findByIdentifier(identifier)
     }

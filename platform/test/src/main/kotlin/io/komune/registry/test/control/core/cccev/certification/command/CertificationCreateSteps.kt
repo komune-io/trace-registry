@@ -74,8 +74,7 @@ class CertificationCreateSteps: En, RgCucumberStepsDefinition() {
 
     private suspend fun createCertification(params: CertificationCreateParams) {
         command = CertificationCreateCommand(
-            id = params.identifier,
-            requirementIdentifiers = params.requirements
+            requirementIds = params.requirements.map { context.cccev.requirementIds[it] ?: it }
         )
         val certificationId = certificationAggregateService.create(command).id
         context.cccev.certificationIds[params.identifier] = certificationId

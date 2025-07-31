@@ -1,5 +1,6 @@
 package io.komune.registry.control.f2.protocol.domain.model
 
+import io.komune.registry.s2.commons.model.RequirementId
 import io.komune.registry.s2.commons.model.RequirementIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -11,6 +12,7 @@ sealed interface DataCollectionStepDTO: ProtocolDTO {
 
 @Serializable
 data class DataCollectionStep(
+    override val id: RequirementId = "",
     override val identifier: RequirementIdentifier,
     override val label: String?,
     override val description: String?,

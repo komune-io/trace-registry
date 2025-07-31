@@ -34,6 +34,7 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueRemoveRelatedCata
 import io.komune.registry.f2.catalogue.domain.command.CatalogueRemovedRelatedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueSetImageEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueStartCertificationFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkCataloguesFunction
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnlinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsFunction
@@ -470,5 +471,12 @@ class CatalogueEndpoint(
         logger.info("catalogueClaimOwnership: $command")
         cataloguePoliciesEnforcer.checkClaimOwnership(command.id)
         catalogueF2AggregateService.claimOwnership(command)
+    }
+
+    @Bean
+    override fun catalogueStartCertification(): CatalogueStartCertificationFunction = f2Function { command ->
+        logger.info("catalogueStartCertification: $command")
+        cataloguePoliciesEnforcer.checkFillCertification(command.id)
+        catalogueF2AggregateService.startCertification(command)
     }
 }

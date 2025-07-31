@@ -2,7 +2,7 @@ package io.komune.registry.control.core.cccev.certification.command
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.CertificationId
-import io.komune.registry.s2.commons.model.RequirementIdentifier
+import io.komune.registry.s2.commons.model.RequirementId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -23,14 +23,9 @@ typealias CertificationCreateFunction = F2Function<CertificationCreateCommand, C
 @JsName("CertificationCreateCommandDTO")
 interface CertificationCreateCommandDTO {
     /**
-     * Custom unique identifier for the certification. If null, a random identifier will be generated.
+     * Ids of the requirements that will be certified.
      */
-    val id: CertificationId?
-
-    /**
-     * Identifiers of the requirements that will be certified.
-     */
-    val requirementIdentifiers: List<RequirementIdentifier>
+    val requirementIds: List<RequirementId>
 }
 
 /**
@@ -38,8 +33,7 @@ interface CertificationCreateCommandDTO {
  */
 @Serializable
 data class CertificationCreateCommand(
-    override val id: CertificationId?,
-    override val requirementIdentifiers: List<RequirementIdentifier> = emptyList()
+    override val requirementIds: List<RequirementId> = emptyList()
 ): CertificationCreateCommandDTO
 
 /**
@@ -50,7 +44,7 @@ data class CertificationCreateCommand(
 @JsName("CertificationCreatedEventDTO")
 interface CertificationCreatedEventDTO {
     /**
-     * ID of the certification as specified in the command, or random if not.
+     * ID of the created certification
      */
     val id: CertificationId
 }

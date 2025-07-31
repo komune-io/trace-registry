@@ -22,7 +22,6 @@ import io.komune.registry.control.core.cccev.certification.service.Certification
 import io.komune.registry.control.core.cccev.certification.service.CertificationValuesFillerService
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
-import io.komune.registry.infra.neo4j.checkNotExists
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.s2.commons.model.RequirementIdentifier
 import org.neo4j.ogm.session.SessionFactory
@@ -30,7 +29,7 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.util.UUID
 
-@Service("CertificationAggregateService2")
+@Service
 class CertificationAggregateService(
     private val applicationEventPublisher: ApplicationEventPublisher,
     private val certificationEvidenceService: CertificationEvidenceService,
@@ -41,17 +40,13 @@ class CertificationAggregateService(
     private val sessionFactory: SessionFactory
 ) {
     suspend fun create(command: CertificationCreateCommand): CertificationCreatedEvent = sessionFactory.session { session ->
-        command.id?.let { id ->
-            session.checkNotExists<Certification>(id, "Certification")
-        }
-
-        val requirements = command.requirementIdentifiers.map { requirementIdentifier ->
-            requirementRepository.loadRequirementOnlyGraph(requirementIdentifier)
-                ?: throw NotFoundException("Requirement", requirementIdentifier)
+        val requirements = command.requirementIds.map { requirementId ->
+            requirementRepository.loadRequirementOnlyGraph(requirementId)
+                ?: throw NotFoundException("Requirement", requirementId)
         }
 
         val certification = Certification().apply {
-            id = command.id ?: UUID.randomUUID().toString()
+            id = UUID.randomUUID().toString()
             requirementCertifications = requirements.map { it.toEmptyCertification() }.toMutableList()
         }
 
@@ -100,9 +95,9 @@ class CertificationAggregateService(
     suspend fun addRequirements(
         command: CertificationAddRequirementsCommand
     ): CertificationAddedRequirementsEvent = sessionFactory.session { session ->
-        val requirements = command.requirementIdentifiers.map { requirementIdentifier ->
-            requirementRepository.loadRequirementOnlyGraph(requirementIdentifier)
-                ?: throw NotFoundException("Requirement", requirementIdentifier)
+        val requirements = command.requirementIds.map { requirementId ->
+            requirementRepository.loadRequirementOnlyGraph(requirementId)
+                ?: throw NotFoundException("Requirement", requirementId)
         }
 
         val requirementCertifications = requirements.map { it.toEmptyCertification() }

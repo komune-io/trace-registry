@@ -7,6 +7,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nService
+import io.komune.registry.control.f2.certification.api.service.CertificationF2FinderService
 import io.komune.registry.f2.catalogue.api.model.overrideWith
 import io.komune.registry.f2.catalogue.api.model.toDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
@@ -36,9 +37,10 @@ import org.springframework.stereotype.Service
 class CatalogueI18nService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
-    private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
-    private val conceptF2FinderService: ConceptF2FinderService,
     private val catalogueInformationConceptService: CatalogueInformationConceptService,
+    private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
+    private val certificationF2FinderService: CertificationF2FinderService,
+    private val conceptF2FinderService: ConceptF2FinderService,
     private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
     private val i18nService: I18nService,
 ) : CatalogueCachedService() {
@@ -152,7 +154,9 @@ class CatalogueI18nService(
             integrateCounter = translated.integrateCounter,
             indicators = translated.metadataDatasetId?.let { cache.datasets.get(it).toDTOCached(draft) }
                 ?.extractAggregators()
-                .orEmpty()
+                .orEmpty(),
+            certifications = translated.certificationIds
+                .mapNotNull { certificationF2FinderService.getRefOrNull(it) }
         )
     }
 

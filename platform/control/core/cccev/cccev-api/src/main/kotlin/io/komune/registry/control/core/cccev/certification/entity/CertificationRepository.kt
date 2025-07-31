@@ -24,6 +24,19 @@ class CertificationRepository(
         session.findById<Certification>(id, Certification.LABEL)
     }
 
+    suspend fun findByIdWithRootRequirements(
+        id: CertificationId
+    ): Certification? = sessionFactory.session { session ->
+        session.queryForObject(
+            Certification::class.java,
+            "MATCH (c:${Certification.LABEL} {id: \$id})" +
+                    "-[isCertifiedBy:${Certification.IS_CERTIFIED_BY}]->(rc:${RequirementCertification.LABEL})" +
+                    "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
+                    "\nRETURN c, collect(isCertifiedBy), collect(rc), collect(certifies), collect(r)",
+            mapOf("id" to id)
+        )
+    }
+
     suspend fun findRequirementCertificationById(
         id: RequirementCertificationId
     ): RequirementCertification? = sessionFactory.session { session ->

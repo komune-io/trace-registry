@@ -18,4 +18,8 @@ class CertificationFinderService(
         return certificationRepository.findById(id)
             ?: throw NotFoundException("Certification", id)
     }
+
+    suspend fun getOrNullWithRootRequirements(id: CertificationId): Certification? {
+        return certificationRepository.findByIdWithRootRequirements(id)
+    }
 }

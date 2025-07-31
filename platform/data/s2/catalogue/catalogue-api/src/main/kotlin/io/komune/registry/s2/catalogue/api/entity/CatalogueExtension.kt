@@ -41,6 +41,7 @@ fun CatalogueEntity.toModel(): CatalogueModel {
         version = version,
         versionNotes = versionNotes,
         integrateCounter = integrateCounter,
+        certificationIds = certificationIds
     )
 }
 

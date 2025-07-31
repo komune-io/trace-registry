@@ -41,7 +41,7 @@ class CertificationAddRequirementsSteps: En, RgCucumberStepsDefinition() {
         command = CertificationAddRequirementsCommand(
             id = context.cccev.certificationIds[params.identifier] ?: params.identifier,
             parentId = null,
-            requirementIdentifiers = params.requirements,
+            requirementIds = params.requirements,
         )
         certificationAggregateService.addRequirements(command)
 

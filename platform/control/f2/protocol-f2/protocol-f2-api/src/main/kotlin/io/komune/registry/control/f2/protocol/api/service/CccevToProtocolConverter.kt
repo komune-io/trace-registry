@@ -29,6 +29,7 @@ object CccevToProtocolConverter {
    }
 
     private fun Requirement.toGenericProtocol() = Protocol(
+        id = id,
         identifier = identifier,
         label = name,
         description = description,
@@ -41,6 +42,7 @@ object CccevToProtocolConverter {
     )
 
     private fun Requirement.toDataCollectionStep() = DataCollectionStep(
+        id = id,
         identifier = identifier,
         label = name,
         description = description,
@@ -52,6 +54,7 @@ object CccevToProtocolConverter {
     )
 
     private fun Requirement.toDataSection() = DataSection(
+        id = id,
         identifier = identifier,
         label = name,
         description = description,

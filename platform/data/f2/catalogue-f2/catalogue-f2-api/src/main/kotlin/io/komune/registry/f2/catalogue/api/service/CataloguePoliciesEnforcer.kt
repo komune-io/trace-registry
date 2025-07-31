@@ -94,6 +94,13 @@ class CataloguePoliciesEnforcer(
         catalogue.type in catalogueF2FinderService.listClaimableTypes()
     }
 
+    suspend fun checkFillCertification(
+        catalogueId: CatalogueId
+    ) = checkAuthed("fill certification of catalogue [$catalogueId]") { authedUser ->
+        val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
+        CataloguePolicies.canFillCertification(authedUser, catalogue)
+    }
+
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->
         command.copy(
             ownerOrganizationId = command.ownerOrganizationId.takeIf { CataloguePolicies.canUpdateOwner(authedUser, null) },

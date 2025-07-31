@@ -258,26 +258,33 @@ object Modules {
 		object f2 {
 			private const val BASE = "${control.BASE}:f2"
 
-			object activity {
-				private const val BASE = "${f2.BASE}:activity-f2:activity-f2"
-				const val api = "$BASE-api"
-				const val client = "$BASE-client"
-				const val domain = "$BASE-domain"
-			}
+//			object activity {
+//				private const val BASE = "${f2.BASE}:activity-f2:activity-f2"
+//				const val api = "$BASE-api"
+//				const val client = "$BASE-client"
+//				const val domain = "$BASE-domain"
+//			}
+//
+//			object cccev {
+//				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+//				const val api = "$BASE-api"
+//				const val client = "$BASE-client"
+//				const val domain = "$BASE-domain"
+//			}
 
-			object cccev {
-				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+			object certification {
+				private const val BASE = "${f2.BASE}:certification-f2:certification-f2"
 				const val api = "$BASE-api"
 				const val client = "$BASE-client"
 				const val domain = "$BASE-domain"
 			}
-
-			object dcs {
-				private const val BASE = "${f2.BASE}:dcs-f2:dcs-f2"
-				const val api = "$BASE-api"
-				const val client = "$BASE-client"
-				const val domain = "$BASE-domain"
-			}
+//
+//			object dcs {
+//				private const val BASE = "${f2.BASE}:dcs-f2:dcs-f2"
+//				const val api = "$BASE-api"
+//				const val client = "$BASE-client"
+//				const val domain = "$BASE-domain"
+//			}
 
 			object protocol {
 				private const val BASE = "${f2.BASE}:protocol-f2:protocol-f2"

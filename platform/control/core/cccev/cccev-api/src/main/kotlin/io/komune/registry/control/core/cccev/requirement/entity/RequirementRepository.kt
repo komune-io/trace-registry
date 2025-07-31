@@ -21,6 +21,15 @@ class RequirementRepository(
             .firstOrNull()
     }
 
+    suspend fun findShallowById(id: RequirementId): Requirement? = sessionFactory.session { session ->
+        session.queryForObject(
+            Requirement::class.java,
+            "MATCH (requirement:${Requirement.LABEL} {id: \$id})" +
+                    "\nRETURN requirement",
+            mapOf("id" to id)
+        )
+    }
+
     suspend fun findByIdentifier(identifier: RequirementIdentifier): Requirement? = sessionFactory.session { session ->
         session.query(
             "MATCH (requirement:${Requirement.LABEL} {identifier: \$identifier})"
@@ -31,16 +40,16 @@ class RequirementRepository(
     }
 
     suspend fun loadRequirementOnlyGraph(
-        rootRequirementIdentifier: RequirementIdentifier
+        rootRequirementId: RequirementId
     ): Requirement? = sessionFactory.session { session ->
         val query = """
             MATCH (root:${Requirement.LABEL})
             -[has_requirement:${Requirement.HAS_REQUIREMENT}*0..]->(children:${Requirement.LABEL})
-            WHERE root.${Requirement::identifier.name} = ${'$'}identifier
+            WHERE root.${Requirement::id.name} = ${'$'}id
             RETURN root, collect(has_requirement), collect(children)
         """.trimIndent()
 
-        session.query(query, mapOf("identifier" to rootRequirementIdentifier))
+        session.query(query, mapOf("id" to rootRequirementId))
             .map { it["root"] as Requirement }
             .firstOrNull()
     }

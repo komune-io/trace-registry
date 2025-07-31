@@ -9,6 +9,8 @@ import io.komune.registry.api.commons.model.SimpleFilePart
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.config.i18n.I18nConfig
 import io.komune.registry.api.config.ui.UIProperties
+import io.komune.registry.control.core.cccev.certification.CertificationAggregateService
+import io.komune.registry.control.core.cccev.certification.command.CertificationCreateCommand
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentIsDescendantException
 import io.komune.registry.f2.catalogue.api.exception.CatalogueParentTypeInvalidException
 import io.komune.registry.f2.catalogue.api.model.toCommand
@@ -22,6 +24,8 @@ import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkCataloguesCom
 import io.komune.registry.f2.catalogue.domain.command.CatalogueLinkedCataloguesEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferenceDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueReferencedDatasetsEventDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueStartCertificationCommandDTOBase
+import io.komune.registry.f2.catalogue.domain.command.CatalogueStartedCertificationEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommandDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUnreferencedDatasetsEventDTOBase
 import io.komune.registry.f2.catalogue.domain.command.CatalogueUpdateCommandDTOBase
@@ -60,6 +64,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueReferenceDatasets
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueStartCertificationCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferenceDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUpdatedEvent
@@ -108,6 +113,7 @@ class CatalogueF2AggregateService(
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
     private val cccevOldFinderService: CccevOldFinderService,
+    private val certificationAggregateService: CertificationAggregateService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
@@ -359,6 +365,16 @@ class CatalogueF2AggregateService(
         )
 
         return CatalogueClaimedOwnershipEventDTOBase(command.id)
+    }
+
+    suspend fun startCertification(command: CatalogueStartCertificationCommandDTOBase): CatalogueStartedCertificationEventDTOBase {
+        val certificationEvent = certificationAggregateService.create(CertificationCreateCommand(listOf(command.protocolId)))
+
+        return CatalogueStartCertificationCommand(
+            id = command.id,
+            certificationId = certificationEvent.id,
+        ).let { catalogueAggregateService.startCertification(it) }
+            .let { CatalogueStartedCertificationEventDTOBase(it.id, it.certificationId) }
     }
 
     suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent {

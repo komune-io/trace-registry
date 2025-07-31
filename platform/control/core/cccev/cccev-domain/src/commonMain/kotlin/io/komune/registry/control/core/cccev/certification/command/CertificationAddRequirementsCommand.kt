@@ -3,7 +3,7 @@ package io.komune.registry.control.core.cccev.certification.command
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.RequirementCertificationId
-import io.komune.registry.s2.commons.model.RequirementIdentifier
+import io.komune.registry.s2.commons.model.RequirementId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -35,9 +35,9 @@ interface CertificationAddRequirementsCommandDTO {
     val parentId: RequirementCertificationId?
 
     /**
-     * Identifiers of the requirements that the certifications will have to fulfill.
+     * Ids of the requirements that the certifications will have to fulfill.
      */
-    val requirementIdentifiers: List<RequirementIdentifier>
+    val requirementIds: List<RequirementId>
 }
 
 /**
@@ -46,7 +46,7 @@ interface CertificationAddRequirementsCommandDTO {
 data class CertificationAddRequirementsCommand(
     override val id: CertificationId,
     override val parentId: RequirementCertificationId?,
-    override val requirementIdentifiers: List<RequirementIdentifier>
+    override val requirementIds: List<RequirementId>
 ): CertificationAddRequirementsCommandDTO
 
 /**
