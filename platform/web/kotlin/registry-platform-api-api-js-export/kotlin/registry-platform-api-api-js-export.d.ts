@@ -1769,13 +1769,14 @@ export declare namespace io.komune.registry.control.core.cccev.concept.model {
 }
 export declare namespace io.komune.registry.control.core.cccev.evidencetype.command {
     interface EvidenceTypeCreateCommandDTO {
-        readonly id?: string;
+        readonly identifier?: string;
         readonly name: string;
-        readonly conceptIdentifiers: string[];
+        readonly conceptIds: string[];
 
     }
     interface EvidenceTypeCreatedEventDTO {
         readonly id: string;
+        readonly identifier: string;
 
     }
 }
@@ -1921,6 +1922,7 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
         readonly type: io.komune.registry.control.f2.protocol.domain.model.DataConditionType;
         readonly expression: string;
         readonly dependencies?: string[];
+        readonly isValidatingEvidences: boolean;
         readonly error?: string;
 
     }
@@ -1933,9 +1935,10 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
         readonly name: string;
         readonly label?: string;
         readonly type: string;
+        readonly isEvidence: boolean;
         readonly description?: string;
         readonly helperText?: string;
-        readonly unit: io.komune.registry.control.f2.protocol.domain.model.DataUnitRefDTO;
+        readonly unit?: io.komune.registry.control.f2.protocol.domain.model.DataUnitRefDTO;
         readonly required: boolean;
         readonly options?: io.komune.registry.control.f2.protocol.domain.model.DataFieldOptionDTO[];
         readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];

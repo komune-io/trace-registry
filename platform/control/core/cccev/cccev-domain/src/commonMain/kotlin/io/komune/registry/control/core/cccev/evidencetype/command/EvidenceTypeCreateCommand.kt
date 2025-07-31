@@ -2,7 +2,8 @@ package io.komune.registry.control.core.cccev.evidencetype.command
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.EvidenceTypeId
-import io.komune.registry.s2.commons.model.InformationConceptIdentifier
+import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
+import io.komune.registry.s2.commons.model.InformationConceptId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -23,7 +24,7 @@ interface EvidenceTypeCreateCommandDTO {
     /**
      * Custom unique identifier for the evidence type. If null, a random id will be generated.
      */
-    val id: EvidenceTypeId?
+    val identifier: EvidenceTypeIdentifier?
 
     /**
      * Name of the evidence type
@@ -32,9 +33,9 @@ interface EvidenceTypeCreateCommandDTO {
     val name: String
 
     /**
-     * Identifiers of the supported information concepts
+     * Id of the supported information concepts
      */
-    val conceptIdentifiers: List<InformationConceptIdentifier>
+    val conceptIds: List<InformationConceptId>
 }
 
 /**
@@ -42,9 +43,9 @@ interface EvidenceTypeCreateCommandDTO {
  */
 @Serializable
 data class EvidenceTypeCreateCommand(
-    override val id: EvidenceTypeId? = null,
+    override val identifier: EvidenceTypeIdentifier?,
     override val name: String,
-    override val conceptIdentifiers: List<InformationConceptIdentifier> = emptyList()
+    override val conceptIds: List<InformationConceptId> = emptyList()
 ): EvidenceTypeCreateCommandDTO
 
 /**
@@ -53,10 +54,12 @@ data class EvidenceTypeCreateCommand(
 @JsExport
 @JsName("EvidenceTypeCreatedEventDTO")
 interface EvidenceTypeCreatedEventDTO {
-    /**
-     * Id of the evidence type as specified in the command, or random if not.
-     */
     val id: EvidenceTypeId
+
+    /**
+     * Identifier of the evidence type as specified in the command, or random if not.
+     */
+    val identifier: EvidenceTypeIdentifier
 }
 
 /**
@@ -65,4 +68,5 @@ interface EvidenceTypeCreatedEventDTO {
 @Serializable
 data class EvidenceTypeCreatedEvent(
     override val id: EvidenceTypeId,
+    override val identifier: EvidenceTypeIdentifier
 ): EvidenceTypeCreatedEventDTO

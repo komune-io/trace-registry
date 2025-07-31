@@ -65,7 +65,7 @@ class EvidenceTypeCreateSteps: En, RgCucumberStepsDefinition() {
                 val evidenceTypeId = context.cccev.evidenceTypeIds.lastUsed
                 AssertionBdd.evidenceType(evidenceTypeRepository).assertThatId(evidenceTypeId).hasFields(
                     name = command.name,
-                    concepts = command.conceptIdentifiers.map(context.cccev.conceptIds::safeGet)
+                    concepts = command.conceptIds.map(context.cccev.conceptIds::safeGet)
                 )
             }
         }
@@ -86,9 +86,9 @@ class EvidenceTypeCreateSteps: En, RgCucumberStepsDefinition() {
 
     private suspend fun createEvidenceType(params: EvidenceTypeCreateParams) = context.cccev.evidenceTypeIds.register(params.identifier) {
         command = EvidenceTypeCreateCommand(
-            id = params.identifier,
+            identifier = params.identifier,
             name = params.name,
-            conceptIdentifiers = params.concepts
+            conceptIds = params.concepts.map { context.cccev.conceptIds[it] ?: it }
         )
         evidenceTypeAggregateService.create(command).id
     }

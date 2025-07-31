@@ -17,22 +17,23 @@ class EvidenceTypeAggregateService(
     private val sessionFactory: SessionFactory
 ) {
     suspend fun create(command: EvidenceTypeCreateCommand): EvidenceTypeCreatedEvent = sessionFactory.session { session ->
-        command.id?.let { id ->
-            session.checkNotExists<EvidenceType>(id, "EvidenceType")
+        command.identifier?.let { identifier ->
+            session.checkNotExists<EvidenceType>(identifier, "EvidenceType")
         }
 
-        val shallowConcepts = command.conceptIdentifiers.map { identifier ->
-            informationConceptRepository.findShallowByIdentifier(identifier)
+        val shallowConcepts = command.conceptIds.map { identifier ->
+            informationConceptRepository.findShallowById(identifier)
                 ?: throw NotFoundException("InformationConcept", identifier)
         }
 
         val evidenceType = EvidenceType().apply {
-            id = command.id ?: UUID.randomUUID().toString()
+            id = UUID.randomUUID().toString()
+            identifier = command.identifier ?: id
             name = command.name
             concepts = shallowConcepts.toMutableList()
         }
         session.save(evidenceType)
 
-        EvidenceTypeCreatedEvent(evidenceType.id)
+        EvidenceTypeCreatedEvent(evidenceType.id, evidenceType.identifier)
     }
 }

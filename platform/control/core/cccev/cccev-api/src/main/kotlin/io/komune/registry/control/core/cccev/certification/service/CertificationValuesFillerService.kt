@@ -195,8 +195,6 @@ class CertificationValuesFillerService(
         DataUnitType.STRING -> this
     }
 
-
-
     class Context(
         val certificationId: CertificationId,
         val rootRequirementCertificationId: RequirementCertificationId?,

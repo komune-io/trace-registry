@@ -2,6 +2,7 @@ package io.komune.registry.control.core.cccev.certification.service
 
 import f2.spring.exception.NotFoundException
 import io.komune.fs.s2.file.domain.model.FilePath
+import io.komune.registry.api.commons.utils.toJson
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddEvidenceCommand
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.core.cccev.certification.entity.Evidence
@@ -11,9 +12,9 @@ import io.komune.registry.control.core.cccev.evidencetype.entity.EvidenceTypeRep
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.infra.neo4j.transaction
 import io.komune.registry.s2.commons.model.EvidenceId
+import io.komune.sel.SelExecutor
+import io.komune.sel.isTruthy
 import org.neo4j.ogm.session.SessionFactory
-import org.springframework.expression.spel.standard.SpelExpressionParser
-import org.springframework.expression.spel.support.StandardEvaluationContext
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -24,7 +25,7 @@ class CertificationEvidenceService(
     private val sessionFactory: SessionFactory
 ) {
     companion object {
-        val spelParser = SpelExpressionParser()
+        val selExecutor = SelExecutor()
     }
 
     /**
@@ -69,7 +70,7 @@ class CertificationEvidenceService(
             session.save(existingEvidence, 0)
         } else {
             evidences.add(evidence)
-            session.save( this, 2)
+            session.save(this, 2)
         }
 
         updateFulfillment()
@@ -79,13 +80,8 @@ class CertificationEvidenceService(
         var changed: Boolean
 
         val evaluationResult = requirement.evidenceValidatingCondition?.let { expression ->
-            val expressionContext = StandardEvaluationContext().apply {
-                evidences.forEach { setVariable(it.evidenceType.id, it.file) }
-            }
-
-            spelParser.parseExpression(expression)
-                .getValue(expressionContext, Boolean::class.java)
-                ?: false
+            val evidencesData = evidences.associate { it.evidenceType.identifier to true }
+            selExecutor.evaluate(expression, evidencesData.toJson()).isTruthy()
         } ?: true
 
         areEvidencesProvided = evaluationResult

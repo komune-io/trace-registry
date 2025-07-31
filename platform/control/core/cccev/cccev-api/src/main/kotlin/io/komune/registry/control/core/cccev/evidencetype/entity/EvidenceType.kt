@@ -2,6 +2,7 @@ package io.komune.registry.control.core.cccev.evidencetype.entity
 
 import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
 import io.komune.registry.s2.commons.model.EvidenceTypeId
+import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -15,6 +16,8 @@ class EvidenceType {
     }
     @Id
     lateinit var id: EvidenceTypeId
+
+    lateinit var identifier: EvidenceTypeIdentifier
 
     lateinit var name: String
 

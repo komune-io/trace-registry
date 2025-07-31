@@ -80,6 +80,12 @@ typealias EvidenceTypeId = String
 
 /**
  * @d2 hidden
+ * @visual json "a6f6c513-9138-434b-9cb8-4b6f9d09fa2a"
+ */
+typealias EvidenceTypeIdentifier = String
+
+/**
+ * @d2 hidden
  * @visual json "1f398f00-a016-4ff2-96ce-e33e135116bb"
  */
 typealias InformationConceptId = String

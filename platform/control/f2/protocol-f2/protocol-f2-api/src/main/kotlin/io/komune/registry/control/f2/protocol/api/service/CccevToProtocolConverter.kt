@@ -33,7 +33,7 @@ object CccevToProtocolConverter {
         label = name,
         description = description,
         type = type.orEmpty(),
-        steps = subRequirements
+        steps = sortedSubRequirements()
             .filter { it.kind != RequirementKind.CONSTRAINT }
             .map { it.toProtocol() },
         conditions = extractConditions(),
@@ -44,7 +44,7 @@ object CccevToProtocolConverter {
         identifier = identifier,
         label = name,
         description = description,
-        sections = subRequirements
+        sections = sortedSubRequirements()
             .filter { it.type == ReservedProtocolTypes.DATA_SECTION }
             .map { it.toDataSection() },
         conditions = extractConditions(),
@@ -55,7 +55,7 @@ object CccevToProtocolConverter {
         identifier = identifier,
         label = name,
         description = description,
-        fields = subRequirements
+        fields = sortedSubRequirements()
             .filter { it.kind == RequirementKind.INFORMATION }
             .mapNotNull { it.toDataField() },
         conditions = extractConditions(),
@@ -64,21 +64,26 @@ object CccevToProtocolConverter {
 
     private fun Requirement.toDataField(): DataField? {
         val concept = concepts.firstOrNull()
-            ?: return null
+        val evidenceType = evidenceTypes.firstOrNull()
+        if (concept == null && evidenceType == null) return null
+
         return DataField(
-            name = concept.identifier,
+            name = concept?.identifier ?: evidenceType!!.identifier,
             label = name,
             type = type.orEmpty(),
+            isEvidence = evidenceType != null,
             description = description,
             helperText = properties?.get(RequirementProperties.DataField.HELPER_TEXT),
-            unit = DataUnitRef(
-                identifier = concept.unit.identifier,
-                name = concept.unit.name,
-                type = concept.unit.type,
-                abbreviation = concept.unit.abbreviation
-            ),
+            unit = concept?.unit?.let {
+                DataUnitRef(
+                    identifier = it.identifier,
+                    name = it.name,
+                    type = it.type,
+                    abbreviation = it.abbreviation
+                )
+            },
             required = required,
-            options = concept.unit.options.map { it.toDataFieldOption() }.nullIfEmpty(),
+            options = concept?.unit?.options?.map { it.toDataFieldOption() }?.nullIfEmpty(),
             conditions = extractConditions(),
             properties = extractProtocolProperties()
         )
@@ -107,18 +112,29 @@ object CccevToProtocolConverter {
     }
 
     private fun Requirement.extractValidatorConditions(): List<DataCondition> {
-        return subRequirements
+        return sortedSubRequirements()
             .filter { it.kind == RequirementKind.CONSTRAINT }
             .map { constraint ->
+                val isEvidenceCondition = constraint.evidenceValidatingCondition != null
+
+                val (expression, dependencies) = if (isEvidenceCondition) {
+                    constraint.evidenceValidatingCondition to constraint.evidenceTypes.map { it.identifier }
+                } else {
+                    constraint.validatingCondition to constraint.validatingConditionDependencies.map { it.identifier }
+                }
+
                 DataCondition(
                     type = DataConditionType.validator,
+                    isValidatingEvidences = isEvidenceCondition,
                     identifier = constraint.identifier,
-                    expression = constraint.validatingCondition ?: "true",
-                    dependencies = constraint.validatingConditionDependencies.map { it.identifier },
+                    expression = expression ?: "true",
+                    dependencies = dependencies,
                     error = constraint.description
                 )
             }
     }
 
     private fun Requirement.extractProtocolProperties() = properties?.get(RequirementProperties.PROTOCOL)
+
+    private fun Requirement.sortedSubRequirements() = subRequirements.sortedBy { it.order ?: Int.MAX_VALUE }
 }

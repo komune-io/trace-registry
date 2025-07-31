@@ -3,6 +3,9 @@ package io.komune.registry.control.f2.protocol.api.service
 import io.komune.registry.control.core.cccev.concept.InformationConceptAggregateService
 import io.komune.registry.control.core.cccev.concept.InformationConceptFinderService
 import io.komune.registry.control.core.cccev.concept.command.InformationConceptCreateCommand
+import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeAggregateService
+import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeFinderService
+import io.komune.registry.control.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
 import io.komune.registry.control.core.cccev.requirement.RequirementAggregateService
 import io.komune.registry.control.core.cccev.requirement.RequirementFinderService
 import io.komune.registry.control.core.cccev.requirement.command.RequirementCreateCommand
@@ -21,6 +24,8 @@ import io.komune.registry.control.f2.protocol.domain.model.Protocol
 import io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO
 import io.komune.registry.control.f2.protocol.domain.model.RequirementProperties
 import io.komune.registry.infra.neo4j.transaction
+import io.komune.registry.s2.commons.model.EvidenceTypeId
+import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.RequirementId
@@ -33,13 +38,14 @@ import org.springframework.stereotype.Service
 class ProtocolDefinitionService(
     private val dataUnitAggregateService: DataUnitAggregateService,
     private val dataUnitFinderService: DataUnitFinderService,
+    private val evidenceTypeAggregateService: EvidenceTypeAggregateService,
+    private val evidenceTypeFinderService: EvidenceTypeFinderService,
     private val informationConceptAggregateService: InformationConceptAggregateService,
     private val informationConceptFinderService: InformationConceptFinderService,
     private val requirementAggregateService: RequirementAggregateService,
     private val requirementFinderService: RequirementFinderService,
     private val sessionFactory: SessionFactory
 ) {
-
     private val informationConceptGraphInitializer = InformationConceptGraphInitializer()
     private val requirementDataGraphInitializer = RequirementDataGraphInitializer()
 
@@ -59,7 +65,10 @@ class ProtocolDefinitionService(
             informationConceptAggregateService.create(command).id
         }
 
-        val rootRequirement = protocol.toRequirementData(0, conceptIdsMap)
+        val evidenceTypes = protocol.extractEvidenceTypes().distinctBy { it.identifier }
+        val evidenceTypeIdsMap = createEvidenceTypes(evidenceTypes)
+
+        val rootRequirement = protocol.toRequirementData(0, conceptIdsMap, evidenceTypeIdsMap)
 
         val requirementIdsMap = requirementDataGraphInitializer
             .initialize(rootRequirement.flatten()) { requirementData, requirementIdsMap ->
@@ -82,15 +91,15 @@ class ProtocolDefinitionService(
         return visitedRequirements.values
     }
 
-    private suspend fun ProtocolDTO.extractInformationConcepts(): List<InformationConceptData> {
-        return when (this) {
-            is DataSection -> fields.map { it.extractInformationConcept() }
-            is DataCollectionStep -> sections.flatMap { it.extractInformationConcepts() }
-            is Protocol -> steps.orEmpty().flatMap { it.extractInformationConcepts() }
-        }
+    private suspend fun ProtocolDTO.extractInformationConcepts(): List<InformationConceptData> = when (this) {
+        is DataSection -> fields.mapNotNull { it.extractInformationConcept() }
+        is DataCollectionStep -> sections.flatMap { it.extractInformationConcepts() }
+        is Protocol -> steps.orEmpty().flatMap { it.extractInformationConcepts() }
     }
 
-    private suspend fun DataField.extractInformationConcept(): InformationConceptData {
+    private suspend fun DataField.extractInformationConcept(): InformationConceptData? {
+        if (isEvidence) return null
+
         val existing = informationConceptFinderService.getByIdentifierOrNull(name)
         if (existing != null) {
             return InformationConceptData(
@@ -104,17 +113,20 @@ class ProtocolDefinitionService(
             )
         }
 
-        val unitId = dataUnitFinderService.getByIdentifierOrNull(unit.identifier)?.id ?: run {
+        if (unit == null) {
+            throw IllegalArgumentException("DataField '$name' must have a unit defined.")
+        }
+        val unitId = dataUnitFinderService.getByIdentifierOrNull(unit!!.identifier)?.id ?: run {
             DataUnitCreateCommand(
-                identifier = unit.identifier,
-                name = unit.name.orEmpty(),
+                identifier = unit!!.identifier,
+                name = unit!!.name.orEmpty(),
                 description = "",
-                abbreviation = unit.abbreviation,
-                type = unit.type,
+                abbreviation = unit!!.abbreviation,
+                type = unit!!.type,
                 options = options.orEmpty().mapIndexed { i, option ->
                     DataUnitOptionCommand(
                         id = null,
-                        identifier = "${unit.identifier}_$i",
+                        identifier = "${unit!!.identifier}_$i",
                         name = option.label,
                         value = option.key,
                         order = i,
@@ -135,14 +147,45 @@ class ProtocolDefinitionService(
         )
     }
 
+    private suspend fun ProtocolDTO.extractEvidenceTypes(): List<EvidenceTypeData> = when (this) {
+        is DataSection -> fields.mapNotNull { it.extractEvidenceType() }
+        is DataCollectionStep -> sections.flatMap { it.extractEvidenceTypes() }
+        is Protocol -> steps.orEmpty().flatMap { it.extractEvidenceTypes() }
+    }
+
+    private suspend fun DataField.extractEvidenceType(): EvidenceTypeData? {
+        if (!isEvidence) return null
+
+        val existing = evidenceTypeFinderService.getByIdentifierOrNull(name)
+        return EvidenceTypeData(
+            existingId = existing?.id,
+            identifier = name,
+            name = existing?.name ?: label.orEmpty()
+        )
+    }
+
+    private suspend fun createEvidenceTypes(evidenceTypes: List<EvidenceTypeData>): Map<EvidenceTypeIdentifier, EvidenceTypeId> {
+        return evidenceTypes.associate { evidenceType ->
+            if (evidenceType.existingId != null) {
+                return@associate evidenceType.identifier to evidenceType.existingId
+            }
+
+            val command = EvidenceTypeCreateCommand(
+                identifier = evidenceType.identifier,
+                name = evidenceType.name
+            )
+            evidenceType.identifier to evidenceTypeAggregateService.create(command).id
+        }
+    }
+
     private suspend fun ProtocolDTO.toRequirementData(
         position: Int,
-        conceptIdsMap: Map<InformationConceptIdentifier, InformationConceptId>
+        conceptIdsMap: Map<InformationConceptIdentifier, InformationConceptId>,
+        evidenceTypeIdsMap: Map<EvidenceTypeIdentifier, EvidenceTypeId>
     ): RequirementData {
-        val (displayConditions, validationConditions) = conditions.orEmpty().partition {
-            it.type == DataConditionType.display
-        }
-        val displayCondition = displayConditions.firstOrNull()
+        val conditionsData = ConditionsData(conditions)
+
+        val evidenceTypeIds = mutableListOf<EvidenceTypeId>()
 
         return RequirementData(
             identifier = identifier,
@@ -152,37 +195,48 @@ class ProtocolDefinitionService(
             description = description,
             order = position,
             properties = mapOf(RequirementProperties.PROTOCOL to properties),
-            enablingCondition = displayCondition?.expression,
-            enablingConditionDependencies = displayCondition?.dependencies?.map { conceptIdsMap[it]!! } ?: emptyList(),
+            enablingCondition = conditionsData.displayCondition?.expression,
+            enablingConditionDependencies = conditionsData.displayCondition
+                ?.dependencies
+                ?.map { conceptIdsMap[it]!! },
             requirements = buildList {
-                validationConditions.forEach { condition -> add(condition.toRequirementData(conceptIdsMap)) }
-                steps?.forEachIndexed { i, step -> add(step.toRequirementData(i, conceptIdsMap))}
+                conditionsData.validationConditions.forEach { condition ->
+                    add(condition.toRequirementData(conceptIdsMap, evidenceTypeIdsMap))
+                }
+
+                steps?.forEachIndexed { i, step ->
+                    add(step.toRequirementData(i, conceptIdsMap, evidenceTypeIdsMap))
+                }
+
                 when (this@toRequirementData) {
                     is DataSection -> fields.forEachIndexed { i, field ->
-                        add(field.toRequirementData(identifier, i, conceptIdsMap))
+                        add(field.toRequirementData(identifier, i, conceptIdsMap, evidenceTypeIdsMap))
                     }
                     is DataCollectionStep -> sections.forEachIndexed { i, section ->
-                        add(section.toRequirementData(i, conceptIdsMap))
+                        val sectionRequirement = section.toRequirementData(i, conceptIdsMap, evidenceTypeIdsMap)
+                        add(sectionRequirement)
+                        sectionRequirement.requirements.forEach {
+                            evidenceTypeIds.addAll(it.evidenceTypeIds)
+                        }
                     }
                     is Protocol -> Unit
                 }
-            }
+            },
+            evidenceTypeIds = evidenceTypeIds
         )
     }
 
     private fun DataField.toRequirementData(
         parentIdentifier: RequirementIdentifier,
         position: Int,
-        conceptIdsMap: Map<InformationConceptIdentifier, InformationConceptId>
+        conceptIdsMap: Map<InformationConceptIdentifier, InformationConceptId>,
+        evidenceTypeIdsMap: Map<EvidenceTypeIdentifier, EvidenceTypeId>
     ): RequirementData {
-        val (displayConditions, validationConditions) = conditions.orEmpty().partition {
-            it.type == DataConditionType.display
-        }
-        val displayCondition = displayConditions.firstOrNull()
+        val conditionsData = ConditionsData(conditions)
 
         @Suppress("UNCHECKED_CAST")
         return RequirementData(
-            identifier = displayCondition?.identifier ?: "${parentIdentifier}_${name}",
+            identifier = conditionsData.displayCondition?.identifier ?: "${parentIdentifier}_${name}",
             kind = RequirementKind.INFORMATION,
             type = type,
             name = label,
@@ -193,21 +247,33 @@ class ProtocolDefinitionService(
                 RequirementProperties.PROTOCOL to properties,
                 RequirementProperties.DataField.HELPER_TEXT to helperText
             ),
-            conceptIds = listOf(conceptIdsMap[name]!!),
-            enablingCondition = displayCondition?.expression,
-            enablingConditionDependencies = displayCondition?.dependencies?.map { conceptIdsMap[it]!! },
-            requirements = validationConditions.map { it.toRequirementData(conceptIdsMap) }
+            conceptIds = name.takeIf { !isEvidence }
+                ?.let { listOf(conceptIdsMap[it]!!) }
+                .orEmpty(),
+            enablingCondition = conditionsData.displayCondition?.expression,
+            enablingConditionDependencies = conditionsData.displayCondition
+                ?.dependencies
+                ?.map { conceptIdsMap[it]!! },
+            evidenceTypeIds = name.takeIf { isEvidence }
+                ?.let { listOf(evidenceTypeIdsMap[it]!!) }
+                .orEmpty(),
+            requirements = conditionsData.validationConditions.map { it.toRequirementData(conceptIdsMap, evidenceTypeIdsMap) }
         )
     }
 
     private fun DataConditionDTO.toRequirementData(
-        conceptIdsMap: Map<InformationConceptIdentifier, InformationConceptId>
+        conceptIdsMap: Map<InformationConceptIdentifier, InformationConceptId>,
+        evidenceTypeIdsMap: Map<EvidenceTypeIdentifier, EvidenceTypeId>
     ) = RequirementData(
         identifier = identifier,
         kind = RequirementKind.CONSTRAINT,
         description = error,
-        validatingCondition = expression,
-        validatingConditionDependencies = dependencies?.map { conceptIdsMap[it]!! },
+        validatingCondition = expression.takeIf { !isValidatingEvidences },
+        validatingConditionDependencies = dependencies?.takeIf { !isValidatingEvidences }?.map { conceptIdsMap[it]!! },
+        evidenceValidatingCondition = expression.takeIf { isValidatingEvidences },
+        evidenceTypeIds = dependencies?.takeIf { isValidatingEvidences }
+            ?.map { evidenceTypeIdsMap[it]!! }
+            .orEmpty(),
     )
 
     private suspend fun RequirementData.createOrUpdate(requirementIdsMap: Map<RequirementIdentifier, RequirementId>): RequirementId {
@@ -228,8 +294,8 @@ class ProtocolDefinitionService(
                 validatingCondition = validatingCondition,
                 validatingConditionDependencies = validatingConditionDependencies.orEmpty(),
                 subRequirementIds = requirements.map { requirementIdsMap[it.identifier]!! },
-                evidenceTypeIds = emptyList(), // TODO
-                evidenceValidatingCondition = null // TODO
+                evidenceTypeIds = evidenceTypeIds,
+                evidenceValidatingCondition = evidenceValidatingCondition
             )
             requirementAggregateService.create(requirementCommand).id
         } else {
@@ -247,8 +313,8 @@ class ProtocolDefinitionService(
                 validatingCondition = validatingCondition,
                 validatingConditionDependencies = validatingConditionDependencies.orEmpty(),
                 subRequirementIds = requirements.map { requirementIdsMap[it.identifier]!! },
-                evidenceTypeIds = emptyList(), // TODO
-                evidenceValidatingCondition = null // TODO
+                evidenceTypeIds = evidenceTypeIds,
+                evidenceValidatingCondition = evidenceValidatingCondition
             )
             requirementAggregateService.update(updatedRequirementCommand).id
         }
@@ -274,6 +340,22 @@ class ProtocolDefinitionService(
         }
     }
 
+    private data class InformationConceptData(
+        val existingId: InformationConceptId? = null,
+        val identifier: InformationConceptIdentifier,
+        val name: String,
+        val description: String?,
+        val unitId: InformationConceptId,
+        val expressionOfExpectedValue: String?,
+        val dependsOn: List<InformationConceptIdentifier>
+    )
+
+    private data class EvidenceTypeData(
+        val existingId: InformationConceptId? = null,
+        val identifier: String,
+        val name: String,
+    )
+
     private data class RequirementData(
         val identifier: RequirementIdentifier,
         val kind: RequirementKind,
@@ -288,16 +370,24 @@ class ProtocolDefinitionService(
         val enablingConditionDependencies: List<InformationConceptIdentifier>? = null,
         val validatingCondition: String? = null,
         val validatingConditionDependencies: List<InformationConceptIdentifier>? = null,
+        val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
+        val evidenceValidatingCondition: String? = null,
         val requirements: List<RequirementData> = emptyList()
     )
 
-    private data class InformationConceptData(
-        val existingId: InformationConceptId? = null,
-        val identifier: InformationConceptIdentifier,
-        val name: String,
-        val description: String?,
-        val unitId: InformationConceptId,
-        val expressionOfExpectedValue: String?,
-        val dependsOn: List<InformationConceptIdentifier>
-    )
+    private class ConditionsData(conditions: Collection<DataConditionDTO>?) {
+        val validationConditions: List<DataConditionDTO>
+        val displayCondition: DataConditionDTO?
+
+        init {
+            val mutableConditions = conditions.orEmpty().toMutableList()
+            validationConditions = mutableConditions
+            displayCondition = mutableConditions.removeFirstOrNull { it.type == DataConditionType.display }
+        }
+
+        private fun <T> MutableList<T>.removeFirstOrNull(predicate: (T) -> Boolean): T? {
+            val index = indexOfFirst(predicate)
+            return if (index != -1) removeAt(index) else null
+        }
+    }
 }
