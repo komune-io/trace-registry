@@ -6,8 +6,8 @@ import io.komune.registry.program.s2.dataset.api.config.DatasetAutomateExecutor
 import io.komune.registry.program.s2.dataset.api.entity.DatasetEntity
 import io.komune.registry.program.s2.dataset.api.entity.DatasetRepository
 import io.komune.registry.program.s2.dataset.api.entity.DistributionEntity
-import io.komune.registry.s2.cccev.api.CccevAggregateService
-import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.cccev.api.CccevOldAggregateService
+import io.komune.registry.s2.cccev.api.CccevOldFinderService
 import io.komune.registry.s2.cccev.api.processor.compute
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueDeprecateCommand
@@ -54,8 +54,8 @@ import java.util.UUID
 @Service
 class DatasetAggregateService(
 	private val automate: DatasetAutomateExecutor,
-	private val cccevAggregateService: CccevAggregateService,
-	private val cccevFinderService: CccevFinderService,
+	private val cccevOldAggregateService: CccevOldAggregateService,
+	private val cccevOldFinderService: CccevOldFinderService,
 	private val datasetRepository: DatasetRepository,
 	private val sequenceRepository: SequenceRepository,
 ) {
@@ -304,7 +304,7 @@ class DatasetAggregateService(
 		distributionValues: Map<InformationConceptId, Set<SupportedValueId>>,
 		validateValues: Boolean
 	): AggregatedValueModel? {
-		val concept = cccevFinderService.getConcept(conceptId)
+		val concept = cccevOldFinderService.getConcept(conceptId)
 		if (concept.aggregator == null || !concept.aggregator!!.persistValue || concept.unit == null) {
 			return null
 		}
@@ -312,7 +312,7 @@ class DatasetAggregateService(
 		val aggregatedConceptIds = concept.aggregator!!.aggregatedConceptIds.orEmpty() + concept.id
 		val aggregatedValueIds = distributionValues.filterKeys { it in aggregatedConceptIds }.values.flatten()
 
-		val aggregatedValues = cccevFinderService.listValues(aggregatedValueIds)
+		val aggregatedValues = cccevOldFinderService.listValues(aggregatedValueIds)
 			.map { it.value }
 
 		val value = if (aggregatedValues.isEmpty()) {
@@ -328,7 +328,7 @@ class DatasetAggregateService(
 				SupportedValueUpdateValueCommand(
 					id = existingValueId.computedValue,
 					value = value
-				).let { cccevAggregateService.updateValue(it).id }
+				).let { cccevOldAggregateService.updateValue(it).id }
 			}
 			existingValueId != null && value == null -> {
 				deprecateValue(existingValueId.computedValue)
@@ -343,7 +343,7 @@ class DatasetAggregateService(
 					query = null,
 					description = null
 				).let {
-					val valueId = cccevAggregateService.createValue(it).id
+					val valueId = cccevOldAggregateService.createValue(it).id
 					if (validateValues) {
 						validateValue(valueId)
 					}
@@ -373,10 +373,10 @@ class DatasetAggregateService(
 	}
 
 	private suspend fun validateValue(id: SupportedValueId) = try {
-		cccevAggregateService.validateValue(SupportedValueValidateCommand(id))
+		cccevOldAggregateService.validateValue(SupportedValueValidateCommand(id))
 	} catch (_: AutomateException) {}
 
 	private suspend fun deprecateValue(id: SupportedValueId) = try {
-		cccevAggregateService.deprecateValue(SupportedValueDeprecateCommand(id))
+		cccevOldAggregateService.deprecateValue(SupportedValueDeprecateCommand(id))
 	} catch (_: AutomateException) {}
 }

@@ -16,7 +16,7 @@ import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlo
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptGetGlobalValueResult
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListFunction
 import io.komune.registry.f2.cccev.domain.concept.query.InformationConceptListResult
-import io.komune.registry.s2.cccev.api.CccevAggregateService
+import io.komune.registry.s2.cccev.api.CccevOldAggregateService
 import io.komune.registry.s2.commons.utils.truncateLanguage
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
@@ -27,7 +27,7 @@ import s2.spring.utils.logger.Logger
 @RestController
 @RequestMapping
 class InformationConceptEndpoint(
-    private val cccevAggregateService: CccevAggregateService,
+    private val cccevOldAggregateService: CccevOldAggregateService,
     private val informationConceptF2FinderService: InformationConceptF2FinderService,
     private val informationConceptPoliciesEnforcer: InformationConceptPoliciesEnforcer
 ) : InformationConceptApi {
@@ -59,7 +59,7 @@ class InformationConceptEndpoint(
     override fun informationConceptCreate(): InformationConceptCreateFunction = f2Function { command ->
         logger.info("informationConceptCreate: $command")
         informationConceptPoliciesEnforcer.checkCreate()
-        cccevAggregateService.createConcept(command)
+        cccevOldAggregateService.createConcept(command)
             .let { informationConceptF2FinderService.get(it.id) }
             .let { InformationConceptCreatedEventDTOBase(it) }
     }
@@ -68,7 +68,7 @@ class InformationConceptEndpoint(
     override fun informationConceptUpdate(): InformationConceptUpdateFunction = f2Function { command ->
         logger.info("informationConceptUpdate: $command")
         informationConceptPoliciesEnforcer.checkCreate()
-        cccevAggregateService.updateConcept(command)
+        cccevOldAggregateService.updateConcept(command)
             .let { InformationConceptUpdatedEventDTOBase(it.id) }
     }
 
@@ -76,7 +76,7 @@ class InformationConceptEndpoint(
     override fun informationConceptDelete(): InformationConceptDeleteFunction = f2Function { command ->
         logger.info("informationConceptDelete: $command")
         informationConceptPoliciesEnforcer.checkDelete()
-        cccevAggregateService.deleteConcept(command)
+        cccevOldAggregateService.deleteConcept(command)
             .let { InformationConceptDeletedEventDTOBase(it.id) }
     }
 }

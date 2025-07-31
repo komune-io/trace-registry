@@ -5,7 +5,7 @@ import io.komune.registry.s2.cccev.api.entity.concept.toModel
 import io.komune.registry.s2.cccev.api.entity.unit.DataUnitOldRepository
 import io.komune.registry.s2.cccev.api.entity.unit.toModel
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueEntity
-import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
+import io.komune.registry.s2.cccev.api.entity.value.SupportedValueOldRepository
 import io.komune.registry.s2.cccev.api.entity.value.toModel
 import io.komune.registry.s2.cccev.api.processor.compute
 import io.komune.registry.s2.cccev.domain.InformationConceptState
@@ -23,10 +23,10 @@ import io.komune.registry.s2.commons.model.SupportedValueId
 import org.springframework.stereotype.Service
 
 @Service
-class CccevFinderService(
+class CccevOldFinderService(
     private val conceptRepository: InformationConceptOldRepository,
     private val unitRepository: DataUnitOldRepository,
-    private val valueRepository: SupportedValueRepository,
+    private val valueRepository: SupportedValueOldRepository,
 ) {
 
     /* ------------------------------ INFORMATION CONCEPT ------------------------------ */

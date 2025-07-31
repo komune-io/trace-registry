@@ -6,7 +6,7 @@ import s2.sourcing.dsl.snap.SnapRepository
 
 @Service
 class SupportedValueSnapRepository(
-    private val repository: SupportedValueRepository
+    private val repository: SupportedValueOldRepository
 ): SnapRepository<SupportedValueEntity, SupportedValueId> {
     override suspend fun get(id: SupportedValueId): SupportedValueEntity? {
         return repository.findById(id).orElse(null)

@@ -12,7 +12,7 @@ import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitGetResult
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListFunction
 import io.komune.registry.f2.cccev.domain.unit.query.DataUnitListResult
-import io.komune.registry.s2.cccev.api.CccevAggregateService
+import io.komune.registry.s2.cccev.api.CccevOldAggregateService
 import io.komune.registry.s2.commons.utils.truncateLanguage
 import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,7 +22,7 @@ import s2.spring.utils.logger.Logger
 @RestController
 @RequestMapping
 class DataUnitEndpoint(
-    private val cccevAggregateService: CccevAggregateService,
+    private val cccevOldAggregateService: CccevOldAggregateService,
     private val dataUnitF2FinderService: DataUnitF2FinderService,
     private val dataUnitPoliciesEnforcer: DataUnitPoliciesEnforcer
 ) : DataUnitApi {
@@ -53,7 +53,7 @@ class DataUnitEndpoint(
     override fun dataUnitCreate(): DataUnitCreateFunction = f2Function { command ->
         logger.info("dataUnitCreate: $command")
         dataUnitPoliciesEnforcer.checkCreate()
-        cccevAggregateService.createUnit(command)
+        cccevOldAggregateService.createUnit(command)
             .let { dataUnitF2FinderService.get(it.id) }
             .let { DataUnitCreatedEventDTOBase(it) }
     }

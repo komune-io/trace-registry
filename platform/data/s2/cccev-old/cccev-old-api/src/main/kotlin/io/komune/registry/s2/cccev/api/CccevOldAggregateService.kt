@@ -4,7 +4,7 @@ import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.s2.cccev.api.entity.concept.InformationConceptAutomateExecutor
 import io.komune.registry.s2.cccev.api.entity.unit.DataUnitAutomateExecutor
 import io.komune.registry.s2.cccev.api.entity.value.SupportedValueAutomateExecutor
-import io.komune.registry.s2.cccev.api.entity.value.SupportedValueRepository
+import io.komune.registry.s2.cccev.api.entity.value.SupportedValueOldRepository
 import io.komune.registry.s2.cccev.api.processor.Processor
 import io.komune.registry.s2.cccev.domain.SupportedValueState
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
@@ -30,11 +30,11 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class CccevAggregateService(
+class CccevOldAggregateService(
     private val conceptAutomate: InformationConceptAutomateExecutor,
     private val unitAutomate: DataUnitAutomateExecutor,
     private val valueAutomate: SupportedValueAutomateExecutor,
-    private val valueRepository: SupportedValueRepository,
+    private val valueRepository: SupportedValueOldRepository,
 ) {
     suspend fun createConcept(command: InformationConceptCreateCommand) = conceptAutomate.init(command) {
         InformationConceptCreatedEvent(

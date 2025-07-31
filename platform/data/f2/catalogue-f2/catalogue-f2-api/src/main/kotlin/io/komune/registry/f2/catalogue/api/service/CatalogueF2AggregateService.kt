@@ -76,7 +76,7 @@ import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdate
 import io.komune.registry.s2.catalogue.draft.domain.command.CatalogueDraftUpdateTitleCommand
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftedRef
-import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.cccev.api.CccevOldFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.CatalogueType
@@ -107,7 +107,7 @@ class CatalogueF2AggregateService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
-    private val cccevFinderService: CccevFinderService,
+    private val cccevOldFinderService: CccevOldFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetF2AggregateService: DatasetF2AggregateService,
     private val datasetFinderService: DatasetFinderService,
@@ -982,7 +982,7 @@ class CatalogueF2AggregateService(
         }.nullIfEmpty()?.let { datasetF2AggregateService.removeDistributionValues(it) }
 
         indicators.flatMap { (conceptIdentifier, values) ->
-            val concept = cccevFinderService.getConceptByIdentifier(conceptIdentifier)
+            val concept = cccevOldFinderService.getConceptByIdentifier(conceptIdentifier)
             values.map { value ->
                 DatasetAddDistributionValueCommandDTOBase(
                     id = metadataDataset.id,

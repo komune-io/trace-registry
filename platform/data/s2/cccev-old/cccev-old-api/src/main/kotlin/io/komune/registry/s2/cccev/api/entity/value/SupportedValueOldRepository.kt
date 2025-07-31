@@ -7,7 +7,7 @@ import io.komune.registry.s2.commons.model.SupportedValueId
 import org.springframework.stereotype.Repository
 
 @Repository
-interface SupportedValueRepository: RedisRepository<SupportedValueEntity, SupportedValueId> {
+interface SupportedValueOldRepository: RedisRepository<SupportedValueEntity, SupportedValueId> {
     fun findAllByConceptIdAndStatus(conceptId: InformationConceptId, status: SupportedValueState): List<SupportedValueEntity>
     fun findAllByConceptIdAndStatusNot(conceptId: InformationConceptId, status: SupportedValueState): List<SupportedValueEntity>
 }
