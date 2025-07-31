@@ -7,9 +7,9 @@ import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeAggregateS
 import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeFinderService
 import io.komune.registry.control.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
 import io.komune.registry.control.core.cccev.requirement.RequirementAggregateService
-import io.komune.registry.control.core.cccev.requirement.RequirementFinderService
 import io.komune.registry.control.core.cccev.requirement.command.RequirementCreateCommand
 import io.komune.registry.control.core.cccev.requirement.command.RequirementUpdateCommand
+import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
 import io.komune.registry.control.core.cccev.requirement.model.RequirementKind
 import io.komune.registry.control.core.cccev.unit.DataUnitAggregateService
 import io.komune.registry.control.core.cccev.unit.DataUnitFinderService
@@ -43,7 +43,7 @@ class ProtocolDefinitionService(
     private val informationConceptAggregateService: InformationConceptAggregateService,
     private val informationConceptFinderService: InformationConceptFinderService,
     private val requirementAggregateService: RequirementAggregateService,
-    private val requirementFinderService: RequirementFinderService,
+    private val requirementRepository: RequirementRepository,
     private val sessionFactory: SessionFactory
 ) {
     private val informationConceptGraphInitializer = InformationConceptGraphInitializer()
@@ -277,7 +277,7 @@ class ProtocolDefinitionService(
     )
 
     private suspend fun RequirementData.createOrUpdate(requirementIdsMap: Map<RequirementIdentifier, RequirementId>): RequirementId {
-        val existingRequirement = requirementFinderService.getByIdentifierOrNull(identifier)
+        val existingRequirement = requirementRepository.findByIdentifier(identifier)
         return if (existingRequirement == null) {
             val requirementCommand = RequirementCreateCommand(
                 identifier = identifier,
@@ -336,7 +336,7 @@ class ProtocolDefinitionService(
         override fun getNodeDependencies(node: RequirementData) = node.requirements.map { it.identifier }
 
         override suspend fun tryLoadingExternalNode(nodeReference: RequirementIdentifier): RequirementId? {
-            return requirementFinderService.getByIdentifierOrNull(nodeReference)?.id
+            return requirementRepository.findByIdentifier(nodeReference)?.id
         }
     }
 

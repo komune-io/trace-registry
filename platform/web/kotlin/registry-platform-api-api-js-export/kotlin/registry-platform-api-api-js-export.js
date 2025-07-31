@@ -107,11 +107,11 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Iterable, 'Iterable', interfaceMeta);
   setMetadataFor(Collection, 'Collection', interfaceMeta, VOID, [Iterable]);
   setMetadataFor(AbstractCollection, 'AbstractCollection', classMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Iterable, Collection]);
+  setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection, Iterable]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(ListIteratorImpl, 'ListIteratorImpl', classMeta, IteratorImpl);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(MutableList, 'MutableList', interfaceMeta, VOID, [List, Iterable, Collection]);
+  setMetadataFor(MutableList, 'MutableList', interfaceMeta, VOID, [List, Collection, Iterable]);
   setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, MutableList]);
   setMetadataFor(RandomAccess, 'RandomAccess', interfaceMeta);
   setMetadataFor(SubList, 'SubList', classMeta, AbstractMutableList, [AbstractMutableList, RandomAccess]);
@@ -120,13 +120,13 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(MutableMap, 'MutableMap', interfaceMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, MutableMap]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(MutableSet, 'MutableSet', interfaceMeta, VOID, [Set, Iterable, Collection]);
+  setMetadataFor(MutableSet, 'MutableSet', interfaceMeta, VOID, [Set, Collection, Iterable]);
   setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, MutableSet]);
   setMetadataFor(Companion, 'Companion', objectMeta);
   setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, MutableList, RandomAccess], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, MutableMap], HashMap_init_$Create$);
   setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [MutableSet, AbstractMutableSet]);
-  setMetadataFor(HashMapValues, 'HashMapValues', classMeta, AbstractMutableCollection, [Iterable, Collection, AbstractMutableCollection]);
+  setMetadataFor(HashMapValues, 'HashMapValues', classMeta, AbstractMutableCollection, [Collection, Iterable, AbstractMutableCollection]);
   setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [MutableSet, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
@@ -785,7 +785,7 @@ if (typeof Math.imul === 'undefined') {
   function addFormatStructureForTime(structure) {
     this.z1g(structure);
   }
-  setMetadataFor(AbstractWithDateTimeBuilder, 'AbstractWithDateTimeBuilder', interfaceMeta, VOID, [AbstractWithDateBuilder, AbstractWithTimeBuilder, WithTime, WithDate]);
+  setMetadataFor(AbstractWithDateTimeBuilder, 'AbstractWithDateTimeBuilder', interfaceMeta, VOID, [AbstractWithDateBuilder, AbstractWithTimeBuilder, WithDate, WithTime]);
   function offsetHours$default(padding, $super) {
     padding = padding === VOID ? Padding_ZERO_getInstance() : padding;
     var tmp;
@@ -838,7 +838,7 @@ if (typeof Math.imul === 'undefined') {
     return tmp;
   }
   setMetadataFor(AbstractWithOffsetBuilder, 'AbstractWithOffsetBuilder', interfaceMeta, VOID, [WithUtcOffset]);
-  setMetadataFor(Builder, 'Builder', classMeta, VOID, [AbstractDateTimeFormatBuilder, AbstractWithDateTimeBuilder, AbstractWithOffsetBuilder, WithUtcOffset, WithTime, WithDate]);
+  setMetadataFor(Builder, 'Builder', classMeta, VOID, [AbstractDateTimeFormatBuilder, AbstractWithDateTimeBuilder, AbstractWithOffsetBuilder, WithUtcOffset, WithDate, WithTime]);
   setMetadataFor(AbstractDateTimeFormat, 'AbstractDateTimeFormat', classMeta);
   setMetadataFor(DateTimeComponentsFormat, 'DateTimeComponentsFormat', classMeta, AbstractDateTimeFormat);
   setMetadataFor(TwoDigitNumber, 'TwoDigitNumber', classMeta);
@@ -1833,6 +1833,8 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(ReservedProtocolTypes, 'ReservedProtocolTypes', objectMeta);
   setMetadataFor(ProtocolGetQueryDTO, 'ProtocolGetQueryDTO', interfaceMeta);
   setMetadataFor(ProtocolGetResultDTO, 'ProtocolGetResultDTO', interfaceMeta);
+  setMetadataFor(ProtocolPageQueryDTO, 'ProtocolPageQueryDTO', interfaceMeta);
+  setMetadataFor(ProtocolPageResultDTO, 'ProtocolPageResultDTO', interfaceMeta, VOID, [PageDTO]);
   setMetadataFor(CertificationRefDTO, 'CertificationRefDTO', interfaceMeta);
   setMetadataFor(OrganizationRefDTO_0, 'OrganizationRefDTO', interfaceMeta);
   setMetadataFor(UserOnboardCommandDTO, 'UserOnboardCommandDTO', interfaceMeta);
@@ -52614,6 +52616,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ProtocolGetResultDTO() {
   }
+  function ProtocolPageQueryDTO() {
+  }
+  function ProtocolPageResultDTO() {
+  }
   function CertificationRefDTO() {
   }
   function OrganizationRefDTO_0() {
@@ -58654,6 +58660,14 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$control$f2$protocol$domain = $io$komune$registry$control$f2$protocol.domain || ($io$komune$registry$control$f2$protocol.domain = {});
     var $io$komune$registry$control$f2$protocol$domain$model = $io$komune$registry$control$f2$protocol$domain.model || ($io$komune$registry$control$f2$protocol$domain.model = {});
     defineProp($io$komune$registry$control$f2$protocol$domain$model, 'ReservedProtocolTypes', ReservedProtocolTypes_getInstance);
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$control = $io$komune$registry.control || ($io$komune$registry.control = {});
+    var $io$komune$registry$control$f2 = $io$komune$registry$control.f2 || ($io$komune$registry$control.f2 = {});
+    var $io$komune$registry$control$f2$protocol = $io$komune$registry$control$f2.protocol || ($io$komune$registry$control$f2.protocol = {});
+    var $io$komune$registry$control$f2$protocol$domain = $io$komune$registry$control$f2$protocol.domain || ($io$komune$registry$control$f2$protocol.domain = {});
+    var $io$komune$registry$control$f2$protocol$domain$query = $io$komune$registry$control$f2$protocol$domain.query || ($io$komune$registry$control$f2$protocol$domain.query = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});

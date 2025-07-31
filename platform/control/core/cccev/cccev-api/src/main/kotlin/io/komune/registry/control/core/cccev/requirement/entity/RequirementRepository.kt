@@ -1,5 +1,7 @@
 package io.komune.registry.control.core.cccev.requirement.entity
 
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.Page
 import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
 import io.komune.registry.infra.neo4j.returnWholeEntity
 import io.komune.registry.infra.neo4j.session
@@ -63,5 +65,23 @@ class RequirementRepository(
                     ")",
             mapOf("identifier" to requirementIdentifier)
         ).booleanValue()
+    }
+
+    suspend fun pageShallow(
+        type: String,
+        offset: OffsetPagination? = null
+    ): Page<Requirement> = sessionFactory.session { session ->
+        val query = """
+            MATCH (requirement:${Requirement.LABEL} {${Requirement::type.name}: ${'$'}type})
+            RETURN requirement, COUNT(requirement) AS totalCount
+            ORDER BY requirement.${Requirement::name.name} ASC
+            ${offset?.let { "SKIP ${it.offset} LIMIT ${it.limit}" } ?: ""}
+        """.trimIndent()
+
+        session.query(query, mapOf("type" to type)).let { result ->
+            val requirements = result.map { it["requirement"] as Requirement }
+            val totalCount = result.firstOrNull()?.get("totalCount") as? Int ?: 0
+            Page(items = requirements, total = totalCount)
+        }
     }
 }

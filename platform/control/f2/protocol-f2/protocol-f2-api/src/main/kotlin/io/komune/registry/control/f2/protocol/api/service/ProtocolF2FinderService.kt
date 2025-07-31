@@ -1,6 +1,9 @@
 package io.komune.registry.control.f2.protocol.api.service
 
-import io.komune.registry.control.core.cccev.requirement.RequirementFinderService
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.Page
+import f2.dsl.cqrs.page.map
+import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
 import io.komune.registry.control.f2.protocol.api.model.toProtocolRef
 import io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO
 import io.komune.registry.control.f2.protocol.domain.model.ProtocolRef
@@ -10,10 +13,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ProtocolF2FinderService(
-    private val requirementFinderService: RequirementFinderService
+    private val requirementRepository: RequirementRepository
 ) {
     suspend fun getOrNull(id: RequirementId): ProtocolDTO? {
-        return requirementFinderService.getOrNull(id)
+        return requirementRepository.findById(id)
             ?.let { CccevToProtocolConverter.convert(it) }
     }
 
@@ -22,6 +25,15 @@ class ProtocolF2FinderService(
     }
 
     suspend fun getRef(id: RequirementId): ProtocolRef {
-        return requirementFinderService.getShallow(id).toProtocolRef()
+        return requirementRepository.findShallowById(id)?.toProtocolRef()
+            ?: throw NotFoundException("Protocol", id)
+    }
+
+    suspend fun pageRefs(
+        type: String,
+        offset: OffsetPagination? = null
+    ): Page<ProtocolRef> {
+        return requirementRepository.pageShallow(type = type, offset = offset)
+            .map { it.toProtocolRef() }
     }
 }

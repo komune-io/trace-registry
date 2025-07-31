@@ -3376,6 +3376,19 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.control.f2.protocol.domain.query {
+    interface ProtocolPageQueryDTO {
+        readonly type: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface ProtocolPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.control.f2.protocol.domain.model.ProtocolRefDTO> {
+        readonly total: number;
+        readonly items: io.komune.registry.control.f2.protocol.domain.model.ProtocolRefDTO[];
+
+    }
+}
 export declare namespace io.komune.registry.control.f2.certification.domain.model {
     interface CertificationRefDTO {
         readonly id: string;
