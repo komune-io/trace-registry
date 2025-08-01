@@ -4,6 +4,7 @@ import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTOBase
+import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueProtocolButtonDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.license.domain.model.LicenseDTOBase
 import io.komune.registry.s2.catalogue.api.config.CatalogueDefaults
@@ -11,6 +12,7 @@ import io.komune.registry.s2.catalogue.api.config.CatalogueTypeConfiguration
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueCreateButtonModel
+import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueProtocolButtonModel
 import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueStructureModel
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
@@ -34,6 +36,7 @@ suspend fun CatalogueStructureModel.toDTO(
     tagForm = tagForm,
     table = table,
     createButton = createButton?.toDTO(language, getTypeConfiguration),
+    protocolButton = protocolButton?.toDTO(language),
 )
 
 fun CatalogueStructureModel?.overrideWith(configuration: CatalogueConfigurationModel?) = orEmpty().copy(
@@ -51,6 +54,7 @@ fun CatalogueStructureModel?.orEmpty() = this ?: CatalogueStructureModel(
     tagForm = null,
     table = null,
     createButton = null,
+    protocolButton = null,
 )
 
 suspend fun CatalogueCreateButtonModel.toDTO(
@@ -63,6 +67,11 @@ suspend fun CatalogueCreateButtonModel.toDTO(
         getTypeConfiguration(type)?.takeIf { it.authedUserCanWrite() }?.toTypeDTO(language)
     },
 ).takeIf { it.types.isNotEmpty() }
+
+fun CatalogueProtocolButtonModel.toDTO(language: Language) = CatalogueProtocolButtonDTOBase(
+    label = label[language].orEmpty(),
+    form = form,
+)
 
 fun CatalogueTypeConfiguration.toTypeDTO(language: Language) = CatalogueTypeDTOBase(
     identifier = type,

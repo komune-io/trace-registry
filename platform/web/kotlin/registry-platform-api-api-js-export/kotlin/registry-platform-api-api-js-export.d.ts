@@ -3813,6 +3813,13 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     }
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
+    interface CatalogueProtocolButtonDTO {
+        readonly label: string;
+        readonly form: io.komune.registry.s2.commons.model.form.FormDTO;
+
+    }
+}
+export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
     interface CatalogueStructureDTO {
         readonly type?: io.komune.registry.s2.catalogue.domain.model.structure.StructureType;
         readonly alias: boolean;
@@ -3825,6 +3832,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly tagForm?: io.komune.registry.s2.commons.model.form.FormDTO;
         readonly table?: io.komune.registry.s2.commons.model.table.TableDTO;
         readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
+        readonly protocolButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueProtocolButtonDTO;
 
     }
 }

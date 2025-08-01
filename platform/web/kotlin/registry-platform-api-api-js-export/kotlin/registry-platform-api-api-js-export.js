@@ -43,12 +43,6 @@ if (typeof Math.clz32 === 'undefined') {
     };
   }(Math.log, Math.LN2);
 }
-if (typeof String.prototype.startsWith === 'undefined') {
-  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
-    position = position || 0;
-    return this.lastIndexOf(searchString, position) === position;
-  }});
-}
 if (typeof String.prototype.endsWith === 'undefined') {
   Object.defineProperty(String.prototype, 'endsWith', {value: function (searchString, position) {
     var subjectString = this.toString();
@@ -58,6 +52,12 @@ if (typeof String.prototype.endsWith === 'undefined') {
     position -= searchString.length;
     var lastIndex = subjectString.indexOf(searchString, position);
     return lastIndex !== -1 && lastIndex === position;
+  }});
+}
+if (typeof String.prototype.startsWith === 'undefined') {
+  Object.defineProperty(String.prototype, 'startsWith', {value: function (searchString, position) {
+    position = position || 0;
+    return this.lastIndexOf(searchString, position) === position;
   }});
 }
 if (typeof Math.imul === 'undefined') {
@@ -107,11 +107,11 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(Iterable, 'Iterable', interfaceMeta);
   setMetadataFor(Collection, 'Collection', interfaceMeta, VOID, [Iterable]);
   setMetadataFor(AbstractCollection, 'AbstractCollection', classMeta, VOID, [Collection]);
-  setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Collection, Iterable]);
+  setMetadataFor(AbstractMutableCollection, 'AbstractMutableCollection', classMeta, AbstractCollection, [AbstractCollection, Iterable, Collection]);
   setMetadataFor(IteratorImpl, 'IteratorImpl', classMeta);
   setMetadataFor(ListIteratorImpl, 'ListIteratorImpl', classMeta, IteratorImpl);
   setMetadataFor(List, 'List', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(MutableList, 'MutableList', interfaceMeta, VOID, [List, Collection, Iterable]);
+  setMetadataFor(MutableList, 'MutableList', interfaceMeta, VOID, [List, Iterable, Collection]);
   setMetadataFor(AbstractMutableList, 'AbstractMutableList', classMeta, AbstractMutableCollection, [AbstractMutableCollection, MutableList]);
   setMetadataFor(RandomAccess, 'RandomAccess', interfaceMeta);
   setMetadataFor(SubList, 'SubList', classMeta, AbstractMutableList, [AbstractMutableList, RandomAccess]);
@@ -120,13 +120,13 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(MutableMap, 'MutableMap', interfaceMeta, VOID, [Map_0]);
   setMetadataFor(AbstractMutableMap, 'AbstractMutableMap', classMeta, AbstractMap, [AbstractMap, MutableMap]);
   setMetadataFor(Set, 'Set', interfaceMeta, VOID, [Collection]);
-  setMetadataFor(MutableSet, 'MutableSet', interfaceMeta, VOID, [Set, Collection, Iterable]);
+  setMetadataFor(MutableSet, 'MutableSet', interfaceMeta, VOID, [Set, Iterable, Collection]);
   setMetadataFor(AbstractMutableSet, 'AbstractMutableSet', classMeta, AbstractMutableCollection, [AbstractMutableCollection, MutableSet]);
   setMetadataFor(Companion, 'Companion', objectMeta);
   setMetadataFor(ArrayList, 'ArrayList', classMeta, AbstractMutableList, [AbstractMutableList, MutableList, RandomAccess], ArrayList_init_$Create$);
   setMetadataFor(HashMap, 'HashMap', classMeta, AbstractMutableMap, [AbstractMutableMap, MutableMap], HashMap_init_$Create$);
   setMetadataFor(HashMapKeys, 'HashMapKeys', classMeta, AbstractMutableSet, [MutableSet, AbstractMutableSet]);
-  setMetadataFor(HashMapValues, 'HashMapValues', classMeta, AbstractMutableCollection, [Collection, Iterable, AbstractMutableCollection]);
+  setMetadataFor(HashMapValues, 'HashMapValues', classMeta, AbstractMutableCollection, [Iterable, Collection, AbstractMutableCollection]);
   setMetadataFor(HashMapEntrySetBase, 'HashMapEntrySetBase', classMeta, AbstractMutableSet, [MutableSet, AbstractMutableSet]);
   setMetadataFor(HashMapEntrySet, 'HashMapEntrySet', classMeta, HashMapEntrySetBase);
   setMetadataFor(HashMapKeysDefault$iterator$1, VOID, classMeta);
@@ -785,7 +785,7 @@ if (typeof Math.imul === 'undefined') {
   function addFormatStructureForTime(structure) {
     this.z1g(structure);
   }
-  setMetadataFor(AbstractWithDateTimeBuilder, 'AbstractWithDateTimeBuilder', interfaceMeta, VOID, [AbstractWithDateBuilder, AbstractWithTimeBuilder, WithDate, WithTime]);
+  setMetadataFor(AbstractWithDateTimeBuilder, 'AbstractWithDateTimeBuilder', interfaceMeta, VOID, [AbstractWithDateBuilder, AbstractWithTimeBuilder, WithTime, WithDate]);
   function offsetHours$default(padding, $super) {
     padding = padding === VOID ? Padding_ZERO_getInstance() : padding;
     var tmp;
@@ -1884,6 +1884,7 @@ if (typeof Math.imul === 'undefined') {
   setMetadataFor(CatalogueRefDTO, 'CatalogueRefDTO', interfaceMeta);
   setMetadataFor(CatalogueRefTreeDTO, 'CatalogueRefTreeDTO', interfaceMeta, VOID, [CatalogueRefDTO]);
   setMetadataFor(CatalogueCreateButtonDTO, 'CatalogueCreateButtonDTO', interfaceMeta);
+  setMetadataFor(CatalogueProtocolButtonDTO, 'CatalogueProtocolButtonDTO', interfaceMeta);
   setMetadataFor(CatalogueStructureDTO, 'CatalogueStructureDTO', interfaceMeta);
   setMetadataFor(CatalogueGetBlueprintsQueryDTO, 'CatalogueGetBlueprintsQueryDTO', interfaceMeta);
   setMetadataFor(CatalogueGetBlueprintsResultDTO, 'CatalogueGetBlueprintsResultDTO', interfaceMeta);
@@ -52987,6 +52988,8 @@ if (typeof Math.imul === 'undefined') {
   }
   function CatalogueCreateButtonDTO() {
   }
+  function CatalogueProtocolButtonDTO() {
+  }
   function CatalogueStructureDTO() {
   }
   function CatalogueGetBlueprintsQueryDTO() {
@@ -53190,14 +53193,14 @@ if (typeof Math.imul === 'undefined') {
     captureStack(this, SelException);
     this.jsonPath = jsonPath;
   }
-  protoOf(SelException).s3g = function () {
+  protoOf(SelException).u3g = function () {
     return this.jsonPath;
   };
   function SelExecutor() {
-    this.t3g_1 = new SelExpressionEvaluator();
+    this.v3g_1 = new SelExpressionEvaluator();
   }
   protoOf(SelExecutor).addOperation = function (expression) {
-    this.t3g_1.addExpression(expression);
+    this.v3g_1.addExpression(expression);
   };
   protoOf(SelExecutor).evaluate = function (expressionJson, dataJson) {
     var selNode = SelParser_instance.parse(expressionJson);
@@ -53214,7 +53217,7 @@ if (typeof Math.imul === 'undefined') {
       }
     }
     var data = tmp;
-    return normalize(this.t3g_1.evaluate(selNode, data, '$'));
+    return normalize(this.v3g_1.evaluate(selNode, data, '$'));
   };
   protoOf(SelExecutor).evaluateToJson = function (expressionJson, dataJson) {
     // Inline function 'kotlinx.serialization.encodeToString' call
@@ -53532,66 +53535,66 @@ if (typeof Math.imul === 'undefined') {
   }
   function SelArray(values) {
     values = values === VOID ? emptyList() : values;
-    this.u3g_1 = values;
+    this.w3g_1 = values;
   }
   protoOf(SelArray).n = function () {
-    return this.u3g_1.n();
+    return this.w3g_1.n();
   };
-  protoOf(SelArray).v3g = function (element) {
-    return this.u3g_1.x(element);
+  protoOf(SelArray).x3g = function (element) {
+    return this.w3g_1.x(element);
   };
   protoOf(SelArray).x = function (element) {
     if (!(!(element == null) ? isInterface(element, SelNode) : false))
       return false;
-    return this.v3g((!(element == null) ? isInterface(element, SelNode) : false) ? element : THROW_CCE());
+    return this.x3g((!(element == null) ? isInterface(element, SelNode) : false) ? element : THROW_CCE());
   };
-  protoOf(SelArray).w3g = function (elements) {
-    return this.u3g_1.y(elements);
+  protoOf(SelArray).y3g = function (elements) {
+    return this.w3g_1.y(elements);
   };
   protoOf(SelArray).y = function (elements) {
-    return this.w3g(elements);
+    return this.y3g(elements);
   };
   protoOf(SelArray).d1 = function (index) {
-    return this.u3g_1.d1(index);
+    return this.w3g_1.d1(index);
   };
-  protoOf(SelArray).x3g = function (element) {
-    return this.u3g_1.w1(element);
+  protoOf(SelArray).z3g = function (element) {
+    return this.w3g_1.w1(element);
   };
   protoOf(SelArray).w1 = function (element) {
     if (!(!(element == null) ? isInterface(element, SelNode) : false))
       return -1;
-    return this.x3g((!(element == null) ? isInterface(element, SelNode) : false) ? element : THROW_CCE());
+    return this.z3g((!(element == null) ? isInterface(element, SelNode) : false) ? element : THROW_CCE());
   };
   protoOf(SelArray).z = function () {
-    return this.u3g_1.z();
+    return this.w3g_1.z();
   };
   protoOf(SelArray).u = function () {
-    return this.u3g_1.u();
+    return this.w3g_1.u();
   };
-  protoOf(SelArray).y3g = function (element) {
-    return this.u3g_1.x1(element);
+  protoOf(SelArray).a3h = function (element) {
+    return this.w3g_1.x1(element);
   };
   protoOf(SelArray).x1 = function (element) {
     if (!(!(element == null) ? isInterface(element, SelNode) : false))
       return -1;
-    return this.y3g((!(element == null) ? isInterface(element, SelNode) : false) ? element : THROW_CCE());
+    return this.a3h((!(element == null) ? isInterface(element, SelNode) : false) ? element : THROW_CCE());
   };
   protoOf(SelArray).y1 = function () {
-    return this.u3g_1.y1();
+    return this.w3g_1.y1();
   };
   protoOf(SelArray).z1 = function (index) {
-    return this.u3g_1.z1(index);
+    return this.w3g_1.z1(index);
   };
   protoOf(SelArray).a2 = function (fromIndex, toIndex) {
-    return this.u3g_1.a2(fromIndex, toIndex);
+    return this.w3g_1.a2(fromIndex, toIndex);
   };
   function SelNode() {
   }
   function SelNull() {
-    this.z3g_1 = null;
+    this.b3h_1 = null;
   }
   protoOf(SelNull).d4 = function () {
-    return this.z3g_1;
+    return this.b3h_1;
   };
   var SelNull_instance;
   function SelNull_getInstance() {
@@ -53710,26 +53713,26 @@ if (typeof Math.imul === 'undefined') {
   function SelPrimitive() {
   }
   function SelString(value) {
-    this.a3h_1 = value;
+    this.c3h_1 = value;
   }
   protoOf(SelString).d4 = function () {
-    return this.a3h_1;
+    return this.c3h_1;
   };
   protoOf(SelString).uc = function () {
-    return this.a3h_1;
+    return this.c3h_1;
   };
   protoOf(SelString).p2f = function (value) {
     return new SelString(value);
   };
   protoOf(SelString).copy = function (value, $super) {
-    value = value === VOID ? this.a3h_1 : value;
+    value = value === VOID ? this.c3h_1 : value;
     return this.p2f(value);
   };
   protoOf(SelString).toString = function () {
-    return 'SelString(value=' + this.a3h_1 + ')';
+    return 'SelString(value=' + this.c3h_1 + ')';
   };
   protoOf(SelString).hashCode = function () {
-    return getStringHashCode(this.a3h_1);
+    return getStringHashCode(this.c3h_1);
   };
   protoOf(SelString).equals = function (other) {
     if (this === other)
@@ -53737,31 +53740,31 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SelString))
       return false;
     var tmp0_other_with_cast = other instanceof SelString ? other : THROW_CCE();
-    if (!(this.a3h_1 === tmp0_other_with_cast.a3h_1))
+    if (!(this.c3h_1 === tmp0_other_with_cast.c3h_1))
       return false;
     return true;
   };
   function SelNumber(value) {
-    this.b3h_1 = value;
+    this.d3h_1 = value;
   }
   protoOf(SelNumber).d4 = function () {
-    return this.b3h_1;
+    return this.d3h_1;
   };
   protoOf(SelNumber).uc = function () {
-    return this.b3h_1;
+    return this.d3h_1;
   };
-  protoOf(SelNumber).c3h = function (value) {
+  protoOf(SelNumber).e3h = function (value) {
     return new SelNumber(value);
   };
   protoOf(SelNumber).copy = function (value, $super) {
-    value = value === VOID ? this.b3h_1 : value;
-    return this.c3h(value);
+    value = value === VOID ? this.d3h_1 : value;
+    return this.e3h(value);
   };
   protoOf(SelNumber).toString = function () {
-    return 'SelNumber(value=' + toString_1(this.b3h_1) + ')';
+    return 'SelNumber(value=' + toString_1(this.d3h_1) + ')';
   };
   protoOf(SelNumber).hashCode = function () {
-    return hashCode(this.b3h_1);
+    return hashCode(this.d3h_1);
   };
   protoOf(SelNumber).equals = function (other) {
     if (this === other)
@@ -53769,7 +53772,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SelNumber))
       return false;
     var tmp0_other_with_cast = other instanceof SelNumber ? other : THROW_CCE();
-    if (!equals_0(this.b3h_1, tmp0_other_with_cast.b3h_1))
+    if (!equals_0(this.d3h_1, tmp0_other_with_cast.d3h_1))
       return false;
     return true;
   };
@@ -53778,10 +53781,10 @@ if (typeof Math.imul === 'undefined') {
     this.TRUE = new SelBoolean(true);
     this.FALSE = new SelBoolean(false);
   }
-  protoOf(Companion_169).d3h = function () {
+  protoOf(Companion_169).f3h = function () {
     return this.TRUE;
   };
-  protoOf(Companion_169).e3h = function () {
+  protoOf(Companion_169).g3h = function () {
     return this.FALSE;
   };
   var Companion_instance_169;
@@ -53792,26 +53795,26 @@ if (typeof Math.imul === 'undefined') {
   }
   function SelBoolean(value) {
     Companion_getInstance_169();
-    this.f3h_1 = value;
+    this.h3h_1 = value;
   }
   protoOf(SelBoolean).d4 = function () {
-    return this.f3h_1;
+    return this.h3h_1;
   };
   protoOf(SelBoolean).uc = function () {
-    return this.f3h_1;
+    return this.h3h_1;
   };
-  protoOf(SelBoolean).g3h = function (value) {
+  protoOf(SelBoolean).i3h = function (value) {
     return new SelBoolean(value);
   };
   protoOf(SelBoolean).copy = function (value, $super) {
-    value = value === VOID ? this.f3h_1 : value;
-    return this.g3h(value);
+    value = value === VOID ? this.h3h_1 : value;
+    return this.i3h(value);
   };
   protoOf(SelBoolean).toString = function () {
-    return 'SelBoolean(value=' + this.f3h_1 + ')';
+    return 'SelBoolean(value=' + this.h3h_1 + ')';
   };
   protoOf(SelBoolean).hashCode = function () {
-    return getBooleanHashCode(this.f3h_1);
+    return getBooleanHashCode(this.h3h_1);
   };
   protoOf(SelBoolean).equals = function (other) {
     if (this === other)
@@ -53819,7 +53822,7 @@ if (typeof Math.imul === 'undefined') {
     if (!(other instanceof SelBoolean))
       return false;
     var tmp0_other_with_cast = other instanceof SelBoolean ? other : THROW_CCE();
-    if (!(this.f3h_1 === tmp0_other_with_cast.f3h_1))
+    if (!(this.h3h_1 === tmp0_other_with_cast.h3h_1))
       return false;
     return true;
   };
@@ -53831,7 +53834,7 @@ if (typeof Math.imul === 'undefined') {
   function SelExpression() {
   }
   function SelExpressionEvaluator() {
-    this.h3h_1 = toMutableMap(SelExpressionNativeDirectory_getInstance());
+    this.j3h_1 = toMutableMap(SelExpressionNativeDirectory_getInstance());
   }
   protoOf(SelExpressionEvaluator).evaluate = function (node, data, jsonPath) {
     var tmp;
@@ -53868,7 +53871,7 @@ if (typeof Math.imul === 'undefined') {
     return destination;
   };
   protoOf(SelExpressionEvaluator).evaluateOperation = function (operation, data, jsonPath) {
-    var tmp0_elvis_lhs = this.h3h_1.s2(operation.operator);
+    var tmp0_elvis_lhs = this.j3h_1.s2(operation.operator);
     var tmp;
     if (tmp0_elvis_lhs == null) {
       throw new SelEvaluationException("Unknown operation: '" + operation.operator + "'", jsonPath);
@@ -53880,7 +53883,7 @@ if (typeof Math.imul === 'undefined') {
   };
   protoOf(SelExpressionEvaluator).addExpression = function (expression) {
     // Inline function 'kotlin.collections.set' call
-    var this_0 = this.h3h_1;
+    var this_0 = this.j3h_1;
     var key = expression.key;
     this_0.m2(key, expression);
   };
@@ -53891,7 +53894,7 @@ if (typeof Math.imul === 'undefined') {
   var nativeExpressions;
   function SelExpressionNativeDirectory() {
     SelExpressionNativeDirectory_instance = this;
-    this.i3h_1 = _get_nativeExpressions_$accessor$xb0det_8h95ql();
+    this.k3h_1 = _get_nativeExpressions_$accessor$xb0det_8h95ql();
     this.registerAll(AggregateExpressions_getInstance());
     this.registerAll(ArithmeticExpressions_getInstance());
     this.registerAll(NumericComparisonExpressions_getInstance());
@@ -53907,35 +53910,35 @@ if (typeof Math.imul === 'undefined') {
     this.register(VariableExpression_instance);
   }
   protoOf(SelExpressionNativeDirectory).t2 = function () {
-    return this.i3h_1.t2();
+    return this.k3h_1.t2();
   };
   protoOf(SelExpressionNativeDirectory).k2 = function () {
-    return this.i3h_1.k2();
+    return this.k3h_1.k2();
   };
   protoOf(SelExpressionNativeDirectory).n = function () {
-    return this.i3h_1.n();
+    return this.k3h_1.n();
   };
   protoOf(SelExpressionNativeDirectory).l2 = function () {
-    return this.i3h_1.l2();
+    return this.k3h_1.l2();
   };
   protoOf(SelExpressionNativeDirectory).p14 = function (key) {
-    return this.i3h_1.p2(key);
+    return this.k3h_1.p2(key);
   };
   protoOf(SelExpressionNativeDirectory).p2 = function (key) {
     if (!(!(key == null) ? typeof key === 'string' : false))
       return false;
     return this.p14((!(key == null) ? typeof key === 'string' : false) ? key : THROW_CCE());
   };
-  protoOf(SelExpressionNativeDirectory).j3h = function (value) {
-    return this.i3h_1.q2(value);
+  protoOf(SelExpressionNativeDirectory).l3h = function (value) {
+    return this.k3h_1.q2(value);
   };
   protoOf(SelExpressionNativeDirectory).q2 = function (value) {
     if (!(!(value == null) ? isInterface(value, SelExpression) : false))
       return false;
-    return this.j3h((!(value == null) ? isInterface(value, SelExpression) : false) ? value : THROW_CCE());
+    return this.l3h((!(value == null) ? isInterface(value, SelExpression) : false) ? value : THROW_CCE());
   };
   protoOf(SelExpressionNativeDirectory).r14 = function (key) {
-    return this.i3h_1.s2(key);
+    return this.k3h_1.s2(key);
   };
   protoOf(SelExpressionNativeDirectory).s2 = function (key) {
     if (!(!(key == null) ? typeof key === 'string' : false))
@@ -53943,7 +53946,7 @@ if (typeof Math.imul === 'undefined') {
     return this.r14((!(key == null) ? typeof key === 'string' : false) ? key : THROW_CCE());
   };
   protoOf(SelExpressionNativeDirectory).z = function () {
-    return this.i3h_1.z();
+    return this.k3h_1.z();
   };
   protoOf(SelExpressionNativeDirectory).register = function (expression) {
     if (_get_nativeExpressions_$accessor$xb0det_8h95ql().p2(expression.key)) {
@@ -54007,58 +54010,58 @@ if (typeof Math.imul === 'undefined') {
     var tmp = this;
     var tmp_0 = new AggregateExpression('avg', average$ref(), 1);
     var tmp_1 = new AggregateExpression('min', min$ref(), 1);
-    tmp.k3h_1 = listOf_0([tmp_0, tmp_1, new AggregateExpression('max', max$ref(), 1)]);
+    tmp.m3h_1 = listOf_0([tmp_0, tmp_1, new AggregateExpression('max', max$ref(), 1)]);
   }
   protoOf(AggregateExpressions).n = function () {
-    return this.k3h_1.n();
+    return this.m3h_1.n();
   };
-  protoOf(AggregateExpressions).l3h = function (element) {
-    return this.k3h_1.x(element);
+  protoOf(AggregateExpressions).n3h = function (element) {
+    return this.m3h_1.x(element);
   };
   protoOf(AggregateExpressions).x = function (element) {
     if (!(element instanceof AggregateExpression))
       return false;
-    return this.l3h(element instanceof AggregateExpression ? element : THROW_CCE());
+    return this.n3h(element instanceof AggregateExpression ? element : THROW_CCE());
   };
-  protoOf(AggregateExpressions).m3h = function (elements) {
-    return this.k3h_1.y(elements);
+  protoOf(AggregateExpressions).o3h = function (elements) {
+    return this.m3h_1.y(elements);
   };
   protoOf(AggregateExpressions).y = function (elements) {
-    return this.m3h(elements);
+    return this.o3h(elements);
   };
   protoOf(AggregateExpressions).d1 = function (index) {
-    return this.k3h_1.d1(index);
+    return this.m3h_1.d1(index);
   };
-  protoOf(AggregateExpressions).n3h = function (element) {
-    return this.k3h_1.w1(element);
+  protoOf(AggregateExpressions).p3h = function (element) {
+    return this.m3h_1.w1(element);
   };
   protoOf(AggregateExpressions).w1 = function (element) {
     if (!(element instanceof AggregateExpression))
       return -1;
-    return this.n3h(element instanceof AggregateExpression ? element : THROW_CCE());
+    return this.p3h(element instanceof AggregateExpression ? element : THROW_CCE());
   };
   protoOf(AggregateExpressions).z = function () {
-    return this.k3h_1.z();
+    return this.m3h_1.z();
   };
   protoOf(AggregateExpressions).u = function () {
-    return this.k3h_1.u();
+    return this.m3h_1.u();
   };
-  protoOf(AggregateExpressions).o3h = function (element) {
-    return this.k3h_1.x1(element);
+  protoOf(AggregateExpressions).q3h = function (element) {
+    return this.m3h_1.x1(element);
   };
   protoOf(AggregateExpressions).x1 = function (element) {
     if (!(element instanceof AggregateExpression))
       return -1;
-    return this.o3h(element instanceof AggregateExpression ? element : THROW_CCE());
+    return this.q3h(element instanceof AggregateExpression ? element : THROW_CCE());
   };
   protoOf(AggregateExpressions).y1 = function () {
-    return this.k3h_1.y1();
+    return this.m3h_1.y1();
   };
   protoOf(AggregateExpressions).z1 = function (index) {
-    return this.k3h_1.z1(index);
+    return this.m3h_1.z1(index);
   };
   protoOf(AggregateExpressions).a2 = function (fromIndex, toIndex) {
-    return this.k3h_1.a2(fromIndex, toIndex);
+    return this.m3h_1.a2(fromIndex, toIndex);
   };
   var AggregateExpressions_instance;
   function AggregateExpressions_getInstance() {
@@ -54070,19 +54073,19 @@ if (typeof Math.imul === 'undefined') {
     minArguments = minArguments === VOID ? 0 : minArguments;
     maxArguments = maxArguments === VOID ? IntCompanionObject_instance.MAX_VALUE : maxArguments;
     MathExpression.call(this);
-    this.q3h_1 = key;
-    this.r3h_1 = aggregate;
-    this.s3h_1 = minArguments;
-    this.t3h_1 = maxArguments;
+    this.s3h_1 = key;
+    this.t3h_1 = aggregate;
+    this.u3h_1 = minArguments;
+    this.v3h_1 = maxArguments;
   }
   protoOf(AggregateExpression).z3 = function () {
-    return this.q3h_1;
-  };
-  protoOf(AggregateExpression).u3h = function () {
     return this.s3h_1;
   };
-  protoOf(AggregateExpression).v3h = function () {
-    return this.t3h_1;
+  protoOf(AggregateExpression).w3h = function () {
+    return this.u3h_1;
+  };
+  protoOf(AggregateExpression).x3h = function () {
+    return this.v3h_1;
   };
   protoOf(AggregateExpression).evaluateArguments = function (arguments_0) {
     // Inline function 'kotlin.collections.map' call
@@ -54095,7 +54098,7 @@ if (typeof Math.imul === 'undefined') {
       var tmp$ret$0 = numberToDouble(item);
       destination.r(tmp$ret$0);
     }
-    return this.r3h_1(destination);
+    return this.t3h_1(destination);
   };
   function Double$plus$ref() {
     var l = function (p0, p1) {
@@ -54179,58 +54182,58 @@ if (typeof Math.imul === 'undefined') {
     var tmp_6 = new ArithmeticExpression('/', Double$div$ref(), VOID, VOID, 2, 2);
     var tmp_7 = new ArithmeticExpression('%', Double$rem$ref(), VOID, VOID, 2, 2);
     var tmp_8 = new ArithmeticExpression('pow', pow$ref(), VOID, VOID, 2, 2);
-    tmp.y3h_1 = listOf_0([tmp_1, tmp_3, tmp_5, tmp_6, tmp_7, tmp_8, new ArithmeticExpression('log', log$ref(), VOID, VOID, 2, 2)]);
+    tmp.a3i_1 = listOf_0([tmp_1, tmp_3, tmp_5, tmp_6, tmp_7, tmp_8, new ArithmeticExpression('log', log$ref(), VOID, VOID, 2, 2)]);
   }
   protoOf(ArithmeticExpressions).n = function () {
-    return this.y3h_1.n();
+    return this.a3i_1.n();
   };
-  protoOf(ArithmeticExpressions).z3h = function (element) {
-    return this.y3h_1.x(element);
+  protoOf(ArithmeticExpressions).b3i = function (element) {
+    return this.a3i_1.x(element);
   };
   protoOf(ArithmeticExpressions).x = function (element) {
     if (!(element instanceof ArithmeticExpression))
       return false;
-    return this.z3h(element instanceof ArithmeticExpression ? element : THROW_CCE());
+    return this.b3i(element instanceof ArithmeticExpression ? element : THROW_CCE());
   };
-  protoOf(ArithmeticExpressions).a3i = function (elements) {
-    return this.y3h_1.y(elements);
+  protoOf(ArithmeticExpressions).c3i = function (elements) {
+    return this.a3i_1.y(elements);
   };
   protoOf(ArithmeticExpressions).y = function (elements) {
-    return this.a3i(elements);
+    return this.c3i(elements);
   };
   protoOf(ArithmeticExpressions).d1 = function (index) {
-    return this.y3h_1.d1(index);
+    return this.a3i_1.d1(index);
   };
-  protoOf(ArithmeticExpressions).b3i = function (element) {
-    return this.y3h_1.w1(element);
+  protoOf(ArithmeticExpressions).d3i = function (element) {
+    return this.a3i_1.w1(element);
   };
   protoOf(ArithmeticExpressions).w1 = function (element) {
     if (!(element instanceof ArithmeticExpression))
       return -1;
-    return this.b3i(element instanceof ArithmeticExpression ? element : THROW_CCE());
+    return this.d3i(element instanceof ArithmeticExpression ? element : THROW_CCE());
   };
   protoOf(ArithmeticExpressions).z = function () {
-    return this.y3h_1.z();
+    return this.a3i_1.z();
   };
   protoOf(ArithmeticExpressions).u = function () {
-    return this.y3h_1.u();
+    return this.a3i_1.u();
   };
-  protoOf(ArithmeticExpressions).c3i = function (element) {
-    return this.y3h_1.x1(element);
+  protoOf(ArithmeticExpressions).e3i = function (element) {
+    return this.a3i_1.x1(element);
   };
   protoOf(ArithmeticExpressions).x1 = function (element) {
     if (!(element instanceof ArithmeticExpression))
       return -1;
-    return this.c3i(element instanceof ArithmeticExpression ? element : THROW_CCE());
+    return this.e3i(element instanceof ArithmeticExpression ? element : THROW_CCE());
   };
   protoOf(ArithmeticExpressions).y1 = function () {
-    return this.y3h_1.y1();
+    return this.a3i_1.y1();
   };
   protoOf(ArithmeticExpressions).z1 = function (index) {
-    return this.y3h_1.z1(index);
+    return this.a3i_1.z1(index);
   };
   protoOf(ArithmeticExpressions).a2 = function (fromIndex, toIndex) {
-    return this.y3h_1.a2(fromIndex, toIndex);
+    return this.a3i_1.a2(fromIndex, toIndex);
   };
   var ArithmeticExpressions_instance;
   function ArithmeticExpressions_getInstance() {
@@ -54240,7 +54243,7 @@ if (typeof Math.imul === 'undefined') {
   }
   function ArithmeticExpression$forcedDoubleReducer$lambda(this$0) {
     return function (a, b) {
-      return this$0.f3i_1(numberToDouble(a), numberToDouble(b));
+      return this$0.h3i_1(numberToDouble(a), numberToDouble(b));
     };
   }
   function ArithmeticExpression$forcedLongReducer$lambda($this) {
@@ -54255,17 +54258,17 @@ if (typeof Math.imul === 'undefined') {
     maxArguments = maxArguments === VOID ? IntCompanionObject_instance.MAX_VALUE : maxArguments;
     defaultFirstArgument = defaultFirstArgument === VOID ? null : defaultFirstArgument;
     MathExpression.call(this);
-    this.e3i_1 = key;
-    this.f3i_1 = reducerDouble;
-    this.g3i_1 = reducerLong;
-    this.h3i_1 = initialValue;
-    this.i3i_1 = minArguments;
-    this.j3i_1 = maxArguments;
-    this.k3i_1 = defaultFirstArgument;
+    this.g3i_1 = key;
+    this.h3i_1 = reducerDouble;
+    this.i3i_1 = reducerLong;
+    this.j3i_1 = initialValue;
+    this.k3i_1 = minArguments;
+    this.l3i_1 = maxArguments;
+    this.m3i_1 = defaultFirstArgument;
     var tmp = this;
-    tmp.l3i_1 = ArithmeticExpression$forcedDoubleReducer$lambda(this);
+    tmp.n3i_1 = ArithmeticExpression$forcedDoubleReducer$lambda(this);
     var tmp_0 = this;
-    var tmp0_safe_receiver = this.g3i_1;
+    var tmp0_safe_receiver = this.i3i_1;
     var tmp_1;
     if (tmp0_safe_receiver == null) {
       tmp_1 = null;
@@ -54275,23 +54278,23 @@ if (typeof Math.imul === 'undefined') {
       // Inline function 'io.komune.sel.evaluator.expressions.ArithmeticExpression.forcedLongReducer.<anonymous>' call
       tmp_1 = ArithmeticExpression$forcedLongReducer$lambda(tmp0_safe_receiver);
     }
-    tmp_0.m3i_1 = tmp_1;
+    tmp_0.o3i_1 = tmp_1;
   }
   protoOf(ArithmeticExpression).z3 = function () {
-    return this.e3i_1;
+    return this.g3i_1;
   };
-  protoOf(ArithmeticExpression).u3h = function () {
-    return this.i3i_1;
-  };
-  protoOf(ArithmeticExpression).v3h = function () {
-    return this.j3i_1;
+  protoOf(ArithmeticExpression).w3h = function () {
+    return this.k3i_1;
   };
   protoOf(ArithmeticExpression).x3h = function () {
-    return this.k3i_1;
+    return this.l3i_1;
+  };
+  protoOf(ArithmeticExpression).z3h = function () {
+    return this.m3i_1;
   };
   protoOf(ArithmeticExpression).evaluateArguments = function (arguments_0) {
     var tmp;
-    if (this.h3i_1 == null ? true : this.isFloat(this.h3i_1)) {
+    if (this.j3i_1 == null ? true : this.isFloat(this.j3i_1)) {
       tmp = true;
     } else {
       var tmp$ret$0;
@@ -54329,13 +54332,13 @@ if (typeof Math.imul === 'undefined') {
     var anyFloat = tmp;
     var tmp_2;
     if (anyFloat) {
-      tmp_2 = this.l3i_1;
+      tmp_2 = this.n3i_1;
     } else {
-      var tmp0_elvis_lhs = this.m3i_1;
-      tmp_2 = tmp0_elvis_lhs == null ? this.l3i_1 : tmp0_elvis_lhs;
+      var tmp0_elvis_lhs = this.o3i_1;
+      tmp_2 = tmp0_elvis_lhs == null ? this.n3i_1 : tmp0_elvis_lhs;
     }
     var reducer = tmp_2;
-    if (this.h3i_1 == null) {
+    if (this.j3i_1 == null) {
       if (arguments_0.z()) {
         return null;
       }
@@ -54350,7 +54353,7 @@ if (typeof Math.imul === 'undefined') {
       return accumulator;
     }
     // Inline function 'kotlin.collections.fold' call
-    var accumulator_0 = this.h3i_1;
+    var accumulator_0 = this.j3i_1;
     var tmp0_iterator_0 = arguments_0.u();
     while (tmp0_iterator_0.v()) {
       var element_0 = tmp0_iterator_0.w();
@@ -54450,58 +54453,58 @@ if (typeof Math.imul === 'undefined') {
     var tmp = this;
     var tmp_0 = new ArrayBooleanExpressions$1();
     var tmp_1 = new ArrayBooleanExpressions$2();
-    tmp.o3i_1 = listOf_0([tmp_0, tmp_1, new ArrayBooleanExpressions$3()]);
+    tmp.q3i_1 = listOf_0([tmp_0, tmp_1, new ArrayBooleanExpressions$3()]);
   }
   protoOf(ArrayBooleanExpressions).n = function () {
-    return this.o3i_1.n();
+    return this.q3i_1.n();
   };
-  protoOf(ArrayBooleanExpressions).p3i = function (element) {
-    return this.o3i_1.x(element);
+  protoOf(ArrayBooleanExpressions).r3i = function (element) {
+    return this.q3i_1.x(element);
   };
   protoOf(ArrayBooleanExpressions).x = function (element) {
     if (!(element instanceof ArrayBooleanExpression))
       return false;
-    return this.p3i(element instanceof ArrayBooleanExpression ? element : THROW_CCE());
+    return this.r3i(element instanceof ArrayBooleanExpression ? element : THROW_CCE());
   };
-  protoOf(ArrayBooleanExpressions).q3i = function (elements) {
-    return this.o3i_1.y(elements);
+  protoOf(ArrayBooleanExpressions).s3i = function (elements) {
+    return this.q3i_1.y(elements);
   };
   protoOf(ArrayBooleanExpressions).y = function (elements) {
-    return this.q3i(elements);
+    return this.s3i(elements);
   };
   protoOf(ArrayBooleanExpressions).d1 = function (index) {
-    return this.o3i_1.d1(index);
+    return this.q3i_1.d1(index);
   };
-  protoOf(ArrayBooleanExpressions).r3i = function (element) {
-    return this.o3i_1.w1(element);
+  protoOf(ArrayBooleanExpressions).t3i = function (element) {
+    return this.q3i_1.w1(element);
   };
   protoOf(ArrayBooleanExpressions).w1 = function (element) {
     if (!(element instanceof ArrayBooleanExpression))
       return -1;
-    return this.r3i(element instanceof ArrayBooleanExpression ? element : THROW_CCE());
+    return this.t3i(element instanceof ArrayBooleanExpression ? element : THROW_CCE());
   };
   protoOf(ArrayBooleanExpressions).z = function () {
-    return this.o3i_1.z();
+    return this.q3i_1.z();
   };
   protoOf(ArrayBooleanExpressions).u = function () {
-    return this.o3i_1.u();
+    return this.q3i_1.u();
   };
-  protoOf(ArrayBooleanExpressions).s3i = function (element) {
-    return this.o3i_1.x1(element);
+  protoOf(ArrayBooleanExpressions).u3i = function (element) {
+    return this.q3i_1.x1(element);
   };
   protoOf(ArrayBooleanExpressions).x1 = function (element) {
     if (!(element instanceof ArrayBooleanExpression))
       return -1;
-    return this.s3i(element instanceof ArrayBooleanExpression ? element : THROW_CCE());
+    return this.u3i(element instanceof ArrayBooleanExpression ? element : THROW_CCE());
   };
   protoOf(ArrayBooleanExpressions).y1 = function () {
-    return this.o3i_1.y1();
+    return this.q3i_1.y1();
   };
   protoOf(ArrayBooleanExpressions).z1 = function (index) {
-    return this.o3i_1.z1(index);
+    return this.q3i_1.z1(index);
   };
   protoOf(ArrayBooleanExpressions).a2 = function (fromIndex, toIndex) {
-    return this.o3i_1.a2(fromIndex, toIndex);
+    return this.q3i_1.a2(fromIndex, toIndex);
   };
   var ArrayBooleanExpressions_instance;
   function ArrayBooleanExpressions_getInstance() {
@@ -54518,10 +54521,10 @@ if (typeof Math.imul === 'undefined') {
   }
   function ArrayBooleanExpression(key) {
     ArrayIterateExpression.call(this);
-    this.n3i_1 = key;
+    this.p3i_1 = key;
   }
   protoOf(ArrayBooleanExpression).z3 = function () {
-    return this.n3i_1;
+    return this.p3i_1;
   };
   protoOf(ArrayBooleanExpression).evaluateArray = function (array, evalItem) {
     var tmp = withIndex_0(array);
@@ -54533,10 +54536,10 @@ if (typeof Math.imul === 'undefined') {
   function ArrayFilterExpression() {
     ArrayFilterExpression_instance = this;
     ArrayIterateExpression.call(this);
-    this.t3i_1 = 'filter';
+    this.v3i_1 = 'filter';
   }
   protoOf(ArrayFilterExpression).z3 = function () {
-    return this.t3i_1;
+    return this.v3i_1;
   };
   protoOf(ArrayFilterExpression).evaluateArray = function (array, evalItem) {
     // Inline function 'kotlin.collections.filterIndexed' call
@@ -54571,53 +54574,53 @@ if (typeof Math.imul === 'undefined') {
     this.item = item;
     this.index = index;
     this.parent = parent;
-    this.u3i_1 = mapOf_0([to('data', data), to('array', array), to('item', item), to('index', index), to('parent', parent)]);
+    this.w3i_1 = mapOf_0([to('data', data), to('array', array), to('item', item), to('index', index), to('parent', parent)]);
   }
   protoOf(IterationData).d22 = function () {
     return this.data;
   };
-  protoOf(IterationData).v3i = function () {
+  protoOf(IterationData).x3i = function () {
     return this.array;
   };
   protoOf(IterationData).w28 = function () {
     return this.item;
   };
-  protoOf(IterationData).w3i = function () {
+  protoOf(IterationData).y3i = function () {
     return this.index;
   };
   protoOf(IterationData).g3f = function () {
     return this.parent;
   };
   protoOf(IterationData).t2 = function () {
-    return this.u3i_1.t2();
+    return this.w3i_1.t2();
   };
   protoOf(IterationData).k2 = function () {
-    return this.u3i_1.k2();
+    return this.w3i_1.k2();
   };
   protoOf(IterationData).n = function () {
-    return this.u3i_1.n();
+    return this.w3i_1.n();
   };
   protoOf(IterationData).l2 = function () {
-    return this.u3i_1.l2();
+    return this.w3i_1.l2();
   };
   protoOf(IterationData).p14 = function (key) {
-    return this.u3i_1.p2(key);
+    return this.w3i_1.p2(key);
   };
   protoOf(IterationData).p2 = function (key) {
     if (!(!(key == null) ? typeof key === 'string' : false))
       return false;
     return this.p14((!(key == null) ? typeof key === 'string' : false) ? key : THROW_CCE());
   };
-  protoOf(IterationData).x3i = function (value) {
-    return this.u3i_1.q2(value);
+  protoOf(IterationData).z3i = function (value) {
+    return this.w3i_1.q2(value);
   };
   protoOf(IterationData).q2 = function (value) {
     if (!(value == null ? true : !(value == null)))
       return false;
-    return this.x3i((value == null ? true : !(value == null)) ? value : THROW_CCE());
+    return this.z3i((value == null ? true : !(value == null)) ? value : THROW_CCE());
   };
   protoOf(IterationData).r14 = function (key) {
-    return this.u3i_1.s2(key);
+    return this.w3i_1.s2(key);
   };
   protoOf(IterationData).s2 = function (key) {
     if (!(!(key == null) ? typeof key === 'string' : false))
@@ -54625,7 +54628,7 @@ if (typeof Math.imul === 'undefined') {
     return this.r14((!(key == null) ? typeof key === 'string' : false) ? key : THROW_CCE());
   };
   protoOf(IterationData).z = function () {
-    return this.u3i_1.z();
+    return this.w3i_1.z();
   };
   function ArrayIterateExpression$evaluate$lambda($data, $array, this$0, $evaluator, $conditionNode, $jsonPath) {
     return function (i, item) {
@@ -54670,10 +54673,10 @@ if (typeof Math.imul === 'undefined') {
   function ArrayMapExpression() {
     ArrayMapExpression_instance = this;
     ArrayIterateExpression.call(this);
-    this.y3i_1 = 'map';
+    this.a3j_1 = 'map';
   }
   protoOf(ArrayMapExpression).z3 = function () {
-    return this.y3i_1;
+    return this.a3j_1;
   };
   protoOf(ArrayMapExpression).evaluateArray = function (array, evalItem) {
     // Inline function 'kotlin.collections.mapIndexed' call
@@ -54722,10 +54725,10 @@ if (typeof Math.imul === 'undefined') {
     return stringify(it, ConcatExpression_instance);
   }
   function ConcatExpression() {
-    this.z3i_1 = 'concat';
+    this.b3j_1 = 'concat';
   }
   protoOf(ConcatExpression).z3 = function () {
-    return this.z3i_1;
+    return this.b3j_1;
   };
   protoOf(ConcatExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     if (arguments_0.z()) {
@@ -54740,58 +54743,58 @@ if (typeof Math.imul === 'undefined') {
   }
   function EqualityExpressions() {
     EqualityExpressions_instance = this;
-    this.a3j_1 = listOf_0([new EqualityExpression('==', true), new EqualityExpression('!=', false)]);
+    this.c3j_1 = listOf_0([new EqualityExpression('==', true), new EqualityExpression('!=', false)]);
   }
   protoOf(EqualityExpressions).n = function () {
-    return this.a3j_1.n();
+    return this.c3j_1.n();
   };
-  protoOf(EqualityExpressions).b3j = function (element) {
-    return this.a3j_1.x(element);
+  protoOf(EqualityExpressions).d3j = function (element) {
+    return this.c3j_1.x(element);
   };
   protoOf(EqualityExpressions).x = function (element) {
     if (!(element instanceof EqualityExpression))
       return false;
-    return this.b3j(element instanceof EqualityExpression ? element : THROW_CCE());
+    return this.d3j(element instanceof EqualityExpression ? element : THROW_CCE());
   };
-  protoOf(EqualityExpressions).c3j = function (elements) {
-    return this.a3j_1.y(elements);
+  protoOf(EqualityExpressions).e3j = function (elements) {
+    return this.c3j_1.y(elements);
   };
   protoOf(EqualityExpressions).y = function (elements) {
-    return this.c3j(elements);
+    return this.e3j(elements);
   };
   protoOf(EqualityExpressions).d1 = function (index) {
-    return this.a3j_1.d1(index);
+    return this.c3j_1.d1(index);
   };
-  protoOf(EqualityExpressions).d3j = function (element) {
-    return this.a3j_1.w1(element);
+  protoOf(EqualityExpressions).f3j = function (element) {
+    return this.c3j_1.w1(element);
   };
   protoOf(EqualityExpressions).w1 = function (element) {
     if (!(element instanceof EqualityExpression))
       return -1;
-    return this.d3j(element instanceof EqualityExpression ? element : THROW_CCE());
+    return this.f3j(element instanceof EqualityExpression ? element : THROW_CCE());
   };
   protoOf(EqualityExpressions).z = function () {
-    return this.a3j_1.z();
+    return this.c3j_1.z();
   };
   protoOf(EqualityExpressions).u = function () {
-    return this.a3j_1.u();
+    return this.c3j_1.u();
   };
-  protoOf(EqualityExpressions).e3j = function (element) {
-    return this.a3j_1.x1(element);
+  protoOf(EqualityExpressions).g3j = function (element) {
+    return this.c3j_1.x1(element);
   };
   protoOf(EqualityExpressions).x1 = function (element) {
     if (!(element instanceof EqualityExpression))
       return -1;
-    return this.e3j(element instanceof EqualityExpression ? element : THROW_CCE());
+    return this.g3j(element instanceof EqualityExpression ? element : THROW_CCE());
   };
   protoOf(EqualityExpressions).y1 = function () {
-    return this.a3j_1.y1();
+    return this.c3j_1.y1();
   };
   protoOf(EqualityExpressions).z1 = function (index) {
-    return this.a3j_1.z1(index);
+    return this.c3j_1.z1(index);
   };
   protoOf(EqualityExpressions).a2 = function (fromIndex, toIndex) {
-    return this.a3j_1.a2(fromIndex, toIndex);
+    return this.c3j_1.a2(fromIndex, toIndex);
   };
   var EqualityExpressions_instance;
   function EqualityExpressions_getInstance() {
@@ -54800,32 +54803,32 @@ if (typeof Math.imul === 'undefined') {
     return EqualityExpressions_instance;
   }
   function EqualityExpression(key, expected) {
-    this.f3j_1 = key;
-    this.g3j_1 = expected;
+    this.h3j_1 = key;
+    this.i3j_1 = expected;
   }
   protoOf(EqualityExpression).z3 = function () {
-    return this.f3j_1;
+    return this.h3j_1;
   };
   protoOf(EqualityExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     if (!(arguments_0.n() === 2)) {
-      throw new SelEvaluationException("Operation '" + this.f3j_1 + "' requires exactly 2 arguments, found " + arguments_0.n() + '.', jsonPath);
+      throw new SelEvaluationException("Operation '" + this.h3j_1 + "' requires exactly 2 arguments, found " + arguments_0.n() + '.', jsonPath);
     }
     var left = evaluator.evaluate(arguments_0.d1(0), data, jsonPath + '[0]');
     var right = evaluator.evaluate(arguments_0.d1(1), data, jsonPath + '[1]');
-    return equals_0(left, right) === this.g3j_1;
+    return equals_0(left, right) === this.i3j_1;
   };
   function IfExpression() {
-    this.h3j_1 = 'if';
+    this.j3j_1 = 'if';
   }
   protoOf(IfExpression).z3 = function () {
-    return this.h3j_1;
+    return this.j3j_1;
   };
   protoOf(IfExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     if (arguments_0.n() < 3) {
-      throw new SelEvaluationException("Operation '" + this.h3j_1 + "' requires at least 3 argument, found: " + arguments_0.n() + '.', jsonPath + '[' + arguments_0.n() + ']');
+      throw new SelEvaluationException("Operation '" + this.j3j_1 + "' requires at least 3 argument, found: " + arguments_0.n() + '.', jsonPath + '[' + arguments_0.n() + ']');
     }
     if ((arguments_0.n() % 2 | 0) === 0) {
-      throw new SelEvaluationException("Operation '" + this.h3j_1 + "' requires an odd number of arguments, found: " + arguments_0.n() + '.', jsonPath + '[' + arguments_0.n() + ']');
+      throw new SelEvaluationException("Operation '" + this.j3j_1 + "' requires an odd number of arguments, found: " + arguments_0.n() + '.', jsonPath + '[' + arguments_0.n() + ']');
     }
     var progression = step(until(0, arguments_0.n() - 1 | 0), 2);
     var inductionVariable = progression.n8_1;
@@ -54849,14 +54852,14 @@ if (typeof Math.imul === 'undefined') {
     return IfExpression_instance;
   }
   function InExpression() {
-    this.i3j_1 = 'in';
+    this.k3j_1 = 'in';
   }
   protoOf(InExpression).z3 = function () {
-    return this.i3j_1;
+    return this.k3j_1;
   };
   protoOf(InExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     if (!(arguments_0.n() === 2)) {
-      throw new SelEvaluationException("Operation '" + this.i3j_1 + "' requires exactly 2 arguments, found: " + arguments_0.n() + '.', jsonPath);
+      throw new SelEvaluationException("Operation '" + this.k3j_1 + "' requires exactly 2 arguments, found: " + arguments_0.n() + '.', jsonPath);
     }
     var itemNode = evaluator.evaluate(arguments_0.d1(0), data, jsonPath);
     var containerNode = evaluator.evaluate(arguments_0.d1(1), data, jsonPath);
@@ -54870,7 +54873,7 @@ if (typeof Math.imul === 'undefined') {
         if (!(containerNode == null) ? typeof containerNode === 'string' : false) {
           tmp = contains_9(containerNode, toString_0(itemNode));
         } else {
-          throw new SelEvaluationException("Second argument for operation '" + this.i3j_1 + "' must be a valid iterable or string. Found: " + toString_0(containerNode), jsonPath + '[1]');
+          throw new SelEvaluationException("Second argument for operation '" + this.k3j_1 + "' must be a valid iterable or string. Found: " + toString_0(containerNode), jsonPath + '[1]');
         }
       }
     }
@@ -54882,58 +54885,58 @@ if (typeof Math.imul === 'undefined') {
   }
   function LogicExpressions() {
     LogicExpressions_instance = this;
-    this.j3j_1 = listOf_0([new LogicExpression(true), new LogicExpression(false)]);
+    this.l3j_1 = listOf_0([new LogicExpression(true), new LogicExpression(false)]);
   }
   protoOf(LogicExpressions).n = function () {
-    return this.j3j_1.n();
+    return this.l3j_1.n();
   };
-  protoOf(LogicExpressions).k3j = function (element) {
-    return this.j3j_1.x(element);
+  protoOf(LogicExpressions).m3j = function (element) {
+    return this.l3j_1.x(element);
   };
   protoOf(LogicExpressions).x = function (element) {
     if (!(element instanceof LogicExpression))
       return false;
-    return this.k3j(element instanceof LogicExpression ? element : THROW_CCE());
+    return this.m3j(element instanceof LogicExpression ? element : THROW_CCE());
   };
-  protoOf(LogicExpressions).l3j = function (elements) {
-    return this.j3j_1.y(elements);
+  protoOf(LogicExpressions).n3j = function (elements) {
+    return this.l3j_1.y(elements);
   };
   protoOf(LogicExpressions).y = function (elements) {
-    return this.l3j(elements);
+    return this.n3j(elements);
   };
   protoOf(LogicExpressions).d1 = function (index) {
-    return this.j3j_1.d1(index);
+    return this.l3j_1.d1(index);
   };
-  protoOf(LogicExpressions).m3j = function (element) {
-    return this.j3j_1.w1(element);
+  protoOf(LogicExpressions).o3j = function (element) {
+    return this.l3j_1.w1(element);
   };
   protoOf(LogicExpressions).w1 = function (element) {
     if (!(element instanceof LogicExpression))
       return -1;
-    return this.m3j(element instanceof LogicExpression ? element : THROW_CCE());
+    return this.o3j(element instanceof LogicExpression ? element : THROW_CCE());
   };
   protoOf(LogicExpressions).z = function () {
-    return this.j3j_1.z();
+    return this.l3j_1.z();
   };
   protoOf(LogicExpressions).u = function () {
-    return this.j3j_1.u();
+    return this.l3j_1.u();
   };
-  protoOf(LogicExpressions).n3j = function (element) {
-    return this.j3j_1.x1(element);
+  protoOf(LogicExpressions).p3j = function (element) {
+    return this.l3j_1.x1(element);
   };
   protoOf(LogicExpressions).x1 = function (element) {
     if (!(element instanceof LogicExpression))
       return -1;
-    return this.n3j(element instanceof LogicExpression ? element : THROW_CCE());
+    return this.p3j(element instanceof LogicExpression ? element : THROW_CCE());
   };
   protoOf(LogicExpressions).y1 = function () {
-    return this.j3j_1.y1();
+    return this.l3j_1.y1();
   };
   protoOf(LogicExpressions).z1 = function (index) {
-    return this.j3j_1.z1(index);
+    return this.l3j_1.z1(index);
   };
   protoOf(LogicExpressions).a2 = function (fromIndex, toIndex) {
-    return this.j3j_1.a2(fromIndex, toIndex);
+    return this.l3j_1.a2(fromIndex, toIndex);
   };
   var LogicExpressions_instance;
   function LogicExpressions_getInstance() {
@@ -54942,18 +54945,18 @@ if (typeof Math.imul === 'undefined') {
     return LogicExpressions_instance;
   }
   function LogicExpression(isAnd) {
-    this.o3j_1 = isAnd;
-    this.p3j_1 = this.o3j_1 ? 'and' : 'or';
+    this.q3j_1 = isAnd;
+    this.r3j_1 = this.q3j_1 ? 'and' : 'or';
   }
   protoOf(LogicExpression).z3 = function () {
-    return this.p3j_1;
+    return this.r3j_1;
   };
   protoOf(LogicExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     if (arguments_0.n() < 1) {
-      throw new SelEvaluationException("Operation '" + this.p3j_1 + "' requires at least 1 arguments, found " + arguments_0.n() + '.', jsonPath);
+      throw new SelEvaluationException("Operation '" + this.r3j_1 + "' requires at least 1 arguments, found " + arguments_0.n() + '.', jsonPath);
     }
     var tmp;
-    if (this.o3j_1) {
+    if (this.q3j_1) {
       var tmp$ret$0;
       $l$block_0: {
         // Inline function 'kotlin.collections.all' call
@@ -55015,10 +55018,10 @@ if (typeof Math.imul === 'undefined') {
     return tmp;
   };
   function MathExpression() {
-    this.w3h_1 = null;
+    this.y3h_1 = null;
   }
-  protoOf(MathExpression).x3h = function () {
-    return this.w3h_1;
+  protoOf(MathExpression).z3h = function () {
+    return this.y3h_1;
   };
   protoOf(MathExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     return normalizeNumber(this.evaluateArguments(this.parseArguments(evaluator, arguments_0, data, jsonPath)));
@@ -55122,58 +55125,58 @@ if (typeof Math.imul === 'undefined') {
   };
   function NotExpressions() {
     NotExpressions_instance = this;
-    this.q3j_1 = listOf_0([new NotExpression(false), new NotExpression(true)]);
+    this.s3j_1 = listOf_0([new NotExpression(false), new NotExpression(true)]);
   }
   protoOf(NotExpressions).n = function () {
-    return this.q3j_1.n();
+    return this.s3j_1.n();
   };
-  protoOf(NotExpressions).r3j = function (element) {
-    return this.q3j_1.x(element);
+  protoOf(NotExpressions).t3j = function (element) {
+    return this.s3j_1.x(element);
   };
   protoOf(NotExpressions).x = function (element) {
     if (!(element instanceof NotExpression))
       return false;
-    return this.r3j(element instanceof NotExpression ? element : THROW_CCE());
+    return this.t3j(element instanceof NotExpression ? element : THROW_CCE());
   };
-  protoOf(NotExpressions).s3j = function (elements) {
-    return this.q3j_1.y(elements);
+  protoOf(NotExpressions).u3j = function (elements) {
+    return this.s3j_1.y(elements);
   };
   protoOf(NotExpressions).y = function (elements) {
-    return this.s3j(elements);
+    return this.u3j(elements);
   };
   protoOf(NotExpressions).d1 = function (index) {
-    return this.q3j_1.d1(index);
+    return this.s3j_1.d1(index);
   };
-  protoOf(NotExpressions).t3j = function (element) {
-    return this.q3j_1.w1(element);
+  protoOf(NotExpressions).v3j = function (element) {
+    return this.s3j_1.w1(element);
   };
   protoOf(NotExpressions).w1 = function (element) {
     if (!(element instanceof NotExpression))
       return -1;
-    return this.t3j(element instanceof NotExpression ? element : THROW_CCE());
+    return this.v3j(element instanceof NotExpression ? element : THROW_CCE());
   };
   protoOf(NotExpressions).z = function () {
-    return this.q3j_1.z();
+    return this.s3j_1.z();
   };
   protoOf(NotExpressions).u = function () {
-    return this.q3j_1.u();
+    return this.s3j_1.u();
   };
-  protoOf(NotExpressions).u3j = function (element) {
-    return this.q3j_1.x1(element);
+  protoOf(NotExpressions).w3j = function (element) {
+    return this.s3j_1.x1(element);
   };
   protoOf(NotExpressions).x1 = function (element) {
     if (!(element instanceof NotExpression))
       return -1;
-    return this.u3j(element instanceof NotExpression ? element : THROW_CCE());
+    return this.w3j(element instanceof NotExpression ? element : THROW_CCE());
   };
   protoOf(NotExpressions).y1 = function () {
-    return this.q3j_1.y1();
+    return this.s3j_1.y1();
   };
   protoOf(NotExpressions).z1 = function (index) {
-    return this.q3j_1.z1(index);
+    return this.s3j_1.z1(index);
   };
   protoOf(NotExpressions).a2 = function (fromIndex, toIndex) {
-    return this.q3j_1.a2(fromIndex, toIndex);
+    return this.s3j_1.a2(fromIndex, toIndex);
   };
   var NotExpressions_instance;
   function NotExpressions_getInstance() {
@@ -55182,18 +55185,18 @@ if (typeof Math.imul === 'undefined') {
     return NotExpressions_instance;
   }
   function NotExpression(isDoubleNot) {
-    this.v3j_1 = isDoubleNot;
-    this.w3j_1 = this.v3j_1 ? '!!' : '!';
+    this.x3j_1 = isDoubleNot;
+    this.y3j_1 = this.x3j_1 ? '!!' : '!';
   }
   protoOf(NotExpression).z3 = function () {
-    return this.w3j_1;
+    return this.y3j_1;
   };
   protoOf(NotExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     if (!(arguments_0.n() === 1)) {
-      throw new SelEvaluationException("Operation '" + this.w3j_1 + "' requires exactly 1 argument, found " + arguments_0.n() + '.', jsonPath);
+      throw new SelEvaluationException("Operation '" + this.y3j_1 + "' requires exactly 1 argument, found " + arguments_0.n() + '.', jsonPath);
     }
     var result = isTruthy(evaluator.evaluate(arguments_0.d1(0), data, jsonPath + '[0]'));
-    return this.v3j_1 ? result : !result;
+    return this.x3j_1 ? result : !result;
   };
   function NumericComparisonExpressions$$$delegate_0$lambda(a, b) {
     return a < b;
@@ -55213,58 +55216,58 @@ if (typeof Math.imul === 'undefined') {
     var tmp_0 = new NumericComparisonExpression('<', NumericComparisonExpressions$$$delegate_0$lambda);
     var tmp_1 = new NumericComparisonExpression('<=', NumericComparisonExpressions$$$delegate_0$lambda_0);
     var tmp_2 = new NumericComparisonExpression('>', NumericComparisonExpressions$$$delegate_0$lambda_1);
-    tmp.x3j_1 = listOf_0([tmp_0, tmp_1, tmp_2, new NumericComparisonExpression('>=', NumericComparisonExpressions$$$delegate_0$lambda_2)]);
+    tmp.z3j_1 = listOf_0([tmp_0, tmp_1, tmp_2, new NumericComparisonExpression('>=', NumericComparisonExpressions$$$delegate_0$lambda_2)]);
   }
   protoOf(NumericComparisonExpressions).n = function () {
-    return this.x3j_1.n();
+    return this.z3j_1.n();
   };
-  protoOf(NumericComparisonExpressions).y3j = function (element) {
-    return this.x3j_1.x(element);
+  protoOf(NumericComparisonExpressions).a3k = function (element) {
+    return this.z3j_1.x(element);
   };
   protoOf(NumericComparisonExpressions).x = function (element) {
     if (!(element instanceof NumericComparisonExpression))
       return false;
-    return this.y3j(element instanceof NumericComparisonExpression ? element : THROW_CCE());
+    return this.a3k(element instanceof NumericComparisonExpression ? element : THROW_CCE());
   };
-  protoOf(NumericComparisonExpressions).z3j = function (elements) {
-    return this.x3j_1.y(elements);
+  protoOf(NumericComparisonExpressions).b3k = function (elements) {
+    return this.z3j_1.y(elements);
   };
   protoOf(NumericComparisonExpressions).y = function (elements) {
-    return this.z3j(elements);
+    return this.b3k(elements);
   };
   protoOf(NumericComparisonExpressions).d1 = function (index) {
-    return this.x3j_1.d1(index);
+    return this.z3j_1.d1(index);
   };
-  protoOf(NumericComparisonExpressions).a3k = function (element) {
-    return this.x3j_1.w1(element);
+  protoOf(NumericComparisonExpressions).c3k = function (element) {
+    return this.z3j_1.w1(element);
   };
   protoOf(NumericComparisonExpressions).w1 = function (element) {
     if (!(element instanceof NumericComparisonExpression))
       return -1;
-    return this.a3k(element instanceof NumericComparisonExpression ? element : THROW_CCE());
+    return this.c3k(element instanceof NumericComparisonExpression ? element : THROW_CCE());
   };
   protoOf(NumericComparisonExpressions).z = function () {
-    return this.x3j_1.z();
+    return this.z3j_1.z();
   };
   protoOf(NumericComparisonExpressions).u = function () {
-    return this.x3j_1.u();
+    return this.z3j_1.u();
   };
-  protoOf(NumericComparisonExpressions).b3k = function (element) {
-    return this.x3j_1.x1(element);
+  protoOf(NumericComparisonExpressions).d3k = function (element) {
+    return this.z3j_1.x1(element);
   };
   protoOf(NumericComparisonExpressions).x1 = function (element) {
     if (!(element instanceof NumericComparisonExpression))
       return -1;
-    return this.b3k(element instanceof NumericComparisonExpression ? element : THROW_CCE());
+    return this.d3k(element instanceof NumericComparisonExpression ? element : THROW_CCE());
   };
   protoOf(NumericComparisonExpressions).y1 = function () {
-    return this.x3j_1.y1();
+    return this.z3j_1.y1();
   };
   protoOf(NumericComparisonExpressions).z1 = function (index) {
-    return this.x3j_1.z1(index);
+    return this.z3j_1.z1(index);
   };
   protoOf(NumericComparisonExpressions).a2 = function (fromIndex, toIndex) {
-    return this.x3j_1.a2(fromIndex, toIndex);
+    return this.z3j_1.a2(fromIndex, toIndex);
   };
   var NumericComparisonExpressions_instance;
   function NumericComparisonExpressions_getInstance() {
@@ -55274,19 +55277,19 @@ if (typeof Math.imul === 'undefined') {
   }
   function NumericComparisonExpression(key, compare) {
     MathExpression.call(this);
-    this.d3k_1 = key;
-    this.e3k_1 = compare;
-    this.f3k_1 = 2;
-    this.g3k_1 = 2147483647;
+    this.f3k_1 = key;
+    this.g3k_1 = compare;
+    this.h3k_1 = 2;
+    this.i3k_1 = 2147483647;
   }
   protoOf(NumericComparisonExpression).z3 = function () {
-    return this.d3k_1;
-  };
-  protoOf(NumericComparisonExpression).u3h = function () {
     return this.f3k_1;
   };
-  protoOf(NumericComparisonExpression).v3h = function () {
-    return this.g3k_1;
+  protoOf(NumericComparisonExpression).w3h = function () {
+    return this.h3k_1;
+  };
+  protoOf(NumericComparisonExpression).x3h = function () {
+    return this.i3k_1;
   };
   protoOf(NumericComparisonExpression).evaluateArguments = function (arguments_0) {
     // Inline function 'kotlin.collections.forEachIndexed' call
@@ -55302,7 +55305,7 @@ if (typeof Math.imul === 'undefined') {
         return true;
       }
       var nextArg = arguments_0.d1(i + 1 | 0);
-      if (!this.e3k_1(numberToDouble(item), numberToDouble(nextArg))) {
+      if (!this.g3k_1(numberToDouble(item), numberToDouble(nextArg))) {
         return false;
       }
     }
@@ -55387,16 +55390,16 @@ if (typeof Math.imul === 'undefined') {
     return tmp;
   }
   function VariableExpression() {
-    this.h3k_1 = 'var';
+    this.j3k_1 = 'var';
   }
   protoOf(VariableExpression).z3 = function () {
-    return this.h3k_1;
+    return this.j3k_1;
   };
   protoOf(VariableExpression).evaluate = function (evaluator, arguments_0, data, jsonPath) {
     var tmp;
     switch (arguments_0.n()) {
       case 0:
-        throw new SelParseException("Operation '" + this.h3k_1 + "' requires at least 1 argument, found: " + arguments_0.n() + '.', jsonPath);
+        throw new SelParseException("Operation '" + this.j3k_1 + "' requires at least 1 argument, found: " + arguments_0.n() + '.', jsonPath);
       case 1:
         tmp = to(arguments_0.d1(0), null);
         break;
@@ -55404,7 +55407,7 @@ if (typeof Math.imul === 'undefined') {
         tmp = to(arguments_0.d1(0), arguments_0.d1(1));
         break;
       default:
-        throw new SelParseException("Operation '" + this.h3k_1 + "' cannot have more than 2 arguments, found: " + arguments_0.n() + '.', jsonPath);
+        throw new SelParseException("Operation '" + this.j3k_1 + "' cannot have more than 2 arguments, found: " + arguments_0.n() + '.', jsonPath);
     }
     var tmp1_container = tmp;
     var keyNode = tmp1_container.uc();
@@ -56386,13 +56389,13 @@ if (typeof Math.imul === 'undefined') {
     return this.d4();
   });
   defineProp(protoOf(MathExpression), 'defaultFirstArgument', function () {
-    return this.x3h();
+    return this.z3h();
   });
   defineProp(protoOf(MathExpression), 'minArguments', function () {
-    return this.u3h();
+    return this.w3h();
   });
   defineProp(protoOf(MathExpression), 'maxArguments', function () {
-    return this.v3h();
+    return this.x3h();
   });
   defineProp(protoOf(MathExpression), 'key', function () {
     return this.z3();
@@ -58906,6 +58909,14 @@ if (typeof Math.imul === 'undefined') {
     var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
     var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
     var $io$komune$registry$f2$catalogue$domain$dto = $io$komune$registry$f2$catalogue$domain.dto || ($io$komune$registry$f2$catalogue$domain.dto = {});
+    var $io = _.io || (_.io = {});
+    var $io$komune = $io.komune || ($io.komune = {});
+    var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
+    var $io$komune$registry$f2 = $io$komune$registry.f2 || ($io$komune$registry.f2 = {});
+    var $io$komune$registry$f2$catalogue = $io$komune$registry$f2.catalogue || ($io$komune$registry$f2.catalogue = {});
+    var $io$komune$registry$f2$catalogue$domain = $io$komune$registry$f2$catalogue.domain || ($io$komune$registry$f2$catalogue.domain = {});
+    var $io$komune$registry$f2$catalogue$domain$dto = $io$komune$registry$f2$catalogue$domain.dto || ($io$komune$registry$f2$catalogue$domain.dto = {});
+    var $io$komune$registry$f2$catalogue$domain$dto$structure = $io$komune$registry$f2$catalogue$domain$dto.structure || ($io$komune$registry$f2$catalogue$domain$dto.structure = {});
     var $io = _.io || (_.io = {});
     var $io$komune = $io.komune || ($io.komune = {});
     var $io$komune$registry = $io$komune.registry || ($io$komune.registry = {});
