@@ -1,0 +1,73 @@
+[
+    {
+        "name": "basic logarithm",
+        "expression": { "log": [1024, 2] },
+        "expected": 10
+    },
+    {
+        "name": "logarithm of multiple numbers",
+        "expression": { "log": [10, 2, 3, 4] },
+        "errorJsonPath": "$.log[2]"
+    },
+    {
+        "name": "logarithm of one number",
+        "expression": { "log": [1000] },
+        "errorJsonPath": "$.log[0]"
+    },
+    {
+        "name": "logarithm of large numbers",
+        "expression": { "log": [10000000000, 10] },
+        "expected": 10
+    },
+    {
+        "name": "logarithm of nested arrays",
+        "expression": { "log": [1000, [10]] },
+        "expected": 3
+    },
+    {
+        "name": "logarithm with string number",
+        "expression": { "log": ["100", 10] },
+        "expected": 2
+    },
+    {
+        "name": "logarithm with simple variables",
+        "expression": {
+            "log": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 1000, "b": 10 },
+        "expected": 3
+    },
+    {
+        "name": "logarithm with array variable",
+        "expression": {
+            "log": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [1000, 10] },
+        "expected": 3
+    },
+    {
+        "name": "logarithm with empty parameters",
+        "expression": { "log": [] },
+        "errorJsonPath": "$.log[0]"
+    },
+    {
+        "name": "logarithm without parameters",
+        "expression": { "log": null },
+        "errorJsonPath": "$.log[0]"
+    },
+    {
+        "name": "logarithm with one null parameter",
+        "expression": { "log": [1, null] },
+        "errorJsonPath": "$.log[1]"
+    },
+    {
+        "name": "logarithm with malformed string parameter",
+        "expression": { "log": [1, "blblbl"] },
+        "errorJsonPath": "$.log[1]"
+    }
+]

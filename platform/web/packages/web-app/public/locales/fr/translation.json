@@ -182,6 +182,7 @@
     "filtersCount": "{{count}} filtres",
     "button": "Bouton",
     "poweredBy": "Propulsé par",
+    "consultSheet": "Consulter la fiche",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -338,8 +339,8 @@
         "reviewModifications": "Revue de la modification proposée par {{name}}",
         "consultOriginal": "Consulter l'original",
         "contactEditor": "Contacter l'éditeur",
-        "rejectTheModification": "Rejeter la modification",
-        "addARejectComment": "Ajoutez un commentaire ci-dessous pour indiquer à l’éditeur la raison du rejet de sa modification",
+        "rejectTheModification": "Rejeter",
+        "addARejectComment": "Ajoutez un commentaire ci-dessous pour indiquer à l’éditeur la raison du rejet.",
         "addASubmitComment": "Ajoutez une note de version ci-dessous pour indiquer au validateur les modifications apportées à la fiche",
         "thanksForContribution": "Merci pour votre contribution !",
         "modificationsSaved": "Vos modifications ont été enregistrées avec succès.",
@@ -427,6 +428,15 @@
         "createAccount": "Créer mon compte",
         "alreadyHaveAccount": "Déjà inscrit(e) ?",
         "login": "Connectez-vous"
+    },
+    "protocol":  {
+        "completedProtocolTitle": "🎉 Référentiel complété avec succès !",
+        "completedProtocolDescription": "Votre saisie a bien été enregistrée.\n\nElle va maintenant être transmise à un expert pour validation.\n\nCette étape permet de garantir la fiabilité des données et d'assurer une évaluation équitable dans le cadre du mapping.",
+        "unvalidatedProtocol": "Un ou plusieurs référentiels que vous avez soumis n’ont pas été validés.",
+        "unvalidateProtocolDetails": "Le validateur a laissé des commentaires pour vous aider à corriger les points bloquants.\nOuvrez le référentiel concerné pour consulter les retours, apporter les modifications nécessaires, puis soumettez-le à nouveau.",
+        "validatorComment": "💬 Commentaire du validateur",
+        "protocolTitle": "Référentiel : {{name}}",
+        "protocolFillingTitle": "Saisie du référentiel : {{name}}"
     },
     "lang": {
         "fr": "Français",

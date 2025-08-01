@@ -4,11 +4,11 @@ plugins {
 }
 
 dependencies {
-    api(project(":platform:control:f2:activity-f2:activity-f2-domain"))
-    implementation(project(":platform:project:s2:project:project-api"))
+    api(project(Modules.control.f2.activity.domain))
+    implementation(project(Modules.project.s2.project.api))
 
-    implementation(project(":platform:api:api-config"))
+    implementation(project(Modules.api.config))
 
     implementation(project(":platform:control:infra:cccev"))
-    implementation(project(":platform:infra:fs"))
+    implementation(project(Modules.infra.fs))
 }

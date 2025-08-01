@@ -8,7 +8,7 @@ import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.draft.domain.model.CatalogueDraftModel
-import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.cccev.api.CccevOldFinderService
 import io.komune.registry.s2.concept.api.ConceptFinderService
 import io.komune.registry.s2.dataset.domain.model.DatasetModel
 import kotlinx.coroutines.withContext
@@ -21,7 +21,7 @@ open class CatalogueCachedService {
     protected lateinit var catalogueFinderService: CatalogueFinderService
 
     @Autowired
-    protected lateinit var cccevFinderService: CccevFinderService
+    protected lateinit var cccevOldFinderService: CccevOldFinderService
 
     @Autowired
     protected lateinit var conceptFinderService: ConceptFinderService
@@ -44,7 +44,7 @@ open class CatalogueCachedService {
         if (cache == null) {
             val cacheContext = CatalogueCacheContext(
                 catalogueFinderService = catalogueFinderService,
-                cccevFinderService = cccevFinderService,
+                cccevOldFinderService = cccevOldFinderService,
                 conceptFinderService = conceptFinderService,
                 datasetFinderService = datasetFinderService,
                 licenseF2FinderService = licenseF2FinderService,

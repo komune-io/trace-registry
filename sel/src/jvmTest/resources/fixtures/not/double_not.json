@@ -1,0 +1,69 @@
+[
+    {
+        "name": "double bang with true value",
+        "expression": { "!!": [true] },
+        "expected": true
+    },
+    {
+        "name": "double bang with false value",
+        "expression": { "!!": [false] },
+        "expected": false
+    },
+    {
+        "name": "double bang with truthy number",
+        "expression": { "!!": [42] },
+        "expected": true
+    },
+    {
+        "name": "double bang with truthy string",
+        "expression": { "!!": ["hello"] },
+        "expected": true
+    },
+    {
+        "name": "double bang with truthy array",
+        "expression": { "!!": [[1, 2, 3]] },
+        "expected": true
+    },
+    {
+        "name": "double bang with null value",
+        "expression": { "!!": [null] },
+        "expected": false
+    },
+    {
+        "name": "double bang with variable",
+        "expression": { "!!": [{ "var": "value" }] },
+        "data": { "value": true },
+        "expected": true
+    },
+    {
+        "name": "double bang with truthy object",
+        "expression": { "!!": [{ "var": "" }] },
+        "data": { "key": "value" },
+        "expected": true
+    },
+    {
+        "name": "double bang with nested expression",
+        "expression": { "!!": [{ "and": [true, false] }] },
+        "expected": false
+    },
+    {
+        "name": "double bang with double negation",
+        "expression": { "!!": [{ "!": [true] }] },
+        "expected": false
+    },
+    {
+        "name": "double bang with empty parameters",
+        "expression": { "!!": [] },
+        "errorJsonPath": "$.!!"
+    },
+    {
+        "name": "double bang with too many parameters",
+        "expression": { "!!": [true, false] },
+        "errorJsonPath": "$.!!"
+    },
+    {
+        "name": "double bang without parameters",
+        "expression": { "!!": null },
+        "expected": false
+    }
+]

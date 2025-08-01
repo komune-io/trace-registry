@@ -1,19 +1,19 @@
-import {createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition} from 'components'
-import {CatalogueEditionHeader, CatalogueValidationHeader, useCatalogueDraftGetQuery} from 'domain-components'
-import {AppPage} from 'template'
-import {useNavigate, useParams} from "react-router-dom";
-import {useCallback, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useMetadataFormState} from './useMetadataFormState';
-import {CircularProgress} from '@mui/material';
-import {useDraftTabs} from './useDraftTabs';
-import {useDraftValidations} from './useDraftValidations';
-import {useDraftMutations} from './useDraftMutations';
-import {useDraftFormData} from './useDraftFormData';
-import {DraftLanguageSelector} from './DraftLanguageSelector';
-import {DraftTitle} from './DraftTitle';
-import {ValidatedDraftInfo} from './ValidatedDraftInfo';
-import {RejectedDraftInfo} from './RejectedDraftInfo';
+import { createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition } from 'components'
+import { CatalogueEditionHeader, CatalogueValidationHeader, DraftAddProtocolButton, useCatalogueDraftGetQuery } from 'domain-components'
+import { AppPage } from 'template'
+import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useMetadataFormState } from './useMetadataFormState';
+import { CircularProgress } from '@mui/material';
+import { useDraftTabs } from './useDraftTabs';
+import { useDraftValidations } from './useDraftValidations';
+import { useDraftMutations } from './useDraftMutations';
+import { useDraftFormData } from './useDraftFormData';
+import { DraftLanguageSelector } from './DraftLanguageSelector';
+import { DraftTitle } from './DraftTitle';
+import { ValidatedDraftInfo } from './ValidatedDraftInfo';
+import { RejectedDraftInfo } from './RejectedDraftInfo';
 
 export interface DraftPageProps {
   validation?: boolean
@@ -67,7 +67,7 @@ export const DraftPage = (props: DraftPageProps) => {
     isLoading: isDefLoading,
     readOnly: !canUdateDraft,
   })
-  
+
   const { onSubmit, onValidate, onReject, validateMetadata } = useDraftValidations({
     draft,
     metadataFormState,
@@ -99,12 +99,12 @@ export const DraftPage = (props: DraftPageProps) => {
       basicHeader={false}
       maxWidth={1080}
     >
-      <CircularProgress 
+      <CircularProgress
         size={40}
         sx={{
           alignSelf: 'center',
           mt: 8
-        }} 
+        }}
       />
     </AppPage>
   }
@@ -114,6 +114,14 @@ export const DraftPage = (props: DraftPageProps) => {
       basicHeader={false}
       maxWidth={1080}
       customHeader={canValidate ? <CatalogueValidationHeader draft={draft} onAccept={onValidate} onReject={onReject} isUpdating={isUpdating} /> : undefined}
+      headerContainerProps={canValidate ? {
+        sx: {
+          position: "sticky",
+          borderRadius: 0,
+          top: 0,
+          zIndex: 1,
+        }
+      } : undefined}
     >
       {canUdateDraft && !canValidate && <CatalogueEditionHeader
         draft={draft}
@@ -132,6 +140,7 @@ export const DraftPage = (props: DraftPageProps) => {
         metadataFormState={metadataFormState}
         title={title}
         validateMetadata={validateMetadata}
+        actions={<DraftAddProtocolButton />}
       />
       {draft?.status === "VALIDATED" && <ValidatedDraftInfo />}
       {draft?.status == "REJECTED" && <RejectedDraftInfo draft={draft} />}

@@ -1,0 +1,73 @@
+[
+    {
+        "name": "basic greater than comparison",
+        "expression": { ">": [10, 5] },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with equal values",
+        "expression": { ">": [5, 5] },
+        "expected": false
+    },
+    {
+        "name": "greater than comparison with multiple values (all true)",
+        "expression": { ">": [4, 3, 2, 1] },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with multiple values (one false)",
+        "expression": { ">": [4, 2, 3, 1] },
+        "expected": false
+    },
+    {
+        "name": "greater than comparison with negative numbers",
+        "expression": { ">": [-5, -10] },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with decimal numbers",
+        "expression": { ">": [1.6, 1.5] },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with mixed numbers",
+        "expression": { ">": [5.5, 0, -5] },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with variables",
+        "expression": {
+            ">": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 7, "b": 3 },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with string numbers",
+        "expression": { ">": ["10", "5"] },
+        "expected": true
+    },
+    {
+        "name": "greater than comparison with empty parameters",
+        "expression": { ">": [] },
+        "errorJsonPath": "$.>[0]"
+    },
+    {
+        "name": "greater than comparison without parameters",
+        "expression": { ">": null },
+        "errorJsonPath": "$.>[0]"
+    },
+    {
+        "name": "greater than comparison with one null parameter",
+        "expression": { ">": [1, null] },
+        "errorJsonPath": "$.>[1]"
+    },
+    {
+        "name": "greater than comparison with non-numeric string",
+        "expression": { ">": [1, "abc"] },
+        "errorJsonPath": "$.>[1]"
+    }
+]

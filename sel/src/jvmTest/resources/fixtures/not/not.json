@@ -1,0 +1,69 @@
+[
+    {
+        "name": "not with true value",
+        "expression": { "!": [true] },
+        "expected": false
+    },
+    {
+        "name": "not with false value",
+        "expression": { "!": [false] },
+        "expected": true
+    },
+    {
+        "name": "not with truthy number",
+        "expression": { "!": [42] },
+        "expected": false
+    },
+    {
+        "name": "not with truthy string",
+        "expression": { "!": ["hello"] },
+        "expected": false
+    },
+    {
+        "name": "not with truthy array",
+        "expression": { "!": [[1, 2, 3]] },
+        "expected": false
+    },
+    {
+        "name": "not with null value",
+        "expression": { "!": [null] },
+        "expected": true
+    },
+    {
+        "name": "not with variable",
+        "expression": { "!": [{ "var": "value" }] },
+        "data": { "value": false },
+        "expected": true
+    },
+    {
+        "name": "not with truthy object",
+        "expression": { "!": [{ "var": "" }] },
+        "data": { "key": "value" },
+        "expected": false
+    },
+    {
+        "name": "not with nested expression",
+        "expression": { "!": [{ "and": [true, false] }] },
+        "expected": true
+    },
+    {
+        "name": "not with double negation",
+        "expression": { "!": [{ "!": [true] }] },
+        "expected": true
+    },
+    {
+        "name": "not with empty parameters",
+        "expression": { "!": [] },
+        "errorJsonPath": "$.!"
+    },
+    {
+        "name": "not with too many parameters",
+        "expression": { "!": [true, false] },
+        "errorJsonPath": "$.!"
+    },
+    {
+        "name": "not without parameters",
+        "expression": { "!": null },
+        "expected": true
+    }
+]

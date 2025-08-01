@@ -22,6 +22,7 @@ interface CatalogueStructureDTO {
     val tagForm: FormDTO?
     val table: TableDTO?
     val createButton: CatalogueCreateButtonDTO?
+    val protocolButton: CatalogueProtocolButtonDTO?
 }
 
 @Serializable
@@ -36,5 +37,6 @@ data class CatalogueStructureDTOBase(
     override val metadataForm: Form?,
     override val tagForm: Form?,
     override val table: Table?,
-    override val createButton: CatalogueCreateButtonDTOBase?
+    override val createButton: CatalogueCreateButtonDTOBase?,
+    override val protocolButton: CatalogueProtocolButtonDTOBase?
 ) : CatalogueStructureDTO

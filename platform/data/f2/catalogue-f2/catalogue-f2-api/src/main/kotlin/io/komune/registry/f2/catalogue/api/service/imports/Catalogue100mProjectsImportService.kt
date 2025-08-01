@@ -12,7 +12,7 @@ import io.komune.registry.f2.dataset.domain.command.DatasetCreateCommandDTOBase
 import io.komune.registry.f2.license.api.service.LicenseF2FinderService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
-import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.cccev.api.CccevOldFinderService
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitOperator
 import io.komune.registry.s2.cccev.domain.model.DataUnitModel
@@ -39,7 +39,7 @@ class Catalogue100mProjectsImportService(
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueF2FinderService: CatalogueF2FinderService,
     private val catalogueFinderService: CatalogueFinderService,
-    private val cccevFinderService: CccevFinderService,
+    private val cccevOldFinderService: CccevOldFinderService,
     private val datasetF2AggregateService: DatasetF2AggregateService,
     private val licenseF2FinderService: LicenseF2FinderService
 ) {
@@ -228,7 +228,7 @@ class Catalogue100mProjectsImportService(
         }
 
         val conceptIds = SimpleCache<InformationConceptIdentifier, InformationConceptModel?> {
-            cccevFinderService.getConceptByIdentifierOrNull(it)
+            cccevOldFinderService.getConceptByIdentifierOrNull(it)
         }
 
         val licenseIds = SimpleCache<LicenseIdentifier, LicenseId> {
@@ -238,7 +238,7 @@ class Catalogue100mProjectsImportService(
         val units = mutableMapOf<DataUnitId, DataUnitModel>()
         lateinit var stringUnit: DataUnitModel
         val unitsMap: Map<String, DataUnitModel> = runBlocking {
-            cccevFinderService.listUnits().flatMap { unit ->
+            cccevOldFinderService.listUnits().flatMap { unit ->
                 units[unit.id] = unit
                 if (unit.type == DataUnitType.STRING) {
                     stringUnit = unit

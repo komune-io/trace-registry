@@ -28,7 +28,6 @@ object Versions {
 	const val apacheTika = "3.1.0"
 	const val bignum = "0.3.8"
 	const val brevo = "1.0.0"
-	const val meilisearch = "0.14.2"
 	const val datafaker = "1.8.1"
 	const val html2pdf = "5.0.0"
 	const val hsqldb = "2.7.4"
@@ -37,6 +36,8 @@ object Versions {
 	const val javaSnapshotTesting = "4.0.8"
 	const val jsonPath = "2.9.0"
 	const val ktor = FixersVersions.Kotlin.ktor
+	const val meilisearch = "0.14.2"
+	const val neo4jOgm = "4.0.10"
 	const val postgresql = "42.7.4"
 	const val r2dbcPostgresql = "1.0.7.RELEASE"
 	const val redisOm = "0.8.9"
@@ -48,7 +49,7 @@ object Versions {
 
 object Repo {
 	val snapshot: List<String> = listOf(
-		"https://s01.oss.sonatype.org/service/local/repositories/releases/content",
+//		"https://s01.oss.sonatype.org/service/local/repositories/releases/content",
 		"https://s01.oss.sonatype.org/content/repositories/snapshots",
 	)
 }
@@ -71,12 +72,19 @@ object Dependencies {
 
 		fun s2Bdd(scope: Scope) = scope.add(
 			"io.komune.s2:s2-test-bdd:${Versions.s2}",
+			"org.springframework.boot:spring-boot-starter-test:${PluginVersions.springBoot}"
 		).also(::cucumber)
 			.also(::junit)
 
 		fun meilisearch(scope: Scope) = scope.add(
 			"com.meilisearch.sdk:meilisearch-java:${Versions.meilisearch}"
 		)
+
+		fun neo4j(scope: Scope) = scope.add(
+			"org.neo4j:neo4j-ogm-core:${Versions.neo4jOgm}",
+			"org.neo4j:neo4j-ogm-bolt-driver:${Versions.neo4jOgm}"
+		)
+
 		fun javaSnapshotTesting(scope: Scope) = scope.add(
 			"io.github.origin-energy:java-snapshot-testing-core:${Versions.javaSnapshotTesting}",
 			"io.github.origin-energy:java-snapshot-testing-plugin-jackson:${Versions.javaSnapshotTesting}"
@@ -227,6 +235,7 @@ object Dependencies {
 
 object Modules {
 	const val commons = ":platform:commons"
+	const val sel = ":sel"
 
 	object api {
 		private const val BASE = ":platform:api:api"
@@ -235,6 +244,16 @@ object Modules {
 
 	object control {
 		private const val BASE = ":platform:control"
+
+		object core {
+			private const val BASE = "${control.BASE}:core"
+
+			object cccev {
+				private const val BASE = "${core.BASE}:cccev:cccev"
+				const val api = "$BASE-api"
+				const val domain = "$BASE-domain"
+			}
+		}
 
 		object f2 {
 			private const val BASE = "${control.BASE}:f2"
@@ -246,8 +265,29 @@ object Modules {
 				const val domain = "$BASE-domain"
 			}
 
-			object dcs {
-				private const val BASE = "${f2.BASE}:dcs-f2:dcs-f2"
+//			object cccev {
+//				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+//				const val api = "$BASE-api"
+//				const val client = "$BASE-client"
+//				const val domain = "$BASE-domain"
+//			}
+
+			object certification {
+				private const val BASE = "${f2.BASE}:certification-f2:certification-f2"
+				const val api = "$BASE-api"
+				const val client = "$BASE-client"
+				const val domain = "$BASE-domain"
+			}
+//
+//			object dcs {
+//				private const val BASE = "${f2.BASE}:dcs-f2:dcs-f2"
+//				const val api = "$BASE-api"
+//				const val client = "$BASE-client"
+//				const val domain = "$BASE-domain"
+//			}
+
+			object protocol {
+				private const val BASE = "${f2.BASE}:protocol-f2:protocol-f2"
 				const val api = "$BASE-api"
 				const val client = "$BASE-client"
 				const val domain = "$BASE-domain"
@@ -303,7 +343,7 @@ object Modules {
 			}
 
 			object cccev {
-				private const val BASE = "${f2.BASE}:cccev-f2:cccev-f2"
+				private const val BASE = "${f2.BASE}:cccev-f2-old:cccev-f2-old"
 				const val api = "$BASE-api"
 				const val client = "$BASE-client"
 				const val domain = "$BASE-domain"
@@ -345,7 +385,7 @@ object Modules {
 			}
 
 			object cccev {
-				private const val BASE = "${s2.BASE}:cccev:cccev"
+				private const val BASE = "${s2.BASE}:cccev-old:cccev-old"
 				const val api = "$BASE-api"
 				const val domain = "$BASE-domain"
 			}
@@ -399,6 +439,7 @@ object Modules {
 		const val fs = "$BASE:fs"
 		const val im = "$BASE:im"
 		const val meilisearch = "$BASE:meilisearch"
+		const val neo4j = "$BASE:neo4j"
 		const val pdf = "$BASE:pdf"
 		const val postgresql = "$BASE:postgresql"
 		const val redis = "$BASE:redis"

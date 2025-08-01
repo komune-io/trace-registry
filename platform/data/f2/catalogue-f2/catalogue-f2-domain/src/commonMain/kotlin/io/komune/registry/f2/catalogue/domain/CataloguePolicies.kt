@@ -69,6 +69,11 @@ object CataloguePolicies {
         return canWrite(authedUser, catalogue)
     }
 
+    fun canFillCertification(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
+        return (owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.FILL_CERTIFICATION_ORG))
+                || authedUser.hasRole(Permissions.Catalogue.FILL_CERTIFICATION_ALL)
+    }
+
     private fun canWrite(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
         canWriteOnCatalogueWith(authedUser, it.creatorOrganization?.id, it.ownerOrganization?.id)
     }

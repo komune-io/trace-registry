@@ -47,8 +47,8 @@ import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueLinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.draft.api.CatalogueDraftFinderService
-import io.komune.registry.s2.cccev.api.CccevAggregateService
-import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.cccev.api.CccevOldAggregateService
+import io.komune.registry.s2.cccev.api.CccevOldFinderService
 import io.komune.registry.s2.cccev.domain.command.concept.InformationConceptComputeValueCommand
 import io.komune.registry.s2.cccev.domain.command.value.SupportedValueCreateCommand
 import io.komune.registry.s2.cccev.domain.model.CompositeDataUnitModel
@@ -80,8 +80,8 @@ class DatasetF2AggregateService(
     private val catalogueAggregateService: CatalogueAggregateService,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueFinderService: CatalogueFinderService,
-    private val cccevAggregateService: CccevAggregateService,
-    private val cccevFinderService: CccevFinderService,
+    private val cccevOldAggregateService: CccevOldAggregateService,
+    private val cccevOldFinderService: CccevOldFinderService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetConfig: DatasetConfig,
     private val datasetFinderService: DatasetFinderService,
@@ -398,7 +398,7 @@ class DatasetF2AggregateService(
         }
 
         typeConfig?.aggregators
-            ?.mapNotNull { cccevFinderService.getConceptByIdentifierOrNull(it)?.id }
+            ?.mapNotNull { cccevOldFinderService.getConceptByIdentifierOrNull(it)?.id }
             ?.nullIfEmpty()
             ?.let { conceptIds ->
                 DatasetAddAggregatorsCommand(
@@ -432,7 +432,7 @@ class DatasetF2AggregateService(
     ) {
         val dataset = datasetFinderService.get(datasetId)
         val oldDistribution = dataset.distributions.first { it.id == distributionId }
-        val concept = cccevFinderService.getConcept(aggregatorConfig.informationConceptId)
+        val concept = cccevOldFinderService.getConcept(aggregatorConfig.informationConceptId)
 
         val valueEvent = InformationConceptComputeValueCommand(
             id = aggregatorConfig.informationConceptId,
@@ -450,7 +450,7 @@ class DatasetF2AggregateService(
                     )
                 }
             }
-        ).let { cccevAggregateService.computeValue(it) }
+        ).let { cccevOldAggregateService.computeValue(it) }
 
         updateDistributionValues(
             dataset = dataset,
@@ -465,7 +465,7 @@ class DatasetF2AggregateService(
     ): List<DatasetReplacedDistributionValueEventDTOBase> {
         val concepts = commands.map { it.informationConceptId }
             .distinct()
-            .associateWith { cccevFinderService.getConcept(it) }
+            .associateWith { cccevOldFinderService.getConcept(it) }
 
         return commands.groupBy { it.id }.flatMap { (datasetId, datasetCommands) ->
             val dataset = datasetFinderService.get(datasetId)
@@ -479,7 +479,7 @@ class DatasetF2AggregateService(
                         value = command.value,
                         description = command.description,
                         query = null
-                    ).let { cccevAggregateService.createValue(it) }
+                    ).let { cccevOldAggregateService.createValue(it) }
                 }.groupBy({ it.conceptId }, { it.id })
                     .mapValues { (_, values) -> values.toSet() }
 

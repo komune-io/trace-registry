@@ -13,6 +13,19 @@ services:
     networks:
       - net
 
+  redis-test:
+    image: redis/redis-stack:7.2.0-v13
+    container_name: redis-test
+    env_file:
+      - .env_dev
+    environment:
+      REDISEARCH_ARGS: MINPREFIX 1 MAXPREFIXEXPANSIONS 1000
+    ports:
+     - "6479:6379"
+     - "8012:8001"
+    networks:
+      - net
+
 #  redisinsight:
 #    image: redislabs/redisinsight:latest
 #    container_name: verrredisinsight

@@ -1,0 +1,63 @@
+[
+    {
+        "name": "any with all true values",
+        "expression": { "any": [[1, 2, 3], { ">": [{ "var": "item" }, 0] }] },
+        "expected": true
+    },
+    {
+        "name": "any with one true value",
+        "expression": { "any": [[-1, 0, 3], { ">": [{ "var": "item" }, 0] }] },
+        "expected": true
+    },
+    {
+        "name": "any with all false values",
+        "expression": { "any": [[-1, -2, -3], { ">": [{ "var": "item" }, 0] }] },
+        "expected": false
+    },
+    {
+        "name": "any with empty array",
+        "expression": { "any": [[], { ">": [{ "var": "item" }, 0] }] },
+        "expected": false
+    },
+    {
+        "name": "any with variable array",
+        "expression": { "any": [{ "var": "numbers" }, { ">": [{ "var": "item" }, 5] }] },
+        "data": { "numbers": [1, 2, 10] },
+        "expected": true
+    },
+    {
+        "name": "any with complex condition",
+        "expression": { "any": [[1, 2, 3, 4], { "==": [{ "%": [{ "var": "item" }, 2] }, 0] }] },
+        "expected": true
+    },
+    {
+        "name": "any with too few arguments",
+        "expression": { "any": [[1, 2, 3]] },
+        "errorJsonPath": "$.any"
+    },
+    {
+        "name": "any with too many arguments",
+        "expression": { "any": [[1, 2, 3], { ">": [{ "var": "item" }, 0] }, "extra"] },
+        "errorJsonPath": "$.any"
+    },
+    {
+        "name": "any with non-array first argument",
+        "expression": { "any": ["not an array", { ">": [{ "var": "item" }, 0] }] },
+        "errorJsonPath": "$.any[0]"
+    },
+    {
+        "name": "any with iteration data",
+        "expression": { "any": [
+            ["apple", "banana", "cherry"],
+            { "var": { "concat": ["data.premium_items.", { "var": "item" }] } }
+        ]},
+        "data": {
+            "premium_items": {
+                "apple": false,
+                "banana": true,
+                "cherry": false
+            }
+        },
+        "expected": true
+    }
+]

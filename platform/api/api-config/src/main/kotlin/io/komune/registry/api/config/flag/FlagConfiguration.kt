@@ -117,7 +117,9 @@ class FlagMessageRoutingCallback(private val flagProperties: FlagProperties) : M
             ),
             "control" to mapOf(
                 "activity" to flagProperties.module.control,
+                "dataUnit" to flagProperties.module.control,
                 "dcs" to flagProperties.module.control,
+                "protocol" to flagProperties.module.control,
             ),
             "data" to mapOf(
                 "catalogueDraft" to flagProperties.module.data,

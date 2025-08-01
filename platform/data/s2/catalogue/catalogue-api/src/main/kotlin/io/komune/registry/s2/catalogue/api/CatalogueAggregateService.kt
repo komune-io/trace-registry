@@ -29,6 +29,8 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueReplaceRelatedCat
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReplacedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueStartCertificationCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueStartedCertificationEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkDatasetsCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
@@ -259,6 +261,16 @@ class CatalogueAggregateService(
 			id = it.id,
 			date = System.currentTimeMillis(),
 			versionNotes = command.versionNotes
+		)
+	}
+
+	suspend fun startCertification(
+		command: CatalogueStartCertificationCommand
+	): CatalogueStartedCertificationEvent = automate.transition(command) {
+		CatalogueStartedCertificationEvent(
+			id = it.id,
+			date = System.currentTimeMillis(),
+			certificationId = command.certificationId
 		)
 	}
 

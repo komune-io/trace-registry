@@ -8,7 +8,7 @@ import io.komune.registry.f2.organization.api.service.OrganizationF2FinderServic
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.program.s2.dataset.api.DatasetFinderService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
-import io.komune.registry.s2.cccev.api.CccevFinderService
+import io.komune.registry.s2.cccev.api.CccevOldFinderService
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.concept.api.ConceptFinderService
@@ -18,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
 
 internal class CatalogueCacheContext(
     private val catalogueFinderService: CatalogueFinderService,
-    private val cccevFinderService: CccevFinderService,
+    private val cccevOldFinderService: CccevOldFinderService,
     private val conceptFinderService: ConceptFinderService,
     private val licenseF2FinderService: LicenseF2FinderService,
     private val datasetFinderService: DatasetFinderService,
@@ -38,9 +38,9 @@ internal class CatalogueCacheContext(
             .map { it.isTranslationOf ?: it.id }.distinct()
     }
 
-    val dataUnits = SimpleCache(cccevFinderService::getUnit)
-    val informationConcepts = SimpleCache(cccevFinderService::getConceptOrNull)
-    val supportedValues = SimpleCache(cccevFinderService::getValue)
+    val dataUnits = SimpleCache(cccevOldFinderService::getUnit)
+    val informationConcepts = SimpleCache(cccevOldFinderService::getConceptOrNull)
+    val supportedValues = SimpleCache(cccevOldFinderService::getValue)
 
     val themes = SimpleCache(conceptFinderService::get)
 

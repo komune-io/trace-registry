@@ -1,0 +1,128 @@
+[
+    {
+        "name": "simple variable access",
+        "expression": { "var": "a" },
+        "data": { "a": 42 },
+        "expected": 42
+    },
+    {
+        "name": "variable with string that looks like boolean",
+        "expression": { "var": "boolStr" },
+        "data": { "boolStr": "true" },
+        "expected": true
+    },
+    {
+        "name": "variable with string that looks like integer",
+        "expression": { "var": "intStr" },
+        "data": { "intStr": "42" },
+        "expected": 42
+    },
+    {
+        "name": "variable with string that looks like double",
+        "expression": { "var": "doubleStr" },
+        "data": { "doubleStr": "3.14" },
+        "expected": 3.14
+    },
+    {
+        "name": "variable with double that should be normalized to integer",
+        "expression": { "var": "doubleInt" },
+        "data": { "doubleInt": 42.0 },
+        "expected": 42
+    },
+    {
+        "name": "variable access with default value (not used)",
+        "expression": { "var": ["a", 99] },
+        "data": { "a": 42 },
+        "expected": 42
+    },
+    {
+        "name": "variable access with default value (used)",
+        "expression": { "var": ["b", 99] },
+        "data": { "a": 42 },
+        "expected": 99
+    },
+    {
+        "name": "nested variable access with dot notation",
+        "expression": { "var": "person.name" },
+        "data": { "person": { "name": "John", "age": 30 } },
+        "expected": "John"
+    },
+    {
+        "name": "deeply nested variable access",
+        "expression": { "var": "person.address.city" },
+        "data": { "person": { "name": "John", "address": { "city": "New York", "zip": "10001" } } },
+        "expected": "New York"
+    },
+    {
+        "name": "array access with numeric index",
+        "expression": { "var": 1 },
+        "data": ["apple", "banana", "cherry"],
+        "expected": "banana"
+    },
+    {
+        "name": "array access with string numeric index",
+        "expression": { "var": "1" },
+        "data": ["apple", "banana", "cherry"],
+        "expected": "banana"
+    },
+    {
+        "name": "array access with out of bounds index (with default)",
+        "expression": { "var": [10, "not found"] },
+        "data": ["apple", "banana", "cherry"],
+        "expected": "not found"
+    },
+    {
+        "name": "array access with negative index (with default)",
+        "expression": { "var": [-1, "not found"] },
+        "data": ["apple", "banana", "cherry"],
+        "expected": "not found"
+    },
+    {
+        "name": "nested array access",
+        "expression": { "var": "items.1" },
+        "data": { "items": ["apple", "banana", "cherry"] },
+        "expected": "banana"
+    },
+    {
+        "name": "access entire data context with empty string",
+        "expression": { "var": "" },
+        "data": { "a": 42, "b": "hello" },
+        "expected": { "a": 42, "b": "hello" }
+    },
+    {
+        "name": "access entire data context with null",
+        "expression": { "var": null },
+        "data": { "a": 42, "b": "hello" },
+        "expected": { "a": 42, "b": "hello" }
+    },
+    {
+        "name": "variable access with null data",
+        "expression": { "var": ["a", "default"] },
+        "data": null,
+        "expected": "default"
+    },
+    {
+        "name": "variable access with non-existent nested property",
+        "expression": { "var": ["person.job.title", "unemployed"] },
+        "data": { "person": { "name": "John", "age": 30 } },
+        "expected": "unemployed"
+    },
+    {
+        "name": "variable access with no arguments",
+        "expression": { "var": [] },
+        "data": { "a": 42 },
+        "errorJsonPath": "$.var"
+    },
+    {
+        "name": "variable access with too many arguments",
+        "expression": { "var": ["a", "default", "extra"] },
+        "data": { "a": 42 },
+        "errorJsonPath": "$.var"
+    },
+    {
+        "name": "variable access with invalid key type",
+        "expression": { "var": [{ "invalid": "key" }] },
+        "data": { "a": 42 },
+        "errorJsonPath": "$.var[0]"
+    }
+]

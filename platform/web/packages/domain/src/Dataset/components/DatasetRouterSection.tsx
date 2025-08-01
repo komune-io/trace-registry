@@ -1,10 +1,9 @@
 import { Dataset } from "../model";
 import { DocumentsPage } from "../../Documents";
 import { ActivitiesSection } from "../../Project/components/ActivitiesSection";
-import { Catalogue, CatalogueInformation } from "../../Catalogue";
-import { CatalogueGraphManager } from "../../Catalogue/components/DraftGraphManager/CatalogueGraphManager";
-import { CataloguePdfCertificate } from "../../Catalogue/components/CataloguePdfCertificate";
+import { Catalogue, CatalogueInformation, CataloguePdfCertificate } from "../../Catalogue";
 import { DatasetIndicator } from "./DatasetIndicator";
+import { CatalogueGraphManager } from "../../Draft";
 
 interface DatasetDataSectionProps {
     catalogue: Catalogue

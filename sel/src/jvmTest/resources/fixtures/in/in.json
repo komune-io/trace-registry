@@ -1,0 +1,122 @@
+[
+    {
+        "name": "item in array",
+        "expression": { "in": [3, [1, 2, 3, 4, 5]] },
+        "expected": true
+    },
+    {
+        "name": "item not in array",
+        "expression": { "in": [6, [1, 2, 3, 4, 5]] },
+        "expected": false
+    },
+    {
+        "name": "string in array",
+        "expression": { "in": ["banana", ["apple", "banana", "cherry"]] },
+        "expected": true
+    },
+    {
+        "name": "substring in string",
+        "expression": { "in": ["an", "banana"] },
+        "expected": true
+    },
+    {
+        "name": "substring not in string",
+        "expression": { "in": ["z", "banana"] },
+        "expected": false
+    },
+    {
+        "name": "number as string in string",
+        "expression": { "in": [12, "test123"] },
+        "expected": true
+    },
+    {
+        "name": "variable item in array",
+        "expression": { "in": [{ "var": "item" }, [1, 2, 3, 4, 5]] },
+        "data": { "item": 3 },
+        "expected": true
+    },
+    {
+        "name": "item in variable array",
+        "expression": { "in": ["banana", { "var": "fruits" }] },
+        "data": { "fruits": ["apple", "banana", "cherry"] },
+        "expected": true
+    },
+    {
+        "name": "variable item in variable array",
+        "expression": { "in": [{ "var": "item" }, { "var": "container" }] },
+        "data": { 
+            "item": "dog",
+            "container": ["cat", "dog", "bird"]
+        },
+        "expected": true
+    },
+    {
+        "name": "complex item in array",
+        "expression": { "in": [{ "+": [1, 2] }, [1, 2, 3, 4, 5]] },
+        "expected": true
+    },
+    {
+        "name": "item in filtered array",
+        "expression": { 
+            "in": [
+                3, 
+                { "filter": [
+                    [1, 2, 3, 4, 5, 6], 
+                    { "<": [{ "var": "item" }, 5] }
+                ]}
+            ]
+        },
+        "expected": true
+    },
+    {
+        "name": "item in mapped array",
+        "expression": { 
+            "in": [
+                6, 
+                { "map": [
+                    [1, 2, 3], 
+                    { "*": [{ "var": "item" }, 2] }
+                ]}
+            ]
+        },
+        "expected": true
+    },
+    {
+        "name": "object in array of objects",
+        "expression": { 
+            "in": [
+                { "var": "item" },
+                { "var": "people" }
+            ]
+        },
+        "data": {
+            "people": [
+                { "name": "Alice", "age": 25 },
+                { "name": "John", "age": 30 },
+                { "name": "Bob", "age": 35 }
+            ],
+            "item": { "name": "John", "age": 30 }
+        },
+        "expected": true
+    },
+    {
+        "name": "null in array",
+        "expression": { "in": [null, [1, null, 3]] },
+        "expected": true
+    },
+    {
+        "name": "too few arguments",
+        "expression": { "in": [3] },
+        "errorJsonPath": "$.in"
+    },
+    {
+        "name": "too many arguments",
+        "expression": { "in": [3, [1, 2, 3], "extra"] },
+        "errorJsonPath": "$.in"
+    },
+    {
+        "name": "invalid container type",
+        "expression": { "in": [3, 123] },
+        "errorJsonPath": "$.in[1]"
+    }
+]

@@ -1,0 +1,184 @@
+[
+    {
+        "name": "calculate total order price with tax and shipping",
+        "expression": {
+            "+": [
+                { "*": [
+                    { "var": "subtotal" },
+                    { "+": [1, { "/": [{ "var": "tax_rate" }, 100] }] }
+                ]},
+                { "var": "shipping_fee" }
+            ]
+        },
+        "data": {
+            "subtotal": 125.50,
+            "tax_rate": 7.5,
+            "shipping_fee": 8.99
+        },
+        "expected": 143.9025
+    },
+    {
+        "name": "format user display name",
+        "expression": {
+            "concat": [
+                { "var": ["user.first_name", ""] },
+                " ",
+                { "var": ["user.last_name", ""] },
+                " (",
+                { "var": ["user.title", ""] },
+                ")"
+            ]
+        },
+        "data": {
+            "user": {
+                "first_name": "John",
+                "last_name": "Doe",
+                "title": "CEO"
+            }
+        },
+        "expected": "John Doe (CEO)"
+    },
+    {
+        "name": "filter eligible users for promotion",
+        "expression": {
+            "filter": [
+                { "var": "users" },
+                { "and": [
+                    { ">": [{ "var": "item.purchase_count" }, 5] },
+                    { ">": [{ "var": "item.total_spent" }, 500] },
+                    { "or": [
+                        { "==": [{ "var": "item.subscription_tier" }, "premium"] },
+                        { ">": [{ "var": "item.loyalty_years" }, 2] }
+                    ]}
+                ]}
+            ]
+        },
+        "data": {
+            "users": [
+                { "id": 1, "name": "Alice", "purchase_count": 8, "total_spent": 750, "subscription_tier": "basic", "loyalty_years": 3 },
+                { "id": 2, "name": "Bob", "purchase_count": 12, "total_spent": 1200, "subscription_tier": "premium", "loyalty_years": 1 },
+                { "id": 3, "name": "Charlie", "purchase_count": 4, "total_spent": 600, "subscription_tier": "premium", "loyalty_years": 2 },
+                { "id": 4, "name": "David", "purchase_count": 7, "total_spent": 450, "subscription_tier": "basic", "loyalty_years": 1 },
+                { "id": 5, "name": "Eve", "purchase_count": 10, "total_spent": 900, "subscription_tier": "basic", "loyalty_years": 4 }
+            ]
+        },
+        "expected": [
+            { "id": 1, "name": "Alice", "purchase_count": 8, "total_spent": 750, "subscription_tier": "basic", "loyalty_years": 3 },
+            { "id": 2, "name": "Bob", "purchase_count": 12, "total_spent": 1200, "subscription_tier": "premium", "loyalty_years": 1 },
+            { "id": 5, "name": "Eve", "purchase_count": 10, "total_spent": 900, "subscription_tier": "basic", "loyalty_years": 4 }
+        ]
+    },
+    {
+        "name": "calculate discount based on multiple factors",
+        "expression": {
+            "+": [
+                { "var": "base_discount" },
+                { "*": [
+                    { "var": "loyalty_years" },
+                    { "var": "loyalty_multiplier" }
+                ]},
+                { "if": [
+                    { ">": [{ "var": "cart_total" }, { "var": "premium_threshold" }] },
+                    { "var": "premium_bonus" },
+                    0
+                ]},
+                { "if": [
+                    { "var": "is_birthday" },
+                    { "var": "birthday_bonus" },
+                    0
+                ]}
+            ]
+        },
+        "data": {
+            "base_discount": 5,
+            "loyalty_years": 3,
+            "loyalty_multiplier": 1.5,
+            "cart_total": 250,
+            "premium_threshold": 200,
+            "premium_bonus": 10,
+            "is_birthday": true,
+            "birthday_bonus": 15
+        },
+        "expected": 34.5
+    },
+    {
+        "name": "generate product recommendations",
+        "expression": {
+            "map": [
+                { "filter": [
+                    { "var": "products" },
+                    { "and": [
+                        { "in": [{ "var": "item.category" }, { "var": "data.user.interests" }] },
+                        { "<=": [{ "var": "item.price" }, { "var": "data.user.max_price" }] },
+                        { "none": [
+                            { "var": "data.user.purchased_ids" },
+                            { "==": [{ "var": "item" }, { "var": "parent.item.id" }] }
+                        ]}
+                    ]}
+                ]},
+                {
+                    "concat": [
+                        { "var": "item.name" },
+                        " ($",
+                        { "var": "item.price" },
+                        ")"
+                    ]
+                }
+            ]
+        },
+        "data": {
+            "user": {
+                "interests": ["electronics", "books"],
+                "max_price": 100,
+                "purchased_ids": [101, 103, 105]
+            },
+            "products": [
+                { "id": 101, "name": "Smartphone", "category": "electronics", "price": 499 },
+                { "id": 102, "name": "Headphones", "category": "electronics", "price": 79 },
+                { "id": 103, "name": "Novel", "category": "books", "price": 15 },
+                { "id": 104, "name": "Cookbook", "category": "books", "price": 25 },
+                { "id": 105, "name": "Tablet", "category": "electronics", "price": 199 },
+                { "id": 106, "name": "E-reader", "category": "electronics", "price": 89 }
+            ]
+        },
+        "expected": [
+            "Headphones ($79)",
+            "Cookbook ($25)",
+            "E-reader ($89)"
+        ]
+    },
+    {
+        "name": "calculate weighted average score",
+        "expression": {
+            "/": [
+                { "+": [
+                    { "*": [{ "var": "scores.homework" }, { "var": "weights.homework" }] },
+                    { "*": [{ "var": "scores.midterm" }, { "var": "weights.midterm" }] },
+                    { "*": [{ "var": "scores.final" }, { "var": "weights.final" }] },
+                    { "*": [{ "var": "scores.participation" }, { "var": "weights.participation" }] }
+                ]},
+                { "+": [
+                    { "var": "weights.homework" },
+                    { "var": "weights.midterm" },
+                    { "var": "weights.final" },
+                    { "var": "weights.participation" }
+                ]}
+            ]
+        },
+        "data": {
+            "scores": {
+                "homework": 85,
+                "midterm": 78,
+                "final": 92,
+                "participation": 90
+            },
+            "weights": {
+                "homework": 0.3,
+                "midterm": 0.2,
+                "final": 0.4,
+                "participation": 0.1
+            }
+        },
+        "expected": 86.9
+    }
+]

@@ -19,10 +19,10 @@ import {
     useLicenseListQuery
 } from '../../api'
 import {keepPreviousData} from '@tanstack/react-query'
-import {CatalogueDraft} from '../../model'
-import {useAutoCompleteCatalogue} from "../IndicatorBlock/useAutoCompleteCatalogue";
 import {convertRelatedCataloguesToIds} from "../../model/RelatedCatalogue";
 import {useAutoCompleteCatalogueOwners} from "../UseAutoCompleteCatalogueOwners/useAutoCompleteCatalgueOwners";
+import {CatalogueDraft} from '../../../Draft'
+import {useAutoCompleteCatalogue} from '../useAutoCompleteCatalogue'
 
 interface CatalogueMetadataFormProps {
     draft?: CatalogueDraft

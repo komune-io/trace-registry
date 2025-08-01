@@ -1,0 +1,88 @@
+[
+    {
+        "name": "basic multiplication",
+        "expression": { "*": [3, 2] },
+        "expected": 6
+    },
+    {
+        "name": "multiplication with negative number",
+        "expression": { "*": [5, -3] },
+        "expected": -15
+    },
+    {
+        "name": "multiplication of multiple numbers",
+        "expression": { "*": [1, 2, 3, 4] },
+        "expected": 24
+    },
+    {
+        "name": "multiplication with decimal numbers",
+        "expression": { "*": [1.5, 2.6] },
+        "expected": 3.9
+    },
+    {
+        "name": "multiplication of one number",
+        "expression": { "*": [7] },
+        "expected": 7
+    },
+    {
+        "name": "multiplication of mixed numbers",
+        "expression": { "*": [10, -5, 2.5] },
+        "expected": -125
+    },
+    {
+        "name": "multiplication of large numbers",
+        "expression": { "*": [2200000000, 2] },
+        "expected": 4400000000
+    },
+    {
+        "name": "multiplication of nested arrays",
+        "expression": { "*": [1, [2, [3, [4]]]] },
+        "expected": 24
+    },
+    {
+        "name": "multiplication with string number",
+        "expression": { "*": ["2", 3] },
+        "expected": 6
+    },
+    {
+        "name": "multiplication with simple variables",
+        "expression": {
+            "*": [
+                { "var": "a" },
+                { "var": "b" }
+            ]
+        },
+        "data": { "a": 2, "b": 3 },
+        "expected": 6
+    },
+    {
+        "name": "multiplication with array variable",
+        "expression": {
+            "*": [
+                { "var": "a" }
+            ]
+        },
+        "data": { "a": [2, 3] },
+        "expected": 6
+    },
+    {
+        "name": "multiplication with empty parameters",
+        "expression": { "*": [] },
+        "errorJsonPath": "$.*[0]"
+    },
+    {
+        "name": "multiplication without parameters",
+        "expression": { "*": null },
+        "errorJsonPath": "$.*[0]"
+    },
+    {
+        "name": "multiplication with one null parameter",
+        "expression": { "*": [1, null] },
+        "errorJsonPath": "$.*[1]"
+    },
+    {
+        "name": "multiplication with malformed string parameter",
+        "expression": { "*": [1, "blblbl"] },
+        "errorJsonPath": "$.*[1]"
+    }
+]

@@ -25,6 +25,31 @@ services:
     networks:
       - net
 
+  fs-gateway-test:
+    container_name: fs-gateway-test
+    image: ${DOCKER_REPOSITORY}fs-gateway:${CONNECT_FS_VERSION}
+    env_file:
+      - .env_dev
+    environment:
+      - f2_tenant_issuer-base-uri=${PUBLIC_URL_KC}
+      - fs_s3_internal-url=http://minio:9000
+      - fs_s3_external-url=http://localhost:9000
+      - fs_s3_bucket=registry-test
+      - fs_init_buckets=registry-test
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.fs-gateway.loadbalancer.server.port: 8091
+      traefik.http.routers.fs-gateway.rule: Host(`${HOST_NAME_CONNECT}`) && PathPrefix(`/fs`)
+      traefik.http.routers.fs-gateway.entrypoints: websecure
+      traefik.http.routers.fs-gateway.tls.certresolver: myresolver
+      traefik.http.middlewares.strip-prefix-fs-gateway.stripprefix.prefixes: /fs
+      traefik.http.routers.fs-gateway.middlewares: strip-prefix-fs-gateway
+      traefik.docker.network: ${DOCKER_NETWORK}
+    ports:
+      - "8091:8090"
+    networks:
+      - net
+
 networks:
   net:
     name: ${DOCKER_NETWORK}

@@ -1,0 +1,33 @@
+services:
+  neo4j:
+    image: neo4j:5.26.9
+    container_name: rg-neo4j
+    environment:
+      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
+      - NEO4J_PLUGINS=["apoc"]
+    networks:
+      - net
+    ports:
+      - "7687:7687"
+      - "7474:7474"  # browser interface (localhost:7474)
+    restart: on-failure
+    volumes:
+      - ~/DockerVolumes/neo4j/trace-registry/data:/data
+
+  neo4j-test:
+    image: neo4j:5.26.9
+    container_name: rg-neo4j-test
+    environment:
+      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASS}
+      - NEO4J_PLUGINS=["apoc"]
+    networks:
+      - net
+    ports:
+      - "7688:7687"
+      - "7475:7474"  # browser interface (localhost:7475)
+    restart: on-failure
+
+networks:
+  net:
+    name: ${DOCKER_NETWORK}
+    external: true

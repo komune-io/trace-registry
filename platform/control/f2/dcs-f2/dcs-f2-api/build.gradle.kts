@@ -8,6 +8,6 @@ dependencies {
 
     implementation(project(":platform:commons"))
 
-    implementation(project(":platform:control:infra:cccev"))
+//    implementation(project(":platform:control:infra:cccev"))
     implementation(project(":platform:infra:fs"))
 }

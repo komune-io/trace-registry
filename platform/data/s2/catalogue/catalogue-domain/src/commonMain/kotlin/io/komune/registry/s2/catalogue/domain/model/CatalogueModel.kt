@@ -4,6 +4,7 @@ import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueType
+import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
@@ -50,6 +51,7 @@ data class CatalogueModel(
     val version: Int,
     val versionNotes: String?,
     val integrateCounter: Boolean?,
+    val certificationIds: Set<CertificationId>,
 ) {
     val availableLanguages = translationIds.keys
     val flatRelatedCatalogueIds = relatedCatalogueIds?.flatMap { (relation, catalogueIds) ->

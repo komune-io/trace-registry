@@ -1,0 +1,58 @@
+[
+    {
+        "name": "concat strings",
+        "expression": { "concat": ["Hello, ", "world!"] },
+        "expected": "Hello, world!"
+    },
+    {
+        "name": "concat numbers",
+        "expression": { "concat": [1, 2, 3] },
+        "expected": 123
+    },
+    {
+        "name": "concat mixed types",
+        "expression": { "concat": ["Value: ", 42, " is ", true] },
+        "expected": "Value: 42 is true"
+    },
+    {
+        "name": "concat with arrays",
+        "expression": { "concat": ["Items: ", [1, 2, 3]] },
+        "expected": "Items: [1,2,3]"
+    },
+    {
+        "name": "concat with nested arrays",
+        "expression": { "concat": ["Nested: ", [1, [2, 3]]] },
+        "expected": "Nested: [1,[2,3]]"
+    },
+    {
+        "name": "concat with variables",
+        "expression": { "concat": ["Hello, ", { "var": "name" }, "!"] },
+        "data": { "name": "John" },
+        "expected": "Hello, John!"
+    },
+    {
+        "name": "concat with expressions",
+        "expression": { "concat": ["Sum: ", { "+": [2, 3] }] },
+        "expected": "Sum: 5"
+    },
+    {
+        "name": "concat with empty string",
+        "expression": { "concat": ["", "test", ""] },
+        "expected": "test"
+    },
+    {
+        "name": "concat with single argument",
+        "expression": { "concat": ["only one"] },
+        "expected": "only one"
+    },
+    {
+        "name": "concat with no arguments",
+        "expression": { "concat": [] },
+        "expected": null
+    },
+    {
+        "name": "concat with null values",
+        "expression": { "concat": ["Start", null, "End"] },
+        "expected": "StartnullEnd"
+    }
+]

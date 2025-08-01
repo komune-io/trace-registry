@@ -17,6 +17,7 @@ import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedRelatedCat
 import io.komune.registry.s2.catalogue.domain.command.CatalogueRemovedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueReplacedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueSetImageEvent
+import io.komune.registry.s2.catalogue.domain.command.CatalogueStartedCertificationEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkedDatasetsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnreferencedDatasetsEvent
@@ -50,6 +51,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueLinkedThemesEvent -> model?.addThemes(event)
 		is CatalogueSetImageEvent -> model?.setImage(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
+		is CatalogueStartedCertificationEvent -> model?.startCertification(event)
 	}
 
 	private suspend fun create(event: CatalogueCreatedEvent) = CatalogueEntity().apply {
@@ -146,6 +148,10 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 				relatedCatalogueIds.remove(relation)
 			}
 		}
+	}
+
+	private suspend fun CatalogueEntity.startCertification(event: CatalogueStartedCertificationEvent) = update(event) {
+		certificationIds.add(event.certificationId)
 	}
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {

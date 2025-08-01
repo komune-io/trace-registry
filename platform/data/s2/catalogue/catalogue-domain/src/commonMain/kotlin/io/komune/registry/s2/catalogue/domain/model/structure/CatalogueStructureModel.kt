@@ -16,5 +16,6 @@ data class CatalogueStructureModel(
     val metadataForm: Form?,
     val tagForm: Form?,
     val table: Table?,
-    val createButton: CatalogueCreateButtonModel?
+    val createButton: CatalogueCreateButtonModel?,
+    val protocolButton: CatalogueProtocolButtonModel?
 )

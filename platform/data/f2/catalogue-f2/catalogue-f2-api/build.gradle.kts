@@ -8,6 +8,9 @@ dependencies {
     api(project(Modules.data.f2.catalogue.domain))
     api(project(Modules.data.f2.catalogueDraft.domain))
 
+    implementation(project(Modules.control.core.cccev.api))
+    implementation(project(Modules.control.f2.certification.api))
+
     implementation(project(Modules.data.f2.cccev.api))
     implementation(project(Modules.data.f2.concept.api))
     implementation(project(Modules.data.f2.dataset.api))

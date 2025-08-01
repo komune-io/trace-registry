@@ -1,5 +1,7 @@
 package io.komune.registry.f2.catalogue.domain.dto
 
+import io.komune.registry.control.f2.certification.domain.model.CertificationRef
+import io.komune.registry.control.f2.certification.domain.model.CertificationRefDTO
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTO
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueStructureDTOBase
 import io.komune.registry.f2.cccev.domain.concept.model.InformationConceptComputedDTO
@@ -202,6 +204,8 @@ interface CatalogueDTO : CatalogueAccessDataDTO {
     val versionNotes: String?
     val integrateCounter: Boolean?
     val indicators: Map<InformationConceptIdentifier, List<String>>
+
+    val certifications: List<CertificationRefDTO>
 }
 
 @Serializable
@@ -242,5 +246,6 @@ data class CatalogueDTOBase(
     override val version: Int,
     override val versionNotes: String?,
     override val integrateCounter: Boolean?,
-    override val indicators: Map<InformationConceptIdentifier, List<String>>
+    override val indicators: Map<InformationConceptIdentifier, List<String>>,
+    override val certifications: List<CertificationRef>,
 ): CatalogueDTO

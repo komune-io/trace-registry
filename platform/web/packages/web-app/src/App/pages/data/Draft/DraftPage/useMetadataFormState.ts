@@ -1,7 +1,7 @@
 import {AutoFormData, CommandWithFile, g2Config, useAutoFormState} from '@komune-io/g2'
 import {Catalogue} from 'domain-components'
 import {useCallback, useMemo} from 'react'
-import {useCatalogueFormAdditionalContext} from "domain-components/src/Catalogue/components/UseCatalogueFormAdditionalContext";
+import {useCatalogueFormContext} from "domain-components";
 
 interface UseMetadataFormStateParams {
   formData?: AutoFormData
@@ -14,7 +14,7 @@ interface UseMetadataFormStateParams {
 export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
   const { catalogue, isLoading, readOnly, onSubmit, formData } = params
 
-  const additionalContext = useCatalogueFormAdditionalContext({
+  const additionalContext = useCatalogueFormContext({
     context: "edition",
     catalogue: catalogue
   })

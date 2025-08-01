@@ -1,0 +1,90 @@
+[
+    {
+        "name": "or with all true values",
+        "expression": { "or": [true, true, true] },
+        "expected": true
+    },
+    {
+        "name": "or with one true value",
+        "expression": { "or": [false, true, false] },
+        "expected": true
+    },
+    {
+        "name": "or with all false values",
+        "expression": { "or": [false, false, false] },
+        "expected": false
+    },
+    {
+        "name": "or with single true value",
+        "expression": { "or": [true] },
+        "expected": true
+    },
+    {
+        "name": "or with single false value",
+        "expression": { "or": [false] },
+        "expected": false
+    },
+    {
+        "name": "or with truthy non-boolean values",
+        "expression": { "or": [1, "hello", [1, 2, 3]] },
+        "expected": true
+    },
+    {
+        "name": "or with mixed truthy and falsy values",
+        "expression": { "or": [0, false, "hello"] },
+        "expected": true
+    },
+    {
+        "name": "or with null values",
+        "expression": { "or": [null, false, null] },
+        "expected": false
+    },
+    {
+        "name": "or with zero value (which is truthy)",
+        "expression": { "or": [false, 0, false] },
+        "expected": true
+    },
+    {
+        "name": "or with variables",
+        "expression": {
+            "or": [
+                { "var": "a" },
+                { "var": "b" },
+                { "var": "c" }
+            ]
+        },
+        "data": { "a": false, "b": false, "c": true },
+        "expected": true
+    },
+    {
+        "name": "or with nested expressions",
+        "expression": {
+            "or": [
+                { "<": [5, 3] },
+                { ">": [10, 20] },
+                { "==": ["hello", "hello"] }
+            ]
+        },
+        "expected": true
+    },
+    {
+        "name": "or with null variable evaluation",
+        "expression": {
+            "or": [
+              { "var": "nonexistent" },
+              false
+            ]
+        },
+        "expected": false
+    },
+    {
+        "name": "or with empty parameters",
+        "expression": { "or": [] },
+        "errorJsonPath": "$.or"
+    },
+    {
+        "name": "or without parameters",
+        "expression": { "or": null },
+        "expected": false
+    }
+]

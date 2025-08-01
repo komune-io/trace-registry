@@ -16,9 +16,7 @@ class FsService(
 	private val fileClient: FileClient
 ) {
 	suspend fun getFiles(query: FileListQuery): List<File> {
-		return fileClient.fileList(listOf(query)).first().items.map {file ->
-			file
-		}
+		return fileClient.fileList(listOf(query)).first().items
 	}
 
 	suspend fun getFile(query: FileGetQuery): File? {

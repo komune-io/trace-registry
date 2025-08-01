@@ -11,10 +11,11 @@ export interface DraftTitleProps {
     isDefLoading: boolean
     validateMetadata: () => Promise<boolean>
     metadataFormState: FormComposableState
+    actions?: React.ReactNode
 }
 
 export const DraftTitle = (props: DraftTitleProps) => {
-    const { title, canUdateDraft, isDefLoading, validateMetadata, metadataFormState } = props
+    const { title, canUdateDraft, isDefLoading, validateMetadata, metadataFormState, actions } = props
     const { t } = useTranslation()
 
     const validateAndSubmitMetadata = useDebouncedCallback(async () => {
@@ -39,7 +40,7 @@ export const DraftTitle = (props: DraftTitleProps) => {
                 {t("catalogues.titleRequired")}
             </Typography>
             }
-            <TitleDivider title={title} onChange={canUdateDraft ? onChangeTitle : undefined} />
+            <TitleDivider title={title} onChange={canUdateDraft ? onChangeTitle : undefined} actions={actions} />
         </>
     )
 }

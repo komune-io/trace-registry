@@ -11,6 +11,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.Location
@@ -107,6 +108,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     var version: Int = 0
     var versionNotes: String? = null
+
+    val certificationIds: MutableSet<CertificationId> = mutableSetOf()
 
     override fun s2Id() = id
     override fun s2State() = status
