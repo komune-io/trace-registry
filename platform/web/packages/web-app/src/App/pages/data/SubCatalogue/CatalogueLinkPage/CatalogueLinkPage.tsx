@@ -29,7 +29,7 @@ export const CatalogueLinkPage = () => {
   const [debouncedRowSelection] = useDebouncedValue(rowSelection, 300);
   const previouslySavedRowSelection = useRef<RowSelectionState | undefined>(undefined)
   const [isSaving, setIsSaving] = useState(false)
-  const { catalogueId, draftId, tabId, subCatalogueId } = useParams()
+  const { catalogueId, draftId, tab, subCatalogueId } = useParams()
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
   const { submittedFilters, component } = useCataloguesFilters({
     withPage: false,
@@ -104,10 +104,10 @@ export const CatalogueLinkPage = () => {
 
   const refetchData = useCallback(
     () => {
-      queryClient.invalidateQueries({ queryKey: ["data/cataloguePage", { parentId: tabId!, }] })
+      queryClient.invalidateQueries({ queryKey: ["data/cataloguePage", { parentId: tab! }] })
       getSubCatalogue.refetch()
     },
-    [queryClient.invalidateQueries, tabId, getSubCatalogue.refetch],
+    [queryClient.invalidateQueries, tab, getSubCatalogue.refetch],
   )
 
 
@@ -147,9 +147,9 @@ export const CatalogueLinkPage = () => {
 
   const onClose = useCallback(
     () => {
-      navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tabId!))
+      navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!))
     },
-    [navigate, catalogueId, draftId, tabId],
+    [navigate, catalogueId, draftId, tab],
   )
 
   const onRowSelectionChange = useCallback<OnChangeFn<RowSelectionState>>(
@@ -191,7 +191,7 @@ export const CatalogueLinkPage = () => {
         <Box flex={1} />
         <IconButton
           component={Link}
-          to={cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tabId!)}
+          to={cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!)}
           sx={{
             color: "rgba(0, 0, 0, 0.54) !important",
           }}

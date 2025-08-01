@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from 'react'
-import { Catalogue, CatalogueDraft } from '../../model'
+import { Catalogue } from '../../model'
 import { useTranslation } from 'react-i18next'
 import { Box, IconButton, Stack } from '@mui/material'
 import { MoreVert } from '@mui/icons-material'
 import { useButtonMenu, useConfirmationPopUp, useToggleState, CustomButton, IconPack } from 'components'
-import { DraftStatusChip } from '../DraftTable'
 import { SubmitModal } from './SubmitModal'
+import { CatalogueDraft, DraftStatusChip } from '../../../Draft'
 
 interface CatalogueEditionHeaderProps {
     catalogue?: Catalogue

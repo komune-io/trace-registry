@@ -332,8 +332,8 @@
     "reviewModifications": "Review the modification proposed by {{name}}",
     "consultOriginal": "Consult the original sheet",
     "contactEditor": "Contact the editor",
-    "rejectTheModification": "Reject the modification",
-    "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting their modification",
+    "rejectTheModification": "Reject",
+    "addARejectComment": "Add a comment below to indicate to the editor the reason for rejecting.",
     "addASubmitComment": "Add a version note below to indicate to the validator the changes made to the sheet",
     "thanksForContribution": "Thank you for your contribution!",
     "modificationsSaved": "Your modifications have been successfully saved.",
@@ -420,6 +420,15 @@
     "createAccount": "Create my account",
     "alreadyHaveAccount": "Already registered?",
     "login": "Log in"
+  },
+  "protocol": {
+    "completedProtocolTitle": "🎉 Protocol successfully completed!",
+    "completedProtocolDescription": "Your entry has been successfully saved.\n\nIt will now be sent to an expert for validation.\n\nThis step ensures the reliability of the data and guarantees a fair assessment as part of the mapping.",
+    "unvalidatedProtocol": "One or more repositories you submitted have not been validated.",
+    "unvalidateProtocolDetails": "The validator has left comments to help you correct the blocking points.\nOpen the relevant repository to review the feedback, make the necessary changes, and then submit it again.",
+    "validatorComment": "💬 Validator comment",
+    "protocolTitle": "Protocol: {{name}}",
+    "protocolFillingTitle": "Protocol filling: {{name}}"
   },
   "lang": {
     "fr": "French",

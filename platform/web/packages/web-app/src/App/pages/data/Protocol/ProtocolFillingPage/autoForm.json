@@ -1,0 +1,151 @@
+{
+  "sections": [
+    {
+      "id": "section_0",
+      "label": "Calcul du facteur de sélection",
+      "description": "Ce formulaire permet d’évaluer la pertinence de votre organisation pour le Mapping finance V1.\n\nLes informations demandées servent à calculer un facteur de sélection, basé sur des critères simples : taille, maturité, engagement climat, et contribution à la dynamique collective.",
+      "fields": [
+        {
+          "name": "yearOfCreation",
+          "type": "textField",
+          "label": "Année de création",
+          "properties": {
+            "description": "Année de fondation ou d’immatriculation de votre structure.",
+            "caption": "Cela permet de situer votre maturité. Utilisez le format AAAA.",
+            "textFieldType": "number"
+          },
+          "required": true,
+          "conditions": [
+            {
+              "expression": "#yearOfCreation <= 1800 || #yearOfCreation > #currentYear",
+              "logic": {
+                "or": [
+                  { "<=": [{ "var": "yearOfCreation" }, 1800] },
+                  { ">": [{ "var": "yearOfCreation" }, { "var": "currentYear" }] }
+                ]
+              },
+              "type": "validator",
+              "error": "Veuillez entrer une année valide"
+            }
+          ]
+        },
+        {
+          "name": "employeesNumber",
+          "type": "textField",
+          "label": "Nombre d'employés",
+          "properties": {
+            "description": "Effectif total actuel de votre organisation (CDI, CDD, alternants inclus).",
+            "textFieldType": "number"
+          },
+          "required": true,
+          "conditions": [
+            {
+              "expression": "#employeesNumber <= 0",
+              "logic": {
+                "<=": [{ "var": "employeesNumber" }, 0]
+              },
+              "type": "validator",
+              "error": "Le nombre d'employés doit être supérieur à zéro"
+            }
+          ]
+        },
+        {
+          "name": "annualRevenue",
+          "type": "textField",
+          "label": "Chiffre d'affaires",
+          "properties": {
+            "description": "Montant du chiffre d’affaires annuel, en euros, sur le dernier exercice clôturé.",
+            "textFieldType": "number"
+          },
+          "required": true,
+          "conditions": [
+            {
+              "expression": "#annualRevenue <= 0",
+              "logic": {
+                "<=": [{ "var": "annualRevenue" }, 0]
+              },
+              "type": "validator",
+              "error": "Le chiffre d'affaires doit être supérieur à zéro"
+            }
+          ]
+        },
+        {
+          "name": "climateActivityPercentage",
+          "type": "textField",
+          "label": "Pourcentage d’activité offre climat",
+          "properties": {
+            "description": "Proportion de votre activité directement liée à des produits ou services ayant un impact positif sur le climat.",
+            "caption": "Indiquez un pourcentage entre 0 et 100. Si votre activité n'est pas liée au climat, indiquez 0.",
+            "textFieldType": "number"
+          },
+          "required": true,
+          "conditions": [
+            {
+              "expression": "#climateActivityPercentage > 100",
+              "logic": {
+                ">": [{ "var": "climateActivityPercentage" }, 0]
+              },
+              "type": "validator",
+              "error": "Le pourcentage d’activité offre climat doit être compris entre 0 et 100"
+            }
+          ]
+        },
+        {
+          "name": "contribution",
+          "type": "textField",
+          "label": "Contribution à l’initiative Mappings",
+          "required": true,
+          "properties": {
+            "description": "Décrivez en quelques lignes comment votre organisation contribue à la dynamique collective des Mappings.",
+            "caption": "participation à des ateliers, partage de données, implication dans une communauté de pratiques, etc. Réponse libre.",
+            "multiline": true,
+            "rows": 7
+          }
+        }
+      ]
+    },
+    {
+      "id": "section_1",
+      "label": "Preuves à l’appui",
+      "description": "Ajoutez ici des documents ou liens qui permettent de justifier les informations déclarées dans le référentiel.\n\nCes éléments renforcent la crédibilité de votre déclaration et facilitent la validation par l’expert.",
+      "fields": [
+        {
+          "name": "kbis",
+          "type": "documentHandler",
+          "label": "Extrait Kbis :",
+          "required": true,
+          "properties": {
+            "isRequired": true,
+            "fileTypesAllowed": [
+              "pdf"
+            ]
+          }
+        },
+        {
+          "name": "annualReport",
+          "type": "documentHandler",
+          "label": "Bilan annuel :",
+          "required": true,
+          "properties": {
+            "isRequired": true,
+            "fileTypesAllowed": [
+              "pdf"
+            ]
+          }
+        },
+        {
+          "name": "participationProof",
+          "type": "documentHandler",
+          "label": "Preuve de participation à un atelier Mappings :",
+          "required": true,
+          "properties": {
+            "isRequired": true,
+            "fileTypesAllowed": [
+              "pdf"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
