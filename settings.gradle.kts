@@ -51,7 +51,7 @@ include(
 include(
 //	"platform:control:f2:activity-f2:activity-f2-api",
 //	"platform:control:f2:activity-f2:activity-f2-client",
-//	"platform:control:f2:activity-f2:activity-f2-domain",
+	"platform:control:f2:activity-f2:activity-f2-domain",
 //	"platform:control:f2:cccev-f2:cccev-f2-api",
 //	"platform:control:f2:cccev-f2:cccev-f2-client",
 //	"platform:control:f2:cccev-f2:cccev-f2-domain",

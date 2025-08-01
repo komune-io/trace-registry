@@ -10,6 +10,8 @@ dependencies {
 	Dependencies.Mpp.cccevDomain(::commonMainApi)
 	Dependencies.Mpp.im(::commonMainApi)
 	Dependencies.Mpp.documenter(::jvmTestImplementation)
+	Dependencies.Mpp.fs(::commonMainApi)
+	Dependencies.Mpp.s2(::commonMainApi)
 }
 
 tasks.withType<Test>().configureEach {

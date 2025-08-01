@@ -20,9 +20,9 @@ import {
 } from '../../api'
 import {keepPreviousData} from '@tanstack/react-query'
 import {convertRelatedCataloguesToIds} from "../../model/RelatedCatalogue";
-import {useAutoCompleteCatalogueOwners} from "../useAutoCompleteCatalogueOwners/useAutoCompleteCatalgueOwners";
-import { CatalogueDraft } from '../../../Draft'
-import { useAutoCompleteCatalogue } from '../useAutoCompleteCatalogue'
+import {useAutoCompleteCatalogueOwners} from "../UseAutoCompleteCatalogueOwners/useAutoCompleteCatalgueOwners";
+import {CatalogueDraft} from '../../../Draft'
+import {useAutoCompleteCatalogue} from '../useAutoCompleteCatalogue'
 
 interface CatalogueMetadataFormProps {
     draft?: CatalogueDraft

@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     project(":platform").dependencyProject.subprojects.forEach {
-        if ("-domain" in it.name && ":platform:project" !in it.toString()) { // exclude unused project module to reduce generated js size
+        if ("-domain" in it.name) {
             jsMainApi(it)
         }
     }
