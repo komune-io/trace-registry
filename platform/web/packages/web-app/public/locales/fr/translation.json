@@ -183,6 +183,7 @@
     "button": "Bouton",
     "poweredBy": "Propulsé par",
     "consultSheet": "Consulter la fiche",
+    "protocolsToValidate": "Référentiels à valider",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

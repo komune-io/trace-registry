@@ -176,6 +176,8 @@
   "filtersCount": "{{count}} filters",
   "button": "Button",
   "poweredBy": "Powered by",
+  "consultSheet": "Consult the sheet",
+  "protocolsToValidate": "Protocols to validate",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",

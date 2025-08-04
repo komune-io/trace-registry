@@ -1,0 +1,27 @@
+{
+  "id": "draft-protocol-table",
+  "columns": [{
+    "label": "Nom du référentiel",
+    "type": "text",
+    "value": "name"
+  }, {
+    "label": "Fiche",
+    "type": "link",
+    "value": {
+      "label": "catalogue.label",
+      "url": "catalogue.url"
+    }
+  }, {
+    "label": "Badge",
+    "type": "badge",
+    "value": {
+      "label": "shortLabel",
+      "value": "result",
+      "icon": "/path/to/icon.svg"
+    }
+  }, {
+    "label": "Complétion",
+    "type": "progress",
+    "value": "completion"
+  }]
+}

@@ -176,6 +176,8 @@
   "filtersCount": "{{count}} filtros",
   "button": "Botón",
   "poweredBy": "Impulsado por",
+  "consultSheet": "Consultar la ficha",
+  "protocolsToValidate": "Referenciales a validar",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",

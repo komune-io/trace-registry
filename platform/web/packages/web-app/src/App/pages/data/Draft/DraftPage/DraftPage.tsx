@@ -140,7 +140,7 @@ export const DraftPage = (props: DraftPageProps) => {
         metadataFormState={metadataFormState}
         title={title}
         validateMetadata={validateMetadata}
-        actions={<DraftAddProtocolButton />}
+        actions={<DraftAddProtocolButton type={catalogue?.type} />}
       />
       {draft?.status === "VALIDATED" && <ValidatedDraftInfo />}
       {draft?.status == "REJECTED" && <RejectedDraftInfo draft={draft} />}

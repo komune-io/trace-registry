@@ -11,7 +11,7 @@ import {CreateCatalogueButton} from './CreateCatalogueButton'
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
 
-    const { cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization } = useRoutesDefinition()
+    const { cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, protocolsToVerify } = useRoutesDefinition()
     const {policies} = useExtendedAuth()
 
     const totalToVerify = useCatalogueDraftPageQuery({
@@ -38,6 +38,15 @@ export const usePersonalMenu = (t: TFunction) => {
                 icon: <IconPack.contribution />,
                 isVisible: policies.draft.canCreate(),
                 isSelected: location.pathname.includes(cataloguesContributions())
+            },
+            {
+                key: "protocolsToValidate",
+                to: protocolsToVerify(),
+                label: t("protocolsToValidate"),
+                icon: <IconPack.validate />,
+                number: 5,
+                isVisible: policies.draft.canSeePublished(),
+                isSelected: location.pathname.includes(protocolsToVerify())
             },
             {
                 key: "sheetsToValidate",
