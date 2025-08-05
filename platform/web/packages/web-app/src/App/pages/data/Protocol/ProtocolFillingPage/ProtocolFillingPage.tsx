@@ -1,30 +1,23 @@
-import { Box, Dialog, IconButton, Stack, Typography } from '@mui/material'
+import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
 
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { AutoForm, autoFormFormatter, BackAutoFormData, FormComposableState } from '@komune-io/g2'
 import { ReservedProtocolTypes, useProtocolGetQuery } from 'domain-components'
+import { DialogPage } from 'template'
 
 
 export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, tab, protocolId } = useParams()
 
-  const navigate = useNavigate()
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
 
   const goBackUrl = cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!)
-
-  const onClose = useCallback(
-    () => {
-      navigate(goBackUrl)
-    },
-    [navigate, goBackUrl],
-  )
 
   const protocol = useProtocolGetQuery({
     query: {
@@ -73,21 +66,8 @@ export const ProtocolFillingPage = () => {
   )
 
   return (
-    <Dialog
-      fullScreen
-      open
-      onClose={onClose}
-      PaperProps={{
-        className: "scroll-container",
-      }}
-      sx={{
-        "& .MuiDialog-paper": {
-          p: 3,
-          pb: 12,
-          display: "flex",
-          gap: 8
-        }
-      }}
+    <DialogPage
+      goBackUrl={goBackUrl}
     >
       <Stack
         direction={"row"}
@@ -129,6 +109,6 @@ export const ProtocolFillingPage = () => {
         />
 
       </Stack>
-    </Dialog>
+    </DialogPage>
   )
 }

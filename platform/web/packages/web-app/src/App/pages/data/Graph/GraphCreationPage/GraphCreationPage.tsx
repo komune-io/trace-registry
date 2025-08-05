@@ -1,5 +1,5 @@
 import { useFormComposable } from '@komune-io/g2'
-import { Dialog, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { useRoutesDefinition } from 'components'
 import {
   GraphCreationheader,
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSaveGraph } from './useSaveGraph'
 import { useEditGraph } from './useEditGraph'
+import { DialogPage } from 'template'
 
 
 export const GraphCreationPage = () => {
@@ -35,11 +36,13 @@ export const GraphCreationPage = () => {
   const dataset = useMemo(() => draft?.catalogue.datasets?.find((dataset) => dataset.type === "graphs")?.datasets?.find((dataset) => dataset.id === datasetId), [draft, datasetId])
   const distribution = useMemo(() => dataset?.distributions?.find((dist) => dist.mediaType === "application/json"), [dataset])
 
+  const goBackUrl = cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, graphDataset?.id!)
+
   const onClose = useCallback(
     () => {
-      navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, graphDataset?.id!))
+      navigate(goBackUrl)
     },
-    [navigate, catalogueId, draftId, graphDataset],
+    [navigate, catalogueId, draftId, graphDataset, goBackUrl],
   )
 
   const title = datasetId ? t("editAGraph") : t("createAGraph")
@@ -80,22 +83,16 @@ export const GraphCreationPage = () => {
   })
 
   return (
-    <Dialog
-      fullScreen
-      open
-      onClose={onClose}
+    <DialogPage
+      goBackUrl={goBackUrl}
       sx={{
         "& .MuiDialog-paper": {
-          p: 3,
-          pb: 12,
-          display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 3
         }
       }}
     >
-      <GraphCreationheader title={title} goBackUrl={cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, graphDataset?.id!)} />
+      <GraphCreationheader title={title} goBackUrl={goBackUrl} />
       <Stack
         sx={{
           maxWidth: 1200,
@@ -112,6 +109,6 @@ export const GraphCreationPage = () => {
           state={rawGraphStateDistrib.data ?? undefined}
         />
       </Stack>
-    </Dialog>
+    </DialogPage>
   )
 }

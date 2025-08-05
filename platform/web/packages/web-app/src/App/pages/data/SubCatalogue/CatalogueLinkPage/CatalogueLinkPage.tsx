@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Dialog, IconButton, Stack, Typography } from '@mui/material'
+import { Box, CircularProgress, IconButton, Stack, Typography } from '@mui/material'
 import { keepPreviousData, useQueryClient } from '@tanstack/react-query'
 import { LabeledSwitch, useRefetchOnDismount, useRoutesDefinition, useUrlSavedState } from 'components'
 import {
@@ -14,8 +14,8 @@ import {
 } from 'domain-components'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import { OffsetPagination } from 'template'
+import { useParams } from 'react-router-dom'
+import { DialogPage, OffsetPagination } from 'template'
 import { OnChangeFn, RowSelectionState } from '@tanstack/react-table';
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
@@ -24,7 +24,6 @@ import { SortOrder } from '@komune-io/g2'
 
 export const CatalogueLinkPage = () => {
   const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [debouncedRowSelection] = useDebouncedValue(rowSelection, 300);
   const previouslySavedRowSelection = useRef<RowSelectionState | undefined>(undefined)
@@ -145,12 +144,7 @@ export const CatalogueLinkPage = () => {
 
   const pagination = useMemo((): OffsetPagination => ({ offset: state.offset!, limit: state.limit! }), [state.offset, state.limit])
 
-  const onClose = useCallback(
-    () => {
-      navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!))
-    },
-    [navigate, catalogueId, draftId, tab],
-  )
+  const goBackUrl = cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!)
 
   const onRowSelectionChange = useCallback<OnChangeFn<RowSelectionState>>(
     (fncOrValue) => {
@@ -161,18 +155,8 @@ export const CatalogueLinkPage = () => {
   )
 
   return (
-    <Dialog
-      fullScreen
-      open
-      onClose={onClose}
-      sx={{
-        "& .MuiDialog-paper": {
-          p: 3,
-          pb: 12,
-          display: "flex",
-          gap: 3
-        }
-      }}
+    <DialogPage
+      goBackUrl={goBackUrl}
     >
       <Stack
         direction={"row"}
@@ -191,7 +175,7 @@ export const CatalogueLinkPage = () => {
         <Box flex={1} />
         <IconButton
           component={Link}
-          to={cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, tab!)}
+          to={goBackUrl}
           sx={{
             color: "rgba(0, 0, 0, 0.54) !important",
           }}
@@ -256,6 +240,6 @@ export const CatalogueLinkPage = () => {
           />
         </Stack>
       </Stack>
-    </Dialog>
+    </DialogPage>
   )
 }

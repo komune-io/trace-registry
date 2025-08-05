@@ -3,23 +3,25 @@ import { Stack, Typography } from '@mui/material'
 import { useMemo } from 'react'
 import { SelectableChip } from '../SelectableChip'
 import { TypeSelectableChip } from '../TypeSelectableChip'
+import { Badge } from '../Badge'
 
 interface SelectableChipGroupProps {
     title?: string
     values?: string[]
     onChange?: (values: string[]) => void
     options?: Option[]
-    forTypes?: boolean
+    chipType?: 'basic' | 'type' | 'badge'
+    direction?: 'row' | 'column'
 }
 
 export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
-    const { title, onChange, options, values, forTypes = false } = props
+    const { title, onChange, options, values, chipType = 'basic', direction = 'row' } = props
 
     const withAutoComplete = (options?.length ?? 0) >= 10
 
     const chips = useMemo(() => options?.map((option) => {
         const isSelected = !!values?.find((value) => value === option.key.toString())
-        const ChipComponent = forTypes ? TypeSelectableChip : SelectableChip
+        const ChipComponent = chipType === 'type' ? TypeSelectableChip : chipType === 'badge' ? Badge : SelectableChip
         if (withAutoComplete && !isSelected) return
         return (
             <ChipComponent
@@ -37,7 +39,7 @@ export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
                 }}
             />
         )
-    }), [values, options, onChange, forTypes])
+    }), [values, options, onChange, chipType])
 
 
     return (
@@ -60,9 +62,11 @@ export const SelectableChipGroup = (props: SelectableChipGroupProps) => {
                 />
             }
             {!withAutoComplete && <Stack
-                direction="row"
+                direction={direction}
                 gap={1.5}
-                alignItems="center"
+                alignItems={
+                    direction === 'row' ? 'center' : 'flex-start'
+                }
                 flexWrap="wrap"
             >
                 {chips}

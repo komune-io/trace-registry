@@ -6,6 +6,7 @@ import {Catalogue} from '../../model'
 import {Co2Counter, TitleDivider} from 'components'
 import {useCatalogueCo2Counter} from '../../api'
 import {CatalogueAutoDetailsForm} from '../CatalogueAutoDetailsForm'
+import { CatalogueBadges } from '../CatalogueBadges'
 
 type simplifiedReadonlyFields = Record<string, {
     value?: any,
@@ -86,6 +87,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                 flexShrink: 0
             }}
         >
+            <CatalogueBadges />
             <TitleDivider size='h3' title={t("informations")} />
             {count && <Co2Counter
                 count={count}

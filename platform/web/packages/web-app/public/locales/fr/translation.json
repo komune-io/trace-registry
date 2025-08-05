@@ -184,6 +184,7 @@
     "poweredBy": "Propulsé par",
     "consultSheet": "Consulter la fiche",
     "protocolsToValidate": "Référentiels à valider",
+    "badges": "Badges",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",

@@ -178,6 +178,7 @@
   "poweredBy": "Powered by",
   "consultSheet": "Consult the sheet",
   "protocolsToValidate": "Protocols to validate",
+  "badges": "Badges",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
