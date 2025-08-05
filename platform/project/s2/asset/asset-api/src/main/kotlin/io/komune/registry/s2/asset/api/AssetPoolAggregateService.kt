@@ -30,8 +30,8 @@ import io.komune.registry.s2.asset.domain.command.transaction.AssetTransactionEm
 import io.komune.registry.s2.asset.domain.command.transaction.TransactionEmittedEvent
 import io.komune.registry.s2.asset.domain.model.AssetTransactionType
 import io.komune.registry.s2.commons.model.respectsGranularity
-import java.util.UUID
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class AssetPoolAggregateService(
@@ -121,9 +121,9 @@ class AssetPoolAggregateService(
 			)
 
 			val path = FilePath(
-				objectType = FsPath.Organization.TYPE,
+				objectType = FsPath.Identity.Organization.TYPE,
 				objectId = transactionEvent.to!!,
-				directory = FsPath.Organization.CERTIFICATE,
+				directory = FsPath.Identity.Organization.CERTIFICATE,
 				name = "certificate-${transactionEvent.id}-pending.pdf"
 			)
 			fileClient.fileUpload(path.toUploadCommand(), result)

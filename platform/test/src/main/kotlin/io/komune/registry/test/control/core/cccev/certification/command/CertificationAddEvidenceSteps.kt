@@ -62,7 +62,7 @@ class CertificationAddEvidenceSteps: En, RgCucumberStepsDefinition() {
                 AssertionBdd.evidence(certificationRepository).assertThat(evidence!!)
                     .hasFields(
                         filePath = command.filePath ?: evidence.file,
-                        evidenceTypeId = command.evidenceTypeId
+                        evidenceTypeId = command.evidenceTypeIdentifier
                     )
 
                 command.filePath?.let {
@@ -100,7 +100,7 @@ class CertificationAddEvidenceSteps: En, RgCucumberStepsDefinition() {
         command = CertificationAddEvidenceCommand(
             id = context.cccev.certificationIds[params.certification] ?: params.certification,
             rootRequirementCertificationId = null,
-            evidenceTypeId = context.cccev.evidenceTypeIds[params.evidenceType] ?: params.evidenceType,
+            evidenceTypeIdentifier = context.cccev.evidenceTypeIds[params.evidenceType] ?: params.evidenceType,
             filePath = params.path?.let { FilePath.from(it) }
         )
         certificationAggregateService.addEvidence(
