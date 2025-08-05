@@ -39,11 +39,11 @@ class CertificationEvidenceService(
         certificationRepository.findById(command.id)
             ?: throw NotFoundException("Certification", command.id)
 
-        val evidenceType = evidenceTypeRepository.findById(command.evidenceTypeId)
-            ?: throw NotFoundException("EvidenceType", command.evidenceTypeId)
+        val evidenceType = evidenceTypeRepository.findByIdentifier(command.evidenceTypeIdentifier)
+            ?: throw NotFoundException("EvidenceType", command.evidenceTypeIdentifier)
 
         val requirementCertifications = certificationRepository.findRequirementCertificationsLinkedToEvidenceType(
-            command.id, command.rootRequirementCertificationId, command.evidenceTypeId
+            command.id, command.rootRequirementCertificationId, command.evidenceTypeIdentifier
         )
 
         val evidence = Evidence().also { evidence ->

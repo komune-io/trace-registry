@@ -25,10 +25,10 @@ class FsService(
 
 	suspend fun getCatalogueFilePath(catalogueId: String, imageName: String? = null): FilePath {
 		return FilePath(
-			objectType = FsPath.Catalogue.TYPE,
+			objectType = FsPath.Data.Catalogue.TYPE,
 			objectId = catalogueId,
-			directory = FsPath.Catalogue.MEDIA,
-			name = imageName ?: FsPath.Catalogue.DEFAULT_IMAGE_NAME,
+			directory = FsPath.Data.Catalogue.MEDIA,
+			name = imageName ?: FsPath.Data.Catalogue.DEFAULT_IMAGE_NAME,
 		)
 	}
 

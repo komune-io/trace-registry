@@ -10,6 +10,7 @@ import io.komune.registry.infra.neo4j.session
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeId
+import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.RequirementCertificationId
 import io.komune.registry.s2.commons.model.SupportedValueId
@@ -85,7 +86,7 @@ class CertificationRepository(
     suspend fun findRequirementCertificationsLinkedToEvidenceType(
         certificationId: CertificationId,
         rootRequirementCertificationId: RequirementCertificationId?,
-        evidenceType: EvidenceTypeId
+        evidenceTypeIdentifier: EvidenceTypeIdentifier
     ): List<RequirementCertification> = sessionFactory.session { session ->
         session.query(
             "MATCH (:${Certification.LABEL} {id: \$cId})" +
@@ -94,9 +95,9 @@ class CertificationRepository(
                     } else { "" }) +
                     "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
                     "-[:${RequirementCertification.CERTIFIES}]->(:${Requirement.LABEL})" +
-                    "-->(:${EvidenceType.LABEL} {id: \$etId})"
+                    "-->(:${EvidenceType.LABEL} {identifier: \$etIdentifier})"
                         .returnWholeEntity("rc"),
-            mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId, "etId" to evidenceType),
+            mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId, "etIdentifier" to evidenceTypeIdentifier),
         ).map { it["rc"] as RequirementCertification }
     }
 

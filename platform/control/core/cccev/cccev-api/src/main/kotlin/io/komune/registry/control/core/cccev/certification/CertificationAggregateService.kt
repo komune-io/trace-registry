@@ -17,11 +17,11 @@ import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
 import io.komune.registry.control.core.cccev.certification.entity.isFulfilled
-import io.komune.registry.control.core.cccev.certification.model.CertificationFsPath
 import io.komune.registry.control.core.cccev.certification.service.CertificationEvidenceService
 import io.komune.registry.control.core.cccev.certification.service.CertificationValuesFillerService
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
+import io.komune.registry.infra.fs.FsPath
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.s2.commons.model.RequirementIdentifier
 import org.neo4j.ogm.session.SessionFactory
@@ -71,7 +71,7 @@ class CertificationAggregateService(
 
     suspend fun addEvidence(command: CertificationAddEvidenceCommand, file: ByteArray, filename: String?): CertificationAddedEvidenceEvent {
         val path = command.filePath
-            ?: CertificationFsPath.pathEvidenceType(command.id, command.evidenceTypeId)
+            ?: FsPath.Control.Certification.evidenceType(command.id, command.evidenceTypeIdentifier)
                 .copy(name = filename ?: System.currentTimeMillis().toString())
 
         val evidenceId = certificationEvidenceService.addEvidence(

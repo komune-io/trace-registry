@@ -2992,7 +2992,7 @@ export declare namespace io.komune.registry.control.core.cccev.certification.com
     interface CertificationAddEvidenceCommandDTO {
         readonly id: string;
         readonly rootRequirementCertificationId?: string;
-        readonly evidenceTypeId: string;
+        readonly evidenceTypeIdentifier: string;
         readonly filePath?: io.komune.fs.s2.file.domain.model.FilePathDTO;
         readonly vectorize: boolean;
 
@@ -3249,6 +3249,42 @@ export declare namespace io.komune.registry.control.core.cccev.unit.model {
 export declare namespace io.komune.registry.control.core.cccev.unit.model {
     type DataUnitType = "BOOLEAN" | "NUMBER" | "STRING";
 }
+export declare namespace io.komune.registry.f2.organization.domain.model {
+    interface OrganizationRefDTO {
+        readonly id: string;
+        readonly name: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.user.domain.command {
+    interface UserOnboardCommandDTO {
+        readonly email: string;
+        readonly password: string;
+        readonly givenName: string;
+        readonly familyName: string;
+        readonly organizationName: string;
+        readonly joinReason?: string;
+        readonly acceptTermsOfUse: boolean;
+        readonly acceptChart100M?: boolean;
+        readonly acceptNewsletter: boolean;
+
+    }
+    interface UserOnboardedEventDTO {
+        readonly id: string;
+        readonly organizationId: string;
+
+    }
+}
+export declare namespace io.komune.registry.f2.user.domain.model {
+    interface UserRefDTO {
+        readonly id: string;
+        readonly email: string;
+        readonly givenName: string;
+        readonly familyName: string;
+        readonly memberOf: string;
+
+    }
+}
 export declare namespace io.komune.registry.control.f2.protocol.domain.command {
     interface ProtocolDefineCommandDTO {
         readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO;
@@ -3389,6 +3425,34 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.control.f2.certification.domain.command {
+    interface CertificationFillCommandDTO {
+        readonly id: string;
+        readonly values: Record<string, Nullable<string>>;
+
+    }
+    interface CertificationFilledEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.model {
+    interface CertificationDTO {
+        readonly id: string;
+        readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO;
+        readonly completionRate: number;
+        readonly values: Record<string, Nullable<string>>;
+        readonly evidences: Record<string, Nullable<string>>;
+        readonly status: string;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly validatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly rejectReason?: string;
+        readonly creationDate: number;
+        readonly modificationDate: number;
+
+    }
+}
 export declare namespace io.komune.registry.control.f2.certification.domain.model {
     interface CertificationRefDTO {
         readonly id: string;
@@ -3397,39 +3461,13 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
 
     }
 }
-export declare namespace io.komune.registry.f2.organization.domain.model {
-    interface OrganizationRefDTO {
+export declare namespace io.komune.registry.control.f2.certification.domain.query {
+    interface CertificationGetQueryDTO {
         readonly id: string;
-        readonly name: string;
 
     }
-}
-export declare namespace io.komune.registry.f2.user.domain.command {
-    interface UserOnboardCommandDTO {
-        readonly email: string;
-        readonly password: string;
-        readonly givenName: string;
-        readonly familyName: string;
-        readonly organizationName: string;
-        readonly joinReason?: string;
-        readonly acceptTermsOfUse: boolean;
-        readonly acceptChart100M?: boolean;
-        readonly acceptNewsletter: boolean;
-
-    }
-    interface UserOnboardedEventDTO {
-        readonly id: string;
-        readonly organizationId: string;
-
-    }
-}
-export declare namespace io.komune.registry.f2.user.domain.model {
-    interface UserRefDTO {
-        readonly id: string;
-        readonly email: string;
-        readonly givenName: string;
-        readonly familyName: string;
-        readonly memberOf: string;
+    interface CertificationGetResultDTO {
+        readonly item?: io.komune.registry.control.f2.certification.domain.model.CertificationDTO;
 
     }
 }

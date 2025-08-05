@@ -234,7 +234,7 @@ class DatasetF2AggregateService(
 
         val path = distribution.downloadPath
             ?.copy(objectId = command.id)
-            ?: FsPath.Dataset.distribution(command.id, "${UUID.randomUUID()}.json")
+            ?: FsPath.Data.Dataset.distribution(command.id, "${UUID.randomUUID()}.json")
         fileClient.fileUpload(path.toUploadCommand(), command.jsonContent.toByteArray())
 
         val event = DatasetUpdateDistributionCommand(
@@ -266,7 +266,7 @@ class DatasetF2AggregateService(
         val newPath = oldPath?.copy(
             objectId = command.id,
             name = oldPath.name.substringBeforeLast('.') + fileExtension
-        ) ?: FsPath.Dataset.distribution(command.id, "${UUID.randomUUID()}$fileExtension")
+        ) ?: FsPath.Data.Dataset.distribution(command.id, "${UUID.randomUUID()}$fileExtension")
         fileClient.fileUpload(newPath.toUploadCommand(), file.contentByteArray())
 
         val event = DatasetUpdateDistributionCommand(
@@ -412,7 +412,7 @@ class DatasetF2AggregateService(
     private suspend fun addDistribution(
         datasetId: DatasetId, filename: String, name: String?, mediaType: String, content: ByteArray
     ): DatasetAddedDistributionEvent {
-        val path = FsPath.Dataset.distribution(datasetId, filename)
+        val path = FsPath.Data.Dataset.distribution(datasetId, filename)
         fileClient.fileUpload(path.toUploadCommand(), content)
 
         return DatasetAddDistributionCommand(

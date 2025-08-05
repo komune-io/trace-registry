@@ -5,7 +5,7 @@ import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.fs.s2.file.domain.model.FilePathDTO
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.EvidenceId
-import io.komune.registry.s2.commons.model.EvidenceTypeId
+import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import io.komune.registry.s2.commons.model.RequirementCertificationId
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -38,7 +38,7 @@ interface CertificationAddEvidenceCommandDTO {
     /**
      * The evidence type to which the evidence conforms.
      */
-    val evidenceTypeId: EvidenceTypeId
+    val evidenceTypeIdentifier: EvidenceTypeIdentifier
 
     /**
      * The path at which to upload the evidence. If null, it will be uploaded to a default path.
@@ -58,7 +58,7 @@ interface CertificationAddEvidenceCommandDTO {
 data class CertificationAddEvidenceCommand(
     override val id: CertificationId,
     override val rootRequirementCertificationId: RequirementCertificationId?,
-    override val evidenceTypeId: EvidenceTypeId,
+    override val evidenceTypeIdentifier: EvidenceTypeIdentifier,
     override val filePath: FilePath?,
     override val vectorize: Boolean = false
 ): CertificationAddEvidenceCommandDTO

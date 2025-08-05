@@ -44,21 +44,24 @@ class CertificationValuesFillerService(
      * and repeat the previous steps until everything is updated.
      */
     suspend fun fillValues(values: Map<InformationConceptIdentifier, String?>, context: Context) = sessionFactory.transaction { _, _->
+        certificationRepository.findAllSupportedValues(context.certificationId, context.rootRequirementCertificationId)
+            .forEach { context.registerJsonValue(it.concept.identifier, it.value) }
+
         values.forEach { (informationConceptIdentifier, value) ->
             val requirementCertifications = certificationRepository.findRequirementCertificationsLinkedToInformationConcept(
                 context.certificationId, context.rootRequirementCertificationId, informationConceptIdentifier
             )
-            requirementCertifications.fillValue(informationConceptIdentifier, value)
+            requirementCertifications.fillValue(informationConceptIdentifier, value, context)
         }
 
-        certificationRepository.findAllSupportedValues(context.certificationId, context.rootRequirementCertificationId)
-            .forEach { context.registerJsonValue(it.concept.identifier, it.value) }
 
         computeValuesOfConsumersOf(values.keys, context)
     }
 
     private suspend fun List<RequirementCertification>.fillValue(
-        informationConceptIdentifier: InformationConceptIdentifier, value: String?
+        informationConceptIdentifier: InformationConceptIdentifier,
+        value: String?,
+        context: Context
     ) {
         println("fill value: [$informationConceptIdentifier]: [$value]")
 
@@ -74,13 +77,16 @@ class CertificationValuesFillerService(
             supportedValue.concept = informationConcept
         }
 
-        this.fillValue(informationConceptIdentifier, supportedValue)
+        this.fillValue(informationConceptIdentifier, supportedValue, context)
     }
 
     private suspend fun List<RequirementCertification>.fillValue(
-        informationConceptIdentifier: InformationConceptIdentifier, supportedValue: SupportedValue
-    ) = sessionFactory.session { session ->
-        println("fill value: [$informationConceptIdentifier]: [$supportedValue]")
+        informationConceptIdentifier: InformationConceptIdentifier,
+        supportedValue: SupportedValue,
+        context: Context
+    ): Unit = sessionFactory.session { session ->
+        context.registerJsonValue(informationConceptIdentifier, supportedValue.value)
+
         this.onEach { requirementCertification ->
             val existingValue = requirementCertification.values.firstOrNull { it.concept.identifier == informationConceptIdentifier }
 
@@ -91,7 +97,7 @@ class CertificationValuesFillerService(
             }
 
             session.save(requirementCertification, 2)
-        }.forEach { it.updateFulfillment() }
+        }.forEach { it.updateFulfillment(context) }
 
         certificationRepository.findSupportingEvidenceFor(supportedValue.id)?.let { evidence ->
             supportedValue.evidences.add(evidence)
@@ -136,11 +142,11 @@ class CertificationValuesFillerService(
                     }
                 }
 
-            certifications.fillValue(concept.identifier, value)
+            certifications.fillValue(concept.identifier, value, context)
         }
     }
 
-    private suspend fun RequirementCertification.updateFulfillment() {
+    private suspend fun RequirementCertification.updateFulfillment(context: Context) {
         println("update fulfillment: [$id] (requirement: [${requirement.identifier}])")
         var changed: Boolean
 
@@ -154,13 +160,13 @@ class CertificationValuesFillerService(
         isEnabled = evaluateBooleanExpression(
             requirement.enablingCondition,
             requirement.enablingConditionDependencies.map(InformationConcept::identifier).toSet(),
-            mappedValues
+            context.knownValues + mappedValues
         ).also { changed = changed || it != isEnabled }
 
         isValidated = evaluateBooleanExpression(
             requirement.validatingCondition,
             requirement.validatingConditionDependencies.map(InformationConcept::identifier).toSet(),
-            mappedValues
+            context.knownValues + mappedValues
         ).also { changed = changed || it != isValidated }
 
         isFulfilled = isFulfilled()
@@ -169,7 +175,7 @@ class CertificationValuesFillerService(
         if (changed) {
             certificationRepository.save(this)
             certificationRepository.findParentsOf(id)
-                .forEach { parent -> parent.updateFulfillment() }
+                .forEach { parent -> parent.updateFulfillment(context) }
         }
     }
 
