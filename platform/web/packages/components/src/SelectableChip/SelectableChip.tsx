@@ -29,7 +29,7 @@ export const SelectableChip = (props: SelectableChipProps) => {
         <Chip
             color="#1F1F1F"
             onDelete={isSelected ? onDelete : undefined}
-            onClick={onClick}
+            onClick={isSelected ? onDelete : onClick}
             sx={{
                 border: isSelected ? "1px solid #BDBDBD" : "1px solid transparent",
                 cursor: "pointer",

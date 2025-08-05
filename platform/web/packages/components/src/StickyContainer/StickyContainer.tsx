@@ -2,25 +2,34 @@ import { Stack, StackProps } from '@mui/material'
 import { useEffect, useRef, useState } from 'react';
 
 export interface StickyContainerProps extends StackProps {
-
+    bottomStick?: number
 }
 
 export const StickyContainer = (props: StickyContainerProps) => {
-    const { children, sx, ...rest } = props
+    const { children, sx, bottomStick = 70, ...rest } = props
     const ref = useRef<HTMLDivElement>(null);
     const [isAtInitialPosition, setIsAtInitialPosition] = useState(true);
+
+    useEffect(() => {
+        const scrollContainer = document.querySelector('.scroll-container') as HTMLElement | null;
+        
+        if (scrollContainer) {
+            const isScrollable = scrollContainer.scrollHeight > scrollContainer.clientHeight;
+            setIsAtInitialPosition(!isScrollable);
+        }
+    }, [])
 
     useEffect(() => {
         const handleScroll = () => {
             if (!ref.current) return
             const rect = ref.current.getBoundingClientRect()
-            setIsAtInitialPosition(rect.bottom < window.innerHeight - 70)
+            setIsAtInitialPosition(rect.bottom < window.innerHeight - bottomStick)
         }
         const scrollContainer = document.querySelector('.scroll-container') as HTMLElement | null;
         scrollContainer?.addEventListener('scroll', handleScroll, { passive: true })
         handleScroll()
         return () => scrollContainer?.removeEventListener('scroll', handleScroll)
-    }, [])
+    }, [bottomStick])
 
     return (
         <Stack
@@ -32,7 +41,7 @@ export const StickyContainer = (props: StickyContainerProps) => {
             gap={2}
             sx={{
                 position: "sticky",
-                bottom: "-70px",
+                bottom: `-${bottomStick}px`,
                 backdropFilter: !isAtInitialPosition ? "blur(15px)" : undefined,
                 padding: 2,
                 borderRadius: 1,

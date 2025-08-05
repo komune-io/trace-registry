@@ -1,9 +1,10 @@
-import { FormComposable, AutoFormData, useAutoFormState, CommandWithFile } from "@komune-io/g2"
-import { useCallback } from 'react';
+import { FormComposable, AutoFormData, useAutoFormState, CommandWithFile, FormComposableField } from "@komune-io/g2"
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack, Typography } from "@mui/material";
 import { CustomButton, TmsPopUp, useRoutesDefinition } from "components";
 import { useNavigate, useParams } from "react-router-dom";
+import { ProtocolPageQuery, useProtocolPageQuery } from "../../../Protocol";
 
 
 export interface AddProtocolModalProps {
@@ -16,13 +17,24 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
     const { onClose, open, formData } = props
     const { catalogueId, draftId, tab } = useParams()
     const { t } = useTranslation()
-    const {cataloguesCatalogueIdDraftIdTabProtocolIdProtocol} = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdTabProtocolIdProtocol } = useRoutesDefinition()
     const navigate = useNavigate()
 
-    const onSubmit = useCallback((command: CommandWithFile<any>, values: any) => {
-        console.log("Command submitted:", command);
-        console.log(catalogueId, draftId, tab, values.id);
-        navigate(cataloguesCatalogueIdDraftIdTabProtocolIdProtocol(catalogueId!, draftId!, tab!, values.id))
+    const [filters, setFilters] = useState<ProtocolPageQuery | undefined>(undefined)
+
+
+    const protocols = useProtocolPageQuery({
+        query: {
+            ...filters!,
+            limit: 1000,
+        },
+        options: {
+            enabled: !!filters
+        }
+    })
+
+    const onSubmit = useCallback((_: CommandWithFile<any>, values: any) => {
+        navigate(cataloguesCatalogueIdDraftIdTabProtocolIdProtocol(catalogueId!, draftId!, tab!, values.protocolId))
         onClose();
     }, [onClose, catalogueId, draftId, tab])
 
@@ -30,6 +42,36 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
         formData,
         onSubmit
     })
+
+    const fields = useMemo(
+        () => {
+            return formData?.sections[0].fields.map((field) => {
+                //@ts-ignore
+                if (field.type === "select-protocol") {
+                    //@ts-ignore
+                    const fieldCopy = { ...field } as FormComposableField
+                    if (!filters) {
+                        //@ts-ignore
+                        fieldCopy.params?.filters && setFilters(JSON.parse(fieldCopy.params?.filters))
+                    }
+                    return {
+                        ...fieldCopy,
+                        type: "select",
+                        params: {
+                            ...fieldCopy.params,
+                            options: protocols.data?.items.map((protocol) => ({
+                                label: protocol.label,
+                                key: protocol.id
+                            })) ?? []
+                        }
+                    }
+                }
+                return field
+            })
+        },
+        [formData, protocols.data?.items, filters]
+    )
+
 
     return (
         <TmsPopUp
@@ -48,7 +90,7 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
                 </Typography>
             )}
             <FormComposable
-                fields={formData?.sections[0].fields ?? []}
+                fields={fields ?? []}
                 formState={formState}
             />
             <Stack

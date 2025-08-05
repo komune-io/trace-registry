@@ -1,36 +1,28 @@
 import { useTheme } from '@komune-io/g2'
-import { Dialog, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { SelectableChipGroup, useUrlSavedState, LocalTheme, IconPack } from 'components'
 import {
   CatalogueSearchHeader, CatalogueSearchModule, CatalogueSearchQuery,
   useCatalogueGetBlueprintsQuery,
   useCatalogueSearchQuery
 } from 'domain-components'
-import { useCallback, useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { keepPreviousData } from '@tanstack/react-query'
-import { FixedPagination, OffsetPagination } from 'template'
+import { DialogPage, FixedPagination, OffsetPagination } from 'template'
 
 export const CatalogueSearchPage = () => {
   const { t, i18n } = useTranslation()
   const theme = useTheme<LocalTheme>()
   const [searchParams, setSearchParams] = useSearchParams()
   const [goBackUrl] = useState(searchParams.get("goBackUrl") ?? "/")
-  const navigate = useNavigate()
 
   const allowedSearchTypes = useCatalogueGetBlueprintsQuery({
     query: {
       language: i18n.language
     }
   }).data?.item
-
-  const onClose = useCallback(
-    () => {
-      navigate(goBackUrl)
-    },
-    [navigate, goBackUrl],
-  )
 
   useEffect(() => {
     document.title = "WikiCO2 | " + t("search")
@@ -85,18 +77,12 @@ export const CatalogueSearchPage = () => {
 
 
   return (
-    <Dialog
-      fullScreen
-      open
-      onClose={onClose}
+    <DialogPage
+      goBackUrl={goBackUrl}
       sx={{
         "& .MuiDialog-paper": {
-          p: 3,
-          pb: 12,
-          display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 3
         }
       }}
     >
@@ -113,7 +99,7 @@ export const CatalogueSearchPage = () => {
           options={typeFacet ?? []}
           values={state.type}
           onChange={changeValueCallback('type')}
-          forTypes
+          chipType='type'
         />
         <CatalogueSearchModule<CatalogueSearchQuery>
           changeValueCallback={changeValueCallback}
@@ -132,6 +118,6 @@ export const CatalogueSearchPage = () => {
         }}
         page={data}
       />
-    </Dialog>
+    </DialogPage>
   )
 }

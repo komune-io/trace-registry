@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { CustomButton, SelectableChipGroup, TitleDivider } from 'components'
+import { CustomButton, SelectableChipGroup, StickyContainer, TitleDivider } from 'components'
 import { useTranslation } from 'react-i18next'
 import { FacetDTO } from '../../api'
 import { useEffect, useMemo, useState } from 'react'
@@ -94,24 +94,25 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
         >
             <TitleDivider title={t("filter")} size='subtitle1' />
             {additionalFilters}
+            <SelectableChipGroup
+                title={t("badges")}
+                options={[{
+                    key: "finance",
+                    label: "Finance V1",
+                }, {
+                    key: "numérique",
+                    label: "Numérique V1",
+                }, {
+                    key: "blbl",
+                    label: "Blbl V1",
+                }]}
+                values={getIn(savedState, "badge")}
+                onChange={onChangeFacet("badge")}
+                chipType='badge'
+                direction='column'
+            />
             {facetsDisplay}
-            <Stack
-                alignItems="center"
-                direction="row"
-                width="100%"
-                gap={2}
-                sx={{
-                    position: "sticky",
-                    bottom: "-70px",
-                    backgroundColor: "background.paper",
-                    padding: 2,
-                    borderRadius: 1,
-                    boxShadow: 1,
-                    zIndex: 11,
-                    borderColor: "divider",
-                    borderStyle: "solid",
-                    borderWidth: "1px"
-                }}
+            <StickyContainer
             >
 
                 <Typography
@@ -131,7 +132,7 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
                 >
                     {t("validate")}
                 </CustomButton>
-            </Stack>
+            </StickyContainer>
         </Stack>
     )
 }

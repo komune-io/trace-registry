@@ -10,6 +10,7 @@ import {CataloguesStructureRouter} from "./Structure/CataloguesStructureRouter/C
 import { CatalogueLinkPage } from "./SubCatalogue/CatalogueLinkPage/CatalogueLinkPage";
 import { ProtocolFillingPage } from "./Protocol/ProtocolFillingPage/ProtocolFillingPage";
 import { ProtocolVerificationPage } from "./Protocol/ProtocolVerificationPage/ProtocolVerificationPage";
+import { ProtocolsToValidateListPage } from "./Protocol/ProtocolsToValidateListPage/ProtocolsToValidateListPage";
 
 export const catalogPages: PageRoute[] = [
   {
@@ -71,5 +72,9 @@ export const catalogPages: PageRoute[] = [
   {
     path: "protocols/:protocolId/verify",
     element: <ProtocolVerificationPage />
+  },
+  {
+    path: "protocols/toVerify",
+    element: <ProtocolsToValidateListPage />
   }
 ]
