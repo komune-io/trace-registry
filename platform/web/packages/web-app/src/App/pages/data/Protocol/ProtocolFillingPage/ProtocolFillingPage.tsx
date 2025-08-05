@@ -6,14 +6,14 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { AutoForm, autoFormFormatter, BackAutoFormData, FormComposableState } from '@komune-io/g2'
-import { ReservedProtocolTypes, useProtocolGetQuery } from 'domain-components'
+import { AutoForm, autoFormFormatter, autoformValuesToCommand, BackAutoFormData, FormComposableState } from '@komune-io/g2'
+import { ReservedProtocolTypes, useCertificationFillCommand, useCertificationGetQuery, useProtocolGetQuery } from 'domain-components'
 import { DialogPage } from 'template'
 
 
 export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
-  const { catalogueId, draftId, tab, protocolId } = useParams()
+  const { catalogueId, draftId, tab, protocolId, certificationId } = useParams()
 
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
 
@@ -24,7 +24,7 @@ export const ProtocolFillingPage = () => {
       id: protocolId!,
     }
   }).data?.item
-  
+
   const formData = useMemo(() => {
     //@ts-ignore
     const form = protocol?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
@@ -32,11 +32,28 @@ export const ProtocolFillingPage = () => {
     return autoFormFormatter(form)
   }, [protocol])
 
+  const certificationQuery = useCertificationGetQuery({
+    query: {
+      id: certificationId!,
+    }
+  })
+
+  const certificationFill = useCertificationFillCommand({})
+
   const onSave = useCallback(
-    (formState: FormComposableState) => {
-      console.log(formState.values)
+    async (formState: FormComposableState) => {
+      if (formData) {
+        const command = autoformValuesToCommand(formData, formState.values)
+        await certificationFill.mutateAsync({
+          command: {
+            id: certificationId!,
+            values: command.command
+          },
+          files: command.files
+        })
+      }
     },
-    [],
+    [formData, certificationId],
   )
 
   const getFormActions = useCallback(
@@ -106,6 +123,8 @@ export const ProtocolFillingPage = () => {
           onSubmit={(_, values) => console.log("Form submitted with values:", values)}
           formData={formData}
           getFormActions={getFormActions}
+          initialValues={certificationQuery.data?.item?.values}
+          isLoading={certificationQuery.isLoading}
         />
 
       </Stack>

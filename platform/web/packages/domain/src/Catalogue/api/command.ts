@@ -331,3 +331,16 @@ export const useCatalogueClaimOwnershipCommand = (
         CatalogueClaimedOwnershipEvent
     >('data/catalogueClaimOwnership', requestProps, params)
 }
+
+export interface CatalogueStartCertificationCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueStartCertificationCommandDTO { }
+export interface CatalogueStartedCertificationEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueStartedCertificationEventDTO { }
+
+export const useCatalogueStartCertificationCommand = (
+    params: CommandParams<CatalogueStartCertificationCommand, CatalogueStartedCertificationEvent>
+) => {
+    const requestProps = useAuthenticatedRequest()
+    return useCommandRequest<
+        CatalogueStartCertificationCommand,
+        CatalogueStartedCertificationEvent
+    >('data/catalogueStartCertification', requestProps, params)
+}

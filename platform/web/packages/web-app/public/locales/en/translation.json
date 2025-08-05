@@ -473,7 +473,12 @@
       "data/datasetAddDistributionValue": "The indicator could not be created",
       "data/datasetReplaceDistributionValue": "The indicator could not be modified",
       "data/datasetRemoveDistributionValue": "The indicator could not be deleted",
-      "noDataset": "No dataset found"
+      "data/catalogueStartCertification": "The creation of the protocol could not be completed",
+      "data/catalogueStartCertificationFill": "The protocol form could not be created",
+      "data/catalogueCertificationFill": "The protocol form could not be saved",
+      "data/catalogueCertificationGet": "The protocol could not be retrieved",
+      "data/catalogueCertificationPage": "The list of protocols could not be retrieved",
+      "data/catalogueCertificationDelete": "The protocol could not be deleted"
     },
     "success": {
       "data/catalogueCreate": "The sheet has been successfully created",
@@ -494,7 +499,9 @@
       "indicatorBlockDeleted": "The indicator block has been successfully deleted",
       "data/datasetAddDistributionValue": "The indicator has been successfully created",
       "data/datasetReplaceDistributionValue": "The indicator modifications have been successfully saved",
-      "data/datasetRemoveDistributionValue": "The indicator has been successfully deleted"
+      "data/datasetRemoveDistributionValue": "The indicator has been successfully deleted",
+      "data/catalogueStartCertification": "The creation of the protocol has been successfully completed",
+      "control/certificationFill": "The protocol form has been successfully saved"
     }
   }
 }

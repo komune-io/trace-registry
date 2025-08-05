@@ -480,7 +480,12 @@
             "data/informationConceptGetGlobalValue": "Le compteur de CO2 économisées n'a pas pu être récupéré",
             "data/datasetAddDistributionValue": "L'indicateur n'a pas pu être créé",
             "data/datasetReplaceDistributionValue": "L'indicateur n'a pas pu être modifié",
-            "data/datasetRemoveDistributionValue": "L'indicateur n'a pas pu être supprimé"
+            "data/datasetRemoveDistributionValue": "L'indicateur n'a pas pu être supprimé",
+            "data/catalogueStartCertification": "La création du référentiel n'a pas pu être effectuée",
+            "control/certificationFill": "Le formulaire du référentiel n'a pas pu être sauvegardé",
+            "control/protocolGet": "Le référentiel n'a pas pu être récupéré",
+            "control/protocolPage": "La liste des référentiels n'a pas pu être récupérée",
+            "control/certificationGet": "Le référentiel n'a pas pu être récupéré"
         },
         "success": {
             "data/catalogueCreate": "La fiche a bien été créée",
@@ -502,7 +507,9 @@
             "indicatorBlockDeleted": "Le bloc d'indicateurs a bien été supprimé",
             "data/datasetAddDistributionValue": "L'indicateur a bien été créé",
             "data/datasetReplaceDistributionValue": "Les modifications de l'indicateur a bien été enregistrées",
-            "data/datasetRemoveDistributionValue": "L'indicateur a bien été supprimé"
+            "data/datasetRemoveDistributionValue": "L'indicateur a bien été supprimé",
+            "data/catalogueStartCertification": "La création du référentiel a bien été effectuée",
+            "control/certificationFill": "Le formulaire du référentiel a bien été sauvegardé"
         }
     }
 }

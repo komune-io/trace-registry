@@ -5,6 +5,7 @@ import { Stack, Typography } from "@mui/material";
 import { CustomButton, TmsPopUp, useRoutesDefinition } from "components";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProtocolPageQuery, useProtocolPageQuery } from "../../../Protocol";
+import { useCatalogueStartCertificationCommand } from "../../../Catalogue";
 
 
 export interface AddProtocolModalProps {
@@ -17,10 +18,12 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
     const { onClose, open, formData } = props
     const { catalogueId, draftId, tab } = useParams()
     const { t } = useTranslation()
-    const { cataloguesCatalogueIdDraftIdTabProtocolIdProtocol } = useRoutesDefinition()
+    const { cataloguesCatalogueIdDraftIdTabProtocolIdCertificationIdProtocol } = useRoutesDefinition()
     const navigate = useNavigate()
 
     const [filters, setFilters] = useState<ProtocolPageQuery | undefined>(undefined)
+
+    const startCertification = useCatalogueStartCertificationCommand({})
 
 
     const protocols = useProtocolPageQuery({
@@ -33,9 +36,15 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
         }
     })
 
-    const onSubmit = useCallback((_: CommandWithFile<any>, values: any) => {
-        navigate(cataloguesCatalogueIdDraftIdTabProtocolIdProtocol(catalogueId!, draftId!, tab!, values.protocolId))
-        onClose();
+    const onSubmit = useCallback(async (_: CommandWithFile<any>, values: any) => {
+        const res = await startCertification.mutateAsync({
+            id: catalogueId!,
+            protocolId: values.protocolId
+        })
+        if (res) {
+            navigate(cataloguesCatalogueIdDraftIdTabProtocolIdCertificationIdProtocol(catalogueId!, draftId!, tab!, values.protocolId, res.certificationId))
+            onClose();
+        }
     }, [onClose, catalogueId, draftId, tab])
 
     const formState = useAutoFormState({
