@@ -80,8 +80,8 @@ class RequirementRepository(
 
         session.query(query, mapOf("type" to type)).let { result ->
             val requirements = result.map { it["requirement"] as Requirement }
-            val totalCount = result.firstOrNull()?.get("totalCount") as? Int ?: 0
-            Page(items = requirements, total = totalCount)
+            val totalCount = result.firstOrNull()?.get("totalCount") as? Long ?: 0
+            Page(items = requirements, total = totalCount.toInt())
         }
     }
 }
