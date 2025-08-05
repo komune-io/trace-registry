@@ -64,8 +64,8 @@ class CertificationEndpoint(
         logger.info("certificationFill: $command")
 
         @Suppress("UNCHECKED_CAST")
-        val evidences = parts.mapValues { (_, potentialFiles) ->
-            potentialFiles.firstNotNullOfOrNull { it as? FilePart }
+        val evidences = parts.mapValues { (key, potentialFiles) ->
+            potentialFiles.firstNotNullOfOrNull { it as? FilePart }.takeIf { key != "command" }
         }.filterValues { file -> file != null } as Map<EvidenceTypeIdentifier, FilePart>
 
         // TODO certificationPoliciesEnforcer.checkFill()
