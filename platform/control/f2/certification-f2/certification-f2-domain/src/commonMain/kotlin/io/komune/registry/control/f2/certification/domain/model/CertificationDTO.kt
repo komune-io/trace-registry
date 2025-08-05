@@ -20,6 +20,7 @@ interface CertificationDTO {
     val evidences: Map<EvidenceTypeIdentifier, String?>
     val status: String // TODO
     val creator: UserRefDTO?
+    val creatorOrganization: OrganizationRefDTO?
     val validator: UserRefDTO?
     val validatorOrganization: OrganizationRefDTO?
     val rejectReason: String?
@@ -36,6 +37,7 @@ data class CertificationDTOBase(
     override val evidences: Map<EvidenceTypeIdentifier, String?>,
     override val status: String, // TODO
     override val creator: UserRef?,
+    override val creatorOrganization: OrganizationRef?,
     override val validator: UserRef?,
     override val validatorOrganization: OrganizationRef?,
     override val rejectReason: String?,
