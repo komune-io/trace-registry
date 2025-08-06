@@ -155,8 +155,7 @@ class CatalogueI18nService(
             indicators = translated.metadataDatasetId?.let { cache.datasets.get(it).toDTOCached(draft) }
                 ?.extractAggregators()
                 .orEmpty(),
-            certifications = translated.certificationIds
-                .mapNotNull { certificationF2FinderService.getRefOrNull(it) }
+            certifications = certificationF2FinderService.listRefs(translated.certificationIds)
         )
     }
 

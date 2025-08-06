@@ -1,6 +1,8 @@
 package io.komune.registry.control.core.cccev.certification.entity
 
 import io.komune.registry.s2.commons.model.CertificationId
+import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.UserId
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -21,6 +23,10 @@ class Certification {
 
     @Version
     var version: Long? = null
+
+    var creatorUserId: UserId? = null
+
+    var creatorOrganizationId: OrganizationId? = null
 
     var creationDate: Long = System.currentTimeMillis()
 }

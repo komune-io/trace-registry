@@ -20,3 +20,13 @@ export const useProtocolGetQuery = (params: QueryParams<ProtocolGetQuery, Protoc
     "control/protocolGet", requestProps, params
   )
 }
+
+export interface CertificationGetQuery extends io.komune.registry.control.f2.certification.domain.query.CertificationGetQueryDTO { }
+export interface CertificationGetResult extends io.komune.registry.control.f2.certification.domain.query.CertificationGetResultDTO { }
+
+export const useCertificationGetQuery = (params: QueryParams<CertificationGetQuery, CertificationGetResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<CertificationGetQuery, CertificationGetResult>(
+    "control/certificationGet", requestProps, params
+  )
+}

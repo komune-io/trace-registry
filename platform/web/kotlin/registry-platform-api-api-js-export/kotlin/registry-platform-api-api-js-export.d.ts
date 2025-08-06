@@ -3445,6 +3445,7 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly evidences: Record<string, Nullable<string>>;
         readonly status: string;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly validatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly rejectReason?: string;
@@ -3458,6 +3459,8 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly id: string;
         readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolRefDTO;
         readonly completionRate: number;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
 
     }
 }

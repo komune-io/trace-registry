@@ -27,15 +27,19 @@ class CertificationRepository(
 
     suspend fun findByIdWithRootRequirements(
         id: CertificationId
-    ): Certification? = sessionFactory.session { session ->
-        session.queryForObject(
-            Certification::class.java,
-            "MATCH (c:${Certification.LABEL} {id: \$id})" +
+    ): Certification? = findAllByIdWithRootRequirements(listOf(id)).firstOrNull()
+
+    suspend fun findAllByIdWithRootRequirements(
+        ids: Collection<CertificationId>
+    ): List<Certification> = sessionFactory.session { session ->
+        session.query(
+            "MATCH (c:${Certification.LABEL})" +
                     "-[isCertifiedBy:${Certification.IS_CERTIFIED_BY}]->(rc:${RequirementCertification.LABEL})" +
                     "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
+                    "\nWHERE c.id IN \$ids" +
                     "\nRETURN c, collect(isCertifiedBy), collect(rc), collect(certifies), collect(r)",
-            mapOf("id" to id)
-        )
+            mapOf("ids" to ids)
+        ).map { it["c"] as Certification }
     }
 
     suspend fun findRequirementCertificationById(

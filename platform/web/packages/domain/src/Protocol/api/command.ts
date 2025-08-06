@@ -6,15 +6,15 @@ import {
     useCommandWithFileRequest
 } from "@komune-io/g2"
 
-export interface CatalogueCreateCommand extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTO { }
-export interface CatalogueCreatedEvent extends io.komune.registry.f2.catalogue.domain.command.CatalogueCreatedEventDTO { }
+export interface CertificationFillCommand extends io.komune.registry.control.f2.certification.domain.command.CertificationFillCommandDTO { }
+export interface CertificationFilledEvent extends io.komune.registry.control.f2.certification.domain.command.CertificationFilledEventDTO { }
 
-export const useCatalogueCreateCommand = (
-    params: CommandParams<CommandWithFile<CatalogueCreateCommand>, CatalogueCreatedEvent>
+export const useCertificationFillCommand = (
+    params: CommandParams<CommandWithFile<CertificationFillCommand>, CertificationFilledEvent>
 ) => {
     const requestProps = useAuthenticatedRequest()
     return useCommandWithFileRequest<
-        CatalogueCreateCommand,
-        CatalogueCreatedEvent
-    >('data/catalogueCreate', requestProps, params)
+        CertificationFillCommand,
+        CertificationFilledEvent
+    >('control/certificationFill', requestProps, params)
 }

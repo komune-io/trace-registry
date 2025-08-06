@@ -3,6 +3,7 @@ package io.komune.registry.control.core.cccev.certification
 import f2.spring.exception.NotFoundException
 import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.toUploadCommand
+import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddEvidenceCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddRequirementsCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddedEvidenceEvent
@@ -45,9 +46,13 @@ class CertificationAggregateService(
                 ?: throw NotFoundException("Requirement", requirementId)
         }
 
+        val authedUser = AuthenticationProvider.getAuthedUser()
+
         val certification = Certification().apply {
             id = UUID.randomUUID().toString()
             requirementCertifications = requirements.map { it.toEmptyCertification() }.toMutableList()
+            creatorUserId = authedUser?.id
+            creatorOrganizationId = authedUser?.memberOf
         }
 
         certificationRepository.save(certification)

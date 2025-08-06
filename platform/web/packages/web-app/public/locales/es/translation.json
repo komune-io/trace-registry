@@ -473,7 +473,12 @@
       "data/informationConceptGetGlobalValue": "No se pudo recuperar el contador de CO2 ahorrado",
       "data/datasetAddDistributionValue": "No se pudo crear el indicador",
       "data/datasetReplaceDistributionValue": "No se pudo modificar el indicador",
-      "data/datasetRemoveDistributionValue": "No se pudo eliminar el indicador"
+      "data/datasetRemoveDistributionValue": "No se pudo eliminar el indicador",
+      "data/catalogueStartCertification": "No se pudo crear el referencial",
+      "control/certificationFill": "No se pudo guardar el formulario del referencial",
+      "control/protocolGet": "No se pudo recuperar el referencial",
+      "control/protocolPage": "No se pudo recuperar la lista de referenciales",
+      "control/certificationGet": "No se pudo recuperar el referencial"
     },
     "success": {
       "data/catalogueCreate": "La ficha ha sido creada correctamente",
@@ -494,7 +499,9 @@
       "indicatorBlockDeleted": "El bloque de indicadores ha sido eliminado correctamente",
       "data/datasetAddDistributionValue": "El indicador ha sido creado correctamente",
       "data/datasetReplaceDistributionValue": "Las modificaciones del indicador han sido guardadas correctamente",
-      "data/datasetRemoveDistributionValue": "El indicador ha sido eliminado correctamente"
+      "data/datasetRemoveDistributionValue": "El indicador ha sido eliminado correctamente",
+      "data/catalogueStartCertification": "La creación del referencial ha sido realizada correctamente",
+      "control/certificationFill": "El formulario del referencial ha sido guardado correctamente"
     }
   }
 }

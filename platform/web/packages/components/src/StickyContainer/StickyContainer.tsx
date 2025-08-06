@@ -1,5 +1,5 @@
 import { Stack, StackProps } from '@mui/material'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export interface StickyContainerProps extends StackProps {
     bottomStick?: number
@@ -10,13 +10,10 @@ export const StickyContainer = (props: StickyContainerProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const [isAtInitialPosition, setIsAtInitialPosition] = useState(true);
 
-    useEffect(() => {
-        const scrollContainer = document.querySelector('.scroll-container') as HTMLElement | null;
-        
-        if (scrollContainer) {
-            const isScrollable = scrollContainer.scrollHeight > scrollContainer.clientHeight;
-            setIsAtInitialPosition(!isScrollable);
-        }
+    useLayoutEffect(() => {
+        if (!ref.current) return
+            const rect = ref.current.getBoundingClientRect()
+            setIsAtInitialPosition(rect.bottom < window.innerHeight - bottomStick)
     }, [])
 
     useEffect(() => {
