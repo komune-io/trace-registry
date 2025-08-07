@@ -3,7 +3,7 @@ import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { autoFormFormatter, BackAutoFormData, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { config, defaultCatalogueImg, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
+import { Badge, config, defaultCatalogueImg, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber } from '../../api'
 import { useTranslation } from 'react-i18next'
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
@@ -106,13 +106,23 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
                 </Box>
             )}
             <Stack
-                gap={1}
+                gap={2}
             >
-                <Typography
-                    variant='h5'
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    flexWrap={"wrap"}
+                    gap={3}
                 >
-                    {title}
-                </Typography>
+                    <Typography
+                        variant='h5'
+                    >
+                        {title}
+                    </Typography>
+                    <Badge label={"Finance V1"} value={85} />
+                    <Badge label={"Numérique V1"} value={60} />
+                    <Badge label={"Blbl V1"} value={50} />
+                </Stack>
                 <Stack
                     direction="row"
                     alignItems="center"

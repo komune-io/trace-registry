@@ -1,9 +1,9 @@
 import { getIn, Router } from "@komune-io/g2";
-import { Navigate, Route, useLocation } from "react-router-dom";
-import { Routes, strictRoutesAuthorizations, useExtendedAuth } from "components";
+import { Navigate, Route } from "react-router-dom";
+import { Routes, strictRoutesAuthorizations, useExtendedAuth, usePreviousLocation } from "components";
 import { App } from "App";
 import { registryPages } from "App/pages/router";
-import { useEffect, useMemo, useRef } from "react"
+import { useMemo } from "react"
 import { catalogPages } from "App/pages/data";
 import { NoMatch } from "./NoMatch";
 
@@ -12,12 +12,7 @@ const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 export const AppRouter = () => {
   const pages = useMemo(() => allPages.map((page) => GenerateRoute(page)), [])
 
-  const location = useLocation();
-  const prevLocation = useRef(location);
-
-  useEffect(() => {
-    prevLocation.current = location;
-  }, [location]);
+  const prevLocation = usePreviousLocation()
 
   return (
     <Router>

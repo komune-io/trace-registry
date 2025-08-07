@@ -60,6 +60,9 @@ export const App = () => {
           bgcolor: 'background.default',
         }
       }}
+      classes= {{
+        main: "scroll-container"
+      }}
     >
       <Outlet />
       <Footer />

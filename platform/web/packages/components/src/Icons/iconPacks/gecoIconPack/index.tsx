@@ -1,4 +1,4 @@
-import {SearchRounded, DoneRounded, FolderOpen, Settings, LogoutRounded, DeleteRounded, ContentPaste} from "@mui/icons-material"
+import {SearchRounded, DoneRounded, FolderOpen, Settings, LogoutRounded, DeleteRounded, ContentPaste, BurstModeRounded, Fingerprint, PlaylistAddCheckRounded, Place} from "@mui/icons-material"
 import { SvgIconProps } from '@mui/material';
 import { IconComponent } from "..";
 
@@ -10,6 +10,10 @@ export const iconPackSrcGeco = {
     outArrow: LogoutRounded,
     trash: DeleteRounded,
     folder: FolderOpen,
+    presentation: BurstModeRounded,
+    identity: Fingerprint,
+    activity: PlaylistAddCheckRounded,
+    location: Place 
 } as const
 
 type IconPackGeco  = Record<keyof typeof iconPackSrcGeco, IconComponent>;
