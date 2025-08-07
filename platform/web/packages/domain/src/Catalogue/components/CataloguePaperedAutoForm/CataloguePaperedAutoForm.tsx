@@ -52,6 +52,23 @@ export const CataloguePaperedAutoForm = (props: CataloguePaperedAutoFormProps) =
                                 display={section.display}
                                 gridColumnNumber={section.gridColumnNumber}
                                 orientation={section.orientation}
+                                fieldsStackProps={{
+                                    sx: {
+                                        gap: 4,
+                                        "& .autoCompleteField .MuiAutocomplete-popupIndicator": {
+                                            transform: "none !important"
+                                        }
+                                    }
+                                }}
+                                sx={{
+                                    "& .AruiDropzone-root": {
+                                        height: "204px",
+                                        width: "204px !important"
+                                    },
+                                    "& .AruiForm-fieldsContainer": {
+                                        gridTemplateColumns: section?.properties?.disableGridTemplate ? "1fr" : undefined,
+                                    }
+                                }}
                             />
                         </Paper>
                     )

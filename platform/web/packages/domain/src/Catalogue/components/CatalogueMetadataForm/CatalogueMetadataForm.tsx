@@ -236,6 +236,10 @@ export const CatalogueMetadataForm = (props: CatalogueMetadataFormProps) => {
                 formState={formState ?? localFormState}
             />
             {!formState && <StickyContainer
+            sx={{
+                width: "fit-content",
+                alignSelf: "flex-end",
+            }}
             >
                 <CustomButton
                     onClick={localFormState.submitForm}

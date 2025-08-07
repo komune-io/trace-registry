@@ -7,7 +7,8 @@
       "description": "Une courte présentation pour situer l’organisation dans son contexte et sa mission.",
       "display": "grid",
       "properties": {
-        "icon": "presentation"
+        "icon": "presentation",
+        "disableGridTemplate": true
       },
       "fields": [
         {
