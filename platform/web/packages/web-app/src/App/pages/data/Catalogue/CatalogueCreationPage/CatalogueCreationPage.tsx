@@ -1,11 +1,12 @@
 import { autoFormFormatter, BackAutoFormData, CommandWithFile } from '@komune-io/g2'
 import { useQueryClient } from '@tanstack/react-query'
-import { TitleDivider, useRoutesDefinition } from 'components'
+import { useRoutesDefinition } from 'components'
 import { CatalogueMetadataForm, useCatalogueCreateCommand, useCatalogueGetStructureQuery, useCatalogueRefGetTreeQuery } from 'domain-components'
 import { useCallback, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppPage } from 'template'
+import form from "./autoForm.json"
 
 export const CatalogueCreationPage = () => {
   const { type } = useParams()
@@ -36,13 +37,13 @@ export const CatalogueCreationPage = () => {
     } 
   }, [createButtonStruture, type])
   
-  const formData = useMemo(() => structure.data?.item?.creationForm ? autoFormFormatter(structure.data?.item?.creationForm as BackAutoFormData) : undefined, [structure.data?.item])
+  const formData = useMemo(() => type === "organization" ? autoFormFormatter(form as BackAutoFormData) : structure.data?.item?.creationForm ? autoFormFormatter(structure.data?.item?.creationForm as BackAutoFormData) : undefined, [structure.data?.item])
 
   const queryClient = useQueryClient()
 
   const createCommand = useCatalogueCreateCommand({})
 
-  const title = formData?.sections[0].label ?? ""
+  const title = formData?.label ?? formData?.sections[0]?.label ?? ""
 
   const onCreate = useCallback(
     async (command: CommandWithFile<any>) => {
@@ -71,7 +72,6 @@ export const CatalogueCreationPage = () => {
       bgcolor='background.default'
       maxWidth={1080}
     >
-      <TitleDivider title={title} />
       <CatalogueMetadataForm formData={formData} onSubmit={onCreate} type={type!} />
     </AppPage>
   )

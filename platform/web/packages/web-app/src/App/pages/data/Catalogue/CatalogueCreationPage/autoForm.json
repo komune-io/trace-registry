@@ -1,37 +1,34 @@
 {
+  "label": "Création d'une organisation",
   "sections": [
     {
-      "id": "create project",
-      "label": "Création d'un projet",
+      "id": "section_0",
+      "label": "Présentation de l’organisation",
+      "description": "Une courte présentation pour situer l’organisation dans son contexte et sa mission.",
+      "display": "grid",
+      "properties": {
+        "icon": "presentation"
+      },
       "fields": [
         {
           "name": "title",
           "type": "textField",
-          "label": "Titre",
+          "label": "Nom de l'organisation",
           "required": true,
           "conditions": [
             {
               "type": "display",
               "expression": "#context == 'creation'"
             }
-          ]
-        },
-        {
-          "name": "parentId",
-          "type": "autoComplete-parents",
-          "label": "Fiche parente",
+          ],
           "properties": {
-            "filters": {
-              "type": "100m-project"
-            }
-          },
-          "required": true
+            "fullRow": true
+          }
         },
         {
           "name": "description",
           "type": "textField",
-          "label": "Description",
-          "required": true,
+          "label": "Description courte",
           "properties": {
             "multiline": true,
             "rows": 7
@@ -39,81 +36,82 @@
         },
         {
           "name": "img",
-          "type": "documentHandler",
-          "label": "Illustration (optionnel)",
-          "properties": {
-            "fileTypesAllowed": [
-              "png",
-              "jpeg",
-              "svg"
-            ]
-          }
-        },
+          "type": "dropPicture",
+          "label": "Illustration (facultatif)"
+        }
+      ]
+    },
+    {
+      "id": "section_1",
+      "label": "Identité de l’organisation",
+      "description": "Ces infos permettent d’identifier l’organisation et de la relier à des données externes (INSEE, LinkedIn…).",
+      "properties": {
+        "icon": "identity"
+      },
+      "fields": [
         {
-          "name": "themes",
-          "type": "select-themes",
-          "label": "Catégorie",
-          "properties": {
-            "filters": {
-              "type": "100m-project"
-            }
-          },
-          "required": true
-        },
-        {
-          "name": "location.country",
+          "name": "indicators.siret[0]",
           "type": "textField",
-          "label": "Pays",
-          "required": true
+          "label": "SIRET"
         },
         {
-          "name": "location.region",
+          "name": "indicators.website[0]",
           "type": "textField",
-          "label": "Region (optionnel)"
+          "label": "Site web"
         },
         {
-          "name": "stakeholder",
+          "name": "indicators.linkedin-url[0]",
           "type": "textField",
-          "label": "Porteur du projet",
-          "required": true
-        },
+          "label": "LinkedIn"
+        }
+      ]
+    },
+    {
+      "id": "section_2",
+      "label": "Activités de l’organisation",
+      "description": "Décrivez ce que fait concrètement l’organisation : secteurs, services, expertise.",
+      "properties": {
+        "icon": "activity"
+      },
+      "fields": [
         {
-          "name": "relatedCatalogues.planetaryLimits",
+          "name": "relatedCatalogues.sectors",
           "type": "autoComplete-catalogues",
-          "label": "Limites planétaires",
-          "required": true,
+          "label": "Secteurs d'activité",
           "properties": {
             "multiple": true,
-            "filters": {
-              "type": [
-                "100m-planetary-boundary"
-              ]
-            }
+            "filters": "{ \"type\": [ \"tag-sector\" ], \"limit\": 100 }"
           }
         },
         {
-          "name": "accessRights",
-          "type": "select",
-          "label": "Accès",
+          "name": "relatedCatalogues.services",
+          "type": "autoComplete-catalogues",
+          "label": "Services",
           "properties": {
-            "options": [
-              {
-                "key": "PUBLIC",
-                "label": "Public"
-              },
-              {
-                "key": "PRIVATE",
-                "label": "Privé"
-              }
-            ]
-          },
-          "required": true
+            "multiple": true,
+            "filters": "{ \"type\": [ \"tag-service\" ], \"limit\": 100 }"
+          }
+        }
+      ]
+    },
+    {
+      "id": "section_3",
+      "label": "Localisation",
+      "description": "On vous situe sur la carte ! Ces données sont utilisées pour les visualisations et les filtres territoriaux.",
+      "display": "grid",
+      "properties": {
+        "icon": "location"
+      },
+      "fields": [
+        {
+          "name": "indicators.headquarters[0]",
+          "type": "textField",
+          "label": "Ville du siège"
         },
         {
-          "name": "license",
-          "type": "select-license",
-          "label": "Licence",
-          "required": true
+          "name": "indicators.country[0]",
+          "type": "textField",
+          "label": "Pays du siège"
         }
       ]
     }

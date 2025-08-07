@@ -3,10 +3,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export interface StickyContainerProps extends StackProps {
     bottomStick?: number
+    alwaysElevated?: boolean
 }
 
 export const StickyContainer = (props: StickyContainerProps) => {
-    const { children, sx, bottomStick = 70, ...rest } = props
+    const { children, sx, bottomStick = 70, alwaysElevated = false, ...rest } = props
     const ref = useRef<HTMLDivElement>(null);
     const [isAtInitialPosition, setIsAtInitialPosition] = useState(true);
 
@@ -39,10 +40,10 @@ export const StickyContainer = (props: StickyContainerProps) => {
             sx={{
                 position: "sticky",
                 bottom: `-${bottomStick}px`,
-                backdropFilter: !isAtInitialPosition ? "blur(15px)" : undefined,
+                backdropFilter: !isAtInitialPosition || alwaysElevated ? "blur(15px)" : undefined,
                 padding: 2,
                 borderRadius: 1,
-                boxShadow: !isAtInitialPosition ? 1 : undefined,
+                boxShadow: !isAtInitialPosition || alwaysElevated ? 1 : undefined,
                 zIndex: 11,
                 transition: "0.3s",
                 ...sx,
