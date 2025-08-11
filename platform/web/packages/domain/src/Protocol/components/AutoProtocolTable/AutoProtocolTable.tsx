@@ -48,7 +48,7 @@ export const AutoProtocolTable = (props: AutoProtocolTableProps) => {
             {((!page?.items || page?.items.length === 0) && !isLoading) ?
                 <>
                     {header}
-                    <Typography align="center" sx={{ marginTop: "32px" }}>{t("protocols.noData")}</Typography>
+                    <Typography align="center" sx={{ marginTop: "32px" }}>{t("protocol.noData")}</Typography>
                 </>
                 :
                 <OffsetTable<Certification | CertificationRef>

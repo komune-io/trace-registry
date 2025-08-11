@@ -179,6 +179,7 @@
   "consultSheet": "Consultar la ficha",
   "protocolsToValidate": "Referenciales a validar",
   "badges": "Insignias",
+  "protocols": "Referenciales",
   "roles": {
     "super_admin": "Administrador global",
     "admin": "Administrador",
@@ -429,10 +430,11 @@
     "completedProtocolTitle": "🎉 ¡Referencial completado con éxito!",
     "completedProtocolDescription": "Su entrada ha sido registrada correctamente.\n\nAhora será enviada a un experto para su validación.\n\nEste paso garantiza la fiabilidad de los datos y asegura una evaluación justa en el marco del mapeo.",
     "unvalidatedProtocol": "Uno o varios referenciales que ha enviado no han sido validados.",
-    "unvalidateProtocolDetails": "El validador ha dejado comentarios para ayudarle a corregir los puntos bloqueantes.\nAbra el referencial correspondiente para consultar los comentarios, realizar los cambios necesarios y volver a enviarlo.",
+    "unvalidatedProtocolDetails": "El validador ha dejado comentarios para ayudarle a corregir los puntos bloqueantes.\nAbra el referencial correspondiente para consultar los comentarios, realizar los cambios necesarios y volver a enviarlo.",
     "validatorComment": "💬 Comentario del validador",
     "protocolTitle": "Referencial: {{name}}",
-    "protocolFillingTitle": "Ingreso del referencial: {{name}}"
+    "protocolFillingTitle": "Ingreso del referencial: {{name}}",
+    "noData": "No se encontró ningún referencial"
   },
   "lang": {
     "fr": "Francés",
@@ -500,8 +502,7 @@
       "data/datasetAddDistributionValue": "El indicador ha sido creado correctamente",
       "data/datasetReplaceDistributionValue": "Las modificaciones del indicador han sido guardadas correctamente",
       "data/datasetRemoveDistributionValue": "El indicador ha sido eliminado correctamente",
-      "data/catalogueStartCertification": "La creación del referencial ha sido realizada correctamente",
-      "control/certificationFill": "El formulario del referencial ha sido guardado correctamente"
+      "data/catalogueStartCertification": "La creación del referencial ha sido realizada correctamente"
     }
   }
 }

@@ -1,19 +1,22 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
-
-import { useCallback, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { AutoForm, autoFormFormatter, autoformValuesToCommand, BackAutoFormData, FormComposableState } from '@komune-io/g2'
+import { autoFormFormatter, autoformValuesToCommand, BackAutoFormData, FormComposableState, FormSection, useAutoFormState } from '@komune-io/g2'
 import { ReservedProtocolTypes, useCertificationFillCommand, useCertificationGetQuery, useProtocolGetQuery } from 'domain-components'
 import { DialogPage } from 'template'
+import { useDebouncedCallback } from '@mantine/hooks'
 
 
 export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, tab, protocolId, certificationId } = useParams()
+
+  const [isInit, setIsInit] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
 
@@ -40,8 +43,7 @@ export const ProtocolFillingPage = () => {
 
   const certificationFill = useCertificationFillCommand({})
 
-  const onSave = useCallback(
-    async (formState: FormComposableState) => {
+   const saveLexicalDistribution = useDebouncedCallback(async (formState: FormComposableState) => {
       if (formData) {
         const command = autoformValuesToCommand(formData, formState.values)
         await certificationFill.mutateAsync({
@@ -51,41 +53,46 @@ export const ProtocolFillingPage = () => {
           },
           files: command.files
         })
+        setIsSaving(false)
       }
-    },
-    [formData, certificationId],
-  )
+    }, 500)
 
-  const getFormActions = useCallback(
-    (formState: FormComposableState) => {
+  const sectionsType = formData?.sectionsType ?? 'default'
+
+  const formState = useAutoFormState({
+    onSubmit: (_, values) => console.log("Form submitted with values:", values),
+    initialValues: certificationQuery.data?.item?.values,
+    isLoading: certificationQuery.isLoading
+  })
+
+  
+  useEffect(() => {
+    if (certificationQuery.data?.item) {
+      setIsInit(true)
+    }
+  }, [formState.values])
+
+  useEffect(() => {
+    if (isInit) {
+      setIsSaving(true)
+      saveLexicalDistribution(formState)
+    }
+  }, [formState.values])
+  
+
+  const formSectionsDisplay = useMemo(() => {
+    return formData?.sections.map((section) => {
       return (
-        <StickyContainer
-          sx={{
-            width: "fit-content",
-            alignSelf: "flex-end",
-          }}
-        >
-          <CustomLinkButton
-            variant="text"
-            to={goBackUrl}
-          >
-            {t("cancel")}
-          </CustomLinkButton>
-          <CustomButton
-            onClick={() => onSave(formState)}
-          >
-            {t("save")}
-          </CustomButton>
-          <CustomButton
-            onClick={formState.submitForm}
-          >
-            {t("submitForValidation")}
-          </CustomButton>
-        </StickyContainer>
+        <FormSection
+          key={section.id}
+          section={section}
+          formState={formState}
+          sectionsType={sectionsType}
+        />
       )
-    },
-    [goBackUrl, onSave],
-  )
+    })
+  }, [formData, formState, sectionsType])
+
 
   return (
     <DialogPage
@@ -124,14 +131,26 @@ export const ProtocolFillingPage = () => {
           title={t("protocol.validatorComment")}
           comment="Certaines informations déclarées sont incomplètes ou manquent de précision, notamment sur la part d’activité liée à l’offre climat.\nMerci d’apporter des éléments plus concrets ou de joindre une preuve (rapport, lien, etc.).\n\nUne fois corrigé, vous pourrez soumettre à nouveau ce référentiel."
         />
-        <AutoForm
-          onSubmit={(_, values) => console.log("Form submitted with values:", values)}
-          formData={formData}
-          getFormActions={getFormActions}
-          initialValues={certificationQuery.data?.item?.values}
-          isLoading={certificationQuery.isLoading}
-        />
-
+        {formSectionsDisplay}
+        <StickyContainer
+          sx={{
+            width: "fit-content",
+            alignSelf: "flex-end",
+          }}
+        >
+          <CustomLinkButton
+            variant="text"
+            to={goBackUrl}
+          >
+            {t("cancel")}
+          </CustomLinkButton>
+          <CustomButton
+            onClick={formState.submitForm}
+            isLoading={isSaving}
+          >
+            {t("submitForValidation")}
+          </CustomButton>
+        </StickyContainer>
       </Stack>
     </DialogPage>
   )
