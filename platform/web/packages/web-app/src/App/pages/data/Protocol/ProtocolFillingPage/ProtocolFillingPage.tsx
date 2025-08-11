@@ -59,7 +59,12 @@ export const ProtocolFillingPage = () => {
   const getFormActions = useCallback(
     (formState: FormComposableState) => {
       return (
-        <StickyContainer>
+        <StickyContainer
+          sx={{
+            width: "fit-content",
+            alignSelf: "flex-end",
+          }}
+        >
           <CustomLinkButton
             variant="text"
             to={goBackUrl}
