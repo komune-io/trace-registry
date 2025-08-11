@@ -1,4 +1,4 @@
-export * from "./DraftProtocolPage"
+export * from "./DraftCertificationPage"
 export * from "./CreateDraftButton"
 export * from "./ContributionModal"
 export * from "./DraftAddProtocolButton"

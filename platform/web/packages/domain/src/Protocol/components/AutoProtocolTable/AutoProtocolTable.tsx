@@ -1,23 +1,25 @@
 import { Typography } from '@mui/material'
-import { ProgressIndicator, TableComposable, useTableComposable } from '@komune-io/g2'
+import { G2Row, ProgressIndicator, TableComposable, useTableComposable } from '@komune-io/g2'
 import { OnChangeFn, RowSelectionState } from '@tanstack/react-table'
 import { OffsetPagination, OffsetTable, OffsetTableProps, PageQueryResult } from "template"
 import { useTranslation } from 'react-i18next'
-import { Protocol } from '../../model'
+import { Certification, CertificationRef } from '../../model'
 import { TableCellBadge } from './TableCellBadge'
+import { LinkProps } from 'react-router-dom'
 
 const extendingColumns = {
-  progress: ProgressIndicator,
-  badge: TableCellBadge
+    progress: ProgressIndicator,
+    badge: TableCellBadge
 }
 
-export interface AutoProtocolTableProps extends Partial<OffsetTableProps<Protocol>> {
+export interface AutoProtocolTableProps extends Partial<OffsetTableProps<Certification | CertificationRef>> {
     onOffsetChange?: (newOffset: OffsetPagination) => void
-    page?: PageQueryResult<Protocol>
+    page?: PageQueryResult<Certification | CertificationRef>
     pagination?: OffsetPagination
     isLoading?: boolean
     onRowSelectionChange?: OnChangeFn<RowSelectionState>
-    tableComposable?: TableComposable<Protocol>
+    tableComposable?: TableComposable<Certification | CertificationRef>
+    getRowLink?: (row: G2Row<Certification | CertificationRef>) => LinkProps
 }
 
 export const AutoProtocolTable = (props: AutoProtocolTableProps) => {
@@ -29,11 +31,12 @@ export const AutoProtocolTable = (props: AutoProtocolTableProps) => {
         sx,
         header,
         tableComposable,
+        getRowLink,
         ...other
     } = props
     const { t } = useTranslation()
 
-    const tableState = useTableComposable<Protocol>({
+    const tableState = useTableComposable<Certification | CertificationRef>({
         tableComposable,
         extendingColumns,
         data: page?.items ?? [],
@@ -48,7 +51,7 @@ export const AutoProtocolTable = (props: AutoProtocolTableProps) => {
                     <Typography align="center" sx={{ marginTop: "32px" }}>{t("protocols.noData")}</Typography>
                 </>
                 :
-                <OffsetTable<Protocol>
+                <OffsetTable<Certification | CertificationRef>
                     {...other}
                     header={header}
                     tableState={tableState}
@@ -56,6 +59,7 @@ export const AutoProtocolTable = (props: AutoProtocolTableProps) => {
                     pagination={pagination}
                     onOffsetChange={onOffsetChange}
                     isLoading={isLoading}
+                    getRowLink={getRowLink}
                 />
             }
         </>
