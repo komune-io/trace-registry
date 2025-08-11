@@ -11,8 +11,6 @@ export const StickyContainer = (props: StickyContainerProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const [isAtInitialPosition, setIsAtInitialPosition] = useState(true);
 
-    console.log(isAtInitialPosition)
-
     useLayoutEffect(() => {
         if (!ref.current) return
             const rect = ref.current.getBoundingClientRect()
@@ -23,12 +21,10 @@ export const StickyContainer = (props: StickyContainerProps) => {
         const handleScroll = () => {
             if (!ref.current) return
             const rect = ref.current.getBoundingClientRect()
-            console.log(rect.bottom, window.innerHeight - bottomStick)
             setIsAtInitialPosition(rect.bottom < window.innerHeight - bottomStick)
         }
         const scrollContainers = document.querySelectorAll('.scroll-container')
         const scrollContainer = scrollContainers[scrollContainers.length - 1] as HTMLElement | null;
-        console.log("scrollContainer", scrollContainer)
         scrollContainer?.addEventListener('scroll', handleScroll, { passive: true })
         handleScroll()
         return () => scrollContainer?.removeEventListener('scroll', handleScroll)

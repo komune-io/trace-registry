@@ -46,7 +46,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       }
       return undefined
     }) ?? []).filter(Boolean) as Tab[],
-    ...maybeAddItem<Tab>(!!draft?.catalogue.certifications, {
+    ...maybeAddItem<Tab>(!!draft?.catalogue.certifications && draft?.catalogue.certifications.length > 0, {
       key: 'certifications',
       label: t('protocols'),
       component: <DraftCertificationPage draft={draft} isLoading={isLoading} />,
