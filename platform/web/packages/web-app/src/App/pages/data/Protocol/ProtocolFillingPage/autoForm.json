@@ -70,25 +70,30 @@
           ]
         },
         {
-          "name": "climateActivityPercentage",
-          "type": "textField",
+          "name": "climateActivityPart",
+          "type": "select",
           "label": "Pourcentage d’activité offre climat",
           "properties": {
-            "description": "Proportion de votre activité directement liée à des produits ou services ayant un impact positif sur le climat.",
-            "caption": "Indiquez un pourcentage entre 0 et 100. Si votre activité n'est pas liée au climat, indiquez 0.",
-            "textFieldType": "number"
+            "options": [
+                {
+                  "key": "0-50",
+                  "label": "0 - 50%"
+                },
+                {
+                  "key": "50-70",
+                  "label": "50 - 70%"
+                },
+                {
+                  "key": "70-90",
+                  "label": "70 - 90%"
+                },
+                {
+                  "key": "90-100",
+                  "label": "90 - 100%"
+                }
+              ]
           },
-          "required": true,
-          "conditions": [
-            {
-              "expression": "#climateActivityPercentage > 100",
-              "logic": {
-                ">": [{ "var": "climateActivityPercentage" }, 0]
-              },
-              "type": "validator",
-              "error": "Le pourcentage d’activité offre climat doit être compris entre 0 et 100"
-            }
-          ]
+          "required": true
         },
         {
           "name": "contribution",
