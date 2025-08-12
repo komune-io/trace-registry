@@ -5,6 +5,8 @@ import f2.spring.exception.NotFoundException
 import io.komune.registry.api.commons.utils.mapAsync
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import org.neo4j.ogm.session.Session
 import org.neo4j.ogm.session.SessionFactory
@@ -14,17 +16,28 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.coroutineContext
 
-@OptIn(ExperimentalCoroutinesApi::class)
-suspend fun <T> SessionFactory.session(additionalContext: CoroutineContext = EmptyCoroutineContext, execute: suspend (Session) -> T): T {
-    val session = coroutineContext[Neo4jContext]?.session
-        ?: return withContext(
-            // must stay on the same thread for transactions to work
-            Executors.newFixedThreadPool(1).asCoroutineDispatcher().limitedParallelism(1)
-                    + Neo4jContext(openSession())
-                    + additionalContext
-        ) { session(additionalContext, execute) }
+val sessionLimit = Semaphore(32)
 
-    return execute(session)
+@OptIn(ExperimentalCoroutinesApi::class)
+suspend fun <T> SessionFactory.session(
+    additionalContext: CoroutineContext = EmptyCoroutineContext, execute: suspend (Session) -> T
+): T = sessionLimit.withPermit {
+    val session = coroutineContext[Neo4jContext]?.session
+        ?: run {
+            val executor = Executors.newSingleThreadExecutor()
+            return@withPermit try {
+                withContext(
+                    // must stay on the same thread for transactions to work
+                    executor.asCoroutineDispatcher()
+                            + Neo4jContext(openSession())
+                            + additionalContext
+                ) { session(additionalContext, execute) }
+            } finally {
+                executor.shutdown()
+            }
+        }
+
+    return@withPermit execute(session)
 }
 
 suspend fun <T> SessionFactory.transaction(
