@@ -19,7 +19,8 @@ export const WarningTicket = (props: WarningTicketProps) => {
         severity == "error" ? theme.palette.error.main : theme.palette.warning.main
       ) + "0D",
         borderRadius: 1.5,
-      p: 1.5
+      p: 1.5,
+      color: severity == "error" ? "error.main" : "warning.main"
     }}
   >
     <Stack
@@ -27,7 +28,7 @@ export const WarningTicket = (props: WarningTicketProps) => {
       alignItems="center"
       gap={1}
       sx={{
-        color: severity == "error" ? "error.main" : "warning.main"
+        color: "inherit"
       }}
     >
       {severity == "error" ? (

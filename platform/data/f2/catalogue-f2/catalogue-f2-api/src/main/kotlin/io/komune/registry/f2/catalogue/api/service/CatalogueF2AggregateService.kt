@@ -370,8 +370,11 @@ class CatalogueF2AggregateService(
     suspend fun startCertification(command: CatalogueStartCertificationCommandDTOBase): CatalogueStartedCertificationEventDTOBase {
         val certificationEvent = certificationAggregateService.create(CertificationCreateCommand(listOf(command.protocolId)))
 
+        val draft = catalogueDraftFinderService.getByCatalogueIdOrNull(command.id)
+        val originalCatalogueId = draft?.originalCatalogueId ?: command.id
+
         return CatalogueStartCertificationCommand(
-            id = command.id,
+            id = originalCatalogueId,
             certificationId = certificationEvent.id,
         ).let { catalogueAggregateService.startCertification(it) }
             .let { CatalogueStartedCertificationEventDTOBase(it.id, it.certificationId) }

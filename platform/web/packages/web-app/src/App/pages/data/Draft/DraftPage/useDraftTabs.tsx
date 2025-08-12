@@ -1,8 +1,8 @@
-import { Tab } from 'components'
+import { maybeAddItem, Tab } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AutoFormData, FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftGraphManager, DraftIndicatorManager, SubCataloguesManager } from 'domain-components'
+import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftCertificationPage, DraftGraphManager, DraftIndicatorManager, SubCataloguesManager } from 'domain-components'
 import { EditorState } from 'lexical'
 
 export interface useDraftTabsParams {
@@ -46,6 +46,11 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       }
       return undefined
     }) ?? []).filter(Boolean) as Tab[],
+    ...maybeAddItem<Tab>(!!draft?.catalogue.certifications && draft?.catalogue.certifications.length > 0, {
+      key: 'certifications',
+      label: t('protocols'),
+      component: <DraftCertificationPage draft={draft} isLoading={isLoading} />,
+    }),
     ...(catalogue?.catalogues.filter(child => child.structure?.isTab).map((catalogue): Tab | undefined => {
       let component: React.ReactNode | undefined = undefined
 
@@ -61,7 +66,7 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
         }
       }
       return undefined
-    }) ?? []).filter(Boolean) as Tab[]
+    }) ?? []).filter(Boolean) as Tab[],
     ]
     return tabs
   }, [t, catalogue, metadataFormState, onSectionChange, isLoading, draft, readOnlyTabs, formData])

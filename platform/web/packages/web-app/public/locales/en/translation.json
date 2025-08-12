@@ -179,6 +179,7 @@
   "consultSheet": "Consult the sheet",
   "protocolsToValidate": "Protocols to validate",
   "badges": "Badges",
+  "protocols": "Protocols",
   "roles": {
     "super_admin": "Global admin",
     "admin": "Admin",
@@ -428,10 +429,11 @@
     "completedProtocolTitle": "🎉 Protocol successfully completed!",
     "completedProtocolDescription": "Your entry has been successfully saved.\n\nIt will now be sent to an expert for validation.\n\nThis step ensures the reliability of the data and guarantees a fair assessment as part of the mapping.",
     "unvalidatedProtocol": "One or more repositories you submitted have not been validated.",
-    "unvalidateProtocolDetails": "The validator has left comments to help you correct the blocking points.\nOpen the relevant repository to review the feedback, make the necessary changes, and then submit it again.",
+    "unvalidatedProtocolDetails": "The validator has left comments to help you correct the blocking points.\nOpen the relevant repository to review the feedback, make the necessary changes, and then submit it again.",
     "validatorComment": "💬 Validator comment",
     "protocolTitle": "Protocol: {{name}}",
-    "protocolFillingTitle": "Protocol filling: {{name}}"
+    "protocolFillingTitle": "Protocol filling: {{name}}",
+    "noData": "No protocol found"
   },
   "lang": {
     "fr": "French",
@@ -500,8 +502,7 @@
       "data/datasetAddDistributionValue": "The indicator has been successfully created",
       "data/datasetReplaceDistributionValue": "The indicator modifications have been successfully saved",
       "data/datasetRemoveDistributionValue": "The indicator has been successfully deleted",
-      "data/catalogueStartCertification": "The creation of the protocol has been successfully completed",
-      "control/certificationFill": "The protocol form has been successfully saved"
+      "data/catalogueStartCertification": "The creation of the protocol has been successfully completed"
     }
   }
 }

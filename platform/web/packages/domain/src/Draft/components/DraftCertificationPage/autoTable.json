@@ -3,7 +3,7 @@
   "columns": [{
     "label": "Nom du référentiel",
     "type": "text",
-    "value": "name"
+    "value": "protocol.label"
   }, {
     "label": "Statut",
     "type": "text",
@@ -19,6 +19,6 @@
   }, {
     "label": "Complétion",
     "type": "progress",
-    "value": "completion"
+    "value": "completionRate"
   }]
 }

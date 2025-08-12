@@ -185,6 +185,7 @@
     "consultSheet": "Consulter la fiche",
     "protocolsToValidate": "Référentiels à valider",
     "badges": "Badges",
+    "protocols": "Référentiels",
     "roles": {
         "super_admin": "Administrateur global",
         "admin": "Administrateur",
@@ -435,10 +436,11 @@
         "completedProtocolTitle": "🎉 Référentiel complété avec succès !",
         "completedProtocolDescription": "Votre saisie a bien été enregistrée.\n\nElle va maintenant être transmise à un expert pour validation.\n\nCette étape permet de garantir la fiabilité des données et d'assurer une évaluation équitable dans le cadre du mapping.",
         "unvalidatedProtocol": "Un ou plusieurs référentiels que vous avez soumis n’ont pas été validés.",
-        "unvalidateProtocolDetails": "Le validateur a laissé des commentaires pour vous aider à corriger les points bloquants.\nOuvrez le référentiel concerné pour consulter les retours, apporter les modifications nécessaires, puis soumettez-le à nouveau.",
+        "unvalidatedProtocolDetails": "Le validateur a laissé des commentaires pour vous aider à corriger les points bloquants.\nOuvrez le référentiel concerné pour consulter les retours, apporter les modifications nécessaires, puis soumettez-le à nouveau.",
         "validatorComment": "💬 Commentaire du validateur",
         "protocolTitle": "Référentiel : {{name}}",
-        "protocolFillingTitle": "Saisie du référentiel : {{name}}"
+        "protocolFillingTitle": "Saisie du référentiel : {{name}}",
+        "noData": "Aucun référentiel trouvé"
     },
     "lang": {
         "fr": "Français",
@@ -508,8 +510,7 @@
             "data/datasetAddDistributionValue": "L'indicateur a bien été créé",
             "data/datasetReplaceDistributionValue": "Les modifications de l'indicateur a bien été enregistrées",
             "data/datasetRemoveDistributionValue": "L'indicateur a bien été supprimé",
-            "data/catalogueStartCertification": "La création du référentiel a bien été effectuée",
-            "control/certificationFill": "Le formulaire du référentiel a bien été sauvegardé"
+            "data/catalogueStartCertification": "La création du référentiel a bien été effectuée"
         }
     }
 }

@@ -3,10 +3,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export interface StickyContainerProps extends StackProps {
     bottomStick?: number
+    alwaysElevated?: boolean
 }
 
 export const StickyContainer = (props: StickyContainerProps) => {
-    const { children, sx, bottomStick = 70, ...rest } = props
+    const { children, sx, bottomStick = 70, alwaysElevated = false, ...rest } = props
     const ref = useRef<HTMLDivElement>(null);
     const [isAtInitialPosition, setIsAtInitialPosition] = useState(true);
 
@@ -22,7 +23,8 @@ export const StickyContainer = (props: StickyContainerProps) => {
             const rect = ref.current.getBoundingClientRect()
             setIsAtInitialPosition(rect.bottom < window.innerHeight - bottomStick)
         }
-        const scrollContainer = document.querySelector('.scroll-container') as HTMLElement | null;
+        const scrollContainers = document.querySelectorAll('.scroll-container')
+        const scrollContainer = scrollContainers[scrollContainers.length - 1] as HTMLElement | null;
         scrollContainer?.addEventListener('scroll', handleScroll, { passive: true })
         handleScroll()
         return () => scrollContainer?.removeEventListener('scroll', handleScroll)
@@ -39,10 +41,10 @@ export const StickyContainer = (props: StickyContainerProps) => {
             sx={{
                 position: "sticky",
                 bottom: `-${bottomStick}px`,
-                backdropFilter: !isAtInitialPosition ? "blur(15px)" : undefined,
+                backdropFilter: !isAtInitialPosition || alwaysElevated ? "blur(15px)" : undefined,
                 padding: 2,
                 borderRadius: 1,
-                boxShadow: !isAtInitialPosition ? 1 : undefined,
+                boxShadow: !isAtInitialPosition || alwaysElevated ? 1 : undefined,
                 zIndex: 11,
                 transition: "0.3s",
                 ...sx,
