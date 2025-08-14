@@ -1,5 +1,5 @@
 import { Box, Paper, Stack, Typography } from '@mui/material'
-import { Badge, ValidationHeader } from 'components'
+import { Badge, useRoutesDefinition, ValidationHeader } from 'components'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import form from "../ProtocolFillingPage/autoForm.json"
@@ -9,6 +9,7 @@ import { AppPage } from 'template'
 
 export const ProtocolVerificationPage = () => {
   const { t } = useTranslation()
+  const {cataloguesAll} = useRoutesDefinition()
 
 
   const formData = useMemo(() => autoFormFormatter(form as BackAutoFormData), [form])
@@ -32,7 +33,7 @@ export const ProtocolVerificationPage = () => {
           familyName: "Doe"
         }}
         linkTo={{
-          href: `/`,
+          href: cataloguesAll("1"),
           label: t("consultSheet")
         }}
         />}

@@ -1,19 +1,22 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { CloseRounded } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import { autoFormFormatter, autoformValuesToCommand, BackAutoFormData, FormComposableState, FormSection, useAutoFormState } from '@komune-io/g2'
-import { ReservedProtocolTypes, useCertificationFillCommand, useCertificationGetQuery, useProtocolGetQuery } from 'domain-components'
+import { autoFormFormatter, autoformValuesToCommand, BackAutoFormData, CommandWithFile, FormComposableState, FormSection, useAutoFormState } from '@komune-io/g2'
+import { CertificationSubmitCommand, ReservedProtocolTypes, useCertificationFillCommand, useCertificationGetQuery, useCertificationSubmitCommand, useProtocolGetQuery } from 'domain-components'
 import { DialogPage } from 'template'
 import { useDebouncedCallback } from '@mantine/hooks'
+import { useQueryClient } from '@tanstack/react-query'
 
 
 export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, tab, protocolId, certificationId } = useParams()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const [isInit, setIsInit] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -42,30 +45,51 @@ export const ProtocolFillingPage = () => {
   })
 
   const certificationFill = useCertificationFillCommand({})
+  const certificationSubmit = useCertificationSubmitCommand({}) //uncomment types
 
-   const saveLexicalDistribution = useDebouncedCallback(async (formState: FormComposableState) => {
-      if (formData) {
-        const command = autoformValuesToCommand(formData, formState.values)
-        await certificationFill.mutateAsync({
-          command: {
-            id: certificationId!,
-            values: command.command
-          },
-          files: command.files
-        })
-        setIsSaving(false)
+  const saveLexicalDistribution = useDebouncedCallback(async (formState: FormComposableState) => {
+    if (formData) {
+      const command = autoformValuesToCommand(formData, formState.values)
+      const res = await certificationFill.mutateAsync({
+        command: {
+          id: certificationId!,
+          values: command.command
+        },
+        files: command.files
+      })
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
       }
-    }, 500)
+      setIsSaving(false)
+    }
+  }, 500)
 
   const sectionsType = formData?.sectionsType ?? 'default'
 
+  const onSubmit = useCallback(
+    async (command: CommandWithFile<CertificationSubmitCommand>) => {
+      const res = await certificationSubmit.mutateAsync({
+        command: {
+          id: certificationId!,
+          values: command.command
+        },
+        files: command.files
+      })
+      if (res) {
+        navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, "certifications") + "?completed=true")
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
+      }
+    },
+    [goBackUrl, catalogueId!, draftId],
+  )
+
   const formState = useAutoFormState({
-    onSubmit: (_, values) => console.log("Form submitted with values:", values),
+    onSubmit: onSubmit,
     initialValues: certificationQuery.data?.item?.values,
-    isLoading: certificationQuery.isLoading
+    isLoading: certificationQuery.isLoading,
   })
 
-  
+
   useEffect(() => {
     if (certificationQuery.data?.item) {
       setIsInit(true)
@@ -78,7 +102,7 @@ export const ProtocolFillingPage = () => {
       saveLexicalDistribution(formState)
     }
   }, [formState.values])
-  
+
 
   const formSectionsDisplay = useMemo(() => {
     return formData?.sections.map((section) => {
