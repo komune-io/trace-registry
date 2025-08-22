@@ -21,7 +21,7 @@ class CatalogueDraftPoliciesEnforcer(
         catalogue: CatalogueDTOBase
     ) = checkAuthed("create a catalogue draft for type [${catalogue.type}]") { authedUser ->
         CatalogueDraftPolicies.canCreate(authedUser, catalogue) && (
-            authedUser.hasRole(Permissions.Catalogue.WRITE_ANY_TYPE)
+            authedUser.hasRole(Permissions.Data.Catalogue.WRITE_ANY_TYPE)
                     || catalogue.type in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
         )
     }
@@ -48,12 +48,12 @@ class CatalogueDraftPoliciesEnforcer(
     suspend fun enforceGet(draft: CatalogueDraftDTOBase) = enforceConfigAuthed { authedUser ->
         draft.takeIf {
             authedUser != null &&
-                (draft.creator?.id == authedUser.id || authedUser.hasRole(Permissions.CatalogueDraft.READ_ALL))
+                (draft.creator?.id == authedUser.id || authedUser.hasRole(Permissions.Data.CatalogueDraft.READ_ALL))
         }
     }
 
     suspend fun enforceQuery(query: CatalogueDraftPageQuery) = enforceConfigAuthed { authedUser ->
-        if (authedUser != null && authedUser.hasRole(Permissions.CatalogueDraft.READ_ALL)) {
+        if (authedUser != null && authedUser.hasRole(Permissions.Data.CatalogueDraft.READ_ALL)) {
             query
         } else {
             query.copy(creatorId = authedUser?.id ?: "none")

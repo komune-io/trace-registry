@@ -27,7 +27,7 @@ class CataloguePoliciesEnforcer(
 ): PolicyEnforcer() {
     suspend fun checkCreate(type: String) = checkAuthed("create a catalogue of type [$type]") { authedUser ->
         CataloguePolicies.canCreate(authedUser) && (
-            authedUser.hasRole(Permissions.Catalogue.WRITE_ANY_TYPE)
+            authedUser.hasRole(Permissions.Data.Catalogue.WRITE_ANY_TYPE)
                     || type in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
         )
     }

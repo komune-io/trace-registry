@@ -16,6 +16,6 @@ object LicensePolicies {
     }
 
     private fun canWrite(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Permissions.Configuration.LICENSE_WRITE)
+        return authedUser.hasRole(Permissions.Data.Configuration.LICENSE_WRITE)
     }
 }

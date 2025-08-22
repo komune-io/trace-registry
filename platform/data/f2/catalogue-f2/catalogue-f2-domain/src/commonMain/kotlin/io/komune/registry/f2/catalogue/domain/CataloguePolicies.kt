@@ -20,11 +20,11 @@ object CataloguePolicies {
 
     fun canCreate(authedUser: AuthedUserDTO): Boolean {
         return canCreateWithoutDraft(authedUser)
-                || authedUser.hasOneOfRoles(Permissions.CatalogueDraft.CREATE_ALL, Permissions.CatalogueDraft.CREATE_OWNED)
+                || authedUser.hasOneOfRoles(Permissions.Data.CatalogueDraft.CREATE_ALL, Permissions.Data.CatalogueDraft.CREATE_OWNED)
     }
 
     fun canCreateWithoutDraft(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Permissions.Catalogue.WRITE_ORG, Permissions.Catalogue.WRITE_ALL)
+        return authedUser.hasOneOfRoles(Permissions.Data.Catalogue.WRITE_ORG, Permissions.Data.Catalogue.WRITE_ALL)
     }
 
     fun canUpdate(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
@@ -32,15 +32,15 @@ object CataloguePolicies {
     }
 
     fun canUpdateAccessRights(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.PUBLISH_ORG)
-                || authedUser.hasRole(Permissions.Catalogue.PUBLISH_ALL)
+        owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Data.Catalogue.PUBLISH_ORG)
+                || authedUser.hasRole(Permissions.Data.Catalogue.PUBLISH_ALL)
     }
 
     fun canUpdateOwner(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
         return when {
-            authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_ALL) -> true
-            catalogue == null -> authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_OWNED) // creation
-            else -> owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.GRANT_OWNERSHIP_OWNED)
+            authedUser.hasRole(Permissions.Data.Catalogue.GRANT_OWNERSHIP_ALL) -> true
+            catalogue == null -> authedUser.hasRole(Permissions.Data.Catalogue.GRANT_OWNERSHIP_OWNED) // creation
+            else -> owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Data.Catalogue.GRANT_OWNERSHIP_OWNED)
         }
     }
 
@@ -49,8 +49,8 @@ object CataloguePolicies {
     }
 
     fun canDelete(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
-        authedUser.hasRole(Permissions.Catalogue.DELETE_ORG) && owns(authedUser, catalogue)
-                || authedUser.hasRole(Permissions.Catalogue.DELETE_ALL)
+        authedUser.hasRole(Permissions.Data.Catalogue.DELETE_ORG) && owns(authedUser, catalogue)
+                || authedUser.hasRole(Permissions.Data.Catalogue.DELETE_ALL)
     }
 
     fun canLinkCatalogues(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
@@ -70,8 +70,8 @@ object CataloguePolicies {
     }
 
     fun canFillCertification(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
-        return (owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Catalogue.FILL_CERTIFICATION_ORG))
-                || authedUser.hasRole(Permissions.Catalogue.FILL_CERTIFICATION_ALL)
+        return (owns(authedUser, catalogue) && authedUser.hasRole(Permissions.Data.Catalogue.FILL_CERTIFICATION_ORG))
+                || authedUser.hasRole(Permissions.Data.Catalogue.FILL_CERTIFICATION_ALL)
     }
 
     private fun canWrite(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?) = catalogue.isNotNullAnd {
@@ -105,8 +105,8 @@ object CataloguePolicies {
         ownerOrganizationId: OrganizationId?
     ): Boolean {
         val ownsCatalogue = ownsCatalogueWith(authedUser, null, creatorOrganizationId, ownerOrganizationId)
-        return ownsCatalogue && authedUser.hasRole(Permissions.Catalogue.WRITE_ORG)
-                || authedUser.hasRole(Permissions.Catalogue.WRITE_ALL)
+        return ownsCatalogue && authedUser.hasRole(Permissions.Data.Catalogue.WRITE_ORG)
+                || authedUser.hasRole(Permissions.Data.Catalogue.WRITE_ALL)
     }
 
     @JsExport.Ignore
@@ -118,8 +118,8 @@ object CataloguePolicies {
         creatorId: UserId? = null
     ): Boolean = when {
         authedUser == null -> accessRights.isPublicOrProtected()
-        authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> true
-        authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> accessRights.isPublicOrProtected()
+        authedUser.hasRole(Permissions.Data.Catalogue.READ_ALL) -> true
+        authedUser.hasRole(Permissions.Data.Catalogue.READ_ORG) -> accessRights.isPublicOrProtected()
                 || ownsCatalogueWith(authedUser, creatorId, creatorOrganizationId, ownerOrganizationId)
         else -> accessRights.isPublicOrProtected()
     }

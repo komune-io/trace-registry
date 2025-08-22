@@ -13,29 +13,29 @@ import kotlin.js.JsExport
 @JsExport
 object CatalogueDraftPolicies {
     fun canSeePublished(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasOneOfRoles(Permissions.CatalogueDraft.READ_ALL)
+        return authedUser.hasOneOfRoles(Permissions.Data.CatalogueDraft.READ_ALL)
     }
 
     fun canCreate(authedUser: AuthedUserDTO, catalogue: CatalogueAccessDataDTO?): Boolean {
-        return authedUser.hasOneOfRoles(Permissions.CatalogueDraft.CREATE_ALL) ||
+        return authedUser.hasOneOfRoles(Permissions.Data.CatalogueDraft.CREATE_ALL) ||
                 ((CataloguePolicies.owns(authedUser, catalogue) || catalogue == null)
-                    && authedUser.hasRole(Permissions.CatalogueDraft.CREATE_OWNED))
+                    && authedUser.hasRole(Permissions.Data.CatalogueDraft.CREATE_OWNED))
     }
 
     fun canUpdate(authedUser: AuthedUserDTO, draft: CatalogueDraftRefDTO?) = draft.isNotNullAnd {
-        authedUser.owns(it) || authedUser.hasRole(Permissions.CatalogueDraft.WRITE_ALL)
+        authedUser.owns(it) || authedUser.hasRole(Permissions.Data.CatalogueDraft.WRITE_ALL)
     }
 
     fun canSubmit(authedUser: AuthedUserDTO, draft: CatalogueDraftRefDTO?) = draft.isNotNullAnd {
-        authedUser.owns(it) || authedUser.hasRole(Permissions.CatalogueDraft.WRITE_ALL)
+        authedUser.owns(it) || authedUser.hasRole(Permissions.Data.CatalogueDraft.WRITE_ALL)
     }
 
     fun canAudit(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Permissions.CatalogueDraft.AUDIT)
+        return authedUser.hasRole(Permissions.Data.CatalogueDraft.AUDIT)
     }
 
     fun canDelete(authedUser: AuthedUserDTO, draft: CatalogueDraftRefDTO?) = draft.isNotNullAnd {
-        authedUser.owns(it) || authedUser.hasRole(Permissions.CatalogueDraft.DELETE_ALL)
+        authedUser.owns(it) || authedUser.hasRole(Permissions.Data.CatalogueDraft.DELETE_ALL)
     }
 
     private fun AuthedUserDTO.owns(draft: CatalogueDraftRefDTO) = draft.creator?.id == id

@@ -12,6 +12,6 @@ object DataUnitPolicies {
     }
 
     private fun canWrite(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Permissions.Configuration.CCCEV_OLD_WRITE)
+        return authedUser.hasRole(Permissions.Data.Configuration.CCCEV_OLD_WRITE)
     }
 }
