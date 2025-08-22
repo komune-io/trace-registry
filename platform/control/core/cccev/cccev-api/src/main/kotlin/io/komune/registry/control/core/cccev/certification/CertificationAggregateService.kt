@@ -5,15 +5,11 @@ import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddEvidenceCommand
-import io.komune.registry.control.core.cccev.certification.command.CertificationAddRequirementsCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddedEvidenceEvent
-import io.komune.registry.control.core.cccev.certification.command.CertificationAddedRequirementsEvent
 import io.komune.registry.control.core.cccev.certification.command.CertificationCreateCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationCreatedEvent
 import io.komune.registry.control.core.cccev.certification.command.CertificationFillValuesCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationFilledValuesEvent
-import io.komune.registry.control.core.cccev.certification.command.CertificationRemoveRequirementsCommand
-import io.komune.registry.control.core.cccev.certification.command.CertificationRemovedRequirementsEvent
 import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
@@ -95,43 +91,6 @@ class CertificationAggregateService(
             evidenceId = evidenceId,
             filePath = path
         ).also(applicationEventPublisher::publishEvent)
-    }
-
-    suspend fun addRequirements(
-        command: CertificationAddRequirementsCommand
-    ): CertificationAddedRequirementsEvent = sessionFactory.session { session ->
-        val requirements = command.requirementIds.map { requirementId ->
-            requirementRepository.loadRequirementOnlyGraph(requirementId)
-                ?: throw NotFoundException("Requirement", requirementId)
-        }
-
-        val requirementCertifications = requirements.map { it.toEmptyCertification() }
-
-        if (command.parentId == null) {
-            val certification = session.load(Certification::class.java, command.id as String, 0)
-                ?: throw NotFoundException("Certification", command.id)
-            certification.requirementCertifications.addAll(requirementCertifications)
-            certificationRepository.save(certification)
-        } else {
-            if (!certificationRepository.hasRequirementCertification(command.id, command.parentId!!)) {
-                throw NotFoundException("RequirementCertification [${command.parentId}] in Certification", command.id)
-            }
-
-            val parentRequirementCertification = session.load(RequirementCertification::class.java, command.parentId as String, 0)
-                ?: throw NotFoundException("RequirementCertification", command.parentId!!)
-            parentRequirementCertification.subCertifications.addAll(requirementCertifications)
-            certificationRepository.save(parentRequirementCertification)
-        }
-
-        CertificationAddedRequirementsEvent(
-            id = command.id,
-            parentId = command.parentId,
-            requirementCertificationIds = requirementCertifications.map { it.id }
-        ).also(applicationEventPublisher::publishEvent)
-    }
-
-    suspend fun removeRequirements(command: CertificationRemoveRequirementsCommand): CertificationRemovedRequirementsEvent {
-        TODO()
     }
 
     private suspend fun Requirement.toEmptyCertification(
