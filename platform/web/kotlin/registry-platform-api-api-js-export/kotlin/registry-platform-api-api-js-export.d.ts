@@ -2988,6 +2988,9 @@ export declare namespace io.komune.registry.control.core.cccev {
 
     }
 }
+export declare namespace io.komune.registry.control.core.cccev.certification {
+    type CertificationState = "PENDING" | "SUBMITTED" | "REJECTED" | "VALIDATED";
+}
 export declare namespace io.komune.registry.control.core.cccev.certification.command {
     interface CertificationAddEvidenceCommandDTO {
         readonly id: string;
@@ -3002,20 +3005,6 @@ export declare namespace io.komune.registry.control.core.cccev.certification.com
         readonly rootRequirementCertificationId?: string;
         readonly evidenceId: string;
         readonly filePath: io.komune.fs.s2.file.domain.model.FilePathDTO;
-
-    }
-}
-export declare namespace io.komune.registry.control.core.cccev.certification.command {
-    interface CertificationAddRequirementsCommandDTO {
-        readonly id: string;
-        readonly parentId?: string;
-        readonly requirementIds: string[];
-
-    }
-    interface CertificationAddedRequirementsEventDTO {
-        readonly id: string;
-        readonly parentId?: string;
-        readonly requirementCertificationIds: string[];
 
     }
 }
@@ -3043,14 +3032,34 @@ export declare namespace io.komune.registry.control.core.cccev.certification.com
     }
 }
 export declare namespace io.komune.registry.control.core.cccev.certification.command {
-    interface CertificationRemoveRequirementsCommandDTO {
+    interface CertificationRejectCommandDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly reason: string;
 
     }
-    interface CertificationRemovedRequirementsEventDTO {
+    interface CertificationRejectedEventDTO {
         readonly id: string;
-        readonly requirementIds: string[];
+        readonly reason: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
+    interface CertificationSubmitCommandDTO {
+        readonly id: string;
+
+    }
+    interface CertificationSubmittedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.core.cccev.certification.command {
+    interface CertificationValidateCommandDTO {
+        readonly id: string;
+
+    }
+    interface CertificationValidatedEventDTO {
+        readonly id: string;
 
     }
 }
@@ -3425,6 +3434,13 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.query {
 
     }
 }
+export declare namespace io.komune.registry.control.f2.certification.domain {
+    const CertificationPolicies: {
+        canFill(authedUser: io.komune.im.commons.auth.AuthedUserDTO, certification?: io.komune.registry.control.f2.certification.domain.model.CertificationAccessData): boolean;
+        canAudit(authedUser: io.komune.im.commons.auth.AuthedUserDTO): boolean;
+        owns(authedUser: io.komune.im.commons.auth.AuthedUserDTO, certification?: io.komune.registry.control.f2.certification.domain.model.CertificationAccessData): boolean;
+    };
+}
 export declare namespace io.komune.registry.control.f2.certification.domain.command {
     interface CertificationFillCommandDTO {
         readonly id: string;
@@ -3436,18 +3452,69 @@ export declare namespace io.komune.registry.control.f2.certification.domain.comm
 
     }
 }
+export declare namespace io.komune.registry.control.f2.certification.domain.command {
+    interface CertificationRejectCommandDTO extends io.komune.registry.control.core.cccev.certification.command.CertificationRejectCommandDTO {
+        readonly id: string;
+        readonly reason: string;
+
+    }
+    interface CertificationRejectedEventDTO extends io.komune.registry.control.core.cccev.certification.command.CertificationRejectedEventDTO {
+        readonly id: string;
+        readonly reason: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.command {
+    interface CertificationSubmitCommandDTO extends io.komune.registry.control.core.cccev.certification.command.CertificationSubmitCommandDTO {
+        readonly id: string;
+
+    }
+    interface CertificationSubmittedEventDTO extends io.komune.registry.control.core.cccev.certification.command.CertificationSubmittedEventDTO {
+        readonly id: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.command {
+    interface CertificationValidateCommandDTO extends io.komune.registry.control.core.cccev.certification.command.CertificationValidateCommandDTO {
+        readonly id: string;
+
+    }
+    interface CertificationValidatedEventDTO extends io.komune.registry.control.core.cccev.certification.command.CertificationValidatedEventDTO {
+        readonly id: string;
+
+    }
+}
 export declare namespace io.komune.registry.control.f2.certification.domain.model {
-    interface CertificationDTO {
+    interface CertificationAccessData {
+        readonly id: string;
+        readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.model {
+    interface CertificationCatalogueRefDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly title: string;
+        readonly type: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.model {
+    interface CertificationDTO extends io.komune.registry.control.f2.certification.domain.model.CertificationAccessData {
         readonly id: string;
         readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO;
+        readonly catalogue?: io.komune.registry.control.f2.certification.domain.model.CertificationCatalogueRefDTO;
         readonly completionRate: number;
         readonly values: Record<string, Nullable<string>>;
         readonly evidences: Record<string, Nullable<string>>;
-        readonly status: string;
+        readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
-        readonly validator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
-        readonly validatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly auditor?: io.komune.registry.f2.user.domain.model.UserRefDTO;
+        readonly auditorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly rejectReason?: string;
         readonly creationDate: number;
         readonly modificationDate: number;
@@ -3455,12 +3522,14 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
     }
 }
 export declare namespace io.komune.registry.control.f2.certification.domain.model {
-    interface CertificationRefDTO {
+    interface CertificationRefDTO extends io.komune.registry.control.f2.certification.domain.model.CertificationAccessData {
         readonly id: string;
         readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolRefDTO;
+        readonly catalogue?: io.komune.registry.control.f2.certification.domain.model.CertificationCatalogueRefDTO;
         readonly completionRate: number;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
+        readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
 
     }
 }
@@ -3471,6 +3540,22 @@ export declare namespace io.komune.registry.control.f2.certification.domain.quer
     }
     interface CertificationGetResultDTO {
         readonly item?: io.komune.registry.control.f2.certification.domain.model.CertificationDTO;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.query {
+    interface CertificationPageQueryDTO {
+        readonly language: string;
+        readonly status?: io.komune.registry.control.core.cccev.certification.CertificationState[];
+        readonly protocolName?: string;
+        readonly creatorOrganizationId?: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface CertificationPageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.control.f2.certification.domain.model.CertificationRefDTO> {
+        readonly total: number;
+        readonly items: io.komune.registry.control.f2.certification.domain.model.CertificationRefDTO[];
 
     }
 }
@@ -3488,7 +3573,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain {
         canLinkThemes(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canReferenceDatasets(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
         canSetAggregator(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
-        canFillCertification(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
+        canStartCertification(authedUser: io.komune.im.commons.auth.AuthedUserDTO, catalogue?: io.komune.registry.f2.catalogue.domain.dto.CatalogueAccessDataDTO): boolean;
     };
 }
 export declare namespace io.komune.registry.f2.catalogue.domain.command {

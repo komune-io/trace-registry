@@ -4,6 +4,7 @@ import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.RequirementId
 import kotlinx.serialization.Serializable
+import s2.dsl.automate.S2InitCommand
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -34,7 +35,7 @@ interface CertificationCreateCommandDTO {
 @Serializable
 data class CertificationCreateCommand(
     override val requirementIds: List<RequirementId> = emptyList()
-): CertificationCreateCommandDTO
+): CertificationCreateCommandDTO, S2InitCommand
 
 /**
  * @d2 event

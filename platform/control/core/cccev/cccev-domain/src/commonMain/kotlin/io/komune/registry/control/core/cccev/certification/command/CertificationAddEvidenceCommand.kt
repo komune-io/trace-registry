@@ -8,6 +8,7 @@ import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import io.komune.registry.s2.commons.model.RequirementCertificationId
 import kotlinx.serialization.Serializable
+import s2.dsl.automate.S2Command
 import kotlin.js.JsExport
 
 /**
@@ -61,7 +62,7 @@ data class CertificationAddEvidenceCommand(
     override val evidenceTypeIdentifier: EvidenceTypeIdentifier,
     override val filePath: FilePath?,
     override val vectorize: Boolean = false
-): CertificationAddEvidenceCommandDTO
+): CertificationAddEvidenceCommandDTO, S2Command<CertificationId>
 
 /**
  * @d2 event

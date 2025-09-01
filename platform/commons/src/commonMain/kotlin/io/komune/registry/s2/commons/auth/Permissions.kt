@@ -4,6 +4,7 @@ object Permissions {
     object Control {
         object Certification {
             const val AUDIT = "rg_perm_certification_audit"
+            const val FILL_ORG = "rg_perm_certification_fill_org"
         }
 
         object Protocol {
@@ -15,14 +16,14 @@ object Permissions {
         object Catalogue {
             const val DELETE_ALL = "rg_perm_catalogue_delete_all"
             const val DELETE_ORG = "rg_perm_catalogue_delete_org"
-            const val FILL_CERTIFICATION_ALL = "rg_perm_catalogue_fill_certification_all"
-            const val FILL_CERTIFICATION_ORG = "rg_perm_catalogue_fill_certification_org"
             const val GRANT_OWNERSHIP_ALL = "rg_perm_catalogue_grant_ownership_all"
             const val GRANT_OWNERSHIP_OWNED = "rg_perm_catalogue_grant_ownership_owned"
             const val PUBLISH_ALL = "rg_perm_catalogue_publish_all"
             const val PUBLISH_ORG = "rg_perm_catalogue_publish_org"
             const val READ_ALL = "rg_perm_catalogue_read_all"
             const val READ_ORG = "rg_perm_catalogue_read_org"
+            const val START_CERTIFICATION_ALL = "rg_perm_catalogue_start_certification_all"
+            const val START_CERTIFICATION_ORG = "rg_perm_catalogue_start_certification_org"
             const val WRITE_ALL = "rg_perm_catalogue_write_all"
             const val WRITE_ANY_TYPE = "rg_perm_catalogue_write_any_type"
             const val WRITE_ORG = "rg_perm_catalogue_write_org"

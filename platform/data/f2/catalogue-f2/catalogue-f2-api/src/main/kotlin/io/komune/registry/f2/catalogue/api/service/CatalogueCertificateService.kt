@@ -13,7 +13,7 @@ import java.math.RoundingMode
 @Service
 class CatalogueCertificateService(
     private val conceptService: CatalogueInformationConceptService,
-    private val catalogueI18nService: CatalogueI18nService,
+    private val catalogueF2I18NService: CatalogueF2I18nService,
     private val uiProperties: UIProperties,
 ) : CatalogueCachedService() {
 
@@ -29,9 +29,9 @@ class CatalogueCertificateService(
     }
 
     suspend fun generateCatalogueFiles(catalogue: CatalogueModel): ByteArray? {
-        val model = catalogueI18nService.translate(catalogue, "fr", true )!!
+        val model = catalogueF2I18NService.translate(catalogue, "fr", true )!!
         val concepts: List<InformationConceptComputedDTOBase> = conceptService.computeAggregators(model)
-        val dto = catalogueI18nService.translateToDTO(catalogue, "fr", true )!!
+        val dto = catalogueF2I18NService.translateToDTO(catalogue, "fr", true )!!
         return concepts.find { it.identifier == COUNTER_CO2 }?.let { concept ->
             generatePdf(dto, concept.value, concept)
         }

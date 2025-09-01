@@ -1,5 +1,9 @@
 package io.komune.registry.control.core.cccev.certification.entity
 
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.Page
+import io.komune.im.commons.model.OrganizationId
+import io.komune.registry.control.core.cccev.certification.CertificationState
 import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
 import io.komune.registry.control.core.cccev.evidencetype.entity.EvidenceType
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
@@ -27,19 +31,58 @@ class CertificationRepository(
 
     suspend fun findByIdWithRootRequirements(
         id: CertificationId
-    ): Certification? = findAllByIdWithRootRequirements(listOf(id)).firstOrNull()
+    ): Certification? = findAllByIdWithRootRequirements(listOf(id)).items.firstOrNull()
 
     suspend fun findAllByIdWithRootRequirements(
-        ids: Collection<CertificationId>
-    ): List<Certification> = sessionFactory.session { session ->
-        session.query(
-            "MATCH (c:${Certification.LABEL})" +
-                    "-[isCertifiedBy:${Certification.IS_CERTIFIED_BY}]->(rc:${RequirementCertification.LABEL})" +
-                    "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
-                    "\nWHERE c.id IN \$ids" +
-                    "\nRETURN c, collect(isCertifiedBy), collect(rc), collect(certifies), collect(r)",
-            mapOf("ids" to ids)
+        ids: Collection<CertificationId>? = null,
+        requirementName: String? = null,
+        statuses: Collection<CertificationState>? = null,
+        creatorOrganizationId: OrganizationId? = null,
+        offset: OffsetPagination? = null
+    ): Page<Certification> = sessionFactory.session { session ->
+        val filters = listOfNotNull(
+            ids?.let { "c.id IN \$ids" },
+            requirementName?.let { "lower(r.name) CONTAINS lower(\$requirementName)" },
+            statuses?.let { "c.status IN \$statuses" },
+            creatorOrganizationId?.let { "c.creatorOrganizationId = \$creatorOrganizationId" }
+        ).ifEmpty { null }?.joinToString(" AND ", prefix = "WHERE ").orEmpty()
+
+        val params = mutableMapOf(
+            "ids" to ids,
+            "requirementName" to requirementName,
+            "statuses" to statuses,
+            "creatorOrganizationId" to creatorOrganizationId
+        )
+
+        val queryPart = "MATCH (c:${Certification.LABEL})" +
+                "-[isCertifiedBy:${Certification.IS_CERTIFIED_BY}]->(rc:${RequirementCertification.LABEL})" +
+                "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
+                "\n$filters"
+
+        val items = session.query(queryPart +
+                "\nRETURN distinct c, collect(isCertifiedBy), collect(distinct rc), collect(certifies), collect(distinct r)" +
+                offset?.let { "\nSKIP \$skip\nLIMIT \$limit" }.orEmpty(),
+            params + mapOf(
+                "skip" to offset?.offset,
+                "limit" to offset?.limit
+            )
         ).map { it["c"] as Certification }
+
+        if (offset == null) {
+            return@session Page(
+                items = items,
+                total = items.size
+            )
+        }
+
+        Page(
+            items = items,
+            total = session.queryForObject(
+                java.lang.Long::class.java,
+                "$queryPart\nRETURN count(distinct c) AS count",
+                params
+            )?.toInt() ?: 0
+        )
     }
 
     suspend fun findRequirementCertificationById(
@@ -73,37 +116,23 @@ class CertificationRepository(
         certificationId: CertificationId,
         rootRequirementCertificationId: RequirementCertificationId?,
         informationConceptIdentifier: InformationConceptIdentifier
-    ): List<RequirementCertification> = sessionFactory.session { session ->
-        session.query(
-            "MATCH (:${Certification.LABEL} {id: \$cId})" +
-                    (if (rootRequirementCertificationId != null) {
-                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})"
-                    } else { "" }) +
-                    "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
-                    "-[:${RequirementCertification.CERTIFIES}]->(:${Requirement.LABEL})" +
-                    "-->(:${InformationConcept.LABEL} {identifier: \$icId})"
-                        .returnWholeEntity("rc"),
-            mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId, "icId" to informationConceptIdentifier),
-        ).map { it["rc"] as RequirementCertification }
-    }
+    ): List<RequirementCertification> = findFilteredRequirementCertifications(
+        certificationId,
+        rootRequirementCertificationId,
+        "-->(:${InformationConcept.LABEL} {identifier: \$icId})",
+        mapOf("icId" to informationConceptIdentifier)
+    )
 
     suspend fun findRequirementCertificationsLinkedToEvidenceType(
         certificationId: CertificationId,
         rootRequirementCertificationId: RequirementCertificationId?,
         evidenceTypeIdentifier: EvidenceTypeIdentifier
-    ): List<RequirementCertification> = sessionFactory.session { session ->
-        session.query(
-            "MATCH (:${Certification.LABEL} {id: \$cId})" +
-                    (if (rootRequirementCertificationId != null) {
-                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})"
-                    } else { "" }) +
-                    "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
-                    "-[:${RequirementCertification.CERTIFIES}]->(:${Requirement.LABEL})" +
-                    "-->(:${EvidenceType.LABEL} {identifier: \$etIdentifier})"
-                        .returnWholeEntity("rc"),
-            mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId, "etIdentifier" to evidenceTypeIdentifier),
-        ).map { it["rc"] as RequirementCertification }
-    }
+    ): List<RequirementCertification> = findFilteredRequirementCertifications(
+        certificationId,
+        rootRequirementCertificationId,
+        "-->(:${EvidenceType.LABEL} {identifier: \$etIdentifier})",
+        mapOf("etIdentifier" to evidenceTypeIdentifier)
+    )
 
     suspend fun findParentsOf(
         requirementCertificationId: RequirementCertificationId
@@ -177,5 +206,24 @@ class CertificationRepository(
 
     suspend fun save(entity: RequirementCertification, depth: Int = -1) = sessionFactory.session { session ->
         session.save(entity, depth)
+    }
+
+    private suspend fun findFilteredRequirementCertifications(
+        certificationId: CertificationId,
+        rootRequirementCertificationId: RequirementCertificationId?,
+        filterQueryPart: String,
+        params: Map<String, Any?>
+    ): List<RequirementCertification> = sessionFactory.session { session ->
+        session.query(
+            "MATCH (:${Certification.LABEL} {id: \$cId})" +
+                    (if (rootRequirementCertificationId != null) {
+                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})"
+                    } else { "" }) +
+                    "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
+                    "-[:${RequirementCertification.CERTIFIES}]->(:${Requirement.LABEL})" +
+                    filterQueryPart
+                        .returnWholeEntity("rc"),
+            params + mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId)
+        ).map { it["rc"] as RequirementCertification }
     }
 }

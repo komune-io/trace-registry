@@ -6,7 +6,6 @@ import f2.dsl.cqrs.filter.collectionMatchOf
 import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.api.commons.utils.mapAsync
-import io.komune.registry.api.config.i18n.I18nService
 import io.komune.registry.control.f2.certification.api.service.CertificationF2FinderService
 import io.komune.registry.f2.catalogue.api.model.overrideWith
 import io.komune.registry.f2.catalogue.api.model.toDTO
@@ -19,6 +18,7 @@ import io.komune.registry.f2.dataset.api.model.extractAggregators
 import io.komune.registry.f2.dataset.api.model.toRef
 import io.komune.registry.f2.dataset.api.service.DatasetPoliciesEnforcer
 import io.komune.registry.f2.dataset.domain.DatasetTypes
+import io.komune.registry.s2.catalogue.api.CatalogueI18nService
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
@@ -34,15 +34,15 @@ import io.komune.registry.s2.dataset.domain.automate.DatasetState
 import org.springframework.stereotype.Service
 
 @Service
-class CatalogueI18nService(
+class CatalogueF2I18nService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
+    private val catalogueI18nService: CatalogueI18nService,
     private val catalogueInformationConceptService: CatalogueInformationConceptService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val certificationF2FinderService: CertificationF2FinderService,
     private val conceptF2FinderService: ConceptF2FinderService,
-    private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer,
-    private val i18nService: I18nService,
+    private val datasetPoliciesEnforcer: DatasetPoliciesEnforcer
 ) : CatalogueCachedService() {
 
     suspend fun translateToRefDTO(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueRefDTOBase? {
@@ -155,7 +155,10 @@ class CatalogueI18nService(
             indicators = translated.metadataDatasetId?.let { cache.datasets.get(it).toDTOCached(draft) }
                 ?.extractAggregators()
                 .orEmpty(),
-            certifications = certificationF2FinderService.listRefs(originalCatalogue?.certificationIds ?: translated.certificationIds)
+            certifications = certificationF2FinderService.page(
+                language = translated.language!!,
+                ids = originalCatalogue?.certificationIds ?: translated.certificationIds
+            ).items
         )
     }
 
@@ -212,50 +215,11 @@ class CatalogueI18nService(
             .sortedWith(
                 compareBy<CatalogueRefTreeDTOBase> { it.order ?: Int.MAX_VALUE }
                     .thenByDescending { it.modified }
-//                    .thenBy { it.title }
-//                    .thenBy { it.identifier }
             )
     }
 
-    /**
-     * 1. If the desired language is null, skip steps 2 and 4.
-     * 2. If the catalogue is already in the desired language, return it as is.
-     * 3. Else, if the catalogue has no translations:
-     *   - If the catalogue has a language and alternative language is allowed, return it as is.
-     *   - Otherwise, return null.
-     * 4. Else, if the desired language is not in the translations and alternative language is not allowed, return null.
-     * 5. Else, return the catalogue translated to the first existing translation found in the order:
-     *   - Desired language
-     *   - Configured ordered languages list
-     *   - First translation found if none of the above matched any translation.
-     */
     suspend fun translate(catalogue: CatalogueModel, language: Language?, otherLanguageIfAbsent: Boolean): CatalogueModel? {
-        when {
-            language != null && catalogue.language == language -> return catalogue
-            catalogue.translationIds.isEmpty() -> return when {
-                otherLanguageIfAbsent && catalogue.language != null -> catalogue
-                else -> null
-            }
-            language != null && language !in catalogue.translationIds && !otherLanguageIfAbsent -> return null
-        }
-
-        val selectedLanguage = i18nService.selectLanguage(catalogue.translationIds.keys, language, otherLanguageIfAbsent)
-            ?: return null
-        val translationId = catalogue.translationIds[selectedLanguage]!!
-
-        val translation = catalogueFinderService.get(translationId)
-        return catalogue.copy(
-            language = translation.language,
-            title = translation.title,
-            description = translation.description,
-            childrenDatasetIds = catalogue.childrenDatasetIds + translation.childrenDatasetIds,
-            metadataDatasetId = translation.metadataDatasetId,
-            childrenCatalogueIds = catalogue.childrenCatalogueIds + translation.childrenCatalogueIds,
-            version = translation.version,
-            versionNotes = translation.versionNotes,
-            integrateCounter = translation.integrateCounter,
-            modified = translation.modified
-        )
+        return catalogueI18nService.translate(catalogue, language, otherLanguageIfAbsent)
     }
 
     private suspend fun pendingDraftsOf(catalogueId: CatalogueId, creatorId: UserId): List<CatalogueDraftModel> {

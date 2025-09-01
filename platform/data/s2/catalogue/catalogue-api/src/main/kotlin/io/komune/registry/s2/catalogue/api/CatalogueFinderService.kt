@@ -18,6 +18,7 @@ import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.commons.exception.NotFoundException
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.FacetPageModel
@@ -69,6 +70,7 @@ class CatalogueFinderService(
 		creatorOrganizationId: Match<OrganizationId>? = null,
 		status: Match<CatalogueState>? = null,
 		hidden: Match<Boolean>? = null,
+		certificationIds: Match<CertificationId>? = null,
 		freeCriterion: Criterion? = null,
 		offset: OffsetPagination? = null
 	): PageDTO<CatalogueModel> {
@@ -89,6 +91,7 @@ class CatalogueFinderService(
 			creatorOrganizationId = creatorOrganizationId,
 			status = status,
 			hidden = hidden,
+			certificationIds = certificationIds,
 			freeCriterion = freeCriterion,
 			offset = offset,
 		).map { it.toModel() }
