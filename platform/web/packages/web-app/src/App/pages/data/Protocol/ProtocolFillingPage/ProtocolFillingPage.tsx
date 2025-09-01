@@ -1,15 +1,28 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from 'react-router-dom'
-import { CloseRounded } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
-import { autoFormFormatter, autoformValuesToCommand, BackAutoFormData, CommandWithFile, FormComposableState, FormSection, useAutoFormState } from '@komune-io/g2'
-import { CertificationSubmitCommand, ReservedProtocolTypes, useCertificationFillCommand, useCertificationGetQuery, useCertificationSubmitCommand, useProtocolGetQuery } from 'domain-components'
-import { DialogPage } from 'template'
-import { useDebouncedCallback } from '@mantine/hooks'
-import { useQueryClient } from '@tanstack/react-query'
+import {Box, IconButton, Stack, Typography} from '@mui/material'
+import {CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition} from 'components'
+import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Link, useParams} from 'react-router-dom'
+import {CloseRounded} from '@mui/icons-material'
+import {
+  autoFormFormatter,
+  autoformValuesToCommand,
+  BackAutoFormData,
+  FormComposableState,
+  FormSection,
+  useAutoFormState
+} from '@komune-io/g2'
+import {
+  ReservedProtocolTypes,
+  useCertificationFillCommand,
+  useCertificationGetQuery,
+  useCertificationSubmitCommand,
+  useProtocolGetQuery
+} from 'domain-components'
+import {DialogPage} from 'template'
+import {useDebouncedCallback} from '@mantine/hooks'
+import {preformatProtocol} from "../utils";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const ProtocolFillingPage = () => {
@@ -33,7 +46,7 @@ export const ProtocolFillingPage = () => {
 
   const formData = useMemo(() => {
     //@ts-ignore
-    const form = protocol?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
+    const form = preformatProtocol(protocol)?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
     if (!form) return undefined
     return autoFormFormatter(form)
   }, [protocol])
@@ -45,10 +58,11 @@ export const ProtocolFillingPage = () => {
   })
 
   const certificationFill = useCertificationFillCommand({})
-  const certificationSubmit = useCertificationSubmitCommand({}) //uncomment types
+  const certificationSubmit = useCertificationSubmitCommand({})
 
-  const saveLexicalDistribution = useDebouncedCallback(async (formState: FormComposableState) => {
+  const saveForm = useDebouncedCallback(async (formState: FormComposableState) => {
     if (formData) {
+      setIsSaving(true)
       const command = autoformValuesToCommand(formData, formState.values)
       const res = await certificationFill.mutateAsync({
         command: {
@@ -58,33 +72,26 @@ export const ProtocolFillingPage = () => {
         files: command.files
       })
       if (res) {
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
+        queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
       }
       setIsSaving(false)
     }
-  }, 500)
+  }, 1000)
+
+  const handleSubmit = useCallback(async () => {
+    if (!certificationId) return
+    const res = await certificationSubmit.mutateAsync({ id: certificationId! })
+    if (res) {
+        queryClient.invalidateQueries({queryKey: ["control/certificationGet", {id: certificationId!}]})
+        queryClient.invalidateQueries({queryKey: ["control/certificationPage"]})
+        navigate(goBackUrl)
+    }
+  }, [certificationSubmit.mutateAsync, certificationId, queryClient.invalidateQueries, goBackUrl])
 
   const sectionsType = formData?.sectionsType ?? 'default'
 
-  const onSubmit = useCallback(
-    async (command: CommandWithFile<CertificationSubmitCommand>) => {
-      const res = await certificationSubmit.mutateAsync({
-        command: {
-          id: certificationId!,
-          values: command.command
-        },
-        files: command.files
-      })
-      if (res) {
-        navigate(cataloguesCatalogueIdDraftsDraftIdTab(catalogueId!, draftId!, "certifications") + "?completed=true")
-        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
-      }
-    },
-    [goBackUrl, catalogueId!, draftId],
-  )
-
   const formState = useAutoFormState({
-    onSubmit: onSubmit,
+    onSubmit: handleSubmit,
     initialValues: certificationQuery.data?.item?.values,
     isLoading: certificationQuery.isLoading,
   })
@@ -98,8 +105,7 @@ export const ProtocolFillingPage = () => {
 
   useEffect(() => {
     if (isInit) {
-      setIsSaving(true)
-      saveLexicalDistribution(formState)
+      saveForm(formState)
     }
   }, [formState.values])
 
@@ -169,7 +175,7 @@ export const ProtocolFillingPage = () => {
             {t("cancel")}
           </CustomLinkButton>
           <CustomButton
-            onClick={formState.submitForm}
+            onClick={handleSubmit}
             isLoading={isSaving}
           >
             {t("submitForValidation")}

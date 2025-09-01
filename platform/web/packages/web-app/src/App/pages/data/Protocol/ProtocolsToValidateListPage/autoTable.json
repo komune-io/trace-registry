@@ -3,12 +3,12 @@
   "columns": [{
     "label": "Nom du référentiel",
     "type": "text",
-    "value": "name"
+    "value": "protocol.label"
   }, {
     "label": "Fiche",
     "type": "link",
     "value": {
-      "label": "catalogue.label",
+      "label": "catalogue.title",
       "url": "catalogue.url"
     }
   }, {
@@ -22,6 +22,6 @@
   }, {
     "label": "Complétion",
     "type": "progress",
-    "value": "completion"
+    "value": "completionRate"
   }]
 }

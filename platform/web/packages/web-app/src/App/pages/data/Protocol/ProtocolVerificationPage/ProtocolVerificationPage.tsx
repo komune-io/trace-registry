@@ -1,50 +1,85 @@
-import { Box, Paper, Stack, Typography } from '@mui/material'
-import { Badge, useRoutesDefinition, ValidationHeader } from 'components'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import form from "../ProtocolFillingPage/autoForm.json"
-import { AutoForm, autoFormFormatter, BackAutoFormData } from '@komune-io/g2'
-import { AppPage } from 'template'
+import {Box, Paper, Stack, Typography} from '@mui/material'
+import {Badge, useRoutesDefinition, ValidationHeader} from 'components'
+import {useCallback, useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {AutoForm, autoFormFormatter, BackAutoFormData, navigate} from '@komune-io/g2'
+import {AppPage} from 'template'
+import {
+    ReservedProtocolTypes,
+    useCertificationGetQuery,
+    useCertificationRejectCommand,
+    useCertificationValidateCommand
+} from "domain-components";
+import {useParams} from "react-router-dom";
+import {preformatProtocol} from "../utils";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const ProtocolVerificationPage = () => {
   const { t } = useTranslation()
-  const {cataloguesAll} = useRoutesDefinition()
+  const queryClient = useQueryClient()
 
+  const { certificationId } = useParams()
+  const { cataloguesAll, protocolsToVerify } = useRoutesDefinition()
 
-  const formData = useMemo(() => autoFormFormatter(form as BackAutoFormData), [form])
+  const certificationGetQuery = useCertificationGetQuery({
+    query: {
+      id: certificationId!,
+    }
+  })
+
+  const certification = certificationGetQuery.data?.item
+
+  const formData = useMemo(() => {
+    //@ts-ignore
+    const form = preformatProtocol(certification?.protocol)
+      ?.steps
+      ?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
+    if (!form) return undefined
+
+    return autoFormFormatter(form)
+  }, [certification])
 
   const title = t("protocol.protocolTitle", {
-    name: "Mapping finance v1"
+    name: certification?.protocol.label
   })
+
+  const certificationValidateCommand = useCertificationValidateCommand({})
+  const handleValidate = useCallback(async () => {
+    await certificationValidateCommand.mutateAsync({ id: certificationId })
+    queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+    queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+    navigate(protocolsToVerify())
+  }, [certificationId])
+
+  const certificationRejectCommand = useCertificationRejectCommand({})
+  const handleReject = useCallback(async () => {
+        // TODO
+  }, [certificationId])
 
   return (
     <AppPage
       title={title}
       basicHeader={false}
       maxWidth={1080}
-      customHeader={<ValidationHeader 
-        onAccept={() => {return new Promise((resolve) => resolve(true))}} 
-        onReject={() => {return new Promise((resolve) => resolve(true))}} 
-        isUpdating={false} 
-        creator={{
-          email: "creator@example.com",
-          givenName: "John",
-          familyName: "Doe"
-        }}
-        linkTo={{
-          href: cataloguesAll("1"),
+      customHeader={<ValidationHeader
+        onAccept={handleValidate}
+        onReject={() => {return new Promise((resolve) => resolve(true))}}
+        isUpdating={certificationGetQuery.isLoading}
+        creator={certification?.creator}
+        linkTo={certification?.catalogue && {
+          href: cataloguesAll(certification?.catalogue.id!),
           label: t("consultSheet")
         }}
-        />}
-        headerContainerProps={{
-          sx: {
-            position: "sticky",
-                borderRadius: 0,
-                top: 0,
-                zIndex: 1,
-          }
-        }}
+      />}
+      headerContainerProps={{
+        sx: {
+          position: "sticky",
+          borderRadius: 0,
+          top: 0,
+          zIndex: 1,
+        }
+      }}
     >
       <Paper
         sx={{

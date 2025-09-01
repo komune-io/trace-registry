@@ -487,7 +487,10 @@
             "control/certificationFill": "Le formulaire du référentiel n'a pas pu être sauvegardé",
             "control/protocolGet": "Le référentiel n'a pas pu être récupéré",
             "control/protocolPage": "La liste des référentiels n'a pas pu être récupérée",
-            "control/certificationGet": "Le référentiel n'a pas pu être récupéré"
+            "control/certificationGet": "Le référentiel n'a pas pu être récupéré",
+            "control/certificationSubmit": "Le référentiel n'a pas pu être soumis pour validation",
+            "control/certificationValidate": "Le référentiel n'a pas pu être validé",
+            "control/certificationReject": "Le référentiel n'a pas pu être rejeté"
         },
         "success": {
             "data/catalogueCreate": "La fiche a bien été créée",
@@ -510,7 +513,10 @@
             "data/datasetAddDistributionValue": "L'indicateur a bien été créé",
             "data/datasetReplaceDistributionValue": "Les modifications de l'indicateur a bien été enregistrées",
             "data/datasetRemoveDistributionValue": "L'indicateur a bien été supprimé",
-            "data/catalogueStartCertification": "La création du référentiel a bien été effectuée"
+            "data/catalogueStartCertification": "La création du référentiel a bien été effectuée",
+            "control/certificationSubmit": "Le référentiel a bien été soumis pour validation",
+            "control/certificationValidate": "Le référentiel a bien été validé",
+            "control/certificationReject": "Le référentiel a bien été rejeté"
         }
     }
 }

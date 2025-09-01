@@ -1,7 +1,7 @@
-import { useMemo, useCallback } from "react"
-import { insertObjectIdsInsideRoutes, RecordRouteCamelCase } from "./types"
-import { PathsOfObj } from "./utils"
-import { Policies } from "./auth"
+import {useCallback, useMemo} from "react"
+import {insertObjectIdsInsideRoutes, RecordRouteCamelCase} from "./types"
+import {PathsOfObj} from "./utils"
+import {Policies} from "./auth"
 
 type PoliciesPaths = PathsOfObj<Policies> | "open" | "logged"
 
@@ -27,7 +27,7 @@ export const strictRoutesAuthorizations = {
   "catalogues/:catalogueId/:draftId/:tab/:protocolId/:certificationId/protocol": "logged" as PoliciesPaths,
   "catalogues/*": "open" as PoliciesPaths,
   "protocols/toVerify": "draft.canSeePublished" as PoliciesPaths,
-  "protocols/:protocolId/verify": "draft.canSeePublished" as PoliciesPaths,
+  "protocols/:certificationId/verify": "draft.canSeePublished" as PoliciesPaths,
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
