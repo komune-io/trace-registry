@@ -15,11 +15,13 @@ import org.neo4j.ogm.annotation.Version
 class Requirement {
     companion object {
         const val LABEL = "Requirement"
+
         const val HAS_REQUIREMENT = "HAS_REQUIREMENT"
         const val HAS_CONCEPT = "HAS_CONCEPT"
         const val HAS_EVIDENCE_TYPE = "HAS_EVIDENCE_TYPE"
         const val ENABLING_DEPENDS_ON = "ENABLING_DEPENDS_ON"
         const val VALIDATION_DEPENDS_ON = "VALIDATION_DEPENDS_ON"
+        const val HAS_BADGE = "HAS_BADGE"
     }
 
     @Id
@@ -59,6 +61,9 @@ class Requirement {
     var evidenceValidatingCondition: String? = null
 
     var order: Int? = null
+
+    @Relationship(HAS_BADGE)
+    var badges: MutableList<Badge> = mutableListOf()
 
     private var propertiesJson: String? = null
     var properties: Map<String, String?>?

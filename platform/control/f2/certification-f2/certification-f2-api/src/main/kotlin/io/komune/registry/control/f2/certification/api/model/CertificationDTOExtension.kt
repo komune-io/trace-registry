@@ -2,6 +2,7 @@ package io.komune.registry.control.f2.certification.api.model
 
 import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
+import io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTOBase
 import io.komune.registry.control.f2.certification.domain.model.CertificationCatalogueRef
 import io.komune.registry.control.f2.certification.domain.model.CertificationDTOBase
 import io.komune.registry.control.f2.certification.domain.model.CertificationRef
@@ -25,6 +26,7 @@ suspend fun Certification.toRef(
     protocol = requirementCertifications.first().requirement.toProtocolRef(),
     catalogue = getCatalogue(id),
     completionRate = 0.0, // TODO
+    badges = requirementCertifications.extractBadges(),
     creator = creatorUserId?.let { getUser(it) },
     creatorOrganization = creatorOrganizationId?.let { getOrganization(it) },
     status = status
@@ -51,6 +53,7 @@ suspend fun Certification.toDTO(
         completionRate = 0.0, // TODO
         values = allValues,
         evidences = allEvidences,
+        badges = requirementCertifications.extractBadges(),
         status = status,
         creator = creatorUserId?.let { getUser(it) },
         creatorOrganization = creatorOrganizationId?.let { getOrganization(it) },
@@ -60,6 +63,12 @@ suspend fun Certification.toDTO(
         creationDate = creationDate,
         modificationDate = lastModificationDate
     )
+}
+
+fun List<RequirementCertification>.extractBadges(): List<BadgeCertificationDTOBase> = flatMap { requirementCertification ->
+    requirementCertification.badges.mapNotNull { badge ->
+        badge.takeIf { it.level != null }?.toDTO()
+    } + requirementCertification.subCertifications.extractBadges()
 }
 
 fun CatalogueModel.toRef() = CertificationCatalogueRef(

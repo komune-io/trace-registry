@@ -20,6 +20,7 @@ interface CertificationDTO : CertificationAccessData {
     val completionRate: Double
     val values: Map<InformationConceptIdentifier, String?>
     val evidences: Map<EvidenceTypeIdentifier, String?>
+    val badges: List<BadgeCertificationDTO>
     override val status: CertificationState
     override val creator: UserRefDTO?
     override val creatorOrganization: OrganizationRefDTO?
@@ -38,6 +39,7 @@ data class CertificationDTOBase(
     override val completionRate: Double,
     override val values: Map<InformationConceptIdentifier, String?>,
     override val evidences: Map<EvidenceTypeIdentifier, String?>,
+    override val badges: List<BadgeCertificationDTOBase>,
     override val status: CertificationState,
     override val creator: UserRef?,
     override val creatorOrganization: OrganizationRef?,

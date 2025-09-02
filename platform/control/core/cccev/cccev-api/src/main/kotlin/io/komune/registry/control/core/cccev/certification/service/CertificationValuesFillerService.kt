@@ -88,15 +88,23 @@ class CertificationValuesFillerService(
         context.registerJsonValue(informationConceptIdentifier, supportedValue.value)
 
         this.onEach { requirementCertification ->
+            val relevantBadgeCertifications = requirementCertification.badges.filter {
+                it.badge.informationConcept.identifier == informationConceptIdentifier
+            }
             val existingValue = requirementCertification.values.firstOrNull { it.concept.identifier == informationConceptIdentifier }
+                ?: relevantBadgeCertifications.firstOrNull { it.value?.concept?.identifier == informationConceptIdentifier }?.value
+
 
             if (existingValue == null) {
                 requirementCertification.values.add(supportedValue)
+                relevantBadgeCertifications.forEach { badge ->
+                    badge.value = supportedValue
+                }
             } else {
                 existingValue.value = supportedValue.value
             }
 
-            session.save(requirementCertification, 2)
+            session.save(requirementCertification, 3)
         }.forEach { it.updateFulfillment(context) }
 
         certificationRepository.findSupportingEvidenceFor(supportedValue.id)?.let { evidence ->

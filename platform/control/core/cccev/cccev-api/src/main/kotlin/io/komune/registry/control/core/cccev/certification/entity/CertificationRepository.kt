@@ -6,6 +6,7 @@ import io.komune.im.commons.model.OrganizationId
 import io.komune.registry.control.core.cccev.certification.CertificationState
 import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
 import io.komune.registry.control.core.cccev.evidencetype.entity.EvidenceType
+import io.komune.registry.control.core.cccev.requirement.entity.Badge
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.unit.entity.DataUnit
 import io.komune.registry.infra.neo4j.findById
@@ -119,7 +120,11 @@ class CertificationRepository(
     ): List<RequirementCertification> = findFilteredRequirementCertifications(
         certificationId,
         rootRequirementCertificationId,
-        "-->(:${InformationConcept.LABEL} {identifier: \$icId})",
+        """
+        WHERE (r)-->(:${InformationConcept.LABEL} {identifier: \${'$'}icId}))
+        OR (r)-[:${Requirement.HAS_BADGE}]->(:${Badge.LABEL})-[:${Badge.IS_BASED_ON}]
+            ->(:${InformationConcept.LABEL} {identifier: \${'$'}icId}))
+        """.trimIndent(),
         mapOf("icId" to informationConceptIdentifier)
     )
 

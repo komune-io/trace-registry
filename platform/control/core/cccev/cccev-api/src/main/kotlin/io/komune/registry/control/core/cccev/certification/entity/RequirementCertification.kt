@@ -16,6 +16,7 @@ class RequirementCertification {
         const val HAS_EVIDENCE = "HAS_EVIDENCE"
         const val IS_CERTIFIED_BY = "IS_CERTIFIED_BY"
         const val USES_VALUE = "USES_VALUE"
+        const val HAS_BADGE = "HAS_BADGE"
     }
 
     @Id
@@ -32,6 +33,9 @@ class RequirementCertification {
 
     @Relationship(HAS_EVIDENCE)
     var evidences: MutableList<Evidence> = mutableListOf()
+
+    @Relationship(HAS_BADGE)
+    var badges: MutableList<BadgeCertification> = mutableListOf()
 
     /**
      * Result of the requirement's enablingCondition, or true if the requirement has no enablingCondition.

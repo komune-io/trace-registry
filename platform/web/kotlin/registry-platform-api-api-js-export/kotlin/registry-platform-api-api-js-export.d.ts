@@ -3485,6 +3485,17 @@ export declare namespace io.komune.registry.control.f2.certification.domain.comm
     }
 }
 export declare namespace io.komune.registry.control.f2.certification.domain.model {
+    interface BadgeCertificationDTO {
+        readonly id: string;
+        readonly badgeId: string;
+        readonly name: string;
+        readonly value: string;
+        readonly color?: string;
+        readonly image?: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.model {
     interface CertificationAccessData {
         readonly id: string;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
@@ -3510,6 +3521,7 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly completionRate: number;
         readonly values: Record<string, Nullable<string>>;
         readonly evidences: Record<string, Nullable<string>>;
+        readonly badges: io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO[];
         readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
@@ -3527,6 +3539,7 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly protocol: io.komune.registry.control.f2.protocol.domain.model.ProtocolRefDTO;
         readonly catalogue?: io.komune.registry.control.f2.certification.domain.model.CertificationCatalogueRefDTO;
         readonly completionRate: number;
+        readonly badges: io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO[];
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;

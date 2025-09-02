@@ -16,12 +16,14 @@ import io.komune.registry.control.core.cccev.certification.command.Certification
 import io.komune.registry.control.core.cccev.certification.command.CertificationSubmittedEvent
 import io.komune.registry.control.core.cccev.certification.command.CertificationValidateCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationValidatedEvent
+import io.komune.registry.control.core.cccev.certification.entity.BadgeCertification
 import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
 import io.komune.registry.control.core.cccev.certification.entity.isFulfilled
 import io.komune.registry.control.core.cccev.certification.service.CertificationEvidenceService
 import io.komune.registry.control.core.cccev.certification.service.CertificationValuesFillerService
+import io.komune.registry.control.core.cccev.requirement.entity.Badge
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
 import io.komune.registry.infra.fs.FsPath
@@ -49,7 +51,7 @@ class CertificationAggregateService(
 ) {
     suspend fun create(command: CertificationCreateCommand): CertificationCreatedEvent = sessionFactory.transaction { session, _ ->
         val requirements = command.requirementIds.map { requirementId ->
-            requirementRepository.loadRequirementOnlyGraph(requirementId)
+            requirementRepository.loadRequirementOnlyGraph(requirementId, withBadges = true)
                 ?: throw NotFoundException("Requirement", requirementId)
         }
 
@@ -115,6 +117,7 @@ class CertificationAggregateService(
 
     suspend fun reject(command: CertificationRejectCommand): CertificationRejectedEvent = doOnEntity(command, 0) { session ->
         status = CertificationState.REJECTED
+        auditDate = System.currentTimeMillis()
         comment = command.reason
 
         val authedUser = AuthenticationProvider.getAuthedUser()
@@ -126,6 +129,7 @@ class CertificationAggregateService(
 
     suspend fun validate(command: CertificationValidateCommand): CertificationValidatedEvent = doOnEntity(command, 0) { session ->
         status = CertificationState.VALIDATED
+        auditDate = System.currentTimeMillis()
 
         val authedUser = AuthenticationProvider.getAuthedUser()
         auditorUserId = authedUser?.id
@@ -146,12 +150,20 @@ class CertificationAggregateService(
                 subRequirements.forEach { requirement ->
                     certification.subCertifications.add(requirement.toEmptyCertification(existingCertifications))
                 }
+                badges.forEach { badge ->
+                    certification.badges.add(badge.toEmptyCertification())
+                }
                 certification.isEnabled = enablingCondition == null
                 certification.isValidated = validatingCondition == null
                 certification.hasAllValues = !requirementRepository.hasAnyConcept(identifier)
                 certification.areEvidencesProvided = evidenceValidatingCondition == null
                 certification.isFulfilled = certification.isFulfilled()
             }
+    }
+
+    private fun Badge.toEmptyCertification(): BadgeCertification = BadgeCertification().also { badgeCertification ->
+        badgeCertification.id = UUID.randomUUID().toString()
+        badgeCertification.badge = this
     }
 
     private suspend fun <Evt: Any> doOnEntity(

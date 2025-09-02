@@ -16,6 +16,7 @@ interface CertificationRefDTO : CertificationAccessData {
     val protocol: ProtocolRefDTO
     val catalogue: CertificationCatalogueRefDTO?
     val completionRate: Double
+    val badges: List<BadgeCertificationDTO>
     override val creator: UserRefDTO?
     override val creatorOrganization: OrganizationRefDTO?
     override val status: CertificationState
@@ -27,6 +28,7 @@ data class CertificationRef(
     override val protocol: ProtocolRefDTO,
     override val catalogue: CertificationCatalogueRef?,
     override val completionRate: Double,
+    override val badges: List<BadgeCertificationDTOBase>,
     override val creator: UserRef?,
     override val creatorOrganization: OrganizationRef?,
     override val status: CertificationState
