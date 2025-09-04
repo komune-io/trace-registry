@@ -1,9 +1,7 @@
 package io.komune.registry.control.core.cccev.certification.entity
 
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
-import io.komune.registry.s2.commons.model.OrganizationId
 import io.komune.registry.s2.commons.model.RequirementCertificationId
-import io.komune.registry.s2.commons.model.UserId
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -18,6 +16,7 @@ class RequirementCertification {
         const val HAS_EVIDENCE = "HAS_EVIDENCE"
         const val IS_CERTIFIED_BY = "IS_CERTIFIED_BY"
         const val USES_VALUE = "USES_VALUE"
+        const val HAS_BADGE = "HAS_BADGE"
     }
 
     @Id
@@ -34,6 +33,9 @@ class RequirementCertification {
 
     @Relationship(HAS_EVIDENCE)
     var evidences: MutableList<Evidence> = mutableListOf()
+
+    @Relationship(HAS_BADGE)
+    var badges: MutableList<BadgeCertification> = mutableListOf()
 
     /**
      * Result of the requirement's enablingCondition, or true if the requirement has no enablingCondition.
@@ -63,10 +65,6 @@ class RequirementCertification {
 
     @Version
     var version: Long? = null
-
-    var validatorUserId: UserId? = null
-
-    var validatorOrganizationId: OrganizationId? = null
 
     var creationDate: Long = System.currentTimeMillis()
 }

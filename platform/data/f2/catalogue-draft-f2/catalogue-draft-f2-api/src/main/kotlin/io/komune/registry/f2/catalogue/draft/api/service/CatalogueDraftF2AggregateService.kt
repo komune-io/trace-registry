@@ -6,7 +6,7 @@ import f2.dsl.cqrs.filter.collectionMatchOf
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.f2.catalogue.api.model.toUpdateCommand
 import io.komune.registry.f2.catalogue.api.service.CatalogueF2AggregateService
-import io.komune.registry.f2.catalogue.api.service.CatalogueI18nService
+import io.komune.registry.f2.catalogue.api.service.CatalogueF2I18nService
 import io.komune.registry.f2.catalogue.domain.command.CatalogueCreateCommandDTOBase
 import io.komune.registry.f2.catalogue.draft.domain.command.CatalogueDraftCreateCommandDTOBase
 import io.komune.registry.program.s2.dataset.api.DatasetAggregateService
@@ -69,7 +69,7 @@ class CatalogueDraftF2AggregateService(
     private val catalogueDraftFinderService: CatalogueDraftFinderService,
     private val catalogueF2AggregateService: CatalogueF2AggregateService,
     private val catalogueFinderService: CatalogueFinderService,
-    private val catalogueI18nService: CatalogueI18nService,
+    private val catalogueF2I18NService: CatalogueF2I18nService,
     private val datasetAggregateService: DatasetAggregateService,
     private val datasetFinderService: DatasetFinderService,
 ) {
@@ -79,7 +79,7 @@ class CatalogueDraftF2AggregateService(
     ): CatalogueDraftCreatedEvent {
         val now = System.currentTimeMillis()
         val originalCatalogue = catalogueFinderService.get(command.catalogueId)
-        val translatedOriginalCatalogue = catalogueI18nService.translate(originalCatalogue, command.language, false)
+        val translatedOriginalCatalogue = catalogueF2I18NService.translate(originalCatalogue, command.language, false)
         val baseCatalogue = translatedOriginalCatalogue ?: originalCatalogue
 
         // create copy of the translated original catalogue as a draft

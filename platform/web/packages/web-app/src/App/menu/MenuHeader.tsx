@@ -1,22 +1,31 @@
-import {Stack} from '@mui/material'
-import {IconPack, Menu, useExtendedAuth, useRoutesDefinition} from 'components'
-import {TFunction} from 'i18next'
-import {useMemo} from 'react'
-import {useTranslation} from 'react-i18next'
-import {useLocation} from 'react-router-dom'
-import {getMenu, MenuItem} from '.'
-import {useCatalogueDraftPageQuery} from 'domain-components'
-import {CreateCatalogueButton} from './CreateCatalogueButton'
+import { Stack } from '@mui/material'
+import { IconPack, Menu, useExtendedAuth, useRoutesDefinition } from 'components'
+import { TFunction } from 'i18next'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
+import { getMenu, MenuItem } from '.'
+import { useCatalogueDraftPageQuery, useCertificationPageQuery } from 'domain-components'
+import { CreateCatalogueButton } from './CreateCatalogueButton'
 
 export const usePersonalMenu = (t: TFunction) => {
     const location = useLocation()
+    const { i18n } = useTranslation()
 
     const { cataloguesToVerify, cataloguesContributions, cataloguesMyOrganization, protocolsToVerify } = useRoutesDefinition()
-    const {policies} = useExtendedAuth()
+    const { policies } = useExtendedAuth()
 
     const totalToVerify = useCatalogueDraftPageQuery({
         query: {
             limit: 0,
+            status: ["SUBMITTED"]
+        }
+    }).data?.total
+
+    const certificationsToVerifyCount = useCertificationPageQuery({
+        query: {
+            limit: 0,
+            language: i18n.language,
             status: ["SUBMITTED"]
         }
     }).data?.total
@@ -44,7 +53,7 @@ export const usePersonalMenu = (t: TFunction) => {
                 to: protocolsToVerify(),
                 label: t("protocolsToValidate"),
                 icon: <IconPack.validate />,
-                number: 5,
+                number: certificationsToVerifyCount,
                 isVisible: policies.draft.canSeePublished(),
                 isSelected: location.pathname.includes(protocolsToVerify())
             },
@@ -69,12 +78,12 @@ export const MenuHeader = () => {
     const { t } = useTranslation()
 
     const personalMenu = usePersonalMenu(t)
-    
+
     return (
         <Stack
             gap={2}
             sx={{
-                pt:1,
+                pt: 1,
             }}
         >
             <CreateCatalogueButton identifier='menu' />

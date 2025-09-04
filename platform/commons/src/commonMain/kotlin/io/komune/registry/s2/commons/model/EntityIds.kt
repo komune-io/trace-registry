@@ -2,6 +2,37 @@ package io.komune.registry.s2.commons.model
 
 /**
  * @d2 hidden
+ * @visual json "6e2e94db-5940-4968-9669-aff46e624678"
+ */
+typealias BadgeId = String
+
+/**
+ * @d2 hidden
+ * @visual json "82ad0ae5-3d28-4f6a-bbe5-be5d05aba418"
+ */
+typealias BadgeIdentifier = String
+
+/**
+ * @d2 hidden
+ * @visual json "3b764771-fa49-473c-b388-c8232535bbe2"
+ */
+typealias BadgeCertificationId = String
+
+/**
+ * @d2 hidden
+ * @visual json "f632640d-8475-4060-b6b1-783a99c01cb0"
+ */
+typealias BadgeLevelId = String
+
+
+/**
+ * @d2 hidden
+ * @visual json "704979f7-349e-49f5-9fe8-b8cadfdbfb1f"
+ */
+typealias BadgeLevelIdentifier = String
+
+/**
+ * @d2 hidden
  * @visual json "b5d4e11f-5519-4fb6-8b93-f78c99dd624e"
  */
 typealias CatalogueDraftId = String

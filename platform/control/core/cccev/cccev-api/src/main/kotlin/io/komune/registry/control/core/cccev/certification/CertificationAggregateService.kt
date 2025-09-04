@@ -5,29 +5,38 @@ import io.komune.fs.s2.file.client.FileClient
 import io.komune.fs.spring.utils.toUploadCommand
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddEvidenceCommand
-import io.komune.registry.control.core.cccev.certification.command.CertificationAddRequirementsCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationAddedEvidenceEvent
-import io.komune.registry.control.core.cccev.certification.command.CertificationAddedRequirementsEvent
 import io.komune.registry.control.core.cccev.certification.command.CertificationCreateCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationCreatedEvent
 import io.komune.registry.control.core.cccev.certification.command.CertificationFillValuesCommand
 import io.komune.registry.control.core.cccev.certification.command.CertificationFilledValuesEvent
-import io.komune.registry.control.core.cccev.certification.command.CertificationRemoveRequirementsCommand
-import io.komune.registry.control.core.cccev.certification.command.CertificationRemovedRequirementsEvent
+import io.komune.registry.control.core.cccev.certification.command.CertificationRejectCommand
+import io.komune.registry.control.core.cccev.certification.command.CertificationRejectedEvent
+import io.komune.registry.control.core.cccev.certification.command.CertificationSubmitCommand
+import io.komune.registry.control.core.cccev.certification.command.CertificationSubmittedEvent
+import io.komune.registry.control.core.cccev.certification.command.CertificationValidateCommand
+import io.komune.registry.control.core.cccev.certification.command.CertificationValidatedEvent
+import io.komune.registry.control.core.cccev.certification.entity.BadgeCertification
 import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
 import io.komune.registry.control.core.cccev.certification.entity.isFulfilled
 import io.komune.registry.control.core.cccev.certification.service.CertificationEvidenceService
 import io.komune.registry.control.core.cccev.certification.service.CertificationValuesFillerService
+import io.komune.registry.control.core.cccev.requirement.entity.Badge
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
 import io.komune.registry.infra.fs.FsPath
+import io.komune.registry.infra.neo4j.findSafeShallowById
 import io.komune.registry.infra.neo4j.session
+import io.komune.registry.infra.neo4j.transaction
+import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.RequirementIdentifier
+import org.neo4j.ogm.session.Session
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
+import s2.dsl.automate.S2Command
 import java.util.UUID
 
 @Service
@@ -40,9 +49,9 @@ class CertificationAggregateService(
     private val requirementRepository: RequirementRepository,
     private val sessionFactory: SessionFactory
 ) {
-    suspend fun create(command: CertificationCreateCommand): CertificationCreatedEvent = sessionFactory.session { session ->
+    suspend fun create(command: CertificationCreateCommand): CertificationCreatedEvent = sessionFactory.transaction { session, _ ->
         val requirements = command.requirementIds.map { requirementId ->
-            requirementRepository.loadRequirementOnlyGraph(requirementId)
+            requirementRepository.loadRequirementOnlyGraph(requirementId, withBadges = true)
                 ?: throw NotFoundException("Requirement", requirementId)
         }
 
@@ -61,20 +70,24 @@ class CertificationAggregateService(
             .also(applicationEventPublisher::publishEvent)
     }
 
-    suspend fun fillValues(command: CertificationFillValuesCommand): CertificationFilledValuesEvent {
+    suspend fun fillValues(
+        command: CertificationFillValuesCommand
+    ): CertificationFilledValuesEvent = doOnEntity(command, 0) { session ->
         val context = CertificationValuesFillerService.Context(
             certificationId = command.id,
             rootRequirementCertificationId = command.rootRequirementCertificationId
         )
         certificationValuesFillerService.fillValues(command.values, context)
 
-        return CertificationFilledValuesEvent(
+        CertificationFilledValuesEvent(
             id = command.id,
             rootRequirementCertificationId = command.rootRequirementCertificationId
-        ).also(applicationEventPublisher::publishEvent)
+        )
     }
 
-    suspend fun addEvidence(command: CertificationAddEvidenceCommand, file: ByteArray, filename: String?): CertificationAddedEvidenceEvent {
+    suspend fun addEvidence(
+        command: CertificationAddEvidenceCommand, file: ByteArray, filename: String?
+    ): CertificationAddedEvidenceEvent = doOnEntity(command, 0) { session ->
         val path = command.filePath
             ?: FsPath.Control.Certification.evidenceType(command.id, command.evidenceTypeIdentifier)
                 .copy(name = filename ?: System.currentTimeMillis().toString())
@@ -89,49 +102,40 @@ class CertificationAggregateService(
             file = file
         )
 
-        return CertificationAddedEvidenceEvent(
+        CertificationAddedEvidenceEvent(
             id = command.id,
             rootRequirementCertificationId = command.rootRequirementCertificationId,
             evidenceId = evidenceId,
             filePath = path
-        ).also(applicationEventPublisher::publishEvent)
+        )
     }
 
-    suspend fun addRequirements(
-        command: CertificationAddRequirementsCommand
-    ): CertificationAddedRequirementsEvent = sessionFactory.session { session ->
-        val requirements = command.requirementIds.map { requirementId ->
-            requirementRepository.loadRequirementOnlyGraph(requirementId)
-                ?: throw NotFoundException("Requirement", requirementId)
-        }
-
-        val requirementCertifications = requirements.map { it.toEmptyCertification() }
-
-        if (command.parentId == null) {
-            val certification = session.load(Certification::class.java, command.id as String, 0)
-                ?: throw NotFoundException("Certification", command.id)
-            certification.requirementCertifications.addAll(requirementCertifications)
-            certificationRepository.save(certification)
-        } else {
-            if (!certificationRepository.hasRequirementCertification(command.id, command.parentId!!)) {
-                throw NotFoundException("RequirementCertification [${command.parentId}] in Certification", command.id)
-            }
-
-            val parentRequirementCertification = session.load(RequirementCertification::class.java, command.parentId as String, 0)
-                ?: throw NotFoundException("RequirementCertification", command.parentId!!)
-            parentRequirementCertification.subCertifications.addAll(requirementCertifications)
-            certificationRepository.save(parentRequirementCertification)
-        }
-
-        CertificationAddedRequirementsEvent(
-            id = command.id,
-            parentId = command.parentId,
-            requirementCertificationIds = requirementCertifications.map { it.id }
-        ).also(applicationEventPublisher::publishEvent)
+    suspend fun submit(command: CertificationSubmitCommand): CertificationSubmittedEvent = doOnEntity(command, 0) { session ->
+        status = CertificationState.SUBMITTED
+        CertificationSubmittedEvent(command.id)
     }
 
-    suspend fun removeRequirements(command: CertificationRemoveRequirementsCommand): CertificationRemovedRequirementsEvent {
-        TODO()
+    suspend fun reject(command: CertificationRejectCommand): CertificationRejectedEvent = doOnEntity(command, 0) { session ->
+        status = CertificationState.REJECTED
+        auditDate = System.currentTimeMillis()
+        comment = command.reason
+
+        val authedUser = AuthenticationProvider.getAuthedUser()
+        auditorUserId = authedUser?.id
+        auditorOrganizationId = authedUser?.memberOf
+
+        CertificationRejectedEvent(command.id, command.reason)
+    }
+
+    suspend fun validate(command: CertificationValidateCommand): CertificationValidatedEvent = doOnEntity(command, 0) { session ->
+        status = CertificationState.VALIDATED
+        auditDate = System.currentTimeMillis()
+
+        val authedUser = AuthenticationProvider.getAuthedUser()
+        auditorUserId = authedUser?.id
+        auditorOrganizationId = authedUser?.memberOf
+
+        CertificationValidatedEvent(command.id)
     }
 
     private suspend fun Requirement.toEmptyCertification(
@@ -146,11 +150,47 @@ class CertificationAggregateService(
                 subRequirements.forEach { requirement ->
                     certification.subCertifications.add(requirement.toEmptyCertification(existingCertifications))
                 }
+                badges.forEach { badge ->
+                    certification.badges.add(badge.toEmptyCertification())
+                }
                 certification.isEnabled = enablingCondition == null
                 certification.isValidated = validatingCondition == null
                 certification.hasAllValues = !requirementRepository.hasAnyConcept(identifier)
                 certification.areEvidencesProvided = evidenceValidatingCondition == null
                 certification.isFulfilled = certification.isFulfilled()
             }
+    }
+
+    private fun Badge.toEmptyCertification(): BadgeCertification = BadgeCertification().also { badgeCertification ->
+        badgeCertification.id = UUID.randomUUID().toString()
+        badgeCertification.badge = this
+    }
+
+    private suspend fun <Evt: Any> doOnEntity(
+        command: S2Command<CertificationId>,
+        depth: Int,
+        applyUpdate: suspend Certification.(Session) -> Evt
+    ): Evt = doTransitionWithEvent(command) { session ->
+        val certification = session.load(Certification::class.java, command.id, depth)
+            ?: throw NotFoundException(Certification.LABEL, command.id)
+
+        certification.lastModificationDate = System.currentTimeMillis()
+        certification.applyUpdate(session)
+            .also { certificationRepository.save(certification) }
+    }
+
+    private suspend fun <Evt: Any> doTransitionWithEvent(
+        command: S2Command<CertificationId>,
+        exec: suspend (Session) -> Evt
+    ): Evt = sessionFactory.transaction { session, _ ->
+        checkTransition(command)
+        exec(session).also(applicationEventPublisher::publishEvent)
+    }
+
+    private suspend fun checkTransition(command: S2Command<CertificationId>) = sessionFactory.session { session ->
+        val certification = session.findSafeShallowById<Certification>(command.id, Certification.LABEL)
+        require(s2Certification.isAvailableTransition(certification.status, command)) {
+            "No available transition from [${certification.status}] with command $command"
+        }
     }
 }

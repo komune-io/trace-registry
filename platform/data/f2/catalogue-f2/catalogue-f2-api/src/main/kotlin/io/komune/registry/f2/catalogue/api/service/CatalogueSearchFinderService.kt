@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service
 class CatalogueSearchFinderService(
     private val catalogueConfig: CatalogueConfig,
     private val catalogueF2FinderService: CatalogueF2FinderService,
-    private val catalogueI18nService: CatalogueI18nService,
+    private val catalogueF2I18NService: CatalogueF2I18nService,
 ) : CatalogueCachedService() {
 
     @Suppress("LongMethod")
@@ -78,7 +78,7 @@ class CatalogueSearchFinderService(
 
         val refs = result.items.mapAsync { catalogue ->
             val masterCatalogue = catalogue.isTranslationOf?.let { masterCatalogues[it] }
-            catalogueI18nService.translateToRefDTO(masterCatalogue ?: catalogue, language, otherLanguageIfAbsent)
+            catalogueF2I18NService.translateToRefDTO(masterCatalogue ?: catalogue, language, otherLanguageIfAbsent)
         }.filterNotNull()
 
         CatalogueRefSearchResult(

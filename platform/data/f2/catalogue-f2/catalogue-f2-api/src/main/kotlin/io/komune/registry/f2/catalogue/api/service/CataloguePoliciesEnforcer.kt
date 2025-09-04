@@ -27,7 +27,7 @@ class CataloguePoliciesEnforcer(
 ): PolicyEnforcer() {
     suspend fun checkCreate(type: String) = checkAuthed("create a catalogue of type [$type]") { authedUser ->
         CataloguePolicies.canCreate(authedUser) && (
-            authedUser.hasRole(Permissions.Catalogue.WRITE_ANY_TYPE)
+            authedUser.hasRole(Permissions.Data.Catalogue.WRITE_ANY_TYPE)
                     || type in catalogueF2FinderService.listExplicitlyAllowedTypesToWrite()
         )
     }
@@ -94,11 +94,11 @@ class CataloguePoliciesEnforcer(
         catalogue.type in catalogueF2FinderService.listClaimableTypes()
     }
 
-    suspend fun checkFillCertification(
+    suspend fun checkStartCertification(
         catalogueId: CatalogueId
-    ) = checkAuthed("fill certification of catalogue [$catalogueId]") { authedUser ->
+    ) = checkAuthed("start certification in catalogue [$catalogueId]") { authedUser ->
         val catalogue = catalogueF2FinderService.getAccessData(catalogueId)
-        CataloguePolicies.canFillCertification(authedUser, catalogue)
+        CataloguePolicies.canStartCertification(authedUser, catalogue)
     }
 
     suspend fun enforceCommand(command: CatalogueCreateCommandDTOBase) = enforceAuthed { authedUser ->

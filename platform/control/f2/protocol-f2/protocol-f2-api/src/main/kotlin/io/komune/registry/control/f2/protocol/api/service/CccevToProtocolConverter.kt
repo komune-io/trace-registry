@@ -3,9 +3,11 @@ package io.komune.registry.control.f2.protocol.api.service
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.requirement.model.RequirementKind
 import io.komune.registry.control.core.cccev.unit.entity.DataUnitOption
+import io.komune.registry.control.f2.protocol.api.model.toDTO
 import io.komune.registry.control.f2.protocol.domain.model.DataCollectionStep
 import io.komune.registry.control.f2.protocol.domain.model.DataCondition
-import io.komune.registry.control.f2.protocol.domain.model.DataConditionType
+import io.komune.registry.control.f2.protocol.domain.model.DataEvaluation
+import io.komune.registry.control.f2.protocol.domain.model.DataEvaluationType
 import io.komune.registry.control.f2.protocol.domain.model.DataField
 import io.komune.registry.control.f2.protocol.domain.model.DataFieldOption
 import io.komune.registry.control.f2.protocol.domain.model.DataSection
@@ -38,7 +40,8 @@ object CccevToProtocolConverter {
             .filter { it.kind != RequirementKind.CONSTRAINT }
             .map { it.toProtocol() },
         conditions = extractConditions(),
-        properties = extractProtocolProperties()
+        properties = extractProtocolProperties(),
+        badges = badges.map { it.toDTO() }
     )
 
     private fun Requirement.toDataCollectionStep() = DataCollectionStep(
@@ -50,7 +53,8 @@ object CccevToProtocolConverter {
             .filter { it.type == ReservedProtocolTypes.DATA_SECTION }
             .map { it.toDataSection() },
         conditions = extractConditions(),
-        properties = extractProtocolProperties()
+        properties = extractProtocolProperties(),
+        badges = badges.map { it.toDTO() }
     )
 
     private fun Requirement.toDataSection() = DataSection(
@@ -62,7 +66,8 @@ object CccevToProtocolConverter {
             .filter { it.kind == RequirementKind.INFORMATION }
             .mapNotNull { it.toDataField() },
         conditions = extractConditions(),
-        properties = extractProtocolProperties()
+        properties = extractProtocolProperties(),
+        badges = badges.map { it.toDTO() }
     )
 
     private fun Requirement.toDataField(): DataField? {
@@ -88,6 +93,12 @@ object CccevToProtocolConverter {
             required = required,
             options = concept?.unit?.options?.map { it.toDataFieldOption() }?.nullIfEmpty(),
             conditions = extractConditions(),
+            autoCompute = concept?.expressionOfExpectedValue?.let { expression ->
+                DataEvaluation(
+                    logic = expression,
+                    dependencies = concept.dependencies.map { it.identifier }
+                )
+            },
             properties = extractProtocolProperties()
         )
     }
@@ -106,9 +117,9 @@ object CccevToProtocolConverter {
 
     private fun Requirement.extractDisplayCondition(): DataCondition? = enablingCondition?.let { expression ->
         DataCondition(
-            type = DataConditionType.display,
+            type = DataEvaluationType.display,
             identifier = identifier,
-            expression = expression,
+            logic = expression,
             dependencies = enablingConditionDependencies.map { it.identifier },
             error = description
         )
@@ -127,10 +138,10 @@ object CccevToProtocolConverter {
                 }
 
                 DataCondition(
-                    type = DataConditionType.validator,
+                    type = DataEvaluationType.validator,
                     isValidatingEvidences = isEvidenceCondition,
                     identifier = constraint.identifier,
-                    expression = expression ?: "true",
+                    logic = expression ?: "true",
                     dependencies = dependencies,
                     error = constraint.description
                 )

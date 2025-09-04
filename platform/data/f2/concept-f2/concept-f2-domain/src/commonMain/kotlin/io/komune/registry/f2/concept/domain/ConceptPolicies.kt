@@ -16,6 +16,6 @@ object ConceptPolicies {
     }
 
     private fun canWrite(authedUser: AuthedUserDTO): Boolean {
-        return authedUser.hasRole(Permissions.Configuration.CONCEPT_WRITE)
+        return authedUser.hasRole(Permissions.Data.Configuration.CONCEPT_WRITE)
     }
 }

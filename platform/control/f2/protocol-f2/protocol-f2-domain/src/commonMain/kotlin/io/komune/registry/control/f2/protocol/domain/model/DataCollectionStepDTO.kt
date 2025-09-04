@@ -18,7 +18,8 @@ data class DataCollectionStep(
     override val description: String?,
     override val sections: List<DataSection>,
     override val conditions: List<DataCondition>?,
-    override val properties: String?
+    override val properties: String?,
+    override val badges: List<BadgeDTOBase>?,
 ): DataCollectionStepDTO {
     override val steps: List<ProtocolDTO>? = null
     override val type: String = ReservedProtocolTypes.DATA_COLLECTION_STEP

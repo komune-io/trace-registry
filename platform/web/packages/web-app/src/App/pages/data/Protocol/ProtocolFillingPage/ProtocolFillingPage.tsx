@@ -1,19 +1,34 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
-import { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
-import { CloseRounded } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
-import { autoFormFormatter, autoformValuesToCommand, BackAutoFormData, FormComposableState, FormSection, useAutoFormState } from '@komune-io/g2'
-import { ReservedProtocolTypes, useCertificationFillCommand, useCertificationGetQuery, useProtocolGetQuery } from 'domain-components'
-import { DialogPage } from 'template'
-import { useDebouncedCallback } from '@mantine/hooks'
+import {Box, IconButton, Stack, Typography} from '@mui/material'
+import {CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition} from 'components'
+import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Link, useNavigate, useParams} from 'react-router-dom'
+import {CloseRounded} from '@mui/icons-material'
+import {
+  autoFormFormatter,
+  autoformValuesToCommand,
+  BackAutoFormData,
+  FormComposableState,
+  FormSection,
+  useAutoFormState
+} from '@komune-io/g2'
+import {
+  ReservedProtocolTypes,
+  useCertificationFillCommand,
+  useCertificationGetQuery,
+  useCertificationSubmitCommand,
+  useProtocolGetQuery
+} from 'domain-components'
+import {DialogPage} from 'template'
+import {useDebouncedCallback} from '@mantine/hooks'
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
   const { catalogueId, draftId, tab, protocolId, certificationId } = useParams()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const [isInit, setIsInit] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -42,30 +57,48 @@ export const ProtocolFillingPage = () => {
   })
 
   const certificationFill = useCertificationFillCommand({})
+  const certificationSubmit = useCertificationSubmitCommand({})
 
-   const saveLexicalDistribution = useDebouncedCallback(async (formState: FormComposableState) => {
-      if (formData) {
-        const command = autoformValuesToCommand(formData, formState.values)
-        await certificationFill.mutateAsync({
-          command: {
-            id: certificationId!,
-            values: command.command
-          },
-          files: command.files
-        })
-        setIsSaving(false)
+  const saveForm = useDebouncedCallback(async (formState: FormComposableState) => {
+    if (formData) {
+      setIsSaving(true)
+      const command = autoformValuesToCommand(formData, formState.values)
+      const res = await certificationFill.mutateAsync({
+        command: {
+          id: certificationId!,
+          values: command.command
+        },
+        files: command.files
+      })
+      if (res) {
+        queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
       }
-    }, 500)
+      setIsSaving(false)
+    }
+  }, 1000)
+
+  const handleSubmit = useCallback(async () => {
+    if (!certificationId) return
+    const res = await certificationSubmit.mutateAsync({ id: certificationId! })
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+      queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
+      navigate(goBackUrl)
+    }
+  }, [certificationSubmit.mutateAsync, certificationId, draftId, queryClient.invalidateQueries, goBackUrl])
 
   const sectionsType = formData?.sectionsType ?? 'default'
 
   const formState = useAutoFormState({
-    onSubmit: (_, values) => console.log("Form submitted with values:", values),
+    onSubmit: handleSubmit,
     initialValues: certificationQuery.data?.item?.values,
-    isLoading: certificationQuery.isLoading
+    isLoading: certificationQuery.isLoading,
+    formData: formData
   })
 
-  
+
   useEffect(() => {
     if (certificationQuery.data?.item) {
       setIsInit(true)
@@ -74,11 +107,10 @@ export const ProtocolFillingPage = () => {
 
   useEffect(() => {
     if (isInit) {
-      setIsSaving(true)
-      saveLexicalDistribution(formState)
+      saveForm(formState)
     }
   }, [formState.values])
-  
+
 
   const formSectionsDisplay = useMemo(() => {
     return formData?.sections.map((section) => {
@@ -145,7 +177,7 @@ export const ProtocolFillingPage = () => {
             {t("cancel")}
           </CustomLinkButton>
           <CustomButton
-            onClick={formState.submitForm}
+            onClick={handleSubmit}
             isLoading={isSaving}
           >
             {t("submitForValidation")}

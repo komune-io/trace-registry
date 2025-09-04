@@ -14,6 +14,7 @@ import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
+import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.Criterion
 import io.komune.registry.s2.commons.model.CriterionField
 import io.komune.registry.s2.commons.model.DatasetId
@@ -37,6 +38,7 @@ class CataloguePageQueryDB(
         creatorOrganizationId: Match<OrganizationId>? = null,
         status: Match<CatalogueState>? = null,
         hidden: Match<Boolean>? = null,
+        certificationIds: Match<CertificationId>? = null,
         freeCriterion: Criterion? = null,
         offset: OffsetPagination? = null,
     ): PageDTO<CatalogueEntity> = doQuery(offset) {
@@ -49,8 +51,9 @@ class CataloguePageQueryDB(
         match(`CatalogueEntity$`.CHILDREN_DATASET_IDS, childrenDatasetIds)
         match(`CatalogueEntity$`.REFERENCED_DATASET_IDS, referencedDatasetIds)
         match(`CatalogueEntity$`.CREATOR_ORGANIZATION_ID, creatorOrganizationId)
-        match(`CatalogueEntity$`.HIDDEN, hidden)
         match(`CatalogueEntity$`.STATUS, status)
+        match(`CatalogueEntity$`.HIDDEN, hidden)
+        match(`CatalogueEntity$`.CERTIFICATION_IDS, certificationIds)
         criterion(freeCriterion) { it.toRedisField() }
     }
 

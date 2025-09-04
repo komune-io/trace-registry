@@ -109,7 +109,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
     var version: Int = 0
     var versionNotes: String? = null
 
-    val certificationIds: MutableSet<CertificationId> = mutableSetOf()
+    @TagIndexed
+    var certificationIds: MutableSet<CertificationId> = mutableSetOf()
 
     override fun s2Id() = id
     override fun s2State() = status

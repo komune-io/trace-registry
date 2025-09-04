@@ -5,6 +5,7 @@ import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import io.komune.registry.s2.commons.model.RequirementCertificationId
 import kotlinx.serialization.Serializable
+import s2.dsl.automate.S2Command
 import kotlin.js.JsExport
 
 /**
@@ -49,7 +50,7 @@ data class CertificationFillValuesCommand(
     override val id: CertificationId,
     override val rootRequirementCertificationId: RequirementCertificationId?,
     override val values: Map<InformationConceptIdentifier, String?>
-): CertificationFillValuesCommandDTO
+): CertificationFillValuesCommandDTO, S2Command<CertificationId>
 
 /**
  * @d2 event

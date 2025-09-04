@@ -3,11 +3,12 @@ import { Catalogue } from '../../model'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { autoFormFormatter, BackAutoFormData, useTheme } from "@komune-io/g2"
 import { Link } from 'react-router-dom'
-import { Badge, config, defaultCatalogueImg, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
+import { config, defaultCatalogueImg, LocalTheme, UnCachedImage, useRoutesDefinition } from 'components'
 import { useCatalogueIdentifierNumber } from '../../api'
 import { useTranslation } from 'react-i18next'
 import { useCataloguesRouteParams } from '../useCataloguesRouteParams'
 import { CatalogueAutoDetailsForm } from '../CatalogueAutoDetailsForm'
+import { CertificationBadge } from '../../../Protocol'
 
 interface CatalogueResultListProps {
     catalogues?: Catalogue[]
@@ -45,7 +46,7 @@ export const CatalogueResultList = (props: CatalogueResultListProps) => {
 }
 
 const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
-    const { title, id, type, img, structure, withImage = structure?.illustration === "IMAGE" } = props
+    const { title, id, type, img, structure, withImage = structure?.illustration === "IMAGE", certifications } = props
 
     const formData = useMemo(() => structure?.tagForm ? autoFormFormatter(structure?.tagForm as BackAutoFormData) : undefined, [structure])
 
@@ -58,6 +59,10 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
     const { cataloguesAll } = useRoutesDefinition()
 
     const identifierNumber = useCatalogueIdentifierNumber(props)
+
+    const badges = useMemo(() => certifications.map((certification) => certification.badges.map((badge) => (
+        <CertificationBadge key={badge.id} {...badge} />
+    ))), [certifications])
 
     return (
         <Stack
@@ -119,9 +124,7 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
                     >
                         {title}
                     </Typography>
-                    <Badge label={"Finance V1"} value={85} />
-                    <Badge label={"Numérique V1"} value={60} />
-                    <Badge label={"Blbl V1"} value={50} />
+                    {badges}
                 </Stack>
                 <Stack
                     direction="row"

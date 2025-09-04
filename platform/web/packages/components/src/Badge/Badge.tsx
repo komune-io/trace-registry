@@ -11,15 +11,17 @@ const colors = {
 export interface BadgeProps {
     label: string;
     icon?: string | JSX.Element
-    value?: number;
+    value?: number | string;
+    color?: string;
     onClick?: () => void;
     onChange?: (isSelected: boolean) => void
     isSelected?: boolean;
 }
 
 export const Badge = (props: BadgeProps) => {
-    const { label, icon, value, onClick, isSelected = false, onChange } = props;
-    const color = value ? value < 60 ? colors.bronze : value < 80 ? colors.silver : colors.gold : colors.gold;
+    const { label, icon, color, value, onClick, isSelected = false, onChange } = props;
+    const defValue = typeof value === "string" ? Number(value) : value
+    const defColor = color ?? (defValue ? defValue < 60 ? colors.bronze : defValue < 80 ? colors.silver : colors.gold : colors.gold);
     const isClickable = !!onClick || !!onChange;
 
     const onClickMemo = useCallback(
@@ -42,8 +44,9 @@ export const Badge = (props: BadgeProps) => {
             onClick={onClickMemo}
             gap={1}
             sx={{
+                width: 'fit-content',
                 borderRadius: "14px",
-                border: isSelected ? "1px solid " + color : "1px solid #EEE",
+                border: isSelected ? "1px solid " + defColor : "1px solid #EEE",
                 background: "#FFF",
                 boxShadow: !isClickable || isSelected ? 1 : undefined,
                 px: 1,
@@ -57,7 +60,7 @@ export const Badge = (props: BadgeProps) => {
         >
             {typeof icon === 'string'  ? <Box
                 sx={{
-                    backgroundColor: color,
+                    backgroundColor: defColor,
                     color: 'white',
                     fill: 'white',
                     borderRadius: '100%',
@@ -79,7 +82,7 @@ export const Badge = (props: BadgeProps) => {
                 variant="body2"
                 sx={{
                     ml: 1.5,
-                    color: color,
+                    color: defColor,
                     fontWeight: 700
                 }}
             >
@@ -90,7 +93,7 @@ export const Badge = (props: BadgeProps) => {
                     sx={{
                         width: 18,
                         height: 18,
-                        color: color,
+                        color: defColor,
                     }}
                 />
 

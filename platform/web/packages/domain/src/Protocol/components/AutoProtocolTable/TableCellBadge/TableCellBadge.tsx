@@ -1,10 +1,10 @@
 
-import { Badge } from 'components'
+import { CertificationBadge } from '../../CertificationBadge';
 
 export interface TableCellBadgeProps {
     value: {
-        label: string;
-        icon?: string;
+        name: string;
+        image?: string;
         value?: number;
     }
 }
@@ -13,6 +13,6 @@ export const TableCellBadge = (props: TableCellBadgeProps) => {
     const { value, ...other } = props
 
     return (
-        <Badge label={value.label} icon={value.icon} value={value.value} {...other} />
+        <CertificationBadge name={value.name} image={value.image} value={value.value} {...other} />
     )
 }

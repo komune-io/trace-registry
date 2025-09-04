@@ -14,7 +14,7 @@
     "value": {
       "label": "shortLabel",
       "value": "result",
-      "icon": "/path/to/icon.svg"
+      "icon": "pathToImage"
     }
   }, {
     "label": "Complétion",

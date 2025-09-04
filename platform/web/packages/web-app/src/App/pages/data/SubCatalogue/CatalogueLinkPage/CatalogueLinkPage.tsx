@@ -109,7 +109,6 @@ export const CatalogueLinkPage = () => {
     [queryClient.invalidateQueries, tab, getSubCatalogue.refetch],
   )
 
-
   const { doRefetchOnDismount } = useRefetchOnDismount({ refetch: refetchData })
 
   useEffect(() => {

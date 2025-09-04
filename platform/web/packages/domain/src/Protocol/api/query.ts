@@ -30,3 +30,13 @@ export const useCertificationGetQuery = (params: QueryParams<CertificationGetQue
     "control/certificationGet", requestProps, params
   )
 }
+
+export interface CertificationPageQuery extends io.komune.registry.control.f2.certification.domain.query.CertificationPageQueryDTO { }
+export interface CertificationPageResult extends io.komune.registry.control.f2.certification.domain.query.CertificationPageResultDTO { }
+
+export const useCertificationPageQuery = (params: QueryParams<CertificationPageQuery, CertificationPageResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<CertificationPageQuery, CertificationPageResult>(
+    "control/certificationPage", requestProps, params
+  )
+}

@@ -11,9 +11,12 @@ dependencies {
 
     implementation(project(Modules.control.core.cccev.api))
 
+    implementation(project(Modules.data.s2.catalogue.api))
+
     implementation(project(Modules.identity.f2.user.api))
     implementation(project(Modules.identity.f2.organization.api))
 
     implementation(project(Modules.commons))
+    implementation(project(Modules.api.config))
     implementation(project(Modules.infra.fs))
 }

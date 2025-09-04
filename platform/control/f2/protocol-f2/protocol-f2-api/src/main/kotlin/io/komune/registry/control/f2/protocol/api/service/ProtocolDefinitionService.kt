@@ -7,17 +7,22 @@ import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeAggregateS
 import io.komune.registry.control.core.cccev.evidencetype.EvidenceTypeFinderService
 import io.komune.registry.control.core.cccev.evidencetype.command.EvidenceTypeCreateCommand
 import io.komune.registry.control.core.cccev.requirement.RequirementAggregateService
+import io.komune.registry.control.core.cccev.requirement.command.RequirementAddBadgeCommand
+import io.komune.registry.control.core.cccev.requirement.command.RequirementBadgeLevelCommand
 import io.komune.registry.control.core.cccev.requirement.command.RequirementCreateCommand
+import io.komune.registry.control.core.cccev.requirement.command.RequirementUpdateBadgeCommand
 import io.komune.registry.control.core.cccev.requirement.command.RequirementUpdateCommand
+import io.komune.registry.control.core.cccev.requirement.entity.Badge
 import io.komune.registry.control.core.cccev.requirement.entity.RequirementRepository
 import io.komune.registry.control.core.cccev.requirement.model.RequirementKind
 import io.komune.registry.control.core.cccev.unit.DataUnitAggregateService
 import io.komune.registry.control.core.cccev.unit.DataUnitFinderService
 import io.komune.registry.control.core.cccev.unit.command.DataUnitCreateCommand
 import io.komune.registry.control.core.cccev.unit.command.DataUnitOptionCommand
+import io.komune.registry.control.f2.protocol.domain.model.BadgeDTO
 import io.komune.registry.control.f2.protocol.domain.model.DataCollectionStep
 import io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO
-import io.komune.registry.control.f2.protocol.domain.model.DataConditionType
+import io.komune.registry.control.f2.protocol.domain.model.DataEvaluationType
 import io.komune.registry.control.f2.protocol.domain.model.DataField
 import io.komune.registry.control.f2.protocol.domain.model.DataSection
 import io.komune.registry.control.f2.protocol.domain.model.Protocol
@@ -32,6 +37,7 @@ import io.komune.registry.s2.commons.model.RequirementId
 import io.komune.registry.s2.commons.model.RequirementIdentifier
 import io.komune.registry.s2.commons.utils.DependencyAwareGraphInitializer
 import org.neo4j.ogm.session.SessionFactory
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 
 @Service
@@ -49,7 +55,7 @@ class ProtocolDefinitionService(
     private val informationConceptGraphInitializer = InformationConceptGraphInitializer()
     private val requirementDataGraphInitializer = RequirementDataGraphInitializer()
 
-    suspend fun define(protocol: ProtocolDTO) = sessionFactory.transaction { session, _ ->
+    suspend fun define(protocol: ProtocolDTO, files: Map<String, FilePart>) = sessionFactory.transaction { session, _ ->
         val informationConcepts = protocol.extractInformationConcepts()
         val conceptIdsMap = informationConceptGraphInitializer.initialize(informationConcepts) { informationConcept, conceptIdsMap ->
             informationConcept.existingId?.let { return@initialize it }
@@ -72,7 +78,7 @@ class ProtocolDefinitionService(
 
         val requirementIdsMap = requirementDataGraphInitializer
             .initialize(rootRequirement.flatten()) { requirementData, requirementIdsMap ->
-                requirementData.createOrUpdate(requirementIdsMap)
+                requirementData.createOrUpdate(requirementIdsMap, files)
             }
 
         requirementIdsMap[rootRequirement.identifier]!!
@@ -142,8 +148,8 @@ class ProtocolDefinitionService(
             name = label.orEmpty(),
             description = description,
             unitId = unitId,
-            expressionOfExpectedValue = null,
-            dependsOn = emptyList()
+            expressionOfExpectedValue = autoCompute?.logic,
+            dependsOn = autoCompute?.dependencies.orEmpty()
         )
     }
 
@@ -195,7 +201,7 @@ class ProtocolDefinitionService(
             description = description,
             order = position,
             properties = mapOf(RequirementProperties.PROTOCOL to properties),
-            enablingCondition = conditionsData.displayCondition?.expression,
+            enablingCondition = conditionsData.displayCondition?.logic,
             enablingConditionDependencies = conditionsData.displayCondition
                 ?.dependencies
                 ?.map { conceptIdsMap[it]!! },
@@ -222,7 +228,8 @@ class ProtocolDefinitionService(
                     is Protocol -> Unit
                 }
             },
-            evidenceTypeIds = evidenceTypeIds
+            evidenceTypeIds = evidenceTypeIds,
+            badges = badges
         )
     }
 
@@ -250,7 +257,7 @@ class ProtocolDefinitionService(
             conceptIds = name.takeIf { !isEvidence }
                 ?.let { listOf(conceptIdsMap[it]!!) }
                 .orEmpty(),
-            enablingCondition = conditionsData.displayCondition?.expression,
+            enablingCondition = conditionsData.displayCondition?.logic,
             enablingConditionDependencies = conditionsData.displayCondition
                 ?.dependencies
                 ?.map { conceptIdsMap[it]!! },
@@ -268,17 +275,20 @@ class ProtocolDefinitionService(
         identifier = identifier,
         kind = RequirementKind.CONSTRAINT,
         description = error,
-        validatingCondition = expression.takeIf { !isValidatingEvidences },
+        validatingCondition = logic.takeIf { !isValidatingEvidences },
         validatingConditionDependencies = dependencies?.takeIf { !isValidatingEvidences }?.map { conceptIdsMap[it]!! },
-        evidenceValidatingCondition = expression.takeIf { isValidatingEvidences },
+        evidenceValidatingCondition = logic.takeIf { isValidatingEvidences },
         evidenceTypeIds = dependencies?.takeIf { isValidatingEvidences }
             ?.map { evidenceTypeIdsMap[it]!! }
             .orEmpty(),
     )
 
-    private suspend fun RequirementData.createOrUpdate(requirementIdsMap: Map<RequirementIdentifier, RequirementId>): RequirementId {
+    private suspend fun RequirementData.createOrUpdate(
+        requirementIdsMap: Map<RequirementIdentifier, RequirementId>,
+        files: Map<String, FilePart>
+    ): RequirementId {
         val existingRequirement = requirementRepository.findByIdentifier(identifier)
-        return if (existingRequirement == null) {
+        val requirementId = if (existingRequirement == null) {
             val requirementCommand = RequirementCreateCommand(
                 identifier = identifier,
                 kind = kind,
@@ -317,6 +327,55 @@ class ProtocolDefinitionService(
                 evidenceValidatingCondition = evidenceValidatingCondition
             )
             requirementAggregateService.update(updatedRequirementCommand).id
+        }
+
+        badges?.forEach { it.createOrUpdate(requirementId, files, existingRequirement?.badges) }
+        return requirementId
+    }
+
+    private suspend fun BadgeDTO.createOrUpdate(
+        requirementId: RequirementId,
+        files: Map<String, FilePart>,
+        existingBadges: Collection<Badge>?
+    ) {
+        val existingBadge = existingBadges?.firstOrNull { it.id == id }
+
+        if (existingBadge == null) {
+            RequirementAddBadgeCommand(
+                id = requirementId,
+                identifier = identifier,
+                name = name,
+                informationConceptIdentifier = informationConceptIdentifier,
+                image = image,
+                levels = levels.map { level ->
+                    RequirementBadgeLevelCommand(
+                        identifier = level.identifier.takeIf { it.isNotBlank() },
+                        name = level.name,
+                        color = level.color,
+                        image = level.image,
+                        level = level.level,
+                        expression = level.logic
+                    )
+                }
+            ).let { requirementAggregateService.addBadge(it, files) }
+        } else {
+            RequirementUpdateBadgeCommand(
+                id = requirementId,
+                badgeId = existingBadge.id,
+                name = name,
+                informationConceptIdentifier = informationConceptIdentifier,
+                image = image,
+                levels = levels.map { level ->
+                    RequirementBadgeLevelCommand(
+                        id = level.id.takeIf { it.isNotBlank() },
+                        name = level.name,
+                        color = level.color,
+                        image = level.image,
+                        level = level.level,
+                        expression = level.logic
+                    )
+                }
+            ).let { requirementAggregateService.updateBadge(it, files)}
         }
     }
 
@@ -372,7 +431,8 @@ class ProtocolDefinitionService(
         val validatingConditionDependencies: List<InformationConceptIdentifier>? = null,
         val evidenceTypeIds: List<EvidenceTypeId> = emptyList(),
         val evidenceValidatingCondition: String? = null,
-        val requirements: List<RequirementData> = emptyList()
+        val requirements: List<RequirementData> = emptyList(),
+        val badges: List<BadgeDTO>? = null
     )
 
     private class ConditionsData(conditions: Collection<DataConditionDTO>?) {
@@ -382,7 +442,7 @@ class ProtocolDefinitionService(
         init {
             val mutableConditions = conditions.orEmpty().toMutableList()
             validationConditions = mutableConditions
-            displayCondition = mutableConditions.removeFirstOrNull { it.type == DataConditionType.display }
+            displayCondition = mutableConditions.removeFirstOrNull { it.type == DataEvaluationType.display }
         }
 
         private fun <T> MutableList<T>.removeFirstOrNull(predicate: (T) -> Boolean): T? {

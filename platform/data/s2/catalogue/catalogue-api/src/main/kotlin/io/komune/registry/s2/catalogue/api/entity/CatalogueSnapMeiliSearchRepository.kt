@@ -8,7 +8,6 @@ import f2.dsl.cqrs.page.OffsetPagination
 import io.komune.registry.infra.meilisearch.MeiliSearchSnapRepository
 import io.komune.registry.infra.meilisearch.criterion
 import io.komune.registry.infra.meilisearch.match
-import io.komune.registry.s2.catalogue.api.CatalogueModelI18nService
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Service
 class CatalogueSnapMeiliSearchRepository(
     private val objectMapper: ObjectMapper,
     private val catalogueConfig: CatalogueConfig,
-    private val catalogueI18nService: CatalogueModelI18nService,
+    private val catalogueRepository: CatalogueRepository
 ) : MeiliSearchSnapRepository<CatalogueModel>(
     MeiliIndex.CATALOGUES,
     CatalogueModel::class
@@ -62,7 +61,7 @@ class CatalogueSnapMeiliSearchRepository(
             return@withContext
         }
 
-        val domain = catalogueI18nService.rebuildModel(entity)
+        val domain = rebuildModel(entity)
             ?: return@withContext
 
         if (domain.hidden) {
@@ -145,5 +144,25 @@ class CatalogueSnapMeiliSearchRepository(
             logger.error("Error searching", e)
             throw e
         }
+    }
+
+    private suspend fun rebuildModel(catalogue: CatalogueEntity): CatalogueModel? {
+        val originalId = catalogue.isTranslationOf
+            ?: return null
+
+        return catalogueRepository.findById(originalId)
+            .orElse(null)
+            ?.toModel()
+            ?.let {
+                it.copy(
+                    id = catalogue.id,
+                    language = catalogue.language,
+                    title = catalogue.title,
+                    description = catalogue.description,
+                    childrenDatasetIds = it.childrenDatasetIds + catalogue.childrenDatasetIds,
+                    childrenCatalogueIds = it.childrenCatalogueIds + catalogue.childrenCatalogueIds,
+                    isTranslationOf = catalogue.isTranslationOf
+                )
+            }
     }
 }

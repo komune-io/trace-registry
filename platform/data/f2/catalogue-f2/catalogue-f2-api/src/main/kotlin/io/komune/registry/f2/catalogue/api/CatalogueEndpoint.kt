@@ -476,7 +476,7 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueStartCertification(): CatalogueStartCertificationFunction = f2Function { command ->
         logger.info("catalogueStartCertification: $command")
-        cataloguePoliciesEnforcer.checkFillCertification(command.id)
+        cataloguePoliciesEnforcer.checkStartCertification(command.id)
         catalogueF2AggregateService.startCertification(command)
     }
 }

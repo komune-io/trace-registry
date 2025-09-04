@@ -1,7 +1,7 @@
 package io.komune.registry.f2.entity.api
 
 import f2.dsl.fnc.f2Function
-import io.komune.registry.f2.catalogue.api.service.CatalogueI18nService
+import io.komune.registry.f2.catalogue.api.service.CatalogueF2I18nService
 import io.komune.registry.f2.catalogue.api.service.CataloguePoliciesFilterEnforcer
 import io.komune.registry.f2.entity.api.model.toRef
 import io.komune.registry.f2.entity.domain.model.EntityType
@@ -18,7 +18,7 @@ import s2.spring.utils.logger.Logger
 class EntityRefEndpoint(
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val catalogueFinderService: CatalogueFinderService,
-    private val catalogueI18nService: CatalogueI18nService
+    private val catalogueF2I18NService: CatalogueF2I18nService
 ) {
     private val logger by Logger()
 
@@ -27,7 +27,7 @@ class EntityRefEndpoint(
         logger.info("entityRefGet: $query")
         when (query.type) {
             EntityType.CATALOGUE -> catalogueFinderService.getOrNull(query.id)
-                ?.let { catalogueI18nService.translate(it, query.language, query.otherLanguageIfAbsent) }
+                ?.let { catalogueF2I18NService.translate(it, query.language, query.otherLanguageIfAbsent) }
                 ?.let { cataloguePoliciesFilterEnforcer.enforceCatalogue(it) }
                 ?.toRef()
         }.let(::EntityRefGetResult)

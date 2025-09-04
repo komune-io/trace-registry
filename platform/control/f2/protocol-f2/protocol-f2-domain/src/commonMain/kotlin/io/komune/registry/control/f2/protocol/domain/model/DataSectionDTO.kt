@@ -18,7 +18,8 @@ data class DataSection(
     override val description: String?,
     override val fields: List<DataField>,
     override val conditions: List<DataCondition>?,
-    override val properties: String?
+    override val properties: String?,
+    override val badges: List<BadgeDTOBase>?,
 ): DataSectionDTO {
     override val steps: List<ProtocolDTO>? = null
     override val type: String = ReservedProtocolTypes.DATA_SECTION

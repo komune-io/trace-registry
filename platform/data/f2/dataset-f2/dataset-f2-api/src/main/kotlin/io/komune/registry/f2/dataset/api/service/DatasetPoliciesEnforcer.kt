@@ -36,7 +36,7 @@ class DatasetPoliciesEnforcer(
         when {
             catalogueId != null -> authedUser.canWriteOnCatalogue(catalogueId)
             parentId != null -> true.also { checkUpdate(parentId) }
-            else -> authedUser.hasOneOfRoles(Permissions.Catalogue.WRITE_ALL, Permissions.Catalogue.WRITE_ORG)
+            else -> authedUser.hasOneOfRoles(Permissions.Data.Catalogue.WRITE_ALL, Permissions.Data.Catalogue.WRITE_ORG)
         }
     }
 

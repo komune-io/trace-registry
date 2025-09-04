@@ -6,6 +6,12 @@ import io.komune.registry.control.core.cccev.certification.command.Certification
 import io.komune.registry.control.core.cccev.certification.command.CertificationFillValuesCommand
 import io.komune.registry.control.f2.certification.domain.command.CertificationFillCommandDTOBase
 import io.komune.registry.control.f2.certification.domain.command.CertificationFilledEventDTOBase
+import io.komune.registry.control.f2.certification.domain.command.CertificationRejectCommandDTOBase
+import io.komune.registry.control.f2.certification.domain.command.CertificationRejectedEventDTOBase
+import io.komune.registry.control.f2.certification.domain.command.CertificationSubmitCommandDTOBase
+import io.komune.registry.control.f2.certification.domain.command.CertificationSubmittedEventDTOBase
+import io.komune.registry.control.f2.certification.domain.command.CertificationValidateCommandDTOBase
+import io.komune.registry.control.f2.certification.domain.command.CertificationValidatedEventDTOBase
 import io.komune.registry.infra.neo4j.transaction
 import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import org.neo4j.ogm.session.SessionFactory
@@ -36,5 +42,17 @@ class CertificationF2AggregateService(
         }
 
         CertificationFilledEventDTOBase(command.id)
+    }
+
+    suspend fun submit(command: CertificationSubmitCommandDTOBase): CertificationSubmittedEventDTOBase {
+        return certificationAggregateService.submit(command)
+    }
+
+    suspend fun validate(command: CertificationValidateCommandDTOBase): CertificationValidatedEventDTOBase {
+        return certificationAggregateService.validate(command)
+    }
+
+    suspend fun reject(command: CertificationRejectCommandDTOBase): CertificationRejectedEventDTOBase {
+        return certificationAggregateService.reject(command)
     }
 }

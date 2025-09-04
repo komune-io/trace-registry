@@ -30,8 +30,8 @@ class CataloguePoliciesFilterEnforcer : RgPolicyEnforcer() {
         )
         when {
             authedUser == null -> publicAccessCriterion
-            authedUser.hasRole(Permissions.Catalogue.READ_ALL) -> null
-            authedUser.hasRole(Permissions.Catalogue.READ_ORG) -> orCriterionOf(
+            authedUser.hasRole(Permissions.Data.Catalogue.READ_ALL) -> null
+            authedUser.hasRole(Permissions.Data.Catalogue.READ_ORG) -> orCriterionOf(
                 publicAccessCriterion,
                 FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(organizationId)),
                 andCriterionOf(

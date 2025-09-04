@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service
 @Service
 class CatalogueF2FinderService(
     private val catalogueConfig: CatalogueConfig,
-    private val catalogueI18nService: CatalogueI18nService,
+    private val catalogueF2I18NService: CatalogueF2I18nService,
     private val cataloguePoliciesFilterEnforcer: CataloguePoliciesFilterEnforcer,
     private val conceptF2FinderService: ConceptF2FinderService,
     private val catalogueEventWithStateService: CatalogueEventWithStateService,
@@ -54,7 +54,7 @@ class CatalogueF2FinderService(
         language: Language?
     ): CatalogueDTOBase? {
         return catalogueFinderService.getOrNull(id)
-            ?.let { catalogueI18nService.translateToDTO(it, language, false) }
+            ?.let { catalogueF2I18NService.translateToDTO(it, language, false) }
     }
 
     suspend fun get(
@@ -74,7 +74,7 @@ class CatalogueF2FinderService(
         language: Language?,
     ): CatalogueDTOBase? {
         return catalogueFinderService.getByIdentifierOrNull(identifier)
-            ?.let { catalogueI18nService.translateToDTO(it, language, false) }
+            ?.let { catalogueF2I18NService.translateToDTO(it, language, false) }
     }
 
     suspend fun getRef(id: CatalogueId, language: Language): CatalogueRefDTOBase? {
@@ -84,17 +84,17 @@ class CatalogueF2FinderService(
                 catalogue.takeIf { it.isTranslationOf == null }
                     ?: catalogueFinderService.getOrNull(catalogue.isTranslationOf!!)
                     ?: catalogue
-            }?.let { catalogueI18nService.translateToRefDTO(it, language, false) }
+            }?.let { catalogueF2I18NService.translateToRefDTO(it, language, false) }
     }
 
     suspend fun getRefTreeOrNull(id: CatalogueId, language: Language?): CatalogueRefTreeDTOBase? {
         return catalogueFinderService.getOrNull(id)
-            ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, false) }
+            ?.let { catalogueF2I18NService.translateToRefTreeDTO(it, language, false) }
     }
 
     suspend fun getRefTreeByIdentifierOrNull(identifier: CatalogueIdentifier, language: Language?): CatalogueRefTreeDTOBase? {
         return catalogueFinderService.getByIdentifierOrNull(identifier)
-            ?.let { catalogueI18nService.translateToRefTreeDTO(it, language, false) }
+            ?.let { catalogueF2I18NService.translateToRefTreeDTO(it, language, false) }
     }
     suspend fun getHistory(id: CatalogueId): CatalogueHistoryGetResult {
         val actualVersion = catalogueFinderService.getOrNull(id)
@@ -139,7 +139,7 @@ class CatalogueF2FinderService(
         CataloguePageResult(
             items = catalogues.items
                 .onEach { cache.untranslatedCatalogues.register(it.id, it) }
-                .mapNotNull { catalogueI18nService.translateToDTO(it, language, otherLanguageIfAbsent) }
+                .mapNotNull { catalogueF2I18NService.translateToDTO(it, language, otherLanguageIfAbsent) }
                 .sortedBy { "${it.title}   ${it.identifier}" },
             total = catalogues.total
         )
@@ -177,7 +177,7 @@ class CatalogueF2FinderService(
             freeCriterion = cataloguePoliciesFilterEnforcer.enforceAccessFilter().takeIf { onlyAccessibleByAuthedUser }
         ).items // CollectionMatch(...).not() doesn't work with Redis
             .filter { it.id != id && (descendantsIds == null || it.id !in descendantsIds) }
-            .mapAsync { catalogueI18nService.translateToRefDTO(it, language, false) }
+            .mapAsync { catalogueF2I18NService.translateToRefDTO(it, language, false) }
             .filterNotNull()
             .sortedBy { "${it.title}   ${it.identifier}" }
     }

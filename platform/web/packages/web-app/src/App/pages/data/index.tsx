@@ -7,10 +7,10 @@ import {OrganizationCataloguesPage} from "./Catalogue/OrganizationCataloguesPage
 import {CatalogueSearchPage} from "./Catalogue/CatalogueSearchPage/CatalogueSearchPage";
 import {GraphCreationPage} from "./Graph/GraphCreationPage/GraphCreationPage";
 import {CataloguesStructureRouter} from "./Structure/CataloguesStructureRouter/CataloguesRouter";
-import { CatalogueLinkPage } from "./SubCatalogue/CatalogueLinkPage/CatalogueLinkPage";
-import { ProtocolFillingPage } from "./Protocol/ProtocolFillingPage/ProtocolFillingPage";
-import { ProtocolVerificationPage } from "./Protocol/ProtocolVerificationPage/ProtocolVerificationPage";
-import { ProtocolsToValidateListPage } from "./Protocol/ProtocolsToValidateListPage/ProtocolsToValidateListPage";
+import {CatalogueLinkPage} from "./SubCatalogue/CatalogueLinkPage/CatalogueLinkPage";
+import {ProtocolFillingPage} from "./Protocol/ProtocolFillingPage/ProtocolFillingPage";
+import {ProtocolVerificationPage} from "./Protocol/ProtocolVerificationPage/ProtocolVerificationPage";
+import {ProtocolsToValidateListPage} from "./Protocol/ProtocolsToValidateListPage/ProtocolsToValidateListPage";
 
 export const catalogPages: PageRoute[] = [
   {
@@ -70,7 +70,7 @@ export const catalogPages: PageRoute[] = [
     element: <ProtocolFillingPage />
   },
   {
-    path: "protocols/:protocolId/verify",
+    path: "protocols/:certificationId/verify",
     element: <ProtocolVerificationPage />
   },
   {
