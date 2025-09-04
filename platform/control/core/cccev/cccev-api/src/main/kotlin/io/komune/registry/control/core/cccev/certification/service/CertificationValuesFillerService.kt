@@ -3,6 +3,7 @@ package io.komune.registry.control.core.cccev.certification.service
 import f2.spring.exception.NotFoundException
 import io.komune.registry.api.commons.utils.mapAsync
 import io.komune.registry.api.commons.utils.toJson
+import io.komune.registry.control.core.cccev.certification.entity.BadgeCertification
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
 import io.komune.registry.control.core.cccev.certification.entity.SupportedValue
@@ -98,11 +99,15 @@ class CertificationValuesFillerService(
 
             if (existingValue == null) {
                 requirementCertification.values.add(supportedValue)
-                relevantBadgeCertifications.forEach { badge ->
-                    badge.value = supportedValue
+                relevantBadgeCertifications.forEach { badgeCertification ->
+                    badgeCertification.value = supportedValue
+                    badgeCertification.selectLevel()
                 }
             } else {
                 existingValue.value = supportedValue.value
+                relevantBadgeCertifications.forEach { badgeCertification ->
+                    badgeCertification.selectLevel()
+                }
             }
 
             session.save(requirementCertification, 3)
@@ -112,6 +117,19 @@ class CertificationValuesFillerService(
             supportedValue.evidences.add(evidence)
             session.save(supportedValue, 1)
         }
+    }
+
+    private suspend fun BadgeCertification.selectLevel() {
+        level = badge
+            .levels
+            .sortedByDescending { it.level }
+            .firstOrNull { level ->
+                evaluateBooleanExpression(
+                    expression = level.expression,
+                    dependencies = setOf(badge.informationConcept.identifier),
+                    values = mapOf(badge.informationConcept.identifier to value?.value)
+                )
+            }
     }
 
     private suspend fun computeValuesOfConsumersOf(
