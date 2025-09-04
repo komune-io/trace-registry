@@ -179,6 +179,7 @@
   "consultSheet": "Consultar la ficha",
   "protocolsToValidate": "Referenciales a validar",
   "badges": "Insignias",
+  "badge": "Insignia",
   "protocols": "Referenciales",
   "roles": {
     "super_admin": "Administrador global",
@@ -434,7 +435,9 @@
     "validatorComment": "💬 Comentario del validador",
     "protocolTitle": "Referencial: {{name}}",
     "protocolFillingTitle": "Ingreso del referencial: {{name}}",
-    "noData": "No se encontró ningún referencial"
+    "noData": "No se encontró ningún referencial",
+    "showBadge": "Mostrar la insignia en mi sitio web",
+    "showBadgeDetails": "Para mostrar la insignia obtenida tras la evaluación en su sitio web, copie y pegue el siguiente código:"
   },
   "lang": {
     "fr": "Francés",

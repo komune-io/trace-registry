@@ -185,6 +185,7 @@
     "consultSheet": "Consulter la fiche",
     "protocolsToValidate": "Référentiels à valider",
     "badges": "Badges",
+    "badge": "Badge",
     "protocols": "Référentiels",
     "roles": {
         "super_admin": "Administrateur global",
@@ -440,7 +441,9 @@
         "validatorComment": "💬 Commentaire du validateur",
         "protocolTitle": "Référentiel : {{name}}",
         "protocolFillingTitle": "Saisie du référentiel : {{name}}",
-        "noData": "Aucun référentiel trouvé"
+        "noData": "Aucun référentiel trouvé",
+        "showBadge": "Afficher le badge sur mon site",
+        "showBadgeDetails": "Pour afficher le badge obtenu à la suite de l’évaluation sur votre site, copiez-coller le code suivant :"
     },
     "lang": {
         "fr": "Français",

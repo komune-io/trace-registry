@@ -60,9 +60,9 @@ const CatalogueResult = (props: Catalogue & { withImage?: boolean }) => {
 
     const identifierNumber = useCatalogueIdentifierNumber(props)
 
-    const badges = useMemo(() => certifications.map((certification) => (
-         <CertificationBadge key={certification.id} {...certification.badges[0]} />
-    )), [certifications])
+    const badges = useMemo(() => certifications.map((certification) => certification.badges.map((badge) => (
+        <CertificationBadge key={badge.id} {...badge} />
+    ))), [certifications])
 
     return (
         <Stack

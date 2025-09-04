@@ -1,25 +1,36 @@
-import { AutoFormData, autoFormFormatter, FormSection, useAutoFormState } from '@komune-io/g2'
+import { AutoFormData, autoFormFormatter, CodeHighlighter, FormSection, useAutoFormState } from '@komune-io/g2'
 import { Divider, Stack, Typography } from '@mui/material'
 import { TitleDivider, TmsPopUp } from 'components'
 import { useMemo } from 'react'
 // import { useTranslation } from 'react-i18next'
-import { Certification, Protocol } from '../../model'
+import { BadgeCertification } from '../../model'
 import { CertificationBadge } from '../CertificationBadge/CertificationBadge'
+import { t } from 'i18next'
+import { useCertificationGetQuery } from '../../api'
 
-interface CreateIndicatorBlockModalProps {
+interface CertificationBadgeModalProps {
     open: boolean
     onClose: () => void
-    protocol?: Protocol
-    certification?: Certification
+    certificationId?: string
+    badge?: BadgeCertification
 }
 
-export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps) => {
-    const { open, onClose, protocol, certification } = props
+export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => {
+    const { open, onClose, certificationId, badge } = props
+
     // const { t, i18n } = useTranslation()
+
+    const certificationQuery = useCertificationGetQuery({
+        query: {
+            id: certificationId!,
+        }
+    })
+
+    const certification = certificationQuery.data?.item
 
     const formData = useMemo(() => {
         //@ts-ignore
-        const form = preformatProtocol(protocol)?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
+        const form = preformatProtocol(certification?.protocol)?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
         if (!form) return undefined
         const formatted = autoFormFormatter(form)
         return {
@@ -36,7 +47,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
                 }))
             }))
         } as AutoFormData
-    }, [protocol])
+    }, [certification])
 
     const formState = useAutoFormState({
         initialValues: certification?.values,
@@ -62,7 +73,7 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
         <TmsPopUp
             open={open}
             onClose={onClose}
-            title={"Mapping Finance V1"}
+            title={badge?.name}
             sx={{
                 width: 1000
             }}
@@ -74,17 +85,18 @@ export const CreateIndicatorBlockModal = (props: CreateIndicatorBlockModalProps)
                 <Stack
                     gap={3}
                 >
-                    <TitleDivider size='h6' title='Badge' actions={<CertificationBadge name={"Finance V1"} value={85} />} />
+                    <TitleDivider size='h6' title={t('badge')} actions={badge ? <CertificationBadge {...badge} /> : undefined} />
                     <Typography
                         variant='subtitle1'
                     >
-                        Afficher le badge sur mon site
+                        {t('protocol.showBadge')}
                     </Typography>
                     <Typography
                         variant='body2'
                     >
-                        Pour afficher le badge obtenu à la suite de l’évaluation sur votre site, copiez-coller le code suivant :
+                        {t('protocol.showBadgeDetails')}
                     </Typography>
+                    <CodeHighlighter code={`<iframe src="https://komune.io/certification/badge/12345" width="200" height="200" style="border:none;"></iframe>`} language='html' />
                 </Stack>
                 <Divider orientation="vertical" flexItem />
                 {formSectionsDisplay}

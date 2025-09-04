@@ -108,7 +108,9 @@ export const ProtocolVerificationPage = () => {
             {title}
           </Typography>
           <Box flex={1} />
-          {certification?.badges[0] && <CertificationBadge {...certification?.badges[0]} />}
+          {certification?.badges.map((badge) => (
+            <CertificationBadge key={badge.id} {...badge} />
+          ))}
         </Stack>
         <AutoForm
           formData={formData}

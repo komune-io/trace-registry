@@ -179,6 +179,7 @@
   "consultSheet": "Consult the sheet",
   "protocolsToValidate": "Protocols to validate",
   "badges": "Badges",
+  "badge": "Badge",
   "protocols": "Protocols",
   "roles": {
     "super_admin": "Global admin",
@@ -433,7 +434,9 @@
     "validatorComment": "💬 Validator comment",
     "protocolTitle": "Protocol: {{name}}",
     "protocolFillingTitle": "Protocol filling: {{name}}",
-    "noData": "No protocol found"
+    "noData": "No protocol found",
+    "showBadge": "Show badge on my site",
+    "showBadgeDetails": "To display the badge obtained after the evaluation on your site, copy and paste the following code:"
   },
   "lang": {
     "fr": "French",

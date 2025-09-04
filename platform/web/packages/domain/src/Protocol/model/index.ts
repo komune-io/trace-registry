@@ -12,3 +12,5 @@ export const ReservedProtocolTypes = io.komune.registry.control.f2.protocol.doma
 export interface Certification extends io.komune.registry.control.f2.certification.domain.model.CertificationDTO {}
 
 export interface CertificationRef extends io.komune.registry.control.f2.certification.domain.model.CertificationRefDTO {}
+
+export interface BadgeCertification extends io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO {}
