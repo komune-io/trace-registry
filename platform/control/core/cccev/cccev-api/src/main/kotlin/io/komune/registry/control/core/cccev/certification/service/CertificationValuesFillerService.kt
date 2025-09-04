@@ -23,6 +23,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonPrimitive
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -218,7 +219,13 @@ class CertificationValuesFillerService(
         val knownValues: Map<InformationConceptIdentifier, Any?> = values
 
         fun registerJsonValue(conceptIdentifier: InformationConceptIdentifier, value: String?) {
-            values[conceptIdentifier] = value?.let { Json.parseToJsonElement(it).normalizeJsonElement() }
+            val jsonElement = if (value?.firstOrNull() in listOf('{', '[')) {
+                value?.let { Json.parseToJsonElement(it) }
+            } else {
+                value?.let { JsonPrimitive(it) }
+            }
+
+            values[conceptIdentifier] = jsonElement?.normalizeJsonElement()
         }
 
         private fun genericParams(): MutableMap<String, Any?> {

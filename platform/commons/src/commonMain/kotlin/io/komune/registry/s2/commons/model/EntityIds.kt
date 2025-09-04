@@ -8,6 +8,12 @@ typealias BadgeId = String
 
 /**
  * @d2 hidden
+ * @visual json "82ad0ae5-3d28-4f6a-bbe5-be5d05aba418"
+ */
+typealias BadgeIdentifier = String
+
+/**
+ * @d2 hidden
  * @visual json "3b764771-fa49-473c-b388-c8232535bbe2"
  */
 typealias BadgeCertificationId = String
@@ -17,6 +23,13 @@ typealias BadgeCertificationId = String
  * @visual json "f632640d-8475-4060-b6b1-783a99c01cb0"
  */
 typealias BadgeLevelId = String
+
+
+/**
+ * @d2 hidden
+ * @visual json "704979f7-349e-49f5-9fe8-b8cadfdbfb1f"
+ */
+typealias BadgeLevelIdentifier = String
 
 /**
  * @d2 hidden

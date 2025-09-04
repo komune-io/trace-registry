@@ -1,9 +1,9 @@
-import { Box, Paper, Stack, Typography } from '@mui/material'
-import { useRoutesDefinition, ValidationHeader } from 'components'
-import { useCallback, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { AutoForm, autoFormFormatter, BackAutoFormData, navigate } from '@komune-io/g2'
-import { AppPage } from 'template'
+import {Box, Paper, Stack, Typography} from '@mui/material'
+import {useRoutesDefinition, ValidationHeader} from 'components'
+import {useCallback, useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {AutoForm, autoFormFormatter, BackAutoFormData, navigate} from '@komune-io/g2'
+import {AppPage} from 'template'
 import {
   CertificationBadge,
   ReservedProtocolTypes,
@@ -11,9 +11,8 @@ import {
   useCertificationRejectCommand,
   useCertificationValidateCommand
 } from "domain-components";
-import { useParams } from "react-router-dom";
-import { preformatProtocol } from "../utils";
-import { useQueryClient } from "@tanstack/react-query";
+import {useParams} from "react-router-dom";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const ProtocolVerificationPage = () => {
@@ -33,7 +32,7 @@ export const ProtocolVerificationPage = () => {
 
   const formData = useMemo(() => {
     //@ts-ignore
-    const form = preformatProtocol(certification?.protocol)
+    const form = certification?.protocol
       ?.steps
       ?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
     if (!form) return undefined

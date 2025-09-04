@@ -4,7 +4,7 @@ import kotlin.js.JsExport
 
 @Suppress("EnumEntryName", "EnumNaming")
 @JsExport
-enum class DataConditionType {
+enum class DataEvaluationType {
     display,
     validator
 }

@@ -129,6 +129,13 @@ suspend fun Session.removeSeveredRelations(
     )
 }
 
+fun Session.detachDelete(label: String, id: String) {
+    query(
+        "MATCH (e:$label {id: \$id}) DETACH DELETE e",
+        mapOf("id" to id)
+    )
+}
+
 fun String.returnWholeEntity(identifier: String) = this +
         "\nOPTIONAL MATCH ($identifier)-[${identifier}_rels*]->(${identifier}_child)" +
         "\nUNWIND COALESCE(${identifier}_rels, [NULL]) as ${identifier}_rel" +

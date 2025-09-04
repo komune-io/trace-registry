@@ -121,9 +121,9 @@ class CertificationRepository(
         certificationId,
         rootRequirementCertificationId,
         """
-        WHERE (r)-->(:${InformationConcept.LABEL} {identifier: \${'$'}icId}))
+        WHERE (r)-->(:${InformationConcept.LABEL} {identifier: ${'$'}icId})
         OR (r)-[:${Requirement.HAS_BADGE}]->(:${Badge.LABEL})-[:${Badge.IS_BASED_ON}]
-            ->(:${InformationConcept.LABEL} {identifier: \${'$'}icId}))
+            ->(:${InformationConcept.LABEL} {identifier: ${'$'}icId})
         """.trimIndent(),
         mapOf("icId" to informationConceptIdentifier)
     )
@@ -225,7 +225,7 @@ class CertificationRepository(
                         "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})"
                     } else { "" }) +
                     "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
-                    "-[:${RequirementCertification.CERTIFIES}]->(:${Requirement.LABEL})" +
+                    "-[:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
                     filterQueryPart
                         .returnWholeEntity("rc"),
             params + mapOf("cId" to certificationId, "rcId" to rootRequirementCertificationId)

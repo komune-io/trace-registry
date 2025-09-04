@@ -1,9 +1,9 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { CloseRounded } from '@mui/icons-material'
+import {Box, IconButton, Stack, Typography} from '@mui/material'
+import {CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition} from 'components'
+import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Link, useNavigate, useParams} from 'react-router-dom'
+import {CloseRounded} from '@mui/icons-material'
 import {
   autoFormFormatter,
   autoformValuesToCommand,
@@ -19,10 +19,9 @@ import {
   useCertificationSubmitCommand,
   useProtocolGetQuery
 } from 'domain-components'
-import { DialogPage } from 'template'
-import { useDebouncedCallback } from '@mantine/hooks'
-import { preformatProtocol } from "../utils";
-import { useQueryClient } from "@tanstack/react-query";
+import {DialogPage} from 'template'
+import {useDebouncedCallback} from '@mantine/hooks'
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const ProtocolFillingPage = () => {
@@ -46,7 +45,7 @@ export const ProtocolFillingPage = () => {
 
   const formData = useMemo(() => {
     //@ts-ignore
-    const form = preformatProtocol(protocol)?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
+    const form = protocol?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
     if (!form) return undefined
     return autoFormFormatter(form)
   }, [protocol])

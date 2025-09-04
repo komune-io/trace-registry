@@ -3,6 +3,7 @@ package io.komune.registry.control.core.cccev.requirement.entity
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.control.core.cccev.concept.entity.InformationConcept
 import io.komune.registry.s2.commons.model.BadgeId
+import io.komune.registry.s2.commons.model.BadgeIdentifier
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
@@ -18,6 +19,8 @@ class Badge {
 
     @Id
     lateinit var id: BadgeId
+
+    lateinit var identifier: BadgeIdentifier
 
     lateinit var name: String
 

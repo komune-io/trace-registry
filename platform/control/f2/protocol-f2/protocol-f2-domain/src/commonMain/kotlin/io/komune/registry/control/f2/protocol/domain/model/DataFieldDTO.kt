@@ -16,6 +16,7 @@ interface DataFieldDTO {
     val required: Boolean
     val options: List<DataFieldOptionDTO>?
     val conditions: List<DataConditionDTO>?
+    val autoCompute: DataEvaluationDTO?
     val properties: String?
 }
 
@@ -31,5 +32,6 @@ data class DataField(
     override val required: Boolean = false,
     override val options: List<DataFieldOption>?,
     override val conditions: List<DataCondition>?,
+    override val autoCompute: DataEvaluation?,
     override val properties: String?
 ): DataFieldDTO

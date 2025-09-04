@@ -3305,6 +3305,29 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.command {
     }
 }
 export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    interface BadgeDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly informationConceptIdentifier: string;
+        readonly image?: string;
+        readonly levels: io.komune.registry.control.f2.protocol.domain.model.BadgeLevelDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    interface BadgeLevelDTO {
+        readonly id: string;
+        readonly identifier: string;
+        readonly name: string;
+        readonly color?: string;
+        readonly image?: string;
+        readonly level: number;
+        readonly logic?: string;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     interface DataCollectionStepDTO extends io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO {
         readonly sections: io.komune.registry.control.f2.protocol.domain.model.DataSectionDTO[];
         readonly id: string;
@@ -3315,14 +3338,15 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
         readonly steps?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO[];
         readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
         readonly properties?: string;
+        readonly badges?: io.komune.registry.control.f2.protocol.domain.model.BadgeDTO[];
 
     }
 }
 export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     interface DataConditionDTO {
         readonly identifier: string;
-        readonly type: io.komune.registry.control.f2.protocol.domain.model.DataConditionType;
-        readonly expression: string;
+        readonly type: io.komune.registry.control.f2.protocol.domain.model.DataEvaluationType;
+        readonly logic: string;
         readonly dependencies?: string[];
         readonly isValidatingEvidences: boolean;
         readonly error?: string;
@@ -3330,7 +3354,14 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     }
 }
 export declare namespace io.komune.registry.control.f2.protocol.domain.model {
-    type DataConditionType = "display" | "validator";
+    interface DataEvaluationDTO {
+        readonly logic: string;
+        readonly dependencies?: string[];
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.model {
+    type DataEvaluationType = "display" | "validator";
 }
 export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     interface DataFieldDTO {
@@ -3344,6 +3375,7 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
         readonly required: boolean;
         readonly options?: io.komune.registry.control.f2.protocol.domain.model.DataFieldOptionDTO[];
         readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
+        readonly autoCompute?: io.komune.registry.control.f2.protocol.domain.model.DataEvaluationDTO;
         readonly properties?: string;
 
     }
@@ -3368,6 +3400,7 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
         readonly steps?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO[];
         readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
         readonly properties?: string;
+        readonly badges?: io.komune.registry.control.f2.protocol.domain.model.BadgeDTO[];
 
     }
 }
@@ -3390,6 +3423,7 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
         readonly steps?: io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO[];
         readonly conditions?: io.komune.registry.control.f2.protocol.domain.model.DataConditionDTO[];
         readonly properties?: string;
+        readonly badges?: io.komune.registry.control.f2.protocol.domain.model.BadgeDTO[];
 
     }
 }
