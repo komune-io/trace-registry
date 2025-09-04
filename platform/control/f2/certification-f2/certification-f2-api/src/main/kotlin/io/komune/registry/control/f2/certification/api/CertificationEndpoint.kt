@@ -1,10 +1,9 @@
 package io.komune.registry.control.f2.certification.api
 
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonMappingException
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
-import io.komune.registry.api.commons.utils.parseJsonTo
+import io.komune.registry.api.commons.utils.extractCommandPart
+import io.komune.registry.api.commons.utils.extractFileParts
 import io.komune.registry.control.f2.certification.api.service.CertificationF2AggregateService
 import io.komune.registry.control.f2.certification.api.service.CertificationF2FinderService
 import io.komune.registry.control.f2.certification.api.service.CertificationPoliciesEnforcer
@@ -18,9 +17,7 @@ import io.komune.registry.control.f2.certification.domain.query.CertificationGet
 import io.komune.registry.control.f2.certification.domain.query.CertificationPageFunction
 import io.komune.registry.control.f2.certification.domain.query.CertificationPageResult
 import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
-import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.context.annotation.Bean
-import org.springframework.http.HttpStatus
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.codec.multipart.Part
 import org.springframework.util.MultiValueMap
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.client.HttpClientErrorException
 import s2.spring.utils.logger.Logger
 
 @RestController
@@ -70,32 +66,12 @@ class CertificationEndpoint(
     suspend fun certificationFill(
         @RequestBody parts: MultiValueMap<EvidenceTypeIdentifier, Part>
     ): CertificationFilledEventDTOBase {
-        val command = try {
-            parts["command"]!!.first()
-                .content()
-                .awaitSingle()
-                .asInputStream()
-                .readAllBytes()
-                .let(::String)
-                .parseJsonTo<CertificationFillCommandDTOBase>()
-        } catch (_: NullPointerException) {
-            throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing command part")
-        } catch (_: NoSuchElementException) {
-            throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing command part")
-        } catch (e: JsonProcessingException) {
-            throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Invalid command part: ${e.message}")
-        } catch (e: JsonMappingException) {
-            throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Invalid command part: ${e.message}")
-        }
+        val command = parts.extractCommandPart<CertificationFillCommandDTOBase>()
 
         logger.info("certificationFill: $command")
         certificationPoliciesEnforcer.checkFill(command.id)
 
-        @Suppress("UNCHECKED_CAST")
-        val evidences = parts.mapValues { (key, potentialFiles) ->
-            potentialFiles.firstNotNullOfOrNull { it as? FilePart }.takeIf { key != "command" }
-        }.filterValues { file -> file != null } as Map<EvidenceTypeIdentifier, FilePart>
-
+        val evidences: Map<EvidenceTypeIdentifier, FilePart> = parts.extractFileParts()
         return certificationF2AggregateService.fill(command, evidences)
     }
 

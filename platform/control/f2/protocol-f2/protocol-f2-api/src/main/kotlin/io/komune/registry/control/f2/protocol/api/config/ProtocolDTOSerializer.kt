@@ -3,9 +3,10 @@ package io.komune.registry.control.f2.protocol.api.config
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import io.komune.registry.api.commons.utils.jsonMapper
 import io.komune.registry.control.f2.protocol.domain.model.DataCollectionStep
 import io.komune.registry.control.f2.protocol.domain.model.DataSection
 import io.komune.registry.control.f2.protocol.domain.model.Protocol
@@ -25,6 +26,11 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 
 @Configuration
 class ProtocolDTOJacksonConfig : Jackson2ObjectMapperBuilderCustomizer {
+    init {
+        val module = SimpleModule().addDeserializer(ProtocolDTO::class.java, ProtocolDTOJacksonDeserializer)
+        jsonMapper.registerModule(module)
+    }
+
     override fun customize(builder: Jackson2ObjectMapperBuilder) {
         builder.deserializerByType(ProtocolDTO::class.java, ProtocolDTOJacksonDeserializer)
     }

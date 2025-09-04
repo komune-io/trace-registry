@@ -46,13 +46,12 @@ class RequirementRepository(
         withBadges: Boolean = false
     ): Requirement? = sessionFactory.session { session ->
         val query = """
-            MATCH (root:${Requirement.LABEL})
+            MATCH (root:${Requirement.LABEL} {id: ${'$'}id})
             -[has_requirement:${Requirement.HAS_REQUIREMENT}*0..]->(children:${Requirement.LABEL})
             ${if (withBadges) """
                 OPTIONAL MATCH (root)-[root_has_badge:${Requirement.HAS_BADGE}]->(rootBadge:${Badge.LABEL})
                 OPTIONAL MATCH (children)-[has_badge:${Requirement.HAS_BADGE}]->(childrenBadge:${Badge.LABEL})
             """ else ""}
-            WHERE root.${Requirement::id.name} = ${'$'}id
             RETURN root, collect(distinct has_requirement), collect(distinct children)
             ${if (withBadges) """,
                 collect(distinct root_has_badge), collect(distinct rootBadge), 

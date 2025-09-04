@@ -2,6 +2,7 @@ package io.komune.registry.control.core.cccev.requirement.entity
 
 import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.commons.model.BadgeLevelId
+import io.komune.registry.s2.commons.model.BadgeLevelIdentifier
 import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 
@@ -13,6 +14,8 @@ class BadgeLevel {
 
     @Id
     lateinit var id: BadgeLevelId
+
+    lateinit var identifier: BadgeLevelIdentifier
 
     lateinit var name: String
 

@@ -15,6 +15,19 @@ object FsPath {
                 name = ""
             )
         }
+
+        object Badge {
+            const val TYPE = "badges"
+            const val IMAGES = "IMAGES"
+            const val IMAGE_DEFAULT = "default"
+
+            fun image(badgeId: String, levelId: String?, extension: String) = FilePath(
+                objectType = TYPE,
+                objectId = badgeId,
+                directory = IMAGES,
+                name = "${levelId ?: IMAGE_DEFAULT}.$extension"
+            )
+        }
     }
 
     object Data {

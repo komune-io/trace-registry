@@ -15,6 +15,7 @@ sealed interface ProtocolDTO {
     val steps: List<ProtocolDTO>?
     val conditions: List<DataConditionDTO>?
     val properties: String?
+    val badges: List<BadgeDTO>?
 }
 
 @Serializable
@@ -26,5 +27,6 @@ data class Protocol(
     override val description: String?,
     override val steps: List<ProtocolDTO>?,
     override val conditions: List<DataCondition>?,
-    override val properties: String?
+    override val properties: String?,
+    override val badges: List<BadgeDTOBase>?,
 ): ProtocolDTO
