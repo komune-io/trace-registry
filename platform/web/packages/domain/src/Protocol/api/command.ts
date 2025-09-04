@@ -52,16 +52,3 @@ export const useCertificationRejectCommand = (
         CertificationRejectedEvent
     >('control/certificationReject', requestProps, params)
 }
-
-export interface CertificationSubmitCommand /* extends io.komune.registry.control.f2.certification.domain.command.CertificationSubmitCommandDTO */ { }
-export interface CertificationSubmittedEvent /* extends io.komune.registry.control.f2.certification.domain.command.CertificationSubmittedEventDTO */ { }
-
-export const useCertificationSubmitCommand = (
-    params: CommandParams<CommandWithFile<CertificationSubmitCommand>, CertificationSubmittedEvent>
-) => {
-    const requestProps = useAuthenticatedRequest()
-    return useCommandWithFileRequest<
-        CertificationSubmitCommand,
-        CertificationSubmittedEvent
-    >('control/certificationSubmit', requestProps, params)
-}

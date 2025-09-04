@@ -87,7 +87,7 @@ export const CatalogueDetails = (props: CatalogueDetailsProps) => {
                 flexShrink: 0
             }}
         >
-            <CatalogueBadges />
+            <CatalogueBadges catalogue={catalogue} />
             <TitleDivider size='h3' title={t("informations")} />
             {count && <Co2Counter
                 count={count}

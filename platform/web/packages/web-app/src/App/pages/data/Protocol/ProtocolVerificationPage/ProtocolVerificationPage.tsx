@@ -1,18 +1,19 @@
-import {Box, Paper, Stack, Typography} from '@mui/material'
-import {Badge, useRoutesDefinition, ValidationHeader} from 'components'
-import {useCallback, useMemo} from 'react'
-import {useTranslation} from 'react-i18next'
-import {AutoForm, autoFormFormatter, BackAutoFormData, navigate} from '@komune-io/g2'
-import {AppPage} from 'template'
+import { Box, Paper, Stack, Typography } from '@mui/material'
+import { useRoutesDefinition, ValidationHeader } from 'components'
+import { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { AutoForm, autoFormFormatter, BackAutoFormData, navigate } from '@komune-io/g2'
+import { AppPage } from 'template'
 import {
-    ReservedProtocolTypes,
-    useCertificationGetQuery,
-    useCertificationRejectCommand,
-    useCertificationValidateCommand
+  CertificationBadge,
+  ReservedProtocolTypes,
+  useCertificationGetQuery,
+  useCertificationRejectCommand,
+  useCertificationValidateCommand
 } from "domain-components";
-import {useParams} from "react-router-dom";
-import {preformatProtocol} from "../utils";
-import {useQueryClient} from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { preformatProtocol } from "../utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export const ProtocolVerificationPage = () => {
@@ -46,15 +47,23 @@ export const ProtocolVerificationPage = () => {
 
   const certificationValidateCommand = useCertificationValidateCommand({})
   const handleValidate = useCallback(async () => {
-    await certificationValidateCommand.mutateAsync({ id: certificationId })
-    queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
-    queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
-    navigate(protocolsToVerify())
+    const res = await certificationValidateCommand.mutateAsync({ id: certificationId! })
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+      queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      navigate(protocolsToVerify())
+    }
+
   }, [certificationId])
 
   const certificationRejectCommand = useCertificationRejectCommand({})
-  const handleReject = useCallback(async () => {
-        // TODO
+  const handleReject = useCallback(async (reason: string) => {
+    const res = await certificationRejectCommand.mutateAsync({ id: certificationId!, reason })
+    if (res) {
+      queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+      queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      navigate(protocolsToVerify())
+    }
   }, [certificationId])
 
   return (
@@ -64,7 +73,7 @@ export const ProtocolVerificationPage = () => {
       maxWidth={1080}
       customHeader={<ValidationHeader
         onAccept={handleValidate}
-        onReject={() => {return new Promise((resolve) => resolve(true))}}
+        onReject={handleReject}
         isUpdating={certificationGetQuery.isLoading}
         creator={certification?.creator}
         linkTo={certification?.catalogue && {
@@ -99,7 +108,7 @@ export const ProtocolVerificationPage = () => {
             {title}
           </Typography>
           <Box flex={1} />
-          <Badge label='Finance v1' value={85} />
+          {certification?.badges[0] && <CertificationBadge {...certification?.badges[0]} />}
         </Stack>
         <AutoForm
           formData={formData}

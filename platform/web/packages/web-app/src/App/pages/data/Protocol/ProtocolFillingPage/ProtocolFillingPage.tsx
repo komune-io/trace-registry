@@ -1,9 +1,9 @@
-import {Box, IconButton, Stack, Typography} from '@mui/material'
-import {CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition} from 'components'
-import {useCallback, useEffect, useMemo, useState} from 'react'
-import {useTranslation} from 'react-i18next'
-import {Link, useParams} from 'react-router-dom'
-import {CloseRounded} from '@mui/icons-material'
+import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { CloseRounded } from '@mui/icons-material'
 import {
   autoFormFormatter,
   autoformValuesToCommand,
@@ -19,10 +19,10 @@ import {
   useCertificationSubmitCommand,
   useProtocolGetQuery
 } from 'domain-components'
-import {DialogPage} from 'template'
-import {useDebouncedCallback} from '@mantine/hooks'
-import {preformatProtocol} from "../utils";
-import {useQueryClient} from "@tanstack/react-query";
+import { DialogPage } from 'template'
+import { useDebouncedCallback } from '@mantine/hooks'
+import { preformatProtocol } from "../utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export const ProtocolFillingPage = () => {
@@ -73,6 +73,7 @@ export const ProtocolFillingPage = () => {
       })
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
       }
       setIsSaving(false)
     }
@@ -82,11 +83,12 @@ export const ProtocolFillingPage = () => {
     if (!certificationId) return
     const res = await certificationSubmit.mutateAsync({ id: certificationId! })
     if (res) {
-        queryClient.invalidateQueries({queryKey: ["control/certificationGet", {id: certificationId!}]})
-        queryClient.invalidateQueries({queryKey: ["control/certificationPage"]})
-        navigate(goBackUrl)
+      queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
+      queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
+      navigate(goBackUrl)
     }
-  }, [certificationSubmit.mutateAsync, certificationId, queryClient.invalidateQueries, goBackUrl])
+  }, [certificationSubmit.mutateAsync, certificationId, draftId, queryClient.invalidateQueries, goBackUrl])
 
   const sectionsType = formData?.sectionsType ?? 'default'
 
@@ -94,6 +96,7 @@ export const ProtocolFillingPage = () => {
     onSubmit: handleSubmit,
     initialValues: certificationQuery.data?.item?.values,
     isLoading: certificationQuery.isLoading,
+    formData: formData
   })
 
 

@@ -6,6 +6,7 @@ import { registryPages } from "App/pages/router";
 import { useMemo } from "react"
 import { catalogPages } from "App/pages/data";
 import { NoMatch } from "./NoMatch";
+import { CertificationBadge } from "domain-components";
 
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
@@ -16,6 +17,8 @@ export const AppRouter = () => {
 
   return (
     <Router>
+      <Route path="/embed/badge" element={<CertificationBadge name="Finance v1" value={85}  />} >
+      </Route >
       <Route path="/" element={<App />} >
         {pages}
         <Route path={"*"} element={
@@ -49,7 +52,7 @@ export const PrivateElement = (props: { route: Routes, children: JSX.Element }) 
 
   const policy: (() => boolean) | undefined = getIn(policies, policyPath)
 
-  const canEnter = policyPath === "logged" && keycloak.isAuthenticated ? true : policyPath === "open"  ? true : policy ? policy() : false;
+  const canEnter = policyPath === "logged" && keycloak.isAuthenticated ? true : policyPath === "open" ? true : policy ? policy() : false;
 
   if (!canEnter) return <Navigate to="/404" replace={true} />
   return props.children;
