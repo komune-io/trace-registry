@@ -8,10 +8,12 @@ import {TableCellBadge} from './TableCellBadge'
 import {LinkProps} from 'react-router-dom'
 import {useRoutesDefinition} from "components";
 import {useMemo} from "react";
+import { CertificationStatus } from '../CertificationStatus'
 
 const extendingColumns = {
     progress: ProgressIndicator,
-    badge: TableCellBadge
+    badge: TableCellBadge,
+    status: CertificationStatus
 }
 
 export interface AutoProtocolTableProps extends Partial<OffsetTableProps<Certification | CertificationRef>> {

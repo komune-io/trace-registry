@@ -436,7 +436,13 @@
     "protocolFillingTitle": "Protocol filling: {{name}}",
     "noData": "No protocol found",
     "showBadge": "Show badge on my site",
-    "showBadgeDetails": "To display the badge obtained after the evaluation on your site, copy and paste the following code:"
+    "showBadgeDetails": "To display the badge obtained after the evaluation on your site, copy and paste the following code:",
+    "status": {
+      "PENDING": "To be completed",
+      "SUBMITTED": "Pending validation",
+      "REJECTED": "Rejected",
+      "VALIDATED": "Validated"
+    }
   },
   "lang": {
     "fr": "French",

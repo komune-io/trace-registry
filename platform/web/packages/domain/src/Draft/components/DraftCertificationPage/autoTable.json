@@ -6,7 +6,7 @@
     "value": "protocol.label"
   }, {
     "label": "Statut",
-    "type": "text",
+    "type": "status",
     "value": "status"
   }, {
     "label": "Badge",

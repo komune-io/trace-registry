@@ -46,13 +46,16 @@ export const DraftCertificationPage = (props: DraftCertificationPageProps) => {
     }),
     [catalogueId, draftId, tab],
   )
-  
+
+  const hasError = useMemo(() => {
+    return draft?.catalogue.certifications.some(certification => certification.status === "REJECTED")
+  }, [draft?.catalogue.certifications])
 
   return (
     <>
-      <WarningTicket severity='error' title={t("protocol.unvalidatedProtocol")} >
+      {hasError && <WarningTicket severity='error' title={t("protocol.unvalidatedProtocol")} >
         <Typography variant="body2" color="inherit">{t("protocol.unvalidatedProtocolDetails")}</Typography>
-      </WarningTicket>
+      </WarningTicket>}
       <AutoProtocolTable
         tableComposable={tableComposable as TableComposable<CertificationRef>}
         isLoading={isLoading}

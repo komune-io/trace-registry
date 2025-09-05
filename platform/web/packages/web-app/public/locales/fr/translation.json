@@ -443,7 +443,13 @@
         "protocolFillingTitle": "Saisie du référentiel : {{name}}",
         "noData": "Aucun référentiel trouvé",
         "showBadge": "Afficher le badge sur mon site",
-        "showBadgeDetails": "Pour afficher le badge obtenu à la suite de l’évaluation sur votre site, copiez-coller le code suivant :"
+        "showBadgeDetails": "Pour afficher le badge obtenu à la suite de l’évaluation sur votre site, copiez-coller le code suivant :",
+        "status": {
+            "PENDING": "À compléter",
+            "SUBMITTED": "En attente de validation",
+            "REJECTED": "Rejeté",
+            "VALIDATED": "Validé"
+        }
     },
     "lang": {
         "fr": "Français",

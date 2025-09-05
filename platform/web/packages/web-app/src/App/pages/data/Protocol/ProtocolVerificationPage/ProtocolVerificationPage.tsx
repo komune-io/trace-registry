@@ -50,6 +50,7 @@ export const ProtocolVerificationPage = () => {
     if (res) {
       queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
       queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet"] })
       navigate(protocolsToVerify())
     }
 
@@ -61,6 +62,7 @@ export const ProtocolVerificationPage = () => {
     if (res) {
       queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
       queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet"] })
       navigate(protocolsToVerify())
     }
   }, [certificationId])
@@ -113,6 +115,8 @@ export const ProtocolVerificationPage = () => {
         </Stack>
         <AutoForm
           formData={formData}
+          readOnly
+          initialValues={certification?.values}
         />
       </Paper>
     </AppPage>

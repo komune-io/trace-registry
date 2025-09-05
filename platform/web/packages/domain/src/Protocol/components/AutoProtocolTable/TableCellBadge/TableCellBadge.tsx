@@ -12,6 +12,7 @@ export interface TableCellBadgeProps {
 export const TableCellBadge = (props: TableCellBadgeProps) => {
     const { value, ...other } = props
 
+    if (!value.name || !value.value) return "-"
     return (
         <CertificationBadge name={value.name} image={value.image} value={value.value} {...other} />
     )
