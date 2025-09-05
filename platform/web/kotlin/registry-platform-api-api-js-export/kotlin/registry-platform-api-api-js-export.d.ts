@@ -3554,7 +3554,6 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly catalogue?: io.komune.registry.control.f2.certification.domain.model.CertificationCatalogueRefDTO;
         readonly completionRate: number;
         readonly values: Record<string, Nullable<string>>;
-        readonly evidences: Record<string, Nullable<string>>;
         readonly badges: io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO[];
         readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;

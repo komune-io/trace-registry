@@ -7,7 +7,6 @@ import io.komune.registry.f2.organization.domain.model.OrganizationRefDTO
 import io.komune.registry.f2.user.domain.model.UserRef
 import io.komune.registry.f2.user.domain.model.UserRefDTO
 import io.komune.registry.s2.commons.model.CertificationId
-import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import io.komune.registry.s2.commons.model.InformationConceptIdentifier
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
@@ -19,7 +18,6 @@ interface CertificationDTO : CertificationAccessData {
     val catalogue: CertificationCatalogueRefDTO?
     val completionRate: Double
     val values: Map<InformationConceptIdentifier, String?>
-    val evidences: Map<EvidenceTypeIdentifier, String?>
     val badges: List<BadgeCertificationDTO>
     override val status: CertificationState
     override val creator: UserRefDTO?
@@ -38,7 +36,6 @@ data class CertificationDTOBase(
     override val catalogue: CertificationCatalogueRef?,
     override val completionRate: Double,
     override val values: Map<InformationConceptIdentifier, String?>,
-    override val evidences: Map<EvidenceTypeIdentifier, String?>,
     override val badges: List<BadgeCertificationDTOBase>,
     override val status: CertificationState,
     override val creator: UserRef?,
