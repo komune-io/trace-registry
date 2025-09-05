@@ -153,7 +153,7 @@ class CertificationValuesFillerService(
 
             val certifications = certificationRepository.findRequirementCertificationsLinkedToInformationConcept(
                 context.certificationId, context.rootRequirementCertificationId, concept.identifier
-            )
+            ).ifEmpty { return@forEach }
 
             val value = selExecutor.evaluateToJson(concept.expressionOfExpectedValue!!, expressionDataJson)
                 .also { context.registerJsonValue(concept.identifier, it) }
