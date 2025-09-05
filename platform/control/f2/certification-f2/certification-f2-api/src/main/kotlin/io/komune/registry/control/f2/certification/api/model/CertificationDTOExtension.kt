@@ -51,8 +51,7 @@ suspend fun Certification.toDTO(
         protocol = CccevToProtocolConverter.convert(requirementCertifications.first().requirement),
         catalogue = getCatalogue(id),
         completionRate = 0.0, // TODO
-        values = allValues,
-        evidences = allEvidences,
+        values = allValues + allEvidences,
         badges = requirementCertifications.extractBadges(),
         status = status,
         creator = creatorUserId?.let { getUser(it) },
