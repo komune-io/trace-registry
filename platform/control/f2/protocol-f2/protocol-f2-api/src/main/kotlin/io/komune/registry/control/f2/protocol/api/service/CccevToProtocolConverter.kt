@@ -119,7 +119,7 @@ object CccevToProtocolConverter {
         DataCondition(
             type = DataEvaluationType.display,
             identifier = identifier,
-            logic = expression,
+            logic = inverseCondition(expression),
             dependencies = enablingConditionDependencies.map { it.identifier },
             error = description
         )
@@ -141,7 +141,7 @@ object CccevToProtocolConverter {
                     type = DataEvaluationType.validator,
                     isValidatingEvidences = isEvidenceCondition,
                     identifier = constraint.identifier,
-                    logic = expression ?: "true",
+                    logic = inverseCondition(expression ?: "true"),
                     dependencies = dependencies,
                     error = constraint.description
                 )
@@ -151,4 +151,9 @@ object CccevToProtocolConverter {
     private fun Requirement.extractProtocolProperties() = properties?.get(RequirementProperties.PROTOCOL)
 
     private fun Requirement.sortedSubRequirements() = subRequirements.sortedBy { it.order ?: Int.MAX_VALUE }
+
+    // inverse the condition logic for front autoform validation
+    private fun inverseCondition(logic: String): String {
+        return """{ "!": $logic }"""
+    }
 }

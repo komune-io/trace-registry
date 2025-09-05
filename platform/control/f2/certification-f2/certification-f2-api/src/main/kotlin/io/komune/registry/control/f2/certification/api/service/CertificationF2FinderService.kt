@@ -30,7 +30,7 @@ class CertificationF2FinderService(
     private val userF2FinderService: UserF2FinderService
 ) {
     suspend fun getRefOrNull(id: CertificationId, language: Language?): CertificationRef? {
-        return certificationRepository.findByIdWithRootRequirements(id)?.toRefCached(language)
+        return certificationRepository.findById(id)?.toRefCached(language)
     }
 
     suspend fun getOrNull(id: CertificationId): CertificationDTOBase? {
@@ -46,7 +46,7 @@ class CertificationF2FinderService(
         offset: OffsetPagination? = null
     ): Page<CertificationRef> {
         val cache = Cache(language)
-        return certificationRepository.findAllByIdWithRootRequirements(
+        return certificationRepository.findPage(
             ids = ids,
             requirementName = rootRequirementName,
             statuses = statuses,

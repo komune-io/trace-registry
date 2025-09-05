@@ -40,10 +40,11 @@ class ProtocolEndpoint(
     private val protocolF2FinderService: ProtocolF2FinderService
 ) {
     companion object {
-        const val BADGE_IMAGE_PATH = "/control/badgeGetImage/{badgeId}/{badgeLevelId}"
+        const val BADGE_IMAGE_PATH_ROOT = "/control/badgeGetImage/{badgeId}"
+        const val BADGE_IMAGE_PATH_LEVEL = "/control/badgeGetImage/{badgeId}/{badgeLevelId}"
 
         fun badgeImagePath(badgeId: BadgeId, badgeLevelId: BadgeLevelId? = null): String {
-            return BADGE_IMAGE_PATH.replace("{badgeId}", badgeId)
+            return BADGE_IMAGE_PATH_LEVEL.replace("{badgeId}", badgeId)
                 .replace("{badgeLevelId}", badgeLevelId ?: "")
                 .removeSuffix("/")
         }
@@ -78,7 +79,7 @@ class ProtocolEndpoint(
     }
 
     @PermitAll
-    @GetMapping(BADGE_IMAGE_PATH)
+    @GetMapping(BADGE_IMAGE_PATH_LEVEL, BADGE_IMAGE_PATH_ROOT)
     suspend fun badgeGetImage(
         @PathVariable badgeId: BadgeId,
         @PathVariable(required = false) badgeLevelId: BadgeLevelId?,

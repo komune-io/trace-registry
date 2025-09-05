@@ -1,6 +1,7 @@
 import { CloseRounded } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material'
 import { useCallback } from 'react';
+import { StackProps } from '@mui/material';
 
 const colors = {
     gold: "#EDBA27",
@@ -8,18 +9,18 @@ const colors = {
     bronze: "#D78C2F"
 }
 
-export interface BadgeProps {
+export interface BadgeProps extends Omit<StackProps, 'onChange' | 'onClick'> {
     label: string;
-    icon?: string | JSX.Element
+    icon?: string | JSX.Element;
     value?: number | string;
     color?: string;
     onClick?: () => void;
-    onChange?: (isSelected: boolean) => void
+    onChange?: (isSelected: boolean) => void;
     isSelected?: boolean;
 }
 
 export const Badge = (props: BadgeProps) => {
-    const { label, icon, color, value, onClick, isSelected = false, onChange } = props;
+    const { label, icon, color, value, onClick, isSelected = false, onChange, sx, ...ohter } = props;
     const defValue = typeof value === "string" ? Number(value) : value
     const defColor = color ?? (defValue ? defValue < 60 ? colors.bronze : defValue < 80 ? colors.silver : colors.gold : colors.gold);
     const isClickable = !!onClick || !!onChange;
@@ -38,6 +39,7 @@ export const Badge = (props: BadgeProps) => {
     
     return (
         <Stack
+            {...ohter}
             direction="row"
             alignItems="center"
             component={isClickable ? 'button' : 'div'}
@@ -55,7 +57,8 @@ export const Badge = (props: BadgeProps) => {
                 transition: "0.3s",
                 "&:hover": {
                     boxShadow: isClickable ? 1 : undefined
-                }
+                },
+                ...sx
             }}
         >
             {typeof icon === 'string'  ? <Box

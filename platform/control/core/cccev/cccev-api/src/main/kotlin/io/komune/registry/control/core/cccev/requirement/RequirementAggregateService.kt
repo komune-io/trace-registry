@@ -327,7 +327,7 @@ class RequirementAggregateService(
     }
 
     private suspend fun uploadBadgeImage(badgeId: BadgeId, levelId: BadgeLevelId?, filePart: FilePart): FilePath {
-        val path = FsPath.Control.Badge.image(badgeId, levelId, filePart.filename().replaceAfterLast('.', "png"))
+        val path = FsPath.Control.Badge.image(badgeId, levelId, filePart.filename().substringAfterLast('.', "png"))
         fileClient.fileUpload(path.toUploadCommand(), filePart.contentByteArray())
         return path
     }

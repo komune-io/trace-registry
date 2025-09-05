@@ -1,4 +1,4 @@
-import { Badge, BadgeProps } from 'components'
+import {Badge, BadgeProps, config} from 'components'
 
 export interface CertificationBadgeProps extends Omit<BadgeProps, 'label' | 'icon'> {
   name: string;
@@ -6,7 +6,15 @@ export interface CertificationBadgeProps extends Omit<BadgeProps, 'label' | 'ico
 }
 
 export const CertificationBadge = (props: CertificationBadgeProps) => {
-  const { name, image, ...rest } = props
+  const { name, image: imageProps, ...rest } = props
+
+  const { platform } = config()
+
+  let image = imageProps
+  if (imageProps && typeof imageProps === 'string' && !imageProps.startsWith('http')) {
+    const separator = imageProps.startsWith('/') ? '' : '/'
+    image = `${platform.url}${separator}${image}`
+  }
   return (
     <Badge label={name} icon={image} {...rest} />
   )
