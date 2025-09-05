@@ -12,6 +12,7 @@ import io.komune.registry.control.core.cccev.unit.entity.DataUnit
 import io.komune.registry.infra.neo4j.findById
 import io.komune.registry.infra.neo4j.returnWholeEntity
 import io.komune.registry.infra.neo4j.session
+import io.komune.registry.infra.neo4j.toCypher
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeId
@@ -30,11 +31,7 @@ class CertificationRepository(
         session.findById<Certification>(id, Certification.LABEL)
     }
 
-    suspend fun findByIdWithRootRequirements(
-        id: CertificationId
-    ): Certification? = findAllByIdWithRootRequirements(listOf(id)).items.firstOrNull()
-
-    suspend fun findAllByIdWithRootRequirements(
+    suspend fun findPage(
         ids: Collection<CertificationId>? = null,
         requirementName: String? = null,
         statuses: Collection<CertificationState>? = null,
@@ -60,14 +57,8 @@ class CertificationRepository(
                 "-[certifies:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
                 "\n$filters"
 
-        val items = session.query(queryPart +
-                "\nRETURN distinct c, collect(isCertifiedBy), collect(distinct rc), collect(certifies), collect(distinct r)" +
-                offset?.let { "\nSKIP \$skip\nLIMIT \$limit" }.orEmpty(),
-            params + mapOf(
-                "skip" to offset?.offset,
-                "limit" to offset?.limit
-            )
-        ).map { it["c"] as Certification }
+        val items = session.query(queryPart.returnWholeEntity("c") + offset.toCypher(), params)
+            .map { it["c"] as Certification }
 
         if (offset == null) {
             return@session Page(

@@ -7,7 +7,7 @@ import org.neo4j.ogm.annotation.Id
 import org.neo4j.ogm.annotation.NodeEntity
 import org.neo4j.ogm.annotation.Relationship
 
-@NodeEntity(Badge.LABEL)
+@NodeEntity(BadgeCertification.LABEL)
 class BadgeCertification {
     companion object {
         const val LABEL = "BadgeCertification"

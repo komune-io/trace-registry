@@ -1,5 +1,6 @@
 package io.komune.registry.infra.neo4j
 
+import f2.dsl.cqrs.page.OffsetPagination
 import f2.spring.exception.ConflictException
 import f2.spring.exception.NotFoundException
 import io.komune.registry.api.commons.utils.mapAsync
@@ -139,4 +140,8 @@ fun Session.detachDelete(label: String, id: String) {
 fun String.returnWholeEntity(identifier: String) = this +
         "\nOPTIONAL MATCH ($identifier)-[${identifier}_rels*]->(${identifier}_child)" +
         "\nUNWIND COALESCE(${identifier}_rels, [NULL]) as ${identifier}_rel" +
-        "\nRETURN $identifier, collect(distinct ${identifier}_rel), collect(distinct ${identifier}_child)"
+        "\nRETURN distinct $identifier, collect(distinct ${identifier}_rel), collect(distinct ${identifier}_child)"
+
+fun OffsetPagination?.toCypher(): String? = this?.let {
+    "\nSKIP ${it.offset} LIMIT ${it.limit}"
+}.orEmpty()

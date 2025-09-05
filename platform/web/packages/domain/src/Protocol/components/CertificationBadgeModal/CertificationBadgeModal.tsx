@@ -1,12 +1,12 @@
-import { AutoFormData, autoFormFormatter, CodeHighlighter, FormSection, useAutoFormState } from '@komune-io/g2'
-import { Divider, Stack, Typography } from '@mui/material'
-import { TitleDivider, TmsPopUp } from 'components'
-import { useMemo } from 'react'
+import {AutoFormData, autoFormFormatter, CodeHighlighter, FormSection, useAutoFormState} from '@komune-io/g2'
+import {Divider, Stack, Typography} from '@mui/material'
+import {TitleDivider, TmsPopUp} from 'components'
+import {useMemo} from 'react'
 // import { useTranslation } from 'react-i18next'
-import { BadgeCertification } from '../../model'
-import { CertificationBadge } from '../CertificationBadge/CertificationBadge'
-import { t } from 'i18next'
-import { useCertificationGetQuery } from '../../api'
+import {BadgeCertification} from '../../model'
+import {CertificationBadge} from '../CertificationBadge/CertificationBadge'
+import {t} from 'i18next'
+import {useCertificationGetQuery} from '../../api'
 
 interface CertificationBadgeModalProps {
     open: boolean
@@ -30,7 +30,7 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
 
     const formData = useMemo(() => {
         //@ts-ignore
-        const form = preformatProtocol(certification?.protocol)?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
+        const form = certification?.protocol?.steps?.find(step => step.type === ReservedProtocolTypes.DATA_COLLECTION_STEP) as BackAutoFormData
         if (!form) return undefined
         const formatted = autoFormFormatter(form)
         return {
@@ -104,4 +104,3 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
         </TmsPopUp>
     )
 }
-

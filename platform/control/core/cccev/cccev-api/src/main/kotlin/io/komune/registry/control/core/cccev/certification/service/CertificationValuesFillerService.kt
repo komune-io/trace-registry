@@ -99,15 +99,10 @@ class CertificationValuesFillerService(
 
             if (existingValue == null) {
                 requirementCertification.values.add(supportedValue)
-                relevantBadgeCertifications.forEach { badgeCertification ->
-                    badgeCertification.value = supportedValue
-                    badgeCertification.selectLevel()
-                }
+                relevantBadgeCertifications.updateValues(supportedValue)
             } else {
                 existingValue.value = supportedValue.value
-                relevantBadgeCertifications.forEach { badgeCertification ->
-                    badgeCertification.selectLevel()
-                }
+                relevantBadgeCertifications.updateValues(supportedValue)
             }
 
             session.save(requirementCertification, 3)
@@ -119,15 +114,16 @@ class CertificationValuesFillerService(
         }
     }
 
-    private suspend fun BadgeCertification.selectLevel() {
-        level = badge
+    private suspend fun List<BadgeCertification>.updateValues(value: SupportedValue) = forEach { badgeCertification ->
+        badgeCertification.value = value
+        badgeCertification.level = badgeCertification.badge
             .levels
             .sortedByDescending { it.level }
             .firstOrNull { level ->
                 evaluateBooleanExpression(
                     expression = level.expression,
-                    dependencies = setOf(badge.informationConcept.identifier),
-                    values = mapOf(badge.informationConcept.identifier to value?.value)
+                    dependencies = setOf(badgeCertification.badge.informationConcept.identifier),
+                    values = mapOf(badgeCertification.badge.informationConcept.identifier to value?.value)
                 )
             }
     }
