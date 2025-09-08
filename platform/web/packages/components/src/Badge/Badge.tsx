@@ -1,7 +1,9 @@
 import { CloseRounded } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material'
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { StackProps } from '@mui/material';
+import {formatNumber} from "@komune-io/g2"
+import { useTranslation } from 'react-i18next';
 
 const colors = {
     gold: "#EDBA27",
@@ -24,6 +26,7 @@ export const Badge = (props: BadgeProps) => {
     const defValue = typeof value === "string" ? Number(value) : value
     const defColor = color ?? (defValue ? defValue < 60 ? colors.bronze : defValue < 80 ? colors.silver : colors.gold : colors.gold);
     const isClickable = !!onClick || !!onChange;
+    const {i18n} = useTranslation()
 
     const onClickMemo = useCallback(
       () => {
@@ -36,15 +39,17 @@ export const Badge = (props: BadgeProps) => {
       },
       [onClick, onChange, isSelected],
     )
-    
+
+    const formattedValue = useMemo(() => defValue ? formatNumber(defValue, i18n.language) : undefined, [defValue, i18n.language])
+
     return (
         <Stack
-            {...ohter}
             direction="row"
             alignItems="center"
             component={isClickable ? 'button' : 'div'}
             onClick={onClickMemo}
             gap={1}
+            {...ohter}
             sx={{
                 width: 'fit-content',
                 borderRadius: "14px",
@@ -78,10 +83,14 @@ export const Badge = (props: BadgeProps) => {
             : icon}
             <Typography
                 variant="caption"
+                sx={{
+                    flexGrow: 1
+                }}
+                noWrap
             >
                 {label}
             </Typography>
-            {value && <Typography
+            {formattedValue && <Typography
                 variant="body2"
                 sx={{
                     ml: 1.5,
@@ -89,7 +98,7 @@ export const Badge = (props: BadgeProps) => {
                     fontWeight: 700
                 }}
             >
-                {value}
+                {formattedValue}
             </Typography>}
             {isSelected &&
                 <CloseRounded

@@ -12,7 +12,7 @@ export interface CatalogueBadgesProps {
 export const CatalogueBadges = (props: CatalogueBadgesProps) => {
     const { catalogue } = props
     const { t } = useTranslation()
-    const [selected, setSelected] = useState<{badge: BadgeCertification, certification: CertificationRef} | undefined>(undefined)
+    const [selected, setSelected] = useState<{ badge: BadgeCertification, certification: CertificationRef } | undefined>(undefined)
 
     return (
         <>
@@ -22,7 +22,14 @@ export const CatalogueBadges = (props: CatalogueBadgesProps) => {
                 alignItems="flex-start"
             >
                 {catalogue?.certifications.map((certification) => certification.badges.map((badge) => (
-                    <CertificationBadge key={badge.id} onClick={() => setSelected({badge, certification})} {...badge} />
+                    <CertificationBadge
+                        key={badge.id}
+                        onClick={() => setSelected({ badge, certification })}
+                        {...badge}
+                        sx={{
+                            boxShadow: 1,
+                        }}
+                    />
                 )))}
             </Stack>
             <CertificationBadgeModal
@@ -30,6 +37,7 @@ export const CatalogueBadges = (props: CatalogueBadgesProps) => {
                 onClose={() => setSelected(undefined)}
                 certificationId={selected?.certification.id}
                 badge={selected?.badge}
+
             />
         </>
     )

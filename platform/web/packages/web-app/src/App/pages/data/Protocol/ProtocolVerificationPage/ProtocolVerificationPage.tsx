@@ -117,6 +117,7 @@ export const ProtocolVerificationPage = () => {
           formData={formData}
           readOnly
           initialValues={certification?.values}
+          downloadDocument={() => Promise.resolve("")}
         />
       </Paper>
     </AppPage>

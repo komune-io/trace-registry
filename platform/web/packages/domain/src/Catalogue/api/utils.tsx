@@ -1,7 +1,8 @@
-import {Catalogue, CatalogueRef} from "../model";
-import {useMemo} from "react";
+import { Catalogue, CatalogueRef } from "../model";
+import { useMemo } from "react";
+import {g2Config} from '@komune-io/g2'
 
-export const useCatalogueIdentifierNumber = (catalogue?: Catalogue | CatalogueRef)=> {
+export const useCatalogueIdentifierNumber = (catalogue?: Catalogue | CatalogueRef) => {
   return useMemo(() => extractCatalogueIdentifierNumber(catalogue?.identifier), [catalogue?.identifier])
 }
 
@@ -12,7 +13,7 @@ export const extractCatalogueIdentifierNumber = (identifier?: string): number | 
   const value = extractCatalogueIdentifier(identifier)
   return value && !isNaN(Number(value)) ? Number(value) : undefined
 }
-export const orderByCatalogueIdentifierNumber= (a: Catalogue|CatalogueRef, b: Catalogue|CatalogueRef): number => {
+export const orderByCatalogueIdentifierNumber = (a: Catalogue | CatalogueRef, b: Catalogue | CatalogueRef): number => {
   const identifierA = extractCatalogueIdentifierNumber(a.identifier) ?? 0
   const identifierB = extractCatalogueIdentifierNumber(b.identifier) ?? 0
   return identifierB - identifierA
@@ -23,4 +24,8 @@ export const useCatalogueCo2Counter = (catalogue?: Catalogue) => {
     const counterAggregate = catalogue?.aggregators.find((agr) => agr.identifier === "counter-co2e")
     return counterAggregate?.value ? Number(counterAggregate.value) : undefined
   }, [catalogue])
+}
+
+export const downloadFormImage = async (_, fieldValue: any) => {
+  return g2Config().platform.url + fieldValue
 }
