@@ -101,7 +101,7 @@ export const ProtocolFillingPage = () => {
     isLoading: certificationQuery.isLoading,
     formData: formData,
     readOnly: !isEditable,
-    downloadDocument: () => Promise.resolve(""),
+    downloadDocument: () => Promise.resolve("") // TODO: implement document download
   })
 
 

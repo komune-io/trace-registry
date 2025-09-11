@@ -12,9 +12,9 @@
     "label": "Badge",
     "type": "badge",
     "value": {
-      "label": "shortLabel",
-      "value": "result",
-      "icon": "pathToImage"
+      "name": "badges[0].name",
+      "value": "badges[0].value",
+      "image": "badges[0].image"
     }
   }, {
     "label": "Complétion",

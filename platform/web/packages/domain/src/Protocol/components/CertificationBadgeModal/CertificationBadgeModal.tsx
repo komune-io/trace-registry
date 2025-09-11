@@ -96,7 +96,7 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
                         formData={formData}
                         initialValues={certification?.values}
                         readOnly
-                        downloadDocument={() => Promise.resolve("")}
+                        downloadDocument={() => Promise.resolve("")} // TODO: implement document download
                     />
                 </Stack>
             </Stack>

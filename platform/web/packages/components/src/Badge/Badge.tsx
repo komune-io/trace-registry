@@ -40,7 +40,7 @@ export const Badge = (props: BadgeProps) => {
       [onClick, onChange, isSelected],
     )
 
-    const formattedValue = useMemo(() => defValue ? formatNumber(defValue, i18n.language) : undefined, [defValue, i18n.language])
+    const formattedValue = useMemo(() => defValue ? formatNumber(defValue, i18n.language, 1) : undefined, [defValue, i18n.language])
 
     return (
         <Stack
