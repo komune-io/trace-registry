@@ -10,6 +10,7 @@ import io.komune.registry.control.core.cccev.requirement.entity.Badge
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.unit.entity.DataUnit
 import io.komune.registry.infra.neo4j.findById
+import io.komune.registry.infra.neo4j.findSafeShallowById
 import io.komune.registry.infra.neo4j.returnWholeEntity
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.infra.neo4j.toCypher
@@ -29,6 +30,10 @@ class CertificationRepository(
 ) {
     suspend fun findById(id: CertificationId): Certification? = sessionFactory.session { session ->
         session.findById<Certification>(id, Certification.LABEL)
+    }
+
+    suspend fun findShallowById(id: CertificationId): Certification? = sessionFactory.session { session ->
+        session.load(Certification::class.java, id, 0)
     }
 
     suspend fun findPage(
@@ -87,8 +92,19 @@ class CertificationRepository(
         session.findById<SupportedValue>(id, SupportedValue.LABEL)
     }
 
-    suspend fun findEvidenceById(id: EvidenceId): Evidence? = sessionFactory.session { session ->
-        session.findById<Evidence>(id, Evidence.LABEL)
+    suspend fun findEvidenceById(id: EvidenceId, certificationId: CertificationId?): Evidence? = sessionFactory.session { session ->
+        if (certificationId == null) {
+            return@session session.findById<Evidence>(id, Evidence.LABEL)
+        }
+
+        session.queryForObject(
+            Evidence::class.java,
+            "MATCH (c:${Certification.LABEL} {id: \$cId})" +
+                    "-[:${Certification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL})" +
+                    "-[:${RequirementCertification.HAS_EVIDENCE}]->(e:${Evidence.LABEL} {id: \$eId})"
+                        .returnWholeEntity("e"),
+            mapOf("cId" to certificationId, "eId" to id)
+        )
     }
 
     suspend fun hasRequirementCertification(
@@ -213,9 +229,11 @@ class CertificationRepository(
         session.query(
             "MATCH (:${Certification.LABEL} {id: \$cId})" +
                     (if (rootRequirementCertificationId != null) {
-                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})"
-                    } else { "" }) +
-                    "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})" +
+                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL} {id: \$rcId})" +
+                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*0..]->(rc:${RequirementCertification.LABEL})"
+                    } else {
+                        "-[:${RequirementCertification.IS_CERTIFIED_BY}*1..]->(rc:${RequirementCertification.LABEL})"
+                    }) +
                     "-[:${RequirementCertification.CERTIFIES}]->(r:${Requirement.LABEL})" +
                     filterQueryPart
                         .returnWholeEntity("rc"),

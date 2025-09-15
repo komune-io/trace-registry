@@ -56,7 +56,7 @@ class CertificationAddEvidenceSteps: En, RgCucumberStepsDefinition() {
         Then("The evidences should be created") {
             step {
                 val evidenceId = context.cccev.evidenceIds.lastUsed
-                val evidence = certificationRepository.findEvidenceById(evidenceId)
+                val evidence = certificationRepository.findEvidenceById(evidenceId, null)
                 Assertions.assertThat(evidence).isNotNull
 
                 AssertionBdd.evidence(certificationRepository).assertThat(evidence!!)
@@ -77,7 +77,7 @@ class CertificationAddEvidenceSteps: En, RgCucumberStepsDefinition() {
                 dataTable.asList(EvidenceAssertParams::class.java)
                     .forEach { params ->
                         val evidenceId = context.cccev.evidenceIds.safeGet(params.identifier)
-                        val evidence = certificationRepository.findEvidenceById(evidenceId)
+                        val evidence = certificationRepository.findEvidenceById(evidenceId, null)
                         Assertions.assertThat(evidence).isNotNull
 
                         AssertionBdd.evidence(certificationRepository).assertThat(evidence!!)

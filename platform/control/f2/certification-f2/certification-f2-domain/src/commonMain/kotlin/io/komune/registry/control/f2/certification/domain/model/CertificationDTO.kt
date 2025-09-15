@@ -35,7 +35,7 @@ data class CertificationDTOBase(
     override val protocol: ProtocolDTO,
     override val catalogue: CertificationCatalogueRef?,
     override val completionRate: Double,
-    override val values: Map<InformationConceptIdentifier, String?>,
+    override val values: Map<InformationConceptIdentifier, String?>, // includes evidences
     override val badges: List<BadgeCertificationDTOBase>,
     override val status: CertificationState,
     override val creator: UserRef?,
