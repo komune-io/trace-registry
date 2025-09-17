@@ -25,7 +25,7 @@ class CertificationEvidenceService(
     private val sessionFactory: SessionFactory
 ) {
     companion object {
-        val selExecutor = SelExecutor()
+        val selExecutor = SelExecutor(nullOnError = true)
     }
 
     /**

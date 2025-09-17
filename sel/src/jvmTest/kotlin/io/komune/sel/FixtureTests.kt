@@ -11,7 +11,7 @@ class FixtureTests {
 
     companion object {
         private val classLoader = FixtureTests::class.java.classLoader
-        private val selExecutor = SelExecutor()
+        private val selExecutor = SelExecutor(nullOnError = false)
         const val FIXTURE_DIR = "fixtures"
 
         const val FILTER = ""

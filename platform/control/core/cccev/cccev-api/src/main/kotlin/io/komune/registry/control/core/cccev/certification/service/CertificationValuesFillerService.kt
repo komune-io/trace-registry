@@ -27,6 +27,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
+import s2.spring.utils.logger.Logger
 import java.util.UUID
 
 @Service
@@ -36,7 +37,7 @@ class CertificationValuesFillerService(
     private val sessionFactory: SessionFactory
 ) {
     companion object {
-        val selExecutor = SelExecutor()
+        val selExecutor = SelExecutor(nullOnError = true)
     }
 
     /**
