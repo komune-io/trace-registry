@@ -119,7 +119,7 @@ object CccevToProtocolConverter {
         DataCondition(
             type = DataEvaluationType.display,
             identifier = identifier,
-            logic = inverseCondition(expression),
+            logic = expression,
             dependencies = enablingConditionDependencies.map { it.identifier },
             error = description
         )
