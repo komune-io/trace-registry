@@ -19,6 +19,9 @@ import io.komune.registry.f2.organization.api.service.OrganizationF2FinderServic
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.api.CatalogueI18nService
+import io.komune.registry.s2.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.model.BadgeCertificationId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.stereotype.Service
@@ -33,6 +36,11 @@ class CertificationF2FinderService(
 ) {
     suspend fun getRefOrNull(id: CertificationId, language: Language?): CertificationRef? {
         return certificationRepository.findById(id)?.toRefCached(language)
+    }
+
+    suspend fun getRef(id: CertificationId, language: Language?): CertificationRef {
+        return getRefOrNull(id, language)
+            ?: throw NotFoundException("Certification", id)
     }
 
     suspend fun getOrNull(id: CertificationId): CertificationDTOBase? {

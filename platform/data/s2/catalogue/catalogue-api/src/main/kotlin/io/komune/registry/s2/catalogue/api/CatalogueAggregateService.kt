@@ -3,8 +3,10 @@ package io.komune.registry.s2.catalogue.api
 import io.komune.im.commons.auth.AuthenticationProvider
 import io.komune.registry.s2.catalogue.api.entity.CatalogueAutomateExecutor
 import io.komune.registry.s2.catalogue.api.entity.CatalogueRepository
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddBadgesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedBadgesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -273,6 +275,16 @@ class CatalogueAggregateService(
 			certificationId = command.certificationId
 		)
 	}
+
+    suspend fun addBadges(
+        command: CatalogueAddBadgesCommand
+    ): CatalogueAddedBadgesEvent = automate.transition(command) {
+        CatalogueAddedBadgesEvent(
+            id = it.id,
+            date = System.currentTimeMillis(),
+            badgeIds = command.badgeIds
+        )
+    }
 
 	suspend fun delete(command: CatalogueDeleteCommand): CatalogueDeletedEvent = automate.transition(command) {
 		CatalogueDeletedEvent(

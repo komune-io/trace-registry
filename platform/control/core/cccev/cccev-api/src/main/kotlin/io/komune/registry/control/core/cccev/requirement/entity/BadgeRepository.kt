@@ -27,4 +27,15 @@ class BadgeRepository(
             mapOf("id" to id)
         )
     }
+
+    suspend fun findAllById(ids: Collection<BadgeId>): List<Badge> = sessionFactory.session { session ->
+        if (ids.isEmpty()) {
+            return@session emptyList()
+        }
+        session.query(
+            "MATCH (badge:${Badge.LABEL}) WHERE badge.id IN \$ids"
+                .returnWholeEntity("badge"),
+            mapOf("ids" to ids.toList())
+        ).map { it["badge"] as Badge }
+    }
 }

@@ -9,6 +9,7 @@ import io.komune.fs.s2.file.domain.model.FilePath
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueAccessRight
 import io.komune.registry.s2.catalogue.domain.model.CatalogueConfigurationModel
+import io.komune.registry.s2.commons.model.BadgeId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.CertificationId
@@ -111,6 +112,8 @@ open class CatalogueEntity: WithS2Id<CatalogueId>, WithS2State<CatalogueState>  
 
     @TagIndexed
     var certificationIds: MutableSet<CertificationId> = mutableSetOf()
+
+    var badgeIds: MutableSet<BadgeId> = mutableSetOf()
 
     override fun s2Id() = id
     override fun s2State() = status
