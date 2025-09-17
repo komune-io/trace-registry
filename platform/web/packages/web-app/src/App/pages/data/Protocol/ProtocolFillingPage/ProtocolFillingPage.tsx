@@ -1,27 +1,27 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import { CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition } from 'components'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { CloseRounded } from '@mui/icons-material'
+import {Box, IconButton, Stack, Typography} from '@mui/material'
+import {CommentContainer, CustomButton, CustomLinkButton, StickyContainer, useRoutesDefinition} from 'components'
+import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+import {Link, useNavigate, useParams} from 'react-router-dom'
+import {CloseRounded} from '@mui/icons-material'
 import {
-  autoFormFormatter,
-  autoformValuesToCommand,
-  BackAutoFormData,
-  FormComposableState,
-  FormSection,
-  useAutoFormState
+    autoFormFormatter,
+    autoformValuesToCommand,
+    BackAutoFormData,
+    FormComposableState,
+    FormSection,
+    useAutoFormState
 } from '@komune-io/g2'
 import {
-  ReservedProtocolTypes,
-  useCertificationFillCommand,
-  useCertificationGetQuery,
-  useCertificationSubmitCommand,
-  useProtocolGetQuery
+    ReservedProtocolTypes,
+    useCertificationFillCommand,
+    useCertificationGetQuery,
+    useCertificationSubmitCommand,
+    useProtocolGetQuery
 } from 'domain-components'
-import { DialogPage } from 'template'
-import { useDebouncedCallback } from '@mantine/hooks'
-import { useQueryClient } from "@tanstack/react-query";
+import {DialogPage} from 'template'
+import {useDebouncedCallback} from '@mantine/hooks'
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export const ProtocolFillingPage = () => {
@@ -30,7 +30,7 @@ export const ProtocolFillingPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const [isInit, setIsInit] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
@@ -53,6 +53,9 @@ export const ProtocolFillingPage = () => {
   const certificationQuery = useCertificationGetQuery({
     query: {
       id: certificationId!,
+    },
+    options: {
+      enabled: !isInitialized
     }
   })
 
@@ -101,18 +104,17 @@ export const ProtocolFillingPage = () => {
     isLoading: certificationQuery.isLoading,
     formData: formData,
     readOnly: !isEditable,
-    downloadDocument: () => Promise.resolve("") // TODO: implement document download
+    // downloadDocument: () => Promise.resolve("") // TODO: implement document download
   })
-
 
   useEffect(() => {
     if (certification) {
-      setIsInit(true)
+      setIsInitialized(true)
     }
   }, [formState.values])
 
   useEffect(() => {
-    if (isInit) {
+    if (isInitialized) {
       saveForm(formState)
     }
   }, [formState.values])
