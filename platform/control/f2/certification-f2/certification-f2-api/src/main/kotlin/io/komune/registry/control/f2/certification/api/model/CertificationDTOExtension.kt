@@ -67,7 +67,7 @@ suspend fun Certification.toDTO(
 
 fun List<RequirementCertification>.extractBadges(): List<BadgeCertificationDTOBase> = flatMap { requirementCertification ->
     requirementCertification.badges.mapNotNull { badge ->
-        badge.takeIf { it.level != null }?.toDTO()
+        badge.toDTOOrNull()
     } + requirementCertification.subCertifications.extractBadges()
 }
 
