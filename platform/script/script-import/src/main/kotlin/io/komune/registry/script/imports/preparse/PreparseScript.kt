@@ -387,9 +387,9 @@ class PreparseScript(
 
     private suspend fun CataloguePreparseFieldMapping.mapRetrievedValue(value: String?): String? {
         if (value != null && value.isJsonArray()) {
-            return value.parseJsonTo(Array<String>::class.java)
+            return value.parseJsonTo(Array<Any>::class.java)
                 .ifEmpty { listOf(null) } // ensure DEFAULT behaviour works
-                .mapNotNull { mapRetrievedValue(it) }
+                .mapNotNull { mapRetrievedValue(it?.toJson())?.parseJsonTo<Any>() }
                 .toJson()
         }
 
