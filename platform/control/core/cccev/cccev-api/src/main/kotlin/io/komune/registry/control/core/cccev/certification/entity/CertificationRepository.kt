@@ -10,10 +10,10 @@ import io.komune.registry.control.core.cccev.requirement.entity.Badge
 import io.komune.registry.control.core.cccev.requirement.entity.Requirement
 import io.komune.registry.control.core.cccev.unit.entity.DataUnit
 import io.komune.registry.infra.neo4j.findById
-import io.komune.registry.infra.neo4j.findSafeShallowById
 import io.komune.registry.infra.neo4j.returnWholeEntity
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.infra.neo4j.toCypher
+import io.komune.registry.s2.commons.model.BadgeCertificationId
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeId
@@ -90,6 +90,21 @@ class CertificationRepository(
 
     suspend fun findSupportedValueById(id: SupportedValueId): SupportedValue? = sessionFactory.session { session ->
         session.findById<SupportedValue>(id, SupportedValue.LABEL)
+    }
+
+    suspend fun findBadgeCertificationById(id: BadgeCertificationId): BadgeCertification? = sessionFactory.session { session ->
+        session.findById<BadgeCertification>(id, BadgeCertification.LABEL)
+    }
+
+    suspend fun findShallowByBadgeCertificationId(id: BadgeCertificationId): Certification? = sessionFactory.session { session ->
+        session.queryForObject(
+            Certification::class.java,
+            "MATCH (c:${Certification.LABEL})" +
+                    "-[:${Certification.IS_CERTIFIED_BY}*1..]->(:${RequirementCertification.LABEL})" +
+                    "-[:${RequirementCertification.HAS_BADGE}]->(:${BadgeCertification.LABEL} {id: \$bcId})" +
+                    "RETURN c",
+            mapOf("bcId" to id)
+        )
     }
 
     suspend fun findEvidenceById(id: EvidenceId, certificationId: CertificationId?): Evidence? = sessionFactory.session { session ->

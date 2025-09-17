@@ -4,6 +4,7 @@ server:
 logging:
   level:
     root: INFO
+    org.neo4j.ogm.drivers.bolt.response.BoltResponse: ERROR
 
 spring:
   cloud:

@@ -15,20 +15,18 @@ import io.komune.registry.control.f2.certification.domain.command.CertificationF
 import io.komune.registry.control.f2.certification.domain.command.CertificationRejectFunction
 import io.komune.registry.control.f2.certification.domain.command.CertificationSubmitFunction
 import io.komune.registry.control.f2.certification.domain.command.CertificationValidateFunction
+import io.komune.registry.control.f2.certification.domain.query.BadgeCertificationGetFunction
+import io.komune.registry.control.f2.certification.domain.query.BadgeCertificationGetResult
 import io.komune.registry.control.f2.certification.domain.query.CertificationGetFunction
 import io.komune.registry.control.f2.certification.domain.query.CertificationGetResult
 import io.komune.registry.control.f2.certification.domain.query.CertificationPageFunction
 import io.komune.registry.control.f2.certification.domain.query.CertificationPageResult
-import io.komune.registry.s2.commons.model.BadgeId
-import io.komune.registry.s2.commons.model.BadgeLevelId
 import io.komune.registry.s2.commons.model.CertificationId
-import io.komune.registry.s2.commons.model.DatasetId
 import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
 import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.InputStreamResource
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.codec.multipart.Part
@@ -102,6 +100,18 @@ class CertificationEndpoint(
 
         certificationRepository.findEvidenceById(evidenceId, certificationId)
             ?.file
+    }
+
+    @PermitAll
+    @Bean
+    fun badgeCertificationGet(): BadgeCertificationGetFunction = f2Function { query ->
+        logger.info("badgeCertificationGet: $query")
+        val badge = certificationF2FinderService.getBadgeCertificationOrNull(query.id)
+            ?: return@f2Function BadgeCertificationGetResult(null, null)
+
+        val catalogueId = certificationF2FinderService.getCatalogueOfBadgeCertification(query.id)
+
+        BadgeCertificationGetResult(badge, catalogueId)
     }
 
     @PostMapping("/control/certificationFill")

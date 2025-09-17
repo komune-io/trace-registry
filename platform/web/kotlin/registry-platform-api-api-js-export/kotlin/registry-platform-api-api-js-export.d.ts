@@ -3522,6 +3522,7 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
     interface BadgeCertificationDTO {
         readonly id: string;
         readonly badgeId: string;
+        readonly badgeLevelId: string;
         readonly name: string;
         readonly value: string;
         readonly color?: string;
@@ -3576,6 +3577,17 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.query {
+    interface BadgeCertificationGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface BadgeCertificationGetResultDTO {
+        readonly item?: io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO;
+        readonly catalogueId?: string;
 
     }
 }
@@ -5738,7 +5750,7 @@ export declare namespace io.komune.sel {
 }
 export declare namespace io.komune.sel {
     class SelExecutor {
-        constructor();
+        constructor(nullOnError: boolean);
         addOperation(expression: io.komune.sel.evaluator.SelExpression): void;
         evaluate(expressionJson: string, dataJson: string): Nullable<any>;
         evaluateToJson(expressionJson: string, dataJson: string): string;
