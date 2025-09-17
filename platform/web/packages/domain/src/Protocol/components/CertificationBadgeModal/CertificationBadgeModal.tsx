@@ -1,12 +1,12 @@
-import { AutoForm, AutoFormData, autoFormFormatter, CodeHighlighter } from '@komune-io/g2'
-import { Divider, Stack, Typography } from '@mui/material'
-import { TitleDivider, TmsPopUp, useRoutesDefinition } from 'components'
-import { useMemo } from 'react'
+import {AutoForm, AutoFormData, autoFormFormatter, CodeHighlighter} from '@komune-io/g2'
+import {Divider, Stack, Typography} from '@mui/material'
+import {TitleDivider, TmsPopUp, useRoutesDefinition} from 'components'
+import {useMemo} from 'react'
 // import { useTranslation } from 'react-i18next'
-import { BadgeCertification, ReservedProtocolTypes } from '../../model'
-import { CertificationBadge } from '../CertificationBadge/CertificationBadge'
-import { t } from 'i18next'
-import { useCertificationGetQuery } from '../../api'
+import {BadgeCertification, ReservedProtocolTypes} from '../../model'
+import {CertificationBadge} from '../CertificationBadge/CertificationBadge'
+import {t} from 'i18next'
+import {useCertificationGetQuery} from '../../api'
 
 interface CertificationBadgeModalProps {
     open: boolean
@@ -24,6 +24,9 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
     const certificationQuery = useCertificationGetQuery({
         query: {
             id: certificationId!,
+        },
+        options: {
+            enabled: open && !!certificationId,
         }
     })
 
