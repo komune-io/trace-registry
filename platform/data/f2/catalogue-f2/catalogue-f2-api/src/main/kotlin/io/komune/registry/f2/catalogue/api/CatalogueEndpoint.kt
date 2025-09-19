@@ -232,6 +232,7 @@ class CatalogueEndpoint(
                 )},
                 cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             ),
+            orderBy = query.orderBy,
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -270,6 +271,7 @@ class CatalogueEndpoint(
                 )},
                 cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             ),
+            orderBy = query.orderBy,
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000

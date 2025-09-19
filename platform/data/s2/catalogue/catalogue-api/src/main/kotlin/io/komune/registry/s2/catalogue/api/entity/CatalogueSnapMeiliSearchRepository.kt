@@ -2,6 +2,7 @@ package io.komune.registry.s2.catalogue.api.entity
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.meilisearch.sdk.SearchRequest
+import com.meilisearch.sdk.model.MatchingStrategy
 import com.meilisearch.sdk.model.SearchResult
 import f2.dsl.cqrs.filter.Match
 import f2.dsl.cqrs.page.OffsetPagination
@@ -11,6 +12,9 @@ import io.komune.registry.infra.meilisearch.match
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSort
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField
+import io.komune.registry.s2.catalogue.domain.model.CatalogueSearchableBadge
 import io.komune.registry.s2.catalogue.domain.model.CatalogueSearchableEntity
 import io.komune.registry.s2.commons.model.BadgeId
 import io.komune.registry.s2.commons.model.Criterion
@@ -47,8 +51,8 @@ class CatalogueSnapMeiliSearchRepository(
         .map(CatalogueMeiliSearchField::identifier)
         .toTypedArray()
 
-    override val sortableAttributes: Array<String> = arrayOf(
-        CatalogueSearchableEntity::modified.name
+    override val defaultSortableAttributes: Array<String> = arrayOf(
+        CatalogueMeiliSearchSortableField.MODIFICATION_DATE.identifier
     )
 
     override val distinctAttribute: String? = CatalogueSearchableEntity::isTranslationOf.name
@@ -66,8 +70,8 @@ class CatalogueSnapMeiliSearchRepository(
 
             val translations = catalogueRepository.findAllById(entity.translationIds.values)
             translations.forEach { translation ->
-                if (entity.badgeIds != translation.badgeIds) {
-                    translation.badgeIds = entity.badgeIds
+                if (entity.badges != translation.badges) {
+                    translation.badges = entity.badges
                     save(translation)
                 }
             }
@@ -93,6 +97,7 @@ class CatalogueSnapMeiliSearchRepository(
             } else {
                 index.updateDocuments(jsonString, "id")
             }
+            indexNewBadges(entity.badges)
         } catch (e: Exception) {
             logger.error("save catalogue error", e)
         }
@@ -112,6 +117,7 @@ class CatalogueSnapMeiliSearchRepository(
         availableLanguages: Match<Language>? = null,
         badgeIds: Match<BadgeId>? = null,
         freeCriterion: Criterion? = null,
+        orderBy: Collection<CatalogueMeiliSearchSort>? = null,
         page: OffsetPagination? = null
     ): FacetPageModel<CatalogueSearchableEntity> = withContext(Dispatchers.IO) {
         try {
@@ -138,6 +144,7 @@ class CatalogueSnapMeiliSearchRepository(
                 .q(query)
                 .offset(page?.offset ?: 0)
                 .limit(page?.limit ?: 0)
+                .showRankingScoreDetails(true)
                 .facets(
                     arrayOf(
                         CatalogueMeiliSearchField.LICENSE_ID.identifier,
@@ -148,6 +155,13 @@ class CatalogueSnapMeiliSearchRepository(
                         CatalogueMeiliSearchField.BADGE_IDS.identifier,
                     )
                 ).filter(filters.toTypedArray())
+                .matchingStrategy(MatchingStrategy.ALL)
+                .orderBy(orderBy) { sort ->
+                    when (sort.property) {
+                        CatalogueMeiliSearchSortableField.BADGE_NUMERICAL_VALUES -> "${sort.property.identifier}.${sort.data}"
+                        else -> sort.property.identifier
+                    }
+                }
                 .build()
             val searchResult = index.search(searchRequest) as SearchResult
             val distribution = searchResult.facetDistribution as Map<String, Map<String, Int>>
@@ -189,9 +203,13 @@ class CatalogueSnapMeiliSearchRepository(
             licenseId = originalCatalogue.licenseId,
             location = originalCatalogue.location,
             hidden = originalCatalogue.hidden,
-            badgeIds = originalCatalogue.badgeIds,
+            badges = originalCatalogue.badges,
             issued = max(originalCatalogue.issued, catalogue.issued),
             modified = max(originalCatalogue.modified, catalogue.modified)
         )
+    }
+
+    private fun indexNewBadges(badges: Collection<CatalogueSearchableBadge>) {
+        addSortableAttributes(badges.map { "${CatalogueMeiliSearchField.BADGE_NUMERICAL_VALUES.identifier}.${it.id}" })
     }
 }

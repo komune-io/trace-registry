@@ -282,7 +282,7 @@ class CatalogueAggregateService(
         CatalogueAddedBadgesEvent(
             id = it.id,
             date = System.currentTimeMillis(),
-            badgeIds = command.badgeIds
+            badges = command.badges
         )
     }
 

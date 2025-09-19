@@ -16,7 +16,8 @@ enum class CatalogueMeiliSearchField(override val identifier: String): MeiliSear
     CREATOR_ORGANIZATION_ID(CatalogueSearchableEntity::creatorOrganizationId.name),
     OWNER_ORGANIZATION_ID(CatalogueSearchableEntity::ownerOrganizationId.name),
     AVAILABLE_LANGUAGES(CatalogueSearchableEntity::availableLanguages.name),
-    BADGE_IDS(CatalogueSearchableEntity::badgeIds.name);
+    BADGE_IDS(CatalogueSearchableEntity::badgeIds.name),
+    BADGE_NUMERICAL_VALUES(CatalogueSearchableEntity::badgeNumericalValues.name);
 
     companion object {
         fun fromIdentifier(identifier: String): CatalogueMeiliSearchField? {

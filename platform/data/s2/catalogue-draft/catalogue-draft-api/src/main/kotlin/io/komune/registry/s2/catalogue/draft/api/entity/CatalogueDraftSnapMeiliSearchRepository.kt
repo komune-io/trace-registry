@@ -35,7 +35,7 @@ class CatalogueDraftSnapMeiliSearchRepository : MeiliSearchSnapRepository<Catalo
         .map(CatalogueDraftMeiliSearchField::identifier)
         .toTypedArray()
 
-    override val sortableAttributes = arrayOf(
+    override val defaultSortableAttributes = arrayOf(
         CatalogueDraftSearchableEntity::modified.name
     )
 

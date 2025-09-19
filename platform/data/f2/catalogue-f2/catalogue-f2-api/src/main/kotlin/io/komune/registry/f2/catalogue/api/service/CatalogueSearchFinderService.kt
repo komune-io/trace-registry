@@ -12,6 +12,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchResult
 import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.api.config.CatalogueTypeSearchFacet
 import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchField
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSort
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.CatalogueSearchableEntity
 import io.komune.registry.s2.commons.model.BadgeId
@@ -55,6 +56,7 @@ class CatalogueSearchFinderService(
         withTransient: Boolean = true,
         badgeIds: Match<BadgeId>? = null,
         freeCriterion: Criterion? = null,
+        orderBy: Collection<CatalogueMeiliSearchSort>? = null,
         page: OffsetPagination? = null
     ): CatalogueRefSearchResult = withCache {
         val result = searchInternal(
@@ -73,7 +75,9 @@ class CatalogueSearchFinderService(
             creatorOrganizationId = creatorOrganizationId,
             availableLanguages = availableLanguages,
             withTransient = withTransient,
+            badgeIds = badgeIds,
             freeCriterion = freeCriterion,
+            orderBy = orderBy,
             page = page
         )
 
@@ -113,6 +117,7 @@ class CatalogueSearchFinderService(
         withTransient: Boolean = true,
         badgeIds: Match<BadgeId>? = null,
         freeCriterion: Criterion? = null,
+        orderBy: Collection<CatalogueMeiliSearchSort>? = null,
         page: OffsetPagination? = null
     ): CatalogueSearchResult = withCache {
         val result = searchInternal(
@@ -133,6 +138,7 @@ class CatalogueSearchFinderService(
             withTransient = withTransient,
             badgeIds = badgeIds,
             freeCriterion = freeCriterion,
+            orderBy = orderBy,
             page = page
         )
 
@@ -175,6 +181,7 @@ class CatalogueSearchFinderService(
         withTransient: Boolean = true,
         badgeIds: Match<BadgeId>? = null,
         freeCriterion: Criterion? = null,
+        orderBy: Collection<CatalogueMeiliSearchSort>? = null,
         page: OffsetPagination? = null
     ) = withCache {
         val catalogueSearchableEntities = catalogueFinderService.search(
@@ -196,6 +203,7 @@ class CatalogueSearchFinderService(
             availableLanguages = availableLanguages,
             badgeIds = badgeIds,
             freeCriterion = freeCriterion,
+            orderBy = orderBy,
             page = page
         )
 

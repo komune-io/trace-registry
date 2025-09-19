@@ -7,6 +7,7 @@ import io.komune.registry.control.f2.certification.api.service.CertificationF2Fi
 import io.komune.registry.s2.catalogue.api.CatalogueAggregateService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddBadgesCommand
+import io.komune.registry.s2.catalogue.domain.model.CatalogueSearchableBadge
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
@@ -32,7 +33,15 @@ class CatalogueBadgeIndexHandler(
             logger.info("Indexing badges for Catalogue [${catalogue.id}] from Certification [${event.id}]...")
             CatalogueAddBadgesCommand(
                 id = catalogue.id,
-                badgeIds = certification.badges.map { it.badgeId }
+                badges = certification.badges.map { badgeCertification ->
+                    CatalogueSearchableBadge(
+                        id = badgeCertification.badgeId,
+                        levelId = badgeCertification.badgeLevelId,
+                        certificationId = event.id,
+                        badgeCertificationId = badgeCertification.id,
+                        value = badgeCertification.value
+                    )
+                }
             ).let { catalogueAggregateService.addBadges(it) }
         }
     }

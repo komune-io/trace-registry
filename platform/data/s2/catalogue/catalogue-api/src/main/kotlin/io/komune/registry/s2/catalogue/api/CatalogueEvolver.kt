@@ -157,7 +157,14 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	}
 
     private suspend fun CatalogueEntity.addBadges(event: CatalogueAddedBadgesEvent) = update(event) {
-        badgeIds.addAll(event.badgeIds)
+        event.badges.forEach { newBadge ->
+            val index = badges.indexOfFirst { it.id == newBadge.id }
+            if (index >= 0) {
+                badges[index] = newBadge
+            } else {
+                badges.add(newBadge)
+            }
+        }
     }
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {

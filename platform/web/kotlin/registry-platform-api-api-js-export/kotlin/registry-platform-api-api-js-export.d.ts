@@ -1482,6 +1482,20 @@ export declare namespace io.komune.registry.s2.commons.model {
 
     }
 }
+export declare namespace io.komune.registry.s2.commons.model {
+    interface MeiliSearchField {
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model {
+    interface SortDTO<P extends unknown/* kotlin.Enum<UnknownType *> */> {
+        readonly property: P;
+        readonly ascending: boolean;
+        readonly data?: string;
+
+    }
+}
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormDTO {
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
@@ -2410,6 +2424,9 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
         readonly types: string[];
 
     }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model {
+    type CatalogueMeiliSearchSortableField = "BADGE_NUMERICAL_VALUES" | "MODIFICATION_DATE";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
     type CatalogueButtonKind = "SIMPLE" | "SELECT";
@@ -4186,6 +4203,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly ownerOrganizationId?: string;
         readonly availableLanguages?: string[];
         readonly withTransient?: boolean;
+        readonly badgeIds?: string[];
+        readonly orderBy?: io.komune.registry.s2.commons.model.SortDTO<io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField>[];
 
     }
     interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.commons.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
@@ -4215,6 +4234,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly ownerOrganizationId?: string;
         readonly availableLanguages?: string[];
         readonly withTransient?: boolean;
+        readonly badgeIds?: string[];
+        readonly orderBy?: io.komune.registry.s2.commons.model.SortDTO<io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField>[];
 
     }
     interface CatalogueSearchResultDTO extends io.komune.registry.s2.commons.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {

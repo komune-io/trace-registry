@@ -14,6 +14,7 @@ import io.komune.registry.s2.catalogue.api.entity.toModel
 import io.komune.registry.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSort
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
 import io.komune.registry.s2.catalogue.domain.model.CatalogueSearchableEntity
 import io.komune.registry.s2.commons.exception.NotFoundException
@@ -115,6 +116,7 @@ class CatalogueFinderService(
 		availableLanguages: Match<Language>? = null,
         badgeIds: Match<BadgeId>? = null,
 		freeCriterion: Criterion? = null,
+        orderBy: Collection<CatalogueMeiliSearchSort>? = null,
 		page: OffsetPagination? = null
 	): FacetPageModel<CatalogueSearchableEntity> {
 		val idMatch = buildIdMatch(
@@ -146,6 +148,7 @@ class CatalogueFinderService(
 				freeCriterion,
 				idFilter
 			),
+            orderBy = orderBy,
 			page = page
 		)
 	}
