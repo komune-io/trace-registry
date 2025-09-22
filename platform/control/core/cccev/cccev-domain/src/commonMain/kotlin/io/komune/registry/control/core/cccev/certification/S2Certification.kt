@@ -28,7 +28,8 @@ val s2Certification = s2 {
         role = CertificationRole.User
     }
     transaction<CertificationSubmitCommand> {
-        from = CertificationState.PENDING
+        froms += CertificationState.PENDING
+        froms += CertificationState.REJECTED
         to = CertificationState.SUBMITTED
         role = CertificationRole.User
     }

@@ -2,7 +2,7 @@ package io.komune.registry.control.f2.certification.api.model
 
 import io.komune.registry.control.core.cccev.certification.entity.BadgeCertification
 import io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTOBase
-import io.komune.registry.control.f2.protocol.api.ProtocolEndpoint
+import io.komune.registry.control.f2.protocol.api.BadgeEndpoint
 
 fun BadgeCertification.toDTOOrNull(): BadgeCertificationDTOBase? {
     level ?: value ?: return null
@@ -15,8 +15,8 @@ fun BadgeCertification.toDTOOrNull(): BadgeCertificationDTOBase? {
         value = value!!.value.orEmpty(),
         color = level!!.color,
         image = when {
-            level!!.image != null -> ProtocolEndpoint.badgeImagePath(badge.id, level!!.id)
-            badge.image != null -> ProtocolEndpoint.badgeImagePath(badge.id)
+            level!!.image != null -> BadgeEndpoint.badgeImagePath(badge.id, level!!.id)
+            badge.image != null -> BadgeEndpoint.badgeImagePath(badge.id)
             else -> null
         }
     )

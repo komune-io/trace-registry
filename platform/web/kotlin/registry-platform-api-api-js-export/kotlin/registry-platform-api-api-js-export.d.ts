@@ -1522,6 +1522,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly required: boolean;
         readonly description?: string;
         readonly helperText?: string;
+        readonly fullRow?: boolean;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
         readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
         readonly properties?: io.komune.registry.s2.commons.model.form.FormFieldPropertiesDTO;
@@ -2422,6 +2423,7 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
     }
     interface CatalogueRelationConfigurationDTO {
         readonly types: string[];
+        readonly badgeId?: string;
 
     }
 }
@@ -3463,6 +3465,19 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     };
 }
 export declare namespace io.komune.registry.control.f2.protocol.domain.query {
+    interface BadgePageQueryDTO {
+        readonly protocolType: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface BadgePageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.control.f2.protocol.domain.model.BadgeDTO> {
+        readonly total: number;
+        readonly items: io.komune.registry.control.f2.protocol.domain.model.BadgeDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.query {
     interface ProtocolGetQueryDTO {
         readonly id: string;
 
@@ -3896,6 +3911,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
     interface CatalogueRelationConfigurationDTO extends io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO {
         readonly types: string[];
+        readonly badgeId?: string;
 
     }
 }

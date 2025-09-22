@@ -1,7 +1,7 @@
 import {Badge, BadgeProps, config} from 'components'
 
 export interface CertificationBadgeProps extends Omit<BadgeProps, 'label' | 'icon'> {
-  name: string;
+  name?: string;
   image?: string | JSX.Element
 }
 

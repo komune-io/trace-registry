@@ -1,7 +1,8 @@
-import { TableCellLangue } from "./TableCellLangue"
-import { TableCellType } from "./TableCellType"
-import { TableCellIdentifier } from "./TableCellIdentifier"
-import { TableCellCatalogues } from "./TableCellCatalogues"
+import {TableCellLangue} from "./TableCellLangue"
+import {TableCellType} from "./TableCellType"
+import {TableCellIdentifier} from "./TableCellIdentifier"
+import {TableCellCatalogues} from "./TableCellCatalogues"
+import {TableCellBadge} from "../../../Protocol/components/AutoProtocolTable/TableCellBadge";
 
 export * from "./TableCellType"
 export * from "./TableCellIdentifier"
@@ -12,5 +13,6 @@ export const catalogueTableColumns = {
     type: TableCellType,
     language: TableCellLangue,
     identifier: TableCellIdentifier,
-    catalogues: TableCellCatalogues
+    catalogues: TableCellCatalogues,
+    badge: TableCellBadge
 }

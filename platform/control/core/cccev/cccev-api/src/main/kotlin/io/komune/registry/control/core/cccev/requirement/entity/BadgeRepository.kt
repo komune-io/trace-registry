@@ -1,5 +1,7 @@
 package io.komune.registry.control.core.cccev.requirement.entity
 
+import f2.dsl.cqrs.page.OffsetPagination
+import f2.dsl.cqrs.page.Page
 import io.komune.registry.infra.neo4j.returnWholeEntity
 import io.komune.registry.infra.neo4j.session
 import io.komune.registry.s2.commons.model.BadgeId
@@ -37,5 +39,24 @@ class BadgeRepository(
                 .returnWholeEntity("badge"),
             mapOf("ids" to ids.toList())
         ).map { it["badge"] as Badge }
+    }
+
+    suspend fun page(
+        requirementType: String,
+        offset: OffsetPagination? = null
+    ) = sessionFactory.session { session ->
+        val result = session.query(
+            "MATCH (requirement:${Requirement.LABEL} {type: \$requirementType})" +
+                    "-[:${Requirement.HAS_BADGE}]->(badge:${Badge.LABEL})"
+                        .returnWholeEntity("badge") + ", COUNT(badge) AS totalCount " +
+                    "ORDER BY badge.name ASC" +
+                    offset?.let { "\nSKIP ${it.offset} LIMIT ${it.limit}" }.orEmpty(),
+            mapOf("requirementType" to requirementType)
+        )
+
+
+        val badges = result.map { it["badge"] as Badge }
+        val totalCount = result.firstOrNull()?.get("totalCount") as? Long ?: 0
+        Page(items = badges, total = totalCount.toInt())
     }
 }

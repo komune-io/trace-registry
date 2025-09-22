@@ -1,9 +1,8 @@
-import { CloseRounded } from '@mui/icons-material';
-import { Box, Stack, Typography } from '@mui/material'
-import { useCallback, useMemo } from 'react';
-import { StackProps } from '@mui/material';
+import {CloseRounded} from '@mui/icons-material';
+import {Box, Stack, StackProps, Typography} from '@mui/material'
+import {useCallback, useMemo} from 'react';
 import {formatNumber} from "@komune-io/g2"
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const colors = {
     gold: "#EDBA27",
@@ -12,7 +11,7 @@ const colors = {
 }
 
 export interface BadgeProps extends Omit<StackProps, 'onChange' | 'onClick'> {
-    label: string;
+    label?: string;
     icon?: string | JSX.Element;
     value?: number | string;
     color?: string;
@@ -81,7 +80,7 @@ export const Badge = (props: BadgeProps) => {
                 <img src={icon} alt={`Icon ${label}`} style={{ width: 18, height: 18 }} />
             </Box>
             : icon}
-            <Typography
+            {label && <Typography
                 variant="caption"
                 sx={{
                     flexGrow: 1
@@ -89,11 +88,11 @@ export const Badge = (props: BadgeProps) => {
                 noWrap
             >
                 {label}
-            </Typography>
+            </Typography>}
             {formattedValue && <Typography
                 variant="body2"
                 sx={{
-                    ml: 1.5,
+                    ml: label ? 1.5 : 0,
                     color: defColor,
                     fontWeight: 700
                 }}
