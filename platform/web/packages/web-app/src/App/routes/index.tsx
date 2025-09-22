@@ -6,7 +6,7 @@ import { registryPages } from "App/pages/router";
 import { useMemo } from "react"
 import { catalogPages } from "App/pages/data";
 import { NoMatch } from "./NoMatch";
-import { CertificationBadge } from "domain-components";
+import { EmbedBadge } from "App/pages/embed";
 
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
@@ -15,9 +15,11 @@ export const AppRouter = () => {
 
   const prevLocation = usePreviousLocation()
 
+  const embedBadgeRoute: Routes = "embed/badges/:badgeId"
+
   return (
     <Router>
-      <Route path="/embed/badge" element={<CertificationBadge name="Finance v1" value={85}  />} >
+      <Route path={embedBadgeRoute} element={<EmbedBadge  />} >
       </Route >
       <Route path="/" element={<App />} >
         {pages}

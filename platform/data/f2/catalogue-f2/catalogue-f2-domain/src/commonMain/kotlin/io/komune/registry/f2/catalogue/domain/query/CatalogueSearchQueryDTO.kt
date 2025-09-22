@@ -3,12 +3,16 @@ package io.komune.registry.f2.catalogue.domain.query
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField
+import io.komune.registry.s2.commons.model.BadgeId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Facet
 import io.komune.registry.s2.commons.model.FacetPageDTO
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.Sort
+import io.komune.registry.s2.commons.model.SortDTO
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
@@ -45,6 +49,8 @@ interface CatalogueSearchQueryDTO {
     val ownerOrganizationId: OrganizationId?
     val availableLanguages: List<Language>?
     val withTransient: Boolean?
+    val badgeIds: List<BadgeId>?
+    val orderBy: List<SortDTO<CatalogueMeiliSearchSortableField>>?
 }
 
 /**
@@ -69,7 +75,9 @@ data class CatalogueSearchQuery(
     override val creatorOrganizationId: OrganizationId? = null,
     override val ownerOrganizationId: OrganizationId? = null,
     override val availableLanguages: List<Language>? = null,
-    override val withTransient: Boolean = false
+    override val withTransient: Boolean = false,
+    override val badgeIds: List<BadgeId>? = null,
+    override val orderBy: List<Sort<CatalogueMeiliSearchSortableField>>? = null,
 ): CatalogueSearchQueryDTO
 
 /**

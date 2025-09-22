@@ -2,12 +2,15 @@ package io.komune.registry.f2.catalogue.domain.query
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField
+import io.komune.registry.s2.commons.model.BadgeId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Facet
 import io.komune.registry.s2.commons.model.FacetPageDTO
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.OrganizationId
+import io.komune.registry.s2.commons.model.Sort
 import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 
@@ -48,7 +51,9 @@ data class CatalogueRefSearchQuery(
     override val creatorOrganizationId: OrganizationId?,
     override val ownerOrganizationId: OrganizationId?,
     override val availableLanguages: List<Language>?,
-    override val withTransient: Boolean = true
+    override val withTransient: Boolean = true,
+    override val badgeIds: List<BadgeId>? = null,
+    override val orderBy: List<Sort<CatalogueMeiliSearchSortableField>>? = null,
 ): CatalogueRefSearchQueryDTO
 
 /**

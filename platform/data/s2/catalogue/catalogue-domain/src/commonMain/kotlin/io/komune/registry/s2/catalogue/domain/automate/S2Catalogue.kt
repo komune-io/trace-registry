@@ -1,7 +1,9 @@
 package io.komune.registry.s2.catalogue.domain.automate
 
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddBadgesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddRelatedCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddTranslationsCommand
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedBadgesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreateCommand
@@ -121,6 +123,10 @@ val s2Catalogue = s2Sourcing {
         role = CatalogueRole.Issuer
     }
     selfTransaction<CatalogueStartCertificationCommand, CatalogueStartedCertificationEvent> {
+        states += CatalogueState.ACTIVE
+        role = CatalogueRole.Issuer
+    }
+    selfTransaction<CatalogueAddBadgesCommand, CatalogueAddedBadgesEvent> {
         states += CatalogueState.ACTIVE
         role = CatalogueRole.Issuer
     }

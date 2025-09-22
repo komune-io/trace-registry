@@ -54,17 +54,4 @@ data class CatalogueModel(
     val certificationIds: Set<CertificationId>,
 ) {
     val availableLanguages = translationIds.keys
-    val flatRelatedCatalogueIds = relatedCatalogueIds?.flatMap { (relation, catalogueIds) ->
-        catalogueIds.map { flattenRelation(relation, it) }
-    }
-
-    companion object {
-        const val RELATION_SEPARATOR = "///"
-
-        fun flattenRelation(relation: String, catalogueId: CatalogueId) = "$relation$RELATION_SEPARATOR$catalogueId"
-
-        fun unflattenRelation(flatRelation: String): Pair<String, CatalogueId> {
-            return flatRelation.split(RELATION_SEPARATOR).let { it[0] to it[1] }
-        }
-    }
 }

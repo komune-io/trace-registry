@@ -27,6 +27,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import org.neo4j.ogm.session.SessionFactory
 import org.springframework.stereotype.Service
+import s2.spring.utils.logger.Logger
 import java.util.UUID
 
 @Service
@@ -36,8 +37,10 @@ class CertificationValuesFillerService(
     private val sessionFactory: SessionFactory
 ) {
     companion object {
-        val selExecutor = SelExecutor()
+        val selExecutor = SelExecutor(nullOnError = true)
     }
+
+    private val logger by Logger()
 
     /**
      * Add the given values to the relevant certifications,
@@ -53,33 +56,29 @@ class CertificationValuesFillerService(
             val requirementCertifications = certificationRepository.findRequirementCertificationsLinkedToInformationConcept(
                 context.certificationId, context.rootRequirementCertificationId, informationConceptIdentifier
             )
-            requirementCertifications.fillValue(informationConceptIdentifier, value, context)
+
+            logger.debug("fill value: [$informationConceptIdentifier]: [$value]")
+            val informationConcept = informationConceptRepository.findByIdentifier(informationConceptIdentifier)
+                ?: throw NotFoundException("InformationConcept", informationConceptIdentifier)
+
+            if (informationConcept.expressionOfExpectedValue != null) {
+                return@forEach // computable values cannot be set manually
+            }
+
+            // will throw if conversion is impossible
+            value.convertTo(informationConcept.unit.type)
+
+            val supportedValue = SupportedValue().also { supportedValue ->
+                supportedValue.id = UUID.randomUUID().toString()
+                supportedValue.value = value
+                supportedValue.concept = informationConcept
+            }
+
+            requirementCertifications.fillValue(informationConceptIdentifier, supportedValue, context)
         }
 
 
         computeValuesOfConsumersOf(values.keys, context)
-    }
-
-    private suspend fun List<RequirementCertification>.fillValue(
-        informationConceptIdentifier: InformationConceptIdentifier,
-        value: String?,
-        context: Context
-    ) {
-        println("fill value: [$informationConceptIdentifier]: [$value]")
-
-        val informationConcept = informationConceptRepository.findByIdentifier(informationConceptIdentifier)
-            ?: throw NotFoundException("InformationConcept", informationConceptIdentifier)
-
-        // will throw if conversion is impossible
-        value.convertTo(informationConcept.unit.type)
-
-        val supportedValue = SupportedValue().also { supportedValue ->
-            supportedValue.id = UUID.randomUUID().toString()
-            supportedValue.value = value
-            supportedValue.concept = informationConcept
-        }
-
-        this.fillValue(informationConceptIdentifier, supportedValue, context)
     }
 
     private suspend fun List<RequirementCertification>.fillValue(
@@ -149,7 +148,7 @@ class CertificationValuesFillerService(
         val expressionDataJson = context.knownValues.toJson()
 
         computableConcepts.forEach { concept ->
-            println("compute value: [${concept.identifier}]")
+            logger.debug("compute value: [${concept.identifier}]")
 
             val certifications = certificationRepository.findRequirementCertificationsLinkedToInformationConcept(
                 context.certificationId, context.rootRequirementCertificationId, concept.identifier
@@ -170,7 +169,7 @@ class CertificationValuesFillerService(
     }
 
     private suspend fun RequirementCertification.updateFulfillment(context: Context) {
-        println("update fulfillment: [$id] (requirement: [${requirement.identifier}])")
+        logger.debug("update fulfillment: [$id] (requirement: [${requirement.identifier}])")
         var changed: Boolean
 
         val mappedValues = values.associate {

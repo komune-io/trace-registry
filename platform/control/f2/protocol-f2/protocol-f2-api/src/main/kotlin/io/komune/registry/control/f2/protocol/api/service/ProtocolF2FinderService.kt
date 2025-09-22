@@ -45,4 +45,12 @@ class ProtocolF2FinderService(
     suspend fun getBadgeOrNull(id: BadgeId): BadgeDTOBase? {
         return badgeRepository.findById(id)?.toDTO()
     }
+
+    suspend fun pageBadges(
+        protocolType: String,
+        offset: OffsetPagination? = null
+    ): Page<BadgeDTOBase> {
+        return badgeRepository.page(requirementType = protocolType, offset = offset)
+            .map { it.toDTO() }
+    }
 }

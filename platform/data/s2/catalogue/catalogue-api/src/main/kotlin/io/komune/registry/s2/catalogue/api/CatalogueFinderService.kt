@@ -14,8 +14,11 @@ import io.komune.registry.s2.catalogue.api.entity.toModel
 import io.komune.registry.s2.catalogue.api.query.CataloguePageQueryDB
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
+import io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSort
 import io.komune.registry.s2.catalogue.domain.model.CatalogueModel
+import io.komune.registry.s2.catalogue.domain.model.CatalogueSearchableEntity
 import io.komune.registry.s2.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.model.BadgeId
 import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.CertificationId
@@ -111,9 +114,11 @@ class CatalogueFinderService(
 		licenseId: Match<String>? = null,
 		creatorOrganizationId: Match<OrganizationId>? = null,
 		availableLanguages: Match<Language>? = null,
+        badgeIds: Match<BadgeId>? = null,
 		freeCriterion: Criterion? = null,
+        orderBy: Collection<CatalogueMeiliSearchSort>? = null,
 		page: OffsetPagination? = null
-	): FacetPageModel<CatalogueModel> {
+	): FacetPageModel<CatalogueSearchableEntity> {
 		val idMatch = buildIdMatch(
 			parentId = parentId,
 			parentIdentifier = parentIdentifier,
@@ -138,10 +143,12 @@ class CatalogueFinderService(
 			licenseId = licenseId,
 			creatorOrganizationId = creatorOrganizationId,
 			availableLanguages = availableLanguages,
+            badgeIds = badgeIds,
 			freeCriterion = andCriterionOfNotNull(
 				freeCriterion,
 				idFilter
 			),
+            orderBy = orderBy,
 			page = page
 		)
 	}

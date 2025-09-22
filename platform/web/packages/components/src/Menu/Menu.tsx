@@ -111,7 +111,8 @@ const Item = (props: TMSMenuItems) => {
                             alignItems: "center",
                             justifyContent: "center",
                             borderRadius: "50%",
-                            ml: 0.5
+                            ml: 0.5,
+                            flexShrink: 0,
                         }}
                     >
                         <Typography

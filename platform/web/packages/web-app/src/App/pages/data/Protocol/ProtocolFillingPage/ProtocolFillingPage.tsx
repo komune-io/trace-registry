@@ -5,19 +5,19 @@ import {useTranslation} from 'react-i18next'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import {CloseRounded} from '@mui/icons-material'
 import {
-  autoFormFormatter,
-  autoformValuesToCommand,
-  BackAutoFormData,
-  FormComposableState,
-  FormSection,
-  useAutoFormState
+    autoFormFormatter,
+    autoformValuesToCommand,
+    BackAutoFormData,
+    FormComposableState,
+    FormSection,
+    useAutoFormState
 } from '@komune-io/g2'
 import {
-  ReservedProtocolTypes,
-  useCertificationFillCommand,
-  useCertificationGetQuery,
-  useCertificationSubmitCommand,
-  useProtocolGetQuery
+    ReservedProtocolTypes,
+    useCertificationFillCommand,
+    useCertificationGetQuery,
+    useCertificationSubmitCommand,
+    useProtocolGetQuery
 } from 'domain-components'
 import {DialogPage} from 'template'
 import {useDebouncedCallback} from '@mantine/hooks'
@@ -30,7 +30,7 @@ export const ProtocolFillingPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const [isInit, setIsInit] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
   const { cataloguesCatalogueIdDraftsDraftIdTab } = useRoutesDefinition()
@@ -53,8 +53,15 @@ export const ProtocolFillingPage = () => {
   const certificationQuery = useCertificationGetQuery({
     query: {
       id: certificationId!,
+    },
+    options: {
+      enabled: !isInitialized
     }
   })
+
+  const certification = certificationQuery.data?.item
+
+  const isEditable = certification?.status === "PENDING" || certification?.status === "REJECTED"
 
   const certificationFill = useCertificationFillCommand({})
   const certificationSubmit = useCertificationSubmitCommand({})
@@ -76,7 +83,7 @@ export const ProtocolFillingPage = () => {
       }
       setIsSaving(false)
     }
-  }, 1000)
+  }, 700)
 
   const handleSubmit = useCallback(async () => {
     if (!certificationId) return
@@ -93,20 +100,21 @@ export const ProtocolFillingPage = () => {
 
   const formState = useAutoFormState({
     onSubmit: handleSubmit,
-    initialValues: certificationQuery.data?.item?.values,
+    initialValues: certification?.values,
     isLoading: certificationQuery.isLoading,
-    formData: formData
+    formData: formData,
+    readOnly: !isEditable,
+    // downloadDocument: () => Promise.resolve("") // TODO: implement document download
   })
 
-
   useEffect(() => {
-    if (certificationQuery.data?.item) {
-      setIsInit(true)
+    if (certification) {
+      setIsInitialized(true)
     }
   }, [formState.values])
 
   useEffect(() => {
-    if (isInit) {
+    if (isInitialized) {
       saveForm(formState)
     }
   }, [formState.values])
@@ -159,10 +167,12 @@ export const ProtocolFillingPage = () => {
           alignSelf: "center",
         }}
       >
-        <CommentContainer
-          title={t("protocol.validatorComment")}
-          comment="Certaines informations déclarées sont incomplètes ou manquent de précision, notamment sur la part d’activité liée à l’offre climat.\nMerci d’apporter des éléments plus concrets ou de joindre une preuve (rapport, lien, etc.).\n\nUne fois corrigé, vous pourrez soumettre à nouveau ce référentiel."
-        />
+        {certification?.status === "REJECTED" && certification.rejectReason && (
+          <CommentContainer
+            title={t("protocol.validatorComment")}
+            comment={certification.rejectReason}
+          />
+        )}
         {formSectionsDisplay}
         <StickyContainer
           sx={{
@@ -176,12 +186,12 @@ export const ProtocolFillingPage = () => {
           >
             {t("cancel")}
           </CustomLinkButton>
-          <CustomButton
-            onClick={handleSubmit}
+          {isEditable && <CustomButton
+            onClick={formState.submitForm}
             isLoading={isSaving}
           >
             {t("submitForValidation")}
-          </CustomButton>
+          </CustomButton>}
         </StickyContainer>
       </Stack>
     </DialogPage>

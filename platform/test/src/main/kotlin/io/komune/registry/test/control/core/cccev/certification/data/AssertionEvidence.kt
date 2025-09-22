@@ -15,7 +15,7 @@ class AssertionEvidence(
     private val repository: CertificationRepository
 ): AssertionApiEntity<Evidence, EvidenceId, AssertionEvidence.EvidenceAssert>() {
 
-    override suspend fun findById(id: EvidenceId) = repository.findEvidenceById(id)
+    override suspend fun findById(id: EvidenceId) = repository.findEvidenceById(id, null)
     override suspend fun assertThat(entity: Evidence) = EvidenceAssert(entity)
 
     inner class EvidenceAssert(

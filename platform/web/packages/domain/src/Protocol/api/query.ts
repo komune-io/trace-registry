@@ -21,6 +21,16 @@ export const useProtocolGetQuery = (params: QueryParams<ProtocolGetQuery, Protoc
   )
 }
 
+export interface BadgePageQuery extends io.komune.registry.control.f2.protocol.domain.query.BadgePageQueryDTO { }
+export interface BadgePageResult extends io.komune.registry.control.f2.protocol.domain.query.BadgePageResultDTO { }
+
+export const useBadgePageQuery = (params: QueryParams<BadgePageQuery, BadgePageResult>) => {
+  const requestProps = useAuthenticatedRequest()
+  return useQueryRequest<BadgePageQuery, BadgePageResult>(
+      "control/badgePage", requestProps, params
+  )
+}
+
 export interface CertificationGetQuery extends io.komune.registry.control.f2.certification.domain.query.CertificationGetQueryDTO { }
 export interface CertificationGetResult extends io.komune.registry.control.f2.certification.domain.query.CertificationGetResultDTO { }
 

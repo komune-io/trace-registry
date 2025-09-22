@@ -5,11 +5,11 @@ import {useTranslation} from 'react-i18next'
 import {AutoForm, autoFormFormatter, BackAutoFormData, navigate} from '@komune-io/g2'
 import {AppPage} from 'template'
 import {
-  CertificationBadge,
-  ReservedProtocolTypes,
-  useCertificationGetQuery,
-  useCertificationRejectCommand,
-  useCertificationValidateCommand
+    CertificationBadge,
+    ReservedProtocolTypes,
+    useCertificationGetQuery,
+    useCertificationRejectCommand,
+    useCertificationValidateCommand
 } from "domain-components";
 import {useParams} from "react-router-dom";
 import {useQueryClient} from "@tanstack/react-query";
@@ -50,10 +50,11 @@ export const ProtocolVerificationPage = () => {
     if (res) {
       queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
       queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: certification?.catalogue?.id }] })
       navigate(protocolsToVerify())
     }
-
-  }, [certificationId])
+  }, [certificationId, certification?.catalogue?.id])
 
   const certificationRejectCommand = useCertificationRejectCommand({})
   const handleReject = useCallback(async (reason: string) => {
@@ -61,6 +62,7 @@ export const ProtocolVerificationPage = () => {
     if (res) {
       queryClient.invalidateQueries({ queryKey: ["control/certificationGet", { id: certificationId! }] })
       queryClient.invalidateQueries({ queryKey: ["control/certificationPage"] })
+      queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet"] })
       navigate(protocolsToVerify())
     }
   }, [certificationId])
@@ -113,6 +115,9 @@ export const ProtocolVerificationPage = () => {
         </Stack>
         <AutoForm
           formData={formData}
+          readOnly
+          initialValues={certification?.values}
+          downloadDocument={() => Promise.resolve("")} // TODO: implement document download
         />
       </Paper>
     </AppPage>

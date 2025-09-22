@@ -1482,6 +1482,20 @@ export declare namespace io.komune.registry.s2.commons.model {
 
     }
 }
+export declare namespace io.komune.registry.s2.commons.model {
+    interface MeiliSearchField {
+        readonly identifier: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model {
+    interface SortDTO<P extends unknown/* kotlin.Enum<UnknownType *> */> {
+        readonly property: P;
+        readonly ascending: boolean;
+        readonly data?: string;
+
+    }
+}
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormDTO {
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
@@ -1508,6 +1522,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly required: boolean;
         readonly description?: string;
         readonly helperText?: string;
+        readonly fullRow?: boolean;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
         readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
         readonly properties?: io.komune.registry.s2.commons.model.form.FormFieldPropertiesDTO;
@@ -2408,8 +2423,12 @@ export declare namespace io.komune.registry.s2.catalogue.domain.model {
     }
     interface CatalogueRelationConfigurationDTO {
         readonly types: string[];
+        readonly badgeId?: string;
 
     }
+}
+export declare namespace io.komune.registry.s2.catalogue.domain.model {
+    type CatalogueMeiliSearchSortableField = "BADGE_NUMERICAL_VALUES" | "MODIFICATION_DATE";
 }
 export declare namespace io.komune.registry.s2.catalogue.domain.model.structure {
     type CatalogueButtonKind = "SIMPLE" | "SELECT";
@@ -3446,6 +3465,19 @@ export declare namespace io.komune.registry.control.f2.protocol.domain.model {
     };
 }
 export declare namespace io.komune.registry.control.f2.protocol.domain.query {
+    interface BadgePageQueryDTO {
+        readonly protocolType: string;
+        readonly offset?: number;
+        readonly limit?: number;
+
+    }
+    interface BadgePageResultDTO extends f2.dsl.cqrs.page.PageDTO<io.komune.registry.control.f2.protocol.domain.model.BadgeDTO> {
+        readonly total: number;
+        readonly items: io.komune.registry.control.f2.protocol.domain.model.BadgeDTO[];
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.protocol.domain.query {
     interface ProtocolGetQueryDTO {
         readonly id: string;
 
@@ -3522,6 +3554,7 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
     interface BadgeCertificationDTO {
         readonly id: string;
         readonly badgeId: string;
+        readonly badgeLevelId: string;
         readonly name: string;
         readonly value: string;
         readonly color?: string;
@@ -3576,6 +3609,17 @@ export declare namespace io.komune.registry.control.f2.certification.domain.mode
         readonly creator?: io.komune.registry.f2.user.domain.model.UserRefDTO;
         readonly creatorOrganization?: io.komune.registry.f2.organization.domain.model.OrganizationRefDTO;
         readonly status: io.komune.registry.control.core.cccev.certification.CertificationState;
+
+    }
+}
+export declare namespace io.komune.registry.control.f2.certification.domain.query {
+    interface BadgeCertificationGetQueryDTO {
+        readonly id: string;
+
+    }
+    interface BadgeCertificationGetResultDTO {
+        readonly item?: io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO;
+        readonly catalogueId?: string;
 
     }
 }
@@ -3867,6 +3911,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto {
     }
     interface CatalogueRelationConfigurationDTO extends io.komune.registry.s2.catalogue.domain.model.CatalogueRelationConfigurationDTO {
         readonly types: string[];
+        readonly badgeId?: string;
 
     }
 }
@@ -4174,6 +4219,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly ownerOrganizationId?: string;
         readonly availableLanguages?: string[];
         readonly withTransient?: boolean;
+        readonly badgeIds?: string[];
+        readonly orderBy?: io.komune.registry.s2.commons.model.SortDTO<io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField>[];
 
     }
     interface CatalogueRefSearchResultDTO extends io.komune.registry.s2.commons.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTO/* io.komune.registry.f2.catalogue.domain.dto.CatalogueRefDTOBase */> {
@@ -4203,6 +4250,8 @@ export declare namespace io.komune.registry.f2.catalogue.domain.query {
         readonly ownerOrganizationId?: string;
         readonly availableLanguages?: string[];
         readonly withTransient?: boolean;
+        readonly badgeIds?: string[];
+        readonly orderBy?: io.komune.registry.s2.commons.model.SortDTO<io.komune.registry.s2.catalogue.domain.model.CatalogueMeiliSearchSortableField>[];
 
     }
     interface CatalogueSearchResultDTO extends io.komune.registry.s2.commons.model.FacetPageDTO<io.komune.registry.f2.catalogue.domain.dto.CatalogueDTO> {
@@ -5738,7 +5787,7 @@ export declare namespace io.komune.sel {
 }
 export declare namespace io.komune.sel {
     class SelExecutor {
-        constructor();
+        constructor(nullOnError: boolean);
         addOperation(expression: io.komune.sel.evaluator.SelExpression): void;
         evaluate(expressionJson: string, dataJson: string): Nullable<any>;
         evaluateToJson(expressionJson: string, dataJson: string): string;

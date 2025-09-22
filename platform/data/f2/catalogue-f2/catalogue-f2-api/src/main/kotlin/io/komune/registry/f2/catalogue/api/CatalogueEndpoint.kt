@@ -221,6 +221,7 @@ class CatalogueEndpoint(
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             withTransient = query.withTransient,
+            badgeIds = query.badgeIds?.let(::CollectionMatch),
             freeCriterion = andCriterionOfNotNull(
                 query.ownerOrganizationId?.let { orCriterionOf(
                     FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(it)),
@@ -231,6 +232,7 @@ class CatalogueEndpoint(
                 )},
                 cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             ),
+            orderBy = query.orderBy,
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000
@@ -258,6 +260,7 @@ class CatalogueEndpoint(
             creatorOrganizationId = query.creatorOrganizationId?.let(::ExactMatch),
             availableLanguages = query.availableLanguages?.let(::CollectionMatch),
             withTransient = query.withTransient,
+            badgeIds = query.badgeIds?.let(::CollectionMatch),
             freeCriterion = andCriterionOfNotNull(
                 query.ownerOrganizationId?.let { orCriterionOf(
                     FieldCriterion(CatalogueCriterionField.OwnerOrganizationId, ExactMatch(it)),
@@ -268,6 +271,7 @@ class CatalogueEndpoint(
                 )},
                 cataloguePoliciesFilterEnforcer.enforceAccessFilter(),
             ),
+            orderBy = query.orderBy,
             page = OffsetPagination(
                 offset = query.offset ?: 0,
                 limit = query.limit ?: 1000

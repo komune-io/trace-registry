@@ -2,6 +2,7 @@ package io.komune.registry.s2.catalogue.api
 
 import io.komune.registry.s2.catalogue.api.entity.CatalogueEntity
 import io.komune.registry.s2.catalogue.domain.automate.CatalogueState
+import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedBadgesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedRelatedCataloguesEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueAddedTranslationsEvent
 import io.komune.registry.s2.catalogue.domain.command.CatalogueCreatedEvent
@@ -52,6 +53,7 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 		is CatalogueSetImageEvent -> model?.setImage(event)
 		is CatalogueDeletedEvent -> model?.delete(event)
 		is CatalogueStartedCertificationEvent -> model?.startCertification(event)
+        is CatalogueAddedBadgesEvent -> model?.addBadges(event)
 	}
 
 	private suspend fun create(event: CatalogueCreatedEvent) = CatalogueEntity().apply {
@@ -153,6 +155,17 @@ class CatalogueEvolver: View<CatalogueEvent, CatalogueEntity> {
 	private suspend fun CatalogueEntity.startCertification(event: CatalogueStartedCertificationEvent) = update(event) {
 		certificationIds.add(event.certificationId)
 	}
+
+    private suspend fun CatalogueEntity.addBadges(event: CatalogueAddedBadgesEvent) = update(event) {
+        event.badges.forEach { newBadge ->
+            val index = badges.indexOfFirst { it.id == newBadge.id }
+            if (index >= 0) {
+                badges[index] = newBadge
+            } else {
+                badges.add(newBadge)
+            }
+        }
+    }
 
 	private fun CatalogueEntity.applyEvent(event: CatalogueDataEvent) = apply {
 		title = event.title

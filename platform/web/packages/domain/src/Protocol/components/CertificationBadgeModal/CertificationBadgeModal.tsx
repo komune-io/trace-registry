@@ -1,9 +1,9 @@
-import {AutoFormData, autoFormFormatter, CodeHighlighter, FormSection, useAutoFormState} from '@komune-io/g2'
+import {AutoForm, AutoFormData, autoFormFormatter, CodeHighlighter} from '@komune-io/g2'
 import {Divider, Stack, Typography} from '@mui/material'
-import {TitleDivider, TmsPopUp} from 'components'
+import {TitleDivider, TmsPopUp, useRoutesDefinition} from 'components'
 import {useMemo} from 'react'
 // import { useTranslation } from 'react-i18next'
-import {BadgeCertification} from '../../model'
+import {BadgeCertification, ReservedProtocolTypes} from '../../model'
 import {CertificationBadge} from '../CertificationBadge/CertificationBadge'
 import {t} from 'i18next'
 import {useCertificationGetQuery} from '../../api'
@@ -17,12 +17,16 @@ interface CertificationBadgeModalProps {
 
 export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => {
     const { open, onClose, certificationId, badge } = props
+    const {embedBadgesBadgeId} = useRoutesDefinition()
 
     // const { t, i18n } = useTranslation()
 
     const certificationQuery = useCertificationGetQuery({
         query: {
             id: certificationId!,
+        },
+        options: {
+            enabled: open && !!certificationId,
         }
     })
 
@@ -37,6 +41,7 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
             ...formatted,
             sections: formatted.sections.map(section => ({
                 ...section,
+                description: undefined,
                 fields: section.fields.map(field => ({
                     ...field,
                     params: {
@@ -45,29 +50,14 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
                         caption: undefined,
                     }
                 }))
-            }))
+            })),
+            sectionsType: "divided",
         } as AutoFormData
     }, [certification])
 
-    const formState = useAutoFormState({
-        initialValues: certification?.values,
-        readOnly: true,
-        formData: formData
-    })
-
-
-    const formSectionsDisplay = useMemo(() => {
-        return formData?.sections.map((section) => {
-            return (
-                <FormSection
-                    key={section.id}
-                    section={section}
-                    formState={formState}
-                    sectionsType="default"
-                />
-            )
-        })
-    }, [formData, formState])
+    const embedCode = useMemo(() => {
+        return `<iframe \n src="${window.location.origin}${embedBadgesBadgeId(badge?.id!)}" \n width="200" \n height="36" \n style="border:none;">\n</iframe>`
+    }, [badge])
 
     return (
         <TmsPopUp
@@ -75,7 +65,7 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
             onClose={onClose}
             title={badge?.name}
             sx={{
-                width: 1000
+                width: 1200,
             }}
         >
             <Stack
@@ -84,6 +74,9 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
             >
                 <Stack
                     gap={3}
+                    sx={{
+                        maxWidth: "60%",
+                    }}
                 >
                     <TitleDivider size='h6' title={t('badge')} actions={badge ? <CertificationBadge {...badge} /> : undefined} />
                     <Typography
@@ -96,10 +89,19 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
                     >
                         {t('protocol.showBadgeDetails')}
                     </Typography>
-                    <CodeHighlighter code={`<iframe src="https://komune.io/certification/badge/12345" width="200" height="200" style="border:none;"></iframe>`} language='html' />
+                    <CodeHighlighter code={embedCode} copiable language='html' />
                 </Stack>
                 <Divider orientation="vertical" flexItem />
-                {formSectionsDisplay}
+                <Stack
+                    gap={5}
+                >
+                    <AutoForm
+                        formData={formData}
+                        initialValues={certification?.values}
+                        readOnly
+                        downloadDocument={() => Promise.resolve("")} // TODO: implement document download
+                    />
+                </Stack>
             </Stack>
         </TmsPopUp>
     )

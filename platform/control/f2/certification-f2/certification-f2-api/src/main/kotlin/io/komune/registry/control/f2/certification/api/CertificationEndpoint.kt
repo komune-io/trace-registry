@@ -2,8 +2,11 @@ package io.komune.registry.control.f2.certification.api
 
 import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.fnc.f2Function
+import io.komune.fs.s2.file.client.FileClient
+import io.komune.fs.spring.utils.serveFile
 import io.komune.registry.api.commons.utils.extractCommandPart
 import io.komune.registry.api.commons.utils.extractFileParts
+import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.f2.certification.api.service.CertificationF2AggregateService
 import io.komune.registry.control.f2.certification.api.service.CertificationF2FinderService
 import io.komune.registry.control.f2.certification.api.service.CertificationPoliciesEnforcer
@@ -12,15 +15,24 @@ import io.komune.registry.control.f2.certification.domain.command.CertificationF
 import io.komune.registry.control.f2.certification.domain.command.CertificationRejectFunction
 import io.komune.registry.control.f2.certification.domain.command.CertificationSubmitFunction
 import io.komune.registry.control.f2.certification.domain.command.CertificationValidateFunction
+import io.komune.registry.control.f2.certification.domain.query.BadgeCertificationGetFunction
+import io.komune.registry.control.f2.certification.domain.query.BadgeCertificationGetResult
 import io.komune.registry.control.f2.certification.domain.query.CertificationGetFunction
 import io.komune.registry.control.f2.certification.domain.query.CertificationGetResult
 import io.komune.registry.control.f2.certification.domain.query.CertificationPageFunction
 import io.komune.registry.control.f2.certification.domain.query.CertificationPageResult
+import io.komune.registry.s2.commons.model.CertificationId
+import io.komune.registry.s2.commons.model.EvidenceId
 import io.komune.registry.s2.commons.model.EvidenceTypeIdentifier
+import jakarta.annotation.security.PermitAll
 import org.springframework.context.annotation.Bean
+import org.springframework.core.io.InputStreamResource
+import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.codec.multipart.Part
 import org.springframework.util.MultiValueMap
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -32,10 +44,22 @@ import s2.spring.utils.logger.Logger
 class CertificationEndpoint(
     private val certificationF2AggregateService: CertificationF2AggregateService,
     private val certificationF2FinderService: CertificationF2FinderService,
-    private val certificationPoliciesEnforcer: CertificationPoliciesEnforcer
+    private val certificationPoliciesEnforcer: CertificationPoliciesEnforcer,
+    private val certificationRepository: CertificationRepository,
+    private val fileClient: FileClient
 ) {
+    companion object {
+        const val EVIDENCE_DOWNLOAD_PATH = "/control/certificationDownloadEvidence/{certificationId}/{evidenceId}"
+
+        fun evidenceDownloadPath(certificationId: CertificationId, evidenceId: EvidenceId): String {
+            return EVIDENCE_DOWNLOAD_PATH.replace("{certificationId}", certificationId)
+                .replace("{evidenceId}", evidenceId)
+        }
+    }
+
     private val logger by Logger()
 
+    @PermitAll
     @Bean
     fun certificationGet(): CertificationGetFunction = f2Function { query ->
         logger.info("certificationGet: $query")
@@ -44,6 +68,7 @@ class CertificationEndpoint(
             .let(::CertificationGetResult)
     }
 
+    @PermitAll
     @Bean
     fun certificationPage(): CertificationPageFunction = f2Function { query ->
         logger.info("certificationPage: $query")
@@ -60,6 +85,33 @@ class CertificationEndpoint(
         ).let {
             CertificationPageResult(it.items, it.total)
         }
+    }
+
+    @PermitAll
+    @GetMapping(EVIDENCE_DOWNLOAD_PATH)
+    suspend fun certificationDownloadEvidence(
+        @PathVariable("certificationId") certificationId: CertificationId,
+        @PathVariable("evidenceId") evidenceId: EvidenceId
+    ): ResponseEntity<InputStreamResource> = serveFile(fileClient) {
+        logger.info("certificationDownloadEvidence: Certification [$certificationId], Evidence [$evidenceId]")
+        certificationF2FinderService.getRefOrNull(certificationId, null)
+            ?.let { certificationPoliciesEnforcer.enforceCertification(it) }
+            ?: return@serveFile null
+
+        certificationRepository.findEvidenceById(evidenceId, certificationId)
+            ?.file
+    }
+
+    @PermitAll
+    @Bean
+    fun badgeCertificationGet(): BadgeCertificationGetFunction = f2Function { query ->
+        logger.info("badgeCertificationGet: $query")
+        val badge = certificationF2FinderService.getBadgeCertificationOrNull(query.id)
+            ?: return@f2Function BadgeCertificationGetResult(null, null)
+
+        val catalogueId = certificationF2FinderService.getCatalogueOfBadgeCertification(query.id)
+
+        BadgeCertificationGetResult(badge, catalogueId)
     }
 
     @PostMapping("/control/certificationFill")

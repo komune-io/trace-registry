@@ -2,6 +2,7 @@ package io.komune.registry.control.f2.certification.api.model
 
 import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.RequirementCertification
+import io.komune.registry.control.f2.certification.api.CertificationEndpoint
 import io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTOBase
 import io.komune.registry.control.f2.certification.domain.model.CertificationCatalogueRef
 import io.komune.registry.control.f2.certification.domain.model.CertificationDTOBase
@@ -41,7 +42,7 @@ suspend fun Certification.toDTO(
     val allEvidences = mutableMapOf<EvidenceTypeIdentifier, String?>()
     fun RequirementCertification.extractValuesAndEvidences() {
         values.forEach { allValues[it.concept.identifier] = it.value }
-        evidences.forEach { allEvidences[it.evidenceType.identifier] = it.file.toString() }
+        evidences.forEach { allEvidences[it.evidenceType.identifier] = CertificationEndpoint.evidenceDownloadPath(id, it.id) }
         subCertifications.forEach { it.extractValuesAndEvidences() }
     }
     requirementCertifications.forEach { it.extractValuesAndEvidences() }
@@ -66,7 +67,7 @@ suspend fun Certification.toDTO(
 
 fun List<RequirementCertification>.extractBadges(): List<BadgeCertificationDTOBase> = flatMap { requirementCertification ->
     requirementCertification.badges.mapNotNull { badge ->
-        badge.takeIf { it.level != null }?.toDTO()
+        badge.toDTOOrNull()
     } + requirementCertification.subCertifications.extractBadges()
 }
 

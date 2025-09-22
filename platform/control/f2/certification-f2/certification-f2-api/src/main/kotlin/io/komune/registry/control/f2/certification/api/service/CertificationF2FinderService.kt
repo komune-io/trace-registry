@@ -10,13 +10,18 @@ import io.komune.registry.control.core.cccev.certification.CertificationState
 import io.komune.registry.control.core.cccev.certification.entity.Certification
 import io.komune.registry.control.core.cccev.certification.entity.CertificationRepository
 import io.komune.registry.control.f2.certification.api.model.toDTO
+import io.komune.registry.control.f2.certification.api.model.toDTOOrNull
 import io.komune.registry.control.f2.certification.api.model.toRef
+import io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTOBase
 import io.komune.registry.control.f2.certification.domain.model.CertificationDTOBase
 import io.komune.registry.control.f2.certification.domain.model.CertificationRef
 import io.komune.registry.f2.organization.api.service.OrganizationF2FinderService
 import io.komune.registry.f2.user.api.service.UserF2FinderService
 import io.komune.registry.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.api.CatalogueI18nService
+import io.komune.registry.s2.commons.exception.NotFoundException
+import io.komune.registry.s2.commons.model.BadgeCertificationId
+import io.komune.registry.s2.commons.model.CatalogueId
 import io.komune.registry.s2.commons.model.CertificationId
 import io.komune.registry.s2.commons.model.Language
 import org.springframework.stereotype.Service
@@ -33,8 +38,27 @@ class CertificationF2FinderService(
         return certificationRepository.findById(id)?.toRefCached(language)
     }
 
+    suspend fun getRef(id: CertificationId, language: Language?): CertificationRef {
+        return getRefOrNull(id, language)
+            ?: throw NotFoundException("Certification", id)
+    }
+
     suspend fun getOrNull(id: CertificationId): CertificationDTOBase? {
         return certificationRepository.findById(id)?.toDTOCached()
+    }
+
+    suspend fun getBadgeCertificationOrNull(id: BadgeCertificationId): BadgeCertificationDTOBase? {
+        return certificationRepository.findBadgeCertificationById(id)?.toDTOOrNull()
+    }
+
+    suspend fun getCatalogueOfBadgeCertification(id: BadgeCertificationId): CatalogueId? {
+        val certification = certificationRepository.findShallowByBadgeCertificationId(id)
+            ?: return null
+
+        return catalogueFinderService.page(
+            certificationIds = ExactMatch(certification.id),
+            offset = OffsetPagination(0, 1),
+        ).items.firstOrNull()?.id
     }
 
     suspend fun page(

@@ -17,7 +17,8 @@
     "value": {
       "name": "badges[0].name",
       "value": "badges[0].value",
-      "image": "badges[0].image"
+      "image": "badges[0].image",
+      "color": "badges[0].color"
     }
   }, {
     "label": "Complétion",

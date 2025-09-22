@@ -14,3 +14,5 @@ export interface Certification extends io.komune.registry.control.f2.certificati
 export interface CertificationRef extends io.komune.registry.control.f2.certification.domain.model.CertificationRefDTO {}
 
 export interface BadgeCertification extends io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO {}
+
+export type CertificationState = io.komune.registry.control.core.cccev.certification.CertificationState

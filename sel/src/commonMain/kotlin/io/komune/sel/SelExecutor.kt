@@ -9,7 +9,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.js.JsExport
 
-class SelExecutor {
+class SelExecutor(
+    private val nullOnError: Boolean,
+) {
     private val evaluator: SelExpressionEvaluator = SelExpressionEvaluator()
 
     fun addOperation(expression: SelExpression) {
@@ -24,7 +26,16 @@ class SelExecutor {
             throw SelParseException("Failed to parse data", "$", e)
         }
 
-        return evaluator.evaluate(selNode, data, "$").normalize()
+        return try {
+            evaluator.evaluate(selNode, data, "$")
+        } catch (e: Exception) {
+            if (nullOnError) {
+                println("SEL evaluation error: ${e.message}")
+                null
+            } else {
+                throw e
+            }
+        }.normalize()
     }
 
     fun evaluateToJson(expressionJson: String, dataJson: String): String {
