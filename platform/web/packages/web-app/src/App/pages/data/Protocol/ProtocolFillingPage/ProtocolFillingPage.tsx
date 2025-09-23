@@ -97,7 +97,6 @@ export const ProtocolFillingPage = () => {
   }, [certificationSubmit.mutateAsync, certificationId, draftId, queryClient.invalidateQueries, goBackUrl])
 
   const sectionsType = formData?.sectionsType ?? 'default'
-
   const formState = useAutoFormState({
     onSubmit: handleSubmit,
     initialValues: certification?.values,
