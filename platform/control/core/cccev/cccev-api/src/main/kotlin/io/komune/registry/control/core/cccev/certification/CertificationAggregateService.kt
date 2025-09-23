@@ -44,12 +44,11 @@ class CertificationAggregateService(
     private val applicationEventPublisher: ApplicationEventPublisher,
     private val certificationEvidenceService: CertificationEvidenceService,
     private val certificationRepository: CertificationRepository,
-    private val certificationValuesFillerService: CertificationValuesFillerService,
     private val fileClient: FileClient,
     private val requirementRepository: RequirementRepository,
     private val sessionFactory: SessionFactory
 ) {
-    suspend fun create(command: CertificationCreateCommand): CertificationCreatedEvent = sessionFactory.transaction { session, _ ->
+    suspend fun create(command: CertificationCreateCommand): CertificationCreatedEvent = sessionFactory.transaction { _, _ ->
         val requirements = command.requirementIds.map { requirementId ->
             requirementRepository.loadRequirementOnlyGraph(requirementId, withBadges = true)
                 ?: throw NotFoundException("Requirement", requirementId)
@@ -72,12 +71,8 @@ class CertificationAggregateService(
 
     suspend fun fillValues(
         command: CertificationFillValuesCommand
-    ): CertificationFilledValuesEvent = doOnEntity(command, 0) { session ->
-        val context = CertificationValuesFillerService.Context(
-            certificationId = command.id,
-            rootRequirementCertificationId = command.rootRequirementCertificationId
-        )
-        certificationValuesFillerService.fillValues(command.values, context)
+    ): CertificationFilledValuesEvent = doOnFullCertification(command) {
+        CertificationValuesFillerService.fillValues(this, command.values)
 
         CertificationFilledValuesEvent(
             id = command.id,
@@ -87,7 +82,7 @@ class CertificationAggregateService(
 
     suspend fun addEvidence(
         command: CertificationAddEvidenceCommand, file: ByteArray, filename: String?
-    ): CertificationAddedEvidenceEvent = doOnEntity(command, 0) { session ->
+    ): CertificationAddedEvidenceEvent = doOnEntity(command, 0) {
         val path = command.filePath
             ?: FsPath.Control.Certification.evidenceType(command.id, command.evidenceTypeIdentifier)
                 .copy(name = filename ?: System.currentTimeMillis().toString())
@@ -110,12 +105,12 @@ class CertificationAggregateService(
         )
     }
 
-    suspend fun submit(command: CertificationSubmitCommand): CertificationSubmittedEvent = doOnEntity(command, 0) { session ->
+    suspend fun submit(command: CertificationSubmitCommand): CertificationSubmittedEvent = doOnEntity(command, 0) {
         status = CertificationState.SUBMITTED
         CertificationSubmittedEvent(command.id)
     }
 
-    suspend fun reject(command: CertificationRejectCommand): CertificationRejectedEvent = doOnEntity(command, 0) { session ->
+    suspend fun reject(command: CertificationRejectCommand): CertificationRejectedEvent = doOnEntity(command, 0) {
         status = CertificationState.REJECTED
         auditDate = System.currentTimeMillis()
         comment = command.reason
@@ -127,7 +122,7 @@ class CertificationAggregateService(
         CertificationRejectedEvent(command.id, command.reason)
     }
 
-    suspend fun validate(command: CertificationValidateCommand): CertificationValidatedEvent = doOnEntity(command, 0) { session ->
+    suspend fun validate(command: CertificationValidateCommand): CertificationValidatedEvent = doOnEntity(command, 0) {
         status = CertificationState.VALIDATED
         auditDate = System.currentTimeMillis()
 
@@ -170,9 +165,21 @@ class CertificationAggregateService(
         command: S2Command<CertificationId>,
         depth: Int,
         applyUpdate: suspend Certification.(Session) -> Evt
-    ): Evt = doTransitionWithEvent(command) { session ->
-        val certification = session.load(Certification::class.java, command.id, depth)
-            ?: throw NotFoundException(Certification.LABEL, command.id)
+    ): Evt = sessionFactory.transaction { session, _ ->
+        doOnCertification(command, session.load(Certification::class.java, command.id, depth), applyUpdate)
+    }
+
+    private suspend fun <Evt: Any> doOnFullCertification(
+        command: S2Command<CertificationId>,
+        applyUpdate: suspend Certification.(Session) -> Evt
+    ): Evt = doOnCertification(command, certificationRepository.findById(command.id), applyUpdate)
+
+    private suspend fun <Evt: Any> doOnCertification(
+        command: S2Command<CertificationId>,
+        certification: Certification?,
+        applyUpdate: suspend Certification.(Session) -> Evt
+    ) = doTransitionWithEvent(command) { session ->
+        certification ?: throw NotFoundException(Certification.LABEL, command.id)
 
         certification.lastModificationDate = System.currentTimeMillis()
         certification.applyUpdate(session)

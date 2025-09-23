@@ -26,7 +26,7 @@ suspend fun Certification.toRef(
     id = id,
     protocol = requirementCertifications.first().requirement.toProtocolRef(),
     catalogue = getCatalogue(id),
-    completionRate = 0.0, // TODO
+    completionRate = completionRate,
     badges = requirementCertifications.extractBadges(),
     creator = creatorUserId?.let { getUser(it) },
     creatorOrganization = creatorOrganizationId?.let { getOrganization(it) },
@@ -51,7 +51,7 @@ suspend fun Certification.toDTO(
         id = id,
         protocol = CccevToProtocolConverter.convert(requirementCertifications.first().requirement),
         catalogue = getCatalogue(id),
-        completionRate = 0.0, // TODO
+        completionRate = completionRate,
         values = allValues + allEvidences,
         badges = requirementCertifications.extractBadges(),
         status = status,

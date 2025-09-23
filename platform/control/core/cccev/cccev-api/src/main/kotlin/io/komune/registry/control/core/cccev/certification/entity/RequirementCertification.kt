@@ -63,6 +63,12 @@ class RequirementCertification {
      */
     var isFulfilled: Boolean = false
 
+    /**
+     * Percentage of information concepts of the requirement and its sub-requirements that have a value.
+     * Only information concepts from enabled requirements are considered.
+     */
+    var completionRate: Double = 0.0
+
     @Version
     var version: Long? = null
 
