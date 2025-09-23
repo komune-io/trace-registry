@@ -13,16 +13,16 @@ import {
     useAutoFormState
 } from '@komune-io/g2'
 import {
-    ReservedProtocolTypes,
-    useCertificationFillCommand,
-    useCertificationGetQuery,
-    useCertificationSubmitCommand,
-    useProtocolGetQuery
+  certificateDownLoadEvidenceUrl,
+  ReservedProtocolTypes,
+  useCertificationFillCommand,
+  useCertificationGetQuery,
+  useCertificationSubmitCommand,
+  useProtocolGetQuery
 } from 'domain-components'
 import {DialogPage} from 'template'
 import {useDebouncedCallback} from '@mantine/hooks'
 import {useQueryClient} from "@tanstack/react-query";
-
 
 export const ProtocolFillingPage = () => {
   const { t } = useTranslation()
@@ -104,7 +104,7 @@ export const ProtocolFillingPage = () => {
     isLoading: certificationQuery.isLoading,
     formData: formData,
     readOnly: !isEditable,
-    // downloadDocument: () => Promise.resolve("") // TODO: implement document download
+    downloadDocument: (fieldName: string)=> certificateDownLoadEvidenceUrl(fieldName, certification),
   })
 
   useEffect(() => {
