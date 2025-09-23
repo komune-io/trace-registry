@@ -66,7 +66,7 @@ object CertificationValuesFillerService {
 
         val supportedValueEvidenceIds = supportedValue.evidences.map { it.id }.toSet()
         context.supportingEvidences[informationConcept.identifier]
-            ?.filter { it.id in supportedValueEvidenceIds }
+            ?.filter { it.id !in supportedValueEvidenceIds }
             ?.let(supportedValue.evidences::addAll)
 
         context.registerSupportedValue(supportedValue)
