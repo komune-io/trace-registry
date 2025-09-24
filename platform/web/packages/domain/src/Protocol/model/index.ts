@@ -19,10 +19,5 @@ export type CertificationState = io.komune.registry.control.core.cccev.certifica
 
 export const certificateDownLoadEvidenceUrl = async (fieldName: string, certification?: Certification) => {
   const evidencePath = certification?.values[fieldName] || undefined
-  console.log("/////////////////////////")
-  console.log("/////////////////////////")
-  console.log("/////////////////////////")
-  console.log(config().platform.url + evidencePath )
-  console.log("/////////////////////////")
   return evidencePath ? config().platform.url + evidencePath : undefined
 }
