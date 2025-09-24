@@ -38,11 +38,12 @@ suspend fun Certification.toDTO(
     getOrganization: suspend (OrganizationId) -> OrganizationRef,
     getUser: suspend (UserId) -> UserRef
 ): CertificationDTOBase {
+    val certificationId = id
     val allValues = mutableMapOf<InformationConceptIdentifier, String?>()
     val allEvidences = mutableMapOf<EvidenceTypeIdentifier, String?>()
     fun RequirementCertification.extractValuesAndEvidences() {
         values.forEach { allValues[it.concept.identifier] = it.value }
-        evidences.forEach { allEvidences[it.evidenceType.identifier] = CertificationEndpoint.evidenceDownloadPath(id, it.id) }
+        evidences.forEach { allEvidences[it.evidenceType.identifier] = CertificationEndpoint.evidenceDownloadPath(certificationId, it.id) }
         subCertifications.forEach { it.extractValuesAndEvidences() }
     }
     requirementCertifications.forEach { it.extractValuesAndEvidences() }
