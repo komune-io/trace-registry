@@ -2,9 +2,8 @@ import {AutoForm, AutoFormData, autoFormFormatter, CodeHighlighter} from '@komun
 import {Divider, Stack, Typography} from '@mui/material'
 import {TitleDivider, TmsPopUp, useRoutesDefinition} from 'components'
 import {useMemo} from 'react'
-// import { useTranslation } from 'react-i18next'
-import {BadgeCertification, ReservedProtocolTypes} from '../../model'
-import {CertificationBadge} from '../CertificationBadge/CertificationBadge'
+import {BadgeCertification, certificateDownLoadEvidenceUrl, ReservedProtocolTypes} from '../../model'
+import {CertificationBadge} from '../CertificationBadge'
 import {t} from 'i18next'
 import {useCertificationGetQuery} from '../../api'
 
@@ -58,7 +57,6 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
     const embedCode = useMemo(() => {
         return `<iframe \n src="${window.location.origin}${embedBadgesBadgeId(badge?.id!)}" \n width="200" \n height="36" \n style="border:none;">\n</iframe>`
     }, [badge])
-
     return (
         <TmsPopUp
             open={open}
@@ -99,7 +97,7 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
                         formData={formData}
                         initialValues={certification?.values}
                         readOnly
-                        downloadDocument={() => Promise.resolve("")} // TODO: implement document download
+                        downloadDocument={(fieldName: string)=> certificateDownLoadEvidenceUrl(fieldName, certification)}
                     />
                 </Stack>
             </Stack>

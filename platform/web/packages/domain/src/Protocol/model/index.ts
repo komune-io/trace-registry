@@ -1,5 +1,5 @@
 import {io} from "registry-platform-api-api-js-export";
-
+import {config} from "components";
 
 export interface Protocol extends io.komune.registry.control.f2.protocol.domain.model.ProtocolDTO {}
 export interface DataCollectionStep extends io.komune.registry.control.f2.protocol.domain.model.DataCollectionStepDTO {}
@@ -16,3 +16,13 @@ export interface CertificationRef extends io.komune.registry.control.f2.certific
 export interface BadgeCertification extends io.komune.registry.control.f2.certification.domain.model.BadgeCertificationDTO {}
 
 export type CertificationState = io.komune.registry.control.core.cccev.certification.CertificationState
+
+export const certificateDownLoadEvidenceUrl = async (fieldName: string, certification?: Certification) => {
+  const evidencePath = certification?.values[fieldName] || undefined
+  console.log("/////////////////////////")
+  console.log("/////////////////////////")
+  console.log("/////////////////////////")
+  console.log(config().platform.url + evidencePath )
+  console.log("/////////////////////////")
+  return evidencePath ? config().platform.url + evidencePath : undefined
+}

@@ -5,15 +5,15 @@ import {useTranslation} from 'react-i18next'
 import {AutoForm, autoFormFormatter, BackAutoFormData, navigate} from '@komune-io/g2'
 import {AppPage} from 'template'
 import {
-    CertificationBadge,
-    ReservedProtocolTypes,
-    useCertificationGetQuery,
-    useCertificationRejectCommand,
-    useCertificationValidateCommand
+  certificateDownLoadEvidenceUrl,
+  CertificationBadge,
+  ReservedProtocolTypes,
+  useCertificationGetQuery,
+  useCertificationRejectCommand,
+  useCertificationValidateCommand
 } from "domain-components";
 import {useParams} from "react-router-dom";
 import {useQueryClient} from "@tanstack/react-query";
-
 
 export const ProtocolVerificationPage = () => {
   const { t } = useTranslation()
@@ -117,7 +117,7 @@ export const ProtocolVerificationPage = () => {
           formData={formData}
           readOnly
           initialValues={certification?.values}
-          downloadDocument={() => Promise.resolve("")} // TODO: implement document download
+          downloadDocument={(fieldName: string)=> certificateDownLoadEvidenceUrl(fieldName, certification)}
         />
       </Paper>
     </AppPage>
