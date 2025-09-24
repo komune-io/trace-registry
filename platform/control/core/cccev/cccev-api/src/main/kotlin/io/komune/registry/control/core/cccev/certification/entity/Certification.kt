@@ -22,6 +22,8 @@ class Certification {
     @Relationship(IS_CERTIFIED_BY)
     var requirementCertifications: MutableList<RequirementCertification> = mutableListOf()
 
+    var completionRate: Double = 0.0
+
     var status: CertificationState = CertificationState.PENDING
 
     var comment: String? = null
