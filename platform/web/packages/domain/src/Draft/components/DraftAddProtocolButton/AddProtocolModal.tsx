@@ -1,11 +1,12 @@
-import { FormComposable, AutoFormData, useAutoFormState, CommandWithFile, FormComposableField } from "@komune-io/g2"
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Stack, Typography } from "@mui/material";
-import { CustomButton, TmsPopUp, useRoutesDefinition } from "components";
-import { useNavigate, useParams } from "react-router-dom";
-import { ProtocolPageQuery, useProtocolPageQuery } from "../../../Protocol";
-import { useCatalogueStartCertificationCommand } from "../../../Catalogue";
+import {AutoFormData, CommandWithFile, FormComposable, FormComposableField, useAutoFormState} from "@komune-io/g2"
+import {useCallback, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Stack, Typography} from "@mui/material";
+import {CustomButton, TmsPopUp, useRoutesDefinition} from "components";
+import {useNavigate, useParams} from "react-router-dom";
+import {ProtocolPageQuery, useProtocolPageQuery} from "../../../Protocol";
+import {useCatalogueStartCertificationCommand} from "../../../Catalogue";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 export interface AddProtocolModalProps {
@@ -18,6 +19,7 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
     const { onClose, open, formData } = props
     const { catalogueId, draftId, tab } = useParams()
     const { t } = useTranslation()
+    const queryClient = useQueryClient()
     const { cataloguesCatalogueIdDraftIdTabProtocolIdCertificationIdProtocol } = useRoutesDefinition()
     const navigate = useNavigate()
 
@@ -42,10 +44,11 @@ export const AddProtocolModal = (props: AddProtocolModalProps) => {
             protocolId: values.protocolId
         })
         if (res) {
-            navigate(cataloguesCatalogueIdDraftIdTabProtocolIdCertificationIdProtocol(catalogueId!, draftId!, tab!, values.protocolId, res.certificationId))
+            navigate(cataloguesCatalogueIdDraftIdTabProtocolIdCertificationIdProtocol(catalogueId!, draftId!, tab ?? "metadata", values.protocolId, res.certificationId))
+            queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId! }] })
             onClose();
         }
-    }, [onClose, catalogueId, draftId, tab])
+    }, [onClose, catalogueId, draftId, tab, queryClient])
 
     const formState = useAutoFormState({
         formData,
