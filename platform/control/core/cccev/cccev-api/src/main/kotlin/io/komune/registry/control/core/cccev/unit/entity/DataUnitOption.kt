@@ -18,7 +18,7 @@ class DataUnitOption {
     @Id
     lateinit var id: DataUnitOptionId
 
-    var identifier: DataUnitOptionIdentifier = id
+    lateinit var identifier: DataUnitOptionIdentifier
 
     lateinit var name: String
 
