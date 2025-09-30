@@ -91,7 +91,7 @@ object CccevToProtocolConverter {
                 )
             },
             required = required,
-            options = concept?.unit?.options?.map { it.toDataFieldOption() }?.nullIfEmpty(),
+            options = concept?.unit?.options?.sortedBy { it.order }?.map { it.toDataFieldOption() }?.nullIfEmpty(),
             conditions = extractConditions(),
             autoCompute = concept?.expressionOfExpectedValue?.let { expression ->
                 DataEvaluation(

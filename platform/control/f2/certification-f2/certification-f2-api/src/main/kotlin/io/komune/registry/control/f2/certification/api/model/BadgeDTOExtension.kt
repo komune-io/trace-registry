@@ -5,7 +5,8 @@ import io.komune.registry.control.f2.certification.domain.model.BadgeCertificati
 import io.komune.registry.control.f2.protocol.api.BadgeEndpoint
 
 fun BadgeCertification.toDTOOrNull(): BadgeCertificationDTOBase? {
-    level ?: value ?: return null
+    level ?: return null
+    value ?: return null
 
     return BadgeCertificationDTOBase(
         id = id,

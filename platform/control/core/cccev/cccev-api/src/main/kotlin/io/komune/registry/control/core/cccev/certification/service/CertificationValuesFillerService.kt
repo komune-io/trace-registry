@@ -53,14 +53,16 @@ object CertificationValuesFillerService {
     }
 
     private fun saveValue(context: Context, informationConcept: InformationConcept, newValue: String?) {
+        val value = newValue.takeIf { newValue != "null" }
+
         // will throw if conversion is impossible
-        newValue.convertTo(informationConcept.unit.type)
+        value.convertTo(informationConcept.unit.type)
 
         val supportedValue = context.supportedValues[informationConcept.identifier]
-            ?.also { supportedValue -> supportedValue.value = newValue }
+            ?.also { supportedValue -> supportedValue.value = value }
             ?: SupportedValue().also { supportedValue ->
                 supportedValue.id = UUID.randomUUID().toString()
-                supportedValue.value = newValue
+                supportedValue.value = value
                 supportedValue.concept = informationConcept
             }
 

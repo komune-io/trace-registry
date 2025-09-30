@@ -13,7 +13,7 @@ object ArithmeticExpressions: List<ArithmeticExpression> by listOf(
     ArithmeticExpression("/", Double::div, minArguments = 2, maxArguments = 2),
     ArithmeticExpression("%", Double::rem, minArguments = 2, maxArguments = 2),
     ArithmeticExpression("pow", Double::pow, minArguments = 2, maxArguments = 2),
-    ArithmeticExpression("log", ::log, minArguments = 2, maxArguments = 2)
+    ArithmeticExpression("log", { base, x -> log(x, base)}, minArguments = 2, maxArguments = 2, defaultFirstArgument = 10)
 )
 
 class ArithmeticExpression(
