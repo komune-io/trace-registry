@@ -30,7 +30,7 @@ class SelExecutor(
             evaluator.evaluate(selNode, data, "$")
         } catch (e: Exception) {
             if (nullOnError) {
-                println("SEL evaluation error: ${e.message}")
+                println("SEL evaluation error with data $dataJson: ${e.message}")
                 null
             } else {
                 throw e

@@ -48,7 +48,7 @@ class BadgeRepository(
         val result = session.query(
             "MATCH (requirement:${Requirement.LABEL} {type: \$requirementType})" +
                     "-[:${Requirement.HAS_BADGE}]->(badge:${Badge.LABEL})"
-                        .returnWholeEntity("badge") + ", COUNT(badge) AS totalCount " +
+                        .returnWholeEntity("badge") + ", COUNT(distinct badge) AS totalCount " +
                     "ORDER BY badge.name ASC" +
                     offset?.let { "\nSKIP ${it.offset} LIMIT ${it.limit}" }.orEmpty(),
             mapOf("requirementType" to requirementType)

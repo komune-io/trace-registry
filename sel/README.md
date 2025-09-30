@@ -181,7 +181,7 @@ Result: `8`
 #### Logarithm (log)
 
 ```json
-{ "log": [100, 10] }
+{ "log": [10, 100] }
 ```
 
 Result: `2` (log base 10 of 100)
