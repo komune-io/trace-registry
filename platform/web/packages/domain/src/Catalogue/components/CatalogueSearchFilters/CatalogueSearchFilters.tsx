@@ -1,9 +1,9 @@
-import { Box, Stack, Typography } from '@mui/material'
-import { CustomButton, SelectableChipGroup, StickyContainer, TitleDivider } from 'components'
-import { useTranslation } from 'react-i18next'
-import { FacetDTO } from '../../api'
-import { useEffect, useMemo, useState } from 'react'
-import { getIn, setIn } from '@komune-io/g2'
+import {Box, Stack, Typography} from '@mui/material'
+import {CustomButton, SelectableChipGroup, StickyContainer, TitleDivider} from 'components'
+import {useTranslation} from 'react-i18next'
+import {FacetDTO} from '../../api'
+import {useEffect, useMemo, useState} from 'react'
+import {getIn, setIn} from '@komune-io/g2'
 
 interface CatalogueSearchFiltersProps {
     additionalFilters?: React.ReactNode,
@@ -94,23 +94,24 @@ export const CatalogueSearchFilters = (props: CatalogueSearchFiltersProps) => {
         >
             <TitleDivider title={t("filter")} size='subtitle1' />
             {additionalFilters}
-            <SelectableChipGroup
-                title={t("badges")}
-                options={[{
-                    key: "finance",
-                    label: "Finance V1",
-                }, {
-                    key: "numérique",
-                    label: "Numérique V1",
-                }, {
-                    key: "blbl",
-                    label: "Blbl V1",
-                }]}
-                values={getIn(savedState, "badge")}
-                onChange={onChangeFacet("badge")}
-                chipType='badge'
-                direction='column'
-            />
+            {/* TODO find a way to use it in a generic way in facets */}
+            {/*<SelectableChipGroup*/}
+            {/*    title={t("badges")}*/}
+            {/*    options={[{*/}
+            {/*        key: "finance",*/}
+            {/*        label: "Finance V1",*/}
+            {/*    }, {*/}
+            {/*        key: "numérique",*/}
+            {/*        label: "Numérique V1",*/}
+            {/*    }, {*/}
+            {/*        key: "blbl",*/}
+            {/*        label: "Blbl V1",*/}
+            {/*    }]}*/}
+            {/*    values={getIn(savedState, "badge")}*/}
+            {/*    onChange={onChangeFacet("badge")}*/}
+            {/*    chipType='badge'*/}
+            {/*    direction='column'*/}
+            {/*/>*/}
             {facetsDisplay}
             <StickyContainer
             >
