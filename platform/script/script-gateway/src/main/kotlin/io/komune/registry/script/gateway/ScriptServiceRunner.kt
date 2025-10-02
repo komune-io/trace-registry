@@ -1,9 +1,12 @@
 package io.komune.registry.script.gateway
 
+import io.komune.registry.script.commons.RegistryScriptProperties
 import io.komune.registry.script.gateway.config.RetryProperties
 import io.komune.registry.script.gateway.extention.retryOnThrow
 import io.komune.registry.script.imports.ImportScript
-import io.komune.registry.script.init.RegistryScriptInitProperties
+import io.komune.registry.script.init.InitScript
+import io.komune.registry.script.update.UpdateScript
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,18 +20,19 @@ import org.springframework.stereotype.Service
 class ScriptServiceRunner(
     private val context: ConfigurableApplicationContext,
     private val retry: RetryProperties,
-    private val properties: RegistryScriptInitProperties
+    private val properties: RegistryScriptProperties,
+    private val updateScript: UpdateScript
 ): CommandLineRunner {
 
     private val logger = LoggerFactory.getLogger(ScriptServiceRunner::class.java)
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun run(vararg args: String?) = runBlocking {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-//            val initScript = InitScript(properties)
-//            runScript("Init", initScript::run)
-                val importScript = ImportScript(properties)
-                runScript("Import") { importScript.run() }
+                runScript("Init", properties.init.enabled, InitScript(properties)::run)
+                runScript("Import", properties.import.enabled, ImportScript(properties)::run)
+                runScript("Update", properties.update.enabled, updateScript::run)
             } catch (e: RuntimeException) {
                 logger.error("ScriptServiceRunner failed", e)
             } finally {
@@ -38,7 +42,12 @@ class ScriptServiceRunner(
     }
 
     @Suppress("TooGenericExceptionThrown")
-    suspend fun runScript(script: String, block: suspend () -> Unit) {
+    suspend fun runScript(script: String, enabled: Boolean, block: suspend () -> Unit) {
+        if (!enabled) {
+            logger.info("$script script is disabled")
+            return
+        }
+
         val success = retryOnThrow(
             actionName = script,
             maxRetries = retry.max,

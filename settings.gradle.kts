@@ -17,9 +17,11 @@ include(
 )
 
 include(
-	"platform:script:script-import",
-	"platform:script:script-init",
-	"platform:script:script-gateway",
+    "platform:script:script-commons",
+    "platform:script:script-gateway",
+    "platform:script:script-import",
+    "platform:script:script-init",
+	"platform:script:script-update",
 )
 
 include(

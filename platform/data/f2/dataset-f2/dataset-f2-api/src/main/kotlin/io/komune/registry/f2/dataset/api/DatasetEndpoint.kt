@@ -92,6 +92,7 @@ class DatasetEndpoint(
         datasetF2FinderService.page(
             datasetId = query.datasetId,
             title = query.title,
+            type = query.type,
             status = query.status,
             offset = OffsetPagination(
                 offset = query.offset ?: 0,

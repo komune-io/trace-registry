@@ -2,14 +2,14 @@ package io.komune.registry.script.imports
 
 import io.komune.registry.f2.dataset.domain.dto.DatasetDTOBase
 import io.komune.registry.s2.commons.model.SimpleFile
+import io.komune.registry.script.commons.RegistryScriptProperties
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
-import io.komune.registry.script.init.RegistryScriptInitProperties
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
 
 class MarkdownMediaImport(
-    private val properties: RegistryScriptInitProperties,
+    private val properties: RegistryScriptProperties,
     private val importRepository: ImportRepository
 ) {
 
@@ -22,7 +22,7 @@ class MarkdownMediaImport(
         datasetSettings: CatalogueDatasetSettings,
         file: File
     ) {
-        val registryApiPath = properties.registry?.path?.let {
+        val registryApiPath = properties.registry.path?.let {
             if (it.endsWith("/")) it else "$it/"
         } ?: "/"
         val registryWebPath = "/"

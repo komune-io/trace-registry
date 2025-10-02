@@ -2,6 +2,7 @@ package io.komune.registry.f2.dataset.domain.command
 
 import f2.dsl.fnc.F2Function
 import io.komune.registry.s2.commons.model.DatasetId
+import kotlinx.serialization.Serializable
 import kotlin.js.JsExport
 import kotlin.js.JsName
 
@@ -25,6 +26,7 @@ interface DatasetDeleteCommandDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class DatasetDeleteCommandDTOBase(
     override val id: DatasetId,
 ): DatasetDeleteCommandDTO
@@ -42,6 +44,7 @@ interface DatasetDeletedEventDTO {
 /**
  * @d2 inherit
  */
+@Serializable
 data class DatasetDeletedEventDTOBase(
     override val id: DatasetId
 ): DatasetDeletedEventDTO

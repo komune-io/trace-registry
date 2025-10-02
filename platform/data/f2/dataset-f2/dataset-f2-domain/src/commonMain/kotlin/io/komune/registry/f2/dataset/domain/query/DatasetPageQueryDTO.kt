@@ -27,6 +27,7 @@ interface DatasetPageQueryDTO {
      */
     val datasetId: DatasetId?
     val title: String?
+    val type: List<String>?
     val status: String?
     val offset: Int?
     val limit: Int?
@@ -39,8 +40,9 @@ interface DatasetPageQueryDTO {
 data class DatasetPageQuery(
     override val datasetId: DatasetId? = null,
     override val title: String? = null,
+    override val type: List<String>? = null,
     override val status: String? = null,
-    override val offset: Int?,
+    override val offset: Int? = null,
     override val limit: Int?,
 ): DatasetPageQueryDTO
 
