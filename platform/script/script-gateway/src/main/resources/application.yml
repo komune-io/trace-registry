@@ -10,29 +10,31 @@ registry:
     retry:
       max: 1
       delayMillis: 10000
+    auth:
+      realmId: registry-local
+      url: http://im-keycloak:8080
+    im:
+      url: http://localhost:8009
+    cccev:
+      url: http://localhost:8083
+    registry:
+      url: http://localhost:8070
+      path: http://localhost:8070/
+    admin:
+      name: Komune
+      clientId: tr-komune-import-api-key
+      clientSecret: secret
     init:
-#      source: ./import/fiches
-#      sources:
-#        - ./import/fiches
-      auth:
-        realmId: registry-local
-        url: http://im-keycloak:8080
-      im:
-        url: http://localhost:8009
-      cccev:
-        url: http://localhost:8083
-      registry:
-        url: http://localhost:8070
-        path: http://localhost:8070/
-      admin:
-        name: Komune
-        clientId: tr-komune-import-api-key
-        clientSecret: secret
+      enabled: false
+      nbProject: 25
       flag:
         control: false
         data: true
         project: false
-      nbProject: 25
+    import:
+      enabled: false
+    update:
+      enabled: true
 
 ---
 spring:

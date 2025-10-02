@@ -14,6 +14,7 @@ import io.komune.registry.s2.commons.model.CatalogueIdentifier
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptIdentifier
+import io.komune.registry.script.commons.RegistryScriptProperties
 import io.komune.registry.script.imports.checkIsDirectory
 import io.komune.registry.script.imports.checkIsFile
 import io.komune.registry.script.imports.model.CatalogueDatasetMediaSettings
@@ -33,14 +34,13 @@ import io.komune.registry.script.imports.model.CatalogueTranslationData
 import io.komune.registry.script.imports.model.DatasetMediaSource
 import io.komune.registry.script.imports.model.FieldType
 import io.komune.registry.script.imports.model.ImportSettings
-import io.komune.registry.script.init.RegistryScriptInitProperties
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import s2.spring.utils.logger.Logger
 import java.io.File
 
 class PreparseScript(
-    private val properties: RegistryScriptInitProperties
+    private val properties: RegistryScriptProperties
 ) {
     private val logger by Logger()
 
@@ -49,7 +49,7 @@ class PreparseScript(
     }
 
     suspend fun run() {
-        val paths = properties.preparse?.paths
+        val paths = properties.import.preparse?.paths
             ?: return
 
         paths.forEach { path ->

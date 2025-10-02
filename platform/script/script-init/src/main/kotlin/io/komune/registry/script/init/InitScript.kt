@@ -2,6 +2,7 @@ package io.komune.registry.script.init
 
 import f2.client.domain.AuthRealmClientSecret
 import io.komune.registry.s2.project.domain.model.ProjectId
+import io.komune.registry.script.commons.RegistryScriptProperties
 import io.komune.registry.script.init.actor.Actor
 import io.komune.registry.script.init.actor.ActorAuth
 import io.komune.registry.script.init.actor.ActorBuilder
@@ -15,13 +16,13 @@ import io.komune.registry.script.init.project.addAssetPoolToProject
 import io.komune.registry.script.init.project.createRandomProject
 
 class InitScript(
-    private val properties: RegistryScriptInitProperties
+    private val properties: RegistryScriptProperties
 ) {
     suspend fun run(
-        project: Boolean = properties.flag.project,
-        asset: Boolean = properties.flag.project,
-        cccev: Boolean = properties.flag.control,
-        catalogue: Boolean = properties.flag.data
+        project: Boolean = properties.init.flag.project,
+        asset: Boolean = properties.init.flag.project,
+        cccev: Boolean = properties.init.flag.control,
+        catalogue: Boolean = properties.init.flag.data
     ) {
         val authRealm = AuthRealmClientSecret(
             clientId = properties.admin.clientId,
@@ -40,7 +41,7 @@ class InitScript(
         }
 
         if (catalogue) {
-            properties.registry?.url?.let { url ->
+            properties.registry.url.let { url ->
 //                createStandardsCatalogue(url, accessTokenAdmin)
                 create100MLicenses(url, accessTokenAdmin)
                 create100MThemes(url, accessTokenAdmin)
@@ -50,13 +51,13 @@ class InitScript(
         }
 
         val projectIds: List<ProjectId>? = if (project) {
-            properties.registry?.url?.let { url ->
+            properties.registry.url.let { url ->
                 initProject(url, accessTokenAdmin)
             }
         } else null
 
         if (asset) {
-            properties.registry?.url?.let { url ->
+            properties.registry.url.let { url ->
              initAsset(accessTokenAdmin, url, projectIds)
             }
         }
@@ -69,7 +70,7 @@ class InitScript(
         return createRandomProject(
             url,
             accessTokenAdmin,
-            countRange = 0..properties.nbProject
+            countRange = 0..properties.init.nbProject
         )
     }
 

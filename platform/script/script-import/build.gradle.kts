@@ -8,6 +8,7 @@ plugins {
 dependencies {
 	implementation(project(Modules.commons))
 	implementation(project(Modules.data.dsl.client))
+	implementation(project(Modules.script.commons))
 	implementation(project(Modules.script.init))
 
 	project(":platform").dependencyProject.subprojects.forEach {

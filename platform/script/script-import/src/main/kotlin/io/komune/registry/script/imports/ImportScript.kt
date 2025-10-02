@@ -26,6 +26,7 @@ import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.SimpleFile
 import io.komune.registry.s2.commons.utils.nullIfEmpty
 import io.komune.registry.s2.concept.domain.ConceptId
+import io.komune.registry.script.commons.RegistryScriptProperties
 import io.komune.registry.script.imports.indicators.IndicatorInitializer
 import io.komune.registry.script.imports.model.CatalogueDatasetMediaSettings
 import io.komune.registry.script.imports.model.CatalogueDatasetSettings
@@ -34,15 +35,13 @@ import io.komune.registry.script.imports.model.CatalogueReferences
 import io.komune.registry.script.imports.model.ImportSettings
 import io.komune.registry.script.imports.model.loadJsonCatalogue
 import io.komune.registry.script.imports.preparse.PreparseScript
-import io.komune.registry.script.init.RegistryScriptInitProperties
-import io.komune.registry.script.init.asAuthRealm
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
 class ImportScript(
-    private val properties: RegistryScriptInitProperties
+    private val properties: RegistryScriptProperties
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -53,13 +52,9 @@ class ImportScript(
     private lateinit var catalogueReferencesFinder: CatalogueReferencesFinder
 
     init {
-        val authRealm = properties.asAuthRealm()
-
+        val authRealm = properties.authRealm()
         dataClient = runBlocking {
-            if (properties.registry?.url == null) {
-                throw IllegalArgumentException("Registry URL is not set")
-            }
-            DataClient(properties.registry!!.url, authRealm)
+            DataClient(properties.registry.url, authRealm)
         }
     }
 
@@ -110,10 +105,10 @@ class ImportScript(
 
     private fun getRootDirs(): List<File> {
         return buildList {
-            properties.source?.let {
+            properties.import.source?.let {
                 add(File(it))
             }
-            properties.sources?.forEach {
+            properties.import.sources?.forEach {
                 add(File(it))
             }
         }

@@ -6,6 +6,7 @@ import f2.dsl.cqrs.page.OffsetPagination
 import f2.dsl.cqrs.page.Page
 import f2.dsl.cqrs.page.PageDTO
 import java.util.stream.Collectors
+import kotlin.math.min
 
 abstract class PageQueryDB {
 
@@ -17,7 +18,7 @@ abstract class PageQueryDB {
         val query = entityStream.of(E::class.java)
 
         if (offset != null) {
-            query.limit(offset.limit.toLong())
+            query.limit(min(offset.limit.toLong(), 1000000L)) // Redis OM limit max is 1,000,000
             query.skip(offset.offset.toLong())
         }
 
