@@ -10,6 +10,7 @@ interface FormFieldDTO {
     val type: String
     val required: Boolean
     val description: String?
+    val placeholder: String?
     val helperText: String?
     val options: List<FormOptionDTO>?
     val conditions: List<FormConditionDTO>?
@@ -23,6 +24,7 @@ data class FormField(
     override val type: String,
     override val required: Boolean = false,
     override val description: String?,
+    override val placeholder: String?,
     override val helperText: String?,
     override val options: List<FormOption>?,
     override val conditions: List<FormCondition>?,
