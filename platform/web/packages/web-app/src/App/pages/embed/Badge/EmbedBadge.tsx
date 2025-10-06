@@ -1,19 +1,28 @@
-import { useRoutesDefinition } from 'components'
-import { CertificationBadge } from 'domain-components'
-// import { useParams } from 'react-router-dom'
+import {useRoutesDefinition} from 'components'
+import {CertificationBadge, useBadgeCertificationGetQuery} from 'domain-components'
+import {useParams} from 'react-router-dom'
 
 export const EmbedBadge = () => {
-    // const { badgeId } = useParams()
-    const {cataloguesAll} = useRoutesDefinition()
+    const { badgeCertificationId } = useParams()
+    const { cataloguesAll } = useRoutesDefinition()
 
-    return (
+    const badgeCertificationResult = useBadgeCertificationGetQuery({
+        query: { id: badgeCertificationId! },
+        options: { enabled: !!badgeCertificationId }
+    }).data
+
+    const badgeCertification = badgeCertificationResult?.item
+    const catalogueId = badgeCertificationResult?.catalogueId
+
+    return badgeCertification && (
         <CertificationBadge
-            image={"https://geco.kosmio.dev/api/control/badgeGetImage/d51441cf-9ac4-4451-b5d1-dc4b321d44e5"}
-            name="Finance v1"
-            value={85}
+            image={badgeCertification.image}
+            name={badgeCertification.name}
+            value={badgeCertification.value}
+            color={badgeCertification.color}
             component="a"
             //@ts-ignore
-            href={cataloguesAll("organization-131")}
+            href={cataloguesAll(catalogueId)}
             target="_blank"
             sx={{
                 width: 182,

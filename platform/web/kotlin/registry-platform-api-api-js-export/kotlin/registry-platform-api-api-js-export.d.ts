@@ -1521,8 +1521,8 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly type: string;
         readonly required: boolean;
         readonly description?: string;
+        readonly placeholder?: string;
         readonly helperText?: string;
-        readonly fullRow?: boolean;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
         readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
         readonly properties?: io.komune.registry.s2.commons.model.form.FormFieldPropertiesDTO;
@@ -1531,9 +1531,11 @@ export declare namespace io.komune.registry.s2.commons.model.form {
 }
 export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormFieldPropertiesDTO {
+        readonly caption?: string;
         readonly chipLimit?: number;
         readonly fileTypesAllowed?: string[];
         readonly filters?: string;
+        readonly fullRow?: boolean;
         readonly multiline?: boolean;
         readonly multiple?: boolean;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
@@ -1560,6 +1562,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
     interface FormSectionDTO {
         readonly id: string;
         readonly label?: string;
+        readonly description?: string;
         readonly fields: io.komune.registry.s2.commons.model.form.FormFieldDTO[];
         readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
         readonly properties?: Record<string, any>;
@@ -2914,6 +2917,7 @@ export declare namespace io.komune.registry.f2.dataset.domain.query {
     interface DatasetPageQueryDTO {
         readonly datasetId?: string;
         readonly title?: string;
+        readonly type?: string[];
         readonly status?: string;
         readonly offset?: number;
         readonly limit?: number;

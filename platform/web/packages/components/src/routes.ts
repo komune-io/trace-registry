@@ -28,7 +28,7 @@ export const strictRoutesAuthorizations = {
   "catalogues/*": "open" as PoliciesPaths,
   "protocols/toVerify": "draft.canSeePublished" as PoliciesPaths,
   "protocols/:certificationId/verify": "draft.canSeePublished" as PoliciesPaths,
-  "embed/badges/:badgeId": "open" as PoliciesPaths,
+  "embed/badges/:badgeCertificationId": "open" as PoliciesPaths,
 } as const
 
 export type Routes = keyof typeof strictRoutesAuthorizations
