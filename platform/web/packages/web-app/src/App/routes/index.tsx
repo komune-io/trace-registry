@@ -1,12 +1,12 @@
-import { getIn, Router } from "@komune-io/g2";
-import { Navigate, Route } from "react-router-dom";
-import { Routes, strictRoutesAuthorizations, useExtendedAuth, usePreviousLocation } from "components";
-import { App } from "App";
-import { registryPages } from "App/pages/router";
-import { useMemo } from "react"
-import { catalogPages } from "App/pages/data";
-import { NoMatch } from "./NoMatch";
-import { EmbedBadge } from "App/pages/embed";
+import {getIn, Router} from "@komune-io/g2";
+import {Navigate, Route} from "react-router-dom";
+import {Routes, strictRoutesAuthorizations, useExtendedAuth, usePreviousLocation} from "components";
+import {App} from "App";
+import {registryPages} from "App/pages/router";
+import {useMemo} from "react"
+import {catalogPages} from "App/pages/data";
+import {NoMatch} from "./NoMatch";
+import {EmbedBadge} from "App/pages/embed";
 
 const allPages: PageRoute[] = [...registryPages, ...catalogPages]
 
@@ -15,7 +15,7 @@ export const AppRouter = () => {
 
   const prevLocation = usePreviousLocation()
 
-  const embedBadgeRoute: Routes = "embed/badges/:badgeId"
+  const embedBadgeRoute: Routes = "embed/badges/:badgeCertificationId"
 
   return (
     <Router>

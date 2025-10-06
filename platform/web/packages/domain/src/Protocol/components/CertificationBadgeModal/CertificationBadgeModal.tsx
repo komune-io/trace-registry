@@ -17,7 +17,7 @@ interface CertificationBadgeModalProps {
 
 export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => {
     const { open, onClose, certificationId, badge } = props
-    const {embedBadgesBadgeId} = useRoutesDefinition()
+    const { embedBadgesBadgeCertificationId } = useRoutesDefinition()
 
     // const { t, i18n } = useTranslation()
 
@@ -56,7 +56,7 @@ export const CertificationBadgeModal = (props: CertificationBadgeModalProps) => 
     }, [certification])
 
     const embedCode = useMemo(() => {
-        return `<iframe \n src="${window.location.origin}${embedBadgesBadgeId(badge?.id!)}" \n width="200" \n height="36" \n style="border:none;">\n</iframe>`
+        return `<iframe \n src="${window.location.origin}${embedBadgesBadgeCertificationId(badge?.id!)}" \n width="200" \n height="36" \n style="border:none;">\n</iframe>`
     }, [badge])
 
     return (

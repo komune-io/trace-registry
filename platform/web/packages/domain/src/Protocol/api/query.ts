@@ -1,4 +1,4 @@
-import {QueryParams, useAuthenticatedRequest, useQueryRequest} from "@komune-io/g2"
+import {QueryParams, useAuthenticatedRequest, useNoAuthenticatedRequest, useQueryRequest} from "@komune-io/g2"
 import {io} from "registry-platform-api-api-js-export";
 
 export interface ProtocolPageQuery extends io.komune.registry.control.f2.protocol.domain.query.ProtocolPageQueryDTO { }
@@ -48,5 +48,15 @@ export const useCertificationPageQuery = (params: QueryParams<CertificationPageQ
   const requestProps = useAuthenticatedRequest()
   return useQueryRequest<CertificationPageQuery, CertificationPageResult>(
     "control/certificationPage", requestProps, params
+  )
+}
+
+export interface BadgeCertificationGetQuery extends io.komune.registry.control.f2.certification.domain.query.BadgeCertificationGetQueryDTO { }
+export interface BadgeCertificationGetResult extends io.komune.registry.control.f2.certification.domain.query.BadgeCertificationGetResultDTO { }
+
+export const useBadgeCertificationGetQuery = (params: QueryParams<BadgeCertificationGetQuery, BadgeCertificationGetResult>) => {
+  const requestProps = useNoAuthenticatedRequest()
+  return useQueryRequest<BadgeCertificationGetQuery, BadgeCertificationGetResult>(
+      "control/badgeCertificationGet", requestProps, params
   )
 }
