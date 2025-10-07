@@ -1,4 +1,9 @@
-import {CatalogueDraft, useCatalogueDraftRejectCommand, useCatalogueDraftSubmitCommand, useCatalogueDraftValidateCommand} from 'domain-components'
+import {
+    CatalogueDraft,
+    useCatalogueDraftRejectCommand,
+    useCatalogueDraftSubmitCommand,
+    useCatalogueDraftValidateCommand
+} from 'domain-components'
 import {useCallback} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import {useQueryClient} from '@tanstack/react-query';
@@ -46,6 +51,7 @@ export const useDraftValidations = (params: useDraftValidationsParams) => {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draft.id }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueSearch"] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
 

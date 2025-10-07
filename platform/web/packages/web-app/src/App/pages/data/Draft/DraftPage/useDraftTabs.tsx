@@ -1,9 +1,19 @@
-import { maybeAddItem, Tab } from 'components'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { AutoFormData, FormComposableState } from '@komune-io/g2'
-import { Catalogue, CatalogueDraft, CatalogueMetadataForm, CatalogueSections, Dataset, DraftCertificationPage, DraftGraphManager, DraftIndicatorManager, SubCataloguesManager } from 'domain-components'
-import { EditorState } from 'lexical'
+import {maybeAddItem, Tab} from 'components'
+import {useMemo} from 'react'
+import {useTranslation} from 'react-i18next'
+import {AutoFormData, FormComposableState} from '@komune-io/g2'
+import {
+    Catalogue,
+    CatalogueDraft,
+    CatalogueMetadataForm,
+    CatalogueSections,
+    Dataset,
+    DraftCertificationPage,
+    DraftGraphManager,
+    DraftIndicatorManager,
+    SubCataloguesManager
+} from 'domain-components'
+import {EditorState} from 'lexical'
 
 export interface useDraftTabsParams {
   catalogue?: Catalogue
@@ -46,9 +56,9 @@ export const useDraftTabs = (props: useDraftTabsParams) => {
       }
       return undefined
     }) ?? []).filter(Boolean) as Tab[],
-    ...maybeAddItem<Tab>(!!draft?.catalogue.certifications && draft?.catalogue.certifications.length > 0, {
+    ...maybeAddItem<Tab>(draft?.catalogue.structure?.protocolButton != null, {
       key: 'certifications',
-      label: t('protocols'),
+      label: t('badges'),
       component: <DraftCertificationPage draft={draft} isLoading={isLoading} />,
     }),
     ...(catalogue?.catalogues.filter(child => child.structure?.isTab).map((catalogue): Tab | undefined => {

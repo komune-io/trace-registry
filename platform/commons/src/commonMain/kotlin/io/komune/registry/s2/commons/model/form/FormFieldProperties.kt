@@ -13,6 +13,7 @@ interface FormFieldPropertiesDTO {
     val multiline: Boolean?
     val multiple: Boolean?
     val options: List<FormOptionDTO>?
+    val readOnlyFractionDigits: Int?
     val rows: Int?
     val textFieldType: TextFieldType?
 }
@@ -27,6 +28,7 @@ data class FormFieldProperties(
     override val multiline: Boolean?,
     override val multiple: Boolean?,
     override val options: List<FormOption>?,
+    override val readOnlyFractionDigits: Int?,
     override val rows: Int?,
     override val textFieldType: TextFieldType?,
 ) : FormFieldPropertiesDTO
