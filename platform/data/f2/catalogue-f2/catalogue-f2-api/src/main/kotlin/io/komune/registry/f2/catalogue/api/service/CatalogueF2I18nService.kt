@@ -131,7 +131,7 @@ class CatalogueF2I18nService(
             language = translated.language!!,
             configuration = translated.configuration,
             availableLanguages = translated.translationIds.keys.sorted(),
-            structure = translated.getStructure(),
+            structure = (originalCatalogue ?: translated).getStructure(translated.language!!),
             homepage = translated.homepage,
             img = translated.img,
             creator = translated.creatorId?.let { cache.users.get(it) },
@@ -234,12 +234,12 @@ class CatalogueF2I18nService(
         ).items
     }
 
-    private suspend fun CatalogueModel.getStructure(): CatalogueStructureDTOBase? = withCache { cache ->
+    private suspend fun CatalogueModel.getStructure(language: Language = this.language!!): CatalogueStructureDTOBase = withCache { cache ->
         val blueprint = catalogueConfig.typeConfigurations[type]
         blueprint?.structure
             .overrideWith(configuration)
             .toDTO(
-                language = language!!,
+                language = language,
                 defaults = blueprint?.defaults,
                 getTypeConfiguration = catalogueConfig.typeConfigurations::get,
                 getLicenseByIdentifier = cache.licensesByIdentifier::get

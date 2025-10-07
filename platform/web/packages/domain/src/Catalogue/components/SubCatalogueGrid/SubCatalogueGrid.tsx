@@ -18,7 +18,7 @@ export const SubCatalogueGrid = (props: SubCatalogueGridProps) => {
     const { t } = useTranslation()
     const { cataloguesAll } = useRoutesDefinition()
 
-    const dataDislpay = useMemo(() => catalogue?.catalogues.map((subCatalogue) => (
+    const dataDisplay = useMemo(() => catalogue?.catalogues.map((subCatalogue) => (
         <TitledImg
             key={subCatalogue.id}
             title={subCatalogue.title}
@@ -28,7 +28,7 @@ export const SubCatalogueGrid = (props: SubCatalogueGridProps) => {
         />
     )), [catalogue, parentIds, t])
 
-    if ((!dataDislpay || dataDislpay.length === 0) && !isLoading) return <></>
+    if ((!dataDisplay || dataDisplay.length === 0) && !isLoading) return <></>
     return (
         <Box
             sx={{
@@ -45,7 +45,7 @@ export const SubCatalogueGrid = (props: SubCatalogueGridProps) => {
                         isLoading
                     />
                 ))}
-                {dataDislpay}
+                {dataDisplay}
         </Box>
     )
 }
