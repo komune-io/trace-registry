@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { CatalogueSearchQuery, useCatalogueSearchQuery } from '../../api';
-import { useTranslation } from 'react-i18next';
-import { keepPreviousData } from '@tanstack/react-query';
-import { CatalogueSearchModule } from '../CatalogueSearchModule';
-import { CatalogueGrid } from '../CatalogueGrid';
-import { FixedPagination, OffsetPagination } from 'template';
-import { Box, Stack } from '@mui/material';
-import { useProtectionOverlay, useUrlSavedState } from 'components';
-import { CatalogueRef } from '../../model';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {CatalogueSearchQuery, useCatalogueSearchQuery} from '../../api';
+import {useTranslation} from 'react-i18next';
+import {keepPreviousData} from '@tanstack/react-query';
+import {CatalogueSearchModule} from '../CatalogueSearchModule';
+import {CatalogueGrid} from '../CatalogueGrid';
+import {FixedPagination, OffsetPagination} from 'template';
+import {Box, Stack} from '@mui/material';
+import {useProtectionOverlay, useUrlSavedState} from 'components';
+import {CatalogueRef} from '../../model';
 
 interface SubCatalogueModuleProps {
     parentIdentifier?: string;
@@ -36,7 +36,8 @@ export const SubCatalogueModule = (props: SubCatalogueModuleProps) => {
             ...validatedState,
             parentIdentifier: parentIdentifier ? [parentIdentifier] : undefined,
             relatedInCatalogueIds: relatedInId ? { "content": [relatedInId] } : undefined,
-            language: i18n.language
+            language: i18n.language,
+            orderBy: [{ property: "MODIFICATION_DATE", ascending: false }]
         },
         options: {
             placeholderData: keepPreviousData,

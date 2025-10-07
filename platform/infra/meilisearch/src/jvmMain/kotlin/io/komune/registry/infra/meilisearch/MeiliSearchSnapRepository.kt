@@ -39,10 +39,11 @@ abstract class MeiliSearchSnapRepository<Entity: Any>(
             } catch (_: MeilisearchApiException) {
                 emptyArray<String>()
             }
+            sortableAttributes.addAll(existingSortableAttributes + defaultSortableAttributes)
             val settings = Settings().also { settings ->
                 settings.searchableAttributes = searchableAttributes
                 settings.filterableAttributes = filterableAttributes
-                settings.sortableAttributes = (existingSortableAttributes + defaultSortableAttributes).toSet().toTypedArray()
+                settings.sortableAttributes = sortableAttributes.toTypedArray()
                 distinctAttribute?.let { settings.distinctAttribute = it }
             }
             index.updateSettings(settings)
