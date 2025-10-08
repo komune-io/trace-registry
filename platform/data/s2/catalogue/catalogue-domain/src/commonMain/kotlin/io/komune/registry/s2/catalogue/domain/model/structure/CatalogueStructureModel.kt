@@ -2,6 +2,7 @@ package io.komune.registry.s2.catalogue.domain.model.structure
 
 import io.komune.registry.s2.commons.model.form.Form
 import io.komune.registry.s2.commons.model.table.Table
+import io.komune.registry.s2.commons.model.tuto.Tutorial
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,5 +18,6 @@ data class CatalogueStructureModel(
     val tagForm: Form?,
     val table: Table?,
     val createButton: CatalogueCreateButtonModel?,
-    val protocolButton: CatalogueProtocolButtonModel?
+    val protocolButton: CatalogueProtocolButtonModel?,
+    val tutorials: List<Tutorial>?,
 )

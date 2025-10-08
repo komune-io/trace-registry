@@ -1,13 +1,22 @@
-import { Box, Stack } from '@mui/material'
-import { LexicalEditor } from '../LexicalEditor'
+import {Box, Stack} from '@mui/material'
+import {LexicalEditor} from '../LexicalEditor'
+import {config} from "../config";
 
 export interface DidacticTicketProps {
     content: string;
-    img: string
+    img?: string
 }
 
 export const DidacticTicket = (props: DidacticTicketProps) => {
     const { content, img } = props;
+    const { platform } = config()
+
+    let image = img
+    if (img && !img.startsWith('http')) {
+        const separator = img.startsWith('/') ? '' : '/'
+        image = `${platform.url}${separator}${image}`
+    }
+
     return (
         <Stack
             direction="row"
@@ -33,7 +42,7 @@ export const DidacticTicket = (props: DidacticTicketProps) => {
                     styleContainerProps={{
                         sx: {
                             '& h1, h2, h3, h4, h5, h6': {
-                                fontWeight: 400,
+                                fontWeight: 600,
                                 marginBlockEnd: "20px"
                             },
                             "& p": {
@@ -47,7 +56,7 @@ export const DidacticTicket = (props: DidacticTicketProps) => {
                     }}
                 />
             </Stack>
-            <Box
+            {image && <Box
                 sx={{
                     p: 1.5,
                     "& .didactic-image": {
@@ -59,8 +68,8 @@ export const DidacticTicket = (props: DidacticTicketProps) => {
 
                 }}
             >
-                <img src={img} alt="illustration du contenu didactic" className='didactic-image' />
-            </Box>
+                <img src={image} alt="illustration du contenu didactic" className='didactic-image'/>
+            </Box>}
         </Stack >
     )
 }
