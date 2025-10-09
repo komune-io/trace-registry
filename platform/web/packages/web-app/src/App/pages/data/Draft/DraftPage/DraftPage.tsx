@@ -1,20 +1,20 @@
-import { createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition } from 'components'
-import { CatalogueEditionHeader, CatalogueValidationHeader, DraftAddProtocolButton, useCatalogueDraftGetQuery } from 'domain-components'
-import { AppPage } from 'template'
-import { useNavigate, useParams } from "react-router-dom";
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMetadataFormState } from './useMetadataFormState';
-import { CircularProgress } from '@mui/material';
-import { useDraftTabs } from './useDraftTabs';
-import { useDraftValidations } from './useDraftValidations';
-import { useDraftMutations } from './useDraftMutations';
-import { useDraftFormData } from './useDraftFormData';
-import { DraftLanguageSelector } from './DraftLanguageSelector';
-import { DraftTitle } from './DraftTitle';
-import { ValidatedDraftInfo } from './ValidatedDraftInfo';
-import { RejectedDraftInfo } from './RejectedDraftInfo';
-import { DraftDidacticTicket } from './DraftDidacticTicket/DraftDidacticTicket';
+import {createObjWithFallbackValue, SectionTab, Tab, useExtendedAuth, useRoutesDefinition} from 'components'
+import {CatalogueEditionHeader, CatalogueValidationHeader, DraftAddProtocolButton, useCatalogueDraftGetQuery} from 'domain-components'
+import {AppPage} from 'template'
+import {useNavigate, useParams} from "react-router-dom";
+import {useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useMetadataFormState} from './useMetadataFormState';
+import {CircularProgress} from '@mui/material';
+import {useDraftTabs} from './useDraftTabs';
+import {useDraftValidations} from './useDraftValidations';
+import {useDraftMutations} from './useDraftMutations';
+import {useDraftFormData} from './useDraftFormData';
+import {DraftLanguageSelector} from './DraftLanguageSelector';
+import {DraftTitle} from './DraftTitle';
+import {ValidatedDraftInfo} from './ValidatedDraftInfo';
+import {RejectedDraftInfo} from './RejectedDraftInfo';
+import {DraftDidacticTicket} from './DraftDidacticTicket/DraftDidacticTicket';
 
 export interface DraftPageProps {
   validation?: boolean
@@ -143,7 +143,7 @@ export const DraftPage = (props: DraftPageProps) => {
         validateMetadata={validateMetadata}
         actions={<DraftAddProtocolButton type={catalogue?.type} />}
       />
-      <DraftDidacticTicket />
+      <DraftDidacticTicket draft={draft} />
       {draft?.status === "VALIDATED" && <ValidatedDraftInfo />}
       {draft?.status == "REJECTED" && <RejectedDraftInfo draft={draft} />}
       {canUdateDraft && !canValidate && <DraftLanguageSelector

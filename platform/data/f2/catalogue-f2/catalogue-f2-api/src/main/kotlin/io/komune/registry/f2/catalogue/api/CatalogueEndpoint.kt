@@ -73,7 +73,6 @@ import io.komune.registry.s2.catalogue.api.config.CatalogueConfig
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.catalogue.domain.model.CatalogueCriterionField
 import io.komune.registry.s2.commons.model.CatalogueId
-import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.FieldCriterion
 import io.komune.registry.s2.commons.model.andCriterionOf
 import io.komune.registry.s2.commons.model.andCriterionOfNotNull
@@ -110,6 +109,12 @@ class CatalogueEndpoint(
 ): CatalogueApi {
 
     private val logger by Logger()
+
+    companion object {
+        const val BLUEPRINT_IMAGE_PATH = "/data/catalogueBlueprintGetImage/{image}"
+
+        fun blueprintImagePath(image: String) = BLUEPRINT_IMAGE_PATH.replace("{image}", image)
+    }
 
     @PermitAll
     @Bean
@@ -332,15 +337,14 @@ class CatalogueEndpoint(
     }
 
     @PermitAll
-    @GetMapping("/data/catalogueTypes/{type}/img")
-    suspend fun catalogueTypeImgDownload(
-        @PathVariable type: CatalogueType,
+    @GetMapping(BLUEPRINT_IMAGE_PATH)
+    suspend fun catalogueBlueprintGetImage(
+        @PathVariable image: String,
     ): ResponseEntity<InputStreamResource> {
-        logger.info("catalogueTypeImgDownload: $type")
-        val filename = catalogueConfig.typeConfigurations[type]?.icon
+        logger.info("catalogueTypeImgDownload: $image")
         return buildResponseForFile(
-            filename = filename.orEmpty(),
-            fileStream = filename?.let { catalogueConfig.resources[it]?.inputStream() }
+            filename = image,
+            fileStream = catalogueConfig.resources[image]?.inputStream()
         )
     }
 

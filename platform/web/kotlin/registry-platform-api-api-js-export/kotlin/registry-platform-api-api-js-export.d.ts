@@ -1539,6 +1539,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly multiline?: boolean;
         readonly multiple?: boolean;
         readonly options?: io.komune.registry.s2.commons.model.form.FormOptionDTO[];
+        readonly readOnlyFractionDigits?: number;
         readonly rows?: number;
         readonly textFieldType?: io.komune.registry.s2.commons.model.form.TextFieldType;
 
@@ -1591,6 +1592,24 @@ export declare namespace io.komune.registry.s2.commons.model.table {
 export declare namespace io.komune.registry.s2.commons.model.table {
     interface TableColumnPropertiesDTO {
         readonly limit?: number;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.tuto {
+    interface TutorialConditionDTO {
+        readonly type: io.komune.registry.s2.commons.model.tuto.TutorialConditionType;
+        readonly data?: string;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.tuto {
+    type TutorialConditionType = "CATALOGUE_EMPTY_DATASET" | "CATALOGUE_NO_CERTIFICATION" | "CATALOGUE_PENDING_CERTIFICATION" | "CATALOGUE_PENDING_DRAFT";
+}
+export declare namespace io.komune.registry.s2.commons.model.tuto {
+    interface TutorialDTO {
+        readonly condition?: io.komune.registry.s2.commons.model.tuto.TutorialConditionDTO;
+        readonly content?: string;
+        readonly image?: string;
 
     }
 }
@@ -4054,6 +4073,7 @@ export declare namespace io.komune.registry.f2.catalogue.domain.dto.structure {
         readonly table?: io.komune.registry.s2.commons.model.table.TableDTO;
         readonly createButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTO;
         readonly protocolButton?: io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueProtocolButtonDTO;
+        readonly tutorials?: io.komune.registry.s2.commons.model.tuto.TutorialDTO[];
 
     }
 }

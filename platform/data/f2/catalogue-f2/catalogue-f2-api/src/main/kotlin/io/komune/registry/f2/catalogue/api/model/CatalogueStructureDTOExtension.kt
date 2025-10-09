@@ -1,6 +1,7 @@
 package io.komune.registry.f2.catalogue.api.model
 
 import io.komune.im.commons.auth.AuthenticationProvider
+import io.komune.registry.f2.catalogue.api.CatalogueEndpoint
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.CatalogueTypeDTOBase
 import io.komune.registry.f2.catalogue.domain.dto.structure.CatalogueCreateButtonDTOBase
@@ -17,6 +18,8 @@ import io.komune.registry.s2.catalogue.domain.model.structure.CatalogueStructure
 import io.komune.registry.s2.commons.model.CatalogueType
 import io.komune.registry.s2.commons.model.Language
 import io.komune.registry.s2.commons.model.form.Form
+import io.komune.registry.s2.commons.model.tuto.Tutorial
+import io.komune.registry.s2.commons.model.tuto.TutorialDTOBase
 import io.komune.registry.s2.license.domain.LicenseIdentifier
 
 suspend fun CatalogueStructureModel.toDTO(
@@ -37,6 +40,7 @@ suspend fun CatalogueStructureModel.toDTO(
     table = table,
     createButton = createButton?.toDTO(language, getTypeConfiguration),
     protocolButton = protocolButton?.toDTO(language),
+    tutorials = tutorials?.map { it.toDTO(language) },
 )
 
 fun CatalogueStructureModel?.overrideWith(configuration: CatalogueConfigurationModel?) = orEmpty().copy(
@@ -55,6 +59,7 @@ fun CatalogueStructureModel?.orEmpty() = this ?: CatalogueStructureModel(
     table = null,
     createButton = null,
     protocolButton = null,
+    tutorials = null,
 )
 
 suspend fun CatalogueCreateButtonModel.toDTO(
@@ -76,13 +81,19 @@ fun CatalogueProtocolButtonModel.toDTO(language: Language) = CatalogueProtocolBu
 fun CatalogueTypeConfiguration.toTypeDTO(language: Language) = CatalogueTypeDTOBase(
     identifier = type,
     name = name?.get(language).orEmpty(),
-    icon = icon?.let { "/data/catalogueTypes/$type/img" }
+    icon = icon?.let { CatalogueEndpoint.blueprintImagePath(it) }
 )
 
 fun CatalogueTypeDTOBase?.orEmpty(identifier: CatalogueType) = this ?: CatalogueTypeDTOBase(
     identifier = identifier,
     name = identifier,
     icon = null,
+)
+
+fun Tutorial.toDTO(language: Language) = TutorialDTOBase(
+    condition = condition,
+    content = content[language],
+    image = image?.let { CatalogueEndpoint.blueprintImagePath(it) },
 )
 
 suspend fun CatalogueTypeConfiguration.authedUserCanWrite(): Boolean {
