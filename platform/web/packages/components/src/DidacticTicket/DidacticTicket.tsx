@@ -3,7 +3,7 @@ import {LexicalEditor} from '../LexicalEditor'
 import {config} from "../config";
 
 export interface DidacticTicketProps {
-    content: string;
+    content?: string;
     img?: string
 }
 
@@ -37,7 +37,7 @@ export const DidacticTicket = (props: DidacticTicketProps) => {
                 }}
             >
                 <LexicalEditor
-                    markdown={content}
+                    markdown={content ?? " "}
                     readOnly
                     styleContainerProps={{
                         sx: {
@@ -68,7 +68,7 @@ export const DidacticTicket = (props: DidacticTicketProps) => {
 
                 }}
             >
-                <img src={image} alt="illustration du contenu didactic" className='didactic-image'/>
+                <img src={image} alt="illustration du contenu didactique" className='didactic-image'/>
             </Box>}
         </Stack >
     )

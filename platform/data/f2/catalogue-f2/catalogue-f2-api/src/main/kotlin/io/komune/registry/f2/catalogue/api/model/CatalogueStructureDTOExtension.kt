@@ -123,6 +123,9 @@ suspend fun Form.withDefaults(
     }
 
     return copy(
-        initialValues = computedInitialValues + initialValues.orEmpty()
+        initialValues = computedInitialValues + initialValues.orEmpty(),
+        tutorial = tutorial?.copy(
+            image = tutorial?.image?.let { CatalogueEndpoint.blueprintImagePath(it) }
+        )
     )
 }

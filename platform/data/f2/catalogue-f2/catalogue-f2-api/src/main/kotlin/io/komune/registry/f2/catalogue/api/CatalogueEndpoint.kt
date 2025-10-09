@@ -341,7 +341,7 @@ class CatalogueEndpoint(
     suspend fun catalogueBlueprintGetImage(
         @PathVariable image: String,
     ): ResponseEntity<InputStreamResource> {
-        logger.info("catalogueTypeImgDownload: $image")
+        logger.info("catalogueBlueprintGetImage: $image")
         return buildResponseForFile(
             filename = image,
             fileStream = catalogueConfig.resources[image]?.inputStream()

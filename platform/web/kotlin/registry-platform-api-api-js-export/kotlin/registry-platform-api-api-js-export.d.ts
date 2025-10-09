@@ -1501,6 +1501,7 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly sections: io.komune.registry.s2.commons.model.form.FormSectionDTO[];
         readonly properties?: io.komune.registry.s2.commons.model.form.FormPropertiesDTO;
         readonly initialValues?: Record<string, string>;
+        readonly tutorial?: io.komune.registry.s2.commons.model.tuto.TutorialDTO;
 
     }
 }
@@ -1566,7 +1567,15 @@ export declare namespace io.komune.registry.s2.commons.model.form {
         readonly description?: string;
         readonly fields: io.komune.registry.s2.commons.model.form.FormFieldDTO[];
         readonly conditions?: io.komune.registry.s2.commons.model.form.FormConditionDTO[];
-        readonly properties?: Record<string, any>;
+        readonly display?: string;
+        readonly properties?: io.komune.registry.s2.commons.model.form.FormSectionPropertiesDTO;
+
+    }
+}
+export declare namespace io.komune.registry.s2.commons.model.form {
+    interface FormSectionPropertiesDTO {
+        readonly disableGridTemplate?: boolean;
+        readonly icon?: string;
 
     }
 }
