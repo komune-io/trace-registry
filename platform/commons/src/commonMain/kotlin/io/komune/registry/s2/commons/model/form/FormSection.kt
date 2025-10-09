@@ -10,7 +10,8 @@ interface FormSectionDTO {
     val description: String?
     val fields: List<FormFieldDTO>
     val conditions: List<FormConditionDTO>?
-    val properties: Map<String, Any>?
+    val display: String?
+    val properties: FormSectionPropertiesDTO?
 }
 
 @Serializable
@@ -20,5 +21,6 @@ data class FormSection(
     override val description: String?,
     override val fields: List<FormField>,
     override val conditions: List<FormCondition>?,
-    override val properties: Map<String, String>?
+    override val display: String?,
+    override val properties: FormSectionProperties?
 ) : FormSectionDTO
