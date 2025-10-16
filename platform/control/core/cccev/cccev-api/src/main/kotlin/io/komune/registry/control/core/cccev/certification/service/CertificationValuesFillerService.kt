@@ -53,7 +53,7 @@ object CertificationValuesFillerService {
     }
 
     private fun saveValue(context: Context, informationConcept: InformationConcept, newValue: String?) {
-        val value = newValue.takeIf { newValue != "null" }
+        val value = newValue.takeIf { newValue != "null" && newValue != "" }
 
         // will throw if conversion is impossible
         value.convertTo(informationConcept.unit.type)
