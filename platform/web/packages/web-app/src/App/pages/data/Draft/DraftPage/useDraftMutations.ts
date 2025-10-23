@@ -62,6 +62,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         language: values.language,
         ownerOrganizationId: values.ownerOrganizationId,
         id: draft?.catalogue.id!,
+        integrateCounter: values.integrateCounter,
       },
       files: values.illustration ? [{
         file: values.illustration
