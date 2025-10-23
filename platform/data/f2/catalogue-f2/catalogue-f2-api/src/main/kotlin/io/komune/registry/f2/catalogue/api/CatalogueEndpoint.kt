@@ -45,6 +45,7 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierFunc
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetByIdentifierResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueGetResult
+import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAllowedTypesResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueListAvailableOwnersFunction
@@ -59,11 +60,8 @@ import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefGetTreeResult
 import io.komune.registry.f2.catalogue.domain.query.CatalogueRefSearchFunction
 import io.komune.registry.f2.catalogue.domain.query.CatalogueSearchFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetFunction
-import io.komune.registry.f2.catalogue.domain.query.CatalogueHistoryGetResult
 import io.komune.registry.f2.organization.domain.model.OrganizationRef
 import io.komune.registry.program.s2.catalogue.api.CatalogueAggregateService
-import io.komune.registry.program.s2.catalogue.api.CatalogueEventWithStateService
 import io.komune.registry.program.s2.catalogue.api.CatalogueFinderService
 import io.komune.registry.s2.catalogue.domain.command.CatalogueUnlinkCataloguesCommand
 import io.komune.registry.s2.commons.model.CatalogueId
@@ -353,14 +351,16 @@ class CatalogueEndpoint(
     @Bean
     override fun catalogueReferenceDatasets(): CatalogueReferenceDatasetsFunction = f2Function { command ->
         logger.info("catalogueReferenceDatasets: $command")
-        cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
+        // TODO more granular writing policies on catalogue types (WCO2-180)
+//        cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
         catalogueF2AggregateService.referenceDatasets(command)
     }
 
     @Bean
     override fun catalogueUnreferenceDatasets(): CatalogueUnreferenceDatasetsFunction = f2Function { command ->
         logger.info("catalogueUnreferenceDatasets: $command")
-        cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
+        // TODO more granular writing policies on catalogue types (WCO2-180)
+//        cataloguePoliciesEnforcer.checkReferenceDatasets(command.id)
         catalogueF2AggregateService.unreferenceDatasets(command)
     }
 

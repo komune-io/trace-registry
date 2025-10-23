@@ -1,4 +1,4 @@
-import { Catalogue, CatalogueCreateCommand, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, convertRelatedCataloguesToIds } from 'domain-components'
+import { Catalogue, CatalogueCreateCommand, CatalogueDraft, Dataset, findLexicalDataset, useCatalogueDraftDeleteCommand, useCatalogueUpdateCommand, useDatasetAddJsonDistributionCommand, useDatasetUpdateJsonDistributionCommand, convertRelatedCataloguesToIds, useCatalogueDeleteCommand } from 'domain-components'
 import { EditorState } from 'lexical'
 import { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -28,7 +28,7 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
       queryClient.invalidateQueries({ queryKey: ["data/datasetDownloadDistribution"] })
       refetchDraft()
     },
-    [queryClient.invalidateQueries],
+    [],
   )
 
 
@@ -55,15 +55,14 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
         location: values.location,
         stakeholder: values.stakeholder,
         relatedCatalogueIds: convertRelatedCataloguesToIds(values.relatedCatalogues),
-        integrateCounter: values.integrateCounter,
         // keeping the same values
-        structure: values.structure,
         hidden: values.hidden,
         homepage: values.homepage,
         versionNotes: values.versionNotes,
         language: values.language,
         ownerOrganizationId: values.ownerOrganizationId,
         id: draft?.catalogue.id!,
+        integrateCounter: values.integrateCounter,
       },
       files: values.illustration ? [{
         file: values.illustration
@@ -112,26 +111,48 @@ export const useDraftMutations = (params: useDraftMutationsParams) => {
     [saveLexicalDistribution],
   )
   
-  const deleteCatalogue = useCatalogueDraftDeleteCommand({})
+  const deleteDraft = useCatalogueDraftDeleteCommand({})
 
-  const onDelete = useCallback(
+  const onDeleteDraft = useCallback(
     async () => {
-      const res = await deleteCatalogue.mutateAsync({
+      const res = await deleteDraft.mutateAsync({
         id: draftId!,
       })
       if (res) {
         queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
         queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
         navigate(cataloguesContributions())
       }
     },
-    [deleteCatalogue.mutateAsync, draftId, catalogueId, queryClient.invalidateQueries],
+    [draftId, catalogueId],
   )
+
+  const deleteCatalogue = useCatalogueDeleteCommand({})
+  
+    const onDeleteCatalogue = useCallback(
+      async () => {
+        const res = await deleteCatalogue.mutateAsync({
+          id: catalogueId!
+        })
+        if (res) {
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: catalogueId! }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftGet", { id: draftId }] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueDraftPage"] })
+          queryClient.invalidateQueries({ queryKey: ["data/cataloguePage"] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueRefGetTree"] })
+          queryClient.invalidateQueries({ queryKey: ["data/catalogueListAvailableParents"] })
+          navigate(cataloguesContributions())
+        }
+      },
+      [catalogueId],
+    )
 
   return {
     onSaveMetadata,
-    onDelete,
+    onDeleteDraft,
     onSectionChange,
+    onDeleteCatalogue,
     isUpdating
   }
 }

@@ -54,6 +54,8 @@ platform:
       email: test@kosm.io
     template:
       charter: 1
+      onboarding-organization-conflict-user: 2
+      onboarding-organization-conflict-orchestrator: 3
   flag:
     module:
       control: true
@@ -69,6 +71,7 @@ platform:
       default-roles:
         organization: rg_role_org_reader
         user: rg_role_user_admin
+      support-email: support@kerdos-energy.com
   meilisearch:
     url: http://localhost:7700
     secret: secret
@@ -108,7 +111,7 @@ platform:
   brevo:
     token: secret
     contact-list: 3
-    sandbox: true
+    sandbox: false
     debug:
       enable: true
       email: luc+wco2@kosm.io
