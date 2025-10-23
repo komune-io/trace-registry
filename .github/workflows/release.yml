@@ -14,7 +14,7 @@ on:
 
 jobs:
   release:
-    uses: komune-io/fixers-gradle/.github/workflows/release-workflow.yml@024de8c63971d5738000f3cb5633f66344cbf53e
+    uses: komune-io/fixers-gradle/.github/workflows/release-workflow.yml@7c503c77570c59de9e93643f46485f0cb0c4106b
     permissions:
       contents: read
       packages: write
@@ -23,4 +23,3 @@ jobs:
       next_version: ${{ github.event.inputs.next_version }}
     secrets:
       PKG_GITHUB_TOKEN: ${{ secrets.PKG_GITHUB_TOKEN }}
-
