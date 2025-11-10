@@ -114,7 +114,6 @@ export const SubCataloguePanel = (props: SubCataloguePanelProps) => {
                 const res = await onSubmit(command, values)
                 if (res) {
                     setContext("readOnly")
-
                 }
             }
         },
