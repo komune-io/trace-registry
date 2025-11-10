@@ -5,14 +5,15 @@ import {SubCataloguePanel} from '../SubCataloguePanel'
 import {useTranslation} from 'react-i18next'
 import {autoFormFormatter, BackAutoFormData, CommandWithFile} from '@komune-io/g2'
 import {
-  CatalogueCreateCommand,
-  CatalogueRef,
-  CatalogueUpdateCommand,
-  useCatalogueCreateCommand,
-  useCatalogueGetStructureQuery,
-  useCataloguePageQuery,
-  useCatalogueUpdateCommand
+    CatalogueCreateCommand,
+    CatalogueRef,
+    CatalogueUpdateCommand,
+    useCatalogueCreateCommand,
+    useCatalogueGetStructureQuery,
+    useCataloguePageQuery,
+    useCatalogueUpdateCommand
 } from '../../../Catalogue'
+import {useQueryClient} from "@tanstack/react-query";
 
 export interface SubCataloguesManagerProps {
   catalogue?: CatalogueRef
@@ -21,6 +22,7 @@ export interface SubCataloguesManagerProps {
 
 export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
   const { catalogue, readOnly = false } = props
+  const queryClient = useQueryClient()
 
   const { t, i18n } = useTranslation()
 
@@ -101,11 +103,12 @@ export const SubCataloguesManager = (props: SubCataloguesManagerProps) => {
       })
       if (res) {
         cataloguePage.refetch()
+        queryClient.invalidateQueries({ queryKey: ["data/catalogueGet", { id: values.id! }] })
         return true
       }
       return false
     },
-    [cataloguePage.refetch, catalogue, i18n.language],
+    [cataloguePage.refetch, catalogue, i18n.language, queryClient.invalidateQueries],
   )
 
   const subCatalogues = useMemo(() => cataloguePage.data?.items.sort((a, b) => a.issued > b.issued ? 1 : -1).map((subCatalogue) => (
