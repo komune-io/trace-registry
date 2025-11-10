@@ -1,7 +1,6 @@
-import {AutoFormData, CommandWithFile, useAutoFormState} from '@komune-io/g2'
-import {Catalogue, downloadFormImage} from 'domain-components'
+import {AutoFormData, CommandWithFile, g2Config, useAutoFormState} from '@komune-io/g2'
+import {Catalogue, downloadFormImage, useCatalogueFormContext} from 'domain-components'
 import {useMemo} from 'react'
-import {useCatalogueFormContext} from "domain-components";
 
 interface UseMetadataFormStateParams {
   formData?: AutoFormData
@@ -27,6 +26,9 @@ export const useMetadataFormState = (params: UseMetadataFormStateParams) => {
       license: catalogue.license?.id,
       ownerOrganizationId: catalogue.ownerOrganization?.id,
       parentId: catalogue.parent?.id,
+      // TODO fix in g2
+      imgUploaded: catalogue.img ? g2Config().platform.url + catalogue.img : undefined,
+      img: undefined
     }) : undefined
   }, [catalogue])
 
