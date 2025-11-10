@@ -14,7 +14,7 @@ on:
 
 jobs:
   release:
-    uses: komune-io/fixers-gradle/.github/workflows/release-workflow.yml@024de8c63971d5738000f3cb5633f66344cbf53e
+    uses: komune-io/fixers-gradle/.github/workflows/release-workflow.yml@main
     permissions:
       contents: read
       packages: write
