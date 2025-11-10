@@ -35,9 +35,10 @@ class CertificationPoliciesEnforcer(
 
     suspend fun enforceQuery(query: CertificationPageQuery) = enforceConfigAuthed { authedUser ->
         query.copy(
-            creatorOrganizationId = query.creatorOrganizationId
-                .takeIf { authedUser == null || CertificationPolicies.canAudit(authedUser) }
-                ?: authedUser?.memberOf
+            creatorOrganizationId = query.creatorOrganizationId?.let {
+                it.takeIf { authedUser == null || CertificationPolicies.canAudit(authedUser) }
+                    ?: authedUser?.memberOf
+            }
         )
     }
 }
