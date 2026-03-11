@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import s2.spring.utils.logger.Logger
+import java.util.UUID
 
 
 /**
@@ -30,8 +31,9 @@ class UserEndpoint(
     @PermitAll
     @Bean
     fun userOnboard(): UserOnboardFunction = f2Function { command ->
-        logger.info("userOnboard: ${command.copy(password = "*****")}")
-        userF2AggregateService.onboardUser(command)
+        val sessionId = UUID.randomUUID().toString()
+        logger.info("userOnboard [$sessionId]: ${command.copy(password = "*****")}")
+        userF2AggregateService.onboardUser(command, sessionId)
     }
 
     @PermitAll

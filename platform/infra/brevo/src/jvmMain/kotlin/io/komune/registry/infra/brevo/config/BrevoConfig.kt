@@ -24,5 +24,7 @@ data class BrevoDebugProperties(
 )
 
 data class BrevoTemplateProperties(
-    val charter: Long
+    val charter: Long,
+    val onboardingOrganizationConflictUser: Long?,
+    val onboardingOrganizationConflictOrchestrator: Long?,
 )

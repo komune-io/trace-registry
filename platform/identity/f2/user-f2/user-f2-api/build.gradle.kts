@@ -11,4 +11,5 @@ dependencies {
 
     implementation(project(Modules.infra.brevo))
     implementation(project(Modules.infra.im))
+    implementation(project(Modules.infra.slack))
 }

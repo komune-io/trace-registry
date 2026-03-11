@@ -22,6 +22,6 @@
     "isolatedModules": true,
     "baseUrl": "src",
   },
-  "include": ["src", "../100mComponents/src/useDraftMutations/useDraftMutations.ts"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.vite.json" }]
 }

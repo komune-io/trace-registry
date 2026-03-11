@@ -31,6 +31,7 @@ include(
 	"platform:infra:pdf",
 	"platform:infra:postgresql",
 	"platform:infra:redis",
+	"platform:infra:slack",
 	"platform:infra:svg"
 )
 

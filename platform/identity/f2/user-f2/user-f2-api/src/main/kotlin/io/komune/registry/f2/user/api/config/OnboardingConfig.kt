@@ -11,6 +11,9 @@ class OnboardingConfig {
     @Value("\${platform.identity.onboarding.default-roles.user}")
     private lateinit var defaultUserRolesStr: String
 
+    @Value("\${platform.identity.onboarding.support-email}")
+    var supportEmail: String? = null
+
     val defaultOrganizationRoles by lazy { defaultOrganizationRolesStr.parseList() }
     val defaultUserRoles by lazy { defaultUserRolesStr.parseList() }
 

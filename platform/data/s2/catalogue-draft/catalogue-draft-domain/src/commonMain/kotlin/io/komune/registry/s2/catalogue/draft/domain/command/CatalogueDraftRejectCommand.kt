@@ -33,5 +33,6 @@ data class CatalogueDraftRejectCommand(
 @Serializable
 data class CatalogueDraftRejectedEvent(
     override val id: CatalogueDraftId,
-    override val date: Long
+    override val date: Long,
+    val reason: String,
 ) : CatalogueDraftEvent
