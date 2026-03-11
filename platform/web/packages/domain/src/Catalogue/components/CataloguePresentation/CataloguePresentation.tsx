@@ -1,8 +1,8 @@
-import { Stack, Typography } from '@mui/material'
-import { Catalogue } from '../../model'
-import { useCatalogueIdentifierNumber } from "../../api";
-import { useTheme } from '@komune-io/g2';
-import { LocalTheme } from 'components';
+import {Stack, Typography} from '@mui/material'
+import {Catalogue} from '../../model'
+import {useCatalogueIdentifierNumber} from "../../api";
+import {useTheme} from '@komune-io/g2';
+import {LocalTheme} from 'components';
 
 export interface CataloguePresentationProps {
     catalogue?: Catalogue
@@ -57,9 +57,6 @@ export const CataloguePresentation = (props: CataloguePresentationProps) => {
                         {identifierNumber}
                     </Typography>
                 </Stack>
-                <Typography>
-                    {catalogue?.description}
-                </Typography>
             </Stack>
             {/* catalogue?.img && <img
                 className='catalogLogo'
