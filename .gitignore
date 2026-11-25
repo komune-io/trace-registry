@@ -9,7 +9,6 @@ application.*.yml
 **/dist/
 !gradle/wrapper/gradle-wrapper.jar
 .env
-storybook-static
 /data
 
 ### STS ###
