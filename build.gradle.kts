@@ -23,31 +23,12 @@ allprojects {
 	}
 }
 
-subprojects {
-	tasks {
-		register("documenter", Copy::class) {
-			from("build/komune-d2-documenter") {
-				include("**/*.json")
-			}
-
-			logger.info("///////////////////////////////")
-			logger.info("${rootDir}/storybook/stories/asset")
-			logger.info("///////////////////////////////")
-			into("${rootDir}/storybook/stories/asset")
-		}
-	}
-}
-
-
 fixers {
 	bundle {
 		id = "registry"
 		name = "Registry"
 		description = "Voluntary Emissions Reduction is a Registry structure designed to be interoperable with the main environmental assets registries of the market."
 		url = "https://github.com/komune-io/registry/program"
-	}
-	d2 {
-		outputDirectory = file("storybook/stories/d2/")
 	}
 	sonar {
 		organization = "komune-io"
