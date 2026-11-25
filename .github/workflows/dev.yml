@@ -121,22 +121,3 @@ jobs:
       DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
       DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
-
-  docs:
-    uses: komune-io/fixers-gradle/.github/workflows/publish-storybook-workflow.yml@0.22.0
-    permissions:
-      contents: read
-      packages: write
-      pages: write
-      id-token: write
-    with:
-      with-chromatic: false
-      storybook-dir: storybook
-      storybook-static-dir: storybook-static
-      on-tag: 'publish_promote'
-      make-file: 'Makefile_docs.mk'
-    secrets:
-      DOCKER_PUBLISH_USERNAME: ${{ github.actor }}
-      DOCKER_PUBLISH_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      DOCKER_PROMOTE_USERNAME: ${{ secrets.DOCKER_IO_USERNAME }}
-      DOCKER_PROMOTE_PASSWORD: ${{ secrets.DOCKER_IO_PASSWORD }}
